@@ -1012,28 +1012,6 @@ $AutoLogin = '[
 #endregion automatic login
 
 #=======================================
-## bluetooth advertising
-#=======================================
-#region bluetooth advertising
-
-# on: 1 (default) | off: 0
-$BluetoothAdvertising = '[
-  {
-    "Hive"    : "HKEY_LOCAL_MACHINE",
-    "Path"    : "SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Bluetooth",
-    "Entries" : [
-      {
-        "Name"  : "AllowAdvertising",
-        "Value" : "0",
-        "Type"  : "DWord"
-      }
-    ]
-  }
-]' | ConvertFrom-Json
-
-#endregion bluetooth advertising
-
-#=======================================
 ## clear recent files on exit
 #=======================================
 #region clear recent files on exit
@@ -19392,7 +19370,6 @@ function Set-FileExplorerSettings
 
 $MiscSettings = @(
     #$AutoLogin
-    $BluetoothAdvertising
     #$ClearRecentFilesOnExitGPO
     $CloudConfigDownloadGPO
     $ControlPanelEaseOfAccessCenterReadAndScan
