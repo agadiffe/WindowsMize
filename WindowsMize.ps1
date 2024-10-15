@@ -567,7 +567,6 @@ $DeviceInstallationDriversGPO = '[
 #=======================================
 # gpo\ computer config > administrative tpl > system > internet communication management > internet communication settings
 #   turn off downloading of print drivers over HTTP
-#-------------------
 # not configured: delete (default) | off: 1
 $PrinterDriversDownloadOverHttpGPO = '[
   {
@@ -3933,6 +3932,51 @@ $RemoteAssistanceOfferGPO = '[
 #region telemetry
 
 #=======================================
+## app and device inventory
+#=======================================
+#region app and device inventory
+
+# Windows 11 24H2+ only.
+# Application compatibility related.
+
+# gpo\ computer config > administrative tpl > windows components > app and device inventory
+#   turn off API sampling
+#   turn off application footprint
+#   turn off compatibility scan for backed up applications
+#   turn off install tracing
+# not configured: delete (default) | off: 1
+$AppAndDeviceInventoryGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat",
+    "Entries" : [
+      {
+        "Name"  : "DisableAPISamping",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "DisableApplicationFootprint",
+        "Value" : "0",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "DisableWin32AppBackup",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "DisableInstallTracing",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#endregion app and device inventory
+
+#=======================================
 ## application compatibility
 #=======================================
 #region application compatibility
@@ -3943,7 +3987,6 @@ $RemoteAssistanceOfferGPO = '[
 #   turn off inventory collector
 #   turn off program compatibility assistant
 #   turn off switchback compatibility engine
-#
 # not configured: delete (default) | off: 1 0 1 1 0
 $ApplicationCompatibilityGPO = '[
   {
@@ -3990,8 +4033,7 @@ $ApplicationCompatibilityGPO = '[
 #   turn off cloud optimized content
 #   turn off cloud consumer account state content
 #   turn off microsoft consumer experiences (only applies to Enterprise and Education SKUs)
-#     also disable 'settings > bluetooth & devices > mobile devices'
-#
+#     (also disable 'settings > bluetooth & devices > mobile devices')
 # not configured: delete (default) | off: 1
 $CloudContentExperienceGPO = '[
   {
@@ -4134,7 +4176,7 @@ $DiagnosticTracing = '[
 
 # Data are not sent if 'send optional diagnostic data' is disabled.
 # This setting prevent the creation of the log files.
-#
+
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   limit diagnostic log collection
 # not configured: delete (default) | off: 1
@@ -4161,7 +4203,7 @@ $DiagnosticLogCollectionGPO = '[
 
 # Data are not sent if 'send optional diagnostic data' is disabled.
 # This setting prevent the creation of the log files.
-#
+
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   limit dump collection
 # not configured: delete (default) | off: 1
@@ -4283,11 +4325,10 @@ $GroupPolicySettingsLoggingGPO = '[
 #region handwriting
 
 # Not present in Windows 11 Group Policy. Only applies to Windows 10 ? probably not.
-#
+
 # gpo\ computer config > administrative tpl > system > internet communication management > internet communication settings
 #   turn off handwriting personalization data sharing
 #   turn off handwriting recognition error reporting
-#
 # not configured: delete (default) | off: 1
 $HandwritingTelemetryGPO = '[
   {
@@ -12254,9 +12295,24 @@ $AdvancedSettingsShareAcrossDevices = '[
 #-------------------
 # To apply to all users, replace '$UserSid' with '*' in the Path.
 
-# on: 1 (default) | off: 0
+# gpo\ computer config > administrative tpl > windows components > app package deployment
+#   archive infrequently used apps
+# gpo\ not configured: delete (default) | on: 1 | off: 0
+# user\ on: 1 (default) | off: 0
 $UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
 $AdvancedSettingsArchiveApps = '[
+  {
+    "SkipKey" : true,
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\Appx",
+    "Entries" : [
+      {
+        "Name"  : "AllowAutomaticAppArchiving",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  },
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
     "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\InstallService\\Stubification\\$UserSid",
@@ -17082,7 +17138,7 @@ $ProxySvc = '[
     "StartupType": "Manual",
     "DefaultType": "Manual",
     "Comment"    : "cannot be changed with services.msc.
-                    in 24H2+, required by Windows Connection Manager (Wcmsvc) service.
+                    on 24H2+, required by Windows Connection Manager (Wcmsvc) service.
                     needed for vpn & proxy server.
                     settings > network & internet > proxy."
   }
@@ -19539,6 +19595,7 @@ function Set-SystemProperties
 #region telemetry
 
 $TelemetrySettings = @(
+    $AppAndDeviceInventoryGPO
     $ApplicationCompatibilityGPO
     $CloudContentExperienceGPO
     $CustomerExperienceImprovementGPO
