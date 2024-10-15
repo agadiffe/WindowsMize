@@ -1743,6 +1743,36 @@ $RecycleBinDeleteConfirmationDialogGPO = '[
 #endregion recycle bin
 
 #=======================================
+## service host splitting
+#=======================================
+#region service host splitting
+
+# Benefits of separating SvcHost services:
+#   Increased reliability, security and scalability.
+#   Improved resource and memory management.
+
+# Disabling service host splitting reduces RAM usage (a bit) and decreases the process count.
+# It might increase performances with the trade-off of losing the benefits mentioned above.
+
+# default: On systems with 3.5 GB or less RAM, SvcHost services will be grouped.
+# default: 3670016 (3.5 GB x 1024 x 1024) | off: 0 (or <YOUR_RAM> in KB)
+$ServiceHostSplitting = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SYSTEM\\CurrentControlSet\\Control",
+    "Entries" : [
+      {
+        "Name"  : "SvcHostSplitThresholdInKB",
+        "Value" : "3670016",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#endregion service host splitting
+
+#=======================================
 ## short 8.3 filenames
 #=======================================
 #region short 8.3 filenames
@@ -19450,6 +19480,7 @@ $MiscSettings = @(
     #$PasswordRevealButtonGPO
     #$RecycleBinRemoveFilesImmediatelyGPO
     #$RecycleBinDeleteConfirmationDialogGPO
+    #$ServiceHostSplitting
     #$ShortcutNameSuffix
     #$StartMenuRecommendedSection
     $SuggestedContent
