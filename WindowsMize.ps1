@@ -9151,6 +9151,7 @@ function Set-EnergySaverLowerBrightness
     }
 
     Write-Verbose -Message "Setting 'Energy Saver LowerBrightness' to '$State' ..."
+    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBRIGHTNESS $Percent
     powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBRIGHTNESS $Percent
 }
 
