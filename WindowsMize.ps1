@@ -7942,12 +7942,10 @@ Copy them back to the ramdisk on computer startup or user logon.
 <#
 gpo\ User Configuration > Windows Settings > Scripts (logon/logoff)
 As with policies done via regedit, this script will not be displayed in Group Policy Editor.
-If you apply an other script in Group Policy Editor, this one will be removed.
-Even if you just open the dialog and click on OK, these entries will be removed.
-If you already have some script in Group Policy, modify this function accordingly.
+If you add a script in the Group Policy Editor, this one (backup Brave data) will be removed.
+Even if you just open the dialog and click on OK/Apply, it will be removed.
 #>
 
-# TODO: refactor the function to work if GPO scripts already exist
 function New-GroupPolicyLogoffScript
 {
     <#
@@ -7967,6 +7965,9 @@ function New-GroupPolicyLogoffScript
     )
 
     $UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+    $LogOffScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Logoff\0\"
+    $ScriptNumber = (Get-ChildItem -Path "Registry::$LogOffScriptRegPath" -ErrorAction 'SilentlyContinue').Count
+
     $LogoffScriptGPO = '[
       {
         "Hive"    : "HKEY_CURRENT_USER",
@@ -8006,7 +8007,7 @@ function New-GroupPolicyLogoffScript
       },
       {
         "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Logoff\\0\\0",
+        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Logoff\\0\\$ScriptNumber",
         "Entries" : [
           {
             "Name"  : "ExecTime",
@@ -8033,16 +8034,15 @@ function New-GroupPolicyLogoffScript
       {
         "Hive"    : "HKEY_LOCAL_MACHINE",
         "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\Logoff\\0",
-        "Entries" : [
-        ]
+        "Entries" : []
       },
       {
         "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\Logoff\\0\\0",
-        "Entries" : [
-        ]
+        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\Logoff\\0\\$ScriptNumber",
+        "Entries" : []
       }
-    ]'.Replace('$ScriptFilePath', $FilePath.Replace('\', '\\')).
+    ]'.Replace('$ScriptNumber', $ScriptNumber).
+       Replace('$ScriptFilePath', $FilePath.Replace('\', '\\')).
        Replace('$env:SystemRoot', ($env:SystemRoot).Replace('\', '\\')).
        Replace('$UserSid', $UserSid) | ConvertFrom-Json
     $LogoffScriptGPO[2].Entries = $LogoffScriptGPO[0].Entries
