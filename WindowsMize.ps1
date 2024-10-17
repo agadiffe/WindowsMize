@@ -286,7 +286,7 @@ function Get-LoggedUserUsername
     $DeviceName = $ComputerInfo.Name
     $Username = ($ComputerInfo.UserName) -ireplace "$DeviceName\\"
 
-    if (-Not $Username)
+    if (-not $Username)
     {
         Write-Error -Message 'Error to get the UserName of current logged user'
         Exit # exit the script
@@ -1822,7 +1822,9 @@ function Disable-8Dot3FileName
 
 # After running the script, the 'character map' shorcut (all apps > windows tools) is shown in the Start Menu.
 # Probably a Windows bug, as it is not visible in the Start Menu on a fresh install.
+
 # Let's move this shorcut to the 'Windows Tools' folder.
+# 'sfc /scannow' will revert back the location of the 'character map' shorcut ...
 
 function Move-CharacterMapShorcutToWindowsTools
 {
@@ -3987,7 +3989,7 @@ $AppAndDeviceInventoryGPO = '[
       },
       {
         "Name"  : "DisableApplicationFootprint",
-        "Value" : "0",
+        "Value" : "1",
         "Type"  : "DWord"
       },
       {
@@ -17805,6 +17807,12 @@ $MiscServices = '[
                     settings > system > storage (no data, no auto clean up, no advanced settings)."
   },
   {
+    "DisplayName": "Storage Tiers Management",
+    "ServiceName": "TieringEngineService",
+    "StartupType": "Disabled",
+    "DefaultType": "Manual"
+  },
+  {
     "DisplayName": "SysMain",
     "ServiceName": "SysMain",
     "StartupType": "Disabled",
@@ -17867,6 +17875,12 @@ $MiscServices = '[
     "Comment"    : "events from remote sources."
   },
   {
+    "DisplayName": "Windows Font Cache Service",
+    "ServiceName": "FontCache",
+    "StartupType": "Disabled",
+    "DefaultType": "Automatic"
+  },
+  {
     "DisplayName": "Windows Image Acquisition (WIA)",
     "ServiceName": "StiSvc",
     "StartupType": "Disabled",
@@ -17892,6 +17906,12 @@ $MiscServices = '[
     "DefaultType": "Automatic",
     "Comment"    : "cannot be changed with registry editing.
                     default is Manual ?"
+  },
+  {
+    "DisplayName": "Windows Presentation Foundation Font Cache 3.0.0.0",
+    "ServiceName": "FontCache3.0.0.0",
+    "StartupType": "Disabled",
+    "DefaultType": "Manual"
   },
   {
     "DisplayName": "Windows Remote Management (WS-Management)",
@@ -18282,12 +18302,6 @@ $OthersServices = '[
     "Comment"    : "cannot be changed with services.msc."
   },
   {
-    "DisplayName": "Storage Tiers Management",
-    "ServiceName": "TieringEngineService",
-    "StartupType": "Manual",
-    "DefaultType": "Manual"
-  },
-  {
     "DisplayName": "System Event Notification Service",
     "ServiceName": "SENS",
     "StartupType": "Automatic",
@@ -18423,12 +18437,6 @@ $OthersServices = '[
     "DefaultType": "Automatic"
   },
   {
-    "DisplayName": "Windows Font Cache Service",
-    "ServiceName": "FontCache",
-    "StartupType": "Automatic",
-    "DefaultType": "Automatic"
-  },
-  {
     "DisplayName": "Windows Installer",
     "ServiceName": "msiserver",
     "StartupType": "Manual",
@@ -18444,12 +18452,6 @@ $OthersServices = '[
   {
     "DisplayName": "Windows Management Service",
     "ServiceName": "WManSvc",
-    "StartupType": "Manual",
-    "DefaultType": "Manual"
-  },
-  {
-    "DisplayName": "Windows Presentation Foundation Font Cache 3.0.0.0",
-    "ServiceName": "FontCache3.0.0.0",
     "StartupType": "Manual",
     "DefaultType": "Manual"
   },
@@ -18818,6 +18820,17 @@ $FeaturesTasks = '[
     ]
   },
   {
+    "SkipTask": true,
+    "TaskPath": "\\Microsoft\\Windows\\BitLocker\",
+    "TaskName": [
+      "BitLocker Encrypt All Drives",
+      "BitLocker MDM policy Refresh"
+    ],
+    "Comment": "cannot be disabled.
+                if you set SkipTask to false, these tasks will be deleted.
+                not recommended in case you change your mind to use Bitlocker."
+  },
+  {
     "TaskPath": "\\Microsoft\\Windows\\CloudRestore\\",
     "TaskName": [
       "Backup",
@@ -18861,7 +18874,21 @@ $FeaturesTasks = '[
     "TaskPath": "\\Microsoft\\Windows\\Shell\\",
     "TaskName": [
       "FamilySafetyMonitor",
-      "FamilySafetyRefreshTask"
+      "FamilySafetyRefreshTask",
+      "IndexerAutomaticMaintenance"
+    ]
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\SystemRestore\\",
+    "TaskName": [
+      "SR"
+    ]
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\Work Folders\\",
+    "TaskName": [
+      "Work Folders Logon Synchronization",
+      "Work Folders Maintenance Work"
     ]
   },
   {
@@ -18916,6 +18943,23 @@ $MicrosoftOfficeTasks = '[
 #region miscellaneous
 
 $MiscTasks = '[
+  {
+    "SkipTask": true,
+    "TaskPath": "\\Microsoft\\Windows\\Chkdsk\\",
+    "TaskName": [
+      "ProactiveScan"
+    ],
+    "Comment": "should be disabled ?"
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\Data Integrity Scan\",
+    "TaskName": [
+      "Data Integrity Check And Scan",
+      "Data Integrity Scan",
+      "Data Integrity Scan for Crash Recovery"
+    ],
+    "Comment": "apply to ReFS volumes with integrity streams enabled."
+  },
   {
     "SkipTask": true,
     "TaskPath": "\\Microsoft\\Windows\\Defrag\\",
@@ -18977,11 +19021,23 @@ $MiscTasks = '[
     ]
   },
   {
+    "TaskPath": "\\Microsoft\\Windows\\Windows Media Sharing\\",
+    "TaskName": [
+      "UpdateLibrary"
+    ]
+  },
+  {
     "TaskPath": "\\Microsoft\\Windows\\MUI\\",
     "TaskName": [
       "LPRemove"
     ],
     "Comment": "cleanup unused language packs."
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\NlaSvc\\",
+    "TaskName": [
+      "WiFiTask"
+    ]
   },
   {
     "TaskPath": "\\Microsoft\\Windows\\Ras\\",
@@ -18993,6 +19049,18 @@ $MiscTasks = '[
     "TaskPath": "\\Microsoft\\Windows\\RecoveryEnvironment\\",
     "TaskName": [
       "VerifyWinRE"
+    ]
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\ReFsDedupSvc\\",
+    "TaskName": [
+      "Initialization"
+    ]
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\Registry\\",
+    "TaskName": [
+      "RegIdleBackup"
     ]
   },
   {
@@ -19025,8 +19093,17 @@ $MiscTasks = '[
   {
     "TaskPath": "\\Microsoft\\Windows\\Storage Tiers Management\\",
     "TaskName": [
-      "Storage Tiers Management Initialization"
+      "Storage Tiers Management Initialization",
+      "Storage Tiers Optimization"
     ]
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\Subscription\\",
+    "TaskName": [
+      "EnableLicenseAcquisition",
+      "LicenseAcquisition"
+    ],
+    "Comment": "activation on Azure AD joined devices."
   },
   {
     "TaskPath": "\\Microsoft\\Windows\\Sysmain\\",
@@ -19132,6 +19209,12 @@ $MiscTasks = '[
 
 $TelemetryTasks = '[
   {
+    "TaskPath": "\\Microsoft\\Windows\\ApplicationData\\",
+    "TaskName": [
+      "appuriverifierdaily"
+    ]
+  },
+  {
     "TaskPath": "\\Microsoft\\Windows\\Application Experience\\",
     "TaskName": [
       "MareBackup",
@@ -19192,6 +19275,12 @@ $TelemetryTasks = '[
       "ReconcileFeatures",
       "UsageDataFlushing",
       "UsageDataReporting"
+    ]
+  },
+  {
+    "TaskPath": "\\Microsoft\\Windows\\StateRepository\\",
+    "TaskName": [
+      "MaintenanceTasks"
     ]
   },
   {
