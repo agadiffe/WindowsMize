@@ -5992,7 +5992,7 @@ function New-BraveConfigData
                 "show_brave_news": false,
                 "show_clock": false,
                 "show_stats": false,
-                "shows_options": 0 # new tab page: dashboard
+                "shows_options": 0 # new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
             }
         },
         "ntp": {
@@ -6006,7 +6006,7 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BraveLocalState ('{
         "brave": {
-            "dark_mode": 0 # same as Windows
+            "dark_mode": 0 # same as Windows: 0 | dark: 1 | light: 2
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -6014,22 +6014,22 @@ function New-BraveConfigData
     #---------------
     Merge-Hashtable $BravePreferences ('{
         "bookmark_bar": {
-            "show_on_all_tabs": true
+            "show_on_all_tabs": true # always: true | never: false + always_show_bookmark_bar_on_ntp false
         },
         "brave": {
-            "always_show_bookmark_bar_on_ntp": false, # ignored if show_on_all_tabs is true
+            "always_show_bookmark_bar_on_ntp": false, # only on the new tabe page (ignored if show_on_all_tabs is true)
             "show_bookmarks_button": true,
             "today": {
-                "should_show_toolbar_button": false # brave news button
+                "should_show_toolbar_button": false # show Brave News button
             },
             "rewards": {
-                "inline_tip_buttons_enabled": false,
+                "inline_tip_buttons_enabled": false, # old ? tip buttons within web content
                 "show_brave_rewards_button_in_location_bar": false
             },
             "wallet": {
                 "show_wallet_icon_on_toolbar": false
             },
-            "show_side_panel_button": false,
+            "show_side_panel_button": false, # show Sidebar button
             "brave_vpn": {
                 "show_button": false
             },
@@ -6055,9 +6055,14 @@ function New-BraveConfigData
         "brave": {
             "tabs": {
                 "vertical_tabs_enabled": false,
+                "vertical_tabs_show_title_on_window": true,
+                "vertical_tabs_collapsed": false,
+                "vertical_tabs_floating_enabled": true, # expand on mouseover when collapsed
+                "vertical_tabs_expanded_state_per_window": true, # expand independently per window
+                "vertical_tabs_show_scrollbar": false,
+                "vertical_tabs_on_right": false,
                 "mute_indicator_not_clickable": false,
-                "hover_mode": 1, # card
-                "shared_pinned_tab": false
+                "hover_mode": 0 # tooltip: 0 | card: 1 | card with preview: 2
             },
             "tabs_search_show": true
         }
@@ -6068,6 +6073,11 @@ function New-BraveConfigData
             "hovercard": {
                 "memory_usage_enabled": false
             }
+        },
+        "performance_tuning": {
+            "discard_ring_treatment": {
+                "enabled": false # inactive tabs appearance
+            }
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -6076,7 +6086,7 @@ function New-BraveConfigData
     Merge-Hashtable $BravePreferences ('{
         "brave": {
             "sidebar": {
-                "sidebar_show_option": 3 # never
+                "sidebar_show_option": 3 # always: 0 | on mouseover: 1 | never: 3
             }
         },
         "side_panel": {
@@ -6089,7 +6099,7 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
         "brave": {
-            "mru_cycling_enabled": false, # cycle most recently tabs
+            "mru_cycling_enabled": false, # cycle through the most recently used tabs
             "wayback_machine_enabled": false,
             "speedreader": {
                 "enabled": false
@@ -6103,7 +6113,7 @@ function New-BraveConfigData
     Merge-Hashtable $BravePreferences ('{
         "brave": {
             "shields": {
-                "stats_badge_visible": false # number on icon
+                "stats_badge_visible": false # number on the Shields icon
             },
             "no_script_default": false
         },
@@ -6112,34 +6122,41 @@ function New-BraveConfigData
                 "exceptions": {
                     "fingerprintingV2": {
                         "*,*": {
-                            "setting": 3 # enabled
+                            "setting": 3 # on: 3 | off: 1
                         }
                     },
                     "cosmeticFiltering": { # tackers & ads
                         "*,*": {
-                            "setting": 2 # agressive
+                            "setting": 2 # agressive/standard: 2 | off: 1
                         },
                         "*,https://firstparty": {
-                            "setting": 2 # agressive (for standard, change only this one to 1)
+                            "setting": 2 # agressive: 2 | standard/off: 1
                         }
                     },
                     "shieldsAds": { # tackers & ads
                         "*,*": {
-                            "setting": 2 # agressive
+                            "setting": 2 # agressive/standard: 2 | off: 1
                         }
                     },
                     "trackers": { # tackers & ads
                         "*,*": {
-                            "setting": 2 # agressive
+                            "setting": 2 # agressive/standard: 2 | off: 1
                         }
                     }
                 }
             },
             # works in pair with: default_content_setting_values > cookies
-            "cookie_controls_mode": 1, # block third-party
+            # cookie_controls_mode + on-device site data:
+            # block all:         1 + dont allow sites to save data: 2
+            # block third-party: 1 + allow sites to save data: 1
+            # block third-party: 1 + delete data when close: 4
+            # allow all:         0 + allow sites to save data: 1
+            # allow all:         0 + delete data when close: 4
+            "cookie_controls_mode": 1,
             "default_content_setting_values": {
-                "brave_remember_1p_storage": 2, # forget when close site
-                "httpsUpgrades": 2 # strict
+                "cookies": 4, # on-device site data
+                "brave_remember_1p_storage": 2, # forget me when I close this site\ on: 2 | off: 1
+                "httpsUpgrades": 2 # strict: 2 | standard: 3 | off: 1
             }
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
@@ -6152,7 +6169,7 @@ function New-BraveConfigData
                 "cookie_list_opt_in_shown": true,
                 "list_subscriptions": {
                     "https://secure.fanboy.co.nz/fanboy-antifacebook.txt": {
-                        "enabled": true, # Fanboy Anti-Facebook
+                        "enabled": false, # Fanboy Anti-Facebook
                         "last_successful_update_attempt": "1",
                         "last_update_attempt": "1"
                     },
@@ -6214,8 +6231,7 @@ function New-BraveConfigData
     #---------------
     Merge-Hashtable $BravePreferences ('{
         "brave": {
-            "google_login_default": false, # old
-            "fb_embed_default": false,
+            "fb_embed_default": false, # Facebook
             "twitter_embed_default": false,
             "linkedin_embed_default": false
         }
@@ -6226,6 +6242,7 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
         "webrtc": {
+            # default | default_public_and_private_interfaces | default_public_interface_only | disable_non_proxied_udp
             "ip_handling_policy": "disable_non_proxied_udp"
         },
         "brave": {
@@ -6233,12 +6250,12 @@ function New-BraveConfigData
                 "channel_status": false
             },
             "de_amp": {
-                "enabled": true # auto-redirect AMP
+                "enabled": true # auto-redirect AMP pages
             },
             "debounce": {
-                "enabled": true # auto redirect tracking urls
+                "enabled": true # auto-redirect tracking urls
             },
-            "reduce_language": true # prevent fingerprinting
+            "reduce_language": true # prevent fingerprinting based on language
         },
         "enable_do_not_track": false
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
@@ -6255,7 +6272,7 @@ function New-BraveConfigData
                 "form_data_on_exit": true,
                 "hosted_apps_data_on_exit": true,
                 "passwords_on_exit": true,
-                "site_settings_on_exit": false
+                "site_settings_on_exit": false # if enabled, will not remember Shields settings (e.g. agressive)
             }
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
@@ -6265,22 +6282,22 @@ function New-BraveConfigData
     Merge-Hashtable $BravePreferences ('{
         "safebrowsing": {
             "enabled": true
-        },
-        "https_only_mode_enabled": true # old
+        }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
     Merge-Hashtable $BraveLocalState ('{
-        "dns_over_https": {
-            "mode": "automatic", # use "secure" for custom template
-            "templates": "" # choose a DNS if you didnt change it system-wide
+        "dns_over_https": { # use secure DNS
+            "mode": "automatic", # on: automatic (OS default) | select DNS provider: secure | off: off
+            "templates": "" # OS default: empty | custom: e.g. https://dns.adguard-dns.com/dns-query
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
     ### Site and Shields Settings
     #---------------
+    # for 'on-device site data' see 'Shields > cookie_controls_mode'
     Merge-Hashtable $BravePreferences ('{
         "profile": {
-            "default_content_setting_values": { # enabled: 1 | disabled: 2
+            "default_content_setting_values": { # on: 1 | off: 2
                 "ar": 2, # augmented reality
                 "auto_picture_in_picture": 2,
                 "automatic_downloads": 1,
@@ -6290,12 +6307,11 @@ function New-BraveConfigData
                 "brave_solana": 2,
                 "captured_surface_control": 2, # scrolling & zooming
                 "clipboard": 2,
-                "cookies": 4, # on-device site data: delete data when close (if 2: block all cookies)
                 "file_system_write_guard": 2, # file editing
                 "geolocation": 2,
                 "hid_guard": 2, # HID devices
                 "images": 1,
-                "javascript_jit": 2, # v8 optimizer
+                "javascript_optimizer": 2, # v8 optimizer
                 "local_fonts": 2, # fonts
                 "media_stream_camera": 2,
                 "media_stream_mic": 2,
@@ -6305,7 +6321,7 @@ function New-BraveConfigData
                 "popups": 2, # pop-ups and redirects
                 "protected_media_identifier": 2, # protected content IDs
                 "sensors": 2, # motion sensors
-                "serial_guard": 2, # serial devices (no GUI toggle anymore ?)
+                "serial_guard": 2, # serial ports
                 "sound": 1,
                 "usb_guard": 2, # USB devices
                 "vr": 2, # virtual reality
@@ -6316,11 +6332,11 @@ function New-BraveConfigData
             "enabled": false # protocol handlers
         },
         "plugins": {
-            "always_open_pdf_externally": false # download pdf
+            "always_open_pdf_externally": true # open in Brave: true | download pdf: fasle
         },
         "webkit": {
             "webprefs": {
-                "encrypted_media_enabled": false # protected content
+                "encrypted_media_enabled": false # play protected content
             }
         },
         "safety_hub": {
@@ -6362,11 +6378,11 @@ function New-BraveConfigData
     Merge-Hashtable $BravePreferences ('{
         "brave": {
             "wallet": {
-                "default_solana_wallet": 1, # no fallback
-                "default_wallet2": 1, # eth: no fallback
+                # default wallet\ extensions (Brave Wallet fallback): 3 | Brave Wallet: 4 | extensions (no fallback): 1
+                "default_solana_wallet": 1,
+                "default_wallet2": 1, # Ethereum
                 "nft_discovery_enabled": false,
-                "private_windows_enabled": false,
-                "auto_pin_enabled": false
+                "private_windows_enabled": false
             }
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
@@ -6374,15 +6390,15 @@ function New-BraveConfigData
     ### Web3 domains
     #---------------
     Merge-Hashtable $BraveLocalState ('{
-        "brave": {
-            "ens": {
-                "resolve_method": 1 # disabled
-            },
-            "sns": {
-                "resolve_method": 1 # disabled
-            },
+        "brave": { # resolve method\ ask: 0 | off: 1 | on: 3
             "unstoppable_domains": {
-                "resolve_method": 1 # disabled
+                "resolve_method": 1
+            },
+            "ens": { # Ethereum Name Service
+                "resolve_method": 1
+            },
+            "sns": { # Solana Name Service
+                "resolve_method": 1
             }
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
@@ -6412,10 +6428,10 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
         "search": {
-            "suggest_enabled": false # improve search
+            "suggest_enabled": false # show search suggestions
         },
         "brave": {
-            "other_search_engines_enabled": false,
+            "other_search_engines_enabled": false, # index other search engines
             "web_discovery_enabled": false
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
@@ -6424,14 +6440,14 @@ function New-BraveConfigData
     ## Extensions
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
-        "brave": {
-            "webtorrent_enabled": false
-        },
         "signin": {
             "allowed": false # google login
         },
         "media_router": {
             "enable_media_router": false
+        },
+        "brave": {
+            "webtorrent_enabled": false
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -6446,17 +6462,17 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
         "autofill": {
-            "credit_card_enabled": false, # save payment
-            "payment_methods_mandatory_reauth": false,
-            "profile_enabled": false # addresses
+            "credit_card_enabled": false, # save and fill payment methods
+            "payment_methods_mandatory_reauth": false, # manually verify every time you pay
+            "profile_enabled": false # save and fill addresses
         },
-        "credentials_enable_autosignin": false,
-        "credentials_enable_service": false, # save password
+        "credentials_enable_autosignin": false, # sign in automatically
+        "credentials_enable_service": false, # offer to save passwords and passkeys
         "payments": {
-            "can_make_payment_enabled": false # allow sites to check
+            "can_make_payment_enabled": false # allow sites to check if you have payment methods saved
         },
         "brave": {
-            "autofill_private_windows": false
+            "autofill_private_windows": false # allow auto-fill in private windows
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -6465,7 +6481,7 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
         "translate": {
-            "enabled": false # still possible with right click
+            "enabled": false # use Brave Translate (if disabled, translate still available with right click)
         },
         "browser": {
             "enable_spellchecking": false
@@ -6477,10 +6493,10 @@ function New-BraveConfigData
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
         "download": {
-            "prompt_for_download": true
+            "prompt_for_download": true # ask where to save each file before downloading
         },
         "download_bubble": {
-            "partial_view_enabled": true # show when done
+            "partial_view_enabled": true # show downloads when done
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -6495,11 +6511,12 @@ function New-BraveConfigData
             "enabled": true
         },
         "performance_tuning": {
-            "battery_saver_mode": {
-                "state": 0 # energy saver
+            "battery_saver_mode": { # energy saver
+                "state": 0 # on (battery is at 20% or lower): 1 | on (computer is unplugged): 2 | off: 0
             },
-            "high_efficiency_mode": {
-                "state": 0 # memory saver
+            "high_efficiency_mode": { # memory saver
+                "aggressiveness": 1, # moderate: 0 | balanced: 1 | maximum: 2
+                "state": 0 # on: 2 | off: 0
             }
         },
         "brave": {
