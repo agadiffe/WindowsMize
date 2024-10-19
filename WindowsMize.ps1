@@ -2219,7 +2219,7 @@ $WindowsSpotlightGPO = '[
 
 function Export-EnabledNetAdapterProtocolNames
 {
-    $LogFilePath = "$PSScriptRoot\windows_netadapter_protocol_default.txt"
+    $LogFilePath = "$PSScriptRoot\windows_netadapter_protocol_default.json"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Enabled NetAdapter Protocol Names ...'
@@ -5182,6 +5182,9 @@ function Remove-Package
     }
 }
 
+# Some apps are no longer installed by default.
+# e.g. Cortana, Mail & Calendar, Maps, People, Movies & TV
+
 $BingSearch         = 'Microsoft.BingSearch'
 $Calculator         = 'Microsoft.WindowsCalculator'
 $Camera             = 'Microsoft.WindowsCamera'
@@ -5192,8 +5195,11 @@ $Cortana            = 'Microsoft.549981C3F5F10'
 $CrossDevice        = 'MicrosoftWindows.CrossDevice'
 $DevHome            = 'Microsoft.Windows.DevHome'
 $Extensions         = @(
+                      'Microsoft.AV1VideoExtension'
+                      'Microsoft.AVCEncoderVideoExtension'
                       'Microsoft.HEIFImageExtension'
                       'Microsoft.HEVCVideoExtension'
+                      'Microsoft.MPEG2VideoExtension'
                       'Microsoft.RawImageExtension'
                       'Microsoft.VP9VideoExtensions'
                       'Microsoft.WebMediaExtensions'
@@ -5219,26 +5225,36 @@ $MicrosoftStore     = @(
                       'Microsoft.WindowsStore'
                     )
 $MicrosoftTeams     = @(
-                      'MicrosoftTeams' # old
                       'MSTeams'
+                      'MicrosoftTeams' # old
                     )
 $MoviesAndTV        = 'Microsoft.ZuneVideo'
 $News               = 'Microsoft.BingNews'
 $Notepad            = 'Microsoft.WindowsNotepad'
 $Outlook            = 'Microsoft.OutlookForWindows'
-$Paint              = 'Microsoft.Paint'
+$Paint              = @(
+                      'Microsoft.Paint'
+                      'Microsoft.Windows.MSPaint' # Win10
+                    )
 $People             = 'Microsoft.People'
 $PhoneLink          = 'Microsoft.YourPhone'
 $Photos             = 'Microsoft.Windows.Photos'
 $PowerAutomate      = 'Microsoft.PowerAutomateDesktop'
-$QuickAssist        = 'MicrosoftCorporationII.QuickAssist'
-$SnippingTool       = 'Microsoft.ScreenSketch'
+$QuickAssist        = @(
+                      'MicrosoftCorporationII.QuickAssist'
+                      'App.Support.QuickAssist' # Win10
+                    )
+$SnippingTool       = @(
+                      'Microsoft.ScreenSketch'
+                      'Microsoft.Windows.SnippingTool' # old
+                      'Microsoft-SnippingTool' # Win10
+                    )
 $Solitaire          = 'Microsoft.MicrosoftSolitaireCollection'
-$SoundRecorder      = 'Microsoft.WindowsSoundRecorder'
 $StickyNotes        = 'Microsoft.MicrosoftStickyNotes'
 $Terminal           = 'Microsoft.WindowsTerminal'
 $Tips               = 'Microsoft.Getstarted'
 $Todo               = 'Microsoft.Todos'
+$VoiceRecorder      = 'Microsoft.WindowsSoundRecorder'
 $Weather            = 'Microsoft.BingWeather'
 $Whiteboard         = 'Microsoft.Whiteboard'
 $Widgets            = @(
@@ -5247,7 +5263,7 @@ $Widgets            = @(
                     )
 $Xbox               = @( # might be required for some games
                       'Microsoft.GamingApp'
-                      'Microsoft.XboxApp' # old
+                      'Microsoft.XboxApp' # Win10
                       'Microsoft.Xbox.TCUI'
                       'Microsoft.XboxGameOverlay'
                       'Microsoft.XboxGamingOverlay'
@@ -5289,7 +5305,7 @@ function Remove-StartMenuPromotedApps
 
     Set-RegistryEntry -InputObject $StartMenuPromotedApps -Verbose:$false
     Stop-Process -Name 'StartMenuExperienceHost'
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 1
 }
 
 # Windows 11 only.
@@ -5300,6 +5316,7 @@ function Set-NewUserDefaultStartMenuLayout
     Write-Verbose -Message 'Setting Default Start Menu Layout for New User ...'
 
     # Adjust according to your preferences.
+    # Use 'Export-StartLayout -Path "X:\layout.json"' to get your current Start Menu layout.
     $StartMenuLayout = '{
         "pinnedList": [
             { "packagedAppId":"Microsoft.WindowsStore_8wekyb3d8bbwe!App" },
@@ -9983,11 +10000,17 @@ function Remove-WinCapability
     }
 }
 
+# Some capabilities are no longer installed by default.
+# e.g. Print.Fax.Scan, WMIC, Microsoft.Windows.WordPad, XPS.Viewer
+
 $ExtendedThemeContent          = 'Microsoft.Wallpapers.Extended'
 $FacialRecognitionWindowsHello = 'Hello.Face'
 $InternetExplorerMode          = 'Browser.InternetExplorer'
 $MathRecognizer                = 'MathRecognizer'
-$NotepadSystem                 = 'Microsoft.Windows.Notepad.System'
+$NotepadSystem                 = @(
+                                 'Microsoft.Windows.Notepad.System'
+                                 'Microsoft.Windows.Notepad' # Win10
+                               )
 $OneSync                       = 'OneCoreUAP.OneSync'
 $OpenSSHClient                 = 'OpenSSH.Client'
 $PrintManagement               = 'Print.Management.Console'
@@ -9997,7 +10020,7 @@ $WindowsFaxAndScan             = 'Print.Fax.Scan'
 $WindowsMediaPlayerLegacy      = 'Media.WindowsMediaPlayer' # might be required by some games
 $WindowsPowerShellISE          = 'Microsoft.Windows.PowerShell.ISE'
 $WMIC                          = 'WMIC'
-$WordPad                       = 'Microsoft.Windows.WordPad'
+$WordPad                       = 'Microsoft.Windows.WordPad' # old
 $XpsViewer                     = 'XPS.Viewer'
 
 #===================
@@ -10157,7 +10180,7 @@ function Set-WindowsOptionalFeature
     }
 }
 
-# If disabling a feature, remove 'MainFeature' after removing a subfeature.
+# If disabling a feature, remove the 'subfeature' before 'MainFeature'.
 
 $DotNetFramework35 = @{
     MainFeature                          = 'NetFx3'
@@ -16027,7 +16050,7 @@ You can use 'Process Explorer' to check these metrics.
 
 function Export-DefaultServicesStartupType
 {
-    $LogFilePath = "$PSScriptRoot\windows_services_default.txt"
+    $LogFilePath = "$PSScriptRoot\windows_services_default.json"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Default Services StartupType ...'
@@ -16051,7 +16074,7 @@ function Export-DefaultServicesStartupType
 
 function Export-DefaultSystemDriversStartupType
 {
-    $LogFilePath = "$PSScriptRoot\windows_system_drivers_default.txt"
+    $LogFilePath = "$PSScriptRoot\windows_system_drivers_default.json"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Default System Drivers StartupType ...'
@@ -18679,7 +18702,7 @@ $NvidiaSvc = '[
 
 function Export-DefaultScheduledTasksState
 {
-    $LogFilePath = "$PSScriptRoot\windows_scheduled_tasks_default.txt"
+    $LogFilePath = "$PSScriptRoot\windows_scheduled_tasks_default.json"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Default Scheduled Tasks State ...'
@@ -19878,11 +19901,11 @@ $ApplicationsToRemove = @(
     $QuickAssist
     #$SnippingTool
     $Solitaire
-    $SoundRecorder
     $StickyNotes
     #$Terminal
     $Tips
     $Todo
+    $VoiceRecorder
     $Weather
     #$Whiteboard
     $Widgets
