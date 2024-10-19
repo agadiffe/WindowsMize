@@ -17024,23 +17024,6 @@ $SmartCardSvc = '[
   }
 ]' | ConvertFrom-Json
 
-$VirtualSmartCardSvc = '[
-  {
-    "DisplayName": "Microsoft Passport",
-    "ServiceName": "NgcSvc",
-    "StartupType": "Disabled",
-    "DefaultType": "Manual",
-    "Comment"    : "cannot be changed with services.msc."
-  },
-  {
-    "DisplayName": "Microsoft Passport Container",
-    "ServiceName": "NgcCtnrSvc",
-    "StartupType": "Disabled",
-    "DefaultType": "Manual",
-    "Comment"    : "cannot be changed with services.msc."
-  }
-]' | ConvertFrom-Json
-
 #endregion smart card
 
 #=======================================
@@ -17462,6 +17445,26 @@ $MiscFeaturesSvc = '[
     "StartupType": "Disabled",
     "DefaultType": "Manual",
     "Comment"    : "settings > privacy & security > location."
+  },
+  {
+    "DisplayName": "Microsoft Passport",
+    "ServiceName": "NgcSvc",
+    "StartupType": "Manual",
+    "DefaultType": "Manual",
+    "Comment"    : "cannot be changed with services.msc.
+                    needed by Windows Hello.
+                    settings > accounts > sign-in options.
+                    process isolation for cryptographic keys."
+  },
+  {
+    "DisplayName": "Microsoft Passport Container",
+    "ServiceName": "NgcCtnrSvc",
+    "StartupType": "Manual",
+    "DefaultType": "Manual",
+    "Comment"    : "cannot be changed with services.msc.
+                    needed by Windows Hello.
+                    settings > accounts > sign-in options.
+                    manages local user identity keys."
   },
   {
     "DisplayName": "Now Playing Session Manager Service",
@@ -18675,8 +18678,7 @@ $IntelSvc = '[
     "DisplayName": "Intel(R) TPM Provisioning Service",
     "ServiceName": "Intel(R) TPM Provisioning Service",
     "StartupType": "Disabled",
-    "DefaultType": "Automatic",
-    "Comment"    : "needed by bitlocker and PIN/Hello logons ?"
+    "DefaultType": "Automatic"
   },
   {
     "DisplayName": "Thunderbolt(TM) Application Launcher",
@@ -20794,7 +20796,6 @@ $ServicesEntries = @{
         $RemoteDesktopSvc
         $SensorSvc
         $SmartCardSvc
-        $VirtualSmartCardSvc
         $TelemetryDiagUsageSvc
         $TroubleshootingDiagUsageSvc
         $VirtualRealitySvc
