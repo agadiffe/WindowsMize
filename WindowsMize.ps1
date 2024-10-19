@@ -294,9 +294,14 @@ function Get-LoggedUserUsername
     $Username
 }
 
+function Get-LoggedUserSID
+{
+    (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+}
+
 function Get-LoggedUserEnvVariable
 {
-    $LoggedUserSID = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+    $LoggedUserSID = Get-LoggedUserSID
     $LoggedUserEnvRegPath = "Registry::HKEY_USERS\$LoggedUserSID\Volatile Environment"
     $EnvVariable = Get-ItemProperty -Path $LoggedUserEnvRegPath | Select-Object -Property '*' -Exclude 'PS*'
     $EnvVariable
@@ -397,7 +402,7 @@ function Set-RegistryEntry
             [string] $Type
         }
 
-        $LoggedUserSID = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+        $LoggedUserSID = Get-LoggedUserSID
     }
 
     process
@@ -4900,7 +4905,7 @@ function Get-ApplicationInfo
         'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
         'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
     )
-    $LoggedUserSID = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+    $LoggedUserSID = Get-LoggedUserSID
     $RegistryUninstallPath = $RegistryUninstallPath -ireplace 'HKEY_CURRENT_USER', "HKEY_USERS\$LoggedUserSID"
 
     $AppInfo = $RegistryUninstallPath |
@@ -8017,7 +8022,7 @@ function New-GroupPolicyLogoffScript
         $FilePath
     )
 
-    $UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+    $UserSid = Get-LoggedUserSID
     $LogOffScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Logoff\0\"
     $ScriptNumber = (Get-ChildItem -Path "Registry::$LogOffScriptRegPath" -ErrorAction 'SilentlyContinue').Count
 
@@ -10209,8 +10214,8 @@ $DotNetFramework48 = @{
     }
 }
 $MediaFeatures = @{
-    MainFeature                         = 'MediaPlayback'
-    WindowsMediaPlayerLegacy            = 'WindowsMediaPlayer'
+    MainFeature                          = 'MediaPlayback'
+    WindowsMediaPlayerLegacy             = 'WindowsMediaPlayer'
 }
 $MicrosoftRemoteDesktopConnection        = 'Microsoft-RemoteDesktopConnection' # same as: mstsc.exe /uninstall
 $MicrosoftXpsDocumentWriter              = 'Printing-XPSServices-Features'
@@ -11521,7 +11526,7 @@ $LockScreenLogonBackgroundImageGPO = '[
 # owner: SYSTEM | full control: SYSTEM
 # Requested registry access is not allowed.
 # user\ on: 0 (default) | off: 1
-$UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+$UserSid = Get-LoggedUserSID
 $PersonnalizationLockScreenLogonBackgroundImage = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -12386,7 +12391,7 @@ $AdvancedSettingsShareAcrossDevices = '[
 #   archive infrequently used apps
 # gpo\ not configured: delete (default) | on: 1 | off: 0
 # user\ on: 1 (default) | off: 0
-$UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+$UserSid = Get-LoggedUserSID
 $AdvancedSettingsArchiveApps = '[
   {
     "SkipKey" : true,
@@ -12827,7 +12832,7 @@ $SignInShowAccountDetailsGPO = '[
 # owner: SYSTEM | full control: SYSTEM
 # Requested registry access is not allowed.
 # user\ on: 1 | off: 0 (default)
-$UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+$UserSid = Get-LoggedUserSID
 $AccountsSignInShowAccountDetails = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -12851,7 +12856,7 @@ $AccountsSignInShowAccountDetails = '[
 #   sign-in and lock last interactive user automatically after a restart
 # gpo\ not configured: delete (default) | on: 0 | off: 1
 # user\ on: 0 (default) | off: 1
-$UserSid = (Get-LocalUser -Name (Get-LoggedUserUsername)).SID.Value
+$UserSid = Get-LoggedUserSID
 $SignInAutoSettingAfterUpdate = '[
   {
     "SkipKey" : true,
