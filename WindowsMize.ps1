@@ -4057,17 +4057,15 @@ $ApplicationCompatibilityGPO = '[
 #endregion application compatibility
 
 #=======================================
-## cloud content experience
+## cloud content experiences
 #=======================================
-#region cloud content experience
+#region cloud content experiences
 
 # gpo\ computer config > administrative tpl > windows components > cloud content
 #   turn off cloud optimized content
 #   turn off cloud consumer account state content
-#   turn off microsoft consumer experiences (only applies to Enterprise and Education SKUs)
-#     (also disable 'settings > bluetooth & devices > mobile devices')
 # not configured: delete (default) | off: 1
-$CloudContentExperienceGPO = '[
+$CloudContentExperiencesGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
     "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
@@ -4081,9 +4079,29 @@ $CloudContentExperienceGPO = '[
         "Name"  : "DisableConsumerAccountStateContent",
         "Value" : "1",
         "Type"  : "DWord"
-      },
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#endregion cloud content experiences
+
+#=======================================
+## consumer experiences
+#=======================================
+#region consumer experiences
+
+# Also disable 'settings > bluetooth & devices > mobile devices' (e.g. Phone Link)
+
+# gpo\ computer config > administrative tpl > windows components > cloud content
+#   turn off microsoft consumer experiences (only applies to Enterprise and Education SKUs)
+# not configured: delete (default) | off: 1
+$ConsumerExperiencesGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\CloudContent",
+    "Entries" : [
       {
-        "RemoveEntry" : true,
         "Name"  : "DisableWindowsConsumerFeatures",
         "Value" : "1",
         "Type"  : "DWord"
@@ -4092,7 +4110,7 @@ $CloudContentExperienceGPO = '[
   }
 ]' | ConvertFrom-Json
 
-#endregion cloud content experience
+#endregion consumer experiences
 
 #=======================================
 ## customer experience improvement program
@@ -4267,8 +4285,7 @@ $DumpCollectionGPO = '[
 #
 # gpo\ computer config > administrative tpl > system > device installation (windows 10 only ?)
 #   do not send a Windows error report when a generic driver is installed on a device
-#   prevent Windows from sending an error report when a device driver requests
-#     additional software during installation
+#   prevent Windows from sending an error report when a device driver requests additional software during installation
 #
 # gpo\ computer config > administrative tpl > system > internet communication management > internet communication settings
 #   turn off Windows error reporting
@@ -9252,9 +9269,8 @@ function Set-EnergySaverLowerBrightness
 
     $State = switch ($Percent)
     {
-        0       { 'Enabled' }
         100     { 'Disabled' }
-        Default { "$Percent%" }
+        Default { "Enabled ($Percent%)" }
     }
 
     Write-Verbose -Message "Setting 'Energy Saver LowerBrightness' to '$State' ..."
@@ -11383,8 +11399,7 @@ $ThemesDesktopIcons = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\ClassicStartMenu",
-    "Entries" : [
-    ]
+    "Entries" : []
   }
 ]' | ConvertFrom-Json
 $ThemesDesktopIcons[1].Entries = $ThemesDesktopIcons[0].Entries
@@ -11727,7 +11742,7 @@ $StartFoldersNextPowerButton = '[
 $StartMobileDeviceInStart = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
-    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Start\\Companions\\Microsoft.YourPhone_*",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Start\\Companions\\Microsoft.YourPhone_8wekyb3d8bbwe",
     "Entries" : [
       {
         "Name"  : "IsEnabled",
@@ -19650,7 +19665,7 @@ $NetworkSettings = @(
     $NetworkProtocolLlmnrGPO
     $NetBIOSProtocol
     $SmartNameResolutionGPO
-    $WPADProtocol
+    #$WPADProtocol
 )
 
 $NetworkProtocols = @(
@@ -19757,7 +19772,8 @@ function Set-SystemProperties
 $TelemetrySettings = @(
     $AppAndDeviceInventoryGPO
     $ApplicationCompatibilityGPO
-    $CloudContentExperienceGPO
+    $CloudContentExperiencesGPO
+    #$ConsumerExperiencesGPO
     $CustomerExperienceImprovementGPO
     $DiagnosticsAutoLogger
     $DiagnosticLogCollectionGPO
