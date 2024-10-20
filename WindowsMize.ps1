@@ -53,7 +53,7 @@ If you do not want to use the answer file to create a local accout:
     if you have a Desktop, do not connect to Internet (unplug the cable).
     'Shift + F10' to open a Command Prompt (use 'Alt + Tab' to bring it to the foreground).
     type 'oobe\bypassnro' (computer will reboot).
-    if you have a Laptop with a wireless device:
+    if you have a wireless device (e.g. Laptop):
     open a Command Prompt and type 'ipconfig /release'.
 #>
 
@@ -232,7 +232,7 @@ function New-WindowsAnswerFile
   update driver > browse my computer for drivers > let me pick from a list of available drivers on my computer:
     Choose the newest driver and apply. This should prevent Window Update to override the driver.
   When installing Intel Graphics Drivers (iGPU), do not choose clean installation.
-  If the old driver (the one installed by Windows) is removed, Windows update will reinstall it.
+  If the old driver (the one installed by Windows) is removed, Windows Update will reinstall it.
 
 - Device Manager: Disable unused hardware.
   e.g. biometric, bluetooth, cameras
@@ -991,6 +991,37 @@ $FileExplorerFolderTypeDetection = '[
 #                                miscellaneous
 #==============================================================================
 #region miscellaneous
+
+#=======================================
+## admin approval mode
+#=======================================
+#region admin approval mode
+
+# Windows 11 24H2+ only.
+# Replace the 'User Account Control (UAC)' with a more secure elevation approval.
+# You will be prompted to enter your password if you need admin privileges (e.g. regedit, task manager, ...).
+#
+# I you enable it, consider to set a PIN (Windows Hello) for your account (settings > accounts > sign-in options).
+# It will be less frustrating to enter a PIN than a password when you need admin privileges.
+
+# gpo\ computer config > windows settings > security settings > local policies > security options
+#   user account control: configure type of admin approval mode
+# Legacy Admin Approval Mode: 1 (Default) | Admin Approval Mode with Administrator protection: 2
+$AdminApprovalModeGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+    "Entries" : [
+      {
+        "Name"  : "TypeOfAdminApprovalMode",
+        "Value" : "2",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#endregion admin approval mode
 
 #=======================================
 ## automatic login
@@ -12526,9 +12557,8 @@ $OpenLinksInAppGPO = '[
 #-------------------
 # gpo\ computer config > windows settings > security settings > local policies > security options
 #   accounts: block Microsoft accounts
-# not configured: delete (default)
-# users can't add Microsoft accounts: 1
-# users can't add or log on with Microsoft accounts: 3
+# not defined: delete (default) | this policy is disabled: 0
+# users can't add Microsoft accounts: 1 | users can't add or log on with Microsoft accounts: 3
 $YourInfoAccountSettingGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -19608,6 +19638,7 @@ function Set-FileExplorerSettings
 #region miscellaneous
 
 $MiscSettings = @(
+    #$AdminApprovalModeGPO
     #$AutoLogin
     #$ClearRecentFilesOnExitGPO
     $CloudConfigDownloadGPO
@@ -20960,6 +20991,8 @@ Set-ApplicationsSettings
 #Set-RamDisk
 Set-WindowsSettingsApp
 Set-ServicesAndScheduledTasks
+
+#New-WindowsAnswerFile -UserName 'Bob' -Password 'MyPassword'
 
 Stop-Transcript
 
