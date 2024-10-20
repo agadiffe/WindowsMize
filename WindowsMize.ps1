@@ -592,7 +592,10 @@ $PrinterDriversDownloadOverHttpGPO = '[
 #=======================================
 # gpo\ computer config > administrative tpl > windows components > windows update > manage updates offered from windows update
 #   do not include drivers with Windows updates
-# not configured: delete (default) | off: 1 0
+# gpo\ not configured: delete (default) | off: 1
+#
+# DriverUpdateWizardWUSearchEnabled\ on: 1 | off: 0
+# old policy: device manager doesn't search online drivers anymore on manual update.
 $WindowsUpdateDriversGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -2447,9 +2450,9 @@ function Block-DCOMFirewallPort135
 #endregion DCOM Service
 
 #=======================================
-## firewall rules - miscellaneous Inbound TCP
+## firewall - miscellaneous Inbound TCP
 #=======================================
-#region firewall rules
+#region firewall misc TCP-in
 
 # Ports 49664-49668 should not be exposed to the internet.
 # Used for remote management (probably) ?
@@ -2498,7 +2501,7 @@ function Block-FirewallMiscInboundTCP
     Block-InboundFirewallPort -Rule $Rules -Group $GroupName
 }
 
-#endregion firewall rules
+#endregion firewall misc TCP-in
 
 #=======================================
 ## internet control message protocol (ICMP) redirects
@@ -3141,7 +3144,7 @@ function Set-HardDiskTimeout
 # > change advanced power settings > hard disk > turn off hard disk after
 #-------------------
 # value are in minutes
-# never: 0 | default: 10 20
+# never: 0 | default: 20 10
 $SystemPowerHardDiskTimeout = '[
   {
     "PowerState"  : "AC",
@@ -3169,10 +3172,11 @@ function Set-ModernStandbyNetworkConnectivity
 {
     <#
     .SYNTAX
-        Set-ModernStandbyNetworkConnectivity [-State] {Enabled | Disabled | ManagedByWindows} [<CommonParameters>]
+        Set-ModernStandbyNetworkConnectivity [-PowerState] {AC | DC} [-State] {Enabled | Disabled | ManagedByWindows}
+        [<CommonParameters>]
 
     .EXAMPLE
-        PS> Set-ModernStandbyNetworkConnectivity -State 'Disabled'
+        PS> Set-ModernStandbyNetworkConnectivity -PowerState 'DC' -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -3200,8 +3204,8 @@ function Set-ModernStandbyNetworkConnectivity
     {
         $Value = switch ($State)
         {
-            'Enabled' { 1 }
-            'Disabled' { 0 }
+            'Disabled'         { 0 }
+            'Enabled'          { 1 }
             'ManagedByWindows' { 2 }
         }
 
@@ -3216,21 +3220,18 @@ function Set-ModernStandbyNetworkConnectivity
 # (control.exe /name Microsoft.PowerOptions /page pagePlanSettings)
 # > change advanced power settings > balanced (current power plan) > network connectivity in Standby
 #-------------------
-# Enabled | Disabled | ManagedByWindows
-$ModernStandbyNetworkConnectivity = '[
-  {
-    "PowerState"  : "AC",
-    "State"       : "Enabled"
-  },
-  {
-    "PowerState"  : "DC",
-    "State"       : "ManagedByWindows"
-  }
-]' | ConvertFrom-Json
+# Disabled | Enabled | ManagedByWindows
 
-function Set-SystemPowerModernStandbyNetworkConnectivity
+function Enable-ModernStandbyNetworkConnectivity
 {
-    $ModernStandbyNetworkConnectivity | Set-ModernStandbyNetworkConnectivity
+    Set-ModernStandbyNetworkConnectivity -PowerState 'AC' -State 'Enabled'
+    Set-ModernStandbyNetworkConnectivity -PowerState 'DC' -State 'ManagedByWindows'
+}
+
+function Disable-ModernStandbyNetworkConnectivity
+{
+    Set-ModernStandbyNetworkConnectivity -PowerState 'AC' -State 'Disabled'
+    Set-ModernStandbyNetworkConnectivity -PowerState 'DC' -State 'Disabled'
 }
 
 #endregion standby connectivity
@@ -19718,7 +19719,7 @@ function Set-PowerOptionsSettings
     Write-Section -Name 'Setting Power Options'
     Disable-Hibernate
     Set-SystemPowerHardDiskTimeout
-    #Set-SystemPowerModernStandbyNetworkConnectivity
+    #Disable-ModernStandbyNetworkConnectivity
     $PowerOptionsSettings | Set-RegistryEntry
 }
 
