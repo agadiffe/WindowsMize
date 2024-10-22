@@ -1001,7 +1001,7 @@ $FileExplorerFolderTypeDetection = '[
 # Replace the 'User Account Control (UAC)' with a more secure elevation approval.
 # You will be prompted to enter your password if you need admin privileges (e.g. regedit, task manager, ...).
 #
-# I you enable it, consider to set a PIN (Windows Hello) for your account (settings > accounts > sign-in options).
+# If you enable it, consider to set a PIN (Windows Hello) for your account (settings > accounts > sign-in options).
 # It will be less frustrating to enter a PIN than a password when you need admin privileges.
 
 # gpo\ computer config > windows settings > security settings > local policies > security options
@@ -3372,13 +3372,6 @@ function Set-SystemPropertiesVisualEffects
         PS> $VisualEffectsProperties | Set-SystemPropertiesVisualEffects
 
     .NOTES
-        [Convert]::ToInt32('10011110', 2)       -> 158
-        [Convert]::ToString('158', 2)           -> 10011110
-        [Convert]::ToHexString('158')           -> 9E
-        [Convert]::ToString('158', 16)          -> 9e
-        [Convert]::ToDecimal([UInt32]'0x9e')    -> 158
-        [Convert]::ToString([UInt32]'0x9e', 10) -> 158
-
         UserPreferencesMask Binary value
         1001???0 00?1??10 00000?11 10000100 000100?0 00000000 00000000 00000000
             |||    | ||        |                  |
@@ -3429,23 +3422,23 @@ function Set-SystemPropertiesVisualEffects
         ]' | ConvertFrom-Json
 
         $VisualEffectsPath = 'Registry::HKEY_CURRENT_USER\Control Panel\Desktop'
-        $VisualEffectsByteValue = (Get-ItemProperty -Path $VisualEffectsPath).UserPreferencesMask
+        $VisualEffectsBytes = (Get-ItemProperty -Path $VisualEffectsPath).UserPreferencesMask
     }
 
     process
     {
         Write-Verbose -Message "Setting Visual Effect '$($InputObject.Name)' to '$($InputObject.State)' ..."
 
-        $VisualEffectsByteValue[$InputObject.ByteNum] = switch ($InputObject.State)
+        $VisualEffectsBytes[$InputObject.ByteNum] = switch ($InputObject.State)
         {
-            'Enabled'  { $VisualEffectsByteValue[$InputObject.ByteNum] -bor $InputObject.Bitmask }
-            'Disabled' { $VisualEffectsByteValue[$InputObject.ByteNum] -band -bnot $InputObject.Bitmask }
+            'Enabled'  { $VisualEffectsBytes[$InputObject.ByteNum] -bor $InputObject.Bitmask }
+            'Disabled' { $VisualEffectsBytes[$InputObject.ByteNum] -band -bnot $InputObject.Bitmask }
         }
     }
 
     end
     {
-        $SystemPropertiesVisualEffects.Entries[0].Value = $VisualEffectsByteValue
+        $SystemPropertiesVisualEffects.Entries[0].Value = $VisualEffectsBytes
         Set-RegistryEntry -InputObject $SystemPropertiesVisualEffects
     }
 }
@@ -4921,6 +4914,9 @@ function Get-ApplicationInfo
         DisplayVersion : X.X.X.X
         Version        : X.X.X.X
         NoRemove       : 1
+
+    .NOTES
+        Doesn't handle UWP apps (e.g. Modern Notepad, Windows Photos, ...).
     #>
 
     [CmdletBinding()]
@@ -5133,9 +5129,12 @@ function Remove-OneDriveAutoInstallationForNewUser
       }
     ]' | ConvertFrom-Json
 
-    reg.exe LOAD 'HKEY_USERS\TMPDEFAULT' "$env:SystemDrive\Users\Default\NTUSER.DAT" | Out-Null
+    $NTUserRegPath = 'HKEY_USERS\NTUSER_DEFAULT'
+    $NTUserFilePath = "$env:SystemDrive\Users\Default\NTUSER.DAT"
+
+    reg.exe LOAD $NTUserRegPath $NTUserFilePath | Out-Null
     Set-RegistryEntry -InputObject $OneDriveSetup -Verbose:$false
-    reg.exe UNLOAD 'HKEY_USERS\TMPDEFAULT' | Out-Null
+    reg.exe UNLOAD $NTUserRegPath | Out-Null
 }
 
 #endregion onedrive
@@ -5180,9 +5179,9 @@ function Export-DefaultAppxPackagesNames
         Write-Verbose -Message 'Exporting Default Appx Packages Names ...'
 
         $DefaultAppxPackages = "# AppxPackage`n "
-        $DefaultAppxPackages += ((Get-AppxPackage -AllUsers).Name).foreach{ "$_`n" }
+        $DefaultAppxPackages += ((Get-AppxPackage -AllUsers).Name).ForEach{ "$_`n" }
         $DefaultAppxPackages += "`n# ProvisionedAppxPackage`n "
-        $DefaultAppxPackages += ((Get-ProvisionedAppxPackage -Online).DisplayName).foreach{ "$_`n" }
+        $DefaultAppxPackages += ((Get-ProvisionedAppxPackage -Online).DisplayName).ForEach{ "$_`n" }
 
         $DefaultAppxPackages | Out-File -FilePath $LogFilePath
     }
@@ -5304,11 +5303,11 @@ $SnippingTool       = @(
                       'Microsoft-SnippingTool' # Win10
                     )
 $Solitaire          = 'Microsoft.MicrosoftSolitaireCollection'
+$SoundRecorder      = 'Microsoft.WindowsSoundRecorder'
 $StickyNotes        = 'Microsoft.MicrosoftStickyNotes'
 $Terminal           = 'Microsoft.WindowsTerminal'
 $Tips               = 'Microsoft.Getstarted'
 $Todo               = 'Microsoft.Todos'
-$VoiceRecorder      = 'Microsoft.WindowsSoundRecorder'
 $Weather            = 'Microsoft.BingWeather'
 $Whiteboard         = 'Microsoft.Whiteboard'
 $Widgets            = @(
@@ -5410,6 +5409,172 @@ function Set-NewUserDefaultStartMenuLayout
 #                                             applications settings
 #=================================================================================================================
 #region applications settings
+
+#==============================================================================
+#                               helper function
+#==============================================================================
+#region helper function
+
+# function to customize UWP apps settings.
+# e.g. microsoft store, notepad, photos, snipping tool
+
+<#
+Pattern to match the key=value in registry file (.reg): '(?m)^(.*)=((?:.*)(?:(?<=\\)\s*.*)*)$'
+I will not use regex because the registry entry doesn't exist if the setting hasn't been toggled at least once.
+
+Settings are stored in a file encoded as binary data.
+e.g. "C:\Users\<User>\AppData\Local\Packages\Microsoft.Windows.Photos_8wekyb3d8bbwe\Settings\settings.dat"
+
+This file can be loaded in regedit. The settings have non-standard type.
+The first bytes are the setting (the number of bytes depends of the type and data).
+The last 8 bytes are some kind of timestamp (they can all be zeroed, the setting will still be applied).
+
+All type use little-endian (Left-Aligned) for the value (except 1, or more ?).
+
+0x5f5e10b: bool   | e.g. "WordWrap"=hex(5f5e10b):01,4b,da,0a,0a,a8,23,db,01
+
+0x5f5e10c: string | e.g. "GeolocationConsent"=hex(5f5e10c):66,00,61,00,6c,00,73,00,65,00,00,00,ef,b8,44,70,aa,23,db,01
+The string is encoded as unicode and must be null terminated.
+'false' : 66,00,61,00,6c,00,73,00,65,00,00,00
+'true'  : 74,00,72,00,75,00,65,00,00,00
+
+0x5f5e104: int    | e.g. "FontSize"=hex(5f5e104):0b,00,00,00,a3,1a,40,6f,84,36,da,01
+0x5f5e104, 0x5f5e105: int32 (4 bytes) 
+0x5f5e106, 0x5f5e107: int64 (8 bytes)
+
+More types: (non-exhaustive list)
+0x5f5e10d: string ? (probably)
+0x5f5e109: double (8 bytes) | big-endian (Right-Aligned)
+    $Number = 2.0553e-320
+    $Bytes = [System.BitConverter]::GetBytes($Number)
+    [Array]::Reverse($Bytes)
+    $Bytes | Format-Hex
+0x5f5e110, 0x5f5e113: int128 (16 bytes)
+#>
+
+function Set-UWPAppRegistryEntry
+{
+    <#
+    .SYNTAX
+        Set-UWPAppRegistryEntry [-InputObject] <RegistryKeyEntry> [-FilePath] <string> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> $FilePath = "C:\Users\<User>\AppData\Local\Packages\Microsoft.Windows.Photos_8wekyb3d8bbwe\Settings\settings.dat"
+        PS> $PhotosTheme = '[
+              {
+                "Name"  : "AppBackgroundRequestedTheme",
+                "Value" : "2",
+                "Type"  : "5f5e104"
+              }
+            ]' | ConvertFrom-Json
+        PS> $PhotosTheme | Set-UWPAppRegistryEntry -FilePath $FilePath
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline)]
+        [RegistryKeyEntry]
+        $InputObject,
+
+        [Parameter(Mandatory)]
+        [string]
+        $FilePath
+    )
+
+    begin
+    {
+        class RegistryKeyEntry
+        {
+            [string] $Name
+            [string] $Value
+            [string] $Type
+        }
+
+        $SettingRegFilePath = "$PSScriptRoot\uwp_app_settings.reg"
+        $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
+
+        $RegContent = "Windows Registry Editor Version 5.00
+
+            [$AppSettingsRegPath\LocalState]
+            " -replace '(?m)^ *'
+    }
+
+    process
+    {
+        $Value = $InputObject.Value
+        $Value = switch ($InputObject.Type)
+        {
+            '5f5e10b' { ([int]$Value | Format-Hex -Count 1).HexBytes }
+            '5f5e10c' { [string]($Value | Format-Hex -Encoding 'unicode').HexBytes + ' 00 00' }
+            '5f5e104' { ([int32]$Value | Format-Hex).HexBytes }
+        }
+
+        $Value = $Value -replace '\s+', ','
+        $RegContent += """$($InputObject.Name)""=hex($($InputObject.Type)):$Value,00,00,00,00,00,00,00,00`n"
+    }
+
+    end
+    {
+        Write-Verbose -Message $RegContent
+        $RegContent | Out-File -FilePath $SettingRegFilePath
+
+        reg.exe LOAD $AppSettingsRegPath $FilePath | Out-Null
+        # 'reg.exe import' writes its output on success to stderr ...
+        reg.exe IMPORT $SettingRegFilePath 2>&1 | Out-Null
+        reg.exe UNLOAD $AppSettingsRegPath | Out-Null
+
+        Remove-Item -Path $SettingRegFilePath
+    }
+}
+
+function Set-UWPAppSetting
+{
+    <#
+    .SYNTAX
+        Set-UWPAppSetting [-Name] <string> [-Setting] <array> [<CommonParameters>]
+
+    .NOTES
+        The settings must be compatible with 'Set-UWPAppRegistryEntry'.
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $Name,
+
+        [Parameter(Mandatory)]
+        [array]
+        $Setting
+    )
+
+    $AppxPathName = switch ($Name)
+    {
+        'Microsoft Store' { 'Microsoft.WindowsStore_8wekyb3d8bbwe' }
+        'Notepad'         { 'Microsoft.WindowsNotepad_8wekyb3d8bbwe' }
+        'Photos'          { 'Microsoft.Windows.Photos_8wekyb3d8bbwe' }
+        'Snipping Tool'   { 'Microsoft.ScreenSketch_8wekyb3d8bbwe' }
+    }
+
+    $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName\"
+    $AppxSettingsFilePath = "$AppxPath\Settings\settings.dat"
+
+    if ($AppxSettingsFilePath)
+    {
+        $Setting | Set-UWPAppRegistryEntry -FilePath $AppxSettingsFilePath
+    }
+    else
+    {
+        Write-Verbose -Message "$Name is not installed"
+    }
+}
+
+#endregion helper function
+
 
 #==============================================================================
 #                            adobe acrobat reader
@@ -6734,8 +6899,7 @@ function Set-ForegroundWindow
         MemberDefinition = $Signature
     }
     $WindowFunctions = Add-Type @WindowFunctionsType -PassThru -Verbose:$false
-    $MainWindowHandleProcess =
-        $ProcessName ? (Get-Process -Name $ProcessName).MainWindowHandle : $MainWindowHandle
+    $MainWindowHandleProcess = $ProcessName ? (Get-Process -Name $ProcessName).MainWindowHandle : $MainWindowHandle
 
     $SW_SHOWDEFAULT = 10
     $WindowFunctions::ShowWindowAsync($MainWindowHandleProcess, $SW_SHOWDEFAULT) | Out-Null
@@ -7321,6 +7485,47 @@ $MicrosoftOfficeTelemetry = '[
 
 
 #==============================================================================
+#                               microsoft store
+#==============================================================================
+#region microsoft store
+
+# app updates
+#-------------------
+# on: 1 (default) | off: 0
+$MicrosoftStoreAutoAppUpdates = '[
+  {
+    "Name"  : "UpdateAppsAutomatically",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# notifications for app installations
+#-------------------
+# on: 1 (default) | off: 0
+$MicrosoftStoreAppInstallNotifications = '[
+  {
+    "Name"  : "EnableAppInstallNotifications",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# video autoplay
+#-------------------
+# on: 1 (default) | off: 0
+$MicrosoftStoreVideoAutoplay = '[
+  {
+    "Name"  : "VideoAutoplay",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion microsoft store
+
+
+#==============================================================================
 #                             visual studio code
 #==============================================================================
 #region visual studio code
@@ -7413,6 +7618,409 @@ function Set-VLCSettings
 
 
 #==============================================================================
+#                               windows notepad
+#==============================================================================
+#region windows notepad
+
+#=======================================
+## appearance
+#=======================================
+#region appearance
+
+# customize theme
+#-------------------
+# light: 1 | dark: 2 | use system setting: 0 (default)
+$NotepadTheme = '[
+  {
+    "Name"  : "Theme",
+    "Value" : "0",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+#endregion appearance
+
+#=======================================
+## text formatting
+#=======================================
+#region text formatting
+
+# font: family
+#-------------------
+# example: Arial | Calibri | Consolas | Comic Sans MS | Times New Roman
+# default: Consolas
+$NotepadFontFamily = '[
+  {
+    "Name"  : "FontFamily",
+    "Value" : "Consolas",
+    "Type"  : "5f5e10c"
+  }
+]' | ConvertFrom-Json
+
+# font: style
+#-------------------
+# Regular (default) | Italic | Bold | Bold Italic
+$NotepadFontStyle = '[
+  {
+    "Name"  : "FontStyle",
+    "Value" : "Regular",
+    "Type"  : "5f5e10c"
+  }
+]' | ConvertFrom-Json
+
+# font: size
+#-------------------
+# available GUI size: 8,9,10,11,12,14,16,18,20,22,24,26,28,36,48
+# default: 11
+$NotepadFontSize = '[
+  {
+    "Name"  : "FontSize",
+    "Value" : "11",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+# word wrap
+#-------------------
+# on: 1 (default) | off: 0
+$NotepadWordWrap = '[
+  {
+    "Name"  : "WordWrap",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion text formatting
+
+#=======================================
+## opening notepad
+#=======================================
+#region opening notepad
+
+# opening files
+#-------------------
+# open in a new tab: 0 (default) | open in a new window: 1
+$NotepadOpenFile = '[
+  {
+    "Name"  : "OpenFile",
+    "Value" : "0",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+# when Notepad starts
+#-------------------
+# continue previous session: 1 (default) | start new session and discard unsaved change: 0
+$NotepadSessionWhenStarts = '[
+  {
+    "Name"  : "GhostFile",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion opening notepad
+
+#=======================================
+## spelling
+#=======================================
+#region spelling
+
+# spell check
+#-------------------
+# '.srt & .ass' share the same GUI toggle
+
+# on: true (default) | off: false
+$NotepadSpellCheckValue = '{
+  "Enabled": false,
+  "FileExtensionsOverrides": [
+    [  ".md", true ],
+    [ ".ass", true ],
+    [ ".lic", true ],
+    [ ".srt", true ],
+    [ ".lrc", true ],
+    [ ".txt", true ]
+  ]
+}'.Replace('"', '\"') -replace '\s+'
+
+$NotepadSpellCheck = '[
+  {
+    "Name"  : "SpellCheckState",
+    "Value" : "$NotepadSpellCheckValue",
+    "Type"  : "5f5e10c"
+  }
+]'.Replace('$NotepadSpellCheckValue', $NotepadSpellCheckValue) | ConvertFrom-Json
+
+# autocorrect
+#-------------------
+# on: 1 (default) | off: 0
+$NotepadAutocorrect = '[
+  {
+    "Name"  : "AutoCorrect",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion spelling
+
+#=======================================
+## miscellaneous
+#=======================================
+#region miscellaneous
+
+# first launch tip shown (notepad automatically saves your progress)
+#-------------------
+# on: 1 | off: 0 (default)
+$NotepadFirstLaunchTipShown = '[
+  {
+    "Name"  : "TeachingTipExplicitClose",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion miscellaneous
+
+#endregion windows notepad
+
+
+#==============================================================================
+#                               windows photos
+#==============================================================================
+#region windows photos
+
+# customize theme
+#-------------------
+# light: 1 | dark: 2 (default) | Windows default: 0
+$PhotosTheme = '[
+  {
+    "Name"  : "AppBackgroundRequestedTheme",
+    "Value" : "2",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+# show gallery tiles attributes
+#-------------------
+# on: true (default) | off: false
+$PhotosGalleryTilesAttributes = '[
+  {
+    "Name"  : "GalleryAttributionDisplayStatus",
+    "Value" : "true",
+    "Type"  : "5f5e10c"
+  }
+]' | ConvertFrom-Json
+
+# enable location based features
+#-------------------
+# on: true | off: false (default)
+$PhotosLocationBasedFeatures = '[
+  {
+    "Name"  : "GeolocationConsent",
+    "Value" : "false",
+    "Type"  : "5f5e10c"
+  }
+]' | ConvertFrom-Json
+
+# show ICloud photos
+#-------------------
+# on: true (default) | off: false
+$PhotosICloudInNavigationView = '[
+  {
+    "Name"  : "ICloudPhotosDisplayStatus",
+    "Value" : "true",
+    "Type"  : "5f5e10c"
+  }
+]' | ConvertFrom-Json
+
+# ask for permission to delete photos
+#-------------------
+# on: 0 (default) | off: 1
+$PhotosDeleteConfirmation = '[
+  {
+    "Name"  : "DeleteConfirmationDialogStatus",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# mouse wheel
+#-------------------
+# zoom in or out: 0 (default) | view next or preview items: 1
+$PhotosMouseWheelPreference = '[
+  {
+    "Name"  : "MouseWheelControl",
+    "Value" : "0",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+# zoom preference
+#-------------------
+# zoom to fit in window: 0 | view at actual size: 1 (default)
+$PhotosZoomPreference = '[
+  {
+    "Name"  : "SmallMediaDefaultZoomLevel",
+    "Value" : "0",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+# performance (run in the background at startup)
+#-------------------
+# There is a registry key in the settings file: IsBackgroundProcessEnabled (5f5e10b).
+# But it will be applied only when Photos is launched.
+# So let's use the below registry entry instead.
+
+# on: 2 (default) | off: 1
+$PhotosRunAtStartup = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\CurrentVersion\\AppModel\\SystemAppData\\Microsoft.Windows.Photos_8wekyb3d8bbwe\\PhotosStartupTaskId",
+    "Entries" : [
+      {
+        "Name"  : "State",
+        "Value" : "1",
+        "Type"  : "DWord"
+     }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#endregion windows photos
+
+
+#==============================================================================
+#                            windows snipping tool
+#==============================================================================
+#region windows snipping tool
+
+#=======================================
+## snipping
+#=======================================
+#region snipping
+
+# automatically copy changes
+#-------------------
+# on: 1 (default) | off: 0
+$SnippingToolAutoCopyToClipboard = '[
+  {
+    "Name"  : "AutoCopyToClipboard",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# automatically save screenshoots
+#-------------------
+# on: 1 (default) | off: 0
+$SnippingToolAutoSaveScreenshoots = '[
+  {
+    "Name"  : "AutoSaveCaptures",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# ask to save edited screenshots
+#-------------------
+# on: 1 | off: 0 (default)
+$SnippingToolUnsavedConfirmations = '[
+  {
+    "Name"  : "Setting_ShowUnsavedChangesConfirmations",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# multiple windows
+#-------------------
+# on: 1 | off: 0 (default)
+$SnippingToolPreferNewWindow = '[
+  {
+    "Name"  : "Setting_PreferNewWindow",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# add border to each screenshot
+#-------------------
+# on: 1 | off: 0 (default)
+$SnippingToolBorderToScreenshot = '[
+  {
+    "Name"  : "Setting_OutlineOn",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# HDR screenshot color corrector
+#-------------------
+# on: 1 | off: 0 (default)
+$SnippingToolHDRColorCorrector = '[
+  {
+    "Name"  : "IsHDRToneMappingEnabled",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion snipping
+
+#=======================================
+## screen recording
+#=======================================
+#region screen recording
+
+# include microphone input by default when a screen recording starts
+#-------------------
+# on: 1 | off: 0 (default)
+$SnippingToolMicrophoneInRecording = '[
+  {
+    "Name"  : "IsMicrophoneIncludedInRecording",
+    "Value" : "0",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+# include system audio by default when a screen recording starts
+#-------------------
+# on: 1 (default) | off: 0
+$SnippingToolSystemAudioInRecording = '[
+  {
+    "Name"  : "IsSystemAudioIncludedInRecording",
+    "Value" : "1",
+    "Type"  : "5f5e10b"
+  }
+]' | ConvertFrom-Json
+
+#endregion screen recording
+
+#=======================================
+## appearance
+#=======================================
+#region appearance
+
+# app theme
+#-------------------
+# light: 1 | dark: 2 | use system setting: 0 (default)
+$SnippingToolTheme = '[
+  {
+    "Name"  : "RequestedTheme",
+    "Value" : "0",
+    "Type"  : "5f5e104"
+  }
+]' | ConvertFrom-Json
+
+#endregion appearance
+
+#endregion windows snipping tool
+
+
+#==============================================================================
 #                              windows terminal
 #==============================================================================
 #region windows terminal
@@ -7449,8 +8057,8 @@ $TerminalDefaultApp = '[
 # start on login:       disabled
 function Set-WindowsTerminalSettings
 {
-    $TerminalPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\"
-    $TerminalSettingsFilePath = "$TerminalPath\LocalState\settings.json"
+    $TerminalAppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\"
+    $TerminalSettingsFilePath = "$TerminalAppxPath\LocalState\settings.json"
     $TerminalSettingsContent = Get-Content -Raw -Path $TerminalSettingsFilePath -ErrorAction 'SilentlyContinue'
 
     if ($TerminalSettingsContent)
@@ -7466,7 +8074,7 @@ function Set-WindowsTerminalSettings
         $TerminalSettings.startOnUserLogin = $false
 
         $TerminalSettings | ConvertTo-Json -Depth 42 | Out-File -FilePath $TerminalSettingsFilePath
-        $TerminalDefaultApp | Set-RegistryEntry -Verbose:$false
+        Set-RegistryEntry -InputObject $TerminalDefaultApp -Verbose:$false
     }
     else
     {
@@ -8738,7 +9346,7 @@ $WindowedGamesKey = 'SwapEffectUpgradeEnable'
 $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
 $CurrentDirectXSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
 $DirectXSettings = $CurrentDirectXSettings -like "*$WindowedGamesKey*" ?
-    ($CurrentDirectXSettings -replace "($WindowedGamesKey=)\d;", '$1') + "$WindowedGamesSettingValue;" :
+    $CurrentDirectXSettings -replace "($WindowedGamesKey=)\d;", "`${1}$WindowedGamesSettingValue;" :
     $CurrentDirectXSettings + "$WindowedGamesKey=$WindowedGamesSettingValue;"
 
 $DisplayOptimizationsForWindowedGames = '[
@@ -10911,12 +11519,12 @@ function Set-ConnectedNetworkToPrivate
 # 9th byte value\ on: 9 (default) | off: 1
 $AutoDetectSettings = $false
 $ProxyPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
-$ProxyByteValue = (Get-ItemProperty -Path $ProxyPath).DefaultConnectionSettings
+$ProxyBytes = (Get-ItemProperty -Path $ProxyPath).DefaultConnectionSettings
 $AutoDetectSettingsBitMask = 8
-$ProxyByteValue[8] = $AutoDetectSettings ? $ProxyByteValue[8] -bor $AutoDetectSettingsBitMask :
-                                           $ProxyByteValue[8] -band -bnot $AutoDetectSettingsBitMask
-#$ProxyByteValue[8] = $AutoDetectSettings ? 9 : 1
-$ProxyByteValue[4] = $ProxyByteValue[4] -eq 255 ? 2 : $ProxyByteValue[4] + 1
+$ProxyBytes[8] = $AutoDetectSettings ? $ProxyBytes[8] -bor $AutoDetectSettingsBitMask :
+                                       $ProxyBytes[8] -band -bnot $AutoDetectSettingsBitMask
+#$ProxyBytes[8] = $AutoDetectSettings ? 9 : 1
+$ProxyBytes[4] = $ProxyBytes[4] -eq 255 ? 2 : $ProxyBytes[4] + 1
 $ProxyAutoDetectSettings = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -10924,12 +11532,12 @@ $ProxyAutoDetectSettings = '[
     "Entries" : [
       {
         "Name"  : "DefaultConnectionSettings",
-        "Value" : "$ProxyByteValue",
+        "Value" : "$ProxyBytes",
         "Type"  : "Binary"
       }
     ]
   }
-]'.Replace('$ProxyByteValue', $ProxyByteValue) | ConvertFrom-Json
+]'.Replace('$ProxyBytes', $ProxyBytes) | ConvertFrom-Json
 
 #endregion proxy
 
@@ -11208,8 +11816,8 @@ function Set-DnsProvider
 
         $InterfaceGuid = $NetAdapter.InterfaceGuid
         $RegIPs= @(
-            $IPv4.foreach({ "$RegPath\$InterfaceGuid\$RegDohIPv4\$_" })
-            $IPv6.foreach({ "$RegPath\$InterfaceGuid\$RegDohIPv6\$_" })
+            $IPv4.ForEach({ "$RegPath\$InterfaceGuid\$RegDohIPv4\$_" })
+            $IPv6.ForEach({ "$RegPath\$InterfaceGuid\$RegDohIPv6\$_" })
         )
         foreach ($RegIP in $RegIPs)
         {
@@ -11757,7 +12365,7 @@ $StartFoldersChoice = @(
    #$StartButtonPersonalFolder
 )
 $StartFolders = $StartFoldersChoice | Join-String -Separator ','
-$StartFoldersByteValue = $StartFolders.Split(',') | ForEach-Object -Process { [byte]"0x$_" }
+$StartFoldersBytes = $StartFolders.Split(',') | ForEach-Object -Process { [byte]"0x$_" }
 
 $StartFoldersNextPowerButton = '[
   {
@@ -11766,12 +12374,12 @@ $StartFoldersNextPowerButton = '[
     "Entries" : [
       {
         "Name"  : "VisiblePlaces",
-        "Value" : "$StartFoldersByteValue",
+        "Value" : "$StartFoldersBytes",
         "Type"  : "Binary"
       }
     ]
   }
-]'.Replace('$StartFoldersByteValue', $StartFoldersByteValue) | ConvertFrom-Json
+]'.Replace('$StartFoldersBytes', $StartFoldersBytes) | ConvertFrom-Json
 
 # show mobile device in Start
 #-------------------
@@ -12036,11 +12644,11 @@ $TaskbarAlignment = '[
 # 9th byte value\ on: 123 (hex: 7b) | off: 122 (hex: 7a) (default)
 $AutoHideTaskbar = $false
 $AutoHidePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
-$AutoHideByteValue = (Get-ItemProperty -Path $AutoHidePath).Settings
+$AutoHideBytes = (Get-ItemProperty -Path $AutoHidePath).Settings
 $AutoHideBitMask = 1
-$AutoHideByteValue[8] = $AutoHideTaskbar ? $AutoHideByteValue[8] -bor $AutoHideBitMask :
-                                           $AutoHideByteValue[8] -band -bnot $AutoHideBitMask
-#$AutoHideByteValue[8] = $AutoHideTaskbar ? 123 : 122
+$AutoHideBytes[8] = $AutoHideTaskbar ? $AutoHideBytes[8] -bor $AutoHideBitMask :
+                                       $AutoHideBytes[8] -band -bnot $AutoHideBitMask
+#$AutoHideBytes[8] = $AutoHideTaskbar ? 123 : 122
 $TaskbarAutoHide = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12048,12 +12656,12 @@ $TaskbarAutoHide = '[
     "Entries" : [
       {
         "Name"  : "Settings",
-        "Value" : "$AutoHideByteValue",
+        "Value" : "$AutoHideBytes",
         "Type"  : "Binary"
       }
     ]
   }
-]'.Replace('$AutoHideByteValue', $AutoHideByteValue) | ConvertFrom-Json
+]'.Replace('$AutoHideBytes', $AutoHideBytes) | ConvertFrom-Json
 
 # show badges on taskbar apps
 #-------------------
@@ -18914,7 +19522,7 @@ $FeaturesTasks = '[
   },
   {
     "SkipTask": true,
-    "TaskPath": "\\Microsoft\\Windows\\BitLocker\",
+    "TaskPath": "\\Microsoft\\Windows\\BitLocker\\",
     "TaskName": [
       "BitLocker Encrypt All Drives",
       "BitLocker MDM policy Refresh"
@@ -19045,7 +19653,7 @@ $MiscTasks = '[
     "Comment": "should be disabled ?"
   },
   {
-    "TaskPath": "\\Microsoft\\Windows\\Data Integrity Scan\",
+    "TaskPath": "\\Microsoft\\Windows\\Data Integrity Scan\\",
     "TaskName": [
       "Data Integrity Check And Scan",
       "Data Integrity Scan",
@@ -19741,17 +20349,13 @@ function Set-NetworkSettingsAndProtocols
 #=======================================
 #region power options
 
-$PowerOptionsSettings = @(
-    $FastStartup
-)
-
 function Set-PowerOptionsSettings
 {
     Write-Section -Name 'Setting Power Options'
+    $FastStartup | Set-RegistryEntry
     Disable-Hibernate
     Set-SystemPowerHardDiskTimeout
     #Disable-ModernStandbyNetworkConnectivity
-    $PowerOptionsSettings | Set-RegistryEntry
 }
 
 #endregion power options
@@ -19956,11 +20560,11 @@ $ApplicationsToRemove = @(
     $QuickAssist
     #$SnippingTool
     $Solitaire
+    $SoundRecorder
     $StickyNotes
     #$Terminal
     $Tips
     $Todo
-    $VoiceRecorder
     $Weather
     #$Whiteboard
     $Widgets
@@ -20102,6 +20706,100 @@ function Set-MicrosoftOfficeSettings
 }
 
 #endregion microsoft office
+
+#=======================================
+## microsoft store
+#=======================================
+#region microsoft store
+
+$MicrosoftStoreSettings = @(
+    $MicrosoftStoreAutoAppUpdates
+    $MicrosoftStoreAppInstallNotifications
+    $MicrosoftStoreVideoAutoplay
+)
+
+function Set-MicrosoftStoreSettings
+{
+    Write-Section -Name 'Setting Microsoft Store'
+    Set-UWPAppSetting -Name 'Microsoft Store' -Setting $MicrosoftStoreSettings
+}
+
+#endregion microsoft store
+
+#=======================================
+## windows notepad
+#=======================================
+#region windows notepad
+
+$NotepadSettings = @(
+    $NotepadTheme
+    $NotepadFontFamily
+    $NotepadFontStyle
+    $NotepadFontSize
+    $NotepadWordWrap
+    $NotepadOpenFile
+    $NotepadSessionWhenStarts
+    $NotepadSpellCheck
+    $NotepadAutocorrect
+    $NotepadFirstLaunchTipShown
+)
+
+function Set-WindowsNotepadSettings
+{
+    Write-Section -Name 'Setting Windows Notepad'
+    Set-UWPAppSetting -Name 'Notepad' -Setting $NotepadSettings
+}
+
+#endregion windows notepad
+
+#=======================================
+## windows photos
+#=======================================
+#region windows photos
+
+$PhotosSettings = @(
+    $PhotosTheme
+    $PhotosGalleryTilesAttributes
+    $PhotosLocationBasedFeatures
+    $PhotosICloudInNavigationView
+    $PhotosDeleteConfirmation
+    $PhotosMouseWheelPreference
+    $PhotosZoomPreference
+)
+
+function Set-WindowsPhotosSettings
+{
+    Write-Section -Name 'Setting Windows Photos'
+    Set-UWPAppSetting -Name 'Photos' -Setting $PhotosSettings
+    $PhotosRunAtStartup | Set-RegistryEntry
+}
+
+#endregion windows photos
+
+#=======================================
+## windows snipping tool
+#=======================================
+#region windows snipping tool
+
+$SnippingToolSettings = @(
+    $SnippingToolAutoCopyToClipboard
+    $SnippingToolAutoSaveScreenshoots
+    $SnippingToolUnsavedConfirmations
+    $SnippingToolPreferNewWindow
+    $SnippingToolBorderToScreenshot
+    $SnippingToolHDRColorCorrector
+    $SnippingToolMicrophoneInRecording
+    $SnippingToolSystemAudioInRecording
+    $SnippingToolTheme
+)
+
+function Set-WindowsSnippingToolSettings
+{
+    Write-Section -Name 'Setting Windows Snipping Tool'
+    Set-UWPAppSetting -Name 'Snipping Tool' -Setting $SnippingToolSettings
+}
+
+#endregion windows snipping tool
 
 #=======================================
 ## miscellaneous
@@ -20947,6 +21645,10 @@ function Set-ApplicationsSettings
     Set-AdobeAcrobatReaderSettings
     Set-MicrosoftEdgeSettings
     Set-MicrosoftOfficeSettings
+    Set-MicrosoftStoreSettings
+    Set-WindowsNotepadSettings
+    Set-WindowsPhotosSettings
+    Set-WindowsSnippingToolSettings
     Set-MiscellaneousApplicationsSettings
 }
 
