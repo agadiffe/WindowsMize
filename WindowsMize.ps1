@@ -5114,10 +5114,11 @@ function Remove-OneDriveAutoInstallationForNewUser
 {
     Write-Verbose -Message 'Removing OneDrive Auto-Installation for new user ...'
 
+    $NTUserRegKeyName = 'NTUSER_DEFAULT'
     $OneDriveSetup = '[
       {
         "Hive"    : "HKEY_USERS",
-        "Path"    : "TMPDEFAULT\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "Path"    : "$NTUserRegKeyName\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
         "Entries" : [
           {
             "RemoveEntry" : true,
@@ -5127,9 +5128,9 @@ function Remove-OneDriveAutoInstallationForNewUser
           }
         ]
       }
-    ]' | ConvertFrom-Json
+    ]'.Replace('$NTUserRegKeyName', $NTUserRegKeyName) | ConvertFrom-Json
 
-    $NTUserRegPath = 'HKEY_USERS\NTUSER_DEFAULT'
+    $NTUserRegPath = "HKEY_USERS\$NTUserRegKeyName"
     $NTUserFilePath = "$env:SystemDrive\Users\Default\NTUSER.DAT"
 
     reg.exe LOAD $NTUserRegPath $NTUserFilePath | Out-Null
@@ -5181,7 +5182,7 @@ function Export-DefaultAppxPackagesNames
         $DefaultAppxPackages = "# AppxPackage`n "
         $DefaultAppxPackages += ((Get-AppxPackage -AllUsers).Name).ForEach{ "$_`n" }
         $DefaultAppxPackages += "`n# ProvisionedAppxPackage`n "
-        $DefaultAppxPackages += ((Get-ProvisionedAppxPackage -Online).DisplayName).ForEach{ "$_`n" }
+        $DefaultAppxPackages += ((Get-ProvisionedAppxPackage -Online -Verbose:$false).DisplayName).ForEach{ "$_`n" }
 
         $DefaultAppxPackages | Out-File -FilePath $LogFilePath
     }
@@ -5493,9 +5494,6 @@ function Set-UWPAppRegistryEntry
             [string] $Type
         }
 
-        $SettingRegFilePath = "$PSScriptRoot\uwp_app_settings.reg"
-        $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
-
         $RegContent = "Windows Registry Editor Version 5.00
 
             [$AppSettingsRegPath\LocalState]
@@ -5520,6 +5518,9 @@ function Set-UWPAppRegistryEntry
     {
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath
+
+        $SettingRegFilePath = "$PSScriptRoot\uwp_app_settings.reg"
+        $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
 
         reg.exe LOAD $AppSettingsRegPath $FilePath | Out-Null
         # 'reg.exe import' writes its output on success to stderr ...
@@ -5565,6 +5566,7 @@ function Set-UWPAppSetting
 
     if ($AppxSettingsFilePath)
     {
+        Write-Verbose -Message "Setting $Name settings ..."
         $Setting | Set-UWPAppRegistryEntry -FilePath $AppxSettingsFilePath
     }
     else
@@ -10616,14 +10618,16 @@ function Export-InstalledWindowsCapabilitiesNames
     }
 }
 
-function Remove-WinCapability
+# For mysterious reasons, adding a Windows Capability takes a (really) long time ... (even with the GUI).
+# I recommend not adding any as part of this script.
+function Set-WindowsCapability
 {
     <#
     .SYNTAX
-        Remove-WinCapability [-Name] <string> [<CommonParameters>]
+        Set-WindowsCapability [-Name] <string> [-State] {Enabled | Disabled} [<CommonParameters>]
 
     .EXAMPLE
-        PS> Remove-WinCapability -Name 'Print.Fax.Scan'
+        PS> Set-WindowsCapability -Name 'Print.Fax.Scan' -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -10633,35 +10637,53 @@ function Remove-WinCapability
             Mandatory,
             ValueFromPipeline)]
         [string]
-        $Name
+        $Name,
+
+        [Parameter(Mandatory)]
+        [ValidateSet('Enabled', 'Disabled')]
+        [string]
+        $State
     )
 
     begin
     {
-        $WinCapabilities = Get-WindowsCapability -Online -Verbose:$false
+        $AllWinCapabilities = Get-WindowsCapability -Online -Verbose:$false
     }
 
     process
     {
-        $WinCapability = $WinCapabilities |
-            Where-Object -FilterScript {
-                $_.Name -like "$Name*" -and
-                $_.State -eq 'Installed'
-            }
-
-        if ($WinCapability)
+        $WinCapability = $AllWinCapabilities | Where-Object -Property 'Name' -Like -Value "$Name*"
+        if (-not $WinCapability)
         {
-            Write-Verbose -Message "Removing $Name ..."
-            $WinCapability | Remove-WindowsCapability -Online -Verbose:$false | Out-Null
+            Write-Verbose -Message "$Name is not a Windows Capability"
+            return
+        }
+
+        $StateInternalName = $State -eq 'Enabled' ? 'Installed' : 'NotPresent'
+        if ($WinCapability.State -eq $StateInternalName)
+        {
+            Write-Verbose -Message "$Name is already '$StateInternalName'"
         }
         else
         {
-            Write-Verbose -Message "$Name is not installed"
+            switch ($State)
+            {
+                'Enabled'
+                {
+                    Write-Verbose -Message "Adding $Name ..."
+                    $WinCapability | Add-WindowsCapability -Online -Verbose:$false | Out-Null
+                }
+                'Disabled'
+                {
+                    Write-Verbose -Message "Removing $Name ..."
+                    $WinCapability | Remove-WindowsCapability -Online -Verbose:$false | Out-Null
+                }
+            }
         }
     }
 }
 
-# Some capabilities are no longer installed by default.
+# Some Windows Capabilities are no longer installed by default.
 # e.g. Print.Fax.Scan, WMIC, Microsoft.Windows.WordPad, XPS.Viewer
 
 $ExtendedThemeContent          = 'Microsoft.Wallpapers.Extended'
@@ -10712,18 +10734,18 @@ function Remove-OptionalLanguageFeature
 
     begin
     {
-        $WinPackages = Get-WindowsPackage -Online -Verbose:$false
+        $AllWinPackages = Get-WindowsPackage -Online -Verbose:$false
     }
 
     process
     {
-        $PackageName = $WinPackages |
+        $WinPackage = $AllWinPackages |
             Where-Object -FilterScript {
                 $_.PackageName -like "*LanguageFeatures-$Name*" -and
                 $_.PackageState -eq 'Installed'
             }
 
-        if ($PackageName)
+        if ($WinPackage)
         {
             $WindowsPackageOptions = @{
                 NoRestart     = $true
@@ -10732,7 +10754,7 @@ function Remove-OptionalLanguageFeature
             }
 
             Write-Verbose -Message "Removing LanguageFeatures-$Name ..."
-            $PackageName | Remove-WindowsPackage -Online @WindowsPackageOptions | Out-Null
+            $WinPackage | Remove-WindowsPackage -Online @WindowsPackageOptions | Out-Null
         }
         else
         {
@@ -10801,18 +10823,23 @@ function Set-WindowsOptionalFeature
 
     begin
     {
-        $WinPackages = Get-WindowsOptionalFeature -Online -Verbose:$false
+        $AllWinOptionalFeatures = Get-WindowsOptionalFeature -Online -Verbose:$false
     }
 
     process
     {
-        $WinOptionalFeature = $WinPackages |
-            Where-Object -FilterScript {
-                $_.FeatureName -eq $Name -and
-                $_.State -ne $State
-            }
+        $WinOptionalFeature = $AllWinOptionalFeatures | Where-Object -Property 'FeatureName' -EQ -Value $Name
+        if (-not $WinOptionalFeature)
+        {
+            Write-Verbose -Message "$Name is not a Windows Optional Feature"
+            return
+        }
 
-        if ($WinOptionalFeature)
+        if ($WinOptionalFeature.State -eq $State)
+        {
+            Write-Verbose -Message "$Name is already '$State'"
+        }
+        else
         {
             $OptionalFeatureOptions = @{
                 NoRestart     = $true
@@ -10833,10 +10860,6 @@ function Set-WindowsOptionalFeature
                     $WinOptionalFeature | Disable-WindowsOptionalFeature -Online @OptionalFeatureOptions | Out-Null
                 }
             }
-        }
-        else
-        {
-            Write-Verbose -Message "$Name is already '$State'"
         }
     }
 }
@@ -20912,6 +20935,8 @@ $SystemSettings = @{
 
 $SystemOptionalFeatures = @{
     WindowsCapabilities = @{
+        Add = @(
+        )
         Remove = @(
             $ExtendedThemeContent
             $FacialRecognitionWindowsHello
@@ -20982,7 +21007,8 @@ function Set-SystemOptionalFeatures
     Export-EnabledWindowsOptionalFeaturesNames
 
     Write-Section -Name 'windows capabilities' -SubSection
-    $SystemOptionalFeatures.WindowsCapabilities.Remove | Remove-WinCapability
+    $SystemOptionalFeatures.WindowsCapabilities.Remove | Set-WindowsCapability -State 'Disabled'
+    #$SystemOptionalFeatures.WindowsCapabilities.Add | Set-WindowsCapability -State 'Enabled'
 
     #Write-Section -Name 'languages' -SubSection
     #$SystemOptionalFeatures.Languages.Remove | Remove-OptionalLanguageFeature
