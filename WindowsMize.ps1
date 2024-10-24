@@ -6401,10 +6401,19 @@ function New-BraveConfigData
 
     ### Content Filtering
     #---------------
+    # Uncomment if you need custom filters.
+    <#
+    $BraveCustomFilters = @(
+        '||example.com^'
+        '||example.org^'
+    ) | Join-String -Separator '\n'
+    #>
+
     Merge-Hashtable $BraveLocalState ('{
         "brave": {
             "ad_block": {
                 "cookie_list_opt_in_shown": true,
+                "custom_filters": "$BraveCustomFilters",
                 "list_subscriptions": {
                     "https://secure.fanboy.co.nz/fanboy-antifacebook.txt": {
                         "enabled": false, # Fanboy Anti-Facebook
@@ -6463,7 +6472,7 @@ function New-BraveConfigData
                 }
             }
         }
-    }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
+    }'.Replace('$BraveCustomFilters', $BraveCustomFilters) -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
     ### Social media blocking
     #---------------
@@ -6484,8 +6493,8 @@ function New-BraveConfigData
             "ip_handling_policy": "disable_non_proxied_udp"
         },
         "brave": {
-            "gcm": { # google for push messaging
-                "channel_status": false
+            "gcm": {
+                "channel_status": false # google for push messaging
             },
             "de_amp": {
                 "enabled": true # auto-redirect AMP pages
