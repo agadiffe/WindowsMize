@@ -9,15 +9,17 @@ __      __  _             _                       __  __   _
 ## Description
 PowerShell script to automate and customize the settings of Windows, remove bloatware, minimize telemetry, disable services & scheduled tasks, and various other tweaks.
 
-This script is made for Windows 11. Almost all of the tweaks/settings works for Windows 10, but not everything.
+This script is easily customizable, maintainable and scalable.  
+It's designed for Windows 11. Almost all of the tweaks/settings also work on Windows 10.
 
-It's a fully non-interactive script, so make sure to review all of the tweaks/settings before running it.
+This is a fully non-interactive script, so make sure to review everything before running it.  
+The active tweaks/settings are selectable at the bottom of the script.
 
 
 ## Usage
 This script requires 'PowerShell Core' and must be run as Administrator.
 
-1. Install 'PowerShell Core'
+1. Install 'PowerShell Core'.
     ```powershell
     PS> winget install --exact --id 'Microsoft.PowerShell'
     ```
@@ -32,7 +34,7 @@ This script requires 'PowerShell Core' and must be run as Administrator.
     ```powershell
     PS> cd "C:\Users\<User>\Downloads"
     ```
-6. Unblock the PowerShell script (might not be necessary)
+6. Unblock the PowerShell script (might not be necessary).
     ```powershell
     PS> Unblock-File -Path '.\WindowsMize.ps1'
     ```
@@ -53,7 +55,7 @@ Installation of new applications (e.g. 7zip, VLC, Web Browser).
 Removal of default (bloatware) applications (e.g. Camera, Clock, Clipchamp).
 
 ### Applications settings
-Configuration of several applications.  
+Configuration of several applications (including default UWP apps like Photos and Notepad).  
 e.g. adobe acrobat reader, brave browser, microsoft office, windows terminal.
 
 ### RamDisk
@@ -62,11 +64,11 @@ Configure 'Brave browser' and 'Visual Studio Code' to use a Ram disk.
 
 ### Windows Settings app
 Equivalent of the Microsoft Windows Settings app (Start > All apps > Settings).    
-There are not all of the settings present in the GUI.
+There are a lot of the settings present in the GUI, but not everything.
 
 ### Services & Scheduled tasks
 Disable unwanted services and scheduled tasks (grouped by category).  
-Be sure to review every services and read the comments to know which one to disable according to your usage.
+Be sure to review every services to know which one to disable according to your usage.
 
 ### Script configuration & execution
 In these two sections, comment or uncomment the tweaks/settings you want to execute or not.
