@@ -5564,7 +5564,7 @@ function Set-UWPAppSetting
     $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName\"
     $AppxSettingsFilePath = "$AppxPath\Settings\settings.dat"
 
-    if ($AppxSettingsFilePath)
+    if (Test-Path -Path $AppxSettingsFilePath)
     {
         Write-Verbose -Message "Setting $Name settings ..."
         $Setting | Set-UWPAppRegistryEntry -FilePath $AppxSettingsFilePath
