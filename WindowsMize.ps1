@@ -4687,6 +4687,7 @@ $VLC            = 'VideoLAN.VLC'
 #-------------------
 $Bitwarden      = 'Bitwarden.Bitwarden'
 $KeePassXC      = 'KeePassXCTeam.KeePassXC'
+$ProtonPass     = 'Proton.ProtonPass'
 
 # PDF Viewer
 #-------------------
@@ -4706,6 +4707,8 @@ $MullvadBrowser = 'MullvadVPN.MullvadBrowser'
 
 # Microsoft Visual C++ Redistributable
 #-------------------
+${VisualCppRedist2015+.ARM} =
+    'Microsoft.VCRedist.2015+.arm64'
 ${VisualCppRedist2015+} = @(
     'Microsoft.VCRedist.2015+.x64'
     'Microsoft.VCRedist.2015+.x86'
@@ -20301,7 +20304,7 @@ function Set-Setting
 #=======================================
 #region action center
 
-function Set-ActionCenterQuickSettings
+function Set-ActionCenterSettings
 {
     Write-Section -Name 'Setting Action Center Settings'
     Set-ActionCenterLayout
@@ -20463,7 +20466,7 @@ $NetworkProtocols = @(
     $NetworkProtocolsHyperVExtensibleVirtualSwitch
     $NetworkProtocolsIPv4
     $NetworkProtocolsMicrosoftNetworkAdapterMultiplexor
-    #$NetworkProtocolSMB
+    $NetworkProtocolSMB
 )
 
 function Set-NetworkSettingsAndProtocols
@@ -20476,7 +20479,7 @@ function Set-NetworkSettingsAndProtocols
     Disable-IcmpRedirects
     Disable-NetworkTeredo
     Block-NetBiosFirewallPort137to139
-    #Block-SMBFirewallPort445
+    Block-SMBFirewallPort445
     $NetworkSettings | Set-RegistryEntry
     $NetworkProtocols | Set-NetAdapterProtocol
 }
@@ -20517,7 +20520,7 @@ $SystemProperties = @{
         $SystemFailureWriteDebugInfo
     )
     SystemProtection = @(
-        #$SystemProtection
+        $SystemProtection
     )
     Remote = @(
         $RemoteAssistance
@@ -20538,7 +20541,7 @@ function Set-SystemProperties
     Disable-DotNetTelemetry
 
     # To disable for all drives, uncomment $SystemProtection.
-    #Disable-SystemDriveRestore
+    Disable-SystemDriveRestore
 
     $VisualEffectsCustomPart1 | Set-SystemPropertiesVisualEffects
     Set-Setting -Setting $SystemProperties
@@ -20600,14 +20603,15 @@ $ApplicationsToInstall = @{
 
         # Password Manager
             #$Bitwarden
-            $KeePassXC
+            #$KeePassXC
+            #$ProtonPass
 
         # PDF Viewer
-            $AcrobatReader
+            #$AcrobatReader
             #$SumatraPDF
 
         # Utilities
-            $7zip
+            #$7zip
             #$qBittorrent
 
         # Web Browser
@@ -20615,6 +20619,7 @@ $ApplicationsToInstall = @{
             #$Firefox
 
         # Microsoft Visual C++ Redistributable
+            #${VisualCppRedist2015+.ARM}
             ${VisualCppRedist2015+}
             #$VisualCppRedist2013
             #$VisualCppRedist2012
@@ -20661,7 +20666,7 @@ $ApplicationsToConfig = @(
     $CopilotGPO
     $CortanaGPO
     $MicrosoftStorePushToInstallGPO
-    #$MicrosoftWindowsMsrtWindowsUpdateGPO
+    $MicrosoftWindowsMsrtWindowsUpdateGPO
     $MicrosoftWindowsMsrtHeartbeatReportGPO
     $WidgetsGPO
 )
@@ -20728,10 +20733,10 @@ function Remove-DefaultAppxPackages
     Write-Section -Name 'removal' -SubSection
     Export-DefaultAppxPackagesNames
     $ApplicationsToRemove | Remove-Package
-    #Remove-MSRT
+    Remove-MSRT
     Remove-OneDrive
     Remove-OneDriveAutoInstallationForNewUser
-    #Remove-MicrosoftEdge
+    Remove-MicrosoftEdge
     Remove-StartMenuPromotedApps
     #Set-NewUserDefaultStartMenuLayout
 }
@@ -21126,8 +21131,8 @@ function Set-SystemOptionalFeatures
     $SystemOptionalFeatures.WindowsCapabilities.Remove | Set-WindowsCapability -State 'Disabled'
     #$SystemOptionalFeatures.WindowsCapabilities.Add | Set-WindowsCapability -State 'Enabled'
 
-    #Write-Section -Name 'languages' -SubSection
-    #$SystemOptionalFeatures.Languages.Remove | Remove-OptionalLanguageFeature
+    Write-Section -Name 'languages' -SubSection
+    $SystemOptionalFeatures.Languages.Remove | Remove-OptionalLanguageFeature
 
     Write-Section -Name 'more windows features' -SubSection
     $SystemOptionalFeatures.MoreWindowsFeatures.Remove | Set-WindowsOptionalFeature -State 'Disabled'
@@ -21177,7 +21182,7 @@ $BluetoothAndDevicesSettings = @{
         $PenAndWindowsInkGPO
     )
     AutoPlay = @(
-        #$AutoPlay
+        $AutoPlay
     )
     Usb = @(
         $UsbNotificationIssues
@@ -21208,7 +21213,7 @@ $NetworkAndInternetSettings = @{
 function Set-NetworkAndInternetSettings
 {
     Write-Section -Name 'Setting Network & Internet'
-    Set-ConnectedNetworkToPrivate
+    #Set-ConnectedNetworkToPrivate
     Set-DnsProvider -Adguard 'Default'
     Set-Setting -Setting $NetworkAndInternetSettings
 }
@@ -21362,7 +21367,7 @@ $TimeAndLanguageSettings = @{
         $LanguageAndRegionFormatShortDate
     )
     AdministrativeLanguageSettings = @(
-        #$LanguageSettingsUTF8SystemWide
+        $LanguageSettingsUTF8SystemWide
     )
     Typing = @(
         $TypingTextSuggestionsSoftwareKeyboard
@@ -21464,7 +21469,7 @@ $DefenderSettingsAppAndBrowserGPO = @(
     $DefenderUnwantedAppBlockingGPO
 )
 $DefenderSettingsAppAndBrowser = @(
-    $DefenderCheckAppsAndFiles
+    #$DefenderCheckAppsAndFiles
     $DefenderSmartScreenEdge
     $DefenderSmartScreenStoreApps
 )
@@ -21487,10 +21492,10 @@ function Set-WindowsSecuritySettings
     #Disable-DefenderThreatProtectionCloudDelivered
     Disable-DefenderThreatProtectionSampleSubmission
 
-    #Write-Section -Name 'app & browser control' -SubSection
+    Write-Section -Name 'app & browser control' -SubSection
     #$DefenderSettingsAppAndBrowserGPO | Set-RegistryEntry
     #Disable-DefenderUnwantedAppBlocking
-    #$DefenderSettingsAppAndBrowser | Set-RegistryEntry
+    $DefenderSettingsAppAndBrowser | Set-RegistryEntry
 
     Write-Section -Name 'notifications' -SubSection
     $DefenderSettingsNotifications | Set-RegistryEntry
@@ -21581,7 +21586,7 @@ $PrivacySettings = @{
         $PrivacyUserMovement
         #$PrivacyBackgroundAppsGPO
         $PrivacyCellularData
-        #$PrivacyTakeScreenshotsOfVariousWindowsGPO
+        $PrivacyTakeScreenshotsOfVariousWindowsGPO
     )
 }
 
@@ -21613,7 +21618,7 @@ $WindowsUpdateSettings = @{
         $WinUpdateDeliveryOptimization
     )
     InsiderProgram = @(
-        #$WinUpdateInsiderProgramSettingPage
+        $WinUpdateInsiderProgramSettingPage
     )
 }
 
@@ -21652,7 +21657,7 @@ $ServicesEntries = @{
         $NetworkDataUsageDriver
     )
     Windows = @(
-        #$AutoplayAndAutorunSvc
+        $AutoplayAndAutorunSvc
         #$BluetoothSvc
         #$BluetoothAndCastSvc
         #$BluetoothAudioSvc
@@ -21662,7 +21667,7 @@ $ServicesEntries = @{
         #$MicrosoftOfficeSvc
         $MicrosoftStoreSvc
         $NetworkSvc
-        #$NetworkDiscoverySvc
+        $NetworkDiscoverySvc
         $FileAndPrinterSharingSvc
         $PrinterSvc
         $RemoteDesktopSvc
@@ -21672,9 +21677,9 @@ $ServicesEntries = @{
         $TroubleshootingDiagUsageSvc
         $VirtualRealitySvc
         #$VpnSvc
-        #$WebcamSvc
-        #$WindowsBackupAndSystemRestoreSvc
-        #$WindowsDefenderPhishingProtectionSvc
+        $WebcamSvc
+        $WindowsBackupAndSystemRestoreSvc
+        $WindowsDefenderPhishingProtectionSvc
         $WindowsSearchSvc
         $WSLSvc
         $XboxSvc
@@ -21693,7 +21698,7 @@ function Set-ServicesEntries
     Write-Section -Name 'Setting Services'
     Export-DefaultServicesStartupType
     Export-DefaultSystemDriversStartupType
-    #$ServicesEntries.SystemDriver | Set-ServiceStartupType
+    $ServicesEntries.SystemDriver | Set-ServiceStartupType
     $ServicesEntries.Windows | Set-ServiceStartupType
     #$ServicesEntries.ThirdParty | Set-ServiceStartupType
 }
@@ -21765,7 +21770,7 @@ function Set-ScheduledTasksEntries
 
 function Set-Tweaks
 {
-    Set-ActionCenterQuickSettings
+    Set-ActionCenterSettings
     Set-DriversSettings
     #Set-EventLogDriveLocation
     Set-FileExplorerSettings
@@ -21778,7 +21783,7 @@ function Set-Tweaks
 
 function Set-Applications
 {
-    #Install-NewApplications
+    Install-NewApplications
     Remove-DefaultAppxPackages
 }
 
@@ -21799,7 +21804,7 @@ function Set-WindowsSettingsApp
     Set-SystemSettings
     Set-SystemOptionalFeatures
     Set-BluetoothAndDevicesSettings
-    #Set-NetworkAndInternetSettings
+    Set-NetworkAndInternetSettings
     Set-PersonnalizationSettings
     Set-AppsSettings
     Set-AccountsSettings
