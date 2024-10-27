@@ -3862,7 +3862,7 @@ function Disable-SystemDriveRestore
 #   turn off configuration
 #   turn off system restore
 # gpo\ not configured: delete (default) | off: 1
-# user\ off: delete {09F7EDC5-294E-4180-AF6A-FB0E6A0E9513} + RPSessionInterval: 0
+# user\ off: delete 0
 $SystemProtection = '[
   {
     "SkipKey" : true,
@@ -8084,7 +8084,7 @@ $SnippingToolTheme = '[
 #-------------------
 # Let Windows decide: {00000000-0000-0000-0000-000000000000}
 # Windows Console Host: {B23D10C0-E52E-411E-9D5B-C09FDF709C7D} (default)
-# Windows Terminal: {2EACA947-7F5F-4CFA-BA87-8F7FBEEFBE69} + {E12CFF52-A866-4C77-9A90-F570A7AA2C6B}
+# Windows Terminal: {2EACA947-7F5F-4CFA-BA87-8F7FBEEFBE69} {E12CFF52-A866-4C77-9A90-F570A7AA2C6B}
 $TerminalDefaultApp = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -9508,7 +9508,7 @@ $NotificationsPlaySounds = '[
 
 # show notifications on the lock screen
 #-------------------
-# on: 1 + delete NOC_GLOBAL_SETTING_ALLOW_TOASTS_ABOVE_LOCK (default) | off: 0
+# on: 1 delete (default) | off: 0
 $NotificationsLockScreen = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -13030,7 +13030,7 @@ $DeviceUsage += $DeviceUsageConsent
 #-------------------
 # gpo\ computer config > administrative tpl > windows components > windows defender smartScreen > explorer
 #   configure app install control
-# gpo\ not configured: delete (default) | on: 1 + string value (see user\ below)
+# gpo\ not configured: delete (default) | on: 1 Anywhere (or else: see user\ below)
 # user\ Anywhere (default) | Recommendations | PreferStore | StoreOnly
 $AdvancedSettingsWhereGetApps = '[
   {
@@ -13469,7 +13469,7 @@ function Disable-RequireSignInOnWakeUp
 #-------------------
 # gpo\ computer config > administrative tpl > windows components > windows hello for business
 #   configure dynamic lock factors
-# gpo\ not configured: delete (default) | on: 1 + Plugins | off: 0
+# gpo\ not configured: delete (default) | on: 1 PluginsValue | off: 0 delete
 # user\ on: 1 | off: 0 (default)
 $PluginsDefaultValue = "
 <rule schemaVersion='1.0'>
@@ -14539,7 +14539,7 @@ $DefenderThreatProtectionSampleSubmissionGPO = '[
 # gpo\ computer config > administrative tpl > windows components > file explorer
 #      computer config > administrative tpl > windows components > windows defender smartscreen > explorer
 #   configure Windows Defender SmartScreen
-# not configured: delete (default) | on: 1 + Block or Warn | off: 0
+# not configured: delete (default) | on: 1 Block/Warn | off: 0 delete
 $DefenderCheckAppsAndFilesGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -15088,7 +15088,7 @@ $PrivacySpeech = '[
 
 # custom inking and typing dictionary
 #-------------------
-# on: 1 + RestrictImplicit 0 (default) | off: 0 + RestrictImplicit 1
+# on: 0 0 1 1 1 (default) | off: 1 1 0 0 0
 $PrivacyInkingAndTypingPersonalization = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -15266,7 +15266,7 @@ $PrivacyiagnosticTailoredExperiences = '[
 
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   disable diagnostic data viewer
-# gpo\ not configured: delete (default) | off: 1 + EnableEventTranscript 0
+# gpo\ not configured: delete (default) | off: 1 0
 # user\ on: 1 | off: 0 (default)
 $PrivacyiDagnosticViewData = '[
   {
@@ -15318,12 +15318,8 @@ $PrivacyDiagnosticDeleteDataGPO = '[
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   do not show feedback notifications
 # gpo\ not configured: delete (default) | off: 1 (also remove setting from the GUI)
-# user\
-# Automatically: delete (default)
-# Always: NumberOfSIUFInPeriod 100000000 + PeriodInNanoSeconds delete
-# Once a day: NumberOfSIUFInPeriod 1 + PeriodInNanoSeconds 864000000000
-# Once a week: NumberOfSIUFInPeriod 1 + PeriodInNanoSeconds 6048000000000
-# Never: NumberOfSIUFInPeriod 0 + PeriodInNanoSeconds 0 or delete
+# user\ Automatically: delete (default) | Always: 100000000 delete
+#   Once a day: 1 864000000000 | Once a week: 1 6048000000000 | Never: 0 0
 $PrivacyDiagnosticFeedbackFrequency = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -16506,8 +16502,30 @@ $PrivacyTakeScreenshotsOfVariousWindowsGPO = @(
 
 # get the latest updates as soon as they are available
 #-------------------
-# on: 1 | off: 0 (default)
+# gpo\ computer config > administrative tpl > windows components > windows update > manage updates offered from Windows Update
+#   enable optional updates
+# gpo\ not configured: delete (default)
+#   on (Automatically receive optional updates (including CFRs)): 1 1
+#   off (Automatically receive optional updates): 1 2
+# user\ on: 1 | off: 0 (default)
 $WinUpdateGetLatestWhenAvailable = '[
+  {
+    "SkipKey" : true,
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate",
+    "Entries" : [
+      {
+        "Name"  : "AllowOptionalContent",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "SetAllowOptionalContent",
+        "Value" : "2",
+        "Type"  : "DWord"
+      }
+    ]
+  },
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
     "Path"    : "SOFTWARE\\Microsoft\\WindowsUpdate\\UX\\Settings",
@@ -16547,14 +16565,59 @@ $WinUpdatePauseUpdatesGPO = '[
 
 # receive updates for other Microsoft products
 #-------------------
-# on: 1 (default) | off: 0
+# The Group Policy Editor GUI add more entries than the two below.
+# We can't enable/disable only this setting with the GUI, we need to do it manually.
+
+# gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
+#   configure automatic update
+# gpo\ not configured: delete (default) | on: 1 0
+# user\ on: 1 DefaultService 1 (default) | off: 0 delete 0
 $WinUpdateOtherMicrosoftProducts = '[
+  {
+    "SkipKey" : true,
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+    "Entries" : [
+      {
+        "Name"  : "AllowMUUpdateService",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "NoAutoUpdate",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  },
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
     "Path"    : "SOFTWARE\\Microsoft\\WindowsUpdate\\UX\\Settings",
     "Entries" : [
       {
         "Name"  : "AllowMUUpdateService",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Services",
+    "Entries" : [
+      {
+        "Name"  : "DefaultService",
+        "Value" : "7971f918-a847-4430-9279-4a52d1efe18d",
+        "Type"  : "String"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Services\\7971F918-A847-4430-9279-4A52D1EFE18D",
+    "Entries" : [
+      {
+        "Name"  : "RegisteredWithAU",
         "Value" : "1",
         "Type"  : "DWord"
       }
@@ -16651,7 +16714,7 @@ $WinUpdateNotifyRestart = '[
 # gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
 #   turn off auto-restart for updates during active hours
 # gpo\ not configured: delete (default) | Manually: 1 + define ActiveHours
-# gpo\ if enabled, remove the setting from the page and disable 'get me up to date'
+#      if enabled, it will remove the setting from the GUI page and disable 'get me up to date'
 # user\ Automatically: 1 (default) | Manually: 0 + define ActiveHours
 $WinUpdateActiveHours = '[
   {
