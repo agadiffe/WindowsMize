@@ -5326,6 +5326,7 @@ $Whiteboard         = 'Microsoft.Whiteboard'
 $Widgets            = @(
                       'MicrosoftWindows.Client.WebExperience'
                       'Microsoft.WidgetsPlatformRuntime'
+                      'Microsoft.StartExperiencesApp'
                     )
 $Xbox               = @( # might be required for some games
                       'Microsoft.GamingApp'
