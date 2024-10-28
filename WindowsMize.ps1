@@ -5550,6 +5550,8 @@ function Set-UWPAppRegistryEntry
             [string] $Type
         }
 
+        $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
+
         $RegContent = "Windows Registry Editor Version 5.00
 
             [$AppSettingsRegPath\LocalState]
@@ -5572,11 +5574,10 @@ function Set-UWPAppRegistryEntry
 
     end
     {
+        $SettingRegFilePath = "$PSScriptRoot\uwp_app_settings.reg"
+
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath
-
-        $SettingRegFilePath = "$PSScriptRoot\uwp_app_settings.reg"
-        $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
 
         reg.exe LOAD $AppSettingsRegPath $FilePath | Out-Null
         # 'reg.exe import' writes its output on success to stderr ...
