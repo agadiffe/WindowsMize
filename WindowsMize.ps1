@@ -629,39 +629,48 @@ $WindowsUpdateDriversGPO = '[
 #==============================================================================
 #region event log
 
-# Somehow a test to see if it would help to reduce SSD write. It doesn't do much ...
-function Move-EventLogDriveLocation
+# Somehow a test to see if it would help to reduce SSD write.
+# It should help a little bit, but not that much.
+# I guess it can be used for other purpose than SSD longevity.
+function Move-EventLogLocation
 {
     <#
     .SYNTAX
-        Move-EventLogDriveLocation [-Drive] <String> [<CommonParameters>]
+        Move-EventLogLocation [-Path] <String> [<CommonParameters>]
 
     .EXAMPLE
-        PS> Move-EventLogDriveLocation -Drive 'X:'
+        PS> Move-EventLogLocation -Path 'X:\MyLogs'
+        PS> Get-ChildItem -Path 'X:' -Name
+        MyLogs\winevt_Logs
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [ValidatePattern(
-            "[A-Za-z]:\\?",
-            ErrorMessage = 'The drive syntax is not valid. Syntax is <DriveLetter>: or <DriveLetter>:\')]
         [string]
-        $Drive
+        $Path
     )
 
-    Write-Verbose -Message "Moving Event Log Drive Location to '$Drive' ..."
+    $NewEventLogPath = "$Path\winevt_Logs\"
+    $EventLogPath = "$env:SystemRoot\system32\winevt\Logs\"
 
-    $EventPath = "$env:SystemRoot\system32\winevt\"
-    $EventLogPath = "$EventPath\Logs\"
-    $NewEventLogPath = "$Drive\winevt\Logs\"
+    Write-Verbose -Message "Moving Event Log Location to '$NewEventLogPath' ..."
 
     Stop-Service -Name 'EventLog' -Force
+
+    $IsEventLogPathSymbolicLink = (Get-Item -Path $EventLogPath).LinkType -eq 'SymbolicLink'
+    if (-not $IsEventLogPathSymbolicLink)
+    {
+        Remove-Item -Recurse -Path $NewEventLogPath -ErrorAction 'SilentlyContinue'
+        New-Item -ItemType 'Directory' -Path $NewEventLogPath -Force | Out-Null
+        Move-Item -Path "$EventLogPath\*" -Destination $NewEventLogPath
+    }
+
     New-SymbolicLink -Path $EventLogPath -Target $NewEventLogPath -TargetType 'Directory'
 
-    $EventAcl = Get-Acl -Path $EventPath
-    Set-Acl -Path $EventLogPath, $NewEventLogPath -AclObject $EventAcl
+    $EventAcl = Get-Acl -Path $EventLogPath
+    Set-Acl -Path $NewEventLogPath -AclObject $EventAcl
 
     Start-Service -Name 'EventLog'
 }
@@ -7629,6 +7638,7 @@ function Set-VisualStudioCodeSettings
         "update.showReleaseNotes": false,
 
         // extensions
+        "git.allowForcePush": true,
         "json.schemaDownload.enable": false,
         "npm.fetchOnlinePackageInfo": false,
         "powershell.integratedConsole.showOnStartup": false,
@@ -8204,7 +8214,9 @@ function New-ParentPath
 
     .EXAMPLE
         PS> $FilePath = X:\foo\bar\baz.txt
-        PS> New-ParentPath -Path $FilePath # create X:\foo\bar\
+        PS> New-ParentPath -Path $FilePath
+        PS> Get-ChildItem -Path 'X:' -Name -Recurse
+        foo\bar
     #>
 
     [CmdletBinding()]
@@ -8214,6 +8226,11 @@ function New-ParentPath
         [string]
         $Path
     )
+
+    if ($Path -match '^[a-zA-Z]:*\\*$')
+    {
+        return
+    }
 
     $ParentPath = Split-Path -Path $Path
     if (-not (Test-Path -Path $ParentPath))
@@ -8230,7 +8247,7 @@ function New-SymbolicLink
 
     .DESCRIPTION
         Create a symbolic link of Target to Path (i.e. Path is the symbolic link).
-        Delete the symbolic link if it already exist.
+        Delete the Path or Symbolic Link if it exist.
         Create the target if it does not exist.
 
     .EXAMPLE
@@ -11949,7 +11966,7 @@ $BackgroundWallpaper = '[
     "Entries" : [
       {
         "Name"  : "WallPaper",
-        "Value" : "$env:SystemDrive\\Windows\\Web\\Wallpaper\\ThemeC\\img28.jpg",
+        "Value" : "$env:SystemDrive\\Windows\\Web\\Wallpaper\\ThemeC\\img30.jpg",
         "Type"  : "String"
       }
     ]
@@ -20339,10 +20356,10 @@ function Set-DriversSettings
 #=======================================
 #region event log
 
-function Set-EventLogDriveLocation
+function Set-EventLogLocation
 {
     Write-Section -Name 'Setting Event Log Location'
-    Move-EventLogDriveLocation -Drive 'D:'
+    Move-EventLogLocation -Path 'D:'
 }
 
 #endregion event log
@@ -21775,7 +21792,7 @@ function Set-Tweaks
 {
     Set-ActionCenterSettings
     Set-DriversSettings
-    #Set-EventLogDriveLocation
+    #Set-EventLogLocation
     Set-FileExplorerSettings
     Set-MiscellaneousSettings
     Set-NetworkSettingsAndProtocols
