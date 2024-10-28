@@ -652,8 +652,8 @@ function Move-EventLogLocation
         $Path
     )
 
-    $NewEventLogPath = "$Path\winevt_Logs\"
-    $EventLogPath = "$env:SystemRoot\system32\winevt\Logs\"
+    $NewEventLogPath = "$Path\winevt_Logs"
+    $EventLogPath = "$env:SystemRoot\system32\winevt\Logs"
 
     Write-Verbose -Message "Moving Event Log Location to '$NewEventLogPath' ..."
 
@@ -1855,7 +1855,7 @@ function Disable-8Dot3FileName
     #>
 
     # This can take a while on HDD (few minutes) (it's really fast on SSD (few seconds)).
-    Write-Verbose -Message ("   The Warning is not as bad as stated.`n" +
+    Write-Verbose -Message ("   The following Warning is not as bad as stated.`n" +
         "            Open the generated log file and replace any mention of 8Dot3 Name in the registry.`n" +
         "            Read the comment in the script for more details.`n")
     fsutil.exe 8Dot3Name strip /f /s $env:SystemDrive
@@ -4527,9 +4527,9 @@ function Disable-NvidiaGameSessionTelemetry
 {
     Write-Verbose -Message 'Disabling Nvidia GameSession Telemetry ...'
 
-    $DriverStorePath = "$env:SystemDrive\Windows\System32\DriverStore\"
-    $NvidiaDisplayPath = "$DriverStorePath\FileRepository\nvdmsi.inf_amd64_*\Display.NvContainer\"
-    $NvidiaPluginsSessionPath = "$NvidiaDisplayPath\plugins\Session\"
+    $DriverStorePath = "$env:SystemDrive\Windows\System32\DriverStore"
+    $NvidiaDisplayPath = "$DriverStorePath\FileRepository\nvdmsi.inf_amd64_*\Display.NvContainer"
+    $NvidiaPluginsSessionPath = "$NvidiaDisplayPath\plugins\Session"
     $GameSessionTelemetryPluginName = "_NvGSTPlugin.dll"
     $GSTPluginFile = "$NvidiaPluginsSessionPath\$GameSessionTelemetryPluginName"
 
@@ -5617,7 +5617,7 @@ function Set-UWPAppSetting
         'Snipping Tool'   { 'Microsoft.ScreenSketch_8wekyb3d8bbwe' }
     }
 
-    $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName\"
+    $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName"
     $AppxSettingsFilePath = "$AppxPath\Settings\settings.dat"
 
     if (Test-Path -Path $AppxSettingsFilePath)
@@ -6880,12 +6880,12 @@ function New-BraveConfigData
 function Get-BravePathInfo
 {
     $LoggedUserLocalAppData = (Get-LoggedUserEnvVariable).LOCALAPPDATA
-    $BraveAppDataPath = "$LoggedUserLocalAppData\BraveSoftware\Brave-Browser\"
+    $BraveAppDataPath = "$LoggedUserLocalAppData\BraveSoftware\Brave-Browser"
     $BravePathInfo = @{
         LocalAppData   = $BraveAppDataPath
-        UserData       = "$BraveAppDataPath\User Data\"
-        PersistentData = "$BraveAppDataPath\User Data Persistent\"
-        Profile        = "$BraveAppDataPath\User Data\Default\"
+        UserData       = "$BraveAppDataPath\User Data"
+        PersistentData = "$BraveAppDataPath\User Data Persistent"
+        Profile        = "$BraveAppDataPath\User Data\Default"
     }
     $BravePathInfo
 }
@@ -7089,34 +7089,14 @@ function Set-BraveDefaultBrowser
 
 function Set-GitSettings
 {
-    <#
-    .SYNTAX
-        Set-GitSettings [-Name] <string> [-Email] <string> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Set-GitSettings -Name 'John Doe' -Email 'johndoe@example.com'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $Name,
-
-        [Parameter(Mandatory)]
-        [string]
-        $Email
-    )
-
     Write-Verbose -Message 'Setting Git Settings ...'
 
     $UserProfilePath = (Get-LoggedUserEnvVariable).USERPROFILE
 
-    "[user]
-        name = $Name
-        email = $Email
-    " -replace '(?m)^ {4}' |
+    '[user]
+        name = John Doe
+        email = johndoe@example.com
+    ' -replace '(?m)^ {4}' |
         Out-File -FilePath "$UserProfilePath\.gitconfig"
 }
 
@@ -7128,21 +7108,46 @@ function Set-GitSettings
 #==============================================================================
 #region keepassxc
 
-# Use DuckDuckGo service to download website icons.
 function Set-KeePassXCSettings
 {
     Write-Verbose -Message 'Setting KeePassXC Settings ...'
 
-    $KeePassXCUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\KeePassXC\"
+    $KeePassXCUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\KeePassXC"
     if (-not (Test-Path -Path $KeePassXCUserDataPath))
     {
         New-Item -ItemType 'Directory' -Path $KeePassXCUserDataPath -Force | Out-Null
     }
 
+    # security > use DuckDuckGo service to download website icons
     '[Security]
     IconDownloadFallback=true
     ' -replace '(?m)^ *' |
         Out-File -FilePath "$KeePassXCUserDataPath\keepassxc.ini"
+
+    $KeePassXCInfo = Get-ApplicationInfo -Name 'KeePassXC'
+    if ($KeePassXCInfo)
+    {
+        $KeePassXCInstallFilePath = "$($KeePassXCInfo.InstallLocation)\KeePassXC.exe".Replace('\', '\\')
+
+        # general > automatically launch KeePassXC at system startup
+        # on: do not delete | off: delete
+        $KeepassXCRunAtStartup = '[
+          {
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+            "Entries" : [
+              {
+                "RemoveEntry" : true,
+                "Name"  : "KeePassXC",
+                "Value" : "$KeePassXCInstallFilePath",
+                "Type"  : "String"
+              }
+            ]
+          }
+        ]'.Replace('$KeePassXCInstallFilePath', "\""$KeePassXCInstallFilePath\""") | ConvertFrom-Json
+
+        Set-RegistryEntry -InputObject $KeepassXCRunAtStartup -Verbose:$false
+    }
 }
 
 #endregion keepassxc
@@ -7599,14 +7604,14 @@ $MicrosoftStoreVideoAutoplay = '[
 
 function Get-VSCodeUserDataPath
 {
-    "$((Get-LoggedUserEnvVariable).APPDATA)\Code\"
+    "$((Get-LoggedUserEnvVariable).APPDATA)\Code"
 }
 
 function Set-VisualStudioCodeSettings
 {
     Write-Verbose -Message 'Setting Visual Studio Code Settings ...'
 
-    $VSCodeUserDataPath = "$(Get-VSCodeUserDataPath)\User\"
+    $VSCodeUserDataPath = "$(Get-VSCodeUserDataPath)\User"
     if (-not (Test-Path -Path $VSCodeUserDataPath))
     {
         New-Item -ItemType 'Directory' -Path $VSCodeUserDataPath -Force | Out-Null
@@ -7664,7 +7669,7 @@ function Set-VLCSettings
 {
     Write-Verbose -Message 'Setting VLC media player Settings ...'
 
-    $VLCUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\vlc\"
+    $VLCUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\vlc"
     if (-not (Test-Path -Path $VLCUserDataPath))
     {
         New-Item -ItemType 'Directory' -Path $VLCUserDataPath -Force | Out-Null
@@ -8125,7 +8130,7 @@ $TerminalDefaultApp = '[
 # start on login:       disabled
 function Set-WindowsTerminalSettings
 {
-    $TerminalAppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\"
+    $TerminalAppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe"
     $TerminalSettingsFilePath = "$TerminalAppxPath\LocalState\settings.json"
     $TerminalSettingsContent = Get-Content -Raw -Path $TerminalSettingsFilePath -ErrorAction 'SilentlyContinue'
 
@@ -8384,7 +8389,7 @@ function Get-BraveDataToSymlink
     $BraveDataToSymlink = @{
         Brave = @{
             LinkPath = (Get-BravePathInfo).LocalAppData
-            TargetPath = "$RamDiskPath\Brave-Browser\"
+            TargetPath = "$RamDiskPath\Brave-Browser"
             Data = @{
                 Directory = @(
                     'User Data'
@@ -8392,7 +8397,7 @@ function Get-BraveDataToSymlink
             }
         }
         BraveException = @{
-            LinkPath = "$RamDiskPath\Brave-Browser\User Data\"
+            LinkPath = "$RamDiskPath\Brave-Browser\User Data"
             TargetPath = (Get-BravePathInfo).PersistentData
             Data = @{
                 Directory = (Get-BraveDataException).Directory
@@ -8456,7 +8461,7 @@ function Get-VSCodeDataToSymlink
     $VSCodeDataToSymlink = @{
         VSCode = @{
             LinkPath = Get-VSCodeUserDataPath
-            TargetPath = "$RamDiskPath\VSCode\"
+            TargetPath = "$RamDiskPath\VSCode"
             Data = Get-VSCodeDataToRamDisk
         }
     }
@@ -8676,7 +8681,7 @@ function Set-DataToRamDisk
         'Brave'
         #'VSCode'
     )
-    $RamDiskUserProfilePath = "$RamDiskPath\$(Get-LoggedUserUsername)\"
+    $RamDiskUserProfilePath = "$RamDiskPath\$(Get-LoggedUserUsername)"
     $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $DataToRamdisk
     $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
 
@@ -8739,7 +8744,7 @@ function New-GroupPolicyLogoffScript
     )
 
     $UserSid = Get-LoggedUserSID
-    $LogOffScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Logoff\0\"
+    $LogOffScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Logoff\0"
     $ScriptNumber = (Get-ChildItem -Path "Registry::$LogOffScriptRegPath" -ErrorAction 'SilentlyContinue').Count
 
     $LogoffScriptGPO = '[
@@ -11895,9 +11900,9 @@ function Set-DnsProvider
         'Quad9'      { $Quad9 }
     }
 
-    $RegPath = 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\'
-    $RegDohIPv4 = '\DohInterfaceSettings\Doh\'
-    $RegDohIPv6 = '\DohInterfaceSettings\Doh6\'
+    $RegPath = 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters'
+    $RegDohIPv4 = 'DohInterfaceSettings\Doh'
+    $RegDohIPv6 = 'DohInterfaceSettings\Doh6'
 
     $DohTpl = $DnsProviders.$Provider.$Server.Doh
     $IPv4 = $DnsProviders.$Provider.$Server.IPv4
@@ -20975,7 +20980,7 @@ function Set-MiscellaneousApplicationsSettings
     Write-Section -Name 'Setting Miscellaneous Applications Settings'
     Set-BraveSettings
     Set-BraveDefaultBrowser
-    #Set-GitSettings -Name 'John Doe' -Email 'johndoe@example.com'
+    #Set-GitSettings
     Set-KeePassXCSettings
     Set-VisualStudioCodeSettings
     Set-VLCSettings
