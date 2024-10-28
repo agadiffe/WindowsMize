@@ -94,6 +94,7 @@ function New-WindowsAnswerFile
                         <!-- Win11 generic product key: -->
                             <!-- Home: YTMG3-N6DKC-DKB77-7M9GH-8HVX7 -->
                             <!-- Pro: VK7JG-NPHTM-C97JM-9MPGT-3V66T -->
+                            <!-- Enterprise: XGVPP-NMH47-7TTHJ-W3FW7-8HV2C -->
                         <!-- choose a generic key to skip the Windows Key screen during Windows installation -->
                         <Key>00000-00000-00000-00000-00000</Key>
                     </ProductKey>
@@ -7681,7 +7682,7 @@ function Set-VLCSettings
     qt-privacy-ask=0
     qt-recentplay=0
     qt-system-tray=0
-    qt-video-autorezise=0
+    qt-video-autoresize=0
 
     [core]
     metadata-network-access=0
@@ -11422,7 +11423,7 @@ $TouchpadScrollingDirection = '[
     "Entries" : [
       {
         "Name"  : "ScrollDirection",
-        "Value" : "1",
+        "Value" : "0",
         "Type"  : "DWord"
       }
     ]
@@ -16503,22 +16504,6 @@ $PrivacyCellularData = @(
 )
 
 #endregion cellular data
-
-#===================
-### take screenshots of various windows or displays (Recall)
-#===================
-#region take screenshots
-
-$TakeScreenshotsOfVariousWindowsGPO = @{
-    Name  = 'LetAppsAccessGraphicsCaptureProgrammatic'
-    Value = '2'
-}
-
-$PrivacyTakeScreenshotsOfVariousWindowsGPO = @(
-    New-AppPermissionsGroupPolicyRegData @TakeScreenshotsOfVariousWindowsGPO
-)
-
-#endregion take screenshots
 
 #endregion app permissions
 
@@ -21613,7 +21598,6 @@ $PrivacySettings = @{
         $PrivacyUserMovement
         #$PrivacyBackgroundAppsGPO
         $PrivacyCellularData
-        $PrivacyTakeScreenshotsOfVariousWindowsGPO
     )
 }
 
