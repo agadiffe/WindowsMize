@@ -8501,6 +8501,7 @@ function Copy-Data
     .DESCRIPTION
         Copies an item from one location to another.
         Keep the tree folders of copied item.
+        Create the destination directory path if it doesn't exist.
 
     .EXAMPLE
         PS> Copy-Data -Name 'foo.txt', 'bar\baz.txt' -Path 'X:' -Destination 'Y:\data\'
@@ -8859,6 +8860,7 @@ function Write-BackupBravePersitentDataScript
 {
     $FunctionsToWrite = @(
         'Get-LoggedUserUsername'
+        'Get-LoggedUserSID'
         'Get-LoggedUserEnvVariable'
         'Get-BravePathInfo'
         'Get-BraveDataException'
@@ -8948,6 +8950,7 @@ function Write-RamDiskSetDataScript
 
     $FunctionsToWrite = @(
         'Get-LoggedUserUsername'
+        'Get-LoggedUserSID'
         'Get-LoggedUserEnvVariable'
         'Get-BravePathInfo'
         'Get-BraveDataException'
