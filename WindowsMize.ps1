@@ -2205,8 +2205,6 @@ $WindowsSharedExperienceGPO = '[
 #=======================================
 #region windows spotlight
 
-# Not mentionned in Group Policy, but only applies to Enterprise and Education SKUs.
-
 # gpo\ user config > administrative tpl > windows components > cloud content
 #   do not suggest third-party content in Windows spotlight
 #   turn off all Windows spotlight features
@@ -4131,7 +4129,7 @@ $CloudContentExperiencesGPO = '[
 #=======================================
 #region consumer experiences
 
-# Also disable 'settings > bluetooth & devices > mobile devices' (e.g. Phone Link)
+# Disable and grayed out: settings > bluetooth & devices > mobile devices (e.g. Phone Link)
 
 # gpo\ computer config > administrative tpl > windows components > cloud content
 #   turn off microsoft consumer experiences (only applies to Enterprise and Education SKUs)
@@ -6191,11 +6189,6 @@ $AdobeAcrobatMiscWebmail = '[
 #==============================================================================
 #region brave browser
 
-#=======================================
-## configuration
-#=======================================
-#region brave configuration
-
 function Merge-Hashtable
 {
     <#
@@ -6912,175 +6905,6 @@ function Set-BraveSettings
     $BraveLocalState | ConvertTo-Json -Depth 42 | Out-File -FilePath "$BraveUserDataPath\Local State"
     $BravePreferences | ConvertTo-Json -Depth 42 | Out-File -FilePath "$BraveProfilePath\Preferences"
 }
-
-#endregion brave configuration
-
-#=======================================
-## default browser
-#=======================================
-#region default browser
-
-function Set-ForegroundWindow
-{
-    <#
-    .SYNTAX
-        Set-ForegroundWindow -ProcessName <string> [<CommonParameters>]
-
-        Set-ForegroundWindow -MainWindowHandle <IntPtr> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Set-ForegroundWindow -ProcessName 'Notepad'
-
-    .NOTES
-        Doesn't seem to work very well for the Windows settings app.
-        It gets the focus, but it is not always brought to the foreground.
-
-        Works as expected for other applications.
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(
-            ParameterSetName = 'ProcessName',
-            Mandatory)]
-        [string]
-        $ProcessName,
-
-        [Parameter(
-            ParameterSetName = 'MainWindowHandle',
-            Mandatory)]
-        [IntPtr]
-        $MainWindowHandle
-    )
-
-    $Signature = @"
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-"@
-
-    $WindowFunctionsType = @{
-        Namespace        = 'Win32Functions'
-        Name             = 'WindowManagement'
-        MemberDefinition = $Signature
-    }
-    $WindowFunctions = Add-Type @WindowFunctionsType -PassThru -Verbose:$false
-    $MainWindowHandleProcess = $ProcessName ? (Get-Process -Name $ProcessName).MainWindowHandle : $MainWindowHandle
-
-    $SW_SHOWDEFAULT = 10
-    $WindowFunctions::ShowWindowAsync($MainWindowHandleProcess, $SW_SHOWDEFAULT) | Out-Null
-    Start-Sleep -Seconds 0.5
-    $WindowFunctions::SetForegroundWindow($MainWindowHandleProcess) | Out-Null
-    Start-Sleep -Seconds 0.5
-}
-
-function Open-SystemSettings
-{
-    <#
-    .SYNTAX
-        Open-SystemSettings [[-SettingPage] <string>] [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Open-SystemSettings -SettingPage 'defaultapps'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [string]
-        $SettingPage = ''
-    )
-
-    Stop-Process -Name 'SystemSettings' -ErrorAction 'SilentlyContinue'
-    Start-Process -FilePath "ms-settings:$SettingPage"
-    $SystemSettingsProcess = Get-Process -Name 'SystemSettings'
-    $SystemSettingsMainWindowHandle = $SystemSettingsProcess.MainWindowHandle
-
-    # when launched, 'MainWindowHandle' get a number.
-    # when ready (and not minimized), 'MainWindowHandle' change to 0.
-    # when minimized, 'MainWindowHandle' will get back its number.
-    # when not minimized, 'MainWindowHandle' will get back to 0.
-    while ([int]$SystemSettingsProcess.MainWindowHandle)
-    {
-        Start-Sleep -Seconds 0.5
-        $SystemSettingsProcess.Refresh()
-    }
-
-    Set-ForegroundWindow -MainWindowHandle $SystemSettingsMainWindowHandle
-}
-
-function Send-KeyboardKeys
-{
-    <#
-    .SYNTAX
-        Send-KeyboardKeys [-Keys] <string> [[-SleepDelay] <double>] [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Send-KeyboardKeys -Keys '{TAB 3}{ENTER}'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $Keys,
-
-        [double]
-        $SleepDelay = 0.5
-     )
-
-    Add-Type -AssemblyName 'System.Windows.Forms' -Verbose:$false
-    [Windows.Forms.SendKeys]::SendWait($Keys)
-    Start-Sleep -Seconds $SleepDelay
-}
-
-function Set-DefaultBrowser
-{
-    <#
-    .SYNTAX
-        Set-DefaultBrowser [-Name] <string> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Set-DefaultBrowser -Name 'Microsoft Edge'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $Name
-    )
-
-    Open-SystemSettings -SettingPage "defaultapps?registeredAppMachine=$Name"
-
-    # Set default (.htm, .html, HTTP, HTTPS)
-    Send-KeyboardKeys -Keys '{TAB 3}{ENTER}'
-
-    Stop-Process -Name 'SystemSettings'
-}
-
-function Set-BraveDefaultBrowser
-{
-    Write-Verbose -Message 'Setting Brave as Default Browser ...'
-
-    $BraveInfo = Get-ApplicationInfo -Name 'Brave'
-    if ($BraveInfo)
-    {
-        Set-DefaultBrowser -Name 'Brave'
-    }
-    else
-    {
-        Write-Verbose -Message '    Brave Browser is not installed'
-    }
-}
-
-#endregion default browser
 
 #endregion brave browser
 
@@ -13270,6 +13094,8 @@ $OpenLinksInAppGPO = '[
 
 # account setting
 #-------------------
+# Disable and grayed out: settings > bluetooth & devices > mobile devices (e.g. Phone Link)
+
 # gpo\ computer config > windows settings > security settings > local policies > security options
 #   accounts: block Microsoft accounts
 # not defined: delete (default) | this policy is disabled: 0
@@ -20616,7 +20442,6 @@ $ApplicationsToInstall = @{
         # Password Manager
             #$Bitwarden
             #$KeePassXC
-            #$ProtonPass
 
         # PDF Viewer
             #$AcrobatReader
@@ -20642,8 +20467,11 @@ $ApplicationsToInstall = @{
     User = @(
     )
     NoScope = @(
+        # Password Manager
+            #$ProtonPass
+
         # Web Browser
-            $MullvadBrowser
+            #$MullvadBrowser
     )
 }
 
@@ -20966,7 +20794,6 @@ function Set-MiscellaneousApplicationsSettings
 {
     Write-Section -Name 'Setting Miscellaneous Applications Settings'
     Set-BraveSettings
-    Set-BraveDefaultBrowser
     #Set-GitSettings
     Set-KeePassXCSettings
     Set-VisualStudioCodeSettings
