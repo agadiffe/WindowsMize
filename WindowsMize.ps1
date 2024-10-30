@@ -191,8 +191,6 @@ function New-WindowsAnswerFile
 - settings > system > sound > properties > 24bits, 96000Hz (Studio Quality)
   Most games use 96kHz as default ?
 
-- settings > system > power > power & sleep buttons controls
-
 - settings > bluetooth & devices > printers & scanners > Microsoft Print to PDF > printing preferences > advanced
   Change default page size to A4.
 
@@ -1584,12 +1582,16 @@ function Set-NTFSLastAccessTime
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('User', 'System')]
+        [ValidateSet(
+            'User',
+            'System')]
         [string]
         $Managed,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -2562,7 +2564,9 @@ function Set-IcmpRedirects
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -2716,7 +2720,9 @@ function Set-NetworkTeredo
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Default', 'Disabled')]
+        [ValidateSet(
+            'Default',
+            'Disabled')]
         [string]
         $State
     )
@@ -3116,7 +3122,9 @@ function Set-Hibernate
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -3159,7 +3167,9 @@ function Set-HardDiskTimeout
         [Parameter(
             Mandatory,
             ValueFromPipelineByPropertyName)]
-        [ValidateSet('AC', 'DC')]
+        [ValidateSet(
+            'AC',
+            'DC')]
         [string]
         $PowerState,
 
@@ -3224,7 +3234,9 @@ function Set-ModernStandbyNetworkConnectivity
         [Parameter(
             Mandatory,
             ValueFromPipelineByPropertyName)]
-        [ValidateSet('AC', 'DC')]
+        [ValidateSet(
+            'AC',
+            'DC')]
         [string]
         $PowerState,
 
@@ -3241,7 +3253,7 @@ function Set-ModernStandbyNetworkConnectivity
 
     process
     {
-        $Value = switch ($State)
+        $SettingIndex = switch ($State)
         {
             'Disabled'         { 0 }
             'Enabled'          { 1 }
@@ -3251,7 +3263,7 @@ function Set-ModernStandbyNetworkConnectivity
         Write-Verbose -Message "Setting 'Modern Standby Network Connectivity ($PowerState)' to '$State' ..."
 
         $SetValueIndex = $PowerState -eq 'AC' ? '-SetACValueIndex' : '-SetDCValueIndex'
-        powercfg.exe $SetValueIndex SCHEME_CURRENT SUB_NONE CONNECTIVITYINSTANDBY $Value
+        powercfg.exe $SetValueIndex SCHEME_CURRENT SUB_NONE CONNECTIVITYINSTANDBY $SettingIndex
     }
 }
 
@@ -3610,7 +3622,9 @@ function Set-AllDrivesAutoManagedPagingFile
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -3767,7 +3781,9 @@ function Set-DataExecutionPrevention
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('OptIn', 'OptOut')]
+        [ValidateSet(
+            'OptIn',
+            'OptOut')]
         [string]
         $State
     )
@@ -4643,7 +4659,9 @@ function Install-Application
         [string]
         $Name,
 
-        [ValidateSet('Machine', 'User')]
+        [ValidateSet(
+            'Machine',
+            'User')]
         [string]
         $Scope
     )
@@ -5453,7 +5471,7 @@ The string is encoded as unicode and must be null terminated.
 'true'  : 74,00,72,00,75,00,65,00,00,00
 
 0x5f5e104: int32 (4 bytes) | e.g. "FontSize"=hex(5f5e104):0b,00,00,00,a3,1a,40,6f,84,36,da,01
-0x5f5e104, 0x5f5e105: int32, uint32 (4 bytes) 
+0x5f5e104, 0x5f5e105: int32, uint32 (4 bytes)
 0x5f5e106, 0x5f5e107: int64, uint64 (8 bytes)
 
 
@@ -7466,7 +7484,7 @@ function Set-VisualStudioCodeSettings
 
         // applications
         "telemetry.telemetryLevel": "off",
-        "update.mode": "none", // none, manual, start
+        "update.mode": "start", // none, manual, start
         "update.showReleaseNotes": false,
 
         // extensions
@@ -8104,7 +8122,9 @@ function New-SymbolicLink
         [Parameter(
             Mandatory,
             ValueFromPipelineByPropertyName)]
-        [ValidateSet('Directory', 'File')]
+        [ValidateSet(
+            'Directory',
+            'File')]
         [string]
         $TargetType
     )
@@ -8316,7 +8336,9 @@ function Get-DataToSymlink
         $RamDiskPath,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Brave', 'VSCode')]
+        [ValidateSet(
+            'Brave',
+            'VSCode')]
         [string[]]
         $Data
     )
@@ -9445,7 +9467,9 @@ function New-NotificationRegData
         $Key,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -9623,7 +9647,7 @@ function Set-PowerMode
         $Name
     )
 
-    $Value = switch ($Name)
+    $OverlayGUID = switch ($Name)
     {
         'BestPowerEfficiency' { 'OVERLAY_SCHEME_MIN' }
         'Balanced'            { 'OVERLAY_SCHEME_NONE' }
@@ -9631,7 +9655,7 @@ function Set-PowerMode
     }
 
     Write-Verbose -Message "Setting 'Power Mode' to '$Name' ..."
-    powercfg.exe -OverlaySetActive $Value
+    powercfg.exe -OverlaySetActive $OverlayGUID
 }
 
 <#
@@ -9667,16 +9691,18 @@ function Set-PowerSateTimeout
 {
     <#
     .SYNTAX
-        Set-PowerSateTimeout [-PowerState] {AC | DC} [-TimeoutType] {Monitor | Standby} [-Value] <int> [<CommonParameters>]
+        Set-PowerSateTimeout [-PowerState] {AC | DC} [-Type] {Monitor | Standby | Hibernate} [-Value] <int>
+        [<CommonParameters>]
 
     .EXAMPLE
-        PS> Set-PowerSateTimeout -PowerState 'AC' -TimeoutType 'Monitor' -Value 4
+        PS> Set-PowerSateTimeout -PowerState 'AC' -Type 'Monitor' -Value 4
 
     .NOTES
         AC: plugged in
         DC: battery
         Monitor: screen
         Standby: sleep
+        Hibernate: hibernate
     #>
 
     [CmdletBinding()]
@@ -9685,16 +9711,21 @@ function Set-PowerSateTimeout
         [Parameter(
             Mandatory,
             ValueFromPipelineByPropertyName)]
-        [ValidateSet('AC', 'DC')]
+        [ValidateSet(
+            'AC',
+            'DC')]
         [string]
         $PowerState,
 
         [Parameter(
             Mandatory,
             ValueFromPipelineByPropertyName)]
-        [ValidateSet('Monitor', 'Standby')]
+        [ValidateSet(
+            'Monitor',
+            'Standby',
+            'Hibernate')]
         [string]
-        $TimeoutType,
+        $Type,
 
         [Parameter(
             Mandatory,
@@ -9706,38 +9737,47 @@ function Set-PowerSateTimeout
 
     process
     {
-        Write-Verbose -Message "Setting '$TimeoutType ($PowerState) Timeout' to '$Value min' ..."
-        powercfg.exe -Change $TimeoutType-Timeout-$PowerState $Value
+        Write-Verbose -Message "Setting '$Type ($PowerState) Timeout' to '$Value min' ..."
+        powercfg.exe -Change $Type-Timeout-$PowerState $Value
     }
 }
 
-# on battery power, turn off my screen after
-# when plugged in, turn off my screen after
-# on battery power, put my device to sleep after
-# when plugged in, put my device to sleep after
+# turn my screen off after
+# make my device sleep after
+# make my device hibernate after
 #-------------------
 # value are in minutes
-# never: 0 | default: 3 5 10 15
+# never: 0 | default: 5 15 180 3 10 180
 $PowerScreenAndSleep = '[
   {
-    "PowerState"  : "DC",
-    "TimeoutType" : "Monitor",
-    "Value"       : "3"
+    "PowerState" : "AC",
+    "Type"       : "Monitor",
+    "Value"      : "3"
   },
   {
-    "PowerState"  : "AC",
-    "TimeoutType" : "Monitor",
-    "Value"       : "3"
+    "PowerState" : "AC",
+    "Type"       : "Standby",
+    "Value"      : "10"
   },
   {
-    "PowerState"  : "DC",
-    "TimeoutType" : "Standby",
-    "Value"       : "10"
+    "PowerState" : "AC",
+    "Type"       : "Hibernate",
+    "Value"      : "120"
   },
   {
-    "PowerState"  : "AC",
-    "TimeoutType" : "Standby",
-    "Value"       : "10"
+    "PowerState" : "DC",
+    "Type"       : "Monitor",
+    "Value"      : "3"
+  },
+  {
+    "PowerState" : "DC",
+    "Type"       : "Standby",
+    "Value"      : "10"
+  },
+  {
+    "PowerState" : "DC",
+    "Type"       : "Hibernate",
+    "Value"      : "45"
   }
 ]' | ConvertFrom-Json
 
@@ -9841,6 +9881,123 @@ function Enable-EnergySaverLowerBrightness
 function Disable-EnergySaverLowerBrightness
 {
     Set-EnergySaverLowerBrightness -Percent 100
+}
+
+#===================
+### lid, power & sleep button controls
+#===================
+function Set-LidPowerSleepButtonControls
+{
+    <#
+    .SYNTAX
+        Set-LidPowerSleepButtonControls [-PowerState] {AC | DC} [-Action] {Power | Sleep | Lid}
+        [-State] {DoNothing | Sleep | Hibernate | ShutDown | DisplayOff} [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-LidPowerSleepButtonControls -PowerState 'AC' -Action 'PowerButton' -Value 'DisplayOff'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'AC',
+            'DC')]
+        [string]
+        $PowerState,
+
+        [Parameter(
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'PowerButton',
+            'SleepButton',
+            'LidClose')]
+        [string]
+        $Action,
+
+        [Parameter(
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'DoNothing',
+            'Sleep',
+            'Hibernate',
+            'ShutDown',
+            'DisplayOff')]
+        [string]
+        $Value
+    )
+
+    process
+    {
+        $SettingGUID = switch ($Action)
+        {
+            'PowerButton' { 'PBUTTONACTION' }
+            'SleepButton' { 'SBUTTONACTION' }
+            'LidClose'    { 'LIDACTION' }
+        }
+
+        $SettingIndex = switch ($Value)
+        {
+            'DoNothing'  { 0 }
+            'Sleep'      { 1 }
+            'Hibernate'  { 2 }
+            'ShutDown'   { 3 }
+            'DisplayOff' { 4 }
+        }
+
+        Write-Verbose -Message "Setting '$Action action control ($PowerState)' to '$Value' ..."
+
+        $SetValueIndex = $PowerState -eq 'AC' ? '-SetACValueIndex' : '-SetDCValueIndex'
+        powercfg.exe $SetValueIndex SCHEME_CURRENT SUB_BUTTONS $SettingGUID $SettingIndex
+    }
+}
+
+# pressing the power button will make my PC
+# pressing the sleep button will make my PC
+# closing the lid will make my PC
+#-------------------
+# DoNothing | Sleep (default) | Hibernate | ShutDown | DisplayOff
+$SystemLidPowerSleepButtonControls = '[
+  {
+    "PowerState"  : "AC",
+    "Action"      : "PowerButton",
+    "Value"       : "Sleep"
+  },
+  {
+    "PowerState"  : "AC",
+    "Action"      : "SleepButton",
+    "Value"       : "Sleep"
+  },
+  {
+    "PowerState"  : "AC",
+    "Action"      : "LidClose",
+    "Value"       : "Sleep"
+  },
+  {
+    "PowerState"  : "DC",
+    "Action"      : "PowerButton",
+    "Value"       : "Sleep"
+  },
+  {
+    "PowerState"  : "DC",
+    "Action"      : "SleepButton",
+    "Value"       : "Sleep"
+  },
+  {
+    "PowerState"  : "DC",
+    "Action"      : "LidClose",
+    "Value"       : "Sleep"
+  }
+]' | ConvertFrom-Json
+
+function Set-SystemLidPowerSleepButtonControls
+{
+    $SystemLidPowerSleepButtonControls | Set-LidPowerSleepButtonControls
 }
 
 #endregion power (& battery)
@@ -10548,7 +10705,9 @@ function Set-WindowsCapability
         $Name,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -10724,7 +10883,9 @@ function Set-WindowsOptionalFeature
         $Name,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -12797,7 +12958,9 @@ function New-DeviceUsageRegData
         $Key,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -13206,7 +13369,9 @@ function Set-RequireSignInOnWakeUpModernStandby
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -13245,7 +13410,9 @@ function Set-RequireSignInOnWakeUpNotModernStandby
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -13296,7 +13463,9 @@ function Set-RequireSignInOnWakeUp
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -13997,7 +14166,9 @@ function Set-VisualEffectsAnimationEffects
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -15261,7 +15432,9 @@ function Set-PrivacyActivityHistory
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Enabled', 'Disabled')]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
         [string]
         $State
     )
@@ -17116,7 +17289,7 @@ $CastAndProjectSvc = '[
     "DefaultType": "Manual",
     "Comment"    : "wireless display and docking.
                     needed by action center > cast & project.
-                    if disabled and Cast icon is cliked, break action center (on Win11 23H4).
+                    if disabled and Cast icon is cliked, break action center (on Win11 24H2+).
                     if that happens, you need to open services and set back to Manual.
                     (on Win11 23H2, break action center functionality if Cast icon is not hidden)."
   }
@@ -20956,6 +21129,7 @@ function Set-SystemSettings
     Set-ScreenAndSleepTimeout
     #Set-EnergySaverAutoTurnOnAt -Percent 0
     #Disable-EnergySaverLowerBrightness
+    #Set-SystemLidPowerSleepButtonControls
     #Set-SudoCommand -State 'normal'
     Set-Setting -Setting $SystemSettings
 }
