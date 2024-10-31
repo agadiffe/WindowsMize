@@ -15574,6 +15574,23 @@ $PrivacySearchPermissionsSearchHighlights = '[
   }
 ]' | ConvertFrom-Json
 
+# let search apps show results
+#-------------------
+# on: 1 (default) | off: 0
+$PrivacySearchPermissionsWebSearch = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\SearchSettings",
+    "Entries" : [
+      {
+        "Name"  : "IsGlobalWebSearchProviderToggleEnabled",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
 #endregion search permissions
 
 #===================
@@ -21560,6 +21577,7 @@ $PrivacySettings = @{
         $PrivacySearchPermissionsCloudContent
         $PrivacySearchPermissionsSearchHistory
         $PrivacySearchPermissionsSearchHighlights
+        $PrivacySearchPermissionsWebSearch
     )
     SearchingWindows = @(
         $PrivacySearchingWindowsFindMyFiles
