@@ -1618,8 +1618,7 @@ function Disable-NTFSLastAccessTime
 #=======================================
 #region numlock at startup
 
-# on: 2147483650 (or 2) | off: 2147483648 (or 0) (default)
-# 32bits integer limits: INT_MAX == 2147483647
+# on: 2147483650 (INT_MAX + 3) (or 2) | off: 2147483648 (INT_MAX + 1) (or 0) (default)
 $NumlockAtStartup = '[
   {
     "Hive"    : "HKEY_USERS",
@@ -3104,10 +3103,6 @@ $FastStartup = '[
 #=======================================
 #region hibernate
 
-# control panel (icons view) > power options > Choose What the power button do
-# (control.exe /name Microsoft.PowerOptions /page pageGlobalSettings)
-#-------------------
-# on: on (default) | off: off
 function Set-Hibernate
 {
     <#
@@ -3130,8 +3125,15 @@ function Set-Hibernate
     )
 
     Write-Verbose -Message "Setting 'Hibernate' to '$State' ..."
-    powercfg.exe -Hibernate ($State -eq 'Enabled' ? 'on' : 'off')
+
+    $SettingValue = $State -eq 'Enabled' ? 'on' : 'off'
+    powercfg.exe -Hibernate $SettingValue
 }
+
+# control panel (icons view) > power options > Choose What the power button do
+# (control.exe /name Microsoft.PowerOptions /page pageGlobalSettings)
+#-------------------
+# Enabled (default) | Disabled
 
 function Enable-Hibernate
 {
@@ -9250,6 +9252,83 @@ function Set-RamDiskScriptsAndTasks
 #=======================================
 #region display
 
+# brightness
+#-------------------
+# available with a built-in display (e.g. Laptop)
+# range: 0-100
+function Set-DisplayBrightness
+{
+    <#
+    .SYNTAX
+        Set-DisplayBrightness [-Percent] <int> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-DisplayBrightness -Percent 70
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateRange(0, 100)]
+        [int]
+        $Percent
+    )
+
+    process
+    {
+        Write-Verbose -Message "Setting 'Brightness' to '$Percent%' ..."
+
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
+        powercfg.exe -SetActive SCHEME_CURRENT
+    }
+}
+
+# change brightness automatically when lighting changes
+#-------------------
+# Enabled (default) | Disabled
+function Set-BrightnessWhenLightingChanges
+{
+    <#
+    .SYNTAX
+        Set-BrightnessWhenLightingChanges [-State] {Enabled | Disabled} [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-BrightnessWhenLightingChanges -State 'Disabled'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
+    )
+
+    process
+    {
+        Write-Verbose -Message "Setting 'Brightness when lighting changes' to '$State' ..."
+
+        $SettingIndex = $State -eq 'Enabled' ? 1 : 0
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
+    }
+}
+
+function Enable-BrightnessWhenLightingChanges
+{
+    Set-BrightnessWhenLightingChanges -State 'Enabled'
+}
+
+function Disable-BrightnessWhenLightingChanges
+{
+    Set-BrightnessWhenLightingChanges -State 'Disabled'
+}
+
 # change brightness based on content
 #-------------------
 # Off: 0 | Always: 1 | On Battery Only: 2 (default)
@@ -9639,6 +9718,7 @@ function Set-PowerMode
     [CmdletBinding()]
     param
     (
+        [Parameter(Mandatory)]
         [ValidateSet(
             'BestPowerEfficiency',
             'Balanced',
@@ -9890,7 +9970,7 @@ function Set-LidPowerSleepButtonControls
 {
     <#
     .SYNTAX
-        Set-LidPowerSleepButtonControls [-PowerState] {AC | DC} [-Action] {Power | Sleep | Lid}
+        Set-LidPowerSleepButtonControls [-PowerState] {AC | DC} [-Action] {PowerButton | SleepButton | LidClose}
         [-State] {DoNothing | Sleep | Hibernate | ShutDown | DisplayOff} [<CommonParameters>]
 
     .EXAMPLE
@@ -11308,6 +11388,7 @@ $TouchpadWhenMouseConnected = '[
 
 # cursor speed
 #-------------------
+# GUI values are divided by 2
 # default: 10 (range 2-20)
 $TouchpadCursorSpeed = '[
   {
@@ -13376,7 +13457,7 @@ function Set-RequireSignInOnWakeUpModernStandby
         $State
     )
 
-    # Never: 4294967295 (hex: ffffffff) | Every Time: 0 (default)
+    # Never: 4294967295 (UINT_MAX) (hex: ffffffff) | Every Time: 0 (default)
     # 1 minute: 60 | 3 minutes: 180 | 5 minutes: 300 | 15 minutes: 900
     $Value = $State -eq 'Enabled' ? '0' : '4294967295'
     $SignInRequiredOnWakeUpModernStandby = '[
@@ -13421,7 +13502,7 @@ function Set-RequireSignInOnWakeUpNotModernStandby
     #   require a password when a computer wakes (plugged in)
     #   require a password when a computer wakes (on battery)
     # gpo\ not configured: delete (default) | on: 1 | off: 0
-    $Value = $State -eq 'Enabled' ? 1 : 0
+    $SettingIndex = $State -eq 'Enabled' ? 1 : 0
     $SignInRequiredOnWakeUpNotModernStandby = '[
       {
         "SkipKey" : true,
@@ -13430,23 +13511,23 @@ function Set-RequireSignInOnWakeUpNotModernStandby
         "Entries" : [
           {
             "Name"  : "ACSettingIndex",
-            "Value" : "$Value",
+            "Value" : "$SettingIndex",
             "Type"  : "DWord"
           },
           {
             "Name"  : "DCSettingIndex",
-            "Value" : "$Value",
+            "Value" : "$SettingIndex",
             "Type"  : "DWord"
           }
         ]
       }
-    ]'.Replace('$Value', $Value) | ConvertFrom-Json
+    ]'.Replace('$SettingIndex', $SettingIndex) | ConvertFrom-Json
 
     Set-RegistryEntry -InputObject $SignInRequiredOnWakeUpNotModernStandby -Verbose:$false
 
     # user\ Never: 0 | When PC wakes up from sleep: 1 (default)
-    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $Value
-    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $Value
+    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
+    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
 }
 
 function Set-RequireSignInOnWakeUp
@@ -21142,6 +21223,8 @@ $SystemOptionalFeatures = @{
 function Set-SystemSettings
 {
     Write-Section -Name 'Setting System'
+    Set-DisplayBrightness -Percent 70
+    #Disable-BrightnessWhenLightingChanges
     #Set-PowerMode -Name 'BestPowerEfficiency'
     Set-ScreenAndSleepTimeout
     #Set-EnergySaverAutoTurnOnAt -Percent 0
