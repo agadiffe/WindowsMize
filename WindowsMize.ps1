@@ -4276,6 +4276,7 @@ Restore permissions to 'TrustedInstaller':
 <#
 # owner: TrustedInstaller | full control: TrustedInstaller
 # Requested registry access is not allowed.
+
 # on: 0 (default) | off: 1
 $DiagnosticTracing = '[
   {
@@ -5945,7 +5946,7 @@ $AdobeAcrobatTrustManagerPdfFileAttachmentsExternalApps = '[
 
 # allow opening of non-PDF file attachments
 #-------------------
-# If off, disable and grayed out 'allow opening of non-PDF file attachments with external applications'.
+# If disabled, disable and grayed out 'allow opening of non-PDF file attachments with external applications'.
 # on: 0 or delete (default) | off: 1
 $AdobeAcrobatTrustManagerPdfFileAttachments = '[
   {
@@ -6996,7 +6997,7 @@ function Set-KeePassXCSettings
         $KeePassXCInstallFilePath = "$($KeePassXCInfo.InstallLocation)\KeePassXC.exe".Replace('\', '\\')
 
         # general > automatically launch KeePassXC at system startup
-        # on: do not delete | off: delete
+        # on: not-delete | off: delete
         $KeepassXCRunAtStartup = '[
           {
             "Hive"    : "HKEY_CURRENT_USER",
@@ -7519,8 +7520,11 @@ function Set-VisualStudioCodeSettings
         "typescript.surveys.enabled": false
 
         // others (not preconfigured)
+        "": ""
     }' -replace '(?m)^ {4}' |
         Out-File -FilePath "$VSCodeUserDataPath\settings.json"
+    
+    # The last empty setting is needed because new settings made through the GUI are added after the last setting.
 }
 
 #endregion visual studio code
@@ -9271,6 +9275,9 @@ function Set-RamDiskScriptsAndTasks
 #=======================================
 #region display
 
+#===================
+### brightness
+#===================
 # brightness
 #-------------------
 # available with a built-in display (e.g. Laptop)
@@ -9760,6 +9767,7 @@ function Set-PowerMode
 <#
 # owner: SYSTEM | full control: SYSTEM
 # Requested registry access is not allowed.
+
 # Best Power Efficiency: 961cc777-2547-4f9d-8174-7d86181b8a7a
 # Balanced: 00000000-0000-0000-0000-000000000000
 # Best Performance: ded574b5-45a0-4f42-8737-46345c09c238
@@ -12050,9 +12058,14 @@ function Set-DnsProvider
 
 # personalize your background
 #-------------------
+# Enabling below $BackgroundPictureWallpaper will set the background to 'Picture'.
+# default: Windows spotlight
+
+# choose a photo
+#-------------------
 # Default images location: C:\Windows\Web\Wallpaper
 # ThemeA: Glow, ThemeB: Captured Motion, ThemeC: Sunrive, ThemeD: Flow
-$BackgroundWallpaper = '[
+$BackgroundPictureWallpaper = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Control Panel\\Desktop",
@@ -12068,9 +12081,8 @@ $BackgroundWallpaper = '[
 
 # choose a fit for your desktop image
 #-------------------
-# fill: 10 (default) | fit: 6 | stretch: 2 | span: 22
-# tile: 0 (+ "TileWallpaper": 1) | center: 0 (+ "TileWallpaper": 0)
-$BackgroundWallpaperStyle = '[
+# fill: 10 0 (default) | fit: 6 0 | stretch: 2 0 | span: 22 0 | tile: 0 1 | center: 0 0
+$BackgroundPictureWallpaperStyle = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Control Panel\\Desktop",
@@ -12199,7 +12211,7 @@ $ColorsAccentColorOnTitleAndBorders = '[
 #===================
 # desktop icons
 #-------------------
-# on: 0 | off: 1
+# on: 0 or delete | off: 1
 # entries order: Computer, User's Files, Network, Recycle Bin, Control Panel
 $ThemesDesktopIcons = '[
   {
@@ -12308,10 +12320,63 @@ $DynamicLightingControlledByForegroundApp = '[
 
 # personalize your lock screen
 #-------------------
+# Set the lock screen to 'Picture'.
+# The selection of the picture is not handled.
 # Default images location: C:\Windows\Web\Screen
+
+# default: Windows spotlight
+$UserSid = Get-LoggedUserSID
+$LockScreenSetToPicture = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Control Panel\\Desktop",
+    "Entries" : [
+      {
+        "Name"  : "LockScreenAutoLockActive",
+        "Value" : "0",
+        "Type"  : "String"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Lock Screen",
+    "Entries" : [
+      {
+        "Name"  : "SlideshowEnabled",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\ContentDeliveryManager",
+    "Entries" : [
+      {
+        "Name"  : "RotatingLockScreenEnabled",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Authentication\\LogonUI\\Creative\\$UserSid",
+    "Entries" : [
+      {
+        "Name"  : "RotatingLockScreenEnabled",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]'.Replace('$UserSid', $UserSid) | ConvertFrom-Json
 
 # get fun facts, tips, tricks, and more on your lock screen
 #-------------------
+# If disabled, Windows spotlight will be unset.
+
 # on: 1 (default) | off: 0
 $LockScreenFunFactsTipsTricks = '[
   {
@@ -12357,6 +12422,7 @@ $LockScreenLogonBackgroundImageGPO = '[
 <#
 # owner: SYSTEM | full control: SYSTEM
 # Requested registry access is not allowed.
+
 # user\ on: 0 (default) | off: 1
 $UserSid = Get-LoggedUserSID
 $PersonnalizationLockScreenLogonBackgroundImage = '[
@@ -12686,6 +12752,7 @@ $TaskbarTaskViewButton = '[
 #-------------------
 # UCPD filter driver prevent the modification of this registry key.
 # Requested registry access is not allowed.
+
 # on: 1 (default) | off: 0
 $TaskbarWidgetsButton = '[
   {
@@ -13672,6 +13739,7 @@ $SignInShowAccountDetailsGPO = '[
 <#
 # owner: SYSTEM | full control: SYSTEM
 # Requested registry access is not allowed.
+
 # user\ on: 1 | off: 0 (default)
 $UserSid = Get-LoggedUserSID
 $AccountsSignInShowAccountDetails = '[
@@ -14770,6 +14838,7 @@ $DefenderPhishingProtectionGPO = '[
 
 <#
 # Requested registry access is not allowed.
+
 # user\ on: 1 (default) | off: 0
 $DefenderPhishingProtection = '[
   {
@@ -15701,6 +15770,7 @@ $PrivacySearchPermissionsWebSearch = '[
 <#
 # owner: SYSTEM | full control: TrustedInstaller | setValue: SYSTEM
 # Requested registry access is not allowed.
+
 # respect power settings when indexing | old
 #-------------------
 # on: 1 (default) | off: 0
@@ -21360,8 +21430,8 @@ function Set-NetworkAndInternetSettings
 
 $PersonnalizationSettings = @{
     Background = @(
-        $BackgroundWallpaper
-        $BackgroundWallpaperStyle
+        $BackgroundPictureWallpaper
+        $BackgroundPictureWallpaperStyle
     )
     Colors = @(
         $ColorsMode
@@ -21379,6 +21449,7 @@ $PersonnalizationSettings = @{
         $DynamicLightingControlledByForegroundApp
     )
     LockScreen = @(
+        $LockScreenSetToPicture
         $LockScreenFunFactsTipsTricks
         #$LockScreenLogonBackgroundImageGPO
     )
