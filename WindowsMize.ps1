@@ -2206,6 +2206,8 @@ $WindowsSharedExperienceGPO = '[
 #=======================================
 #region windows spotlight
 
+# disable Windows spotlight
+#-------------------
 # gpo\ user config > administrative tpl > windows components > cloud content
 #   do not suggest third-party content in Windows spotlight
 #   turn off all Windows spotlight features
@@ -2243,6 +2245,23 @@ $WindowsSpotlightGPO = '[
       },
       {
         "Name"  : "DisableWindowsSpotlightOnActionCenter",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+# learn about this picture (Desktop icon)
+#-------------------
+# on: 0 or delete (default) | off: 1
+$WindowsSpotlightLearnAboutPictureDesktopIcon = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel",
+    "Entries" : [
+      {
+        "Name"  : "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}",
         "Value" : "1",
         "Type"  : "DWord"
       }
@@ -20535,6 +20554,7 @@ $MiscSettings = @(
     $WindowsPrivacySettingsExperienceGPO
     #$WindowsSharedExperienceGPO
     #$WindowsSpotlightGPO
+    #$WindowsSpotlightLearnAboutPictureDesktopIcon
 )
 
 function Set-MiscellaneousSettings
