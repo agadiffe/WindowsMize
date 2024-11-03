@@ -14772,10 +14772,23 @@ $DefenderCheckAppsAndFiles = '[
 ]' | ConvertFrom-Json
 
 # smartscreen for microsoft edge
-# If Microsoft Edge is removed/uninstalled, this key is also removed and the setting is locked to 'on' in the GUI.
-# Let's recreate it to be able to toggle off the setting (even if it probably doesn't matter as Edge is gone).
 #-------------------
-# on: 1 (default) | off: 0
+# gpo\ not configured: delete (default) | on: 1 | off: 0
+$DefenderSmartScreenEdgeGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Edge",
+    "Entries" : [
+      {
+        "Name"  : "SmartScreenEnabled",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+# user\ on: 1 0 1 (default) | off: 0
 $DefenderSmartScreenEdge = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -14783,6 +14796,22 @@ $DefenderSmartScreenEdge = '[
     "Entries" : [
       {
         "Name"  : "EnabledV9",
+        "Value" : "0",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "PreventOverride",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Edge\\SmartScreenEnabled",
+    "Entries" : [
+      {
+        "Name"  : "(Default)",
         "Value" : "0",
         "Type"  : "DWord"
       }
@@ -14889,7 +14918,7 @@ $DefenderUnwantedAppBlockingGPO = '[
 
 # smartscreen for microsoft store apps
 #-------------------
-# on: 1 (default) | off: 0
+# on: 1 0 (default) | off: 0 0
 $DefenderSmartScreenStoreApps = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -21669,6 +21698,7 @@ $DefenderSettingsVirusAndThreatGPO = @(
 
 $DefenderSettingsAppAndBrowserGPO = @(
     $DefenderCheckAppsAndFilesGPO
+    $DefenderSmartScreenEdgeGPO
     $DefenderPhishingProtectionGPO
     $DefenderUnwantedAppBlockingGPO
 )
