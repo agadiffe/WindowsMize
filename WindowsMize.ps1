@@ -5004,9 +5004,9 @@ function Remove-MicrosoftEdge
         return
     }
 
-    Write-Verbose -Message 'Removing Microsoft Edge ...'
-
-    Stop-Process -Name '*edge*' -Force -ErrorAction 'SilentlyContinue'
+    # Get the user region.
+    $UserRegionRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\International\Geo'
+    $UserRegion = (Get-ItemProperty -Path $UserRegionRegPath).Name
 
     # Get the 'RegionPolicy' config file content.
     $RegionPolicyFilePath = "$env:SystemRoot\System32\IntegratedServicesRegionPolicySet.json"
@@ -5021,6 +5021,11 @@ function Remove-MicrosoftEdge
             if ($_.defaultState -eq 'disabled')
             {
                 $_.defaultState = 'enabled'
+                $IsRegionPolicyFileChanged = $true
+            }
+            if ($_.conditions.region.enabled -notcontains $UserRegion)
+            {
+                $_.conditions.region.enabled += $UserRegion
                 $IsRegionPolicyFileChanged = $true
             }
         }
@@ -5043,7 +5048,11 @@ function Remove-MicrosoftEdge
     }
 
     # Uninstall Microsoft Edge.
-    Remove-Package -Name 'Microsoft.MicrosoftEdge.Stable'
+    Write-Verbose -Message 'Removing Microsoft Edge ...'
+
+    Stop-Process -Name '*edge*' -Force -ErrorAction 'SilentlyContinue'
+
+    Remove-Package -Name 'Microsoft.MicrosoftEdge.Stable' -Verbose:$false
     $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall".Replace('"', '\"')
     Start-Process -Wait -NoNewWindow -FilePath 'pwsh.exe' -ArgumentList "-Command Invoke-Expression '$EdgeUninstallCmd'"
 
