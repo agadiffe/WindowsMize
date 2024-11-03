@@ -5659,12 +5659,28 @@ function Set-UWPAppSetting
         $Setting
     )
 
-    $AppxPathName = switch ($Name)
+    switch ($Name)
     {
-        'Microsoft Store' { 'Microsoft.WindowsStore_8wekyb3d8bbwe' }
-        'Notepad'         { 'Microsoft.WindowsNotepad_8wekyb3d8bbwe' }
-        'Photos'          { 'Microsoft.Windows.Photos_8wekyb3d8bbwe' }
-        'Snipping Tool'   { 'Microsoft.ScreenSketch_8wekyb3d8bbwe' }
+        'MicrosoftStore'
+        {
+            $AppxPathName = 'Microsoft.WindowsStore_8wekyb3d8bbwe'
+            $ProcessName = 'WinStore.App'
+        }
+        'Notepad'
+        {
+            $AppxPathName = 'Microsoft.WindowsNotepad_8wekyb3d8bbwe'
+            $ProcessName = 'Notepad'
+        }
+        'Photos'
+        {
+            $AppxPathName = 'Microsoft.Windows.Photos_8wekyb3d8bbwe'
+            $ProcessName = 'Photos'
+        }
+        'SnippingTool'
+        {
+            $AppxPathName = 'Microsoft.ScreenSketch_8wekyb3d8bbwe'
+            $ProcessName = 'SnippingTool'
+        }
     }
 
     $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName"
@@ -5672,6 +5688,9 @@ function Set-UWPAppSetting
 
     if (Test-Path -Path $AppxSettingsFilePath)
     {
+        # The app could be running (in background or open), close it.
+        Stop-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
+
         Write-Verbose -Message "Setting $Name settings ..."
         $Setting | Set-UWPAppRegistryEntry -FilePath $AppxSettingsFilePath
     }
@@ -7532,7 +7551,7 @@ function Set-VisualStudioCodeSettings
         "": ""
     }' -replace '(?m)^ {4}' |
         Out-File -FilePath "$VSCodeUserDataPath\settings.json"
-    
+
     # The last empty setting is needed because new settings made through the GUI are added after the last setting.
 }
 
@@ -21104,7 +21123,7 @@ $MicrosoftStoreSettings = @(
 function Set-MicrosoftStoreSettings
 {
     Write-Section -Name 'Setting Microsoft Store'
-    Set-UWPAppSetting -Name 'Microsoft Store' -Setting $MicrosoftStoreSettings
+    Set-UWPAppSetting -Name 'MicrosoftStore' -Setting $MicrosoftStoreSettings
 }
 
 #endregion microsoft store
@@ -21179,7 +21198,7 @@ $SnippingToolSettings = @(
 function Set-WindowsSnippingToolSettings
 {
     Write-Section -Name 'Setting Windows Snipping Tool'
-    Set-UWPAppSetting -Name 'Snipping Tool' -Setting $SnippingToolSettings
+    Set-UWPAppSetting -Name 'SnippingTool' -Setting $SnippingToolSettings
 }
 
 #endregion windows snipping tool
