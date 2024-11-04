@@ -43,13 +43,13 @@
 #region windows installation
 
 <#
-Create a local account and disable Bitlocker auto device encryption (only auto enabled for online account ?).
+Create a local account and disable Bitlocker auto device encryption.
 Disable password expiration as well (a force password reset is not recommended).
-See the below minimal autounattend.xml file (Change the username (if desired) and the password).
 
-More customization can be done with the answer file, see Microsoft documentation and/or the online generator.
+See the below minimal autounattend.xml file.
+More customization can be done, see Microsoft documentation and/or the online generator.
 
-If you do not want to use the answer file to create a local accout:
+If you do not want to use an answer file to create a local accout:
     if you have a Desktop, do not connect to Internet (unplug the cable).
     'Shift + F10' to open a Command Prompt (use 'Alt + Tab' to bring it to the foreground).
     type 'oobe\bypassnro' (computer will reboot).
@@ -61,27 +61,33 @@ function New-WindowsAnswerFile
 {
     <#
     .SYNTAX
-        New-WindowsAnswerFile [[-FilePath] <string>] [[-UserName] <string>] [[-Password] <string>] [<CommonParameters>]
+        New-WindowsAnswerFile [[-Path] <string>] [[-UserName] <string>] [[-Password] <string>] [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-WindowsAnswerFile -UserName 'Bob' -Password 'MyPassword'
+        PS> New-WindowsAnswerFile -Path 'X:\Documents' -Password 'MyPassword'
 
     .NOTES
         Copy the "autounattend.xml" file to the USB drive root folder.
-        It can be the 'Windows install' USB or an other USB drive.
+        It can be the "Windows install" USB or another USB drive.
     #>
 
     [CmdletBinding()]
     param
     (
         [string]
-        $Path = "$PSScriptRoot\autounattend.xml",
+        $Path = $PSScriptRoot,
+
+        [ValidateScript(
+            {
+                $UnAllowedChars = '/\\\[\]:\|<>\+=;,\?\*%'
+                $_ -notmatch "[$UnAllowedChars]"
+            },
+            ErrorMessage = "User name can't contain these characters: / \ [ ] : | < > + = ; , ? * %")]
+        [string]
+        $UserName = 'User',
 
         [string]
-        $UserName = "User",
-
-        [string]
-        $Password = "password"
+        $Password = ''
     )
 
     '<?xml version="1.0" encoding="utf-8"?>
@@ -137,7 +143,7 @@ function New-WindowsAnswerFile
                     </LocalAccounts>
                 </UserAccounts>
                 <AutoLogon>
-                    <!-- auto logon once (modify the username and password with the LocalAccount values) -->
+                    <!-- auto logon once (modify the username and password with the above LocalAccount values) -->
                     <Username>$UserName</Username>
                     <Enabled>true</Enabled>
                     <LogonCount>1</LogonCount>
@@ -163,7 +169,7 @@ function New-WindowsAnswerFile
         </settings>
     </unattend>
     '.Replace('$UserName', $UserName).Replace('$Password', $Password) -replace '(?m)^ {4}' |
-        Out-File -FilePath $Path
+        Out-File -Path "$Path\autounattend.xml"
 }
 
 #endregion windows installation
@@ -282,8 +288,7 @@ NVCleanstall: select the following options
 function Get-LoggedUserUsername
 {
     $ComputerInfo = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
-    $DeviceName = $ComputerInfo.Name
-    $Username = ($ComputerInfo.UserName) -ireplace "$DeviceName\\"
+    $Username = $ComputerInfo.UserName | Split-Path -Leaf
 
     if (-not $Username)
     {
@@ -3716,7 +3721,7 @@ function Set-DrivePagingFile
             Mandatory,
             Position = 2)]
         [ValidateScript(
-           { $_ -ge $InitialSize },
+            { $_ -ge $InitialSize },
             ErrorMessage = 'MaximumSize must be greater than or equal to InitialSize.')]
         [int]
         $MaximumSize,
@@ -17732,7 +17737,7 @@ $MicrosoftStoreSvc = '[
     "DefaultType": "Manual",
     "Comment"    : "needed if using microsoft account to log in to computer.
                     needed to install new apps from microsoft store.
-                    needed to create new user account.
+                    needed to create new microsoft account (not needed for new local account).
                     not needed to auto-update already installed apps."
   },
   {
