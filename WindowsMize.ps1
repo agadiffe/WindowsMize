@@ -688,6 +688,59 @@ function Move-EventLogLocation
 #region file explorer
 
 #=======================================
+## helper function
+#=======================================
+#region helper function
+
+function Set-ByteBitFlag
+{
+    <#
+    .SYNTAX
+        Set-ByteBitFlag [-Bytes] <byte[]> [-ByteNum] <int> [-BitPos] <int> [-Value] <bool> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> $Bytes = [byte[]]::new(1)
+        PS> $Bytes
+        0 (0000 0000)
+        PS> $Bytes = Set-ByteBitFlag -Bytes $Bytes -ByteNum 0 -BitPos 7 -Value $true
+        PS> $Bytes
+        64 (0100 0000)
+
+    .NOTES
+        ByteNum start at 0.
+        BitPos start at 1.
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [byte[]]
+        $Bytes,
+
+        [Parameter(Mandatory)]
+        [ValidateRange('NonNegative')]
+        [int]
+        $ByteNum,
+
+        [Parameter(Mandatory)]
+        [ValidateRange(1, 8)]
+        [int]
+        $BitPos,
+
+        [Parameter(Mandatory)]
+        [bool]
+        $Value
+
+    )
+
+    $Bitmask = 1 -shl ($BitPos - 1)
+    $Bytes[$ByteNum] = $Value ? $Bytes[$ByteNum] -bor $Bitmask : $Bytes[$ByteNum] -band (-bnot $Bitmask)
+}
+
+#endregion helper function
+
+#=======================================
 ## general
 #=======================================
 #region general
@@ -3487,23 +3540,20 @@ function Set-SystemPropertiesVisualEffects
     {
         Write-Verbose -Message "Setting Visual Effect '$Name' to '$State' ..."
 
-        $ByteNum, $Bitmask = switch ($Name)
+        $ByteNum, $BitPos = switch ($Name)
         {
-            'Smooth-scroll list boxes'                     { 0; 8 }
-            'Slide open combo boxes'                       { 0; 4 }
+            'Smooth-scroll list boxes'                     { 0; 4 }
+            'Slide open combo boxes'                       { 0; 3 }
             'Fade or slide menus into view'                { 0; 2 }
-            'Show shadows under mouse pointer'             { 1; 32 }
-            'Fade or slide ToolTips into view'             { 1; 8 }
-            'Fade out menu items after clicking'           { 1; 4 }
-            'Show shadows under windows'                   { 2; 4 }
+            'Show shadows under mouse pointer'             { 1; 6 }
+            'Fade or slide ToolTips into view'             { 1; 4 }
+            'Fade out menu items after clicking'           { 1; 3 }
+            'Show shadows under windows'                   { 2; 3 }
             'Animate controls and elements inside windows' { 4; 2 }
         }
 
-        $VisualEffectsBytes[$ByteNum] = switch ($State)
-        {
-            'Enabled'  { $VisualEffectsBytes[$ByteNum] -bor $Bitmask }
-            'Disabled' { $VisualEffectsBytes[$ByteNum] -band -bnot $Bitmask }
-        }
+        $BitFlagValue = $State -eq 'Enabled' ? $true : $false
+        Set-ByteBitFlag -Bytes $VisualEffectsBytes -ByteNum $ByteNum -BitPos $BitPos -Value $BitFlagValue
     }
 
     end
@@ -11744,10 +11794,9 @@ function Set-ConnectedNetworkToPrivate
 $AutoDetectSettings = $false
 $ProxyPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
 $ProxyBytes = (Get-ItemProperty -Path $ProxyPath).DefaultConnectionSettings
-$AutoDetectSettingsBitMask = 8
-$ProxyBytes[8] = $AutoDetectSettings ? $ProxyBytes[8] -bor $AutoDetectSettingsBitMask :
-                                       $ProxyBytes[8] -band -bnot $AutoDetectSettingsBitMask
+Set-ByteBitFlag -Bytes $ProxyBytes -ByteNum 8 -BitPos 4 -Value $AutoDetectSettings
 $ProxyBytes[4] = $ProxyBytes[4] -eq 255 ? 2 : $ProxyBytes[4] + 1 # counter
+
 $ProxyAutoDetectSettings = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12926,9 +12975,8 @@ $TaskbarAlignment = '[
 $AutoHideTaskbar = $false
 $AutoHidePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $AutoHideBytes = (Get-ItemProperty -Path $AutoHidePath).Settings
-$AutoHideBitMask = 1
-$AutoHideBytes[8] = $AutoHideTaskbar ? $AutoHideBytes[8] -bor $AutoHideBitMask :
-                                       $AutoHideBytes[8] -band -bnot $AutoHideBitMask
+Set-ByteBitFlag -Bytes $AutoHideBytes -ByteNum 8 -BitPos 1 -Value $AutoHideTaskbar
+
 $TaskbarAutoHide = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
