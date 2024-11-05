@@ -3398,21 +3398,23 @@ function Set-SystemPropertiesVisualEffects
 {
     <#
     .SYNTAX
-        Set-SystemPropertiesVisualEffects [-InputObject] <VisualEffectsProperties> [<CommonParameters>]
+        Set-SystemPropertiesVisualEffects [-Name] {Smooth-scroll list boxes | Slide open combo boxes |
+        Fade or slide menus into view | Show shadows under mouse pointer | Fade or slide ToolTips into view |
+        Fade out menu items after clicking | Show shadows under windows | Animate controls and elements inside windows}
+        [-State] {Enabled | Disabled} [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-SystemPropertiesVisualEffects -Name 'Smooth-scroll list boxes' -State 'Enabled'
 
     .EXAMPLE
         PS> $VisualEffectsProperties = '[
               {
                 "Name"    : "Show shadows under mouse pointer",
-                "State"   : "Enabled",
-                "ByteNum" : 1,
-                "Bitmask" : 32
+                "State"   : "Enabled"
               },
               {
                 "Name"    : "Show shadows under windows",
-                "State"   : "Disabled",
-                "ByteNum" : 2,
-                "Bitmask" : 4
+                "State"   : "Disabled"
               }
             ]' | ConvertFrom-Json
         PS> $VisualEffectsProperties | Set-SystemPropertiesVisualEffects
@@ -3438,21 +3440,31 @@ function Set-SystemPropertiesVisualEffects
     (
         [Parameter(
             Mandatory,
-            ValueFromPipeline)]
-        [VisualEffectsProperties]
-        $InputObject
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'Smooth-scroll list boxes',
+            'Slide open combo boxes',
+            'Fade or slide menus into view',
+            'Show shadows under mouse pointer',
+            'Fade or slide ToolTips into view',
+            'Fade out menu items after clicking',
+            'Show shadows under windows',
+            'Animate controls and elements inside windows')]
+        [string]
+        $Name,
+
+        [Parameter(
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
     )
 
     begin
     {
-        class VisualEffectsProperties
-        {
-            [string] $Name
-            [string] $State
-            [int] $ByteNum
-            [int] $Bitmask
-        }
-
         $SystemPropertiesVisualEffects = '[
           {
             "Hive"    : "HKEY_CURRENT_USER",
@@ -3467,18 +3479,30 @@ function Set-SystemPropertiesVisualEffects
           }
         ]' | ConvertFrom-Json
 
-        $VisualEffectsPath = 'Registry::HKEY_CURRENT_USER\Control Panel\Desktop'
-        $VisualEffectsBytes = (Get-ItemProperty -Path $VisualEffectsPath).UserPreferencesMask
+        $VisualEffectsRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\Desktop'
+        $VisualEffectsBytes = (Get-ItemProperty -Path $VisualEffectsRegPath).UserPreferencesMask
     }
 
     process
     {
-        Write-Verbose -Message "Setting Visual Effect '$($InputObject.Name)' to '$($InputObject.State)' ..."
+        Write-Verbose -Message "Setting Visual Effect '$Name' to '$State' ..."
 
-        $VisualEffectsBytes[$InputObject.ByteNum] = switch ($InputObject.State)
+        $ByteNum, $Bitmask = switch ($Name)
         {
-            'Enabled'  { $VisualEffectsBytes[$InputObject.ByteNum] -bor $InputObject.Bitmask }
-            'Disabled' { $VisualEffectsBytes[$InputObject.ByteNum] -band -bnot $InputObject.Bitmask }
+            'Smooth-scroll list boxes'                     { 0; 8 }
+            'Slide open combo boxes'                       { 0; 4 }
+            'Fade or slide menus into view'                { 0; 2 }
+            'Show shadows under mouse pointer'             { 1; 32 }
+            'Fade or slide ToolTips into view'             { 1; 8 }
+            'Fade out menu items after clicking'           { 1; 4 }
+            'Show shadows under windows'                   { 2; 4 }
+            'Animate controls and elements inside windows' { 4; 2 }
+        }
+
+        $VisualEffectsBytes[$ByteNum] = switch ($State)
+        {
+            'Enabled'  { $VisualEffectsBytes[$ByteNum] -bor $Bitmask }
+            'Disabled' { $VisualEffectsBytes[$ByteNum] -band -bnot $Bitmask }
         }
     }
 
@@ -3492,52 +3516,36 @@ function Set-SystemPropertiesVisualEffects
 # on: Enabled | off: Disabled
 $VisualEffectsCustomPart1 = '[
   {
-    "Name"    : "Smooth-scroll list boxes",
-    "State"   : "Enabled",
-    "ByteNum" : 0,
-    "Bitmask" : 8
+    "Name"  : "Smooth-scroll list boxes",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Slide open combo boxes",
-    "State"   : "Enabled",
-    "ByteNum" : 0,
-    "Bitmask" : 4
+    "Name"  : "Slide open combo boxes",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Fade or slide menus into view",
-    "State"   : "Enabled",
-    "ByteNum" : 0,
-    "Bitmask" : 2
+    "Name"  : "Fade or slide menus into view",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Show shadows under mouse pointer",
-    "State"   : "Enabled",
-    "ByteNum" : 1,
-    "Bitmask" : 32
+    "Name"  : "Show shadows under mouse pointer",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Fade or slide ToolTips into view",
-    "State"   : "Enabled",
-    "ByteNum" : 1,
-    "Bitmask" : 8
+    "Name"  : "Fade or slide ToolTips into view",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Fade out menu items after clicking",
-    "State"   : "Enabled",
-    "ByteNum" : 1,
-    "Bitmask" : 4
+    "Name"  : "Fade out menu items after clicking",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Show shadows under windows",
-    "State"   : "Enabled",
-    "ByteNum" : 2,
-    "Bitmask" : 4
+    "Name"  : "Show shadows under windows",
+    "State" : "Enabled"
   },
   {
-    "Name"    : "Animate controls and elements inside windows",
-    "State"   : "Enabled",
-    "ByteNum" : 4,
-    "Bitmask" : 2
+    "Name"  : "Animate controls and elements inside windows",
+    "State" : "Enabled"
   }
 ]' | ConvertFrom-Json
 
@@ -5664,28 +5672,12 @@ function Set-UWPAppSetting
         $Setting
     )
 
-    switch ($Name)
+    $AppxPathName, $ProcessName = switch ($Name)
     {
-        'MicrosoftStore'
-        {
-            $AppxPathName = 'Microsoft.WindowsStore_8wekyb3d8bbwe'
-            $ProcessName = 'WinStore.App'
-        }
-        'Notepad'
-        {
-            $AppxPathName = 'Microsoft.WindowsNotepad_8wekyb3d8bbwe'
-            $ProcessName = 'Notepad'
-        }
-        'Photos'
-        {
-            $AppxPathName = 'Microsoft.Windows.Photos_8wekyb3d8bbwe'
-            $ProcessName = 'Photos'
-        }
-        'SnippingTool'
-        {
-            $AppxPathName = 'Microsoft.ScreenSketch_8wekyb3d8bbwe'
-            $ProcessName = 'SnippingTool'
-        }
+        'MicrosoftStore' { 'Microsoft.WindowsStore_8wekyb3d8bbwe';   'WinStore.App' }
+        'Notepad'        { 'Microsoft.WindowsNotepad_8wekyb3d8bbwe'; 'Notepad' }
+        'Photos'         { 'Microsoft.Windows.Photos_8wekyb3d8bbwe'; 'Photos' }
+        'SnippingTool'   { 'Microsoft.ScreenSketch_8wekyb3d8bbwe';   'SnippingTool' }
     }
 
     $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName"
@@ -11749,15 +11741,13 @@ function Set-ConnectedNetworkToPrivate
 # automatically detect settings
 #-------------------
 # 9th byte, 4th bit\ on: 1 (default) | off: 0
-# 9th byte value\ on: 9 (default) | off: 1
 $AutoDetectSettings = $false
 $ProxyPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
 $ProxyBytes = (Get-ItemProperty -Path $ProxyPath).DefaultConnectionSettings
 $AutoDetectSettingsBitMask = 8
 $ProxyBytes[8] = $AutoDetectSettings ? $ProxyBytes[8] -bor $AutoDetectSettingsBitMask :
                                        $ProxyBytes[8] -band -bnot $AutoDetectSettingsBitMask
-#$ProxyBytes[8] = $AutoDetectSettings ? 9 : 1
-$ProxyBytes[4] = $ProxyBytes[4] -eq 255 ? 2 : $ProxyBytes[4] + 1
+$ProxyBytes[4] = $ProxyBytes[4] -eq 255 ? 2 : $ProxyBytes[4] + 1 # counter
 $ProxyAutoDetectSettings = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12933,14 +12923,12 @@ $TaskbarAlignment = '[
 # automatically hide the taskbar
 #-------------------
 # 9th byte, first bit\ on: 1 | off: 0 (default)
-# 9th byte value\ on: 123 (hex: 7b) | off: 122 (hex: 7a) (default)
 $AutoHideTaskbar = $false
 $AutoHidePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $AutoHideBytes = (Get-ItemProperty -Path $AutoHidePath).Settings
 $AutoHideBitMask = 1
 $AutoHideBytes[8] = $AutoHideTaskbar ? $AutoHideBytes[8] -bor $AutoHideBitMask :
                                        $AutoHideBytes[8] -band -bnot $AutoHideBitMask
-#$AutoHideBytes[8] = $AutoHideTaskbar ? 123 : 122
 $TaskbarAutoHide = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
