@@ -762,6 +762,50 @@ $FileExplorerOpenTo = '[
   }
 ]' | ConvertFrom-Json
 
+# browse folders
+#-------------------
+# 5th byte, 6th bit\ open each folder in the same window: 0 (default) | open each folder in its own window: 1
+$OpenInNewWindow = $false
+$BrowseFoldersPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
+$BrowseFoldersBytes = (Get-ItemProperty -Path $BrowseFoldersPath).Settings
+Set-ByteBitFlag -Bytes $BrowseFoldersBytes -ByteNum 4 -BitPos 6 -Value $OpenInNewWindow
+
+$FileExplorerBrowseFolders = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\CabinetState",
+    "Entries" : [
+      {
+        "Name"  : "Settings",
+        "Value" : "$BrowseFoldersBytes",
+        "Type"  : "Binary"
+      }
+    ]
+  }
+]'.Replace('$BrowseFoldersBytes', $BrowseFoldersBytes) | ConvertFrom-Json
+
+# click items as follows
+#-------------------
+# 5th byte, 6th bit\ single-click to open an item: 0 | double-click to open an item: 1 (default)
+$DoubleClickToOpen = $true
+$ClickItemsPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
+$ClickItemsBytes = (Get-ItemProperty -Path $ClickItemsPath).ShellState
+Set-ByteBitFlag -Bytes $ClickItemsBytes -ByteNum 4 -BitPos 6 -Value $DoubleClickToOpen
+
+$FileExplorerClickItems = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+    "Entries" : [
+      {
+        "Name"  : "ShellState",
+        "Value" : "$ClickItemsBytes",
+        "Type"  : "Binary"
+      }
+    ]
+  }
+]'.Replace('$ClickItemsBytes', $ClickItemsBytes) | ConvertFrom-Json
+
 # show recently used files
 # (if disabled, also remove recent items from the Start Menu)
 #-------------------
@@ -821,6 +865,11 @@ $FileExplorerFilesFromOfficeDotCom = '[
 #=======================================
 #region view
 
+#===================
+### files and folders
+#===================
+#region files and folders
+
 # decrease space between items (compact view)
 #-------------------
 # on: 1 | off: 0 (default)
@@ -838,16 +887,16 @@ $FileExplorerCompactView = '[
   }
 ]' | ConvertFrom-Json
 
-# use check boxes to select items
+# hidden files, folders, and drives
 #-------------------
-# on: 1 | off: 0 (default)
-$FileExplorerItemCheckBoxes = '[
+# on: 1 | off: 2 (default)
+$FileExplorerHiddenItems = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
     "Entries" : [
       {
-        "Name"  : "AutoCheckSelect",
+        "Name"  : "Hidden",
         "Value" : "1",
         "Type"  : "DWord"
       }
@@ -889,17 +938,17 @@ $FileExplorerFolderMergeConflicts = '[
   }
 ]' | ConvertFrom-Json
 
-# hidden files, folders, and drives
+# launch folder windows in a separate process
 #-------------------
-# on: 1 | off: 2 (default)
-$FileExplorerHiddenItems = '[
+# on: 1 | off: 0 (default)
+$FileExplorerLaunchFolderInSeparateProcess = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
     "Entries" : [
       {
-        "Name"  : "Hidden",
-        "Value" : "1",
+        "Name"  : "SeparateProcess",
+        "Value" : "0",
         "Type"  : "DWord"
       }
     ]
@@ -940,6 +989,23 @@ $FileExplorerSyncProviderNotifications = '[
   }
 ]' | ConvertFrom-Json
 
+# use check boxes to select items
+#-------------------
+# on: 1 | off: 0 (default)
+$FileExplorerItemCheckBoxes = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+    "Entries" : [
+      {
+        "Name"  : "AutoCheckSelect",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
 # use sharing wizard
 #-------------------
 # on: 1 (default) | off: 0
@@ -957,17 +1023,51 @@ $FileExplorerSharingWizard = '[
   }
 ]' | ConvertFrom-Json
 
-#endregion view
+#endregion files and folders
 
-#=======================================
-## miscellaneous
-#=======================================
-#region miscellaneous
+#===================
+### navigation pane
+#===================
+#region navigation pane
 
-# gallery shorcut (navigation pane)
+# expand to open folder
+#-------------------
+# on: 1 | off: 0 (default)
+$FileExplorerNavPaneExpandToOpenFolder = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+    "Entries" : [
+      {
+        "Name"  : "NavPaneExpandToCurrentFolder",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+# show all folders
+#-------------------
+# on: 1 | off: 0 (default)
+$FileExplorerNavPaneAllFolders = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+    "Entries" : [
+      {
+        "Name"  : "NavPaneShowAllFolders",
+        "Value" : "0",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+# gallery shorcut
 #-------------------
 # on: key present (default) | off: delete key
-$FileExplorerGalleryShorcut = '[
+$FileExplorerNavPaneGalleryShorcut = '[
   {
     "RemoveKey" : true,
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -982,10 +1082,10 @@ $FileExplorerGalleryShorcut = '[
   }
 ]' | ConvertFrom-Json
 
-# duplicate drives (navigation pane)
+# duplicate drives
 #-------------------
 # on: key present (default) | off: delete key
-$FileExplorerDuplicateDrives = '[
+$FileExplorerNavPaneDuplicateDrives = '[
   {
     "RemoveKey" : true,
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -999,6 +1099,15 @@ $FileExplorerDuplicateDrives = '[
     ]
   }
 ]' | ConvertFrom-Json
+
+#endregion navigation pane
+
+#endregion view
+
+#=======================================
+## miscellaneous
+#=======================================
+#region miscellaneous
 
 # icon cache size
 #-------------------
@@ -20648,23 +20757,30 @@ function Set-EventLogLocation
 $FileExplorerSettings = @{
     General = @(
         $FileExplorerOpenTo
+        $FileExplorerBrowseFolders
+        $FileExplorerClickItems
         $FileExplorerRecentlyUsedFiles
         $FileExplorerFrequentlyUsedFolders
         $FileExplorerFilesFromOfficeDotCom
     )
-    View = @(
+    ViewFilesAndFolders = @(
         $FileExplorerCompactView
-        $FileExplorerItemCheckBoxes
+        $FileExplorerHiddenItems
         $FileExplorerFileNameExtensions
         $FileExplorerFolderMergeConflicts
-        $FileExplorerHiddenItems
+        $FileExplorerLaunchFolderInSeparateProcess
         $FileExplorerEncryptedOrCompressedNtfsFilesInColor
         $FileExplorerSyncProviderNotifications
+        $FileExplorerItemCheckBoxes
         $FileExplorerSharingWizard
     )
+    ViewNavigationPane = @(
+        $FileExplorerNavPaneExpandToOpenFolder
+        $FileExplorerNavPaneAllFolders
+        $FileExplorerNavPaneGalleryShorcut
+        $FileExplorerNavPaneDuplicateDrives
+    )
     Miscellaneous = @(
-        $FileExplorerGalleryShorcut
-        $FileExplorerDuplicateDrives
         $FileExplorerIconCacheSize
         $FileExplorerFolderTypeDetection
     )
