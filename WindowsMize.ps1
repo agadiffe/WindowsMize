@@ -61,14 +61,17 @@ function New-WindowsAnswerFile
 {
     <#
     .SYNTAX
-        New-WindowsAnswerFile [[-Path] <string>] [[-UserName] <string>] [[-Password] <string>] [<CommonParameters>]
+        New-WindowsAnswerFile [[-Path] <string>] [[-UserName] <string>] [[-Password] <string>]
+        [[-Edition] {Home | Pro | Enterprise}] [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-WindowsAnswerFile -Path 'X:\Documents' -Password 'MyPassword'
+        PS> New-WindowsAnswerFile -Path 'X:\Documents' -Password 'MyPassword' -Edition 'Pro'
+        PS> Get-ChildItem -Path 'X:\Documents' -Name
+        autounattend.xml
 
     .NOTES
         Copy the "autounattend.xml" file to the USB drive root folder.
-        It can be the "Windows install" USB or another USB drive.
+        It can be the "Windows installation" USB or another USB drive.
     #>
 
     [CmdletBinding()]
@@ -83,12 +86,28 @@ function New-WindowsAnswerFile
                 $_ -notmatch "[$UnAllowedChars]"
             },
             ErrorMessage = "User name can't contain these characters: / \ [ ] : | < > + = ; , ? * %")]
+        [ValidateLength(1, 20)]
         [string]
         $UserName = 'User',
 
         [string]
-        $Password = ''
+        $Password = '',
+
+        [ValidateSet(
+            'Home',
+            'Pro',
+            'Enterprise')]
+        [string]
+        $Edition = ''
     )
+
+    $WindowsEdition = switch ($Edition)
+    {
+        'Home'       { 'YTMG3-N6DKC-DKB77-7M9GH-8HVX7' }
+        'Pro'        { 'VK7JG-NPHTM-C97JM-9MPGT-3V66T' }
+        'Enterprise' { 'XGVPP-NMH47-7TTHJ-W3FW7-8HV2C' }
+        Default      { '00000-00000-00000-00000-00000' }
+    }
 
     '<?xml version="1.0" encoding="utf-8"?>
     <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
@@ -102,7 +121,7 @@ function New-WindowsAnswerFile
                             <!-- Pro: VK7JG-NPHTM-C97JM-9MPGT-3V66T -->
                             <!-- Enterprise: XGVPP-NMH47-7TTHJ-W3FW7-8HV2C -->
                         <!-- choose a generic key to skip the Windows Key screen during Windows installation -->
-                        <Key>00000-00000-00000-00000-00000</Key>
+                        <Key>$WindowsEdition</Key>
                     </ProductKey>
                     <AcceptEula>true</AcceptEula>
                 </UserData>
@@ -168,7 +187,9 @@ function New-WindowsAnswerFile
             </component>
         </settings>
     </unattend>
-    '.Replace('$UserName', $UserName).Replace('$Password', $Password) -replace '(?m)^ {4}' |
+    '.Replace('$UserName', $UserName).
+      Replace('$Password', $Password).
+      Replace('$WindowsEdition', $WindowsEdition) -replace '(?m)^ {4}' |
         Out-File -Path "$Path\autounattend.xml"
 }
 
@@ -702,7 +723,7 @@ function Set-ByteBitFlag
         PS> $Bytes = [byte[]]::new(1)
         PS> $Bytes
         0 (0000 0000)
-        PS> $Bytes = Set-ByteBitFlag -Bytes $Bytes -ByteNum 0 -BitPos 7 -Value $true
+        PS> Set-ByteBitFlag -Bytes $Bytes -ByteNum 0 -BitPos 7 -Value $true
         PS> $Bytes
         64 (0100 0000)
 
