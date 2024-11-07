@@ -1818,6 +1818,17 @@ $NumlockAtStartup = '[
         "Type"  : "String"
       }
     ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Control Panel\\Keyboard",
+    "Entries" : [
+      {
+        "Name"  : "InitialKeyboardIndicators",
+        "Value" : "2",
+        "Type"  : "String"
+      }
+    ]
   }
 ]' | ConvertFrom-Json
 
