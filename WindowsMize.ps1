@@ -19828,13 +19828,23 @@ $AdobeSvc = '[
 #=======================================
 ## intel
 #=======================================
+# Be sure to make your own test.
+# If everything works in your everyday usage after disabling some services, I guess its ok.
+# If not, try to re-enable the services you need.
+
 $IntelSvc = '[
+  {
+    "DisplayName": "Intel(R) Audio Service",
+    "ServiceName": "IntelAudioService",
+    "StartupType": "Disabled",
+    "DefaultType": "Automatic",
+    "Comment"    : "handles audio over HDMI/DisplayPort."
+  },
   {
     "DisplayName": "Intel(R) Capability Licensing Service TCP IP Interface",
     "ServiceName": "Intel(R) Capability Licensing Service TCP IP Interface",
     "StartupType": "Disabled",
-    "DefaultType": "Manual",
-    "Comment"    : "seems to be removed in latest version."
+    "DefaultType": "Manual"
   },
   {
     "DisplayName": "Intel(R) Content Protection HDCP Service",
@@ -19842,7 +19852,7 @@ $IntelSvc = '[
     "StartupType": "Disabled",
     "DefaultType": "Automatic",
     "Comment"    : "drm related.
-                    needed by Netflix, Amazon Prime Video, Disney+, or similar ?"
+                    protection to disable capturing digital content."
   },
   {
     "DisplayName": "Intel(R) Content Protection HECI Service",
@@ -19850,28 +19860,40 @@ $IntelSvc = '[
     "StartupType": "Disabled",
     "DefaultType": "Manual",
     "Comment"    : "drm related.
-                    needed for premium video playback (such as blu-Ray) ?
-                    needed by some other platform with protected content ?"
+                    needed for premium video playback (such as blu-Ray)."
   },
   {
     "DisplayName": "Intel(R) Dynamic Application Loader Host Interface Service",
     "ServiceName": "jhi_service",
     "StartupType": "Disabled",
     "DefaultType": "AutomaticDelayedStart",
-    "Comment"    : "intel ME related."
+    "Comment"    : "intel ME related.
+                    Intel Rapid Storage Technology related ?"
   },
   {
     "DisplayName": "Intel(R) Dynamic Platform and Thermal Framework service",
     "ServiceName": "esifsvc",
     "StartupType": "Automatic",
     "DefaultType": "Automatic",
-    "Comment"    : "safety service, not recommended to disable."
+    "Comment"    : "not recommended to disable.
+                    power and thermal management."
+  },
+  {
+    "DisplayName": "Intel(R) Dynamic Tuning Technology Telemetry Service",
+    "ServiceName": "dptftcs",
+    "StartupType": "Automatic",
+    "DefaultType": "Automatic",
+    "Comment"    : "not recommended to disable.
+                    power and thermal management, resolve fan noise, overheating, optimize performance."
   },
   {
     "DisplayName": "Intel(R) Graphics Command Center Service",
     "ServiceName": "igccservice",
     "StartupType": "Disabled",
-    "DefaultType": "Automatic"
+    "DefaultType": "Automatic",
+    "Comment"    : "needed to run the Graphics Command Center app.
+                    some advanced graphics features might not be available without this service running ?
+                    can be set to manual if desired ..."
   },
   {
     "DisplayName": "Intel(R) HD Graphics Control Panel Service",
@@ -19880,15 +19902,29 @@ $IntelSvc = '[
     "DefaultType": "Automatic"
   },
   {
+    "DisplayName": "Intel(R) Innovation Platform Framework Service",
+    "ServiceName": "ipfsvc",
+    "StartupType": "Automatic",
+    "DefaultType": "Automatic",
+    "Comment"    : "not recommended to disable.
+                    power and thermal management, resolve fan noise, overheating, optimize performance."
+  },
+  {
     "DisplayName": "Intel(R) Management and Security Application Local Management Service",
     "ServiceName": "LMS",
     "StartupType": "Disabled",
     "DefaultType": "Automatic",
-    "Comment"    : "remote PC management."
+    "Comment"    : "remote PC management ?"
   },
   {
     "DisplayName": "Intel(R) Management Engine WMI Provider Registration",
     "ServiceName": "WMIRegistrationService",
+    "StartupType": "Disabled",
+    "DefaultType": "Automatic"
+  },
+  {
+    "DisplayName": "Intel(R) Platform License Manager Service",
+    "ServiceName": "Intel(R) Platform License Manager Service",
     "StartupType": "Disabled",
     "DefaultType": "Automatic"
   },
@@ -19902,13 +19938,15 @@ $IntelSvc = '[
     "DisplayName": "Thunderbolt(TM) Application Launcher",
     "ServiceName": "TbtHostControllerService",
     "StartupType": "Disabled",
-    "DefaultType": "Automatic"
+    "DefaultType": "Automatic",
+    "Comment"    : "do not disable if you use Thunderbolt..."
   },
   {
     "DisplayName": "Thunderbolt(TM) Peer to Peer Shortcut",
     "ServiceName": "TbtP2pShortcutService",
     "StartupType": "Disabled",
-    "DefaultType": "Automatic"
+    "DefaultType": "Automatic",
+    "Comment"    : "do not disable if you use Thunderbolt..."
   }
 ]' | ConvertFrom-Json
 
