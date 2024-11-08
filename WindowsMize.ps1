@@ -4096,13 +4096,13 @@ function Disable-DotNetTelemetry
 # default: on
 function Enable-SystemDriveRestore
 {
-    Write-Verbose -Message 'Enabling SystemDrive Restore ...'
+    Write-Verbose -Message "Setting 'SystemDrive Restore' to 'Enabled' ..."
     Enable-ComputerRestore -Drive "$env:SystemDrive"
 }
 
 function Disable-SystemDriveRestore
 {
-    Write-Verbose -Message 'Disabling SystemDrive Restore ...'
+    Write-Verbose -Message "Setting 'SystemDrive Restore' to 'Disabled' ..."
     Disable-ComputerRestore -Drive "$env:SystemDrive"
 }
 
@@ -5189,7 +5189,7 @@ function Get-ApplicationInfo
         'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
     )
     $LoggedUserSID = Get-LoggedUserSID
-    $RegistryUninstallPath = $RegistryUninstallPath -ireplace 'HKEY_CURRENT_USER', "HKEY_USERS\$LoggedUserSID"
+    $RegistryUninstallPath = $RegistryUninstallPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$LoggedUserSID")
 
     $AppInfo = $RegistryUninstallPath |
         Get-ChildItem -ErrorAction 'SilentlyContinue' |
@@ -9517,14 +9517,11 @@ function Set-DisplayBrightness
         $Percent
     )
 
-    process
-    {
-        Write-Verbose -Message "Setting 'Brightness' to '$Percent%' ..."
+    Write-Verbose -Message "Setting 'Brightness' to '$Percent%' ..."
 
-        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
-        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
-        powercfg.exe -SetActive SCHEME_CURRENT
-    }
+    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
+    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
+    powercfg.exe -SetActive SCHEME_CURRENT
 }
 
 # change brightness automatically when lighting changes
@@ -9551,14 +9548,11 @@ function Set-BrightnessWhenLightingChanges
         $State
     )
 
-    process
-    {
-        Write-Verbose -Message "Setting 'Brightness when lighting changes' to '$State' ..."
+    Write-Verbose -Message "Setting 'Brightness when lighting changes' to '$State' ..."
 
-        $SettingIndex = $State -eq 'Enabled' ? 1 : 0
-        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
-        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
-    }
+    $SettingIndex = $State -eq 'Enabled' ? 1 : 0
+    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
+    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
 }
 
 function Enable-BrightnessWhenLightingChanges
@@ -9591,30 +9585,93 @@ $DisplayChangeBrightnessBasedOnContent = '[
 #===================
 ### graphics
 #===================
+function Set-GraphicsSetting
+{
+    <#
+    .SYNTAX
+        Set-GraphicsSetting [-Name] <string> [-Value] <bool> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-GraphicsSetting -Name 'SwapEffectUpgradeEnable' -Value $true
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $Name,
+
+        [Parameter(Mandatory)]
+        [bool]
+        $Value
+    )
+
+    $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
+    $LoggedUserSID = Get-LoggedUserSID
+    $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$LoggedUserSID")
+
+    $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
+    $DirectXSettings = $CurrentSettings -like "*$Name*" ?
+        $CurrentSettings -replace "($Name=)\d;", "`${1}$([int]$Value);" :
+        $CurrentSettings + "$Name=$([int]$Value);"
+
+    $DisplayDirectXSettings = '[
+      {
+        "Hive"    : "HKEY_CURRENT_USER",
+        "Path"    : "Software\\Microsoft\\DirectX\\UserGpuPreferences",
+        "Entries" : [
+          {
+            "Name"  : "DirectXUserGlobalSettings",
+            "Value" : "$DirectXSettings",
+            "Type"  : "String"
+          }
+        ]
+      }
+    ]'.Replace('$DirectXSettings', $DirectXSettings) | ConvertFrom-Json
+
+    Set-RegistryEntry -InputObject $DisplayDirectXSettings -Verbose:$false
+}
+
 # optimizations for windowed games
 #-------------------
-# on: 1 (default) | off: 0
-$WindowedGamesSettingValue = 0
-$WindowedGamesKey = 'SwapEffectUpgradeEnable'
-$GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
-$CurrentDirectXSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
-$DirectXSettings = $CurrentDirectXSettings -like "*$WindowedGamesKey*" ?
-    $CurrentDirectXSettings -replace "($WindowedGamesKey=)\d;", "`${1}$WindowedGamesSettingValue;" :
-    $CurrentDirectXSettings + "$WindowedGamesKey=$WindowedGamesSettingValue;"
+# Enabled (default) | Disabled
+function Set-WindowedGamesOptimizations
+{
+    <#
+    .SYNTAX
+        Set-WindowedGamesOptimizations [-State] {Enabled | Disabled} [<CommonParameters>]
 
-$DisplayOptimizationsForWindowedGames = '[
-  {
-    "Hive"    : "HKEY_CURRENT_USER",
-    "Path"    : "Software\\Microsoft\\DirectX\\UserGpuPreferences",
-    "Entries" : [
-      {
-        "Name"  : "DirectXUserGlobalSettings",
-        "Value" : "$DirectXSettings",
-        "Type"  : "String"
-      }
-    ]
-  }
-]'.Replace('$DirectXSettings', $DirectXSettings) | ConvertFrom-Json
+    .EXAMPLE
+        PS> Set-WindowedGamesOptimizations -State 'Disabled'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
+    )
+
+    Write-Verbose -Message "Setting 'Optimizations for windowed games' to '$State' ..."
+
+    $WindowedGamesSetting = $State -eq 'Enabled' ? $true : $false
+    Set-GraphicsSetting -Name 'SwapEffectUpgradeEnable' -Value $WindowedGamesSetting
+}
+
+function Enable-WindowedGamesOptimizations
+{
+    Set-WindowedGamesOptimizations -State 'Enabled'
+}
+
+function Disable-WindowedGamesOptimizations
+{
+    Set-WindowedGamesOptimizations -State 'Disabled'
+}
 
 # hardware-accelerated GPU scheduling
 #-------------------
@@ -9632,6 +9689,46 @@ $DisplayHardwareAcceleratedGPUScheduling = '[
     ]
   }
 ]' | ConvertFrom-Json
+
+# variable refresh rate
+#-------------------
+# Enabled (default) | Disabled
+function Set-GamesVariableRefreshRate
+{
+    <#
+    .SYNTAX
+        Set-GamesVariableRefreshRate [-State] {Enabled | Disabled} [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-GamesVariableRefreshRate -State 'Disabled'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
+    )
+
+    Write-Verbose -Message "Setting 'Games Variable Refresh Rate' to '$State' ..."
+
+    $VariableRefreshRateSetting = $State -eq 'Enabled' ? $true : $false
+    Set-GraphicsSetting -Name 'VRROptimizeEnable' -Value $VariableRefreshRateSetting
+}
+
+function Enable-GamesVariableRefreshRate
+{
+    Set-GamesVariableRefreshRate -State 'Enabled'
+}
+
+function Disable-GamesVariableRefreshRate
+{
+    Set-GamesVariableRefreshRate -State 'Disabled'
+}
 
 #endregion display
 
@@ -21479,7 +21576,6 @@ function Set-RamDisk
 $SystemSettings = @{
     Display = @(
         #$DisplayChangeBrightnessBasedOnContent
-        $DisplayOptimizationsForWindowedGames
         $DisplayHardwareAcceleratedGPUScheduling
     )
     Sound = @(
@@ -21597,14 +21693,20 @@ $SystemOptionalFeatures = @{
 function Set-SystemSettings
 {
     Write-Section -Name 'Setting System'
+
     Set-DisplayBrightness -Percent 70
     #Disable-BrightnessWhenLightingChanges
+    Disable-WindowedGamesOptimizations
+    #Disable-GamesVariableRefreshRate
+
     #Set-PowerMode -Name 'BestPowerEfficiency'
     Set-ScreenAndSleepTimeout
     #Set-EnergySaverAutoTurnOnAt -Percent 0
     #Disable-EnergySaverLowerBrightness
     #Set-SystemLidPowerSleepButtonControls
+
     #Set-SudoCommand -State 'normal'
+
     Set-Setting -Setting $SystemSettings
 }
 
