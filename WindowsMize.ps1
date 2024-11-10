@@ -241,6 +241,10 @@ function New-WindowsAnswerFile
 ## miscellaneous
 #=======================================
 <#
+- Battery setting (e.g. Laptop)
+  Limit the maximum charge to 90% (or 85%) to preserve the battery longevity.
+  This option is generaly in the BIOS or via manufacturer application.
+
 - Move default user folders location outside of system drive.
   i.e. desktop, downloads, documents, music, pictures, videos
 
@@ -3416,12 +3420,12 @@ function Set-HardDiskTimeout
 # never: 0 | default: 20 10
 $SystemPowerHardDiskTimeout = '[
   {
-    "PowerState"  : "AC",
-    "Value"       : "60"
+    "PowerState" : "AC",
+    "Value"      : "60"
   },
   {
-    "PowerState"  : "DC",
-    "Value"       : "10"
+    "PowerState" : "DC",
+    "Value"      : "10"
   }
 ]' | ConvertFrom-Json
 
@@ -3489,7 +3493,7 @@ function Set-ModernStandbyNetworkConnectivity
 
 # control panel (icons view) > power options > change plan settings
 # (control.exe /name Microsoft.PowerOptions /page pagePlanSettings)
-# > change advanced power settings > balanced (current power plan) > network connectivity in Standby
+# > change advanced power settings > network connectivity in Standby
 #-------------------
 # Disabled | Enabled | ManagedByWindows
 
@@ -3506,6 +3510,152 @@ function Disable-ModernStandbyNetworkConnectivity
 }
 
 #endregion standby connectivity
+
+#=======================================
+## battery
+#=======================================
+#region battery
+
+function Set-AdvancedBatterySetting
+{
+    <#
+    .SYNTAX
+        Set-AdvancedBatterySetting -Battery {Low | Critical} -Level <int> -Action {DoNothing | Sleep | Hibernate |
+        ShutDown} [<CommonParameters>]
+
+        Set-AdvancedBatterySetting -Battery {Low | Critical | Reserve} -Level <int> [<CommonParameters>]
+
+        Set-AdvancedBatterySetting -Battery {Low | Critical} -Action {DoNothing | Sleep | Hibernate | ShutDown}
+        [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-AdvancedBatterySetting -Battery 'Low' -Level 15
+
+    .EXAMPLE
+        PS> Set-AdvancedBatterySetting -Battery 'Critical' -Level 7 -Action 'ShutDown'
+
+    .NOTES
+        'Reserve Battery' does not support 'Action' parameter.
+        The Syntax doesn't match the generated one by powershell ('Reserve' is removed where it's invalid).
+        3 switches could be used instead of 'ValidateSet' ...
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'Low',
+            'Critical',
+            'Reserve')]
+        [string]
+        $Battery,
+    
+        [Parameter(
+            ParameterSetName = 'Level',
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [Parameter(
+            ParameterSetName = 'ActionAndLevel',
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateRange(5, 100)]
+        [int]
+        $Level,
+
+        [Parameter(
+            ParameterSetName = 'Action',
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [Parameter(
+            ParameterSetName = 'ActionAndLevel',
+            Mandatory,
+            ValueFromPipelineByPropertyName)]
+        [ValidateSet(
+            'DoNothing',
+            'Sleep',
+            'Hibernate',
+            'ShutDown')]
+        [ValidateScript(
+            { $Battery -ne 'Reserve' },
+            ErrorMessage = "'Reserve Battery' does not support 'Action' parameter.")]
+        [string]
+        $Action
+    )
+
+    process
+    {
+        $SettingIndex = switch ($Action)
+        {
+            'DoNothing'  { 0 }
+            'Sleep'      { 1 }
+            'Hibernate'  { 2 }
+            'ShutDown'   { 3 }
+        }
+
+        $ActionSettingGUID, $LevelSettingGUID = switch ($Battery)
+        {
+            'Low'      { 'BATACTIONLOW';  'BATLEVELLOW' }
+            'Critical' { 'BATACTIONCRIT'; 'BATLEVELCRIT' }
+            'Reserve'  { ''; 'f3c5027d-cd16-4930-aa6b-90db844a8f00' }
+        }
+
+        Write-Verbose -Message "Setting '$Battery battery' to '$Level% / $Action' ..."
+
+        if ($Action)
+        {
+            powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_BATTERY $ActionSettingGUID $SettingIndex
+            powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_BATTERY $ActionSettingGUID $SettingIndex
+        }
+        if ($Level)
+        {
+            powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_BATTERY $LevelSettingGUID $Level
+            powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_BATTERY $LevelSettingGUID $Level
+        }
+    }
+}
+
+# control panel (icons view) > power options > change plan settings
+# (control.exe /name Microsoft.PowerOptions /page pagePlanSettings)
+# > change advanced power settings > battery
+#   > low battery level
+#   > low battery action
+#   > critical battery level
+#   > critical battery action
+#   > reserve battery level
+#-------------------
+# For battery longevity, you shouldn't EVER let your battery go below 10% (or even better: 15%).
+
+# Action\ DoNothing | Sleep | Hibernate | ShutDown
+# Level\ value are in percent (range 5-100): Low > Reserve > Critical
+#   default (depends): 10 7 5
+#   'Low' will display a warning to plug-in your computer.
+#   'Reserve' will display a final warning (and presumably disable some features/services).
+#   'Critical' will shutdown your computer.
+$SystemPowerAdvancedBatterySetting = '{
+  "Low" : {
+    "Action" : "DoNothing",
+    "Level"  : 15
+  },
+  "Reserve" : {
+    "Level" : 10
+  },
+  "Critical" : {
+    "Action" : "ShutDown",
+    "Level"  : 7
+  }
+}' | ConvertFrom-Json
+
+function Set-SystemPowerAdvancedBatterySetting
+{
+    $SystemPowerAdvancedBatterySetting.Low | Set-AdvancedBatterySetting -Battery 'Low'
+    $SystemPowerAdvancedBatterySetting.Critical | Set-AdvancedBatterySetting -Battery 'Critical'
+    $SystemPowerAdvancedBatterySetting.Reserve | Set-AdvancedBatterySetting -Battery 'Reserve'
+}
+
+#endregion battery
 
 #endregion power options
 
@@ -6729,7 +6879,7 @@ function New-BraveConfigData
                         "last_update_attempt": "1"
                     },
                     "https://secure.fanboy.co.nz/fanboy-antifonts.txt": {
-                        "enabled": true, # Fanboy Anti-thirdparty Fonts
+                        "enabled": false, # Fanboy Anti-thirdparty Fonts
                         "last_successful_update_attempt": "1",
                         "last_update_attempt": "1"
                     }
@@ -10167,43 +10317,42 @@ function Set-PowerSateTimeout
 # make my device hibernate after
 #-------------------
 # value are in minutes
-# never: 0 | default: 5 15 180 3 10 180
-$PowerScreenAndSleep = '[
-  {
-    "PowerState" : "AC",
-    "Type"       : "Monitor",
-    "Value"      : "3"
-  },
-  {
-    "PowerState" : "AC",
-    "Type"       : "Standby",
-    "Value"      : "10"
-  },
-  {
-    "PowerState" : "AC",
-    "Type"       : "Hibernate",
-    "Value"      : "120"
-  },
-  {
-    "PowerState" : "DC",
-    "Type"       : "Monitor",
-    "Value"      : "3"
-  },
-  {
-    "PowerState" : "DC",
-    "Type"       : "Standby",
-    "Value"      : "10"
-  },
-  {
-    "PowerState" : "DC",
-    "Type"       : "Hibernate",
-    "Value"      : "45"
-  }
-]' | ConvertFrom-Json
+# never: 0 | default (depends): 5 15 180 3 10 180
+$PowerScreenAndSleep = '{
+  "AC" : [
+    {
+      "Type"  : "Monitor",
+      "Value" : "3"
+    },
+    {
+      "Type"  : "Standby",
+      "Value" : "10"
+    },
+    {
+      "Type"  : "Hibernate",
+      "Value" : "60"
+    }
+  ],
+  "DC" : [
+    {
+      "Type"  : "Monitor",
+      "Value" : "3"
+    },
+    {
+      "Type"  : "Standby",
+      "Value" : "5"
+    },
+    {
+      "Type"  : "Hibernate",
+      "Value" : "30"
+    }
+  ]
+}' | ConvertFrom-Json
 
 function Set-ScreenAndSleepTimeout
 {
-    $PowerScreenAndSleep | Set-PowerSateTimeout
+    $PowerScreenAndSleep.AC | Set-PowerSateTimeout -PowerState 'AC'
+    $PowerScreenAndSleep.DC | Set-PowerSateTimeout -PowerState 'DC'
 }
 
 #===================
@@ -10306,15 +10455,15 @@ function Disable-EnergySaverLowerBrightness
 #===================
 ### lid, power & sleep button controls
 #===================
-function Set-LidPowerSleepButtonControls
+function Set-ButtonControls
 {
     <#
     .SYNTAX
-        Set-LidPowerSleepButtonControls [-PowerState] {AC | DC} [-Action] {PowerButton | SleepButton | LidClose}
-        [-State] {DoNothing | Sleep | Hibernate | ShutDown | DisplayOff} [<CommonParameters>]
+        Set-ButtonControls [-PowerState] {AC | DC} [-Setting] {PowerButton | SleepButton | LidClose}
+        [-Action] {DoNothing | Sleep | Hibernate | ShutDown | DisplayOff} [<CommonParameters>]
 
     .EXAMPLE
-        PS> Set-LidPowerSleepButtonControls -PowerState 'AC' -Action 'PowerButton' -Value 'DisplayOff'
+        PS> Set-ButtonControls -PowerState 'AC' -Setting 'PowerButton' -Action 'DisplayOff'
     #>
 
     [CmdletBinding()]
@@ -10337,7 +10486,7 @@ function Set-LidPowerSleepButtonControls
             'SleepButton',
             'LidClose')]
         [string]
-        $Action,
+        $Setting,
 
         [Parameter(
             Mandatory,
@@ -10349,19 +10498,19 @@ function Set-LidPowerSleepButtonControls
             'ShutDown',
             'DisplayOff')]
         [string]
-        $Value
+        $Action
     )
 
     process
     {
-        $SettingGUID = switch ($Action)
+        $SettingGUID = switch ($Setting)
         {
             'PowerButton' { 'PBUTTONACTION' }
             'SleepButton' { 'SBUTTONACTION' }
             'LidClose'    { 'LIDACTION' }
         }
 
-        $SettingIndex = switch ($Value)
+        $SettingIndex = switch ($Action)
         {
             'DoNothing'  { 0 }
             'Sleep'      { 1 }
@@ -10370,7 +10519,7 @@ function Set-LidPowerSleepButtonControls
             'DisplayOff' { 4 }
         }
 
-        Write-Verbose -Message "Setting '$Action action control ($PowerState)' to '$Value' ..."
+        Write-Verbose -Message "Setting '$Setting action control ($PowerState)' to '$Action' ..."
 
         $SetValueIndex = $PowerState -eq 'AC' ? '-SetACValueIndex' : '-SetDCValueIndex'
         powercfg.exe $SetValueIndex SCHEME_CURRENT SUB_BUTTONS $SettingGUID $SettingIndex
@@ -10382,42 +10531,41 @@ function Set-LidPowerSleepButtonControls
 # closing the lid will make my PC
 #-------------------
 # DoNothing | Sleep (default) | Hibernate | ShutDown | DisplayOff
-$SystemLidPowerSleepButtonControls = '[
-  {
-    "PowerState"  : "AC",
-    "Action"      : "PowerButton",
-    "Value"       : "Sleep"
-  },
-  {
-    "PowerState"  : "AC",
-    "Action"      : "SleepButton",
-    "Value"       : "Sleep"
-  },
-  {
-    "PowerState"  : "AC",
-    "Action"      : "LidClose",
-    "Value"       : "Sleep"
-  },
-  {
-    "PowerState"  : "DC",
-    "Action"      : "PowerButton",
-    "Value"       : "Sleep"
-  },
-  {
-    "PowerState"  : "DC",
-    "Action"      : "SleepButton",
-    "Value"       : "Sleep"
-  },
-  {
-    "PowerState"  : "DC",
-    "Action"      : "LidClose",
-    "Value"       : "Sleep"
-  }
-]' | ConvertFrom-Json
+$SystemLidPowerSleepButtonControls = '{
+  "AC" : [
+    {
+      "Setting" : "PowerButton",
+      "Action"  : "Sleep"
+    },
+    {
+      "Setting" : "SleepButton",
+      "Action"  : "Sleep"
+    },
+    {
+      "Setting" : "LidClose",
+      "Action"  : "Sleep"
+    }
+  ],
+  "DC" : [
+    {
+      "Setting" : "PowerButton",
+      "Action"  : "Sleep"
+    },
+    {
+      "Setting" : "SleepButton",
+      "Action"  : "Sleep"
+    },
+    {
+      "Setting" : "LidClose",
+      "Action"  : "Sleep"
+    }
+  ]
+}' | ConvertFrom-Json
 
 function Set-SystemLidPowerSleepButtonControls
 {
-    $SystemLidPowerSleepButtonControls | Set-LidPowerSleepButtonControls
+    $SystemLidPowerSleepButtonControls.AC | Set-ButtonControls -PowerState 'AC'
+    $SystemLidPowerSleepButtonControls.DC | Set-ButtonControls -PowerState 'DC'
 }
 
 #endregion power (& battery)
@@ -11251,7 +11399,7 @@ function Remove-OptionalLanguageFeature
 }
 
 # e.g. Microsoft-Windows-LanguageFeatures-Basic-en-us-Package~31bf3856ad364e35~amd64~~10.0.22621.3007
-# Specify the language if you have more than one installed (e.g. $BasicTypingEnglish = 'Basic-en-us').
+# Specify the language if you want to remove only 1 language (e.g. $BasicTypingEnglish = 'Basic-en-us').
 
 # Basic Typing must be removed in last.
 # Doesn't work for Windows 10 (features will be reinstalled).
@@ -13050,7 +13198,7 @@ $TaskbarTaskViewButton = '[
     "Entries" : [
       {
         "Name"  : "ShowTaskViewButton",
-        "Value" : "1",
+        "Value" : "0",
         "Type"  : "DWord"
       }
     ]
@@ -19292,6 +19440,13 @@ $MiscServices = '[
     "DefaultType": "Manual"
   },
   {
+    "DisplayName": "Windows Push Notifications System Service",
+    "ServiceName": "WpnService",
+    "StartupType": "Disabled",
+    "DefaultType": "Automatic",
+    "Comment"    : "needed by action center for network notifications."
+  },
+  {
     "DisplayName": "Windows Remote Management (WS-Management)",
     "ServiceName": "WinRM",
     "StartupType": "Disabled",
@@ -19832,13 +19987,6 @@ $OthersServices = '[
     "ServiceName": "WManSvc",
     "StartupType": "Manual",
     "DefaultType": "Manual"
-  },
-  {
-    "DisplayName": "Windows Push Notifications System Service",
-    "ServiceName": "WpnService",
-    "StartupType": "Automatic",
-    "DefaultType": "Automatic",
-    "Comment"    : "on 24H2+, DO NOT DISABLE. needed by action center."
   },
   {
     "DisplayName": "Windows Push Notifications User Service",
@@ -21078,6 +21226,7 @@ function Set-PowerOptionsSettings
     Disable-Hibernate
     Set-SystemPowerHardDiskTimeout
     #Disable-ModernStandbyNetworkConnectivity
+    #Set-SystemPowerAdvancedBatterySetting
 }
 
 #endregion power options
