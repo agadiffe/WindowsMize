@@ -6993,7 +6993,7 @@ function New-BraveConfigData
     Merge-Hashtable $BraveLocalState ('{
         "dns_over_https": { # use secure DNS
             "mode": "automatic", # on: automatic (OS default) | select DNS provider: secure | off: off
-            "templates": "" # OS default: empty | custom: e.g. https://dns.adguard-dns.com/dns-query
+            "templates": "" # OS default: empty | custom: e.g. https://security.cloudflare-dns.com/dns-query
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -18155,7 +18155,7 @@ $MicrosoftStoreSvc = '[
   {
     "DisplayName": "Microsoft Account Sign-in Assistant",
     "ServiceName": "wlidsvc",
-    "StartupType": "Disabled",
+    "StartupType": "Manual",
     "DefaultType": "Manual",
     "Comment"    : "needed if using microsoft account to log in to computer.
                     needed to install new apps from microsoft store.
@@ -20136,9 +20136,7 @@ $IntelSvc = '[
     "ServiceName": "igccservice",
     "StartupType": "Disabled",
     "DefaultType": "Automatic",
-    "Comment"    : "needed to run the Graphics Command Center app.
-                    some advanced graphics features might not be available without this service running ?
-                    can be set to manual if desired ..."
+    "Comment"    : "some advanced graphics features might not be available without this service running ?"
   },
   {
     "DisplayName": "Intel(R) HD Graphics Control Panel Service",
@@ -21121,7 +21119,7 @@ $MiscSettings = @(
     $CloudConfigDownloadGPO
     $ControlPanelEaseOfAccessCenterReadAndScan
     $CopyPasteMoreDetails
-    #$FileHistoryGPO
+    $FileHistoryGPO
     $FirstSigninAnimationGPO
     $FontStreamingGPO
     #$FullscreenOptimizations
@@ -21152,8 +21150,8 @@ $MiscSettings = @(
     $WindowsMediaDRMGPO
     $WindowsPrivacySettingsExperienceGPO
     #$WindowsSharedExperienceGPO
-    #$WindowsSpotlightGPO
-    #$WindowsSpotlightLearnAboutPictureDesktopIcon
+    $WindowsSpotlightGPO
+    $WindowsSpotlightLearnAboutPictureDesktopIcon
 )
 
 function Set-MiscellaneousSettings
@@ -21262,7 +21260,7 @@ function Set-SystemProperties
     Write-Section -Name 'Setting System Properties'
 
     Disable-AllDrivesAutoManagedPagingFile
-    Set-DrivePagingFile -Drive "$env:SystemDrive" -InitialSize 512 -MaximumSize 512
+    Set-DrivePagingFile -Drive "$env:SystemDrive" -InitialSize 2048 -MaximumSize 2048
 
     #Set-DataExecutionPrevention -State 'OptOut'
 
@@ -21296,13 +21294,13 @@ $TelemetrySettings = @(
     $GroupPolicySettingsLoggingGPO
     $HandwritingTelemetryGPO
     $LicenseTelemetryGPO
-    #$NvidiaTelemetry
+    $NvidiaTelemetry
 )
 
 function Set-TelemetrySettings
 {
     Write-Section -Name 'Setting Telemetry'
-    #Disable-NvidiaGameSessionTelemetry
+    Disable-NvidiaGameSessionTelemetry
     $TelemetrySettings | Set-RegistryEntry
 }
 
@@ -21797,7 +21795,7 @@ $SystemOptionalFeatures = @{
             $OpenSSHClient
             $PrintManagement
             $StepsRecorder
-            $VBScript
+            #$VBScript
             $WindowsFaxAndScan
             $WindowsMediaPlayerLegacy
             $WindowsPowerShellISE
@@ -21920,7 +21918,7 @@ $BluetoothAndDevicesSettings = @{
         $PenAndWindowsInkGPO
     )
     AutoPlay = @(
-        $AutoPlay
+        #$AutoPlay
     )
     Usb = @(
         $UsbNotificationIssues
@@ -21952,7 +21950,7 @@ function Set-NetworkAndInternetSettings
 {
     Write-Section -Name 'Setting Network & Internet'
     #Set-ConnectedNetworkToPrivate
-    Set-DnsProvider -Adguard 'Default'
+    Set-DnsProvider -Cloudflare 'Security'
     Set-Setting -Setting $NetworkAndInternetSettings
 }
 
@@ -22047,7 +22045,7 @@ $AppsSettings = @{
         $OfflineMapsAutoUpdate
     )
     AppsForWebsites = @(
-        #$OpenLinksInAppGPO
+        $OpenLinksInAppGPO
     )
 }
 
@@ -22325,7 +22323,7 @@ $PrivacySettings = @{
         $PrivacyMotion
         $PrivacyPresenceSensing
         $PrivacyUserMovement
-        #$PrivacyBackgroundAppsGPO
+        $PrivacyBackgroundAppsGPO
         $PrivacyCellularData
     )
 }
@@ -22385,7 +22383,7 @@ function Set-WindowsUpdateSettings
 
 $ServicesEntries = @{
     SystemDriver = @(
-        #$UserChoiceProtectionDriver
+        $UserChoiceProtectionDriver
         $BridgeDriver
         $NetBiosDriver
         $LldpDriver
@@ -22397,7 +22395,7 @@ $ServicesEntries = @{
         $NetworkDataUsageDriver
     )
     Windows = @(
-        $AutoplayAndAutorunSvc
+        #$AutoplayAndAutorunSvc
         #$BluetoothSvc
         #$BluetoothAndCastSvc
         #$BluetoothAudioSvc
@@ -22407,9 +22405,9 @@ $ServicesEntries = @{
         #$MicrosoftOfficeSvc
         $MicrosoftStoreSvc
         $NetworkSvc
-        $NetworkDiscoverySvc
+        #$NetworkDiscoverySvc
         $FileAndPrinterSharingSvc
-        $PrinterSvc
+        #$PrinterSvc
         $RemoteDesktopSvc
         $SensorSvc
         $SmartCardSvc
@@ -22417,7 +22415,7 @@ $ServicesEntries = @{
         $TroubleshootingDiagUsageSvc
         $VirtualRealitySvc
         #$VpnSvc
-        $WebcamSvc
+        #$WebcamSvc
         $WindowsBackupAndSystemRestoreSvc
         $WindowsDefenderPhishingProtectionSvc
         $WindowsSearchSvc
@@ -22427,9 +22425,9 @@ $ServicesEntries = @{
         $MiscServices
     )
     ThirdParty = @(
-        $AdobeSvc
+        #$AdobeSvc
         $IntelSvc
-        $NvidiaSvc
+        #$NvidiaSvc
     )
 }
 
@@ -22440,7 +22438,7 @@ function Set-ServicesEntries
     Export-DefaultSystemDriversStartupType
     $ServicesEntries.SystemDriver | Set-ServiceStartupType
     $ServicesEntries.Windows | Set-ServiceStartupType
-    #$ServicesEntries.ThirdParty | Set-ServiceStartupType
+    $ServicesEntries.ThirdParty | Set-ServiceStartupType
 }
 
 # Function to easily check for new services (e.g. added by a Windows update).
@@ -22474,7 +22472,7 @@ function Get-ServiceNotInScript
 #region scheduled tasks
 
 $TasksEntries = @(
-    #$UcpdTask
+    $UcpdTask
     #$AdobeAcrobatTasks
     $FeaturesTasks
     #$MicrosoftEdgeTasks
