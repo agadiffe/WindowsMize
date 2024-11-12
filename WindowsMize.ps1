@@ -285,7 +285,7 @@ NVCleanstall: select the following options
   - perform a clean installation (not necessary if you used DDU)
   - disable Multiplane Overlay (MPO) (select if you have issues with flickering/blackscreens)
   - show expert tweaks:
-    - disable driver telemetry (experimental) (will auto-select rebuild digital signature)
+    - disable driver telemetry (experimental) (might cause installation to fail)
     - disable Nvidia HD audio device sleep timer (might fail)
     - enable message signaled interrupts (interrupt policy: default | interrupt priority: High)
     - disable HDCP
@@ -4053,7 +4053,7 @@ function Set-DrivePagingFile
             Position = 0)]
         [ValidatePattern(
             "[A-Za-z]:\\?",
-            ErrorMessage = 'The drive syntax is not valid. Syntax is <DriveLetter>: or <DriveLetter>:\')]
+            ErrorMessage = 'The supplied drive is not valid.. Syntax is <DriveLetter>: or <DriveLetter>:\')]
         [string[]]
         $Drive,
 
@@ -4244,16 +4244,54 @@ function Disable-DotNetTelemetry
 #-------------------
 # system drive (e.g. 'C:\')
 # default: on
+function Set-ComputerRestore
+{
+    <#
+    .SYNTAX
+        Set-ComputerRestore [-Drive] <string> [-State] {Enabled | Disabled} [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-ComputerRestore -Drive 'X:' -State 'Disabled'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidatePattern(
+            "[A-Za-z]:\\?",
+            ErrorMessage = 'The supplied drive is not valid. Syntax is <DriveLetter>: or <DriveLetter>:\')]
+        [string]
+        $Drive,
+
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
+    )
+
+    Write-Verbose -Message "Setting 'Computer Restore' of drive '$Drive' to '$State' ..."
+    
+    if ($State -eq 'Enabled')
+    {
+        Enable-ComputerRestore -Drive $Drive
+    }
+    else
+    {
+        Disable-ComputerRestore -Drive $Drive
+    }
+}
+
 function Enable-SystemDriveRestore
 {
-    Write-Verbose -Message "Setting 'SystemDrive Restore' to 'Enabled' ..."
-    Enable-ComputerRestore -Drive "$env:SystemDrive"
+    Set-ComputerRestore -Drive $env:SystemDrive -State 'Enabled'
 }
 
 function Disable-SystemDriveRestore
 {
-    Write-Verbose -Message "Setting 'SystemDrive Restore' to 'Disabled' ..."
-    Disable-ComputerRestore -Drive "$env:SystemDrive"
+    Set-ComputerRestore -Drive $env:SystemDrive -State 'Disabled'
 }
 
 # turn off for all drives
@@ -16478,7 +16516,7 @@ $PrivacyLocationNotifyAppsRequest = '[
     "Entries" : [
       {
         "Name"  : "ShowGlobalPrompts",
-        "Value" : "1",
+        "Value" : "0",
         "Type"  : "DWord"
       }
     ]
@@ -20172,6 +20210,12 @@ $IntelSvc = '[
     "DefaultType": "Automatic"
   },
   {
+    "DisplayName": "Intel(R) Storage Middleware Service",
+    "ServiceName": "RstMwService",
+    "StartupType": "Disabled",
+    "DefaultType": "Automatic"
+  },
+  {
     "DisplayName": "Intel(R) TPM Provisioning Service",
     "ServiceName": "Intel(R) TPM Provisioning Service",
     "StartupType": "Disabled",
@@ -20491,7 +20535,8 @@ $MicrosoftOfficeTasks = '[
       "Office Automatic Updates 2.0",
       "Office ClickToRun Service Monitor",
       "Office Feature Updates",
-      "Office Feature Updates Logon"
+      "Office Feature Updates Logon",
+      "Office Performance Monitor"
     ]
   }
 ]' | ConvertFrom-Json
