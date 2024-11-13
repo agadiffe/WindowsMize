@@ -4053,7 +4053,7 @@ function Set-DrivePagingFile
             Position = 0)]
         [ValidatePattern(
             "[A-Za-z]:\\?",
-            ErrorMessage = 'The supplied drive is not valid.. Syntax is <DriveLetter>: or <DriveLetter>:\')]
+            ErrorMessage = 'The supplied drive is not valid. Syntax is <DriveLetter>: or <DriveLetter>:\')]
         [string[]]
         $Drive,
 
@@ -6701,7 +6701,7 @@ function New-BraveConfigData
     Merge-Hashtable $BraveLocalState ('{
         "browser": {
             "enabled_labs_experiments": [
-                "enable-force-dark@1", # web content night mode
+                #"enable-force-dark@1", # web content night mode
                 "enable-gpu-rasterization@1",
                 "enable-parallel-downloading@1"
             ]
@@ -6888,8 +6888,8 @@ function New-BraveConfigData
             # allow all:         0 + delete data when close: 4
             "cookie_controls_mode": 1,
             "default_content_setting_values": {
-                "cookies": 4, # on-device site data
-                "brave_remember_1p_storage": 2, # forget me when I close this site\ on: 2 | off: 1
+                "cookies": 1, # on-device site data
+                "brave_remember_1p_storage": 1, # forget me when I close this site\ on: 2 | off: 1
                 "httpsUpgrades": 2 # strict: 2 | standard: 3 | off: 1
             }
         }
@@ -7008,9 +7008,9 @@ function New-BraveConfigData
     Merge-Hashtable $BravePreferences ('{
         "browser": {
             "clear_data": {
-                "browsing_history_on_exit": true,
+                "browsing_history_on_exit": false,
                 "cache_on_exit": false,
-                "cookies_on_exit": true,
+                "cookies_on_exit": false,
                 "download_history_on_exit": true,
                 "form_data_on_exit": true,
                 "hosted_apps_data_on_exit": true,
@@ -7079,7 +7079,7 @@ function New-BraveConfigData
         },
         "webkit": {
             "webprefs": {
-                "encrypted_media_enabled": false # play protected content
+                "encrypted_media_enabled": true # play protected content
             }
         },
         "safety_hub": {
@@ -7196,7 +7196,7 @@ function New-BraveConfigData
 
     Merge-Hashtable $BraveLocalState ('{
         "brave": {
-            "widevine_opted_in": false # needed for some online stream content
+            "widevine_opted_in": true # needed for some online stream content
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
