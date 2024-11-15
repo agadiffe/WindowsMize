@@ -304,11 +304,14 @@ NVCleanstall: select the following options
 #=======================================
 ## user info
 #=======================================
-# Needed to be able to execute the script on standart account.
-# i.e. elevated terminal modify the admin's Hive, therefore not HKEY_CURRENT_USER.
+# Needed to be able to execute the script on standard account.
+# Elevated prompt runs with all the properties of the Admin's account, not the logged in user.
+# i.e.
+# 'HKEY_CURRENT_USER' will modify the Admin's HIVE.
+# 'Environment variables' & 'Shell Folders paths' are the Admin's values.
+# etc ...
 
-# It should also works for Active Directory users ?
-# As I haven't tested this use case, the script will exit if it fails to retrieve the username.
+# It should also works for Active Directory users ? (untested)
 
 function Get-LoggedUserUsername
 {
@@ -330,10 +333,38 @@ function Get-LoggedUserSID
 
 function Get-LoggedUserEnvVariable
 {
-    $LoggedUserSID = Get-LoggedUserSID
-    $LoggedUserEnvRegPath = "Registry::HKEY_USERS\$LoggedUserSID\Volatile Environment"
+    $UserSID = Get-LoggedUserSID
+    $LoggedUserEnvRegPath = "Registry::HKEY_USERS\$UserSID\Volatile Environment"
     $EnvVariable = Get-ItemProperty -Path $LoggedUserEnvRegPath | Select-Object -Property '*' -Exclude 'PS*'
     $EnvVariable
+}
+
+# e.g. Desktop, My Music, My Pictures, My Video, Personal (i.e. My Documents)
+function Get-LoggedUserShellFolder
+{
+    $UserSID = Get-LoggedUserSID
+    $ShellFoldersRegPath = "$UserSID\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+
+    $AllUsersRegKey = [Microsoft.Win32.RegistryKey]::OpenBaseKey(
+        [Microsoft.Win32.RegistryHive]::Users,
+        [Microsoft.Win32.RegistryView]::Default)
+    $ShellFoldersRegKey = $AllUsersRegKey.OpenSubKey($ShellFoldersRegPath)
+
+    $UserProfilePath = (Get-LoggedUserEnvVariable).USERPROFILE
+    $ShellFolders = @{}
+    foreach ($ValueName in $ShellFoldersRegKey.GetValueNames())
+    {
+        $ShellFolders[$ValueName] = $ShellFoldersRegKey.GetValue(
+            $ValueName,
+            '',
+            [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)
+        $ShellFolders[$ValueName] = $ShellFolders[$ValueName].Replace('%USERPROFILE%', $UserProfilePath)
+    }
+
+    $AllUsersRegKey.Close()
+    $ShellFoldersRegKey.Close()
+
+    $ShellFolders
 }
 
 #=======================================
@@ -431,7 +462,7 @@ function Set-RegistryEntry
             [string] $Type
         }
 
-        $LoggedUserSID = Get-LoggedUserSID
+        $UserSID = Get-LoggedUserSID
     }
 
     process
@@ -446,7 +477,7 @@ function Set-RegistryEntry
 
         if ($RegistryPath -match '^(?:HKCU|HKEY_CURRENT_USER)')
         {
-            $RegistryPath = $RegistryPath -ireplace '^(?:HKCU|HKEY_CURRENT_USER)', "HKEY_USERS\$LoggedUserSID"
+            $RegistryPath = $RegistryPath -ireplace '^(?:HKCU|HKEY_CURRENT_USER)', "HKEY_USERS\$UserSID"
         }
 
         $RegistryPath = "Registry::$RegistryPath"
@@ -1492,7 +1523,7 @@ GameDVR_HonorUserFSEBehaviorMode:
   1: Forces application of GameDVR_FSEBehavior to all full-screen games.
 #>
 
-# See also $GameDVR (settings > gaming > gameDVR).
+# See also $GameDVR (windows settings app > gaming > gameDVR).
 
 # on: 0 0 1 0 0 0 (default) | off: 2 1 0 2 2 1
 $FullscreenOptimizations = '[
@@ -1643,7 +1674,7 @@ $IndexingOfEncryptedFilesGPO = '[
 #=======================================
 #region location and sensors
 
-# See also $PrivacyLocation (settings > privacy & security > app permissions > location).
+# See also $PrivacyLocation (windows settings app > privacy & security > app permissions > location).
 
 # gpo\ computer config > administrative tpl > windows components > location and sensors
 #   turn off location
@@ -2047,6 +2078,7 @@ function Disable-8Dot3FileName
 
     There shouldn't have many, if at all, registry keys affected. On my fresh install testing VM, I had none.
     This script run this command before installing any programs, so in theory, there shouldn't have any 8Dot3 filenames.
+    If your UserName is longer than 8 characters, you may need to adjust some affected registry keys.
 
     The tool report all keys with a tilde(~) character, but that doesn't mean it's a 8Dot3 Name.
     This was the only one on my system ... despite the tool reported 200+ affected registry keys.
@@ -2059,7 +2091,7 @@ function Disable-8Dot3FileName
     i.e. "C:\Program Files\Common Files\Adobe\Acrobat\ActiveX\AcroPDF.dll"
     #>
 
-    # This can take a while on HDD (few minutes) (it's really fast on SSD (few seconds)).
+    # This can take a while on HDD (few minutes). It's really fast on SSD (few seconds).
     Write-Verbose -Message ("   The following Warning is not as bad as stated.`n" +
         "            Open the generated log file and replace any mention of 8Dot3 Name in the registry.`n" +
         "            Read the comment in the script for more details.`n")
@@ -3038,6 +3070,7 @@ $NetworkProtocolLltdGPO = '[
   }
 ]' | ConvertFrom-Json
 
+# user\
 $NetworkProtocolLltd = '[
   {
     "DisplayName": "Link-Layer Topology Discovery Mapper I/O Driver",
@@ -3266,7 +3299,7 @@ $SmartNameResolutionGPO = '[
 #=======================================
 #region WPAD
 
-# See also $ProxyAutoDetectSettings (settings > network & internet > proxy).
+# See also $ProxyAutoDetectSettings (windows settings app > network & internet > proxy).
 
 # If you disable WPAD, you have to manually configure all proxies.
 #-------------------
@@ -3552,7 +3585,7 @@ function Set-AdvancedBatterySetting
             'Reserve')]
         [string]
         $Battery,
-    
+
         [Parameter(
             ParameterSetName = 'Level',
             Mandatory,
@@ -3589,10 +3622,10 @@ function Set-AdvancedBatterySetting
     {
         $SettingIndex = switch ($Action)
         {
-            'DoNothing'  { 0 }
-            'Sleep'      { 1 }
-            'Hibernate'  { 2 }
-            'ShutDown'   { 3 }
+            'DoNothing' { 0 }
+            'Sleep'     { 1 }
+            'Hibernate' { 2 }
+            'ShutDown'  { 3 }
         }
 
         $ActionSettingGUID, $LevelSettingGUID = switch ($Battery)
@@ -4025,8 +4058,8 @@ function Disable-AllDrivesAutoManagedPagingFile
 #-------------------
 # Depends on how much RAM you have:
 #   32GB+: 512/512 for safeguard and (very) old programs that needs pagefile.
-#   16GB: 2048/2048 should be enought, safeguard in case you eat up all ram.
-#   8GB-: 4096/4096 should be enought, adjust to your needs.
+#   8-16GB: 2048/2048 should be enought, safeguard in case you eat up all ram.
+#   4GB: 4096/4096 should be enought (if not enought, upgrade your RAM to 8GB ...).
 
 function Set-DrivePagingFile
 {
@@ -4273,7 +4306,7 @@ function Set-ComputerRestore
     )
 
     Write-Verbose -Message "Setting 'Computer Restore' of drive '$Drive' to '$State' ..."
-    
+
     if ($State -eq 'Enabled')
     {
         Enable-ComputerRestore -Drive $Drive
@@ -5101,17 +5134,11 @@ function Install-Application
     }
 }
 
-function Remove-ApplicationDesktopShortcut
+function Remove-AllDesktopShortcut
 {
-    $AppsShortcutsNames = @(
-        'VLC media player'
-        'Bitwarden'
-        'Adobe Acrobat'
-        'SumatraPDF'
-        'Brave'
-        'Firefox'
-    )
-    Remove-Item -Path $AppsShortcutsNames.ForEach({ "$env:PUBLIC\Desktop\$_.lnk" }) -ErrorAction 'SilentlyContinue'
+    $UserDesktopPath = (Get-LoggedUserShellFolder).Desktop
+    Remove-Item -Path "$UserDesktopPath\*.lnk"
+    Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk"
 }
 
 # Development
@@ -5210,14 +5237,15 @@ function Install-WindowsSubsystemForLinux
 
     Write-Verbose -Message 'Installing Windows Subsystem For Linux ...'
 
+    $InstallOptions = @(
+        '--no-launch'
+    )
+
     if ($Distribution)
     {
-        wsl.exe --install --no-launch --distribution $Distribution
+        $InstallOptions += "--distribution $Distribution"
     }
-    else
-    {
-        wsl.exe --install --no-launch
-    }
+    wsl.exe --install @InstallOptions
 }
 
 #endregion WSL
@@ -5234,8 +5262,6 @@ function Install-WindowsSubsystemForLinux
 ## bing search in start menu
 #=======================================
 #region bing search in start menu
-
-# Only one of these two registry entries is necessary to disable the web search.
 
 # gpo\ user config > administrative tpl > windows components > file explorer
 #   turn off display of recent search entries in the File Explorer search box
@@ -5376,8 +5402,8 @@ function Get-ApplicationInfo
         'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
         'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
     )
-    $LoggedUserSID = Get-LoggedUserSID
-    $RegistryUninstallPath = $RegistryUninstallPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$LoggedUserSID")
+    $UserSID = Get-LoggedUserSID
+    $RegistryUninstallPath = $RegistryUninstallPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
 
     $AppInfo = $RegistryUninstallPath |
         Get-ChildItem -ErrorAction 'SilentlyContinue' |
@@ -8171,7 +8197,7 @@ $PhotosLocationBasedFeatures = '[
   }
 ]' | ConvertFrom-Json
 
-# show ICloud photos
+# show iCloud photos
 #-------------------
 # on: true (default) | off: false
 $PhotosICloudInNavigationView = '[
@@ -8468,7 +8494,7 @@ Let's do the same for VSCode (as it's somehow a web browser too).
 function Install-OSFMount
 {
     Install-Application -Name 'PassmarkSoftware.OSFMount'
-    Remove-Item -Path "$((Get-LoggedUserEnvVariable).USERPROFILE)\Desktop\OSFMount.lnk" -ErrorAction 'SilentlyContinue'
+    Remove-Item -Path "$((Get-LoggedUserShellFolder).Desktop)\OSFMount.lnk" -ErrorAction 'SilentlyContinue'
 
     # OSFMount is launched after installation. Close it.
     Stop-Process -Name 'OSFMount' -ErrorAction 'SilentlyContinue'
@@ -8598,7 +8624,7 @@ function Write-Function
     process
     {
         "function $Name"
-        "{$((Get-Command -Name $Name).Definition)}"
+        "{$((Get-Command -Name $Name -ErrorAction 'SilentlyContinue').Definition)}"
         ''
     }
 }
@@ -9796,8 +9822,8 @@ function Set-GraphicsSetting
     )
 
     $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
-    $LoggedUserSID = Get-LoggedUserSID
-    $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$LoggedUserSID")
+    $UserSID = Get-LoggedUserSID
+    $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
 
     $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
     $DirectXSettings = $CurrentSettings -like "*$Name*" ?
@@ -17136,6 +17162,7 @@ $PrivacyUserMovement = @(
 <#
 Applies only to the apps installed from Microsoft Store (e.g. Calculator, Photos, Notepad, ...).
 If disabled, it will also disable Windows Spotlight.
+May also disable/break other apps features ? e.g. iCloud Photos synchronization, MsTeams/Discord/etc notifications
 #>
 
 $BackgroundAppsGPO = @{
@@ -19480,9 +19507,10 @@ $MiscServices = '[
   {
     "DisplayName": "Windows Push Notifications System Service",
     "ServiceName": "WpnService",
-    "StartupType": "Disabled",
+    "StartupType": "Automatic",
     "DefaultType": "Automatic",
-    "Comment"    : "needed by action center for network notifications."
+    "Comment"    : "needed by action center for network notifications.
+                    e.g. Microsoft Teams, Discord, ..."
   },
   {
     "DisplayName": "Windows Remote Management (WS-Management)",
@@ -21425,7 +21453,7 @@ function Install-NewApplications
     #Install-WindowsSubsystemForLinux
     $ApplicationsToInstall.Machine | Install-Application -Scope 'Machine'
     #$ApplicationsToInstall.NoScope | Install-Application
-    Remove-ApplicationDesktopShortcut
+    #Remove-AllDesktopShortcut
 }
 
 #endregion installation
