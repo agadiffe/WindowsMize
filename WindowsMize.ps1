@@ -8478,7 +8478,7 @@ Moving the Cache to a RamDisk reduce write disk, but that's not enought.
 Lets move everything ('User Data' folder) to the RamDisk.
 Make some exceptions for extensions folders, bookmarks and preferences files.
 
-This should also make Brave (a bit) faster.
+This should also make Brave (a bit) faster (will probably not be noticeable).
 
 SSD lifespan is pretty high nowday, so it should be fine even without a RamDisk.
 If you watch stream videos all day long, a RamDisk might be usefull.
@@ -8532,13 +8532,8 @@ function New-ParentPath
         $Path
     )
 
-    if ($Path -match '^[a-zA-Z]:*\\*$')
-    {
-        return
-    }
-
-    $ParentPath = Split-Path -Path $Path
-    if (-not (Test-Path -Path $ParentPath))
+    $ParentPath = Split-Path -Path $Path -ErrorAction 'SilentlyContinue'
+    if ($ParentPath -and (-not (Test-Path -Path $ParentPath)))
     {
         New-Item -ItemType 'Directory' -Path $ParentPath -Force | Out-Null
     }
@@ -8640,29 +8635,32 @@ function Write-Function
 #=======================================
 ## Brave
 #=======================================
-# Add the related directories/files if you are using a specific feature (e.g. history, cookies, ...).
+# Add the related directories/files if you are using a specific feature (e.g. history, cookies, top sites, ...).
+# Persistent data will be saved on user logout and restored on ramdisk creation.
 
-# Directories will be symlinked.
-# Files will be saved on user logout and restored on ramdisk creation (at computer startup or user logon).
-
-# TODO: FilterListSubscriptionCache as a symlink causes custom list update to fail.
+# The directory 'FilterListSubscriptionCache' doesn't work as symbolic link (make list update to fail).
+# Some other files doesn't work as symbolic link: e.g. Local State, Bookmarks, Preferences, ...
 
 function Get-BraveDataException
 {
     $BraveProfileName = Split-Path -Path (Get-BravePathInfo).Profile -Leaf
 
     $BraveDataException = @{
-        Directory = @(
-            "$BraveProfileName\DNR Extension Rules" # e.g. uBOL
-            "$BraveProfileName\Extensions"
-            "$BraveProfileName\FilterListSubscriptionCache" # custom filter lists
-            "$BraveProfileName\Local Extension Settings"
-        )
-        File = @(
+        Symlink = @{
+            Directory = @(
+                "$BraveProfileName\DNR Extension Rules" # e.g. uBOL
+                "$BraveProfileName\Extensions"
+                "$BraveProfileName\Local Extension Settings"
+            )
+        }
+        Persistent = @(
             "First Run"
             "Local State"
+            "$BraveProfileName\FilterListSubscriptionCache\" # custom filter lists
+            #"$BraveProfileName\Network\Cookies"
             "$BraveProfileName\Bookmarks"
             "$BraveProfileName\Favicons"
+            #"$BraveProfileName\History"
             "$BraveProfileName\Preferences"
             "$BraveProfileName\Secure Preferences"
         )
@@ -8702,7 +8700,7 @@ function Get-BraveDataToSymlink
             LinkPath = "$RamDiskPath\Brave-Browser\User Data"
             TargetPath = (Get-BravePathInfo).PersistentData
             Data = @{
-                Directory = (Get-BraveDataException).Directory
+                Directory = (Get-BraveDataException).Symlink.Directory
             }
         }
     }
@@ -8718,18 +8716,14 @@ function Get-VSCodeDataToRamDisk
         'User\globalStorage\ms-vscode.powershell' # powershell extension
     )
 
-    $VSCodeDataExcluded = @{
-        Directory = @(
-            'Backups'
-            'User'
-        )
-    }
-
+    $VSCodeDirectoryExcluded = @(
+        'User'
+    )
     $VSCodeFoldersParam = @{
         Path      = Get-VSCodeUserDataPath
         Directory = $true
         Name      = $true
-        Exclude   = $VSCodeDataExcluded.Directory
+        Exclude   = $VSCodeDirectoryExcluded
     }
     $VSCodeFolders = Get-ChildItem @VSCodeFoldersParam
 
@@ -8764,7 +8758,9 @@ function Get-VSCodeDataToSymlink
         VSCode = @{
             LinkPath = Get-VSCodeUserDataPath
             TargetPath = "$RamDiskPath\VSCode"
-            Data = Get-VSCodeDataToRamDisk
+            Data = @{
+                Directory = (Get-VSCodeDataToRamDisk).Directory
+            }
         }
     }
     $VSCodeDataToSymlink
@@ -8862,8 +8858,8 @@ function Copy-Data
         if (Test-Path -Path $ItemParameter.Path)
         {
             New-ParentPath -Path $ItemParameter.Destination
+            Copy-Item @ItemParameter
         }
-        Copy-Item @ItemParameter -ErrorAction 'SilentlyContinue'
     }
 }
 
@@ -8949,14 +8945,36 @@ function Remove-SymbolicLink
         Remove-Item -ErrorAction 'SilentlyContinue'
 }
 
-function Copy-BravePersitentDataToBraveUserData
+function Copy-BravePersistentDataToBraveUserData
 {
-    $BravePersistentFiles = @{
-        Name        = (Get-BraveDataException).File
+    $BravePersistentData = @{
+        Name        = (Get-BraveDataException).Persistent
         Path        = (Get-BravePathInfo).PersistentData
         Destination = (Get-BravePathInfo).UserData
     }
-    Copy-Data @BravePersistentFiles
+    Copy-Data @BravePersistentData
+}
+
+function Get-DrivePath
+{
+    <#
+    .SYNTAX
+        Get-DrivePath [-Name] <string> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Get-DrivePath -Name 'RamdDisk'
+        X:\
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $Name
+    )
+
+    (Get-PSDrive -PSProvider 'FileSystem' | Where-Object -Property 'Description' -EQ -Value $Name).Root
 }
 
 #=======================================
@@ -8966,10 +8984,10 @@ function Set-DataToRamDisk
 {
     <#
     .SYNTAX
-        Set-DataToRamDisk [-RamDiskPath] <string> [<CommonParameters>]
+        Set-DataToRamDisk [-RamDiskName] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> Set-DataToRamDisk -RamDiskPath 'X:'
+        PS> Set-DataToRamDisk -RamDiskName 'RamDisk'
     #>
 
     [CmdletBinding()]
@@ -8977,7 +8995,7 @@ function Set-DataToRamDisk
     (
         [Parameter(Mandatory)]
         [string]
-        $RamDiskPath
+        $RamDiskName
     )
 
     # Comment/Uncomment the items according to your preferences.
@@ -8985,6 +9003,8 @@ function Set-DataToRamDisk
         'Brave'
         #'VSCode'
     )
+
+    $RamDiskPath = Get-DrivePath -Name $RamDiskName | Select-Object -First 1
     $RamDiskUserProfilePath = "$RamDiskPath\$(Get-LoggedUserUsername)"
     $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $DataToRamdisk
     $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
@@ -9002,7 +9022,7 @@ function Set-DataToRamDisk
         Remove-SymbolicLink -Path $SymbolicLinksPair.Path
     }
 
-    Copy-BravePersitentDataToBraveUserData
+    Copy-BravePersistentDataToBraveUserData
 }
 
 #endregion data to ramdisk
@@ -9131,7 +9151,7 @@ function New-GroupPolicyLogoffScript
     $LogoffScriptGPO[2].Entries = $LogoffScriptGPO[0].Entries
     $LogoffScriptGPO[3].Entries = $LogoffScriptGPO[1].Entries | Where-Object -Property 'Name' -NE -Value 'IsPowershell'
 
-    # These directories must exist to allow the GPO script to works.
+    # These directories must exist for the GPO scripts to work.
     $GroupPolicyScriptDirectories = @(
         "$env:SystemRoot\System32\GroupPolicy\Machine\Scripts\Startup"
         "$env:SystemRoot\System32\GroupPolicy\Machine\Scripts\Shutdown"
@@ -9150,14 +9170,14 @@ function New-GroupPolicyLogoffScript
     $LogoffScriptGPO | Set-RegistryEntry -Verbose:$false
 }
 
-function New-BackupBravePersitentDataScheduledGPO
+function New-BackupBravePersistentDataScheduledGPO
 {
     <#
     .SYNTAX
-        New-BackupBravePersitentDataScheduledGPO [-FilePath] <string> [<CommonParameters>]
+        New-BackupBravePersistentDataScheduledGPO [-FilePath] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-BackupBravePersitentDataScheduledGPO -FilePath 'C:\MyScript.ps1'
+        PS> New-BackupBravePersistentDataScheduledGPO -FilePath 'C:\MyScript.ps1'
     #>
 
     [CmdletBinding()]
@@ -9168,21 +9188,21 @@ function New-BackupBravePersitentDataScheduledGPO
         $FilePath
     )
 
-    Write-Verbose -Message 'Setting ''Backup Brave Persitent Data'' Scheduled GPO ...'
+    Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Scheduled GPO ...'
     New-GroupPolicyLogoffScript -FilePath $FilePath
 }
 
-function Copy-BraveUserDataToBravePersitentData
+function Copy-BraveUserDataToBravePersistentData
 {
-    $BravePersistentFiles = @{
-        Name        = (Get-BraveDataException).File
+    $BravePersistentData = @{
+        Name        = (Get-BraveDataException).Persistent
         Path        = (Get-BravePathInfo).UserData
         Destination = (Get-BravePathInfo).PersistentData
     }
-    Copy-Data @BravePersistentFiles
+    Copy-Data @BravePersistentData
 }
 
-function Write-BackupBravePersitentDataScript
+function Write-BackupBravePersistentDataScript
 {
     $FunctionsToWrite = @(
         'Get-LoggedUserUsername'
@@ -9192,24 +9212,24 @@ function Write-BackupBravePersitentDataScript
         'Get-BraveDataException'
         'New-ParentPath'
         'Copy-Data'
-        'Copy-BraveUserDataToBravePersitentData'
+        'Copy-BraveUserDataToBravePersistentData'
     )
 
     $RamDiskLogoffScriptContent = $FunctionsToWrite | Write-Function
     $RamDiskLogoffScriptContent += '
-        Copy-BraveUserDataToBravePersitentData
+        Copy-BraveUserDataToBravePersistentData
     ' -replace '(?m)^ *'
     $RamDiskLogoffScriptContent
 }
 
-function New-BackupBravePersitentDataScript
+function New-BackupBravePersistentDataScript
 {
     <#
     .SYNTAX
-        New-BackupBravePersitentDataScript [-FilePath] <string> [<CommonParameters>]
+        New-BackupBravePersistentDataScript [-FilePath] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-BackupBravePersitentDataScript -FilePath 'C:\MyScript.ps1'
+        PS> New-BackupBravePersistentDataScript -FilePath 'C:\MyScript.ps1'
     #>
 
     [CmdletBinding()]
@@ -9220,10 +9240,10 @@ function New-BackupBravePersitentDataScript
         $FilePath
     )
 
-    Write-Verbose -Message 'Setting ''Backup Brave Persitent Data'' Script ...'
+    Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Script ...'
 
     New-ParentPath -Path $FilePath
-    Write-BackupBravePersitentDataScript | Out-File -FilePath $FilePath
+    Write-BackupBravePersistentDataScript | Out-File -FilePath $FilePath
 }
 
 #endregion backup Brave data script
@@ -9233,28 +9253,6 @@ function New-BackupBravePersitentDataScript
 #                               set data script
 #==============================================================================
 #region set data script
-
-function Get-DrivePath
-{
-    <#
-    .SYNTAX
-        Get-DrivePath [-Name] <string> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Get-DrivePath -Name 'RamdDisk'
-        X:\
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $Name
-    )
-
-    (Get-PSDrive -PSProvider 'FileSystem' | Where-Object -Property 'Description' -EQ -Value $Name).Root
-}
 
 function Write-RamDiskSetDataScript
 {
@@ -9290,16 +9288,14 @@ function Write-RamDiskSetDataScript
         'New-SymbolicLinksPair'
         'Remove-SymbolicLink'
         'Copy-Data'
-        'Copy-BravePersitentDataToBraveUserData'
+        'Copy-BravePersistentDataToBraveUserData'
         'New-RamDiskUserProfile'
         'Set-DataToRamDisk'
-        'Get-DrivePath'
     )
     $RamDiskSetDataScriptContent = $FunctionsToWrite | Write-Function
 
     $RamDiskSetDataScriptContent += "
-        `$RamDiskPath = Get-DrivePath -Name '$RamDiskName' | Select-Object -First 1
-        Set-DataToRamDisk -RamDiskPath `$RamDiskPath
+        Set-DataToRamDisk -RamDiskName $RamDiskName
     " -replace '(?m)^ *'
     $RamDiskSetDataScriptContent
 }
@@ -9426,29 +9422,6 @@ function New-RamDisk
     }
 }
 
-function Test-DriveDescription
-{
-    <#
-    .SYNTAX
-        Test-DriveDescription [-Name] <string> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Test-DriveDescription -Name 'RamDisk'
-        True
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $Name
-    )
-
-    $DriveDescriptionInUse = (Get-PSDrive -PSProvider 'FileSystem').Description
-    $DriveDescriptionInUse -contains $Name
-}
-
 function Write-RamDiskCreationScript
 {
     <#
@@ -9472,14 +9445,14 @@ function Write-RamDiskCreationScript
         'Get-ApplicationInfo'
         'Get-AvailableDriveLetter'
         'New-RamDisk'
-        'Test-DriveDescription'
+        'Get-DrivePath'
     )
     $RamDiskCreationScriptContent = $FunctionsToWrite | Write-Function
 
     # If you have multiple users, make sure to allocate enought RAM.
     # For Brave, allocate at least 256MB per user.
     $RamDiskCreationScriptContent += "
-        if (-not (Test-DriveDescription -Name '$RamDiskName'))
+        if (-not (Get-DrivePath -Name '$RamDiskName'))
         {
             New-RamDisk -Name '$RamDiskName' -Size '1G'
         }
@@ -9681,8 +9654,8 @@ function Set-RamDiskScriptsAndTasks
     New-RamDiskSetDataScript -RamDiskName $RamDiskName -FilePath $LogonScriptFilePath
     New-RamDiskSetDataScheduledTask -FilePath $LogonScriptFilePath
 
-    New-BackupBravePersitentDataScript -FilePath $LogoffScriptFilePath
-    New-BackupBravePersitentDataScheduledGPO -FilePath $LogoffScriptFilePath
+    New-BackupBravePersistentDataScript -FilePath $LogoffScriptFilePath
+    New-BackupBravePersistentDataScheduledGPO -FilePath $LogoffScriptFilePath
 }
 
 #endregion setup ramdisk
@@ -22396,7 +22369,7 @@ $PrivacySettings = @{
         $PrivacyMotion
         $PrivacyPresenceSensing
         $PrivacyUserMovement
-        $PrivacyBackgroundAppsGPO
+        #$PrivacyBackgroundAppsGPO
         $PrivacyCellularData
     )
 }
