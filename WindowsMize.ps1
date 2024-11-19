@@ -5168,7 +5168,10 @@ $qBittorrent    = 'qBittorrent.qBittorrent'
 
 # Web Browser
 #-------------------
-$Brave          = 'Brave.Brave'
+$Brave          = @(
+                  'Brave.Brave'
+                  'Brave.BraveUpdater'
+                )
 $Firefox        = 'Mozilla.Firefox'
 $MullvadBrowser = 'MullvadVPN.MullvadBrowser'
 
@@ -21601,16 +21604,6 @@ $ApplicationsToInstall = @{
             #$MullvadBrowser
     )
 }
-
-<#
-You might have an error to auto update Brave when installing it with winget.
-Launch Brave and open the 'About Brave' setting page (Menu > Help > About Brave).
-If you have the following error:
-An error occurred while checking for updates: Update check failed to start (error code 3: 0X80040154 -- system level).
-This means that the 'Brave Updates Windows Services' has failed to install.
-Go to the official website (https://brave.com/download/) to download Brave and install it again.
-No need to uninstall Brave, just run the executable to update the existing installation.
-#>
 
 function Install-NewApplications
 {
