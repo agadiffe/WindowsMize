@@ -12038,6 +12038,158 @@ $TouchpadPinchToZoom = '[
   }
 ]' | ConvertFrom-Json
 
+#===================
+### three-finger gestures
+#===================
+# swipes
+#-------------------
+# ThreeFingerSlideEnabled\
+# nothing: 0 | switch apps and show desktop: 1 (default) | switch desktops and show desktop: 2
+# change audio and volume: 3 | custom: 65535 (hex: ffff)
+#
+# advanced gestures\ if 'ThreeFingerSlideEnabled' is NOT set to custom, 'Up/Down/Left/Right' are ignored.
+# nothing: 0 | switch apps: 1 (left/right) | task view: 2 (up) | show desktop: 3 (down) | switch desktops: 4
+# hide everything other than the app in focus: 5 | create desktop: 6 | remove desktop: 7
+# forward navigation: 8 | backward navigation: 9 | snap window to the left: 10 | snap window to the right: 12
+# maximize a window: 11 | minimize a window: 13 | next track: 14 | previous track: 15
+# volume up: 16 | volume down: 17 | mute: 18
+$TouchpadThreeFingerSwipe = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\PrecisionTouchPad",
+    "Entries" : [
+      {
+        "Name"  : "ThreeFingerSlideEnabled",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "ThreeFingerUp",
+        "Value" : "2",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "ThreeFingerDown",
+        "Value" : "3",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "ThreeFingerLeft",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "ThreeFingerRight",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+# taps
+#-------------------
+# ThreeFingerTapEnabled\
+# nothing: 0 | open search: 1 (default) | notification center: 2
+# play/pause: 3 | middle mouse button: 4 | custom: 65535 (hex: ffff)
+#
+# advanced gestures\ if 'ThreeFingerTapEnabled' is NOT set to custom, 'CustomThreeFingerTap' is ignored.
+# mouse back button: 5 | mouse forward button: 6
+$TouchpadThreeFingerTap = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\PrecisionTouchPad",
+    "Entries" : [
+      {
+        "Name"  : "ThreeFingerTapEnabled",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "CustomThreeFingerTap",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#===================
+### four-finger gestures
+#===================
+# swipes
+#-------------------
+# FourFingerSlideEnabled\
+# nothing: 0 | switch apps and show desktop: 1 | switch desktops and show desktop: 2 (default)
+# change audio and volume: 3 | custom: 65535 (hex: ffff)
+#
+# advanced gestures\ if 'FourFingerSlideEnabled' is NOT set to custom, 'Up/Down/Left/Right' are ignored.
+# nothing: 0 | switch apps: 1 | task view: 2 (up) | show desktop: 3 (down) | switch desktops: 4 (left/right)
+# hide everything other than the app in focus: 5 | create desktop: 6 | remove desktop: 7
+# forward navigation: 8 | backward navigation: 9 | snap window to the left: 10 | snap window to the right: 12
+# maximize a window: 11 | minimize a window: 13 | next track: 14 | previous track: 15
+# volume up: 16 | volume down: 17 | mute: 18
+$TouchpadFourFingerSwipe = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\PrecisionTouchPad",
+    "Entries" : [
+      {
+        "Name"  : "FourFingerSlideEnabled",
+        "Value" : "2",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "FourFingerUp",
+        "Value" : "2",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "FourFingerDown",
+        "Value" : "3",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "FourFingerLeft",
+        "Value" : "4",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "FourFingerRight",
+        "Value" : "4",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+# taps
+#-------------------
+# FourFingerTapEnabled\
+# nothing: 0 | open search: 1 | notification center: 2 (default)
+# play/pause: 3 | middle mouse button: 4 | custom: 65535 (hex: ffff)
+#
+# advanced gestures\ if 'FourFingerTapEnabled' is NOT set to custom, 'CustomThreeFingerTap' is ignored.
+# mouse back button: 5 | mouse forward button: 6
+$TouchpadFourFingerTap = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\PrecisionTouchPad",
+    "Entries" : [
+      {
+        "Name"  : "FourFingerTapEnabled",
+        "Value" : "2",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "CustomFourFingerTap",
+        "Value" : "2",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
 #endregion touchpad
 
 #=======================================
@@ -21959,6 +22111,10 @@ $BluetoothAndDevicesSettings = @{
         $TouchpadDragTwoFingersToScroll
         $TouchpadScrollingDirection
         $TouchpadPinchToZoom
+        $TouchpadThreeFingerSwipe
+        $TouchpadThreeFingerTap
+        $TouchpadFourFingerSwipe
+        $TouchpadFourFingerTap
     )
     PenAndWindowsInk = @(
         $PenAndWindowsInkGPO
