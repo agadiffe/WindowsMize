@@ -17902,7 +17902,7 @@ function Set-ServiceStartupType
         $DisplayName = $InputObject.DisplayName
         $StartupType = $RestoreDefault ? $InputObject.DefaultType : $InputObject.StartupType
 
-        $CurrentStartupType = (Get-Service -Name $Name -ErrorAction 'SilentlyContinue').StartupType
+        $CurrentStartupType = (Get-Service -Name $Name -ErrorAction 'SilentlyContinue').StartType
 
         if (-not $CurrentStartupType)
         {
@@ -17924,7 +17924,7 @@ function Set-ServiceStartupType
             # "Access is denied" means that SYSTEM and/or TrustedInstaller privileges are required.
             try
             {
-                Set-Service -Name $Name -StartupType $StartupType -ErrorAction 'Stop'
+                Set-Service -Name $Name -StartType $StartupType -ErrorAction 'Stop'
             }
             catch
             {
@@ -18060,15 +18060,6 @@ $QosPacketSchedulerDriver = '[
 #===================
 ### miscellaneous
 #===================
-
-$BitLockerDriver = '[
-  {
-    "DisplayName": "BitLocker Drive Encryption Filter Driver",
-    "ServiceName": "fvevol",
-    "StartupType": "Disabled",
-    "DefaultType": "Boot"
-  }
-]' | ConvertFrom-Json
 
 $OfflineFilesDriver = '[
   {
@@ -22641,7 +22632,6 @@ $ServicesEntries = @{
         $LltdDriver
         $MicrosoftNetworkAdapterMultiplexorDriver
         $QosPacketSchedulerDriver
-        $BitLockerDriver
         $OfflineFilesDriver
         $NetworkDataUsageDriver
     )
