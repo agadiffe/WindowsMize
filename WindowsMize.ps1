@@ -7898,6 +7898,39 @@ $MicrosoftStoreVideoAutoplay = '[
 
 
 #==============================================================================
+#                                 qbittorrent
+#==============================================================================
+#region qbittorrent
+
+function Set-qBittorrentSettings
+{
+    Write-Verbose -Message 'Setting qBittorrent Settings ...'
+
+    $qBittorrentUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\qBittorrent"
+    if (-not (Test-Path -Path $qBittorrentUserDataPath))
+    {
+        New-Item -ItemType 'Directory' -Path $qBittorrentUserDataPath -Force | Out-Null
+    }
+
+    '[LegalNotice]
+    Accepted=true
+
+    [Preferences]
+    General\PreventFromSuspendWhenDownloading=true
+
+    [BitTorrent]
+    Session\AddExtensionToIncompleteFiles=true
+    Session\AnonymousModeEnabled=true
+    Session\Encryption=1
+    Session\Port=0
+    ' -replace '(?m)^ *' |
+        Out-File -FilePath "$qBittorrentUserDataPath\qBittorrent.ini"
+}
+
+#endregion qbittorrent
+
+
+#==============================================================================
 #                             visual studio code
 #==============================================================================
 #region visual studio code
@@ -21916,6 +21949,7 @@ function Set-MiscellaneousApplicationsSettings
     Set-BraveSettings
     #Set-GitSettings
     Set-KeePassXCSettings
+    Set-qBittorrentSettings
     Set-VisualStudioCodeSettings
     Set-VLCSettings
     Set-WindowsTerminalSettings
