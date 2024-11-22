@@ -1525,7 +1525,7 @@ GameDVR_HonorUserFSEBehaviorMode:
 
 # See also $GameDVR (windows settings app > gaming > gameDVR).
 
-# on: 0 0 1 0 0 0 (default) | off: 2 1 0 2 2 1
+# on: 0 0 1 0 0 0 | off: 2 1 0 2 2 1
 $FullscreenOptimizations = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -5136,6 +5136,8 @@ function Install-Application
 
 function Remove-AllDesktopShortcut
 {
+    Write-Verbose -Message 'Removing All Desktop shortcuts ...'
+
     $UserDesktopPath = (Get-LoggedUserShellFolder).Desktop
     Remove-Item -Path "$UserDesktopPath\*.lnk"
     Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk"
@@ -8888,12 +8890,16 @@ function Copy-Data
     {
         $ItemParameter = @{
             Path        = "$Path\$Item"
-            Destination = "$Destination\$Item"
+            Destination = Split-Path -Path "$Destination\$Item"
             Recurse     = $true
+            Force       = $true
         }
         if (Test-Path -Path $ItemParameter.Path)
         {
-            New-ParentPath -Path $ItemParameter.Destination
+            if (-not (Test-Path -Path $ItemParameter.Destination))
+            {
+                New-Item -ItemType 'Directory' -Path $ItemParameter.Destination -Force | Out-Null
+            }
             Copy-Item @ItemParameter
         }
     }
@@ -9326,6 +9332,7 @@ function Write-RamDiskSetDataScript
         'Copy-Data'
         'Copy-BravePersistentDataToBraveUserData'
         'New-RamDiskUserProfile'
+        'Get-DrivePath'
         'Set-DataToRamDisk'
     )
     $RamDiskSetDataScriptContent = $FunctionsToWrite | Write-Function
@@ -20806,7 +20813,8 @@ $MiscTasks = '[
     "TaskPath": "\\Microsoft\\Windows\\Diagnosis\\",
     "TaskName": [
       "RecommendedTroubleshootingScanner",
-      "Scheduled"
+      "Scheduled",
+      "UnexpectedCodepath"
     ]
   },
   {
