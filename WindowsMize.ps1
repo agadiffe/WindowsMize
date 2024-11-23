@@ -24,12 +24,12 @@
   Open a terminal and run:
     winget install --exact --id 'Microsoft.PowerShell'
 
-- Update (optional, but good practice).
+- Update
   Make sure your Windows is fully updated:
     settings > windows update > check for updates
     microsoft store > library (or downloads) > get updates
 
-- Backup (optional, but good practice).
+- Backup
   Make sure to backup all of your data.
   e.g. browser bookmarks, apps settings, personal files, passwords database
 #>
@@ -230,7 +230,6 @@ function New-WindowsAnswerFile
 
 - settings > privacy & security > windows security (aka Defender)
   Review the settings and dismiss any warning message.
-  If phishing wasn't disable with GPO, toggle off (or not) the setting.
 
 - settings > privacy & security > device encryption
   Turn off device encryption (not automated because it can take a long time).
@@ -7078,11 +7077,13 @@ function New-BraveConfigData
                 "autoplay": 1,
                 "brave_ethereum": 2,
                 "brave_google_sign_in": 2,
+                "brave_open_ai_chat": 2,
                 "brave_solana": 2,
                 "captured_surface_control": 2, # scrolling & zooming
                 "clipboard": 2,
                 "file_system_write_guard": 2, # file editing
                 "geolocation": 2,
+                "hand_tracking": 2,
                 "hid_guard": 2, # HID devices
                 "images": 1,
                 "javascript_optimizer": 2, # v8 optimizer
