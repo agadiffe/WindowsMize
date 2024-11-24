@@ -270,27 +270,10 @@ function New-WindowsAnswerFile
   cpu: Intel XTU / AMD Ryzen Master / Throttlestop
   gpu: MSI afterburner
   tools: heaven benchmark / cinebench
-#>
 
-#=======================================
-## nvidia
-#=======================================
-<#
-Uninstall the old driver with Display Driver Uninstaller (DDU)
-
-NVCleanstall: select the following options
-- tweaks menu:
-  - disable installer telemetry & advertising
-  - perform a clean installation (not necessary if you used DDU)
-  - disable Multiplane Overlay (MPO) (select if you have issues with flickering/blackscreens)
-  - show expert tweaks:
-    - disable driver telemetry (experimental) (might cause installation to fail)
-    - disable Nvidia HD audio device sleep timer (might fail)
-    - enable message signaled interrupts (interrupt policy: default | interrupt priority: High)
-    - disable HDCP
-  - rebuild digital signature (required for one or more selected tweaks on this page)
-    - use method compatible with Easy-Anti-Cheat
-    - automatically accept the "driver unsigned" warning
+- Nvidia GPU
+  Uninstall the old driver with Display Driver Uninstaller (DDU).
+  Install the new driver with NVCleanstall.
 #>
 
 #endregion todo manually
@@ -825,6 +808,10 @@ $BrowseFoldersPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\Cur
 $BrowseFoldersBytes = (Get-ItemProperty -Path $BrowseFoldersPath).Settings
 Set-ByteBitFlag -Bytes $BrowseFoldersBytes -ByteNum 4 -BitPos 6 -Value $OpenInNewWindow
 
+# open desktop folders and external folder links in new tab
+# require 'open each folder in the same window' (i.e. $OpenInNewWindow = $false)
+# on: 1 (default) | off: 0
+
 $FileExplorerBrowseFolders = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -834,6 +821,17 @@ $FileExplorerBrowseFolders = '[
         "Name"  : "Settings",
         "Value" : "$BrowseFoldersBytes",
         "Type"  : "Binary"
+      }
+    ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+    "Entries" : [
+      {
+        "Name"  : "OpenFolderInNewTab",
+        "Value" : "1",
+        "Type"  : "DWord"
       }
     ]
   }
@@ -1490,16 +1488,17 @@ $FontStreamingGPO = '[
 source: internet
 
 GameDVR_DSEBehavior:
-  0 (default): Game DVR can use full system resources for recording and broadcasting while in DSE.
+  0: Game DVR can use full system resources for recording and broadcasting while in DSE.
   2: Limits Game DVR resource usage in DSE, potentially improving gaming performance.
 
 GameDVR_DXGIHonorFSEWindowsCompatible:
-  0 (default): Game DVR can still record even if the game sets FSE on, potentially impacting performance.
+  0: Game DVR can still record even if the game sets FSE on, potentially impacting performance.
   1: Game DVR respects the FSE flag and won't record while games are in true full-screen mode.
 
 GameDVR_EFSEFeatureFlags:
   This key controls additional functionality related to Enhanced Full-screen Exclusive (EFSE), a newer version of FSE.
-  Different bit values within the key enable or disable specific features. 0 means disabled, 1 means enabled.
+  Different bit values within the key enable or disable specific features.
+  0: disabled | 1: enabled.
     Bit 0: Enables or disables EFSE mode.
     Bit 1: Enables or disables the use of DXGI flip model swap chains for EFSE mode.
     Bit 2: Enables or disables the use of DXGI swap chain scaling for EFSE mode.
@@ -1509,21 +1508,22 @@ GameDVR_EFSEFeatureFlags:
   There are probably more, better to leave this untouched or at least just enable/disable it.
 
 GameDVR_FSEBehavior:
-  0 (default): Game DVR can use full system resources while games are full-screen.
+  0: Game DVR can use full system resources while games are full-screen.
   2: Limits Game DVR resource usage in full-screen games, potentially improving performance.
 
 GameDVR_FSEBehaviorMode:
-  0 (default): Only applies GameDVR_FSEBehavior to games marked as "high impact" on your system.
+  0: Only applies GameDVR_FSEBehavior to games marked as "high impact" on your system.
   1: Applies GameDVR_FSEBehavior to all full-screen games.
   2: Disabled.
 
 GameDVR_HonorUserFSEBehaviorMode:
-  0 (default): Uses the default mode.
+  0: Uses the default mode.
   1: Forces application of GameDVR_FSEBehavior to all full-screen games.
 #>
 
 # See also $GameDVR (windows settings app > gaming > gameDVR).
 
+# default: delete 0 0 delete 2 0
 # on: 0 0 1 0 0 0 | off: 2 1 0 2 2 1
 $FullscreenOptimizations = '[
   {
