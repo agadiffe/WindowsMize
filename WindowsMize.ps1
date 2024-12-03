@@ -5727,7 +5727,7 @@ $Camera             = 'Microsoft.WindowsCamera'
 $Clipchamp          = 'Clipchamp.Clipchamp'
 $Clock              = 'Microsoft.WindowsAlarms'
 $Compatibility      = 'Microsoft.ApplicationCompatibilityEnhancements'
-$Cortana            = 'Microsoft.549981C3F5F10'
+$Cortana            = 'Microsoft.549981C3F5F10' # old
 $CrossDevice        = 'MicrosoftWindows.CrossDevice'
 $DevHome            = 'Microsoft.Windows.DevHome'
 $Extensions         = @(
@@ -5745,8 +5745,8 @@ $Family             = 'MicrosoftCorporationII.MicrosoftFamily'
 $FeedbackHub        = 'Microsoft.WindowsFeedbackHub'
 $GetHelp            = 'Microsoft.GetHelp'
 $Journal            = 'Microsoft.MicrosoftJournal'
-$MailAndCalendar    = 'microsoft.windowscommunicationsapps'
-$Maps               = 'Microsoft.WindowsMaps'
+$MailAndCalendar    = 'microsoft.windowscommunicationsapps' # old
+$Maps               = 'Microsoft.WindowsMaps' # old
 $MediaPlayer        = 'Microsoft.ZuneMusic'
 $Microsoft365       = 'Microsoft.MicrosoftOfficeHub'
 $MicrosoftCopilot   = @(
@@ -5764,7 +5764,7 @@ $MicrosoftTeams     = @(
                       'MSTeams'
                       'MicrosoftTeams' # old
                     )
-$MoviesAndTV        = 'Microsoft.ZuneVideo'
+$MoviesAndTV        = 'Microsoft.ZuneVideo' # old
 $News               = 'Microsoft.BingNews'
 $Notepad            = 'Microsoft.WindowsNotepad'
 $Outlook            = 'Microsoft.OutlookForWindows'
@@ -5772,7 +5772,7 @@ $Paint              = @(
                       'Microsoft.Paint'
                       'Microsoft.Windows.MSPaint' # Win10
                     )
-$People             = 'Microsoft.People'
+$People             = 'Microsoft.People' # old
 $PhoneLink          = 'Microsoft.YourPhone'
 $Photos             = 'Microsoft.Windows.Photos'
 $PowerAutomate      = 'Microsoft.PowerAutomateDesktop'
@@ -5809,10 +5809,10 @@ $Xbox               = @( # might be required for some games
                     )
 
 # Windows 10 only
-$3DViewer           = 'Microsoft.Microsoft3DViewer'
-$MixedRealityPortal = 'Microsoft.MixedReality.Portal'
+$3DViewer           = 'Microsoft.Microsoft3DViewer' # old
+$MixedRealityPortal = 'Microsoft.MixedReality.Portal' # old
 $OneNote            = 'Microsoft.Office.OneNote'
-$Paint3D            = 'Microsoft.MSPaint'
+$Paint3D            = 'Microsoft.MSPaint' # old
 $Skype              = 'Microsoft.SkypeApp'
 $Wallet             = 'Microsoft.Wallet'
 
@@ -7421,9 +7421,14 @@ function Set-KeePassXCSettings
         New-Item -ItemType 'Directory' -Path $KeePassXCUserDataPath -Force | Out-Null
     }
 
-    # security > use DuckDuckGo service to download website icons
     '[Security]
     IconDownloadFallback=true
+
+    [GUI]
+    CheckForUpdates=true
+
+    [General]
+    UpdateCheckMessageShown=true
     ' -replace '(?m)^ *' |
         Out-File -FilePath "$KeePassXCUserDataPath\keepassxc.ini"
 
@@ -11659,7 +11664,7 @@ $DevicesNotificationsConnectSwiftPair = '[
   }
 ]' | ConvertFrom-Json
 
-# download over metered connections (device software (drivers, info, and apps)
+# download over metered connections (device software (drivers, info, and apps))
 #-------------------
 # on: 1 | off: 0 (default)
 $DevicesDownloadOverMetered = '[
@@ -11676,7 +11681,7 @@ $DevicesDownloadOverMetered = '[
   }
 ]' | ConvertFrom-Json
 
-# bluetooth devices discovery
+# bluetooth devices discovery | old
 #-------------------
 # default: 0 (default) | advanced: 1
 $DevicesBluetoothDiscovery = '[
@@ -16814,7 +16819,7 @@ $PrivacyMicrophone = @(
 #===================
 ### voice activation
 #===================
-#region activation
+#region voice activation
 
 $PrivacyVoiceActivation = '[
   {
@@ -16857,7 +16862,7 @@ $PrivacyVoiceActivation = '[
   }
 ]' | ConvertFrom-Json
 
-#endregion activation
+#endregion voice activation
 
 #===================
 ### notification
@@ -21456,7 +21461,7 @@ function Set-MiscellaneousSettings
 
 $NetworkSettings = @(
     $IPSourceRouting
-    $NetworkProtocolsIPv6Preference
+    #$NetworkProtocolsIPv6Preference
     $NetworkProtocol6to4GPO
     $NetworkProtocolTeredoGPO
     $NetworkProtocolLltdGPO
@@ -21996,7 +22001,7 @@ function Set-RamDisk
 
 $SystemSettings = @{
     Display = @(
-        #$DisplayChangeBrightnessBasedOnContent
+        $DisplayChangeBrightnessBasedOnContent
         $DisplayHardwareAcceleratedGPUScheduling
     )
     Sound = @(
@@ -22485,7 +22490,7 @@ $DefenderSettingsAppAndBrowserGPO = @(
     $DefenderUnwantedAppBlockingGPO
 )
 $DefenderSettingsAppAndBrowser = @(
-    #$DefenderCheckAppsAndFiles
+    $DefenderCheckAppsAndFiles
     $DefenderSmartScreenEdge
     $DefenderSmartScreenStoreApps
 )
@@ -22505,12 +22510,12 @@ function Set-WindowsSecuritySettings
 
     Write-Section -Name 'virus & threat protection' -SubSection
     #$DefenderSettingsVirusAndThreatGPO | Set-RegistryEntry
-    #Disable-DefenderThreatProtectionCloudDelivered
+    Disable-DefenderThreatProtectionCloudDelivered
     Disable-DefenderThreatProtectionSampleSubmission
 
     Write-Section -Name 'app & browser control' -SubSection
     #$DefenderSettingsAppAndBrowserGPO | Set-RegistryEntry
-    #Disable-DefenderUnwantedAppBlocking
+    Disable-DefenderUnwantedAppBlocking
     $DefenderSettingsAppAndBrowser | Set-RegistryEntry
 
     Write-Section -Name 'notifications' -SubSection
