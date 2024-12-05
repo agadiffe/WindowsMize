@@ -4617,13 +4617,25 @@ $ConsumerExperiencesGPO = '[
 #region CEIP
 
 # gpo\ computer config > administrative tpl > system > internet communication management > internet communication settings
+#   turn off the Windows Messenger customer experience improvement program
 #   turn off Windows customer experience improvement program
 #
 # gpo\ computer config > administrative tpl > system > appv > ceip
 #   Microsoft customer experience improvement program (CEIP)
 #
-# not configured: delete (default) | off: 0
+# not configured: delete (default) | off: 2 0 0
 $CustomerExperienceImprovementGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Messenger\\Client",
+    "Entries" : [
+      {
+        "Name"  : "CEIP",
+        "Value" : "2",
+        "Type"  : "DWord"
+      }
+    ]
+  },
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
     "Path"    : "SOFTWARE\\Policies\\Microsoft\\SQMClient\\Windows",
@@ -4869,17 +4881,59 @@ $GroupPolicySettingsLoggingGPO = '[
 #endregion gpo settings logging
 
 #=======================================
+## user info sharing
+#=======================================
+#region user info sharing
+
+# gpo\ computer config > administrative tpl > system > user profiles
+#   user management of sharing user name, account picture, and domain information with apps (not desktop apps)
+# not configured: delete (default) | on: 1 | off: 2
+$UserInfoSharingGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+    "Entries" : [
+      {
+        "Name"  : "AllowUserInfoAccess",
+        "Value" : "2",
+        "Type"  : "DWord"
+      }
+    ]
+  }
+]' | ConvertFrom-Json
+
+#endregion user info sharing
+
+#=======================================
 ## handwriting
 #=======================================
 #region handwriting
 
-# Not present in Windows 11 Group Policy. Only applies to Windows 10 ? probably not.
-
+# gpo\ computer config > administrative tpl > control panel > regional and language options > handwriting personalization
+#   turn off automatic learning
+#
 # gpo\ computer config > administrative tpl > system > internet communication management > internet communication settings
 #   turn off handwriting personalization data sharing
 #   turn off handwriting recognition error reporting
+#
 # not configured: delete (default) | off: 1
 $HandwritingTelemetryGPO = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\InputPersonalization",
+    "Entries" : [
+      {
+        "Name"  : "RestrictImplicitInkCollection",
+        "Value" : "1",
+        "Type"  : "DWord"
+      },
+      {
+        "Name"  : "RestrictImplicitTextCollection",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  },
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
     "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\TabletPC",
@@ -13591,7 +13645,7 @@ $TaskbarTrayIconsTouchKeyboard = '[
     "Entries" : [
       {
         "Name"  : "TipbandDesiredVisibility",
-        "Value" : "0",
+        "Value" : "2",
         "Type"  : "DWord"
       }
     ]
@@ -16078,12 +16132,12 @@ $PrivacyInkingAndTypingPersonalization = '[
     "Path"    : "Software\\Microsoft\\InputPersonalization",
     "Entries" : [
       {
-        "Name"  : "RestrictImplicitTextCollection",
+        "Name"  : "RestrictImplicitInkCollection",
         "Value" : "1",
         "Type"  : "DWord"
       },
       {
-        "Name"  : "RestrictImplicitInkCollection",
+        "Name"  : "RestrictImplicitTextCollection",
         "Value" : "1",
         "Type"  : "DWord"
       }
@@ -21595,6 +21649,7 @@ $TelemetrySettings = @(
     $DumpCollectionGPO
     $ErrorReportingGPO
     $GroupPolicySettingsLoggingGPO
+    $UserInfoSharingGPO
     $HandwritingTelemetryGPO
     $LicenseTelemetryGPO
     $NvidiaTelemetry
@@ -22089,7 +22144,7 @@ $SystemOptionalFeatures = @{
             $OpenSSHClient
             $PrintManagement
             $StepsRecorder
-            #$VBScript
+            $VBScript
             $WindowsFaxAndScan
             $WindowsMediaPlayerLegacy
             $WindowsPowerShellISE
