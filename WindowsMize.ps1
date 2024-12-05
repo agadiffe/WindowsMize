@@ -10005,8 +10005,23 @@ $SoundCommunicationsActivity = '[
 
 # notifications
 #-------------------
-# on: 1 (default) | off: 0
+# gpo\ computer config > administrative tpl > start menu and taskbar > notifications
+#   turn off toast notifications
+# gpo\ not configured: delete (default) | off: 1
+# user\ on: 1 (default) | off: 0
 $Notifications = '[
+  {
+    "SkipKey" : true,
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications",
+    "Entries" : [
+      {
+        "Name"  : "NoToastApplicationNotification",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
+  },
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications",
