@@ -12798,7 +12798,7 @@ function Set-DnsProvider
         $Quad9
     )
 
-    $NetAdapters = Get-NetAdapter -Physical | Where-Object -Property 'Status' -EQ -Value 'Up'
+    $NetAdapters = Get-NetAdapter -Physical | Where-Object -Property 'Status' -NE -Value 'Disabled'
 
     $Provider = $PSCmdlet.ParameterSetName
     $Server = switch ($Provider)
