@@ -5196,6 +5196,18 @@ function Remove-AllDesktopShortcut
     Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk"
 }
 
+function Install-BraveBrowser
+{
+    Write-Verbose -Message 'Installing Brave Browser ...'
+
+    $Url = 'https://laptop-updates.brave.com/latest/winx64'
+    $OutPath = "$env:TEMP\BraveBrowserSetup.exe"
+
+    Invoke-WebRequest -Uri $Url -OutFile $OutPath
+    Start-Process -FilePath $OutPath -ArgumentList '/silent /install' -Wait
+    Remove-Item -Path $OutPath
+}
+
 # Development
 #-------------------
 $Git            = 'Git.Git'
@@ -5223,10 +5235,6 @@ $qBittorrent    = 'qBittorrent.qBittorrent'
 
 # Web Browser
 #-------------------
-$Brave          = @(
-                  'Brave.Brave'
-                  'Brave.BraveUpdater'
-                )
 $Firefox        = 'Mozilla.Firefox'
 $MullvadBrowser = 'MullvadVPN.MullvadBrowser'
 
@@ -21699,7 +21707,6 @@ $ApplicationsToInstall = @{
             #$qBittorrent
 
         # Web Browser
-            $Brave
             #$Firefox
 
         # Microsoft Visual C++ Redistributable
@@ -21726,6 +21733,7 @@ function Install-NewApplications
 {
     Write-Section -Name 'Installing New Applications'
     #Install-WindowsSubsystemForLinux
+    Install-BraveBrowser
     $ApplicationsToInstall.Machine | Install-Application -Scope 'Machine'
     #$ApplicationsToInstall.NoScope | Install-Application
     #Remove-AllDesktopShortcut
