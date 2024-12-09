@@ -2874,40 +2874,6 @@ $IPSourceRouting = '[
 #endregion ip source routing
 
 #=======================================
-## ipv6 protocol
-#=======================================
-#region ipv6 protocol
-
-# This registry value doesn't affect the state of the GUI check box.
-#-------------------
-# on: delete (default) | prefer IPv4: 32 | off: 255
-$NetworkProtocolsIPv6Preference = '[
-  {
-    "Hive"    : "HKEY_LOCAL_MACHINE",
-    "Path"    : "SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters",
-    "Entries" : [
-      {
-        "Name"  : "DisabledComponents",
-        "Value" : "32",
-        "Type"  : "DWord"
-      }
-    ]
-  }
-]' | ConvertFrom-Json
-
-# This setting is equivalent to check/uncheck the GUI check box.
-$NetworkProtocolsIPv6 = '[
-  {
-    "DisplayName": "Internet Protocol Version 6 (TCP/IPv6)",
-    "ComponentID": "ms_tcpip6",
-    "Enabled"    : true,
-    "Default"    : true
-  }
-]' | ConvertFrom-Json
-
-#endregion ipv6 protocol
-
-#=======================================
 ## ipv6 transition technologies
 #=======================================
 #region ipv6 transition technologies
@@ -3213,6 +3179,15 @@ $NetworkProtocolsIPv4 = '[
   {
     "DisplayName": "Internet Protocol Version 4 (TCP/IPv4)",
     "ComponentID": "ms_tcpip",
+    "Enabled"    : true,
+    "Default"    : true
+  }
+]' | ConvertFrom-Json
+
+$NetworkProtocolsIPv6 = '[
+  {
+    "DisplayName": "Internet Protocol Version 6 (TCP/IPv6)",
+    "ComponentID": "ms_tcpip6",
     "Enabled"    : true,
     "Default"    : true
   }
@@ -21538,7 +21513,6 @@ function Set-MiscellaneousSettings
 
 $NetworkSettings = @(
     $IPSourceRouting
-    #$NetworkProtocolsIPv6Preference
     $NetworkProtocol6to4GPO
     $NetworkProtocolTeredoGPO
     $NetworkProtocolLltdGPO
@@ -21549,13 +21523,13 @@ $NetworkSettings = @(
 )
 
 $NetworkProtocols = @(
-    $NetworkProtocolsIPv6
     $NetworkProtocolLldp
     $NetworkProtocolLltd
     $NetworkProtocolBridgeDriver
     $NetworkProtocolQosPacketScheduler
     $NetworkProtocolsHyperVExtensibleVirtualSwitch
     $NetworkProtocolsIPv4
+    $NetworkProtocolsIPv6
     $NetworkProtocolsMicrosoftNetworkAdapterMultiplexor
     $NetworkProtocolSMB
 )
