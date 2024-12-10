@@ -1989,11 +1989,18 @@ $PasswordRevealButtonGPO = '[
 #=======================================
 #region recycle bin
 
+# don't move files to the Recycle Bin. Remove files immediately when deleted.
+#-------------------
+# 'User' tweak apply to all existing volumes. If you add a new drive, Recycle Bin will be enabled.
+# Use the group policy to apply the setting to existing and new drives.
+
 # gpo\ user config > administrative tpl > windows components > file explorer
 #   do not move deleted files to the Recycle Bin
-# not configured: delete (default) | off: 1
-$RecycleBinRemoveFilesImmediatelyGPO = '[
+# gpo\ not configured: delete (default) | on: 1
+# user\ on: 1 | off: 0 (default)
+$RecycleBinRemoveFilesImmediately = '[
   {
+    "SkipKey" : true,
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
     "Entries" : [
@@ -2003,14 +2010,35 @@ $RecycleBinRemoveFilesImmediatelyGPO = '[
         "Type"  : "DWord"
       }
     ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\BitBucket\\Volume\\*",
+    "Entries" : [
+      {
+        "Name"  : "NukeOnDelete",
+        "Value" : "1",
+        "Type"  : "DWord"
+      }
+    ]
   }
 ]' | ConvertFrom-Json
 
+# display delete confirmation dialog
+#-------------------
 # gpo\ user config > administrative tpl > windows components > file explorer
 #   display confirmation dialog when deleting files
-# not configured: delete (default) | on: 1
-$RecycleBinDeleteConfirmationDialogGPO = '[
+# gpo\ not configured: delete (default) | on: 1
+#
+# user\ 5th byte, 3rd bit\ on: 1 | off: 0 (default)
+$ConfirmFileDelete = $true
+$ConfirmFileDeletePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
+$ConfirmFileDeleteBytes = (Get-ItemProperty -Path $ConfirmFileDeletePath).ShellState
+Set-ByteBitFlag -Bytes $ConfirmFileDeleteBytes -ByteNum 4 -BitPos 3 -Value $ConfirmFileDelete
+
+$RecycleBinDeleteConfirmationDialog = '[
   {
+    "SkipKey" : true,
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
     "Entries" : [
@@ -2020,8 +2048,19 @@ $RecycleBinDeleteConfirmationDialogGPO = '[
         "Type"  : "DWord"
       }
     ]
+  },
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
+    "Entries" : [
+      {
+        "Name"  : "ShellState",
+        "Value" : "$ConfirmFileDeleteBytes",
+        "Type"  : "Binary"
+      }
+    ]
   }
-]' | ConvertFrom-Json
+]'.Replace('$ConfirmFileDeleteBytes', $ConfirmFileDeleteBytes) | ConvertFrom-Json
 
 #endregion recycle bin
 
@@ -2046,7 +2085,7 @@ $ServiceHostSplitting = '[
     "Entries" : [
       {
         "Name"  : "SvcHostSplitThresholdInKB",
-        "Value" : "3670016",
+        "Value" : "0",
         "Type"  : "DWord"
       }
     ]
@@ -12836,6 +12875,7 @@ function Set-DnsProvider
     }
 
     Clear-DnsClientCache
+    Register-DnsClient
 }
 
 #endregion advanced network settings
@@ -15438,9 +15478,9 @@ $MouseKeys = '[
 
 
 #==============================================================================
-#                      windows security (aka defender)
+#       settings > privacy & security > windows security (aka defender)
 #==============================================================================
-#region windows security
+#region settings > windows security
 
 #=======================================
 ## virus & threat protection
@@ -15817,7 +15857,7 @@ $DefenderReportingWatsonEventsGPO = '[
 
 #endregion miscellaneous
 
-#endregion windows security
+#endregion settings > windows security
 
 
 #==============================================================================
@@ -19569,7 +19609,8 @@ $MiscServices = '[
     "StartupType": "Disabled",
     "DefaultType": "Manual",
     "Comment"    : "group drives together to helps protect from drive failure.
-                    settings > storage > advanced storage settings > storage spaces."
+                    settings > storage > advanced storage settings > storage spaces.
+                    also needed by Powershell Get-Volume and Get-Disk (and possibly more cmdlet)."
   },
   {
     "DisplayName": "Microsoft Windows SMS Router Service",
@@ -21476,8 +21517,8 @@ $MiscSettings = @(
     $OpenWithDialogSearchAppInStoreGPO
     $PathLengthLimit
     #$PasswordRevealButtonGPO
-    #$RecycleBinRemoveFilesImmediatelyGPO
-    #$RecycleBinDeleteConfirmationDialogGPO
+    #$RecycleBinRemoveFilesImmediately
+    #$RecycleBinDeleteConfirmationDialog
     #$ServiceHostSplitting
     #$ShortcutNameSuffix
     #$StartMenuRecommendedSection
