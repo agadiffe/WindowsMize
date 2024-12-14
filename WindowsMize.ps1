@@ -8747,7 +8747,7 @@ function Write-Function
 ## Brave
 #=======================================
 # Add the related directories/files if you are using a specific feature (e.g. history, cookies, top sites, ...).
-# Persistent data will be saved on user logout and restored on ramdisk creation.
+# Persistent data will be saved on user logout and restored on user logon.
 
 # The directory 'FilterListSubscriptionCache' doesn't work as symbolic link (make list update to fail).
 # Some other files doesn't work as symbolic link: e.g. Local State, Bookmarks, Preferences, ...
@@ -9154,24 +9154,27 @@ The purpose is to save the files that doesn't work when symlinked.
 e.g. 'Bookmarks', 'Preferences', 'Secure Preferences', 'Locate State'
 
 Copy these files from the RamDisk to the persistent path on user logout.
-Copy them back to the ramdisk on computer startup or user logon.
+Copy them back to the ramdisk on user logon.
 #>
 
 <#
 gpo\ User Configuration > Windows Settings > Scripts (logon/logoff)
 As with policies done via regedit, this script will not be displayed in Group Policy Editor.
 If you add a script in the Group Policy Editor, this one (backup Brave data) will be removed.
-Even if you just open the dialog and click on OK/Apply, it will be removed.
 #>
 
-function New-GroupPolicyLogoffScript
+function Test-GPOScript
 {
     <#
     .SYNTAX
-        New-GroupPolicyLogoffScript [-FilePath] <string> [<CommonParameters>]
+        Test-GPOScript [-Name] <string> [-Type] {Logon | Logoff} [<CommonParameters>]
+
+    .DESCRIPTION
+        Test if the Group Policy Script exist.
 
     .EXAMPLE
-        PS> New-GroupPolicyLogoffScript -FilePath 'C:\MyScript.ps1'
+        PS> Test-GPOScript -Name 'C:\MyScript.ps1' -Type 'Logoff'
+        False
     #>
 
     [CmdletBinding()]
@@ -9179,17 +9182,65 @@ function New-GroupPolicyLogoffScript
     (
         [Parameter(Mandatory)]
         [string]
-        $FilePath
+        $Name,
+
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Logon',
+            'Logoff')]
+        [string]
+        $Type
     )
 
     $UserSid = Get-LoggedUserSID
-    $LogOffScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Logoff\0"
-    $ScriptNumber = (Get-ChildItem -Path "Registry::$LogOffScriptRegPath" -ErrorAction 'SilentlyContinue').Count
+    $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+    $RegItems = Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue'
 
-    $LogoffScriptGPO = '[
+    $Result = $false
+    foreach ($Item in $RegItems)
+    {
+        if ((Get-ItemPropertyValue -Path "Registry::$Item" -Name 'Script') -eq $Name)
+        {
+            $Result = $true
+            break
+        }
+    }
+    $Result
+}
+
+function New-GPOScript
+{
+    <#
+    .SYNTAX
+        New-GPOScript [-FilePath] <string> [-Type] {Logon | Logoff}  [<CommonParameters>]
+
+    .EXAMPLE
+        PS> New-GPOScript -FilePath 'C:\MyScript.ps1' -Type 'Logoff'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $FilePath,
+
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Logon',
+            'Logoff')]
+        [string]
+        $Type
+    )
+
+    $UserSid = Get-LoggedUserSID
+    $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+    $ScriptNumber = (Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue').Count
+
+    $GPOScript = '[
       {
         "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Logoff\\0",
+        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\$Type\\0",
         "Entries" : [
           {
             "Name"  : "DisplayName",
@@ -9225,7 +9276,7 @@ function New-GroupPolicyLogoffScript
       },
       {
         "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Logoff\\0\\$ScriptNumber",
+        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\$Type\\0\\$ScriptNumber",
         "Entries" : [
           {
             "Name"  : "ExecTime",
@@ -9251,48 +9302,47 @@ function New-GroupPolicyLogoffScript
       },
       {
         "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\Logoff\\0",
+        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\$Type\\0",
         "Entries" : []
       },
       {
         "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\Logoff\\0\\$ScriptNumber",
+        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\$Type\\0\\$ScriptNumber",
         "Entries" : []
       }
     ]'.Replace('$ScriptNumber', $ScriptNumber).
        Replace('$ScriptFilePath', $FilePath.Replace('\', '\\')).
        Replace('$env:SystemRoot', ($env:SystemRoot).Replace('\', '\\')).
-       Replace('$UserSid', $UserSid) | ConvertFrom-Json
-    $LogoffScriptGPO[2].Entries = $LogoffScriptGPO[0].Entries
-    $LogoffScriptGPO[3].Entries = $LogoffScriptGPO[1].Entries | Where-Object -Property 'Name' -NE -Value 'IsPowershell'
+       Replace('$UserSid', $UserSid).
+       Replace('$Type', $Type) | ConvertFrom-Json
 
-    # These directories must exist for the GPO scripts to work.
+    $GPOScript[2].Entries = $GPOScript[0].Entries
+    $GPOScript[3].Entries = $GPOScript[1].Entries | Where-Object -Property 'Name' -NE -Value 'IsPowershell'
+
+    # These directories must exist for the GPO User scripts to work.
     $GroupPolicyScriptDirectories = @(
-        "$env:SystemRoot\System32\GroupPolicy\Machine\Scripts\Startup"
-        "$env:SystemRoot\System32\GroupPolicy\Machine\Scripts\Shutdown"
         "$env:SystemRoot\System32\GroupPolicy\User\Scripts\Logon"
         "$env:SystemRoot\System32\GroupPolicy\User\Scripts\Logoff"
     )
-
-    foreach ($Item in $GroupPolicyScriptDirectories)
+    foreach ($Directory in $GroupPolicyScriptDirectories)
     {
-        if (-not (Test-Path -Path $Item))
+        if (-not (Test-Path -Path $Directory))
         {
             New-Item -ItemType 'Directory' -Path $Item -Force | Out-Null
         }
     }
 
-    $LogoffScriptGPO | Set-RegistryEntry -Verbose:$false
+    $GPOScript | Set-RegistryEntry -Verbose:$false
 }
 
-function New-BackupBravePersistentDataScheduledGPO
+function New-GPOScriptBackupBravePersistentData
 {
     <#
     .SYNTAX
-        New-BackupBravePersistentDataScheduledGPO [-FilePath] <string> [<CommonParameters>]
+        New-GPOScriptBackupBravePersistentData [-FilePath] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-BackupBravePersistentDataScheduledGPO -FilePath 'C:\MyScript.ps1'
+        PS> New-GPOScriptBackupBravePersistentData -FilePath 'C:\MyScript.ps1'
     #>
 
     [CmdletBinding()]
@@ -9304,7 +9354,10 @@ function New-BackupBravePersistentDataScheduledGPO
     )
 
     Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Scheduled GPO ...'
-    New-GroupPolicyLogoffScript -FilePath $FilePath
+    if (-not (Test-GPOScript -Name $FilePath -Type 'Logoff'))
+    {
+        New-GPOScript -FilePath $FilePath -Type 'Logoff'
+    }
 }
 
 function Copy-BraveUserDataToBravePersistentData
@@ -9317,7 +9370,7 @@ function Copy-BraveUserDataToBravePersistentData
     Copy-Data @BravePersistentData
 }
 
-function Write-BackupBravePersistentDataScript
+function Write-ScriptBackupBravePersistentData
 {
     $FunctionsToWrite = @(
         'Get-LoggedUserUsername'
@@ -9337,14 +9390,14 @@ function Write-BackupBravePersistentDataScript
     $RamDiskLogoffScriptContent
 }
 
-function New-BackupBravePersistentDataScript
+function New-ScriptBackupBravePersistentData
 {
     <#
     .SYNTAX
-        New-BackupBravePersistentDataScript [-FilePath] <string> [<CommonParameters>]
+        New-ScriptBackupBravePersistentData [-FilePath] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-BackupBravePersistentDataScript -FilePath 'C:\MyScript.ps1'
+        PS> New-ScriptBackupBravePersistentData -FilePath 'C:\MyScript.ps1'
     #>
 
     [CmdletBinding()]
@@ -9358,7 +9411,7 @@ function New-BackupBravePersistentDataScript
     Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Script ...'
 
     New-ParentPath -Path $FilePath
-    Write-BackupBravePersistentDataScript | Out-File -FilePath $FilePath
+    Write-ScriptBackupBravePersistentData | Out-File -FilePath $FilePath
 }
 
 #endregion backup Brave data script
@@ -9369,14 +9422,14 @@ function New-BackupBravePersistentDataScript
 #==============================================================================
 #region set data script
 
-function Write-RamDiskSetDataScript
+function Write-ScriptRamDiskSetData
 {
     <#
     .SYNTAX
-        Write-RamDiskSetDataScript [-RamDiskName] <string> [<CommonParameters>]
+        Write-ScriptRamDiskSetData [-RamDiskName] <string> [-RamDiskTaskName] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> Write-RamDiskSetDataScript -RamDiskName 'RamDisk'
+        PS> Write-ScriptRamDiskSetData -RamDiskName 'RamDisk' -RamDiskTaskName 'MyTaskName'
     #>
 
     [CmdletBinding()]
@@ -9384,7 +9437,11 @@ function Write-RamDiskSetDataScript
     (
         [Parameter(Mandatory)]
         [string]
-        $RamDiskName
+        $RamDiskName,
+
+        [Parameter(Mandatory)]
+        [string]
+        $RamDiskTaskName
     )
 
     $FunctionsToWrite = @(
@@ -9411,19 +9468,24 @@ function Write-RamDiskSetDataScript
     $RamDiskSetDataScriptContent = $FunctionsToWrite | Write-Function
 
     $RamDiskSetDataScriptContent += "
+        while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName') -eq 'Running')
+        {
+            Start-Sleep -Seconds 0.2
+        }
+
         Set-DataToRamDisk -RamDiskName $RamDiskName
-    " -replace '(?m)^ *'
+    " -replace '(?m)^ {8}'
     $RamDiskSetDataScriptContent
 }
 
-function New-RamDiskSetDataScript
+function New-ScriptRamDiskSetData
 {
     <#
     .SYNTAX
-        New-RamDiskSetDataScript [-RamDiskName] <string> [-FilePath] <string> [<CommonParameters>]
+        New-ScriptRamDiskSetData [-FilePath] <string> [-RamDiskName] <string> [-RamDiskTaskName] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-RamDiskSetDataScript -RamDiskName 'RamDisk' -FilePath 'C:\MyScript.ps1'
+        PS> New-ScriptRamDiskSetData -FilePath 'C:\MyScript.ps1' -RamDiskName 'RamDisk' -RamDiskTaskName 'MyTaskName'
     #>
 
     [CmdletBinding()]
@@ -9431,17 +9493,21 @@ function New-RamDiskSetDataScript
     (
         [Parameter(Mandatory)]
         [string]
+        $FilePath,
+
+        [Parameter(Mandatory)]
+        [string]
         $RamDiskName,
 
         [Parameter(Mandatory)]
         [string]
-        $FilePath
+        $RamDiskTaskName
     )
 
     Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Script ...'
 
     New-ParentPath -Path $FilePath
-    Write-RamDiskSetDataScript -RamDiskName $RamDiskName | Out-File -FilePath $FilePath
+    Write-ScriptRamDiskSetData -RamDiskName $RamDiskName -RamDiskTaskName $RamDiskTaskName | Out-File -FilePath $FilePath
 }
 
 #endregion set data script
@@ -9538,14 +9604,14 @@ function New-RamDisk
     }
 }
 
-function Write-RamDiskCreationScript
+function Write-ScriptRamDiskCreation
 {
     <#
     .SYNTAX
-        Write-RamDiskCreationScript [-RamDiskName] <string> [<CommonParameters>]
+        Write-ScriptRamDiskCreation [-RamDiskName] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> Write-RamDiskCreationScript -RamDiskName 'RamDisk'
+        PS> Write-ScriptRamDiskCreation -RamDiskName 'RamDisk'
     #>
 
     [CmdletBinding()]
@@ -9576,14 +9642,14 @@ function Write-RamDiskCreationScript
     $RamDiskCreationScriptContent
 }
 
-function New-RamDiskCreationScript
+function New-ScriptRamDiskCreation
 {
     <#
     .SYNTAX
-        New-RamDiskCreationScript [-RamDiskName] <string> [-FilePath] <string> [<CommonParameters>]
+        New-ScriptRamDiskCreation [-FilePath] <string> [-RamDiskName] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> New-RamDiskCreationScript -RamDiskName 'RamDisk' -FilePath 'C:\MyScript.ps1'
+        PS> New-ScriptRamDiskCreation -FilePath 'C:\MyScript.ps1' -RamDiskName 'RamDisk'
     #>
 
     [CmdletBinding()]
@@ -9591,17 +9657,17 @@ function New-RamDiskCreationScript
     (
         [Parameter(Mandatory)]
         [string]
-        $RamDiskName,
+        $FilePath,
 
         [Parameter(Mandatory)]
         [string]
-        $FilePath
+        $RamDiskName
     )
 
     Write-Verbose -Message 'Setting ''RamDisk - Creation'' Script ...'
 
     New-ParentPath -Path $FilePath
-    Write-RamDiskCreationScript -RamDiskName $RamDiskName | Out-File -FilePath $FilePath
+    Write-ScriptRamDiskCreation -RamDiskName $RamDiskName | Out-File -FilePath $FilePath
 }
 
 #endregion new ramdisk script
@@ -9612,15 +9678,15 @@ function New-RamDiskCreationScript
 #==============================================================================
 #region setup ramdisk
 
-function New-ScriptScheduledTask
+function New-ScheduledTaskScript
 {
     <#
     .SYNTAX
-        New-ScriptScheduledTask [-FilePath] <string> [-TaskName] <string> [-Trigger] <ciminstance> [<CommonParameters>]
+        New-ScheduledTaskScript [-FilePath] <string> [-TaskName] <string> [-Trigger] <ciminstance> [<CommonParameters>]
 
     .EXAMPLE
         PS> $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
-        PS> New-ScriptScheduledTask -FilePath 'C:\MyScript.ps1' -TaskName 'MyTask' -Trigger $TaskTrigger
+        PS> New-ScheduledTaskScript -FilePath 'C:\MyScript.ps1' -TaskName 'MyTaskName' -Trigger $TaskTrigger
     #>
 
     [CmdletBinding()]
@@ -9660,14 +9726,40 @@ function New-ScriptScheduledTask
     Register-ScheduledTask @ScheduledTaskParam -Verbose:$false | Out-Null
 }
 
-function Add-ScriptActionToScheduledTask
+function New-ScheduledTaskRamDiskSetData
 {
     <#
     .SYNTAX
-        Add-ScriptActionToScheduledTask [-FilePath] <string> [-TaskName] <string> [<CommonParameters>]
+        New-ScheduledTaskRamDiskSetData [-FilePath] <string> [<CommonParameters>]
 
     .EXAMPLE
-        PS> Add-ScriptActionToScheduledTask -FilePath 'C:\MyScript.ps1' -TaskName 'MyTask'
+        PS> New-ScheduledTaskRamDiskSetData -FilePath 'C:\MyScript.ps1'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $FilePath
+    )
+
+    Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Scheduled Task ...'
+
+    $UserName = Get-LoggedUserUsername
+    $TaskName = "RamDisk - Set Data for '$UserName'"
+    $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
+    New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+}
+
+function New-ScheduledTaskRamDiskCreation
+{
+    <#
+    .SYNTAX
+        New-ScheduledTaskRamDiskCreation [-FilePath] <string> [-TaskName] <string> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> New-ScheduledTaskRamDiskCreation -FilePath 'C:\MyScript.ps1' -TaskName 'MyTaskName'
     #>
 
     [CmdletBinding()]
@@ -9682,96 +9774,28 @@ function Add-ScriptActionToScheduledTask
         $TaskName
     )
 
-    $TaskActionParam = @{
-        Execute  = 'pwsh.exe'
-        Argument = "-NoProfile -ExecutionPolicy Bypass -File ""$FilePath"""
-    }
-    $NewTaskAction = New-ScheduledTaskAction @TaskActionParam
-
-    Get-ScheduledTask -TaskPath '\' -TaskName $TaskName |
-        ForEach-Object -Process {
-            $TaskActions = $_.Actions
-            $TaskActions += $NewTaskAction
-            Set-ScheduledTask -TaskName $_.TaskName -Action $TaskActions | Out-Null
-        }
-}
-
-function New-RamDiskSetDataScheduledTask
-{
-    <#
-    .SYNTAX
-        New-RamDiskSetDataScheduledTask [-FilePath] <string> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> New-RamDiskSetDataScheduledTask -FilePath 'C:\MyScript.ps1'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $FilePath
-    )
-
-    Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Scheduled Task ...'
-
-    # -AtLogOn doesn't work if autologin is enabled, -AtStartup must be used.
-    # If you use autologin, use -AtStartup for the autologged account and -AtLogOn for others.
-    $IsUserAutoLogin = $true
-    if ($IsUserAutoLogin)
-    {
-        Add-ScriptActionToScheduledTask -FilePath $FilePath -TaskName 'RamDisk - Creation'
-    }
-    else
-    {
-        $UserName = Get-LoggedUserUsername
-        $TaskName = "RamDisk - Set Data for '$UserName'"
-        $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
-        New-ScriptScheduledTask -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
-    }
-}
-
-function New-RamDiskCreationScheduledTask
-{
-    <#
-    .SYNTAX
-        New-RamDiskCreationScheduledTask [-FilePath] <string> [<CommonParameters>]
-
-    .EXAMPLE
-        PS> New-RamDiskCreationScheduledTask -FilePath 'C:\MyScript.ps1'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [string]
-        $FilePath
-    )
-
     Write-Verbose -Message 'Setting ''RamDisk - Creation'' Scheduled Task ...'
 
-    $TaskName  = 'RamDisk - Creation'
     $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
-    New-ScriptScheduledTask -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+    New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
 }
 
 function Set-RamDiskScriptsAndTasks
 {
     $RamDiskName = 'RamDisk'
+    $RamDiskCreationTaskName = 'RamDisk - Creation'
     $StartupScriptFilePath = "$env:SystemDrive\RamDisk script\create_ramdisk.ps1"
     $LogonScriptFilePath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\set_data_to_ramdisk.ps1"
     $LogoffScriptFilePath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\save_brave_files_to_persistent_path.ps1"
 
-    New-RamDiskCreationScript -RamDiskName $RamDiskName -FilePath $StartupScriptFilePath
-    New-RamDiskCreationScheduledTask -FilePath $StartupScriptFilePath
+    New-ScriptRamDiskCreation -FilePath $StartupScriptFilePath -RamDiskName $RamDiskName
+    New-ScheduledTaskRamDiskCreation -FilePath $StartupScriptFilePath -TaskName $RamDiskCreationTaskName
 
-    New-RamDiskSetDataScript -RamDiskName $RamDiskName -FilePath $LogonScriptFilePath
-    New-RamDiskSetDataScheduledTask -FilePath $LogonScriptFilePath
+    New-ScriptRamDiskSetData -FilePath $LogonScriptFilePath -RamDiskName $RamDiskName -RamDiskTaskName $RamDiskCreationTaskName
+    New-ScheduledTaskRamDiskSetData -FilePath $LogonScriptFilePath
 
-    New-BackupBravePersistentDataScript -FilePath $LogoffScriptFilePath
-    New-BackupBravePersistentDataScheduledGPO -FilePath $LogoffScriptFilePath
+    New-ScriptBackupBravePersistentData -FilePath $LogoffScriptFilePath
+    New-GPOScriptBackupBravePersistentData -FilePath $LogoffScriptFilePath
 }
 
 #endregion setup ramdisk
