@@ -325,26 +325,17 @@ function Get-LoggedUserEnvVariable
 function Get-LoggedUserShellFolder
 {
     $UserSID = Get-LoggedUserSID
-    $ShellFoldersRegPath = "$UserSID\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
-
-    $AllUsersRegKey = [Microsoft.Win32.RegistryKey]::OpenBaseKey(
-        [Microsoft.Win32.RegistryHive]::Users,
-        [Microsoft.Win32.RegistryView]::Default)
-    $ShellFoldersRegKey = $AllUsersRegKey.OpenSubKey($ShellFoldersRegPath)
+    $ShellFoldersRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+    $ShellFoldersValueNames = (Get-Item -Path "Registry::$ShellFoldersRegPath").GetValueNames()
 
     $UserProfilePath = (Get-LoggedUserEnvVariable).USERPROFILE
     $ShellFolders = @{}
-    foreach ($ValueName in $ShellFoldersRegKey.GetValueNames())
+    foreach ($ValueName in $ShellFoldersValueNames)
     {
-        $ShellFolders[$ValueName] = $ShellFoldersRegKey.GetValue(
-            $ValueName,
-            '',
-            [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)
+        $ShellFolders[$ValueName] = (Get-Item -Path "Registry::$ShellFoldersRegPath").GetValue(
+            $ValueName, $null, 'DoNotExpandEnvironmentNames')
         $ShellFolders[$ValueName] = $ShellFolders[$ValueName].Replace('%USERPROFILE%', $UserProfilePath)
     }
-
-    $AllUsersRegKey.Close()
-    $ShellFoldersRegKey.Close()
 
     $ShellFolders
 }
@@ -805,7 +796,7 @@ $FileExplorerOpenTo = '[
 # 5th byte, 6th bit\ open each folder in the same window: 0 (default) | open each folder in its own window: 1
 $OpenInNewWindow = $false
 $BrowseFoldersPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
-$BrowseFoldersBytes = (Get-ItemProperty -Path $BrowseFoldersPath).Settings
+$BrowseFoldersBytes = Get-ItemPropertyValue -Path $BrowseFoldersPath -Name 'Settings'
 Set-ByteBitFlag -Bytes $BrowseFoldersBytes -ByteNum 4 -BitPos 6 -Value $OpenInNewWindow
 
 # open desktop folders and external folder links in new tab
@@ -842,7 +833,7 @@ $FileExplorerBrowseFolders = '[
 # 5th byte, 6th bit\ single-click to open an item: 0 | double-click to open an item: 1 (default)
 $DoubleClickToOpen = $true
 $ClickItemsPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
-$ClickItemsBytes = (Get-ItemProperty -Path $ClickItemsPath).ShellState
+$ClickItemsBytes = Get-ItemPropertyValue -Path $ClickItemsPath -Name 'ShellState'
 Set-ByteBitFlag -Bytes $ClickItemsBytes -ByteNum 4 -BitPos 6 -Value $DoubleClickToOpen
 
 $FileExplorerClickItems = '[
@@ -2033,7 +2024,7 @@ $RecycleBinRemoveFilesImmediately = '[
 # user\ 5th byte, 3rd bit\ on: 1 | off: 0 (default)
 $ConfirmFileDelete = $true
 $ConfirmFileDeletePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
-$ConfirmFileDeleteBytes = (Get-ItemProperty -Path $ConfirmFileDeletePath).ShellState
+$ConfirmFileDeleteBytes = Get-ItemPropertyValue -Path $ConfirmFileDeletePath -Name 'ShellState'
 Set-ByteBitFlag -Bytes $ConfirmFileDeleteBytes -ByteNum 4 -BitPos 3 -Value $ConfirmFileDelete
 
 $RecycleBinDeleteConfirmationDialog = '[
@@ -3870,7 +3861,7 @@ function Set-SystemPropertiesVisualEffects
         ]' | ConvertFrom-Json
 
         $VisualEffectsRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\Desktop'
-        $VisualEffectsBytes = (Get-ItemProperty -Path $VisualEffectsRegPath).UserPreferencesMask
+        $VisualEffectsBytes = Get-ItemPropertyValue -Path $VisualEffectsRegPath -Name 'UserPreferencesMask'
     }
 
     process
@@ -5504,7 +5495,7 @@ function Remove-MicrosoftEdge
 
     # Get the user region.
     $UserRegionRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\International\Geo'
-    $UserRegion = (Get-ItemProperty -Path $UserRegionRegPath).Name
+    $UserRegion = Get-ItemPropertyValue -Path $UserRegionRegPath -Name 'Name'
 
     # Get the 'RegionPolicy' config file content.
     $RegionPolicyFilePath = "$env:SystemRoot\System32\IntegratedServicesRegionPolicySet.json"
@@ -12508,7 +12499,7 @@ function Set-ConnectedNetworkToPrivate
 # 9th byte, 4th bit\ on: 1 (default) | off: 0
 $AutoDetectSettings = $false
 $ProxyPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
-$ProxyBytes = (Get-ItemProperty -Path $ProxyPath).DefaultConnectionSettings
+$ProxyBytes = Get-ItemPropertyValue -Path $ProxyPath -Name 'DefaultConnectionSettings'
 Set-ByteBitFlag -Bytes $ProxyBytes -ByteNum 8 -BitPos 4 -Value $AutoDetectSettings
 $ProxyBytes[4] = $ProxyBytes[4] -eq 255 ? 2 : $ProxyBytes[4] + 1 # counter
 
@@ -13739,7 +13730,7 @@ $TaskbarAlignment = '[
 # 9th byte, first bit\ on: 1 | off: 0 (default)
 $AutoHideTaskbar = $false
 $AutoHidePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
-$AutoHideBytes = (Get-ItemProperty -Path $AutoHidePath).Settings
+$AutoHideBytes = Get-ItemPropertyValue -Path $AutoHidePath -Name 'Settings'
 Set-ByteBitFlag -Bytes $AutoHideBytes -ByteNum 8 -BitPos 1 -Value $AutoHideTaskbar
 
 $TaskbarAutoHide = '[
@@ -15341,7 +15332,7 @@ function Add-HotkeyToDisable
         Name = 'DisabledHotkeys'
         Type = 'String'
     }
-    $DisabledHotkeys = (Get-ItemProperty $DisabledHotkeysProperties.Path).($DisabledHotkeysProperties.Name)
+    $DisabledHotkeys = Get-ItemPropertyValue -Path $DisabledHotkeysProperties.Path -Name $DisabledHotkeysProperties.Name
 
     if ($null -eq $DisabledHotkeys)
     {
