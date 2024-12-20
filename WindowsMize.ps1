@@ -9997,7 +9997,49 @@ function Enable-WindowedGamesOptimizations
 
 function Disable-WindowedGamesOptimizations
 {
+    Disable-AutoHDR
     Set-WindowedGamesOptimizations -State 'Disabled'
+}
+
+# auto HDR
+#-------------------
+# Enabled (default) | Disabled
+function Set-AutoHDR
+{
+    <#
+    .SYNTAX
+        Set-AutoHDR [-State] {Enabled | Disabled} [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-AutoHDR -State 'Disabled'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
+    )
+
+    Write-Verbose -Message "Setting 'Auto HDR' to '$State' ..."
+
+    $AutoHDR = $State -eq 'Enabled' ? $true : $false
+    Set-GraphicsSetting -Name 'AutoHDREnable' -Value $AutoHDR
+}
+
+function Enable-AutoHDR
+{
+    Enable-WindowedGamesOptimizations
+    Set-AutoHDR -State 'Enabled'
+}
+
+function Disable-AutoHDR
+{
+    Set-AutoHDR -State 'Disabled'
 }
 
 # hardware-accelerated GPU scheduling
@@ -22230,12 +22272,13 @@ function Set-SystemSettings
 
     Set-DisplayBrightness -Percent 70
     #Disable-BrightnessWhenLightingChanges
-    Disable-WindowedGamesOptimizations
+    #Disable-WindowedGamesOptimizations
+    #Disable-AutoHDR
     #Disable-GamesVariableRefreshRate
 
     #Set-PowerMode -Name 'BestPowerEfficiency'
     Set-ScreenAndSleepTimeout
-    #Set-EnergySaverAutoTurnOnAt -Percent 0
+    #Set-EnergySaverAutoTurnOnAt -Percent 50
     #Disable-EnergySaverLowerBrightness
     #Set-SystemLidPowerSleepButtonControls
 
