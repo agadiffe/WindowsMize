@@ -3392,7 +3392,7 @@ function Set-Hibernate
 # control panel (icons view) > power options > Choose What the power button do
 # (control.exe /name Microsoft.PowerOptions /page pageGlobalSettings)
 #-------------------
-# Enabled (default) | Disabled
+# default: Enabled
 
 function Enable-Hibernate
 {
@@ -9853,7 +9853,8 @@ function Set-DisplayBrightness
 
 # change brightness automatically when lighting changes
 #-------------------
-# Enabled (default) | Disabled
+# default: Enabled
+
 function Set-BrightnessWhenLightingChanges
 {
     <#
@@ -9916,32 +9917,48 @@ function Set-GraphicsSetting
 {
     <#
     .SYNTAX
-        Set-GraphicsSetting [-Name] <string> [-Value] <bool> [<CommonParameters>]
+        Set-GraphicsSetting [-Name] {AutoHDR | GamesVariableRefreshRate | OptimizationsForWindowedGames}
+        [-State] {Enabled | Disabled} [<CommonParameters>]
 
     .EXAMPLE
-        PS> Set-GraphicsSetting -Name 'SwapEffectUpgradeEnable' -Value $true
+        PS> Set-GraphicsSetting -Name 'OptimizationsForWindowedGames' -State 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
+        [ValidateSet(
+            'AutoHDR',
+            'GamesVariableRefreshRate',
+            'OptimizationsForWindowedGames')]
         [string]
         $Name,
 
         [Parameter(Mandatory)]
-        [bool]
-        $Value
+        [ValidateSet(
+            'Enabled',
+            'Disabled')]
+        [string]
+        $State
     )
 
     $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
     $UserSID = Get-LoggedUserSID
     $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
 
+    $SettingValue = $State -eq 'Enabled' ? 1 : 0
+    $SettingName = switch ($Name)
+    {
+        'AutoHDR'                       { 'AutoHDREnable' }
+        'GamesVariableRefreshRate'      { 'VRROptimizeEnable' }
+        'OptimizationsForWindowedGames' { 'SwapEffectUpgradeEnable' }
+    }
+
     $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
-    $DirectXSettings = $CurrentSettings -like "*$Name*" ?
-        $CurrentSettings -replace "($Name=)\d;", "`${1}$([int]$Value);" :
-        $CurrentSettings + "$Name=$([int]$Value);"
+    $DirectXSettings = $CurrentSettings -like "*$SettingName*" ?
+        $CurrentSettings -replace "($SettingName=)\d;", "`${1}$SettingValue;" :
+        $CurrentSettings + "$SettingName=$SettingValue;"
 
     $DisplayDirectXSettings = '[
       {
@@ -9957,89 +9974,38 @@ function Set-GraphicsSetting
       }
     ]'.Replace('$DirectXSettings', $DirectXSettings) | ConvertFrom-Json
 
+    Write-Verbose -Message "Setting '$Name' to '$State' ..."
     Set-RegistryEntry -InputObject $DisplayDirectXSettings -Verbose:$false
 }
 
 # optimizations for windowed games
 #-------------------
-# Enabled (default) | Disabled
-function Set-WindowedGamesOptimizations
-{
-    <#
-    .SYNTAX
-        Set-WindowedGamesOptimizations [-State] {Enabled | Disabled} [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Set-WindowedGamesOptimizations -State 'Disabled'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [ValidateSet(
-            'Enabled',
-            'Disabled')]
-        [string]
-        $State
-    )
-
-    Write-Verbose -Message "Setting 'Optimizations for windowed games' to '$State' ..."
-
-    $WindowedGamesSetting = $State -eq 'Enabled' ? $true : $false
-    Set-GraphicsSetting -Name 'SwapEffectUpgradeEnable' -Value $WindowedGamesSetting
-}
+# default: Enabled
 
 function Enable-WindowedGamesOptimizations
 {
-    Set-WindowedGamesOptimizations -State 'Enabled'
+    Set-GraphicsSetting -Name 'OptimizationsForWindowedGames' -State 'Enabled'
 }
 
 function Disable-WindowedGamesOptimizations
 {
     Disable-AutoHDR
-    Set-WindowedGamesOptimizations -State 'Disabled'
+    Set-GraphicsSetting -Name 'OptimizationsForWindowedGames' -State 'Disabled'
 }
 
 # auto HDR
 #-------------------
-# Enabled (default) | Disabled
-function Set-AutoHDR
-{
-    <#
-    .SYNTAX
-        Set-AutoHDR [-State] {Enabled | Disabled} [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Set-AutoHDR -State 'Disabled'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [ValidateSet(
-            'Enabled',
-            'Disabled')]
-        [string]
-        $State
-    )
-
-    Write-Verbose -Message "Setting 'Auto HDR' to '$State' ..."
-
-    $AutoHDR = $State -eq 'Enabled' ? $true : $false
-    Set-GraphicsSetting -Name 'AutoHDREnable' -Value $AutoHDR
-}
+# default: Enabled
 
 function Enable-AutoHDR
 {
     Enable-WindowedGamesOptimizations
-    Set-AutoHDR -State 'Enabled'
+    Set-GraphicsSetting -Name 'AutoHDR' -State 'Enabled'
 }
 
 function Disable-AutoHDR
 {
-    Set-AutoHDR -State 'Disabled'
+    Set-GraphicsSetting -Name 'AutoHDR' -State 'Disabled'
 }
 
 # hardware-accelerated GPU scheduling
@@ -10061,42 +10027,16 @@ $DisplayHardwareAcceleratedGPUScheduling = '[
 
 # variable refresh rate
 #-------------------
-# Enabled (default) | Disabled
-function Set-GamesVariableRefreshRate
-{
-    <#
-    .SYNTAX
-        Set-GamesVariableRefreshRate [-State] {Enabled | Disabled} [<CommonParameters>]
-
-    .EXAMPLE
-        PS> Set-GamesVariableRefreshRate -State 'Disabled'
-    #>
-
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory)]
-        [ValidateSet(
-            'Enabled',
-            'Disabled')]
-        [string]
-        $State
-    )
-
-    Write-Verbose -Message "Setting 'Games Variable Refresh Rate' to '$State' ..."
-
-    $VariableRefreshRateSetting = $State -eq 'Enabled' ? $true : $false
-    Set-GraphicsSetting -Name 'VRROptimizeEnable' -Value $VariableRefreshRateSetting
-}
+# default: Enabled
 
 function Enable-GamesVariableRefreshRate
 {
-    Set-GamesVariableRefreshRate -State 'Enabled'
+    Set-GraphicsSetting -Name 'GamesVariableRefreshRate' -State 'Enabled'
 }
 
 function Disable-GamesVariableRefreshRate
 {
-    Set-GamesVariableRefreshRate -State 'Disabled'
+    Set-GraphicsSetting -Name 'GamesVariableRefreshRate' -State 'Disabled'
 }
 
 #endregion display
