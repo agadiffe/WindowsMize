@@ -9328,7 +9328,7 @@ function New-GPOScript
     {
         if (-not (Test-Path -Path $Directory))
         {
-            New-Item -ItemType 'Directory' -Path $Item -Force | Out-Null
+            New-Item -ItemType 'Directory' -Path $Directory -Force | Out-Null
         }
     }
 
