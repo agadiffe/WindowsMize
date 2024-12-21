@@ -15338,7 +15338,7 @@ function Add-HotkeyToDisable
         Name = 'DisabledHotkeys'
         Type = 'String'
     }
-    $DisabledHotkeys = Get-ItemPropertyValue -Path $DisabledHotkeysProperties.Path -Name $DisabledHotkeysProperties.Name
+    $DisabledHotkeys = (Get-ItemProperty $DisabledHotkeysProperties.Path).($DisabledHotkeysProperties.Name)
 
     if ($null -eq $DisabledHotkeys)
     {
