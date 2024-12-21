@@ -794,13 +794,13 @@ $FileExplorerOpenTo = '[
 # browse folders
 #-------------------
 # 5th byte, 6th bit\ open each folder in the same window: 0 (default) | open each folder in its own window: 1
-$OpenInNewWindow = $false
+$BrowseFoldersValue = 0
 $BrowseFoldersPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
 $BrowseFoldersBytes = Get-ItemPropertyValue -Path $BrowseFoldersPath -Name 'Settings'
-Set-ByteBitFlag -Bytes $BrowseFoldersBytes -ByteNum 4 -BitPos 6 -Value $OpenInNewWindow
+Set-ByteBitFlag -Bytes $BrowseFoldersBytes -ByteNum 4 -BitPos 6 -Value $BrowseFoldersValue
 
 # open desktop folders and external folder links in new tab
-# require 'open each folder in the same window' (i.e. $OpenInNewWindow = $false)
+# require 'open each folder in the same window'
 # on: 1 (default) | off: 0
 
 $FileExplorerBrowseFolders = '[
@@ -831,10 +831,10 @@ $FileExplorerBrowseFolders = '[
 # click items as follows
 #-------------------
 # 5th byte, 6th bit\ single-click to open an item: 0 | double-click to open an item: 1 (default)
-$DoubleClickToOpen = $true
+$ClickItemsValue = 1
 $ClickItemsPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
 $ClickItemsBytes = Get-ItemPropertyValue -Path $ClickItemsPath -Name 'ShellState'
-Set-ByteBitFlag -Bytes $ClickItemsBytes -ByteNum 4 -BitPos 6 -Value $DoubleClickToOpen
+Set-ByteBitFlag -Bytes $ClickItemsBytes -ByteNum 4 -BitPos 6 -Value $ClickItemsValue
 
 $FileExplorerClickItems = '[
   {
@@ -2021,11 +2021,11 @@ $RecycleBinRemoveFilesImmediately = '[
 #   display confirmation dialog when deleting files
 # gpo\ not configured: delete (default) | on: 1
 #
-# user\ 5th byte, 3rd bit\ on: 1 | off: 0 (default)
-$ConfirmFileDelete = $true
+# user\ 5th byte, 3rd bit\ on: 0 | off: 1 (default)
+$ConfirmFileDeleteValue = 0
 $ConfirmFileDeletePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
 $ConfirmFileDeleteBytes = Get-ItemPropertyValue -Path $ConfirmFileDeletePath -Name 'ShellState'
-Set-ByteBitFlag -Bytes $ConfirmFileDeleteBytes -ByteNum 4 -BitPos 3 -Value $ConfirmFileDelete
+Set-ByteBitFlag -Bytes $ConfirmFileDeleteBytes -ByteNum 4 -BitPos 3 -Value $ConfirmFileDeleteValue
 
 $RecycleBinDeleteConfirmationDialog = '[
   {
@@ -12503,7 +12503,7 @@ function Set-ConnectedNetworkToPrivate
 # automatically detect settings
 #-------------------
 # 9th byte, 4th bit\ on: 1 (default) | off: 0
-$AutoDetectSettings = $false
+$AutoDetectSettings = 0
 $ProxyPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
 $ProxyBytes = Get-ItemPropertyValue -Path $ProxyPath -Name 'DefaultConnectionSettings'
 Set-ByteBitFlag -Bytes $ProxyBytes -ByteNum 8 -BitPos 4 -Value $AutoDetectSettings
@@ -13734,10 +13734,10 @@ $TaskbarAlignment = '[
 # automatically hide the taskbar
 #-------------------
 # 9th byte, first bit\ on: 1 | off: 0 (default)
-$AutoHideTaskbar = $false
+$AutoHideValue = 0
 $AutoHidePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $AutoHideBytes = Get-ItemPropertyValue -Path $AutoHidePath -Name 'Settings'
-Set-ByteBitFlag -Bytes $AutoHideBytes -ByteNum 8 -BitPos 1 -Value $AutoHideTaskbar
+Set-ByteBitFlag -Bytes $AutoHideBytes -ByteNum 8 -BitPos 1 -Value $AutoHideValue
 
 $TaskbarAutoHide = '[
   {
