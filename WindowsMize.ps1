@@ -3860,7 +3860,8 @@ function Set-SystemPropertiesVisualEffects
           }
         ]' | ConvertFrom-Json
 
-        $VisualEffectsRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\Desktop'
+        $UserSID = Get-LoggedUserSID
+        $VisualEffectsRegPath = "Registry::HKEY_USERS\$UserSID\Control Panel\Desktop"
         $VisualEffectsBytes = Get-ItemPropertyValue -Path $VisualEffectsRegPath -Name 'UserPreferencesMask'
     }
 
@@ -4259,13 +4260,13 @@ $SystemFailureWriteDebugInfo = '[
 function Disable-PowerShellTelemetry
 {
     Write-Verbose -Message 'Disabling PowerShell Telemetry ...'
-    [Environment]::SetEnvironmentVariable('POWERSHELL_TELEMETRY_OPTOUT', 'true', 'Machine')
+    [Environment]::SetEnvironmentVariable('POWERSHELL_TELEMETRY_OPTOUT', '1', 'Machine')
 }
 
 function Disable-DotNetTelemetry
 {
     Write-Verbose -Message 'Disabling DotNet Telemetry ...'
-    [Environment]::SetEnvironmentVariable('DOTNET_CLI_TELEMETRY_OPTOUT', 'true', 'Machine')
+    [Environment]::SetEnvironmentVariable('DOTNET_CLI_TELEMETRY_OPTOUT', '1', 'Machine')
 }
 
 #endregion environment variables
@@ -5209,7 +5210,7 @@ function Install-BraveBrowser
     $OutPath = "$env:TEMP\BraveBrowserSetup.exe"
 
     Invoke-WebRequest -Uri $Url -OutFile $OutPath
-    Start-Process -FilePath $OutPath -ArgumentList '/silent /install' -Wait
+    Start-Process -Wait -FilePath $OutPath -ArgumentList '/silent /install'
     Remove-Item -Path $OutPath
 }
 
@@ -5542,6 +5543,7 @@ function Remove-MicrosoftEdge
     Stop-Process -Name '*edge*' -Force -ErrorAction 'SilentlyContinue'
 
     Remove-Package -Name 'Microsoft.MicrosoftEdge.Stable' -Verbose:$false
+    Start-Sleep -Seconds 2
     $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall".Replace('"', '\"')
     Start-Process -Wait -NoNewWindow -FilePath 'pwsh.exe' -ArgumentList "-Command Invoke-Expression '$EdgeUninstallCmd'"
 
@@ -9596,7 +9598,7 @@ function New-RamDisk
         FilePath     = "$((Get-ApplicationInfo -Name 'OSFMount').InstallLocation)\OSFMount.com"
         ArgumentList = "-a -t vm -m $MountPoint -o rw,format:ntfs:""$Name"" -s $Size"
     }
-    Start-Process @OSFMountProcess -NoNewWindow -Wait
+    Start-Process -NoNewWindow -Wait @OSFMountProcess
 
     if (Test-Path -Path $MountPoint)
     {
@@ -21829,13 +21831,13 @@ function Remove-DefaultAppxPackages
 
     Write-Section -Name 'removal' -SubSection
     Export-DefaultAppxPackagesNames
-    $ApplicationsToRemove | Remove-Package
     Remove-MSRT
     Remove-OneDrive
     Remove-OneDriveAutoInstallationForNewUser
     Remove-MicrosoftEdge
     Remove-StartMenuPromotedApps
     #Set-NewUserDefaultStartMenuLayout
+    $ApplicationsToRemove | Remove-Package
 }
 
 #endregion appx & provisioned packages
