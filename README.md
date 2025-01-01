@@ -6,33 +6,52 @@ __      __  _             _                       __  __   _
 
 ```
 
+## Purpose
+Automate and customize everything we can.
+
+1. install Windows (semi-unattended) + updates
+2. run the script
+3. finish some customization
+
+
 ## Description
-PowerShell script to automate and customize the settings of Windows, remove bloatware, minimize telemetry, disable services & scheduled tasks, and various other tweaks.
+### Main features
+- customize Windows settings (start > all apps > settings)
+- tweaks (file explorer, network, system properties, telemetry, ...)
+- remove unwanted apps (bloatware)
+- install applications + settings
+- disable services & scheduled tasks
 
-This script is easily customizable, maintainable and scalable.  
-It's designed for Windows 11. Almost all of the tweaks/settings also work on Windows 10.
-
-This is a fully non-interactive script, so make sure to review everything before running it.  
-The active tweaks/settings are selectable at the bottom of the script.
+### Characteristics
+- fully non-interactive script: make sure to review everything before running it.  
+- active tweaks/settings are selectable at the bottom of the script.
+- easily customizable, maintainable and scalable.
+- most tweaks/settings works on Windows 10.
+- designed for Windows 11.
 
 
 ## Usage
 This script requires 'PowerShell Core' and must be run as Administrator.
 
-1. Install 'PowerShell Core'.
+1. Download the script and **configure it according to your preferences**.  
+   You may need `Notepad++` or `VSCode` to easily edit the script.
+
+2. Install 'PowerShell Core':  
+  In a `Terminal`, enter:
     ```powershell
     PS> winget install --exact --id 'Microsoft.PowerShell'
     ```
-2. Download the script and **configure it according to your preferences**.
-3. Open an elevated PowerShell prompt: Right-click on Start Menu > Terminal (Admin).
+3. Open an elevated PowerShell prompt:  
+   Right-click on `Start Menu` > `Terminal (Admin)`.
+   
 4. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).
     ```powershell
     PS> Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
     ```
 5. Navigate to the directory where you downloaded the script.  
-   example:
+   You should download the script in its own directory (several log files will be created in the script location).  
     ```powershell
-    PS> cd "C:\Users\<User>\Downloads"
+    PS> cd "C:\Users\<User>\Downloads\WindowsMize\"
     ```
 6. Unblock the PowerShell script (might not be necessary).
     ```powershell
@@ -46,8 +65,14 @@ This script requires 'PowerShell Core' and must be run as Administrator.
 
 
 ## Features
+The script is divided into 9 sections in the following order:
+
+### WindowsMize
+Requirements, answer files for Windows installation and a todo list to maually do atfter the script.  
+Some helper functions (user info / set registry entries).
+
 ### Tweaks
-Various tweaks to customize Windows (e.g. file explorer, network, system properties, telemetry).  
+Various tweaks to customize Windows (e.g. file explorer, network, power options, system properties, telemetry).  
 There is also a miscellaneous sub-section that contains a lot of tweaks.
 
 ### Applications
@@ -70,7 +95,7 @@ There are a lot of the settings present in the GUI, but not everything.
 Disable unwanted services and scheduled tasks (grouped by category).  
 Be sure to review every services to know which one to disable according to your usage.
 
-### Script configuration & execution
+### Script configuration / execution
 In these two sections, comment or uncomment the tweaks/settings you want to execute or not.
 
 
@@ -82,7 +107,7 @@ Most of the tweaks/settings are done with a JSON format. Change the preset value
 Once you've configured the default tweaks/settings values, you can choose which one to execute in the sections "Script configuration" and "Script execution".
 
 If you want to change a value for a specific tweak/setting, the fastest way is to highlight the variable in these two sections and use "Ctrl + F" to find the related JSON/function.  
-You could also use the region folder to easily naviguate to the corresponding tweak/setting (involves to use a code editor that support region folder like VSCode or Notepad++).
+You can also use the 'region folder' to easily naviguate to the corresponding tweak/setting (involves to use a code editor that support 'region folder' like VSCode or Notepad++).
 
 ### Group Policy
 There are several settings with both Group Policy and User values (Mainly in the "Windows Settings app" section).  
@@ -90,7 +115,14 @@ By default, there is a '"SkipKey" : true' for these Group Policy rules (delete t
 They are default enabled only in the section "settings > privacy & security > windows permissions > diagnostics & feedback".
 
 
+## Support
+If you find a bug, please open an issue.  
+If you like this project, let me know with a star. ⭐️ :)
+
+
 ## Similar tools (in no particular order)
+https://schneegans.de/windows/unattend-generator/
+
 https://github.com/Atlas-OS/Atlas  
 https://github.com/builtbybel/xd-AntiSpy  
 https://github.com/ChrisTitusTech/winutil  
@@ -99,15 +131,3 @@ https://github.com/hellzerg/optimizer
 https://github.com/Raphire/Win11Debloat  
 https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat  
 https://github.com/undergroundwires/privacy.sexy  
-
-https://www.majorgeeks.com/files/details/majorgeeks_registry_tweaks.html  
-https://www.oo-software.com/en/shutup10  
-https://www.thewindowsclub.com/ultimate-windows-tweaker-5-for-windows-11  
-https://winaero.com/winaero-tweaker  
-
-https://schneegans.de/windows/unattend-generator/
-
-
-## Support
-If you find a bug, please open an issue.  
-If you like this project, consider to leave a star. ⭐️ :)
