@@ -20,6 +20,7 @@ Automate and customize everything we can.
 - tweaks (file explorer, network, system properties, telemetry, ...)
 - remove unwanted apps (bloatware)
 - install applications + settings
+- configure a RamDisk (Brave Browser / VSCode)
 - disable services & scheduled tasks
 
 ### Characteristics
@@ -85,7 +86,7 @@ e.g. adobe acrobat reader, brave browser, microsoft office, windows terminal.
 
 ### RamDisk
 Could almost be a project by its own.  
-Configure 'Brave browser' and 'Visual Studio Code' to use a Ram disk.
+Configure 'Brave browser' and 'Visual Studio Code' to use a RamDisk.
 
 ### Windows Settings app
 Equivalent of the Microsoft Windows Settings app (Start > All apps > Settings).    
@@ -119,6 +120,9 @@ They are default enabled only in the section "settings > privacy & security > wi
 If you find a bug, please open an issue.  
 If you like this project, let me know with a star. ⭐️ :)
 
+
+## Screenshot
+![WindowsMize-VSCode-View](./Screenshot.png)
 
 ## Similar tools (in no particular order)
 https://schneegans.de/windows/unattend-generator/
