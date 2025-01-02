@@ -4,10 +4,10 @@
 #                    \ \/\/ /  | | | ' \  / _` | / _ \ \ V  V / (_-< | |\/| | | | |_ / / -_)
 #                     \_/\_/   |_| |_||_| \__,_| \___/  \_/\_/  /__/ |_|  |_| |_| /__| \___|
 #
-#                      PowerShell script to automate and customize the settings of Windows,
-#                    remove bloatware, minimize telemetry, disable services & scheduled tasks,
-#                                           and various other tweaks.
-#
+#                    PowerShell script to automate and customize the configuration of Windows:
+#                         Settings, apps uninstall/install/settings, minimize telemetry,
+#                          disable services/scheduled tasks, RamDisk, and other tweaks.
+# 
 #=================================================================================================================
 #region WindowsMize
 
@@ -23,6 +23,8 @@
 - PowerShell Core.
   Open a terminal and run:
     winget install --exact --id 'Microsoft.PowerShell'
+  To run the script, you may need:
+    Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
 
 - Update
   Make sure your Windows is fully updated:
