@@ -15476,22 +15476,22 @@ $NarratorDiagnosticAndPerformanceData = '[
 #=======================================
 #region speech
 
-function Add-HotkeyToDisable
+function Disable-Hotkey
 {
     <#
     .SYNTAX
-        Add-HotkeyToDisable [-Hotkey] <string> [-OverrideValue] [<CommonParameters>]
+        Disable-Hotkey [-Value] <string> [-OverrideValue] [<CommonParameters>]
 
     .DESCRIPTION
         Disable a specific 'Windows + key' shortcut.
         Also disable any combinaison of 'Windows + any + key'.
 
     .EXAMPLE
-        PS> Add-HotkeyToDisable -Hotkey 'XYZ'
+        PS> Disable-Hotkey -Value 'XYZ'
         ('DisabledHotkeys' == 'XYZ' + any already existing key)
 
     .EXAMPLE
-        PS> Add-HotkeyToDisable -Hotkey 'XY' -OverrideValue
+        PS> Disable-Hotkey -Value 'XY' -OverrideValue
         ('DisabledHotkeys' == 'XY')
     #>
 
@@ -15501,7 +15501,7 @@ function Add-HotkeyToDisable
         [Parameter(Mandatory)]
         [ValidatePattern("^[A-Za-z]+$")]
         [string]
-        $Hotkey,
+        $Value,
 
         [switch]
         $OverrideValue
@@ -15509,32 +15509,35 @@ function Add-HotkeyToDisable
 
     process
     {
-        $DisabledHotkeysProperties = @{
-            Path = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
-            Name = 'DisabledHotkeys'
-            Type = 'String'
-        }
-        $DisabledHotkeys = (Get-ItemProperty $DisabledHotkeysProperties.Path).($DisabledHotkeysProperties.Name)
+        $DisabledHotkeys = '[
+          {
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+            "Entries" : [
+              {
+                "Name"  : "DisabledHotkeys",
+                "Value" : "",
+                "Type"  : "String"
+              }
+            ]
+          }
+        ]' | ConvertFrom-Json
 
-        if ($null -eq $DisabledHotkeys)
-        {
-            Set-ItemProperty @DisabledHotkeysProperties -Value '' | Out-Null
-            $DisabledHotkeys = ''
-        }
-        else
-        {
-            $DisabledHotkeys = $OverrideValue ? '' : $DisabledHotkeys.ToUpper()
-        }
+        $UserSID = Get-LoggedUserSID
+        $DisabledHotkeysRegPath = "Registry::HKEY_USERS\$UserSID\$($DisabledHotkeys.Path)"
+        $DisabledHotkeysValue = (Get-ItemProperty $DisabledHotkeysRegPath).$($DisabledHotkeys.Entries[0].Name)
+        $DisabledHotkeysValue = $OverrideValue -or $null -eq $DisabledHotkeysValue ? '' : $DisabledHotkeysValue.ToUpper()
 
-        foreach ($Key in $Hotkey.ToUpper().ToCharArray())
+        foreach ($Key in $Value.ToUpper().ToCharArray())
         {
-            if (-not $DisabledHotkeys.Contains($Key))
+            if (-not $DisabledHotkeysValue.Contains($Key))
             {
-                $DisabledHotkeys += $Key
+                $DisabledHotkeysValue += $Key
             }
         }
 
-        Set-ItemProperty @DisabledHotkeysProperties -Value $DisabledHotkeys | Out-Null
+        $DisabledHotkeys.Entries[0].Value = $DisabledHotkeysValue
+        Set-RegistryEntry -InputObject $DisabledHotkeys -Verbose:$false
     }
 }
 
@@ -15544,7 +15547,7 @@ function Add-HotkeyToDisable
 function Disable-VoiceTypingShorcut
 {
     Write-Verbose -Message 'Disabling Voice Typing shortcut (Win + H) ...'
-    Add-HotkeyToDisable -Hotkey 'H'
+    Disable-Hotkey -Value 'H'
 }
 
 #endregion speech
