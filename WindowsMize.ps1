@@ -103,96 +103,99 @@ function New-WindowsAnswerFile
         $Edition = ''
     )
 
-    $WindowsEdition = switch ($Edition)
+    process
     {
-        'Home'       { 'YTMG3-N6DKC-DKB77-7M9GH-8HVX7' }
-        'Pro'        { 'VK7JG-NPHTM-C97JM-9MPGT-3V66T' }
-        'Enterprise' { 'XGVPP-NMH47-7TTHJ-W3FW7-8HV2C' }
-        Default      { '00000-00000-00000-00000-00000' }
-    }
+        $WindowsEdition = switch ($Edition)
+        {
+            'Home'       { 'YTMG3-N6DKC-DKB77-7M9GH-8HVX7' }
+            'Pro'        { 'VK7JG-NPHTM-C97JM-9MPGT-3V66T' }
+            'Enterprise' { 'XGVPP-NMH47-7TTHJ-W3FW7-8HV2C' }
+            Default      { '00000-00000-00000-00000-00000' }
+        }
 
-    '<?xml version="1.0" encoding="utf-8"?>
-    <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
-        <settings pass="offlineServicing"></settings>
-        <settings pass="windowsPE">
-            <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-                <UserData>
-                    <ProductKey>
-                        <!-- Win11 generic product key: -->
-                            <!-- Home: YTMG3-N6DKC-DKB77-7M9GH-8HVX7 -->
-                            <!-- Pro: VK7JG-NPHTM-C97JM-9MPGT-3V66T -->
-                            <!-- Enterprise: XGVPP-NMH47-7TTHJ-W3FW7-8HV2C -->
-                        <!-- choose a generic key to skip the Windows Key screen during Windows installation -->
-                        <Key>$WindowsEdition</Key>
-                    </ProductKey>
-                    <AcceptEula>true</AcceptEula>
-                </UserData>
-            </component>
-        </settings>
-        <settings pass="generalize"></settings>
-        <settings pass="specialize">
-            <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-                <RunSynchronous>
-                    <RunSynchronousCommand wcm:action="add">
-                        <!-- disable password expiration -->
-                        <Order>1</Order>
-                        <Path>net.exe accounts /maxpwage:UNLIMITED</Path>
-                    </RunSynchronousCommand>
-                    <RunSynchronousCommand wcm:action="add">
-                        <!-- disable Bitlocker auto device encryption -->
-                        <Order>2</Order>
-                        <Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v "PreventDeviceEncryption" /t REG_DWORD /d 1 /f</Path>
-                    </RunSynchronousCommand>
-                </RunSynchronous>
-            </component>
-        </settings>
-        <settings pass="auditSystem"></settings>
-        <settings pass="auditUser"></settings>
-        <settings pass="oobeSystem">
-            <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-                <UserAccounts>
-                    <!-- create a local account (modify the username (20 chars max) and password) -->
-                    <LocalAccounts>
-                        <LocalAccount wcm:action="add">
-                            <Name>$UserName</Name>
-                            <Group>Administrators</Group>
-                            <Password>
-                                <Value>$Password</Value>
-                                <PlainText>true</PlainText>
-                            </Password>
-                        </LocalAccount>
-                    </LocalAccounts>
-                </UserAccounts>
-                <AutoLogon>
-                    <!-- auto logon once (modify the username and password with the above LocalAccount values) -->
-                    <Username>$UserName</Username>
-                    <Enabled>true</Enabled>
-                    <LogonCount>1</LogonCount>
-                    <Password>
-                        <Value>$Password</Value>
-                        <PlainText>true</PlainText>
-                    </Password>
-                </AutoLogon>
-                <OOBE>
-                    <!-- deny privacy settings (do not send diagnostics data, ... etc) -->
-                    <ProtectYourPC>3</ProtectYourPC>
-                    <HideEULAPage>true</HideEULAPage>
-                    <HideWirelessSetupInOOBE>false</HideWirelessSetupInOOBE>
-                </OOBE>
-                <FirstLogonCommands>
-                    <SynchronousCommand wcm:action="add">
-                        <!-- disable auto logon after the first logon -->
-                        <Order>1</Order>
-                        <CommandLine>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /t REG_DWORD /d 0 /f</CommandLine>
-                    </SynchronousCommand>
-                </FirstLogonCommands>
-            </component>
-        </settings>
-    </unattend>
-    '.Replace('$UserName', $UserName).
-      Replace('$Password', $Password).
-      Replace('$WindowsEdition', $WindowsEdition) -replace '(?m)^ {4}' |
-        Out-File -Path "$Path\autounattend.xml"
+        '<?xml version="1.0" encoding="utf-8"?>
+        <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+            <settings pass="offlineServicing"></settings>
+            <settings pass="windowsPE">
+                <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+                    <UserData>
+                        <ProductKey>
+                            <!-- Win11 generic product key: -->
+                                <!-- Home: YTMG3-N6DKC-DKB77-7M9GH-8HVX7 -->
+                                <!-- Pro: VK7JG-NPHTM-C97JM-9MPGT-3V66T -->
+                                <!-- Enterprise: XGVPP-NMH47-7TTHJ-W3FW7-8HV2C -->
+                            <!-- choose a generic key to skip the Windows Key screen during Windows installation -->
+                            <Key>$WindowsEdition</Key>
+                        </ProductKey>
+                        <AcceptEula>true</AcceptEula>
+                    </UserData>
+                </component>
+            </settings>
+            <settings pass="generalize"></settings>
+            <settings pass="specialize">
+                <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+                    <RunSynchronous>
+                        <RunSynchronousCommand wcm:action="add">
+                            <!-- disable password expiration -->
+                            <Order>1</Order>
+                            <Path>net.exe accounts /maxpwage:UNLIMITED</Path>
+                        </RunSynchronousCommand>
+                        <RunSynchronousCommand wcm:action="add">
+                            <!-- disable Bitlocker auto device encryption -->
+                            <Order>2</Order>
+                            <Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v "PreventDeviceEncryption" /t REG_DWORD /d 1 /f</Path>
+                        </RunSynchronousCommand>
+                    </RunSynchronous>
+                </component>
+            </settings>
+            <settings pass="auditSystem"></settings>
+            <settings pass="auditUser"></settings>
+            <settings pass="oobeSystem">
+                <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+                    <UserAccounts>
+                        <!-- create a local account (modify the username (20 chars max) and password) -->
+                        <LocalAccounts>
+                            <LocalAccount wcm:action="add">
+                                <Name>$UserName</Name>
+                                <Group>Administrators</Group>
+                                <Password>
+                                    <Value>$Password</Value>
+                                    <PlainText>true</PlainText>
+                                </Password>
+                            </LocalAccount>
+                        </LocalAccounts>
+                    </UserAccounts>
+                    <AutoLogon>
+                        <!-- auto logon once (modify the username and password with the above LocalAccount values) -->
+                        <Username>$UserName</Username>
+                        <Enabled>true</Enabled>
+                        <LogonCount>1</LogonCount>
+                        <Password>
+                            <Value>$Password</Value>
+                            <PlainText>true</PlainText>
+                        </Password>
+                    </AutoLogon>
+                    <OOBE>
+                        <!-- deny privacy settings (do not send diagnostics data, ... etc) -->
+                        <ProtectYourPC>3</ProtectYourPC>
+                        <HideEULAPage>true</HideEULAPage>
+                        <HideWirelessSetupInOOBE>false</HideWirelessSetupInOOBE>
+                    </OOBE>
+                    <FirstLogonCommands>
+                        <SynchronousCommand wcm:action="add">
+                            <!-- disable auto logon after the first logon -->
+                            <Order>1</Order>
+                            <CommandLine>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /t REG_DWORD /d 0 /f</CommandLine>
+                        </SynchronousCommand>
+                    </FirstLogonCommands>
+                </component>
+            </settings>
+        </unattend>
+        '.Replace('$UserName', $UserName).
+          Replace('$Password', $Password).
+          Replace('$WindowsEdition', $WindowsEdition) -replace '(?m)^ {4}' |
+            Out-File -Path "$Path\autounattend.xml"
+    }
 }
 
 #endregion windows installation
@@ -687,27 +690,30 @@ function Move-EventLogLocation
         $Path
     )
 
-    $NewEventLogPath = "$Path\winevt_Logs"
-    $EventLogPath = "$env:SystemRoot\system32\winevt\Logs"
-
-    Write-Verbose -Message "Moving Event Log Location to '$NewEventLogPath' ..."
-
-    Stop-Service -Name 'EventLog' -Force
-
-    $IsEventLogPathSymbolicLink = (Get-Item -Path $EventLogPath).LinkType -eq 'SymbolicLink'
-    if (-not $IsEventLogPathSymbolicLink)
+    process
     {
-        Remove-Item -Recurse -Path $NewEventLogPath -ErrorAction 'SilentlyContinue'
-        New-Item -ItemType 'Directory' -Path $NewEventLogPath -Force | Out-Null
-        Move-Item -Path "$EventLogPath\*" -Destination $NewEventLogPath
+        $NewEventLogPath = "$Path\winevt_Logs"
+        $EventLogPath = "$env:SystemRoot\system32\winevt\Logs"
+
+        Write-Verbose -Message "Moving Event Log Location to '$NewEventLogPath' ..."
+
+        Stop-Service -Name 'EventLog' -Force
+
+        $IsEventLogPathSymbolicLink = (Get-Item -Path $EventLogPath).LinkType -eq 'SymbolicLink'
+        if (-not $IsEventLogPathSymbolicLink)
+        {
+            Remove-Item -Recurse -Path $NewEventLogPath -ErrorAction 'SilentlyContinue'
+            New-Item -ItemType 'Directory' -Path $NewEventLogPath -Force | Out-Null
+            Move-Item -Path "$EventLogPath\*" -Destination $NewEventLogPath
+        }
+
+        New-SymbolicLink -Path $EventLogPath -Target $NewEventLogPath -TargetType 'Directory'
+
+        $EventAcl = Get-Acl -Path $EventLogPath
+        Set-Acl -Path $NewEventLogPath -AclObject $EventAcl
+
+        Start-Service -Name 'EventLog'
     }
-
-    New-SymbolicLink -Path $EventLogPath -Target $NewEventLogPath -TargetType 'Directory'
-
-    $EventAcl = Get-Acl -Path $EventLogPath
-    Set-Acl -Path $NewEventLogPath -AclObject $EventAcl
-
-    Start-Service -Name 'EventLog'
 }
 
 #endregion event log
@@ -765,8 +771,11 @@ function Set-ByteBitFlag
 
     )
 
-    $Bitmask = 1 -shl ($BitPos - 1)
-    $Bytes[$ByteNum] = $Value ? $Bytes[$ByteNum] -bor $Bitmask : $Bytes[$ByteNum] -band (-bnot $Bitmask)
+    process
+    {
+        $Bitmask = 1 -shl ($BitPos - 1)
+        $Bytes[$ByteNum] = $Value ? $Bytes[$ByteNum] -bor $Bitmask : $Bytes[$ByteNum] -band (-bnot $Bitmask)
+    }
 }
 
 #endregion helper function
@@ -1811,14 +1820,17 @@ function Set-NTFSLastAccessTime
         $State
     )
 
-    Write-Verbose -Message "Setting 'NTFS LastAccessTime' to '$Managed Managed: $State' ..."
-
-    $Value = $State -eq 'Enabled' ? 0 : 1
-    if ($Managed -eq 'System')
+    process
     {
-        $Value += 2
+        Write-Verbose -Message "Setting 'NTFS LastAccessTime' to '$Managed Managed: $State' ..."
+
+        $Value = $State -eq 'Enabled' ? 0 : 1
+        if ($Managed -eq 'System')
+        {
+            $Value += 2
+        }
+        fsutil.exe behavior set DisableLastAccess $Value | Out-Null
     }
-    fsutil.exe behavior set DisableLastAccess $Value | Out-Null
 }
 
 function Disable-NTFSLastAccessTime
@@ -2665,11 +2677,14 @@ function Add-NetFirewallRuleToGroup
         $Group
     )
 
-    Get-NetFirewallRule -DisplayName $DisplayName |
-        ForEach-Object -Process {
-            $_.Group = $Group
-            Set-NetFirewallRule -InputObject $_
-        }
+    process
+    {
+        Get-NetFirewallRule -DisplayName $DisplayName |
+            ForEach-Object -Process {
+                $_.Group = $Group
+                Set-NetFirewallRule -InputObject $_
+            }
+    }
 }
 
 function Block-InboundFirewallPort
@@ -2700,19 +2715,22 @@ function Block-InboundFirewallPort
         $Group
     )
 
-    $BlockInbound = @{
-        Direction   = 'Inbound'
-        Action      = 'Block'
-    }
-
-    Write-Verbose -Message 'Adding firewall rules:'
-    Write-Verbose -Message "    $($Rule.DisplayName | Join-String -Separator "`n             ")"
-
-    Remove-NetFirewallRule -Group $Group -ErrorAction 'SilentlyContinue'
-    foreach ($Item in $Rule)
+    process
     {
-        New-NetFirewallRule @BlockInbound @Item | Out-Null
-        Add-NetFirewallRuleToGroup -DisplayName $Item.DisplayName -Group $Group
+        $BlockInbound = @{
+            Direction   = 'Inbound'
+            Action      = 'Block'
+        }
+
+        Write-Verbose -Message 'Adding firewall rules:'
+        Write-Verbose -Message "    $($Rule.DisplayName | Join-String -Separator "`n             ")"
+
+        Remove-NetFirewallRule -Group $Group -ErrorAction 'SilentlyContinue'
+        foreach ($Item in $Rule)
+        {
+            New-NetFirewallRule @BlockInbound @Item | Out-Null
+            Add-NetFirewallRuleToGroup -DisplayName $Item.DisplayName -Group $Group
+        }
     }
 }
 
@@ -2855,9 +2873,13 @@ function Set-IcmpRedirects
         $State
     )
 
-    Write-Verbose -Message "Setting 'Icmp Redirects' to '$State' ..."
-    Set-NetIPv4Protocol -IcmpRedirects $State
-    Set-NetIPv6Protocol -IcmpRedirects $State
+    process
+    {
+        Write-Verbose -Message "Setting 'Icmp Redirects' to '$State' ..."
+
+        Set-NetIPv4Protocol -IcmpRedirects $State
+        Set-NetIPv6Protocol -IcmpRedirects $State
+    }
 }
 
 function Enable-IcmpRedirects
@@ -2977,8 +2999,11 @@ function Set-NetworkTeredo
         $State
     )
 
-    Write-Verbose -Message "Setting 'Network Protocol Teredo' to '$State' ..."
-    Set-NetTeredoConfiguration -Type $State
+    process
+    {
+        Write-Verbose -Message "Setting 'Network Protocol Teredo' to '$State' ..."
+        Set-NetTeredoConfiguration -Type $State
+    }
 }
 
 function Enable-NetworkTeredo
@@ -3385,10 +3410,13 @@ function Set-Hibernate
         $State
     )
 
-    Write-Verbose -Message "Setting 'Hibernate' to '$State' ..."
+    process
+    {
+        Write-Verbose -Message "Setting 'Hibernate' to '$State' ..."
 
-    $SettingValue = $State -eq 'Enabled' ? 'on' : 'off'
-    powercfg.exe -Hibernate $SettingValue
+        $SettingValue = $State -eq 'Enabled' ? 'on' : 'off'
+        powercfg.exe -Hibernate $SettingValue
+    }
 }
 
 # control panel (icons view) > power options > Choose What the power button do
@@ -4044,11 +4072,14 @@ function Set-AllDrivesAutoManagedPagingFile
         $State
     )
 
-    Write-Verbose -Message "Setting 'All Drives AutoManaged Paging File' to '$State'"
+    process
+    {
+        Write-Verbose -Message "Setting 'All Drives AutoManaged Paging File' to '$State'"
 
-    $ComputerSystem = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
-    $ComputerSystem.AutomaticManagedPagefile = $State -eq 'Enabled' ? $true : $false
-    Set-CimInstance -InputObject $ComputerSystem -Verbose:$false
+        $ComputerSystem = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
+        $ComputerSystem.AutomaticManagedPagefile = $State -eq 'Enabled' ? $true : $false
+        Set-CimInstance -InputObject $ComputerSystem -Verbose:$false
+    }
 }
 
 function Enable-AllDrivesAutoManagedPagingFile
@@ -4128,47 +4159,49 @@ function Set-DrivePagingFile
         $NoPagingFile
     )
 
-    if ($SystemManaged)
+    process
     {
-        $InitialSize = $MaximumSize = 0
-    }
-
-    foreach ($DriveLetter in $Drive)
-    {
-        $DriveLetter = $DriveLetter.Replace('\', '')
-
-        $PagingFileProperties = @{
-            ClassName = 'Win32_PageFileSetting'
-            Filter    = "Name like '$DriveLetter%'"
-        }
-        $PagingFileSetting = Get-CimInstance @PagingFileProperties -Verbose:$false
-
-        $State = switch ($PSCmdlet.ParameterSetName)
+        if ($SystemManaged)
         {
-            'CustomSize'    { "$InitialSize / $MaximumSize" }
-            'SystemManaged' { 'SystemManaged' }
-            'NoPagingFile'  { 'Disabled' }
+            $InitialSize = $MaximumSize = 0
         }
 
-        Write-Verbose -Message "Setting 'Paging File for Drive $DriveLetter' to '$State'"
+        foreach ($DriveLetter in $Drive)
+        {
+            $DriveLetter = $DriveLetter.Replace('\', '')
 
-        if ($NoPagingFile)
-        {
-            Remove-CimInstance -InputObject $PagingFileSetting -Verbose:$false
-        }
-        else
-        {
-            if (-not $PagingFileSetting)
-            {
-                $NewPagingFileProperties = @{
-                    ClassName = 'Win32_PageFileSetting'
-                    Property  = @{ Name = "$DriveLetter\pagefile.sys" }
-                }
-                $PagingFileSetting = New-CimInstance @NewPagingFileProperties -Verbose:$false
+            $PagingFileProperties = @{
+                ClassName = 'Win32_PageFileSetting'
+                Filter    = "Name like '$DriveLetter%'"
             }
-            $PagingFileSetting.InitialSize = $InitialSize
-            $PagingFileSetting.MaximumSize = $MaximumSize
-            Set-CimInstance -InputObject $PagingFileSetting -Verbose:$false
+            $PagingFileSetting = Get-CimInstance @PagingFileProperties -Verbose:$false
+
+            $State = switch ($PSCmdlet.ParameterSetName)
+            {
+                'CustomSize'    { "$InitialSize / $MaximumSize" }
+                'SystemManaged' { 'SystemManaged' }
+                'NoPagingFile'  { 'Disabled' }
+            }
+            Write-Verbose -Message "Setting 'Paging File for Drive $DriveLetter' to '$State'"
+
+            if ($NoPagingFile)
+            {
+                Remove-CimInstance -InputObject $PagingFileSetting -Verbose:$false
+            }
+            else
+            {
+                if (-not $PagingFileSetting)
+                {
+                    $NewPagingFileProperties = @{
+                        ClassName = 'Win32_PageFileSetting'
+                        Property  = @{ Name = "$DriveLetter\pagefile.sys" }
+                    }
+                    $PagingFileSetting = New-CimInstance @NewPagingFileProperties -Verbose:$false
+                }
+                $PagingFileSetting.InitialSize = $InitialSize
+                $PagingFileSetting.MaximumSize = $MaximumSize
+                Set-CimInstance -InputObject $PagingFileSetting -Verbose:$false
+            }
         }
     }
 }
@@ -4203,8 +4236,11 @@ function Set-DataExecutionPrevention
         $State
     )
 
-    Write-Verbose -Message "Setting 'Data Execution Prevention' to '$State'"
-    bcdedit.exe -Set '{current}' nx $State | Out-Null
+    process
+    {
+        Write-Verbose -Message "Setting 'Data Execution Prevention' to '$State'"
+        bcdedit.exe -Set '{current}' nx $State | Out-Null
+    }
 }
 
 #endregion data execution prevention
@@ -4312,15 +4348,18 @@ function Set-ComputerRestore
         $State
     )
 
-    Write-Verbose -Message "Setting 'Computer Restore' of drive '$Drive' to '$State' ..."
+    process
+    {
+        Write-Verbose -Message "Setting 'Computer Restore' of drive '$Drive' to '$State' ..."
 
-    if ($State -eq 'Enabled')
-    {
-        Enable-ComputerRestore -Drive $Drive
-    }
-    else
-    {
-        Disable-ComputerRestore -Drive $Drive
+        if ($State -eq 'Enabled')
+        {
+            Enable-ComputerRestore -Drive $Drive
+        }
+        else
+        {
+            Disable-ComputerRestore -Drive $Drive
+        }
     }
 }
 
@@ -5018,32 +5057,35 @@ function Grant-AdminsFullControlFileSystemAccess
         $RemoveAccess
     )
 
-    $IdentityReferenceData = @{
-        TypeName     = 'System.Security.Principal.SecurityIdentifier'
-        ArgumentList = 'S-1-5-32-544' # 'BUILTIN\Administrators'
-    }
-    $AdminIdentityReference = New-Object @IdentityReferenceData
-    $SystemAccessProperties = @(
-        $AdminIdentityReference
-        'FullControl'
-        'Allow'
-    )
-    $SystemAccessRuleData = @{
-        TypeName     = 'System.Security.AccessControl.FileSystemAccessRule'
-        ArgumentList = $SystemAccessProperties
-    }
-    $SystemAccessRule = New-Object @SystemAccessRuleData
+    process
+    {
+        $IdentityReferenceData = @{
+            TypeName     = 'System.Security.Principal.SecurityIdentifier'
+            ArgumentList = 'S-1-5-32-544' # 'BUILTIN\Administrators'
+        }
+        $AdminIdentityReference = New-Object @IdentityReferenceData
+        $SystemAccessProperties = @(
+            $AdminIdentityReference
+            'FullControl'
+            'Allow'
+        )
+        $SystemAccessRuleData = @{
+            TypeName     = 'System.Security.AccessControl.FileSystemAccessRule'
+            ArgumentList = $SystemAccessProperties
+        }
+        $SystemAccessRule = New-Object @SystemAccessRuleData
 
-    $Acl = Get-Acl -Path $Path
-    if ($RemoveAccess)
-    {
-        $Acl.RemoveAccessRule($SystemAccessRule) | Out-Null
+        $Acl = Get-Acl -Path $Path
+        if ($RemoveAccess)
+        {
+            $Acl.RemoveAccessRule($SystemAccessRule) | Out-Null
+        }
+        else
+        {
+            $Acl.SetAccessRule($SystemAccessRule) | Out-Null
+        }
+        Set-Acl -Path $Path -AclObject $Acl | Out-Null
     }
-    else
-    {
-        $Acl.SetAccessRule($SystemAccessRule) | Out-Null
-    }
-    Set-Acl -Path $Path -AclObject $Acl | Out-Null
 }
 
 function Disable-NvidiaGameSessionTelemetry
@@ -5309,17 +5351,20 @@ function Install-WindowsSubsystemForLinux
         $Distribution
     )
 
-    Write-Verbose -Message 'Installing Windows Subsystem For Linux ...'
-
-    $InstallOptions = @(
-        '--no-launch'
-    )
-
-    if ($Distribution)
+    process
     {
-        $InstallOptions += "--distribution $Distribution"
+        Write-Verbose -Message 'Installing Windows Subsystem For Linux ...'
+
+        $InstallOptions = @(
+            '--no-launch'
+        )
+
+        if ($Distribution)
+        {
+            $InstallOptions += "--distribution $Distribution"
+        }
+        wsl.exe --install @InstallOptions
     }
-    wsl.exe --install @InstallOptions
 }
 
 #endregion WSL
@@ -5470,21 +5515,24 @@ function Get-ApplicationInfo
         $Name
     )
 
-    $RegistryUninstallPath = @(
-        'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall'
-        'Registry::HKEY_CURRENT_USER\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
-        'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
-        'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
-    )
-    $UserSID = Get-LoggedUserSID
-    $RegistryUninstallPath = $RegistryUninstallPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
+    process
+    {
+        $RegistryUninstallPath = @(
+            'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall'
+            'Registry::HKEY_CURRENT_USER\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
+            'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
+            'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
+        )
+        $UserSID = Get-LoggedUserSID
+        $RegistryUninstallPath = $RegistryUninstallPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
 
-    $AppInfo = $RegistryUninstallPath |
-        Get-ChildItem -ErrorAction 'SilentlyContinue' |
-        Get-ItemProperty |
-        Where-Object -Property 'DisplayName' -Like -Value $Name |
-        Select-Object -Property '*' -Exclude 'PS*'
-    $AppInfo
+        $AppInfo = $RegistryUninstallPath |
+            Get-ChildItem -ErrorAction 'SilentlyContinue' |
+            Get-ItemProperty |
+            Where-Object -Property 'DisplayName' -Like -Value $Name |
+            Select-Object -Property '*' -Exclude 'PS*'
+        $AppInfo
+    }
 }
 
 function Remove-MicrosoftEdge
@@ -6152,28 +6200,31 @@ function Set-UWPAppSetting
         $Setting
     )
 
-    $AppxPathName, $ProcessName = switch ($Name)
+    process
     {
-        'MicrosoftStore' { 'Microsoft.WindowsStore_8wekyb3d8bbwe';   'WinStore.App' }
-        'Notepad'        { 'Microsoft.WindowsNotepad_8wekyb3d8bbwe'; 'Notepad' }
-        'Photos'         { 'Microsoft.Windows.Photos_8wekyb3d8bbwe'; 'Photos' }
-        'SnippingTool'   { 'Microsoft.ScreenSketch_8wekyb3d8bbwe';   'SnippingTool' }
-    }
+        $AppxPathName, $ProcessName = switch ($Name)
+        {
+            'MicrosoftStore' { 'Microsoft.WindowsStore_8wekyb3d8bbwe';   'WinStore.App' }
+            'Notepad'        { 'Microsoft.WindowsNotepad_8wekyb3d8bbwe'; 'Notepad' }
+            'Photos'         { 'Microsoft.Windows.Photos_8wekyb3d8bbwe'; 'Photos' }
+            'SnippingTool'   { 'Microsoft.ScreenSketch_8wekyb3d8bbwe';   'SnippingTool' }
+        }
 
-    $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName"
-    $AppxSettingsFilePath = "$AppxPath\Settings\settings.dat"
+        $AppxPath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName"
+        $AppxSettingsFilePath = "$AppxPath\Settings\settings.dat"
 
-    if (Test-Path -Path $AppxSettingsFilePath)
-    {
-        # The app could be running (in background or open), close it.
-        Stop-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
+        if (Test-Path -Path $AppxSettingsFilePath)
+        {
+            # The app could be running (in background or open), close it.
+            Stop-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
 
-        Write-Verbose -Message "Setting $Name settings ..."
-        $Setting | Set-UWPAppRegistryEntry -FilePath $AppxSettingsFilePath
-    }
-    else
-    {
-        Write-Verbose -Message "$Name is not installed"
+            Write-Verbose -Message "Setting $Name settings ..."
+            $Setting | Set-UWPAppRegistryEntry -FilePath $AppxSettingsFilePath
+        }
+        else
+        {
+            Write-Verbose -Message "$Name is not installed"
+        }
     }
 }
 
@@ -6776,15 +6827,18 @@ function Merge-Hashtable
         $OverrideValue
     )
 
-    foreach ($Key in $Data.Keys)
+    process
     {
-        if ($Hashtable.$Key -is [hashtable] -and $Data.$Key -is [hashtable])
+        foreach ($Key in $Data.Keys)
         {
-            Merge-Hashtable -Hashtable $Hashtable.$Key -Data $Data.$Key -OverrideValue:$OverrideValue
-        }
-        else
-        {
-            $Hashtable.$Key = $OverrideValue ? $Data.$Key : $Hashtable.$Key + $Data.$Key
+            if ($Hashtable.$Key -is [hashtable] -and $Data.$Key -is [hashtable])
+            {
+                Merge-Hashtable -Hashtable $Hashtable.$Key -Data $Data.$Key -OverrideValue:$OverrideValue
+            }
+            else
+            {
+                $Hashtable.$Key = $OverrideValue ? $Data.$Key : $Hashtable.$Key + $Data.$Key
+            }
         }
     }
 }
@@ -8647,10 +8701,13 @@ function New-ParentPath
         $Path
     )
 
-    $ParentPath = Split-Path -Path $Path -ErrorAction 'SilentlyContinue'
-    if ($ParentPath -and (-not (Test-Path -Path $ParentPath)))
+    process
     {
-        New-Item -ItemType 'Directory' -Path $ParentPath -Force | Out-Null
+        $ParentPath = Split-Path -Path $Path -ErrorAction 'SilentlyContinue'
+        if ($ParentPath -and (-not (Test-Path -Path $ParentPath)))
+        {
+            New-Item -ItemType 'Directory' -Path $ParentPath -Force | Out-Null
+        }
     }
 }
 
@@ -8801,25 +8858,28 @@ function Get-BraveDataToSymlink
         $RamDiskPath
     )
 
-    $BraveDataToSymlink = @{
-        Brave = @{
-            LinkPath = (Get-BravePathInfo).LocalAppData
-            TargetPath = "$RamDiskPath\Brave-Browser"
-            Data = @{
-                Directory = @(
-                    'User Data'
-                )
+    process
+    {
+        $BraveDataToSymlink = @{
+            Brave = @{
+                LinkPath = (Get-BravePathInfo).LocalAppData
+                TargetPath = "$RamDiskPath\Brave-Browser"
+                Data = @{
+                    Directory = @(
+                        'User Data'
+                    )
+                }
+            }
+            BraveException = @{
+                LinkPath = "$RamDiskPath\Brave-Browser\User Data"
+                TargetPath = (Get-BravePathInfo).PersistentData
+                Data = @{
+                    Directory = (Get-BraveDataException).Symlink.Directory
+                }
             }
         }
-        BraveException = @{
-            LinkPath = "$RamDiskPath\Brave-Browser\User Data"
-            TargetPath = (Get-BravePathInfo).PersistentData
-            Data = @{
-                Directory = (Get-BraveDataException).Symlink.Directory
-            }
-        }
+        $BraveDataToSymlink
     }
-    $BraveDataToSymlink
 }
 
 #=======================================
@@ -8869,16 +8929,19 @@ function Get-VSCodeDataToSymlink
         $RamDiskPath
     )
 
-    $VSCodeDataToSymlink = @{
-        VSCode = @{
-            LinkPath = Get-VSCodeUserDataPath
-            TargetPath = "$RamDiskPath\VSCode"
-            Data = @{
-                Directory = (Get-VSCodeDataToRamDisk).Directory
+    process
+    {
+        $VSCodeDataToSymlink = @{
+            VSCode = @{
+                LinkPath = Get-VSCodeUserDataPath
+                TargetPath = "$RamDiskPath\VSCode"
+                Data = @{
+                    Directory = (Get-VSCodeDataToRamDisk).Directory
+                }
             }
         }
+        $VSCodeDataToSymlink
     }
-    $VSCodeDataToSymlink
 }
 
 #=======================================
@@ -8909,13 +8972,16 @@ function Get-DataToSymlink
         $Data
     )
 
-    $DataToSymlink = @{}
-    switch ($Data)
+    process
     {
-        'Brave'  { $DataToSymlink += Get-BraveDataToSymlink -RamDiskPath $RamDiskPath }
-        'VSCode' { $DataToSymlink += Get-VSCodeDataToSymlink -RamDiskPath $RamDiskPath }
+        $DataToSymlink = @{}
+        switch ($Data)
+        {
+            'Brave'  { $DataToSymlink += Get-BraveDataToSymlink -RamDiskPath $RamDiskPath }
+            'VSCode' { $DataToSymlink += Get-VSCodeDataToSymlink -RamDiskPath $RamDiskPath }
+        }
+        $DataToSymlink
     }
-    $DataToSymlink
 }
 
 #endregion data to symlink
@@ -8963,21 +9029,24 @@ function Copy-Data
         $Destination
     )
 
-    foreach ($Item in $Name)
+    process
     {
-        $ItemParameter = @{
-            Path        = "$Path\$Item"
-            Destination = Split-Path -Path "$Destination\$Item"
-            Recurse     = $true
-            Force       = $true
-        }
-        if (Test-Path -Path $ItemParameter.Path)
+        foreach ($Item in $Name)
         {
-            if (-not (Test-Path -Path $ItemParameter.Destination))
-            {
-                New-Item -ItemType 'Directory' -Path $ItemParameter.Destination -Force | Out-Null
+            $ItemParameter = @{
+                Path        = "$Path\$Item"
+                Destination = Split-Path -Path "$Destination\$Item"
+                Recurse     = $true
+                Force       = $true
             }
-            Copy-Item @ItemParameter
+            if (Test-Path -Path $ItemParameter.Path)
+            {
+                if (-not (Test-Path -Path $ItemParameter.Destination))
+                {
+                    New-Item -ItemType 'Directory' -Path $ItemParameter.Destination -Force | Out-Null
+                }
+                Copy-Item @ItemParameter
+            }
         }
     }
 }
@@ -9000,21 +9069,24 @@ function New-SymbolicLinksPair
         $Data
     )
 
-    $SymbolicLinksPair = foreach ($Value in $Data.Values)
+    process
     {
-        foreach ($Key in $Value.Data.Keys)
+        $SymbolicLinksPair = foreach ($Value in $Data.Values)
         {
-            foreach ($Name in $Value.Data[$Key])
+            foreach ($Key in $Value.Data.Keys)
             {
-                [PSCustomObject]@{
-                    Path       = "$($Value.LinkPath)\$Name"
-                    Target     = "$($Value.TargetPath)\$Name"
-                    TargetType = $Key
+                foreach ($Name in $Value.Data[$Key])
+                {
+                    [PSCustomObject]@{
+                        Path       = "$($Value.LinkPath)\$Name"
+                        Target     = "$($Value.TargetPath)\$Name"
+                        TargetType = $Key
+                    }
                 }
             }
         }
+        $SymbolicLinksPair
     }
-    $SymbolicLinksPair
 }
 
 function New-RamDiskUserProfile
@@ -9035,10 +9107,13 @@ function New-RamDiskUserProfile
         $Path
     )
 
-    New-Item -Path $Path -ItemType 'Directory' -Force | Out-Null
-    $UserProfilePath = (Get-LoggedUserEnvVariable).USERPROFILE
-    $UserProfileAcl = Get-Acl -Path $UserProfilePath
-    Set-Acl -Path $Path -AclObject $UserProfileAcl
+    process
+    {
+        New-Item -Path $Path -ItemType 'Directory' -Force | Out-Null
+        $UserProfilePath = (Get-LoggedUserEnvVariable).USERPROFILE
+        $UserProfileAcl = Get-Acl -Path $UserProfilePath
+        Set-Acl -Path $Path -AclObject $UserProfileAcl
+    }
 }
 
 function Remove-SymbolicLink
@@ -9059,9 +9134,12 @@ function Remove-SymbolicLink
         $Path
     )
 
-    Get-Item -Path $Path |
-        Where-Object -Property 'LinkType' -EQ -Value 'SymbolicLink' |
-        Remove-Item -ErrorAction 'SilentlyContinue'
+    process
+    {
+        Get-Item -Path $Path |
+            Where-Object -Property 'LinkType' -EQ -Value 'SymbolicLink' |
+            Remove-Item -ErrorAction 'SilentlyContinue'
+    }
 }
 
 function Copy-BravePersistentDataToBraveUserData
@@ -9093,7 +9171,10 @@ function Get-DrivePath
         $Name
     )
 
-    (Get-PSDrive -PSProvider 'FileSystem' | Where-Object -Property 'Description' -EQ -Value $Name).Root
+    process
+    {
+        (Get-PSDrive -PSProvider 'FileSystem' | Where-Object -Property 'Description' -EQ -Value $Name).Root
+    }
 }
 
 #=======================================
@@ -9117,31 +9198,34 @@ function Set-DataToRamDisk
         $RamDiskName
     )
 
-    # Comment/Uncomment the items according to your preferences.
-    $DataToRamdisk = @(
-        'Brave'
-        #'VSCode'
-    )
-
-    $RamDiskPath = Get-DrivePath -Name $RamDiskName | Select-Object -First 1
-    $RamDiskUserProfilePath = "$RamDiskPath\$(Get-LoggedUserUsername)"
-    $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $DataToRamdisk
-    $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
-
-    if (Test-Path -Path $RamDiskPath)
+    process
     {
-        if (-not (Test-Path -Path $RamDiskUserProfilePath))
+        # Comment/Uncomment the items according to your preferences.
+        $DataToRamdisk = @(
+            'Brave'
+            #'VSCode'
+        )
+
+        $RamDiskPath = Get-DrivePath -Name $RamDiskName | Select-Object -First 1
+        $RamDiskUserProfilePath = "$RamDiskPath\$(Get-LoggedUserUsername)"
+        $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $DataToRamdisk
+        $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
+
+        if (Test-Path -Path $RamDiskPath)
         {
-            New-RamDiskUserProfile -Path $RamDiskUserProfilePath
-            $SymbolicLinksPair | New-SymbolicLink
+            if (-not (Test-Path -Path $RamDiskUserProfilePath))
+            {
+                New-RamDiskUserProfile -Path $RamDiskUserProfilePath
+                $SymbolicLinksPair | New-SymbolicLink
+            }
         }
-    }
-    else
-    {
-        Remove-SymbolicLink -Path $SymbolicLinksPair.Path
-    }
+        else
+        {
+            Remove-SymbolicLink -Path $SymbolicLinksPair.Path
+        }
 
-    Copy-BravePersistentDataToBraveUserData
+        Copy-BravePersistentDataToBraveUserData
+    }
 }
 
 #endregion data to ramdisk
@@ -9196,20 +9280,23 @@ function Test-GPOScript
         $Type
     )
 
-    $UserSid = Get-LoggedUserSID
-    $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
-    $RegItems = Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue'
-
-    $Result = $false
-    foreach ($Item in $RegItems)
+    process
     {
-        if ((Get-ItemPropertyValue -Path "Registry::$Item" -Name 'Script') -eq $Name)
+        $UserSid = Get-LoggedUserSID
+        $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+        $RegItems = Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue'
+
+        $Result = $false
+        foreach ($Item in $RegItems)
         {
-            $Result = $true
-            break
+            if ((Get-ItemPropertyValue -Path "Registry::$Item" -Name 'Script') -eq $Name)
+            {
+                $Result = $true
+                break
+            }
         }
+        $Result
     }
-    $Result
 }
 
 function New-GPOScript
@@ -9237,106 +9324,109 @@ function New-GPOScript
         $Type
     )
 
-    $UserSid = Get-LoggedUserSID
-    $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
-    $ScriptNumber = (Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue').Count
-
-    $GPOScript = '[
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\$Type\\0",
-        "Entries" : [
-          {
-            "Name"  : "DisplayName",
-            "Value" : "Local Group Policy",
-            "Type"  : "String"
-          },
-          {
-            "Name"  : "FileSysPath",
-            "Value" : "$env:SystemRoot\\System32\\GroupPolicy\\User",
-            "Type"  : "String"
-          },
-          {
-            "Name"  : "GPO-ID",
-            "Value" : "LocalGPO",
-            "Type"  : "String"
-          },
-          {
-            "Name"  : "GPOName",
-            "Value" : "Local Group Policy",
-            "Type"  : "String"
-          },
-          {
-            "Name"  : "PSScriptOrder",
-            "Value" : "1",
-            "Type"  : "DWord"
-          },
-          {
-            "Name"  : "SOM-ID",
-            "Value" : "Local",
-            "Type"  : "String"
-          }
-        ]
-      },
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\$Type\\0\\$ScriptNumber",
-        "Entries" : [
-          {
-            "Name"  : "ExecTime",
-            "Value" : "0",
-            "Type"  : "QWord"
-          },
-          {
-            "Name"  : "IsPowershell",
-            "Value" : "1",
-            "Type"  : "DWord"
-          },
-          {
-            "Name"  : "Parameters",
-            "Value" : "",
-            "Type"  : "String"
-          },
-          {
-            "Name"  : "Script",
-            "Value" : "$ScriptFilePath",
-            "Type"  : "String"
-          }
-        ]
-      },
-      {
-        "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\$Type\\0",
-        "Entries" : []
-      },
-      {
-        "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\$Type\\0\\$ScriptNumber",
-        "Entries" : []
-      }
-    ]'.Replace('$ScriptNumber', $ScriptNumber).
-       Replace('$ScriptFilePath', $FilePath.Replace('\', '\\')).
-       Replace('$env:SystemRoot', ($env:SystemRoot).Replace('\', '\\')).
-       Replace('$UserSid', $UserSid).
-       Replace('$Type', $Type) | ConvertFrom-Json
-
-    $GPOScript[2].Entries = $GPOScript[0].Entries
-    $GPOScript[3].Entries = $GPOScript[1].Entries | Where-Object -Property 'Name' -NE -Value 'IsPowershell'
-
-    # These directories must exist for the GPO User scripts to work.
-    $GroupPolicyScriptDirectories = @(
-        "$env:SystemRoot\System32\GroupPolicy\User\Scripts\Logon"
-        "$env:SystemRoot\System32\GroupPolicy\User\Scripts\Logoff"
-    )
-    foreach ($Directory in $GroupPolicyScriptDirectories)
+    process
     {
-        if (-not (Test-Path -Path $Directory))
-        {
-            New-Item -ItemType 'Directory' -Path $Directory -Force | Out-Null
-        }
-    }
+        $UserSid = Get-LoggedUserSID
+        $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+        $ScriptNumber = (Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue').Count
 
-    $GPOScript | Set-RegistryEntry -Verbose:$false
+        $GPOScript = '[
+          {
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\$Type\\0",
+            "Entries" : [
+              {
+                "Name"  : "DisplayName",
+                "Value" : "Local Group Policy",
+                "Type"  : "String"
+              },
+              {
+                "Name"  : "FileSysPath",
+                "Value" : "$env:SystemRoot\\System32\\GroupPolicy\\User",
+                "Type"  : "String"
+              },
+              {
+                "Name"  : "GPO-ID",
+                "Value" : "LocalGPO",
+                "Type"  : "String"
+              },
+              {
+                "Name"  : "GPOName",
+                "Value" : "Local Group Policy",
+                "Type"  : "String"
+              },
+              {
+                "Name"  : "PSScriptOrder",
+                "Value" : "1",
+                "Type"  : "DWord"
+              },
+              {
+                "Name"  : "SOM-ID",
+                "Value" : "Local",
+                "Type"  : "String"
+              }
+            ]
+          },
+          {
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\$Type\\0\\$ScriptNumber",
+            "Entries" : [
+              {
+                "Name"  : "ExecTime",
+                "Value" : "0",
+                "Type"  : "QWord"
+              },
+              {
+                "Name"  : "IsPowershell",
+                "Value" : "1",
+                "Type"  : "DWord"
+              },
+              {
+                "Name"  : "Parameters",
+                "Value" : "",
+                "Type"  : "String"
+              },
+              {
+                "Name"  : "Script",
+                "Value" : "$ScriptFilePath",
+                "Type"  : "String"
+              }
+            ]
+          },
+          {
+            "Hive"    : "HKEY_LOCAL_MACHINE",
+            "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\$Type\\0",
+            "Entries" : []
+          },
+          {
+            "Hive"    : "HKEY_LOCAL_MACHINE",
+            "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\State\\$UserSid\\Scripts\\$Type\\0\\$ScriptNumber",
+            "Entries" : []
+          }
+        ]'.Replace('$ScriptNumber', $ScriptNumber).
+           Replace('$ScriptFilePath', $FilePath.Replace('\', '\\')).
+           Replace('$env:SystemRoot', ($env:SystemRoot).Replace('\', '\\')).
+           Replace('$UserSid', $UserSid).
+           Replace('$Type', $Type) | ConvertFrom-Json
+
+        $GPOScript[2].Entries = $GPOScript[0].Entries
+        $GPOScript[3].Entries = $GPOScript[1].Entries | Where-Object -Property 'Name' -NE -Value 'IsPowershell'
+
+        # These directories must exist for the GPO User scripts to work.
+        $GroupPolicyScriptDirectories = @(
+            "$env:SystemRoot\System32\GroupPolicy\User\Scripts\Logon"
+            "$env:SystemRoot\System32\GroupPolicy\User\Scripts\Logoff"
+        )
+        foreach ($Directory in $GroupPolicyScriptDirectories)
+        {
+            if (-not (Test-Path -Path $Directory))
+            {
+                New-Item -ItemType 'Directory' -Path $Directory -Force | Out-Null
+            }
+        }
+
+        $GPOScript | Set-RegistryEntry -Verbose:$false
+    }
 }
 
 function New-GPOScriptBackupBravePersistentData
@@ -9357,10 +9447,13 @@ function New-GPOScriptBackupBravePersistentData
         $FilePath
     )
 
-    Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Scheduled GPO ...'
-    if (-not (Test-GPOScript -Name $FilePath -Type 'Logoff'))
+    process
     {
-        New-GPOScript -FilePath $FilePath -Type 'Logoff'
+        Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Scheduled GPO ...'
+        if (-not (Test-GPOScript -Name $FilePath -Type 'Logoff'))
+        {
+            New-GPOScript -FilePath $FilePath -Type 'Logoff'
+        }
     }
 }
 
@@ -9412,10 +9505,13 @@ function New-ScriptBackupBravePersistentData
         $FilePath
     )
 
-    Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Script ...'
+    process
+    {
+        Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Script ...'
 
-    New-ParentPath -Path $FilePath
-    Write-ScriptBackupBravePersistentData | Out-File -FilePath $FilePath
+        New-ParentPath -Path $FilePath
+        Write-ScriptBackupBravePersistentData | Out-File -FilePath $FilePath
+    }
 }
 
 #endregion backup Brave data script
@@ -9448,38 +9544,41 @@ function Write-ScriptRamDiskSetData
         $RamDiskTaskName
     )
 
-    $FunctionsToWrite = @(
-        'Get-LoggedUserUsername'
-        'Get-LoggedUserSID'
-        'Get-LoggedUserEnvVariable'
-        'Get-BravePathInfo'
-        'Get-BraveDataException'
-        'Get-BraveDataToSymlink'
-        'Get-VSCodeUserDataPath'
-        'Get-VSCodeDataToRamDisk'
-        'Get-VSCodeDataToSymlink'
-        'Get-DataToSymlink'
-        'New-ParentPath'
-        'New-SymbolicLink'
-        'New-SymbolicLinksPair'
-        'Remove-SymbolicLink'
-        'Copy-Data'
-        'Copy-BravePersistentDataToBraveUserData'
-        'New-RamDiskUserProfile'
-        'Get-DrivePath'
-        'Set-DataToRamDisk'
-    )
-    $RamDiskSetDataScriptContent = $FunctionsToWrite | Write-Function
+    process
+    {
+        $FunctionsToWrite = @(
+            'Get-LoggedUserUsername'
+            'Get-LoggedUserSID'
+            'Get-LoggedUserEnvVariable'
+            'Get-BravePathInfo'
+            'Get-BraveDataException'
+            'Get-BraveDataToSymlink'
+            'Get-VSCodeUserDataPath'
+            'Get-VSCodeDataToRamDisk'
+            'Get-VSCodeDataToSymlink'
+            'Get-DataToSymlink'
+            'New-ParentPath'
+            'New-SymbolicLink'
+            'New-SymbolicLinksPair'
+            'Remove-SymbolicLink'
+            'Copy-Data'
+            'Copy-BravePersistentDataToBraveUserData'
+            'New-RamDiskUserProfile'
+            'Get-DrivePath'
+            'Set-DataToRamDisk'
+        )
+        $RamDiskSetDataScriptContent = $FunctionsToWrite | Write-Function
 
-    $RamDiskSetDataScriptContent += "
-        while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName') -eq 'Running')
-        {
-            Start-Sleep -Seconds 0.2
-        }
+        $RamDiskSetDataScriptContent += "
+            while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName') -eq 'Running')
+            {
+                Start-Sleep -Seconds 0.2
+            }
 
-        Set-DataToRamDisk -RamDiskName $RamDiskName
-    " -replace '(?m)^ {8}'
-    $RamDiskSetDataScriptContent
+            Set-DataToRamDisk -RamDiskName $RamDiskName
+        " -replace '(?m)^ {8}'
+        $RamDiskSetDataScriptContent
+    }
 }
 
 function New-ScriptRamDiskSetData
@@ -9508,10 +9607,14 @@ function New-ScriptRamDiskSetData
         $RamDiskTaskName
     )
 
-    Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Script ...'
+    process
+    {
+        Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Script ...'
 
-    New-ParentPath -Path $FilePath
-    Write-ScriptRamDiskSetData -RamDiskName $RamDiskName -RamDiskTaskName $RamDiskTaskName | Out-File -FilePath $FilePath
+        New-ParentPath -Path $FilePath
+        Write-ScriptRamDiskSetData -RamDiskName $RamDiskName -RamDiskTaskName $RamDiskTaskName
+            | Out-File -FilePath $FilePath
+    }
 }
 
 #endregion set data script
@@ -9541,17 +9644,20 @@ function Get-AvailableDriveLetter
         $ReturnFirstLetterOnly
     )
 
-    $AllDriveLetter = 'D'..'Z'
-    $DriveLetterInUse = (Get-PSDrive -PSProvider 'FileSystem').Name
-    $AvailableDriveLetter = $AllDriveLetter | Where-Object -FilterScript { $DriveLetterInUse -notcontains $_ }
+    process
+    {
+        $AllDriveLetter = 'D'..'Z'
+        $DriveLetterInUse = (Get-PSDrive -PSProvider 'FileSystem').Name
+        $AvailableDriveLetter = $AllDriveLetter | Where-Object -FilterScript { $DriveLetterInUse -notcontains $_ }
 
-    if ($ReturnFirstLetterOnly)
-    {
-        $AvailableDriveLetter | Select-Object -First 1
-    }
-    else
-    {
-        $AvailableDriveLetter
+        if ($ReturnFirstLetterOnly)
+        {
+            $AvailableDriveLetter | Select-Object -First 1
+        }
+        else
+        {
+            $AvailableDriveLetter
+        }
     }
 }
 
@@ -9596,15 +9702,18 @@ function New-RamDisk
         $Size = '512M'
     )
 
-    $OSFMountProcess = @{
-        FilePath     = "$((Get-ApplicationInfo -Name 'OSFMount').InstallLocation)\OSFMount.com"
-        ArgumentList = "-a -t vm -m $MountPoint -o rw,format:ntfs:""$Name"" -s $Size"
-    }
-    Start-Process -NoNewWindow -Wait @OSFMountProcess
-
-    if (Test-Path -Path $MountPoint)
+    process
     {
-        $MountPoint
+        $OSFMountProcess = @{
+            FilePath     = "$((Get-ApplicationInfo -Name 'OSFMount').InstallLocation)\OSFMount.com"
+            ArgumentList = "-a -t vm -m $MountPoint -o rw,format:ntfs:""$Name"" -s $Size"
+        }
+        Start-Process -NoNewWindow -Wait @OSFMountProcess
+
+        if (Test-Path -Path $MountPoint)
+        {
+            $MountPoint
+        }
     }
 }
 
@@ -9626,24 +9735,27 @@ function Write-ScriptRamDiskCreation
         $RamDiskName
     )
 
-    $FunctionsToWrite = @(
-        'Get-LoggedUserUsername'
-        'Get-ApplicationInfo'
-        'Get-AvailableDriveLetter'
-        'New-RamDisk'
-        'Get-DrivePath'
-    )
-    $RamDiskCreationScriptContent = $FunctionsToWrite | Write-Function
+    process
+    {
+        $FunctionsToWrite = @(
+            'Get-LoggedUserUsername'
+            'Get-ApplicationInfo'
+            'Get-AvailableDriveLetter'
+            'New-RamDisk'
+            'Get-DrivePath'
+        )
+        $RamDiskCreationScriptContent = $FunctionsToWrite | Write-Function
 
-    # If you have multiple users, make sure to allocate enought RAM.
-    # For Brave, allocate at least 256MB per user.
-    $RamDiskCreationScriptContent += "
-        if (-not (Get-DrivePath -Name '$RamDiskName'))
-        {
-            New-RamDisk -Name '$RamDiskName' -Size '1G'
-        }
-    " -replace '(?m)^ {8}'
-    $RamDiskCreationScriptContent
+        # If you have multiple users, make sure to allocate enought RAM.
+        # For Brave, allocate at least 256MB per user.
+        $RamDiskCreationScriptContent += "
+            if (-not (Get-DrivePath -Name '$RamDiskName'))
+            {
+                New-RamDisk -Name '$RamDiskName' -Size '1G'
+            }
+        " -replace '(?m)^ {8}'
+        $RamDiskCreationScriptContent
+    }
 }
 
 function New-ScriptRamDiskCreation
@@ -9668,10 +9780,13 @@ function New-ScriptRamDiskCreation
         $RamDiskName
     )
 
-    Write-Verbose -Message 'Setting ''RamDisk - Creation'' Script ...'
+    process
+    {
+        Write-Verbose -Message 'Setting ''RamDisk - Creation'' Script ...'
 
-    New-ParentPath -Path $FilePath
-    Write-ScriptRamDiskCreation -RamDiskName $RamDiskName | Out-File -FilePath $FilePath
+        New-ParentPath -Path $FilePath
+        Write-ScriptRamDiskCreation -RamDiskName $RamDiskName | Out-File -FilePath $FilePath
+    }
 }
 
 #endregion new ramdisk script
@@ -9709,25 +9824,28 @@ function New-ScheduledTaskScript
         $Trigger
     )
 
-    $TaskPath = '\'
-    $TaskActionParam = @{
-        Execute  = 'pwsh.exe'
-        Argument = "-NoProfile -ExecutionPolicy Bypass -File ""$FilePath"""
+    process
+    {
+        $TaskPath = '\'
+        $TaskActionParam = @{
+            Execute  = 'pwsh.exe'
+            Argument = "-NoProfile -ExecutionPolicy Bypass -File ""$FilePath"""
+        }
+        $TaskAction = New-ScheduledTaskAction @TaskActionParam
+        $SystemSID = 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
+        $TaskPrincipal = New-ScheduledTaskPrincipal -UserID $SystemSID
+        $TaskSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries
+        $ScheduledTaskParam = @{
+            TaskName  = $TaskName
+            TaskPath  = $TaskPath
+            Action    = $TaskAction
+            Trigger   = $Trigger
+            Principal = $TaskPrincipal
+            Settings  = $TaskSettings
+        }
+        Unregister-ScheduledTask -TaskPath $TaskPath -TaskName $TaskName -Confirm:$false -ErrorAction 'SilentlyContinue'
+        Register-ScheduledTask @ScheduledTaskParam -Verbose:$false | Out-Null
     }
-    $TaskAction = New-ScheduledTaskAction @TaskActionParam
-    $SystemSID = 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
-    $TaskPrincipal = New-ScheduledTaskPrincipal -UserID $SystemSID
-    $TaskSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries
-    $ScheduledTaskParam = @{
-        TaskName  = $TaskName
-        TaskPath  = $TaskPath
-        Action    = $TaskAction
-        Trigger   = $Trigger
-        Principal = $TaskPrincipal
-        Settings  = $TaskSettings
-    }
-    Unregister-ScheduledTask -TaskPath $TaskPath -TaskName $TaskName -Confirm:$false -ErrorAction 'SilentlyContinue'
-    Register-ScheduledTask @ScheduledTaskParam -Verbose:$false | Out-Null
 }
 
 function New-ScheduledTaskRamDiskSetData
@@ -9748,12 +9866,15 @@ function New-ScheduledTaskRamDiskSetData
         $FilePath
     )
 
-    Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Scheduled Task ...'
+    process
+    {
+        Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Scheduled Task ...'
 
-    $UserName = Get-LoggedUserUsername
-    $TaskName = "RamDisk - Set Data for '$UserName'"
-    $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
-    New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+        $UserName = Get-LoggedUserUsername
+        $TaskName = "RamDisk - Set Data for '$UserName'"
+        $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
+        New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+    }
 }
 
 function New-ScheduledTaskRamDiskCreation
@@ -9778,10 +9899,13 @@ function New-ScheduledTaskRamDiskCreation
         $TaskName
     )
 
-    Write-Verbose -Message 'Setting ''RamDisk - Creation'' Scheduled Task ...'
+    process
+    {
+        Write-Verbose -Message 'Setting ''RamDisk - Creation'' Scheduled Task ...'
 
-    $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
-    New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+        $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
+        New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+    }
 }
 
 function Set-RamDiskScriptsAndTasks
@@ -9848,11 +9972,14 @@ function Set-DisplayBrightness
         $Percent
     )
 
-    Write-Verbose -Message "Setting 'Brightness' to '$Percent%' ..."
+    process
+    {
+        Write-Verbose -Message "Setting 'Brightness' to '$Percent%' ..."
 
-    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
-    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
-    powercfg.exe -SetActive SCHEME_CURRENT
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent
+        powercfg.exe -SetActive SCHEME_CURRENT
+    }
 }
 
 # change brightness automatically when lighting changes
@@ -9880,11 +10007,14 @@ function Set-BrightnessWhenLightingChanges
         $State
     )
 
-    Write-Verbose -Message "Setting 'Brightness when lighting changes' to '$State' ..."
+    process
+    {
+        Write-Verbose -Message "Setting 'Brightness when lighting changes' to '$State' ..."
 
-    $SettingIndex = $State -eq 'Enabled' ? 1 : 0
-    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
-    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
+        $SettingIndex = $State -eq 'Enabled' ? 1 : 0
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO ADAPTBRIGHT $SettingIndex
+    }
 }
 
 function Enable-BrightnessWhenLightingChanges
@@ -9947,39 +10077,42 @@ function Set-GraphicsSetting
         $State
     )
 
-    $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
-    $UserSID = Get-LoggedUserSID
-    $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
-
-    $SettingValue = $State -eq 'Enabled' ? 1 : 0
-    $SettingName = switch ($Name)
+    process
     {
-        'AutoHDR'                       { 'AutoHDREnable' }
-        'GamesVariableRefreshRate'      { 'VRROptimizeEnable' }
-        'OptimizationsForWindowedGames' { 'SwapEffectUpgradeEnable' }
-    }
+        $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
+        $UserSID = Get-LoggedUserSID
+        $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
 
-    $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
-    $DirectXSettings = $CurrentSettings -like "*$SettingName*" ?
-        $CurrentSettings -replace "($SettingName=)\d;", "`${1}$SettingValue;" :
-        $CurrentSettings + "$SettingName=$SettingValue;"
+        $SettingValue = $State -eq 'Enabled' ? 1 : 0
+        $SettingName = switch ($Name)
+        {
+            'AutoHDR'                       { 'AutoHDREnable' }
+            'GamesVariableRefreshRate'      { 'VRROptimizeEnable' }
+            'OptimizationsForWindowedGames' { 'SwapEffectUpgradeEnable' }
+        }
 
-    $DisplayDirectXSettings = '[
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\DirectX\\UserGpuPreferences",
-        "Entries" : [
+        $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
+        $DirectXSettings = $CurrentSettings -like "*$SettingName*" ?
+            $CurrentSettings -replace "($SettingName=)\d;", "`${1}$SettingValue;" :
+            $CurrentSettings + "$SettingName=$SettingValue;"
+
+        $DisplayDirectXSettings = '[
           {
-            "Name"  : "DirectXUserGlobalSettings",
-            "Value" : "$DirectXSettings",
-            "Type"  : "String"
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\DirectX\\UserGpuPreferences",
+            "Entries" : [
+              {
+                "Name"  : "DirectXUserGlobalSettings",
+                "Value" : "$DirectXSettings",
+                "Type"  : "String"
+              }
+            ]
           }
-        ]
-      }
-    ]'.Replace('$DirectXSettings', $DirectXSettings) | ConvertFrom-Json
+        ]'.Replace('$DirectXSettings', $DirectXSettings) | ConvertFrom-Json
 
-    Write-Verbose -Message "Setting '$Name' to '$State' ..."
-    Set-RegistryEntry -InputObject $DisplayDirectXSettings -Verbose:$false
+        Write-Verbose -Message "Setting '$Name' to '$State' ..."
+        Set-RegistryEntry -InputObject $DisplayDirectXSettings -Verbose:$false
+    }
 }
 
 # optimizations for windowed games
@@ -10220,23 +10353,26 @@ function New-NotificationRegData
         $State
     )
 
-    $NewData = '[
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\",
-        "Entries" : [
+    process
+    {
+        $NewData = '[
           {
-            "Name"  : "Enabled",
-            "Value" : "",
-            "Type"  : "DWord"
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Notifications\\Settings\\",
+            "Entries" : [
+              {
+                "Name"  : "Enabled",
+                "Value" : "",
+                "Type"  : "DWord"
+              }
+            ]
           }
-        ]
-      }
-    ]' | ConvertFrom-Json
+        ]' | ConvertFrom-Json
 
-    $NewData.Path += $Key
-    $NewData.Entries[0].Value = $State -eq 'Enabled' ? 1 : 0
-    $NewData
+        $NewData.Path += $Key
+        $NewData.Entries[0].Value = $State -eq 'Enabled' ? 1 : 0
+        $NewData
+    }
 }
 
 # Depending on which notifications you already got, you might have more or less items.
@@ -10394,15 +10530,18 @@ function Set-PowerMode
         $Name
     )
 
-    $OverlayGUID = switch ($Name)
+    process
     {
-        'BestPowerEfficiency' { 'OVERLAY_SCHEME_MIN' }
-        'Balanced'            { 'OVERLAY_SCHEME_NONE' }
-        'BestPerformance'     { 'OVERLAY_SCHEME_MAX' }
-    }
+        $OverlayGUID = switch ($Name)
+        {
+            'BestPowerEfficiency' { 'OVERLAY_SCHEME_MIN' }
+            'Balanced'            { 'OVERLAY_SCHEME_NONE' }
+            'BestPerformance'     { 'OVERLAY_SCHEME_MAX' }
+        }
 
-    Write-Verbose -Message "Setting 'Power Mode' to '$Name' ..."
-    powercfg.exe -OverlaySetActive $OverlayGUID
+        Write-Verbose -Message "Setting 'Power Mode' to '$Name' ..."
+        powercfg.exe -OverlaySetActive $OverlayGUID
+    }
 }
 
 <#
@@ -10574,15 +10713,18 @@ function Set-EnergySaverAutoTurnOnAt
         $Percent = 30
     )
 
-    $State = switch ($Percent)
+    process
     {
-        0       { 'Never' }
-        100     { 'Always' }
-        Default { "$Percent%" }
-    }
+        $State = switch ($Percent)
+        {
+            0       { 'Never' }
+            100     { 'Always' }
+            Default { "$Percent%" }
+        }
 
-    Write-Verbose -Message "Setting 'Energy Saver Auto Turn On when battery level is At' to '$State' ..."
-    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD $Percent
+        Write-Verbose -Message "Setting 'Energy Saver Auto Turn On when battery level is At' to '$State' ..."
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBATTTHRESHOLD $Percent
+    }
 }
 
 # lower screen brightness when using energy saver
@@ -10609,15 +10751,19 @@ function Set-EnergySaverLowerBrightness
         $Percent
     )
 
-    $State = switch ($Percent)
+    process
     {
-        100     { 'Disabled' }
-        Default { "Enabled ($Percent%)" }
-    }
+        $State = switch ($Percent)
+        {
+            100     { 'Disabled' }
+            Default { "Enabled ($Percent%)" }
+        }
 
-    Write-Verbose -Message "Setting 'Energy Saver LowerBrightness' to '$State' ..."
-    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBRIGHTNESS $Percent
-    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBRIGHTNESS $Percent
+        Write-Verbose -Message "Setting 'Energy Saver LowerBrightness' to '$State' ..."
+
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBRIGHTNESS $Percent
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_ENERGYSAVER ESBRIGHTNESS $Percent
+    }
 }
 
 function Enable-EnergySaverLowerBrightness
@@ -11076,8 +11222,11 @@ function Set-SudoCommand
         $State
     )
 
-    Write-Verbose -Message "Setting 'Sudo Command' to '$State' ..."
-    sudo config --enable $State | Out-Null
+    process
+    {
+        Write-Verbose -Message "Setting 'Sudo Command' to '$State' ..."
+        sudo config --enable $State | Out-Null
+    }
 }
 
 #endregion for developers
@@ -12821,62 +12970,65 @@ function Set-DnsProvider
         $Quad9
     )
 
-    $NetAdapters = Get-NetAdapter -Physical | Where-Object -Property 'Status' -NE -Value 'Disabled'
-
-    $Provider = $PSCmdlet.ParameterSetName
-    $Server = switch ($Provider)
-	{
-        'Adguard'    { $Adguard }
-        'Cloudflare' { $Cloudflare }
-        'Dns0.eu'    { $Dns0DotEU }
-        'Mullvad'    { $Mullvad }
-        'Quad9'      { $Quad9 }
-    }
-
-    $RegPath = 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters'
-    $RegDohIPv4 = 'DohInterfaceSettings\Doh'
-    $RegDohIPv6 = 'DohInterfaceSettings\Doh6'
-
-    $DohTpl = $DnsProviders.$Provider.$Server.Doh
-    $IPv4 = $DnsProviders.$Provider.$Server.IPv4
-    $IPv6 = $DnsProviders.$Provider.$Server.IPv6
-
-    foreach ($NetAdapter in $NetAdapters)
+    process
     {
-        if ($ResetServerAddresses)
+        $NetAdapters = Get-NetAdapter -Physical | Where-Object -Property 'Status' -NE -Value 'Disabled'
+
+        $Provider = $PSCmdlet.ParameterSetName
+        $Server = switch ($Provider)
         {
-            Set-DnsClientServerAddress -InterfaceAlias $NetAdapter.InterfaceAlias -ResetServerAddresses
-            Continue
+            'Adguard'    { $Adguard }
+            'Cloudflare' { $Cloudflare }
+            'Dns0.eu'    { $Dns0DotEU }
+            'Mullvad'    { $Mullvad }
+            'Quad9'      { $Quad9 }
         }
 
-        Set-DnsClientServerAddress -InterfaceAlias $NetAdapter.InterfaceAlias -ServerAddresses $IPv4, $IPv6
+        $RegPath = 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters'
+        $RegDohIPv4 = 'DohInterfaceSettings\Doh'
+        $RegDohIPv6 = 'DohInterfaceSettings\Doh6'
 
-        $InterfaceGuid = $NetAdapter.InterfaceGuid
-        $RegIPs= @(
-            $IPv4.ForEach({ "$RegPath\$InterfaceGuid\$RegDohIPv4\$_" })
-            $IPv6.ForEach({ "$RegPath\$InterfaceGuid\$RegDohIPv6\$_" })
-        )
-        foreach ($RegIP in $RegIPs)
+        $DohTpl = $DnsProviders.$Provider.$Server.Doh
+        $IPv4 = $DnsProviders.$Provider.$Server.IPv4
+        $IPv6 = $DnsProviders.$Provider.$Server.IPv6
+
+        foreach ($NetAdapter in $NetAdapters)
         {
-		    if (-not (Test-Path -Path $RegIP))
-		    {
-			    New-Item -Path $RegIP -Force | Out-Null
-		    }
-            # To use automatic template, the DoH template must be registered in the system.
-            # See Get-DnsClientDohServerAddress and Add-DnsClientDohServerAddress.
-            # template\ Automatic: 1 (with fallback: 5) | Manual: 2 (with fallback: 6)
-            $DohFlags = 2
-            if ($FallbackToPlaintext)
+            if ($ResetServerAddresses)
             {
-                $DohFlags += 4
+                Set-DnsClientServerAddress -InterfaceAlias $NetAdapter.InterfaceAlias -ResetServerAddresses
+                Continue
             }
-            Set-ItemProperty -Path $RegIP -Name 'DohFlags' -Value $DohFlags -Type 'QWord' | Out-Null
-            Set-ItemProperty -Path $RegIP -Name 'DohTemplate' -Value $DohTpl -Type 'String' | Out-Null
-        }
-    }
 
-    Clear-DnsClientCache
-    Register-DnsClient
+            Set-DnsClientServerAddress -InterfaceAlias $NetAdapter.InterfaceAlias -ServerAddresses $IPv4, $IPv6
+
+            $InterfaceGuid = $NetAdapter.InterfaceGuid
+            $RegIPs= @(
+                $IPv4.ForEach({ "$RegPath\$InterfaceGuid\$RegDohIPv4\$_" })
+                $IPv6.ForEach({ "$RegPath\$InterfaceGuid\$RegDohIPv6\$_" })
+            )
+            foreach ($RegIP in $RegIPs)
+            {
+                if (-not (Test-Path -Path $RegIP))
+                {
+                    New-Item -Path $RegIP -Force | Out-Null
+                }
+                # To use automatic template, the DoH template must be registered in the system.
+                # See Get-DnsClientDohServerAddress and Add-DnsClientDohServerAddress.
+                # template\ Automatic: 1 (with fallback: 5) | Manual: 2 (with fallback: 6)
+                $DohFlags = 2
+                if ($FallbackToPlaintext)
+                {
+                    $DohFlags += 4
+                }
+                Set-ItemProperty -Path $RegIP -Name 'DohFlags' -Value $DohFlags -Type 'QWord' | Out-Null
+                Set-ItemProperty -Path $RegIP -Name 'DohTemplate' -Value $DohTpl -Type 'String' | Out-Null
+            }
+        }
+
+        Clear-DnsClientCache
+        Register-DnsClient
+    }
 }
 
 #endregion advanced network settings
@@ -13967,28 +14119,31 @@ function New-DeviceUsageRegData
         $State
     )
 
-    $NewData = '[
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\CloudExperienceHost\\Intent\\",
-        "Entries" : [
+    process
+    {
+        $NewData = '[
           {
-            "Name"  : "Intent",
-            "Value" : "",
-            "Type"  : "DWord"
-          },
-          {
-            "Name"  : "Priority",
-            "Value" : "0",
-            "Type"  : "DWord"
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\CloudExperienceHost\\Intent\\",
+            "Entries" : [
+              {
+                "Name"  : "Intent",
+                "Value" : "",
+                "Type"  : "DWord"
+              },
+              {
+                "Name"  : "Priority",
+                "Value" : "0",
+                "Type"  : "DWord"
+              }
+            ]
           }
-        ]
-      }
-    ]' | ConvertFrom-Json
+        ]' | ConvertFrom-Json
 
-    $NewData.Path += $Key
-    $NewData.Entries[0].Value = $State -eq 'Enabled' ? 1 : 0
-    $NewData
+        $NewData.Path += $Key
+        $NewData.Entries[0].Value = $State -eq 'Enabled' ? 1 : 0
+        $NewData
+    }
 }
 
 # If at least one 'Device Usage' option is enabled, this entry must be enabled.
@@ -14378,24 +14533,27 @@ function Set-RequireSignInOnWakeUpModernStandby
         $State
     )
 
-    # Never: 4294967295 (UINT_MAX) (hex: ffffffff) | Every Time: 0 (default)
-    # 1 minute: 60 | 3 minutes: 180 | 5 minutes: 300 | 15 minutes: 900
-    $Value = $State -eq 'Enabled' ? '0' : '4294967295'
-    $SignInRequiredOnWakeUpModernStandby = '[
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Control Panel\\Desktop",
-        "Entries" : [
+    process
+    {
+        # Never: 4294967295 (UINT_MAX) (hex: ffffffff) | Every Time: 0 (default)
+        # 1 minute: 60 | 3 minutes: 180 | 5 minutes: 300 | 15 minutes: 900
+        $Value = $State -eq 'Enabled' ? '0' : '4294967295'
+        $SignInRequiredOnWakeUpModernStandby = '[
           {
-            "Name"  : "DelayLockInterval",
-            "Value" : "$Value",
-            "Type"  : "DWord"
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Control Panel\\Desktop",
+            "Entries" : [
+              {
+                "Name"  : "DelayLockInterval",
+                "Value" : "$Value",
+                "Type"  : "DWord"
+              }
+            ]
           }
-        ]
-      }
-    ]'.Replace('$Value', $Value) | ConvertFrom-Json
+        ]'.Replace('$Value', $Value) | ConvertFrom-Json
 
-    Set-RegistryEntry -InputObject $SignInRequiredOnWakeUpModernStandby -Verbose:$false
+        Set-RegistryEntry -InputObject $SignInRequiredOnWakeUpModernStandby -Verbose:$false
+    }
 }
 
 function Set-RequireSignInOnWakeUpNotModernStandby
@@ -14419,36 +14577,39 @@ function Set-RequireSignInOnWakeUpNotModernStandby
         $State
     )
 
-    # gpo\ computer config > administrative tpl > windows components > system > power management > sleep settings
-    #   require a password when a computer wakes (plugged in)
-    #   require a password when a computer wakes (on battery)
-    # gpo\ not configured: delete (default) | on: 1 | off: 0
-    $SettingIndex = $State -eq 'Enabled' ? 1 : 0
-    $SignInRequiredOnWakeUpNotModernStandby = '[
-      {
-        "SkipKey" : true,
-        "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51",
-        "Entries" : [
+    process
+    {
+        # gpo\ computer config > administrative tpl > windows components > system > power management > sleep settings
+        #   require a password when a computer wakes (plugged in)
+        #   require a password when a computer wakes (on battery)
+        # gpo\ not configured: delete (default) | on: 1 | off: 0
+        $SettingIndex = $State -eq 'Enabled' ? 1 : 0
+        $SignInRequiredOnWakeUpNotModernStandby = '[
           {
-            "Name"  : "ACSettingIndex",
-            "Value" : "$SettingIndex",
-            "Type"  : "DWord"
-          },
-          {
-            "Name"  : "DCSettingIndex",
-            "Value" : "$SettingIndex",
-            "Type"  : "DWord"
+            "SkipKey" : true,
+            "Hive"    : "HKEY_LOCAL_MACHINE",
+            "Path"    : "SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51",
+            "Entries" : [
+              {
+                "Name"  : "ACSettingIndex",
+                "Value" : "$SettingIndex",
+                "Type"  : "DWord"
+              },
+              {
+                "Name"  : "DCSettingIndex",
+                "Value" : "$SettingIndex",
+                "Type"  : "DWord"
+              }
+            ]
           }
-        ]
-      }
-    ]'.Replace('$SettingIndex', $SettingIndex) | ConvertFrom-Json
+        ]'.Replace('$SettingIndex', $SettingIndex) | ConvertFrom-Json
 
-    Set-RegistryEntry -InputObject $SignInRequiredOnWakeUpNotModernStandby -Verbose:$false
+        Set-RegistryEntry -InputObject $SignInRequiredOnWakeUpNotModernStandby -Verbose:$false
 
-    # user\ Never: 0 | When PC wakes up from sleep: 1 (default)
-    powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
-    powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
+        # user\ Never: 0 | When PC wakes up from sleep: 1 (default)
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
+    }
 }
 
 function Set-RequireSignInOnWakeUp
@@ -14472,14 +14633,17 @@ function Set-RequireSignInOnWakeUp
         $State
     )
 
-    Write-Verbose -Message "Setting 'Require Sign-In On WakeUp' to '$State' ..."
-    if (Test-ModernStandbySupport)
+    process
     {
-        Set-RequireSignInOnWakeUpModernStandby -State $State
-    }
-    else
-    {
-        Set-RequireSignInOnWakeUpNotModernStandby -State $State
+        Write-Verbose -Message "Setting 'Require Sign-In On WakeUp' to '$State' ..."
+        if (Test-ModernStandbySupport)
+        {
+            Set-RequireSignInOnWakeUpModernStandby -State $State
+        }
+        else
+        {
+            Set-RequireSignInOnWakeUpNotModernStandby -State $State
+        }
     }
 }
 
@@ -14762,10 +14926,13 @@ function Set-NtpServer
         $Value
     )
 
-    Write-Verbose -Message "Setting 'NTP server' to '$Value' ..."
+    process
+    {
+        Write-Verbose -Message "Setting 'NTP server' to '$Value' ..."
 
-    Start-Service -Name 'W32Time'
-    w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$Value" /update | Out-Null
+        Start-Service -Name 'W32Time'
+        w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$Value" /update | Out-Null
+    }
 }
 
 function Set-NtpServerToPoolNtpOrg
@@ -15176,29 +15343,32 @@ function Set-VisualEffectsAnimationEffects
         $State
     )
 
-    $AccessibilityVisualEffectsAnimationEffects = $VisualEffectsCustomPart1 |
-        Where-Object -FilterScript { $_.Name -notlike 'Show shadows*' }
-
-    $SystemPropertiesVisualEffectsMinMaxAnimate = $VisualEffectsCustomPart2 |
-        Where-Object -FilterScript { $_.Entries[0].Name -eq 'MinAnimate' }
-
-    switch ($State)
+    process
     {
-        'Enabled'
-        {
-            $AccessibilityVisualEffectsAnimationEffects.ForEach({ $_.State = 'Enabled' })
-            $SystemPropertiesVisualEffectsMinMaxAnimate.Entries[0].Value = '1'
-        }
-        'Disabled'
-        {
-            $AccessibilityVisualEffectsAnimationEffects.ForEach({ $_.State = 'Disabled' })
-            $SystemPropertiesVisualEffectsMinMaxAnimate.Entries[0].Value = '0'
-        }
-    }
+        $AccessibilityVisualEffectsAnimationEffects = $VisualEffectsCustomPart1 |
+            Where-Object -FilterScript { $_.Name -notlike 'Show shadows*' }
 
-    Write-Verbose -Message "Setting 'Animation Effects' to '$State' ..."
-    $AccessibilityVisualEffectsAnimationEffects | Set-SystemPropertiesVisualEffects -Verbose:$false
-    $SystemPropertiesVisualEffectsMinMaxAnimate | Set-RegistryEntry -Verbose:$false
+        $SystemPropertiesVisualEffectsMinMaxAnimate = $VisualEffectsCustomPart2 |
+            Where-Object -FilterScript { $_.Entries[0].Name -eq 'MinAnimate' }
+
+        switch ($State)
+        {
+            'Enabled'
+            {
+                $AccessibilityVisualEffectsAnimationEffects.ForEach({ $_.State = 'Enabled' })
+                $SystemPropertiesVisualEffectsMinMaxAnimate.Entries[0].Value = '1'
+            }
+            'Disabled'
+            {
+                $AccessibilityVisualEffectsAnimationEffects.ForEach({ $_.State = 'Disabled' })
+                $SystemPropertiesVisualEffectsMinMaxAnimate.Entries[0].Value = '0'
+            }
+        }
+
+        Write-Verbose -Message "Setting 'Animation Effects' to '$State' ..."
+        $AccessibilityVisualEffectsAnimationEffects | Set-SystemPropertiesVisualEffects -Verbose:$false
+        $SystemPropertiesVisualEffectsMinMaxAnimate | Set-RegistryEntry -Verbose:$false
+    }
 }
 
 function Enable-VisualEffectsAnimationEffects
@@ -15337,32 +15507,35 @@ function Add-HotkeyToDisable
         $OverrideValue
     )
 
-    $DisabledHotkeysProperties = @{
-        Path = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
-        Name = 'DisabledHotkeys'
-        Type = 'String'
-    }
-    $DisabledHotkeys = (Get-ItemProperty $DisabledHotkeysProperties.Path).($DisabledHotkeysProperties.Name)
-
-    if ($null -eq $DisabledHotkeys)
+    process
     {
-        Set-ItemProperty @DisabledHotkeysProperties -Value '' | Out-Null
-        $DisabledHotkeys = ''
-    }
-    else
-    {
-        $DisabledHotkeys = $OverrideValue ? '' : $DisabledHotkeys.ToUpper()
-    }
-
-    foreach ($Key in $Hotkey.ToUpper().ToCharArray())
-    {
-        if (-not $DisabledHotkeys.Contains($Key))
-        {
-            $DisabledHotkeys += $Key
+        $DisabledHotkeysProperties = @{
+            Path = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+            Name = 'DisabledHotkeys'
+            Type = 'String'
         }
-    }
+        $DisabledHotkeys = (Get-ItemProperty $DisabledHotkeysProperties.Path).($DisabledHotkeysProperties.Name)
 
-    Set-ItemProperty @DisabledHotkeysProperties -Value $DisabledHotkeys | Out-Null
+        if ($null -eq $DisabledHotkeys)
+        {
+            Set-ItemProperty @DisabledHotkeysProperties -Value '' | Out-Null
+            $DisabledHotkeys = ''
+        }
+        else
+        {
+            $DisabledHotkeys = $OverrideValue ? '' : $DisabledHotkeys.ToUpper()
+        }
+
+        foreach ($Key in $Hotkey.ToUpper().ToCharArray())
+        {
+            if (-not $DisabledHotkeys.Contains($Key))
+            {
+                $DisabledHotkeys += $Key
+            }
+        }
+
+        Set-ItemProperty @DisabledHotkeysProperties -Value $DisabledHotkeys | Out-Null
+    }
 }
 
 # voice typing shortcut (Win + H)
@@ -16472,15 +16645,18 @@ function Set-PrivacyActivityHistory
         $State
     )
 
-    Write-Verbose -Message "Setting 'Privacy Activity History' to '$State' ..."
+    process
+    {
+        Write-Verbose -Message "Setting 'Privacy Activity History' to '$State' ..."
 
-    $CDPUserSettingsFile = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\ConnectedDevicesPlatform\CDPGlobalSettings.cdp"
-    $CDPUserSettings = Get-Content -Raw -Path $CDPUserSettingsFile | ConvertFrom-Json -AsHashtable
+        $CDPUserSettingsFile = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\ConnectedDevicesPlatform\CDPGlobalSettings.cdp"
+        $CDPUserSettings = Get-Content -Raw -Path $CDPUserSettingsFile | ConvertFrom-Json -AsHashtable
 
-    $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $State -eq 'Enabled' ? 0 : 1
-    $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $State -eq 'Enabled' ? 0 : 1
+        $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $State -eq 'Enabled' ? 0 : 1
+        $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $State -eq 'Enabled' ? 0 : 1
 
-    $CDPUserSettings | ConvertTo-Json -Depth 42 | Out-File -FilePath $CDPUserSettingsFile
+        $CDPUserSettings | ConvertTo-Json -Depth 42 | Out-File -FilePath $CDPUserSettingsFile
+    }
 }
 
 function Enable-PrivacyActivityHistory
@@ -16710,41 +16886,44 @@ function New-AppPermissionsGroupPolicyRegData
         $Value
     )
 
-    $NewData = '[
-      {
-        "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy",
-        "Entries" : [
-          {
-            "Name"  : "",
-            "Value" : "",
-            "Type"  : "DWord"
-          },
-          {
-            "Name"  : "_UserInControlOfTheseApps",
-            "Value" : "",
-            "Type"  : "MultiString"
-          },
-          {
-            "Name"  : "_ForceAllowTheseApps",
-            "Value" : "",
-            "Type"  : "MultiString"
-          },
-          {
-            "Name"  : "_ForceDenyTheseApps",
-            "Value" : "",
-            "Type"  : "MultiString"
-          }
-        ]
-      }
-    ]' | ConvertFrom-Json
-
-    $NewData.Entries[0].Value = $Value
-    foreach ($Entry in $NewData.Entries)
+    process
     {
-        $Entry.Name = $Name + $Entry.Name
+        $NewData = '[
+          {
+            "Hive"    : "HKEY_LOCAL_MACHINE",
+            "Path"    : "SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy",
+            "Entries" : [
+              {
+                "Name"  : "",
+                "Value" : "",
+                "Type"  : "DWord"
+              },
+              {
+                "Name"  : "_UserInControlOfTheseApps",
+                "Value" : "",
+                "Type"  : "MultiString"
+              },
+              {
+                "Name"  : "_ForceAllowTheseApps",
+                "Value" : "",
+                "Type"  : "MultiString"
+              },
+              {
+                "Name"  : "_ForceDenyTheseApps",
+                "Value" : "",
+                "Type"  : "MultiString"
+              }
+            ]
+          }
+        ]' | ConvertFrom-Json
+
+        $NewData.Entries[0].Value = $Value
+        foreach ($Entry in $NewData.Entries)
+        {
+            $Entry.Name = $Name + $Entry.Name
+        }
+        $NewData
     }
-    $NewData
 }
 
 # user\ on: Allow (default) | off: Deny
@@ -16775,37 +16954,40 @@ function New-AppPermissionsUserRegData
         $Value
     )
 
-    $NewData = '[
-      {
-        "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\",
-        "Entries" : [
-          {
-            "Name"  : "Value",
-            "Value" : "",
-            "Type"  : "String"
-          }
-        ]
-      },
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\",
-        "Entries" : [
-          {
-            "Name"  : "Value",
-            "Value" : "",
-            "Type"  : "String"
-          }
-        ]
-      }
-    ]' | ConvertFrom-Json
-
-    foreach ($Item in $NewData)
+    process
     {
-        $Item.Path += $Key
-        $Item.Entries[0].Value = $Value
+        $NewData = '[
+          {
+            "Hive"    : "HKEY_LOCAL_MACHINE",
+            "Path"    : "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\",
+            "Entries" : [
+              {
+                "Name"  : "Value",
+                "Value" : "",
+                "Type"  : "String"
+              }
+            ]
+          },
+          {
+            "Hive"    : "HKEY_CURRENT_USER",
+            "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\",
+            "Entries" : [
+              {
+                "Name"  : "Value",
+                "Value" : "",
+                "Type"  : "String"
+              }
+            ]
+          }
+        ]' | ConvertFrom-Json
+
+        foreach ($Item in $NewData)
+        {
+            $Item.Path += $Key
+            $Item.Entries[0].Value = $Value
+        }
+        $NewData
     }
-    $NewData
 }
 
 #endregion helper functions
@@ -21330,19 +21512,22 @@ function Write-Section
         $SubSection
     )
 
-    $ColorOption = @{
-        BackgroundColor = $SubSection ? 'Blue' : 'Cyan'
-        ForegroundColor = 'Black'
-        NoNewline       = $true
-    }
-
-    Write-Host
-    Write-Host @ColorOption -Object "# $Name"
-    Write-Host
-    if (-not $SubSection)
+    process
     {
-        Write-Host @ColorOption -Object '# ========================================'
+        $ColorOption = @{
+            BackgroundColor = $SubSection ? 'Blue' : 'Cyan'
+            ForegroundColor = 'Black'
+            NoNewline       = $true
+        }
+
         Write-Host
+        Write-Host @ColorOption -Object "# $Name"
+        Write-Host
+        if (-not $SubSection)
+        {
+            Write-Host @ColorOption -Object '# ========================================'
+            Write-Host
+        }
     }
 }
 
@@ -21383,12 +21568,15 @@ function Set-Setting
         $Setting
     )
 
-    $Setting.GetEnumerator() |
-        Where-Object -FilterScript { $_.Value.Count } |
-        ForEach-Object -Process {
-            Write-Section -Name $_.Name -SubSection
-            $_.Value | Set-RegistryEntry
-        }
+    process
+    {
+        $Setting.GetEnumerator() |
+            Where-Object -FilterScript { $_.Value.Count } |
+            ForEach-Object -Process {
+                Write-Section -Name $_.Name -SubSection
+                $_.Value | Set-RegistryEntry
+            }
+    }
 }
 
 #endregion helper functions
