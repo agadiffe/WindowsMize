@@ -7,7 +7,7 @@
 #                    PowerShell script to automate and customize the configuration of Windows:
 #                         Settings, apps uninstall/install/settings, minimize telemetry,
 #                          disable services/scheduled tasks, RamDisk, and other tweaks.
-# 
+#
 #=================================================================================================================
 #region WindowsMize
 
@@ -51,7 +51,7 @@ Disable password expiration as well (a force password reset is not recommended).
 See the below minimal autounattend.xml file.
 More customization can be done, see Microsoft documentation and/or the online generator.
 
-If you do not want to use an answer file to create a local accout:
+If you do not want to use an 'answer file' to create a local accout:
     if you have a Desktop, do not connect to Internet (unplug the cable).
     'Shift + F10' to open a Command Prompt (use 'Alt + Tab' to bring it to the foreground).
     type 'oobe\bypassnro' (computer will reboot).
@@ -190,11 +190,11 @@ function New-WindowsAnswerFile
                     </FirstLogonCommands>
                 </component>
             </settings>
-        </unattend>
-        '.Replace('$UserName', $UserName).
-          Replace('$Password', $Password).
-          Replace('$WindowsEdition', $WindowsEdition) -replace '(?m)^ {4}' |
-            Out-File -Path "$Path\autounattend.xml"
+        </unattend>'.
+            Replace('$UserName', $UserName).
+            Replace('$Password', $Password).
+            Replace('$WindowsEdition', $WindowsEdition) -replace '(?m)^ {4}' |
+                Out-File -Path "$Path\autounattend.xml"
     }
 }
 
@@ -231,14 +231,14 @@ function New-WindowsAnswerFile
   If network discovery service is not disabled, adjust the settings as needed.
 
 - settings > personalization > taskbar > hidden icon menu
-  e.g. always show: adobe acrobat reader (new update), bluetooth, windows updates status
+  e.g. always show: adobe acrobat reader (new update), bluetooth
 
 - settings > privacy & security > windows security (aka Defender)
   Review the settings and dismiss any warning message.
 
 - settings > privacy & security > device encryption
   Turn off device encryption (not automated because it can take a long time).
-  The recommended way is to use an answer file to prevent auto device encryption.
+  The recommended way is to use an 'answer file' to prevent auto device encryption.
 #>
 
 #=======================================
@@ -247,7 +247,7 @@ function New-WindowsAnswerFile
 <#
 - Battery setting (e.g. Laptop)
   Limit the maximum charge to 90% (or 85%) to preserve the battery longevity.
-  This option is generaly in the BIOS or via manufacturer application.
+  This option is generaly in the BIOS or via a manufacturer application.
 
 - Move default user folders location outside of system drive.
   i.e. desktop, downloads, documents, music, pictures, videos
@@ -516,61 +516,55 @@ function Set-RegistryEntry
 #region action center
 
 # Windows 11 24H2+ only.
-function Set-ActionCenterLayout
-{
-    # Default order for the quick-settings.
-    # Adjust according to your preferences.
-    $QuickActionsLayout = '[
-      {
-        "Name": "Toggles",
-        "QuickActions": [
-          { "FriendlyName": "Microsoft.QuickAction.WiFi" },
-          { "FriendlyName": "Microsoft.QuickAction.Bluetooth" },
-          { "FriendlyName": "Microsoft.QuickAction.Cellular" },
-          { "FriendlyName": "Microsoft.QuickAction.WindowsStudio" },
-          { "FriendlyName": "Microsoft.QuickAction.AirplaneMode" },
-          { "FriendlyName": "Microsoft.QuickAction.Accessibility" },
-          { "FriendlyName": "Microsoft.QuickAction.Vpn" },
-          { "FriendlyName": "Microsoft.QuickAction.RotationLock" },
-          { "FriendlyName": "Microsoft.QuickAction.BatterySaver" },
-          { "FriendlyName": "Microsoft.QuickAction.EnergySaverAcOnly" },
-          { "FriendlyName": "Microsoft.QuickAction.LiveCaptions" },
-          { "FriendlyName": "Microsoft.QuickAction.BlueLightReduction" },
-          { "FriendlyName": "Microsoft.QuickAction.MobileHotspot" },
-          { "FriendlyName": "Microsoft.QuickAction.NearShare" },
-          { "FriendlyName": "Microsoft.QuickAction.ColorProfile" },
-          { "FriendlyName": "Microsoft.QuickAction.Cast" },
-          { "FriendlyName": "Microsoft.QuickAction.ProjectL2" },
-          { "FriendlyName": "Microsoft.QuickAction.LocalBluetooth" },
-          { "FriendlyName": "Microsoft.QuickAction.A9" }
-        ]
-      },
-      {
-        "Name": "Sliders",
-        "QuickActions": [
-          { "FriendlyName": "Microsoft.QuickAction.Brightness" },
-          { "FriendlyName": "Microsoft.QuickAction.VolumeNoTimer" }
-        ]
-      }
-    ]'.Replace('"', '\"') -replace '\s+'
 
-    $QuickActionsReg = '[
-      {
-        "Hive"    : "HKEY_CURRENT_USER",
-        "Path"    : "Control Panel\\Quick Actions\\Control Center",
-        "Entries" : [
-            {
-            "Name"  : "UserLayoutPaginated",
-            "Value" : "$QuickActionsLayout",
-            "Type"  : "String"
-            }
-        ]
-      }
-    ]'.Replace('$QuickActionsLayout', $QuickActionsLayout) | ConvertFrom-Json
+# Default order for the quick-settings.
+$ActionCenterLayoutValue = '[
+  {
+    "Name": "Toggles",
+    "QuickActions": [
+      { "FriendlyName": "Microsoft.QuickAction.WiFi" },
+      { "FriendlyName": "Microsoft.QuickAction.Bluetooth" },
+      { "FriendlyName": "Microsoft.QuickAction.Cellular" },
+      { "FriendlyName": "Microsoft.QuickAction.WindowsStudio" },
+      { "FriendlyName": "Microsoft.QuickAction.AirplaneMode" },
+      { "FriendlyName": "Microsoft.QuickAction.Accessibility" },
+      { "FriendlyName": "Microsoft.QuickAction.Vpn" },
+      { "FriendlyName": "Microsoft.QuickAction.RotationLock" },
+      { "FriendlyName": "Microsoft.QuickAction.BatterySaver" },
+      { "FriendlyName": "Microsoft.QuickAction.EnergySaverAcOnly" },
+      { "FriendlyName": "Microsoft.QuickAction.LiveCaptions" },
+      { "FriendlyName": "Microsoft.QuickAction.BlueLightReduction" },
+      { "FriendlyName": "Microsoft.QuickAction.MobileHotspot" },
+      { "FriendlyName": "Microsoft.QuickAction.NearShare" },
+      { "FriendlyName": "Microsoft.QuickAction.ColorProfile" },
+      { "FriendlyName": "Microsoft.QuickAction.Cast" },
+      { "FriendlyName": "Microsoft.QuickAction.ProjectL2" },
+      { "FriendlyName": "Microsoft.QuickAction.LocalBluetooth" },
+      { "FriendlyName": "Microsoft.QuickAction.A9" }
+    ]
+  },
+  {
+    "Name": "Sliders",
+    "QuickActions": [
+      { "FriendlyName": "Microsoft.QuickAction.Brightness" },
+      { "FriendlyName": "Microsoft.QuickAction.VolumeNoTimer" }
+    ]
+  }
+]'.Replace('"', '\"') -replace '\s+'
 
-    Write-Verbose -Message "Setting Action Center Layout ..."
-    Set-RegistryEntry -InputObject $QuickActionsReg -Verbose:$false
-}
+$ActionCenterLayout = '[
+  {
+    "Hive"    : "HKEY_CURRENT_USER",
+    "Path"    : "Control Panel\\Quick Actions\\Control Center",
+    "Entries" : [
+      {
+        "Name"  : "UserLayoutPaginated",
+        "Value" : "$ActionCenterLayoutValue",
+        "Type"  : "String"
+      }
+    ]
+  }
+]'.Replace('$ActionCenterLayoutValue', $ActionCenterLayoutValue) | ConvertFrom-Json
 
 #endregion action center
 
@@ -587,10 +581,8 @@ function Set-ActionCenterLayout
 #=======================================
 # gpo\ computer config > administrative tpl > system > device installation
 #   specify search order for device driver source location
-# not configured: delete (default)
-# do not search Windows Update: 0
-# always search Windows Update: 1
-# search Windows Update only if needed: 2
+# not configured: delete (default) | do not search Windows Update: 0
+# always search Windows Update: 1 | search Windows Update only if needed: 2
 $DeviceInstallationDriversGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -632,8 +624,8 @@ $PrinterDriversDownloadOverHttpGPO = '[
 #   do not include drivers with Windows updates
 # gpo\ not configured: delete (default) | off: 1
 #
-# DriverUpdateWizardWUSearchEnabled\ on: 1 | off: 0
-# old policy: device manager doesn't search online drivers anymore on manual update.
+# gpo\ DriverUpdateWizardWUSearchEnabled\ not configured: delete (default) | on: 1 | off: 0
+#   old policy: device manager doesn't search online drivers anymore on manual update.
 $WindowsUpdateDriversGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -810,10 +802,6 @@ $BrowseFoldersPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\Cur
 $BrowseFoldersBytes = Get-ItemPropertyValue -Path $BrowseFoldersPath -Name 'Settings'
 Set-ByteBitFlag -Bytes $BrowseFoldersBytes -ByteNum 4 -BitPos 6 -Value $BrowseFoldersValue
 
-# open desktop folders and external folder links in new tab
-# require 'open each folder in the same window'
-# on: 1 (default) | off: 0
-
 $FileExplorerBrowseFolders = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -825,7 +813,14 @@ $FileExplorerBrowseFolders = '[
         "Type"  : "Binary"
       }
     ]
-  },
+  }
+]'.Replace('$BrowseFoldersBytes', $BrowseFoldersBytes) | ConvertFrom-Json
+
+# browse folders : open in new tab
+#-------------------
+# open desktop folders and external folder links in new tab (requires 'open each folder in the same window')
+# on: 1 (default) | off: 0
+$FileExplorerBrowseFoldersOpeninNewTab = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
     "Path"    : "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer",
@@ -837,7 +832,7 @@ $FileExplorerBrowseFolders = '[
       }
     ]
   }
-]'.Replace('$BrowseFoldersBytes', $BrowseFoldersBytes) | ConvertFrom-Json
+]' | ConvertFrom-Json
 
 # click items as follows
 #-------------------
@@ -862,7 +857,7 @@ $FileExplorerClickItems = '[
 ]'.Replace('$ClickItemsBytes', $ClickItemsBytes) | ConvertFrom-Json
 
 # show recently used files
-# (if disabled, also remove recent items from the Start Menu)
+# (if disabled, also disable recent items from the Start Menu)
 #-------------------
 # on: 1 (default) | off: 0
 $FileExplorerRecentlyUsedFiles = '[
@@ -1228,15 +1223,18 @@ $FileExplorerFolderTypeDetection = '[
 #region admin approval mode
 
 # Windows 11 24H2+ only.
-# Replace the 'User Account Control (UAC)' with a more secure elevation approval.
-# You will be prompted to enter your password if you need admin privileges (e.g. regedit, task manager, ...).
-#
-# If you enable it, consider to set a PIN (Windows Hello) for your account (settings > accounts > sign-in options).
-# It will be less frustrating to enter a PIN than a password when you need admin privileges.
+
+<#
+Replace the 'User Account Control (UAC)' with a more secure elevation approval.
+You will be prompted to enter your password if you need admin privileges (e.g. regedit, task manager, ...).
+
+If you enable it, consider to set a PIN (Windows Hello) for your account (settings > accounts > sign-in options).
+It will be less frustrating to enter a PIN than a password when you need admin privileges.
+#>
 
 # gpo\ computer config > windows settings > security settings > local policies > security options
 #   user account control: configure type of admin approval mode
-# Legacy Admin Approval Mode: 1 (Default) | Admin Approval Mode with Administrator protection: 2
+# legacy admin approval mode: 1 (Default) | admin approval mode with administrator protection: 2
 $AdminApprovalModeGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -1788,10 +1786,6 @@ $NotificationNetworkUsageGPO = '[
 #=======================================
 #region NTFS Last Access Time
 
-# 0: User Managed, Last Access Time Updates Enabled
-# 1: User Managed, Last Access Time Updates Disabled
-# 2: System Managed, Last Access Time Updates Enabled (default)
-# 3: System Managed, Last Access Time Updates Disabled
 function Set-NTFSLastAccessTime
 {
     <#
@@ -1800,6 +1794,12 @@ function Set-NTFSLastAccessTime
 
     .EXAMPLE
         PS> Set-NTFSLastAccessTime -Managed 'User' -State 'Disabled'
+
+    .NOTES
+        0: User Managed, Last Access Time Updates Enabled
+        1: User Managed, Last Access Time Updates Disabled
+        2: System Managed, Last Access Time Updates Enabled (default)
+        3: System Managed, Last Access Time Updates Disabled
     #>
 
     [CmdletBinding()]
@@ -1951,7 +1951,7 @@ $PathLengthLimit = '[
 #=======================================
 #region password expiration
 
-# Already done within the unattend file (if you used it).
+# Already done within the 'answer file' (if you used it).
 function Disable-PasswordExpiration
 {
     Write-Verbose -Message 'Disabling Password Expiration ...'
@@ -1960,7 +1960,7 @@ function Disable-PasswordExpiration
     Get-LocalUser | Set-LocalUser -PasswordNeverExpires $true
 
     # Disable for all local users and make default to never expires.
-    #net.exe accounts /maxpwage:UNLIMITED | Out-Null
+    net.exe accounts /maxpwage:UNLIMITED | Out-Null
 }
 
 #endregion password expiration
@@ -2034,7 +2034,6 @@ $RecycleBinRemoveFilesImmediately = '[
 # gpo\ user config > administrative tpl > windows components > file explorer
 #   display confirmation dialog when deleting files
 # gpo\ not configured: delete (default) | on: 1
-#
 # user\ 5th byte, 3rd bit\ on: 0 | off: 1 (default)
 $ConfirmFileDeleteValue = 0
 $ConfirmFileDeletePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
@@ -2134,7 +2133,7 @@ function Disable-8Dot3FileName
     i.e. "C:\Program Files\Common Files\Adobe\Acrobat\ActiveX\AcroPDF.dll"
     #>
 
-    # This can take a while on HDD (few minutes). It's really fast on SSD (few seconds).
+    # It can take a moment on HDD (few minutes). It's really fast on SSD (few seconds).
     Write-Verbose -Message ("   The following Warning is not as bad as stated.`n" +
         "            Open the generated log file and replace any mention of 8Dot3 Name in the registry.`n" +
         "            Read the comment in the script for more details.`n")
@@ -2152,7 +2151,7 @@ function Disable-8Dot3FileName
 # Probably a Windows bug, as it is not visible in the Start Menu on a fresh install.
 
 # Let's move this shorcut to the 'Windows Tools' folder.
-# 'sfc /scannow' will revert back the location of the 'character map' shorcut ...
+# 'sfc /scannow' will bring back the 'character map' shorcut in the Start Menu ...
 
 function Move-CharacterMapShorcutToWindowsTools
 {
@@ -2172,7 +2171,7 @@ function Move-CharacterMapShorcutToWindowsTools
 
 # e.g. "File - Shortcut"
 #-------------------
-# on: delete or 30 00 00 00 (default) | off: 00 00 00 00
+# on: delete (default) | off: 00 00 00 00
 $ShortcutNameSuffix = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -2191,6 +2190,8 @@ $ShortcutNameSuffix = '[
 # If 'ShortcutNameTemplate' exist, the value of 'link' will be ignored.
 #-------------------
 # default: delete
+# %s represent the file name. UnAllowedChars: / \ : * ? " < > |
+$ShortcutNameSuffixTemplate = '%s (shorcut).lnk'
 $ShortcutNameSuffixCustom = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -2198,12 +2199,12 @@ $ShortcutNameSuffixCustom = '[
     "Entries" : [
       {
         "Name"  : "ShortcutNameTemplate",
-        "Value" : "\"%s (shorcut).lnk\"",
+        "Value" : "\"$ShortcutNameSuffixTemplate\"",
         "Type"  : "String"
       }
     ]
   }
-]' | ConvertFrom-Json
+]'.Replace('$ShortcutNameSuffixTemplate', $ShortcutNameSuffixTemplate) | ConvertFrom-Json
 
 #endregion shortcut name suffix
 
@@ -2366,7 +2367,7 @@ $WindowsExperimentation = '[
 #=======================================
 #region windows help & support
 
-# F1 key is not disabled, it disable only the opening of Windows help & support.
+# F1 key is not disabled, it disable only the opening of 'Windows help & support'.
 #-------------------
 # on: delete (default) | off: empty value
 $WindowsHelpAndSupportF1Key = '[
@@ -2456,9 +2457,9 @@ $WindowsPrivacySettingsExperienceGPO = '[
 #=======================================
 #region windows shared experience
 
-# Disable and grayed out:
+# Disable and gray out:
 #   settings > system > nearby sharing
-#   settings > apps > advanced app settings > Share Across Devices
+#   settings > apps > advanced app settings > share across devices
 #-------------------
 # gpo\ computer config > administrative tpl > system > group policy
 #   continue experiences on this device
@@ -2532,7 +2533,7 @@ $WindowsSpotlightGPO = '[
 
 # learn about this picture (Desktop icon)
 #-------------------
-# on: 0 or delete (default) | off: 1
+# on: delete (or 0) (default) | off: 1
 $WindowsSpotlightLearnAboutPictureDesktopIcon = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -2624,12 +2625,13 @@ function Set-NetAdapterProtocol
             [bool] $Default
             [string] $Comment
         }
+
+        $PhysicalNetAdapter = Get-NetAdapter -Physical
     }
 
     process
     {
         $IsEnabled = $RestoreDefault ? $InputObject.Default : $InputObject.Enabled
-        $PhysicalNetAdapter = Get-NetAdapter -Physical
         $CurrentNetAdapterBinding = $PhysicalNetAdapter |
             Get-NetAdapterBinding -ComponentID $InputObject.ComponentID -ErrorAction 'SilentlyContinue'
 
@@ -2797,7 +2799,7 @@ function Block-DCOMFirewallPort135
 #=======================================
 #region firewall misc TCP-in
 
-# Ports 49664-49668 should not be exposed to the internet.
+# Ports 49664-49669 should not be exposed to the internet.
 # Used for remote management (probably) ?
 #
 # These ports are shown as listening in netstat or TCP View.
@@ -2936,10 +2938,7 @@ $IPSourceRouting = '[
 #-------------------
 # gpo\ computer config > administrative tpl > network > tcpip settings > ipv6 transition technologies
 #   set 6to4 state
-# not configured: delete (default)
-# default state: 'Default'
-# enabled state: 'Enabled'
-# disabled state: 'Disabled'
+# not configured: delete (default) | default state: 'Default' | enabled state: 'Enabled' | disabled state: 'Disabled'
 $NetworkProtocol6to4GPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -2958,11 +2957,8 @@ $NetworkProtocol6to4GPO = '[
 #-------------------
 # gpo\ computer config > administrative tpl > network > tcpip settings > ipv6 transition technologies
 #   set teredo state
-# not configured: delete (default)
-# default state: 'Default'
-# disabled state: 'Disabled'
-# client: 'Client'
-# enterprise client: 'Enterprise Client'
+# not configured: delete (default) | default state: 'Default' | disabled state: 'Disabled'
+# client: 'Client' | enterprise client: 'Enterprise Client'
 $NetworkProtocolTeredoGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -3144,7 +3140,7 @@ Ports 137-139 should not be exposed to the internet.
 Used by 'file and printer sharing' to contact computer using this old/legacy protocol.
 
 Even if 'file and printer sharing' is disabled, these ports are still listening.
-To close them, you need to disable NetBios over TCP/IP kernel driver service (NetBT).
+To close them, you need to disable 'NetBios over TCP/IP' kernel driver service (NetBT).
 See $NetBiosDriver in 'services & scheduled tasks > services > system driver'.
 #>
 
@@ -3154,7 +3150,7 @@ settings > network & internet > advanced network settings > Ethernet and/or Wi-F
     general > advanced > WINS > disable NetBIOS over TCP/IP
 #>
 
-# disable NetBIOS over TCP/IP on all network adapters
+# disable 'NetBIOS over TCP/IP' on all network adapters
 #-------------------
 # default: 0 (default) | on: 1 | off: 2
 $NetBIOSProtocol = '[
@@ -3364,7 +3360,7 @@ $WPADProtocol = '[
 #=======================================
 #region fast startup
 
-# control panel (icons view) > power options > Choose What the power button do
+# control panel (icons view) > power options > choose what the power button do
 # (control.exe /name Microsoft.PowerOptions /page pageGlobalSettings)
 #-------------------
 # on: 1 (default) | off: 0
@@ -3419,7 +3415,7 @@ function Set-Hibernate
     }
 }
 
-# control panel (icons view) > power options > Choose What the power button do
+# control panel (icons view) > power options > choose what the power button do
 # (control.exe /name Microsoft.PowerOptions /page pageGlobalSettings)
 #-------------------
 # default: Enabled
@@ -3429,7 +3425,7 @@ function Enable-Hibernate
     Set-Hibernate -State 'Enabled'
 }
 
-# Fast startup will also get disabled.
+# Fast startup will also be disabled.
 function Disable-Hibernate
 {
     Set-Hibernate -State 'Disabled'
@@ -3603,8 +3599,7 @@ function Set-AdvancedBatterySetting
 
     .NOTES
         'Reserve Battery' does not support 'Action' parameter.
-        The Syntax doesn't match the generated one by powershell ('Reserve' is removed where it's invalid).
-        3 switches could be used instead of 'ValidateSet' ...
+        The Syntax doesn't match the generated one by PowerShell ('Reserve' is removed where it's invalid).
     #>
 
     [CmdletBinding()]
@@ -3695,31 +3690,34 @@ function Set-AdvancedBatterySetting
 #-------------------
 # For battery longevity, you shouldn't EVER let your battery go below 10% (or even better: 15%).
 
+# 'Low' will display a warning to plug-in your computer.
+# 'Reserve' will display a final warning (and presumably disable some features/services).
+# 'Critical' will shutdown (or else) your computer.
+
+# Battery\ Low | Reserve | Critical
 # Action\ DoNothing | Sleep | Hibernate | ShutDown
 # Level\ value are in percent (range 5-100): Low > Reserve > Critical
 #   default (depends): 10 7 5
-#   'Low' will display a warning to plug-in your computer.
-#   'Reserve' will display a final warning (and presumably disable some features/services).
-#   'Critical' will shutdown your computer.
-$SystemPowerAdvancedBatterySetting = '{
-  "Low" : {
+$SystemPowerAdvancedBatterySetting = '[
+  {
+    "Battery": "Low",
     "Action" : "DoNothing",
     "Level"  : 15
   },
-  "Reserve" : {
-    "Level" : 10
+  {
+    "Battery": "Reserve",
+    "Level"  : 10
   },
-  "Critical" : {
+  {
+    "Battery": "Critical",
     "Action" : "ShutDown",
     "Level"  : 7
   }
-}' | ConvertFrom-Json
+]' | ConvertFrom-Json
 
 function Set-SystemPowerAdvancedBatterySetting
 {
-    $SystemPowerAdvancedBatterySetting.Low | Set-AdvancedBatterySetting -Battery 'Low'
-    $SystemPowerAdvancedBatterySetting.Critical | Set-AdvancedBatterySetting -Battery 'Critical'
-    $SystemPowerAdvancedBatterySetting.Reserve | Set-AdvancedBatterySetting -Battery 'Reserve'
+    $SystemPowerAdvancedBatterySetting | Set-AdvancedBatterySetting
 }
 
 #endregion battery
@@ -4095,9 +4093,9 @@ function Disable-AllDrivesAutoManagedPagingFile
 # custom paging file size
 #-------------------
 # Depends on how much RAM you have:
-#   32GB+: 512/512 for safeguard and (very) old programs that needs pagefile.
+#   24GB+: 512/512 for safeguard and (very) old programs that needs pagefile.
 #   8-16GB: 2048/2048 should be enought, safeguard in case you eat up all ram.
-#   4GB: 4096/4096 should be enought (if not enought, upgrade your RAM to 8GB ...).
+#   4GB: 4096/4096 should be enought (if not enought, upgrade your physical RAM to 8GB ...).
 
 function Set-DrivePagingFile
 {
@@ -4479,7 +4477,7 @@ $RemoteAssistance = '[
 #-------------------
 # gpo\ computer config > administrative tpl > system > remote assistance
 #   configure offer remote assistance
-# gpo\ not configured: delete (default) | off: 0
+# not configured: delete (default) | off: 0
 $RemoteAssistanceOfferGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -4637,7 +4635,7 @@ $CloudContentExperiencesGPO = '[
 #=======================================
 #region consumer experiences
 
-# Disable and grayed out: settings > bluetooth & devices > mobile devices (e.g. Phone Link)
+# Disable and gray out: settings > bluetooth & devices > mobile devices (e.g. Phone Link)
 
 # gpo\ computer config > administrative tpl > windows components > cloud content
 #   turn off microsoft consumer experiences (only applies to Enterprise and Education SKUs)
@@ -4784,7 +4782,7 @@ $DiagnosticTracing = '[
 #region diagnostic log collection
 
 # Data are not sent if 'send optional diagnostic data' is disabled.
-# This setting prevent the creation of the log files.
+# This setting prevent the creation of the log file.
 
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   limit diagnostic log collection
@@ -4811,7 +4809,7 @@ $DiagnosticLogCollectionGPO = '[
 #region dump collection
 
 # Data are not sent if 'send optional diagnostic data' is disabled.
-# This setting prevent the creation of the log files.
+# This setting prevent the creation of the log file.
 
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   limit dump collection
@@ -5106,7 +5104,7 @@ function Disable-NvidiaGameSessionTelemetry
     }
     else
     {
-        Write-Verbose -Message '    Nvidia GameSession Telemetry Plugin file not found.'
+        Write-Verbose -Message '    Nvidia GameSession Telemetry Plugin file not found'
     }
 }
 
@@ -5246,6 +5244,7 @@ function Remove-AllDesktopShortcut
     Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk"
 }
 
+# Brave fails to update itself when installed with Winget.
 function Install-BraveBrowser
 {
     Write-Verbose -Message 'Installing Brave Browser ...'
@@ -5333,9 +5332,6 @@ function Install-WindowsSubsystemForLinux
     .DESCRIPTION
         Install WSL and the default Ubuntu distribution of Linux.
         You can also use the '-Distribution' parameter to change the installed Linux distribution.
-
-    .EXAMPLE
-        PS> Install-WindowsSubsystemForLinux
 
     .EXAMPLE
         PS> Install-WindowsSubsystemForLinux -Distribution 'Debian'
@@ -5487,22 +5483,6 @@ function Get-ApplicationInfo
         DisplayVersion  : X.X.X
         [...]
 
-    .EXAMPLE
-        PS> Get-ApplicationInfo -Name '*update*'
-        DisplayName     : Microsoft Update Health Tools
-        [...]
-        InstallLocation :
-        InstallSource   : C:\Windows\TEMP\0EE55CA6-4890-4284-9919-D63B07C40F74\
-        ModifyPath      : MsiExec.exe /X{C6FD611E-7EFE-488C-A0E0-974C09EF6473}
-        [...]
-        UninstallString : MsiExec.exe /X{C6FD611E-7EFE-488C-A0E0-974C09EF6473}
-        [...]
-
-        DisplayName    : Microsoft Edge Update
-        DisplayVersion : X.X.X.X
-        Version        : X.X.X.X
-        NoRemove       : 1
-
     .NOTES
         Doesn't handle UWP apps (e.g. Modern Notepad, Windows Photos, ...).
     #>
@@ -5517,14 +5497,14 @@ function Get-ApplicationInfo
 
     process
     {
-        $RegistryUninstallPath = @(
-            'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall'
-            'Registry::HKEY_CURRENT_USER\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
-            'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
-            'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
-        )
         $UserSID = Get-LoggedUserSID
-        $RegistryUninstallPath = $RegistryUninstallPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
+        $UninstallRegPath = 'Microsoft\Windows\CurrentVersion\Uninstall'
+        $RegistryUninstallPath = @(
+            "Registry::HKEY_USERS\$UserSID\Software\$UninstallRegPath"
+            "Registry::HKEY_USERS\$UserSID\Software\Wow6432Node\$UninstallRegPath"
+            "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\$UninstallRegPath"
+            "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\$UninstallRegPath"
+        )
 
         $AppInfo = $RegistryUninstallPath |
             Get-ChildItem -ErrorAction 'SilentlyContinue' |
@@ -5545,7 +5525,8 @@ function Remove-MicrosoftEdge
     }
 
     # Get the user region.
-    $UserRegionRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\International\Geo'
+    $UserSID = Get-LoggedUserSID
+    $UserRegionRegPath = "Registry::HKEY_USERS\$UserSID\Control Panel\International\Geo"
     $UserRegion = Get-ItemPropertyValue -Path $UserRegionRegPath -Name 'Name'
 
     # Get the 'RegionPolicy' config file content.
@@ -5593,7 +5574,7 @@ function Remove-MicrosoftEdge
     Stop-Process -Name '*edge*' -Force -ErrorAction 'SilentlyContinue'
 
     Remove-Package -Name 'Microsoft.MicrosoftEdge.Stable' -Verbose:$false
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 1
     $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall".Replace('"', '\"')
     Start-Process -Wait -NoNewWindow -FilePath 'pwsh.exe' -ArgumentList "-Command Invoke-Expression '$EdgeUninstallCmd'"
 
@@ -5724,12 +5705,13 @@ function Remove-OneDriveAutoInstallationForNewUser
           {
             "RemoveEntry" : true,
             "Name"  : "OneDriveSetup",
-            "Value" : "C:\\Windows\\System32\\OneDriveSetup.exe /thfirstsetup",
+            "Value" : "$env:SystemRoot\\System32\\OneDriveSetup.exe /thfirstsetup",
             "Type"  : "String"
           }
         ]
       }
-    ]'.Replace('$NTUserRegKeyName', $NTUserRegKeyName) | ConvertFrom-Json
+    ]'.Replace('$NTUserRegKeyName', $NTUserRegKeyName).
+       Replace('$env:SystemRoot', ($env:SystemRoot).Replace('\', '\\')) | ConvertFrom-Json
 
     $NTUserRegPath = "HKEY_USERS\$NTUserRegKeyName"
     $NTUserFilePath = "$env:SystemDrive\Users\Default\NTUSER.DAT"
@@ -5945,7 +5927,7 @@ $Wallet             = 'Microsoft.Wallet'
 # Windows 11 only (there is probably a similar registry key for Windows 10).
 # Remove unwanted pinned shortcuts from the Start Menu (e.g. Disney+, Netflix, TikTok, ...).
 # It does only remove the quick installer shorcuts that actually install the app if we click on it.
-#   i.e. It will not remove an already installed app (e.g. manufacturer apps).
+#   i.e. It will not remove an already installed app (e.g. manufacturer app).
 function Remove-StartMenuPromotedApps
 {
     Write-Verbose -Message 'Removing Start Menu Promoted Apps (e.g. Spotify, LinkedIn) ...'
@@ -5966,40 +5948,32 @@ function Remove-StartMenuPromotedApps
 
 # Windows 11 only.
 # Customization of the Start Menu layout works only for new user that haven't log yet - not even once.
-# You can use an 'unattend.xml' file to customize the Start Menu layout for the first user.
-function Set-NewUserDefaultStartMenuLayout
-{
-    Write-Verbose -Message 'Setting Default Start Menu Layout for New User ...'
+# You can use an 'answer file' to customize the Start Menu layout for the first user.
+# Use 'Export-StartLayout -Path "X:\layout.json"' to get your current Start Menu layout.
+$StartMenuLayout = '{
+  "pinnedList": [
+    { "packagedAppId":"Microsoft.WindowsStore_8wekyb3d8bbwe!App" },
+    { "packagedAppId":"Microsoft.Windows.Photos_8wekyb3d8bbwe!App" },
+    { "packagedAppId":"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" },
+    { "packagedAppId":"Microsoft.WindowsNotepad_8wekyb3d8bbwe!App" },
+    { "packagedAppId":"Microsoft.Paint_8wekyb3d8bbwe!App" },
+    { "packagedAppId":"Microsoft.ScreenSketch_8wekyb3d8bbwe!App" }
+  ]
+}' -replace '(["\\])', '\$1' -replace '\s+'
 
-    # Adjust according to your preferences.
-    # Use 'Export-StartLayout -Path "X:\layout.json"' to get your current Start Menu layout.
-    $StartMenuLayout = '{
-        "pinnedList": [
-            { "packagedAppId":"Microsoft.WindowsStore_8wekyb3d8bbwe!App" },
-            { "packagedAppId":"Microsoft.Windows.Photos_8wekyb3d8bbwe!App" },
-            { "packagedAppId":"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" },
-            { "packagedAppId":"Microsoft.WindowsNotepad_8wekyb3d8bbwe!App" },
-            { "packagedAppId":"Microsoft.Paint_8wekyb3d8bbwe!App" },
-            { "packagedAppId":"Microsoft.ScreenSketch_8wekyb3d8bbwe!App" }
-        ]
-    }'.Replace('"', '\"') -replace '\s+'
-
-    $DefaultStartMenuLayout = '[
+$DefaultStartMenuLayoutNewUser = '[
+  {
+    "Hive"    : "HKEY_LOCAL_MACHINE",
+    "Path"    : "SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Start",
+    "Entries" : [
       {
-        "Hive"    : "HKEY_LOCAL_MACHINE",
-        "Path"    : "SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Start",
-        "Entries" : [
-          {
-            "Name"  : "ConfigureStartPins",
-            "Value" : "$StartMenuLayout",
-            "Type"  : "String"
-          }
-        ]
+        "Name"  : "ConfigureStartPins",
+        "Value" : "$StartMenuLayout",
+        "Type"  : "String"
       }
-    ]'.Replace('$StartMenuLayout', $StartMenuLayout) | ConvertFrom-Json
-
-    Set-RegistryEntry -InputObject $DefaultStartMenuLayout -Verbose:$false
-}
+    ]
+  }
+]'.Replace('$StartMenuLayout', $StartMenuLayout) | ConvertFrom-Json
 
 #endregion promoted
 
@@ -6022,8 +5996,8 @@ function Set-NewUserDefaultStartMenuLayout
 # e.g. microsoft store, notepad, photos, snipping tool
 
 <#
-Pattern to match the key=value in registry file (.reg): '(?m)^(.*)=((?:.*)(?:(?<=\\)\s*.*)*)$'
-I will not use regex because the registry entry doesn't exist if the setting hasn't been toggled at least once.
+Pattern to match the key=value in registry file (.reg): '(?m)^(.*)=((?:.*)(?:(?<=\\)\s*.*)*)$'.
+Will not be used because the registry entry doesn't exist if the setting hasn't been toggled at least once.
 
 Settings are stored in a file encoded as binary data.
 e.g. "C:\Users\<User>\AppData\Local\Packages\Microsoft.Windows.Photos_8wekyb3d8bbwe\Settings\settings.dat"
@@ -6164,7 +6138,7 @@ function Set-UWPAppRegistryEntry
 
     end
     {
-        $SettingRegFilePath = "$PSScriptRoot\uwp_app_settings.reg"
+        $SettingRegFilePath = "$env:TEMP\uwp_app_settings.reg"
 
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath
@@ -6263,7 +6237,7 @@ $AdobeAcrobatDocumentsRememberToolsPaneState = '[
 
 # saved state of Tools Pane
 #-------------------
-# If bRHPSticky is enabled, it reads the state from this entry.
+# If 'bRHPSticky' is enabled, it reads the state from this entry.
 # on: 4 (default) | off: 3
 $AdobeAcrobatDocumentsSavedToolsPaneState = '[
   {
@@ -6426,7 +6400,7 @@ $AdobeAcrobatSecurityProtectedView = '[
 
 # enhanced security
 #-------------------
-# on: 1 or delete (default) | off: 0
+# on: 1 (default) | off: 0
 $AdobeAcrobatSecurityEnhancedSecurity = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -6448,7 +6422,7 @@ $AdobeAcrobatSecurityEnhancedSecurity = '[
 
 # automatically trust documents with valid certification
 #-------------------
-# on: 1 | off: 0 or delete (default)
+# on: 1 | off: 0 (default)
 $AdobeAcrobatSecurityTrustCertifiedDocuments = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -6485,7 +6459,7 @@ $AdobeAcrobatSecurityTrustOSTrustedSites = '[
 #===================
 # allow opening of non-PDF file attachments with external applications
 #-------------------
-# on: 1 or delete (default) | off: 0
+# on: 1 (default) | off: 0
 $AdobeAcrobatTrustManagerPdfFileAttachmentsExternalApps = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -6502,8 +6476,8 @@ $AdobeAcrobatTrustManagerPdfFileAttachmentsExternalApps = '[
 
 # allow opening of non-PDF file attachments
 #-------------------
-# If disabled, disable and grayed out 'allow opening of non-PDF file attachments with external applications'.
-# on: 0 or delete (default) | off: 1
+# If disabled, disable and gray out 'allow opening of non-PDF file attachments with external applications'.
+# on: 0 (default) | off: 1
 $AdobeAcrobatTrustManagerPdfFileAttachments = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -6564,7 +6538,7 @@ $AdobeAcrobatMiscHomePageTopBanner = '[
 
 # first launch introduction and UI tutorial overlay
 #-------------------
-# gpo\ on: 0 or delete (default) | off: 1
+# gpo\ on: 0 (default) | off: 1
 # user\ on: 1 (default) | off: 0
 $AdobeAcrobatMiscFirstLaunchIntro = '[
   {
@@ -6629,8 +6603,8 @@ $AdobeAcrobatMiscFirstLaunchIntro = '[
 
 # upsell (offers to buy extra tools)
 #-------------------
-# gpo\ on: 0 or delete (default) | off: 1
-# user\ on: 1 or delete (default) | off: 0
+# gpo\ on: 0 (default) | off: 1
+# user\ on: 1 (default) | off: 0
 $AdobeAcrobatMiscUpsell = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -6659,7 +6633,7 @@ $AdobeAcrobatMiscUpsell = '[
 # usage statistics
 #-------------------
 # Doesn't work for Acrobat DC ?
-# on: 1 or delete (default) | off: 0
+# on: 1 (default) | off: 0
 $AdobeAcrobatMiscUsageStatistics = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -6676,9 +6650,9 @@ $AdobeAcrobatMiscUsageStatistics = '[
 
 # online services and features
 #-------------------
-# bUpdater\ on: 1 or delete (default) | off: 0
-# bToggleXXXXX\ on: 0 or delete (default) | off: 1
-# bAdobeSendPluginToggle\ on: 0 or delete | off: 1 (default)
+# bUpdater\ on: 1 (default) | off: 0
+# bToggleXXXXX\ on: 0 (default) | off: 1
+# bAdobeSendPluginToggle\ on: 0 | off: 1 (default)
 $AdobeAcrobatMiscOnlineServices = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -6726,7 +6700,7 @@ $AdobeAcrobatMiscOnlineServices = '[
 
 # Adobe cloud
 #-------------------
-# on: 0 or delete (default) | off: 1
+# on: 0 (default) | off: 1
 $AdobeAcrobatMiscAdobeCloud = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -6743,7 +6717,7 @@ $AdobeAcrobatMiscAdobeCloud = '[
 
 # SharePoint
 #-------------------
-# on: 0 or delete (default) | off: 1
+# on: 0 (default) | off: 1
 $AdobeAcrobatMiscSharePoint = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -6760,7 +6734,7 @@ $AdobeAcrobatMiscSharePoint = '[
 
 # Webmail
 #-------------------
-# on: 0 or delete (default) | off: 1
+# on: 0 (default) | off: 1
 $AdobeAcrobatMiscWebmail = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -7185,8 +7159,8 @@ function New-BraveConfigData
 
     Merge-Hashtable $BraveLocalState ('{
         "dns_over_https": { # use secure DNS
-            "mode": "automatic", # on: automatic (OS default) | select DNS provider: secure | off: off
-            "templates": "" # OS default: empty | custom: e.g. https://security.cloudflare-dns.com/dns-query
+            "mode": "automatic", # OS default: automatic | add custom DNS service provider: secure | off: off
+            "templates": "" # automatic: empty | custom (i.e. secure): e.g. https://cloudflare-dns.com/dns-query
         }
     }' -replace $MatchComment | ConvertFrom-Json -AsHashtable)
 
@@ -7597,8 +7571,7 @@ function Set-KeePassXCSettings
 # prelaunch at startup
 #-------------------
 # gpo\ computer config > administrative tpl > microsoft edge
-#   allow Microsoft Edge to pre-launch at Windows startup, when the sytem idle,
-#     and each time Microsoft Edge is closed
+#   allow Microsoft Edge to pre-launch at Windows startup, when the sytem idle, and each time Microsoft Edge is closed
 # not configured: delete (default) | on: 1 | off: 0
 $MicrosoftEdgePrelaunch = '[
   {
@@ -8116,7 +8089,7 @@ function Set-VisualStudioCodeSettings
         "powershell.developer.editorServicesLogLevel": "None",
         "powershell.promptToUpdatePowerShell": false,
         "typescript.disableAutomaticTypeAcquisition": true,
-        "typescript.surveys.enabled": false
+        "typescript.surveys.enabled": false,
 
         // others (not preconfigured)
         "": ""
@@ -8635,7 +8608,7 @@ function Set-WindowsTerminalSettings
 #region ramdisk
 
 <#
-Brave (and browsers in general) write a lot to the disk, wearing off SSD.
+Brave (and web browsers in general) write a lot to the disk, wearing off SSD.
 
 Brave write a lot of temp files in the 'User Data' directory.
 It seems that everything is written to these temp files and then written to the cache ?
@@ -8643,7 +8616,7 @@ e.g.
 "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data\random-file-name.tmp"
 "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data\Default\random-file-name.tmp"
 
-Moving the Cache to a RamDisk reduce write disk, but that's not enought.
+Moving the Cache to a RamDisk reduce write disk, but that's not enought (because of the temp files).
 Lets move everything ('User Data' folder) to the RamDisk.
 Make some exceptions for extensions folders, bookmarks and preferences files.
 
@@ -9708,7 +9681,7 @@ function New-RamDisk
             FilePath     = "$((Get-ApplicationInfo -Name 'OSFMount').InstallLocation)\OSFMount.com"
             ArgumentList = "-a -t vm -m $MountPoint -o rw,format:ntfs:""$Name"" -s $Size"
         }
-        Start-Process -NoNewWindow -Wait @OSFMountProcess
+        Start-Process -Wait -NoNewWindow @OSFMountProcess
 
         if (Test-Path -Path $MountPoint)
         {
@@ -9912,6 +9885,7 @@ function Set-RamDiskScriptsAndTasks
 {
     $RamDiskName = 'RamDisk'
     $RamDiskCreationTaskName = 'RamDisk - Creation'
+
     $StartupScriptFilePath = "$env:SystemDrive\RamDisk script\create_ramdisk.ps1"
     $LogonScriptFilePath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\set_data_to_ramdisk.ps1"
     $LogoffScriptFilePath = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\save_brave_files_to_persistent_path.ps1"
@@ -10029,7 +10003,7 @@ function Disable-BrightnessWhenLightingChanges
 
 # change brightness based on content
 #-------------------
-# Off: 0 | Always: 1 | On Battery Only: 2 (default)
+# off: 0 | always: 1 | on battery only: 2 (default)
 $DisplayChangeBrightnessBasedOnContent = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -10079,10 +10053,6 @@ function Set-GraphicsSetting
 
     process
     {
-        $GpuPrefRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences'
-        $UserSID = Get-LoggedUserSID
-        $GpuPrefRegPath = $GpuPrefRegPath.Replace('HKEY_CURRENT_USER', "HKEY_USERS\$UserSID")
-
         $SettingValue = $State -eq 'Enabled' ? 1 : 0
         $SettingName = switch ($Name)
         {
@@ -10091,6 +10061,8 @@ function Set-GraphicsSetting
             'OptimizationsForWindowedGames' { 'SwapEffectUpgradeEnable' }
         }
 
+        $UserSID = Get-LoggedUserSID
+        $GpuPrefRegPath = "Registry::HKEY_USERS\$UserSID\Software\Microsoft\DirectX\UserGpuPreferences"
         $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
         $DirectXSettings = $CurrentSettings -like "*$SettingName*" ?
             $CurrentSettings -replace "($SettingName=)\d;", "`${1}$SettingValue;" :
@@ -10376,7 +10348,7 @@ function New-NotificationRegData
 }
 
 # Depending on which notifications you already got, you might have more or less items.
-# Not needed if you already disabled main notification toggle.
+# Not needed if you already disabled the main notification toggle.
 #-------------------
 $AppsAndOtherSenders = @{
     Disabled = @(
@@ -10504,9 +10476,6 @@ $NotificationsTipsAndSuggestions = '[
 #===================
 ### power mode
 #===================
-# Available when using the Balanced power plan.
-# Laptop: Applies only to the active power state (AC or DC).
-
 # Best power efficiency | Balanced (default) | Best performance
 function Set-PowerMode
 {
@@ -10516,6 +10485,10 @@ function Set-PowerMode
 
     .EXAMPLE
         PS> Set-PowerMode -Name 'BestPowerEfficiency'
+
+    .NOTES
+        Available only when using the Balanced power plan.
+        Applies only to the active power state (e.g. Laptop: AC or DC).
     #>
 
     [CmdletBinding()]
@@ -11018,6 +10991,7 @@ $NearbySharing = '[
 # save files I receive to
 #-------------------
 # default location: delete (default)
+$NearbySharingCustomLocation = "X:\My\Custom\Location"
 $NearbySharingDownloadLocation = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -11026,12 +11000,12 @@ $NearbySharingDownloadLocation = '[
       {
         "RemoveEntry" : true,
         "Name"  : "NearShareFileSaveLocation",
-        "Value" : "X:\\CustomLocation",
+        "Value" : "$NearbySharingCustomLocation",
         "Type"  : "String"
       }
     ]
   }
-]' | ConvertFrom-Json
+]'.Replace('$NearbySharingCustomLocation', $NearbySharingCustomLocation.Replace('\', '\\')) | ConvertFrom-Json
 
 #endregion nearby sharing
 
@@ -11042,8 +11016,7 @@ $NearbySharingDownloadLocation = '[
 
 # show tabs from apps when snapping or pressing Alt+Tab
 #-------------------
-# 20 most recent tabs: 0 | 5 most recent tabs: 1
-# 3 most recent tabs: 2 (default) | Don't show tabs: 3
+# 20 most recent tabs: 0 | 5 most recent tabs: 1 | 3 most recent tabs: 2 (default) | Don't show tabs: 3
 $MultitaskingShowTabsFromApps = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -11152,7 +11125,7 @@ $MultitaskingSnapWindows = '[
 # on the taskbar, show all the open windows
 # show all open windows when I press Alt+Tab
 #-------------------
-# On all desktops: 0 | Only on the desktop I'm using: 1 (default)
+# on all desktops: 0 | only on the desktop I'm using: 1 (default)
 $MultitaskingDesktopsShowOpenWindows = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -11238,8 +11211,8 @@ function Set-SudoCommand
 
 # recommended troubleshooter preference
 #-------------------
-# Don't run any: 1 | Ask me before running: 2 (default)
-# Run automatically, then notify me: 3 | Run automatically, don't notify me: 4
+# don't run any: 1 | ask me before running: 2 (default)
+# run automatically, then notify me: 3 | run automatically, don't notify me: 4
 $Troubleshoot = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -11266,7 +11239,7 @@ $Troubleshoot = '[
 # gpo\ computer config > administrative tpl > windows components > connect
 #   don't allow this PC to be projected to
 # not configured: delete (default) | off: 1
-# off: The PC isn't discoverable unless Wireless Display app is manually launched
+#   off: The PC isn't discoverable unless Wireless Display app is manually launched
 $ProjectingToThisPC = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -11311,7 +11284,7 @@ $ProjectingToThisPCAvailability = '[
 
 # ask to project to this PC
 #-------------------
-# First time only: 1 | Every time a connection is requested: 2 (default)
+# first time only: 1 | every time a connection is requested: 2 (default)
 $ProjectingToThisPCAskToProject = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -11330,8 +11303,8 @@ $ProjectingToThisPCAskToProject = '[
 #-------------------
 # gpo\ computer config > administrative tpl > windows components > connect
 #   require pin for pairing
-# gpo\ not configured: delete (default) | Never: 0 | First Time: 1 | Always: 2
-# user\ Never: 1 2 (default) | First Time: 2 delete | Always: 3 delete
+# gpo\ not configured: delete (default) | never: 0 | first time: 1 | always: 2
+# user\ never: 1 2 (default) | first time: 2 delete | always: 3 delete
 $ProjectingToThisPCRequirePIN = '[
   {
     "SkipKey" : true,
@@ -11393,7 +11366,7 @@ $ProjectingToThisPCOnlyWhenPluggedOnAC = '[
 # gpo\ computer config > administrative tpl > remote desktop services > remote desktop session host > connections
 #   allow users to connect remotely by using remote desktop services
 # gpo\ not configured: delete (default) | on: 0 | off: 1
-# user\ on: fDenyTS 0, updateRD 1 | off: fDenyTS 1, updateRD 0 (default)
+# user\ on: 0 1 | off: 1 0 (default)
 $RemoteDesktop = '[
   {
     "SkipKey" : true,
@@ -11503,8 +11476,8 @@ $ClipboardHistory = '[
 # gpo\ computer config > administrative tpl > system > OS policies
 #   allow clipboard synchronization across devices
 # gpo\ not configured: delete (default) | on: 1 | off: 0
-# user\ on: 1 | off: 0 (default)
-# AutomaticUpload\ automatically sync text I copy: 1 | manually sync text that I copy: 0
+# user\ EnableCloudClipboard\ on: 1 | off: 0 (default)
+#   CloudClipboardAutomaticUpload\ automatically sync text I copy: 1 | manually sync text that I copy: 0
 $ClipboardSyncAcrossDevices = '[
   {
     "SkipKey" : true,
@@ -11617,7 +11590,7 @@ function Set-WindowsCapability
         $WinCapability = $AllWinCapabilities | Where-Object -Property 'Name' -Like -Value "$Name*"
         if (-not $WinCapability)
         {
-            Write-Verbose -Message "$Name is not a Windows Capability"
+            Write-Verbose -Message "Windows Capability '$Name' not found"
             return
         }
 
@@ -11671,8 +11644,8 @@ $XpsViewer                     = 'XPS.Viewer'
 #===================
 ### languages
 #===================
-# settings > time & language > language & region
-# preferred languages > 3 dots on language > language options
+# settings > time & language > language & region:
+#   preferred languages > 3 dots on language > language options
 
 function Remove-OptionalLanguageFeature
 {
@@ -11795,7 +11768,7 @@ function Set-WindowsOptionalFeature
         $WinOptionalFeature = $AllWinOptionalFeatures | Where-Object -Property 'FeatureName' -EQ -Value $Name
         if (-not $WinOptionalFeature)
         {
-            Write-Verbose -Message "$Name is not a Windows Optional Feature"
+            Write-Verbose -Message "Windows Optional Feature '$Name' not found"
             return
         }
 
@@ -12224,7 +12197,7 @@ $TouchpadCursorSpeed = '[
 #===================
 # touchpad sensitivity
 #-------------------
-# Most sensitive: 0 | High sensitivity: 1 | Medium sensitivity: 2 (default) | Low sensitivity: 3
+# most sensitive: 0 | high sensitivity: 1 | medium sensitivity: 2 (default) | low sensitivity: 3
 $TouchpadSensitivity = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12296,7 +12269,7 @@ $TouchpadDragTwoFingersToScroll = '[
 
 # scrolling direction
 #-------------------
-# Down motion scrolls up: 0 (default) | Down motion scrolls down: 1
+# down motion scrolls up: 0 (default) | down motion scrolls down: 1
 $TouchpadScrollingDirection = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12334,15 +12307,15 @@ $TouchpadPinchToZoom = '[
 # swipes
 #-------------------
 # ThreeFingerSlideEnabled\
-# nothing: 0 | switch apps and show desktop: 1 (default) | switch desktops and show desktop: 2
-# change audio and volume: 3 | custom: 65535 (hex: ffff)
+#   nothing: 0 | switch apps and show desktop: 1 (default) | switch desktops and show desktop: 2
+#   change audio and volume: 3 | custom: 65535 (hex: ffff)
 #
 # advanced gestures\ if 'ThreeFingerSlideEnabled' is NOT set to custom, 'Up/Down/Left/Right' are ignored.
-# nothing: 0 | switch apps: 1 (left/right) | task view: 2 (up) | show desktop: 3 (down) | switch desktops: 4
-# hide everything other than the app in focus: 5 | create desktop: 6 | remove desktop: 7
-# forward navigation: 8 | backward navigation: 9 | snap window to the left: 10 | snap window to the right: 12
-# maximize a window: 11 | minimize a window: 13 | next track: 14 | previous track: 15
-# volume up: 16 | volume down: 17 | mute: 18
+#   nothing: 0 | switch apps: 1 (left/right) | task view: 2 (up) | show desktop: 3 (down) | switch desktops: 4
+#   hide everything other than the app in focus: 5 | create desktop: 6 | remove desktop: 7
+#   forward navigation: 8 | backward navigation: 9 | snap window to the left: 10 | snap window to the right: 12
+#   maximize a window: 11 | minimize a window: 13 | next track: 14 | previous track: 15
+#   volume up: 16 | volume down: 17 | mute: 18
 $TouchpadThreeFingerSwipe = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12380,11 +12353,11 @@ $TouchpadThreeFingerSwipe = '[
 # taps
 #-------------------
 # ThreeFingerTapEnabled\
-# nothing: 0 | open search: 1 (default) | notification center: 2
-# play/pause: 3 | middle mouse button: 4 | custom: 65535 (hex: ffff)
+#   nothing: 0 | open search: 1 (default) | notification center: 2
+#   play/pause: 3 | middle mouse button: 4 | custom: 65535 (hex: ffff)
 #
 # advanced gestures\ if 'ThreeFingerTapEnabled' is NOT set to custom, 'CustomThreeFingerTap' is ignored.
-# mouse back button: 5 | mouse forward button: 6
+#   mouse back button: 5 | mouse forward button: 6
 $TouchpadThreeFingerTap = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12410,15 +12383,15 @@ $TouchpadThreeFingerTap = '[
 # swipes
 #-------------------
 # FourFingerSlideEnabled\
-# nothing: 0 | switch apps and show desktop: 1 | switch desktops and show desktop: 2 (default)
-# change audio and volume: 3 | custom: 65535 (hex: ffff)
+#   nothing: 0 | switch apps and show desktop: 1 | switch desktops and show desktop: 2 (default)
+#   change audio and volume: 3 | custom: 65535 (hex: ffff)
 #
 # advanced gestures\ if 'FourFingerSlideEnabled' is NOT set to custom, 'Up/Down/Left/Right' are ignored.
-# nothing: 0 | switch apps: 1 | task view: 2 (up) | show desktop: 3 (down) | switch desktops: 4 (left/right)
-# hide everything other than the app in focus: 5 | create desktop: 6 | remove desktop: 7
-# forward navigation: 8 | backward navigation: 9 | snap window to the left: 10 | snap window to the right: 12
-# maximize a window: 11 | minimize a window: 13 | next track: 14 | previous track: 15
-# volume up: 16 | volume down: 17 | mute: 18
+#   nothing: 0 | switch apps: 1 | task view: 2 (up) | show desktop: 3 (down) | switch desktops: 4 (left/right)
+#   hide everything other than the app in focus: 5 | create desktop: 6 | remove desktop: 7
+#   forward navigation: 8 | backward navigation: 9 | snap window to the left: 10 | snap window to the right: 12
+#   maximize a window: 11 | minimize a window: 13 | next track: 14 | previous track: 15
+#   volume up: 16 | volume down: 17 | mute: 18
 $TouchpadFourFingerSwipe = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12456,11 +12429,11 @@ $TouchpadFourFingerSwipe = '[
 # taps
 #-------------------
 # FourFingerTapEnabled\
-# nothing: 0 | open search: 1 | notification center: 2 (default)
-# play/pause: 3 | middle mouse button: 4 | custom: 65535 (hex: ffff)
+#   nothing: 0 | open search: 1 | notification center: 2 (default)
+#   play/pause: 3 | middle mouse button: 4 | custom: 65535 (hex: ffff)
 #
 # advanced gestures\ if 'FourFingerTapEnabled' is NOT set to custom, 'CustomThreeFingerTap' is ignored.
-# mouse back button: 5 | mouse forward button: 6
+#   mouse back button: 5 | mouse forward button: 6
 $TouchpadFourFingerTap = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -12898,7 +12871,7 @@ function Set-DnsProvider
         Set-DnsProvider -Quad9 {Default | Unfiltered} [-FallbackToPlaintext] [<CommonParameters>]
 
     .EXAMPLE
-        PS> Set-DnsProvider -Cloudflare 'Family'
+        PS> Set-DnsProvider -Cloudflare 'Default'
     #>
 
     [CmdletBinding()]
@@ -13015,7 +12988,7 @@ function Set-DnsProvider
                 }
                 # To use automatic template, the DoH template must be registered in the system.
                 # See Get-DnsClientDohServerAddress and Add-DnsClientDohServerAddress.
-                # template\ Automatic: 1 (with fallback: 5) | Manual: 2 (with fallback: 6)
+                # template\ automatic: 1 (with fallback: 5) | manual: 2 (with fallback: 6)
                 $DohFlags = 2
                 if ($FallbackToPlaintext)
                 {
@@ -13062,12 +13035,12 @@ $BackgroundPictureWallpaper = '[
     "Entries" : [
       {
         "Name"  : "WallPaper",
-        "Value" : "$env:SystemDrive\\Windows\\Web\\Wallpaper\\ThemeC\\img30.jpg",
+        "Value" : "$env:SystemRoot\\Web\\Wallpaper\\ThemeC\\img30.jpg",
         "Type"  : "String"
       }
     ]
   }
-]'.Replace('$env:SystemDrive', $env:SystemDrive) | ConvertFrom-Json
+]'.Replace('$env:SystemRoot', ($env:SystemRoot).Replace('\', '\\')) | ConvertFrom-Json
 
 # choose a fit for your desktop image
 #-------------------
@@ -13201,7 +13174,7 @@ $ColorsAccentColorOnTitleAndBorders = '[
 #===================
 # desktop icons
 #-------------------
-# on: 0 or delete | off: 1
+# on: 0 | off: 1
 # entries order: Computer, User's Files, Network, Recycle Bin, Control Panel
 $ThemesDesktopIcons = '[
   {
@@ -13310,10 +13283,10 @@ $DynamicLightingControlledByForegroundApp = '[
 
 # personalize your lock screen
 #-------------------
-# Set the lock screen to 'Picture'.
 # The selection of the picture is not handled.
 # Default images location: C:\Windows\Web\Screen
 
+# Set the lock screen to 'Picture'.
 # default: Windows spotlight
 $UserSid = Get-LoggedUserSID
 $LockScreenSetToPicture = '[
@@ -13488,7 +13461,7 @@ $StartRecentlyAddedApps = '[
 
 # show most used apps
 #-------------------
-# Need: privacy > general > let Windows improve Start and search results by tracking app launches
+# Requires 'settings > privacy > general > let Windows improve Start and search results by tracking app launches'
 
 # gpo\ computer config > administrative tpl > start menu and taskbar
 #   show or hide "most used" list from start menu
@@ -13590,7 +13563,7 @@ $StartAccountRelatedNotifications = '[
 # folders (choose which folders appear on Start next to the Power button)
 #-------------------
 # Windows 11 only (Win10 use different values & logic to build the binary data).
-# only Power button: empty value (default)
+
 $StartButtonSettings       = '86,08,73,52,aa,51,43,42,9f,7b,27,76,58,46,59,d4'
 $StartButtonFileExplorer   = 'bc,24,8a,14,0c,d6,89,42,a0,80,6e,d9,bb,a2,48,82'
 $StartButtonDocuments      = 'ce,d5,34,2d,5a,fa,43,45,82,f2,22,e6,ea,f7,77,3c'
@@ -13615,6 +13588,7 @@ $StartFoldersChoice = @(
 $StartFolders = $StartFoldersChoice | Join-String -Separator ','
 $StartFoldersBytes = $StartFolders.Split(',') | ForEach-Object -Process { [byte]"0x$_" }
 
+# only Power button: empty value (default) (i.e. comment everythig in $StartFoldersChoice)
 $StartFoldersNextPowerButton = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -13850,7 +13824,7 @@ $TaskbarTrayIconsVirtualTouchpad = '[
 #===================
 # hidden icon menu
 #-------------------
-# If turned off, don't forget to manually turn on icons you want to be visible.
+# If disabled, don't forget to manually turn on icons you want to be visible.
 
 # on: 1 (default) | off: 0
 $TaskbarTrayIconsHiddenIconMenu = '[
@@ -13977,11 +13951,9 @@ $TaskbarOnAllDisplays = '[
 
 # when using multiple displays, show my taskbar apps on
 #-------------------
-# Need "MMTaskbarEnabled" enabled.
+# Requires "MMTaskbarEnabled" ($TaskbarOnAllDisplays).
 
-# all taskbars: 0 (default)
-# main taskbar and taskbar where window is open: 1
-# taskbar where window is open: 2
+# all taskbars: 0 (default) | main taskbar and taskbar where window is open: 1 | taskbar where window is open: 2
 $TaskbarMultipleDisplaysTaskbarAppsVisibility = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -14414,7 +14386,7 @@ $OpenLinksInAppGPO = '[
 
 # account setting
 #-------------------
-# Disable and grayed out: settings > bluetooth & devices > mobile devices (e.g. Phone Link)
+# Disable and gray out: settings > bluetooth & devices > mobile devices (e.g. Phone Link)
 
 # gpo\ computer config > windows settings > security settings > local policies > security options
 #   accounts: block Microsoft accounts
@@ -14443,7 +14415,7 @@ $YourInfoAccountSettingGPO = '[
 
 # biometrics
 #-------------------
-# If disabled, you'll see this message in the setting: 'something went wrong. try again later.'
+# If disabled, you'll see this message in the setting page: 'something went wrong. try again later.'
 
 # gpo\ computer config > administrative tpl > windows components > biometrics
 #   allow the use of biometrics
@@ -14481,7 +14453,7 @@ $SignInExternalCameraOrFingerprint = '[
 
 # for improved security, only allow Windows Hello sign-in for Microsoft accounts on this device
 #-------------------
-# Require a Microsoft account to have this option visible.
+# Requires a Microsoft account to have this option visible.
 
 # on: 0 | off: 2 (default)
 $SignInOnlyAllowWindowsHelloOnThisDevice = '[
@@ -14535,7 +14507,7 @@ function Set-RequireSignInOnWakeUpModernStandby
 
     process
     {
-        # Never: 4294967295 (UINT_MAX) (hex: ffffffff) | Every Time: 0 (default)
+        # never: 4294967295 (UINT_MAX) (hex: ffffffff) | every time: 0 (default)
         # 1 minute: 60 | 3 minutes: 180 | 5 minutes: 300 | 15 minutes: 900
         $Value = $State -eq 'Enabled' ? '0' : '4294967295'
         $SignInRequiredOnWakeUpModernStandby = '[
@@ -14582,7 +14554,7 @@ function Set-RequireSignInOnWakeUpNotModernStandby
         # gpo\ computer config > administrative tpl > windows components > system > power management > sleep settings
         #   require a password when a computer wakes (plugged in)
         #   require a password when a computer wakes (on battery)
-        # gpo\ not configured: delete (default) | on: 1 | off: 0
+        # not configured: delete (default) | on: 1 | off: 0
         $SettingIndex = $State -eq 'Enabled' ? 1 : 0
         $SignInRequiredOnWakeUpNotModernStandby = '[
           {
@@ -14606,7 +14578,7 @@ function Set-RequireSignInOnWakeUpNotModernStandby
 
         Set-RegistryEntry -InputObject $SignInRequiredOnWakeUpNotModernStandby -Verbose:$false
 
-        # user\ Never: 0 | When PC wakes up from sleep: 1 (default)
+        # user\ never: 0 | when PC wakes up from sleep: 1 (default)
         powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
         powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
     }
@@ -14931,6 +14903,7 @@ function Set-NtpServer
         Write-Verbose -Message "Setting 'NTP server' to '$Value' ..."
 
         Start-Service -Name 'W32Time'
+        Start-Sleep -Seconds 1
         w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$Value" /update | Out-Null
     }
 }
@@ -14952,7 +14925,7 @@ function Set-NtpServerToPoolNtpOrg
 #===================
 # first day of week
 #-------------------
-# Monday: 0
+# Monday: 0 | ... | Sunday: 6
 $LanguageAndRegionFormatFirstDayOfWeek = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -15310,8 +15283,9 @@ $VisualEffectsAlwaysShowScrollbars = '[
 # See $ColorsTransparency (settings > personnalization > colors)
 
 # animation effects
-# See also $VisualEffectsMode (tweaks > system properties > advanced).
 #-------------------
+# See also $VisualEffectsMode (tweaks > system properties > advanced).
+
 # default: on
 # off: disable the following effects:
 # (The GUI toggle will be 'on' if at least one of these effects is enabled)
@@ -15684,7 +15658,7 @@ function Disable-DefenderThreatProtectionCloudDelivered
 
 # gpo\ computer config > administrative tpl > windows components > microsoft defender antivirus > MAPS
 #   join Microsoft MAPS
-# not configured: delete (default) | Basic: 1 | Advanced: 2 | off: 0
+# not configured: delete (default) | basic: 1 | advanced: 2 | off: 0
 $DefenderThreatProtectionCloudDeliveredGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -15716,7 +15690,7 @@ function Disable-DefenderThreatProtectionSampleSubmission
 
 # gpo\ computer config > administrative tpl > windows components > microsoft defender antivirus > MAPS
 #   send file samples when further analysis is required
-# not configured: delete (default) | Always Prompt: 0 | Send Safe Samples: 1 | Never Send: 2 | Send All Samples: 3
+# not configured: delete (default) | always prompt: 0 | send safe samples: 1 | never send: 2 | send all samples: 3
 $DefenderThreatProtectionSampleSubmissionGPO = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -16390,10 +16364,8 @@ $PrivacyInkingAndTypingPersonalization = '[
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   allow diagnostic data
 # gpo\ not configured: delete (default) | value: see user\ below
-# user\
-# Send optional diagnostic data: 3 (default)
-# Only Send Required Diagnostic Data: 1
-# off: 0 (only supported on Enterprise, Education, and Server editions)
+# user\ send optional diagnostic data: 3 (default) | only send required diagnostic data: 1
+#   off: 0 (only supported on Enterprise, Education, and Server editions)
 $PrivacyDiagnosticData = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -16555,8 +16527,8 @@ $PrivacyDiagnosticDeleteDataGPO = '[
 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
 #   do not show feedback notifications
 # gpo\ not configured: delete (default) | off: 1 (also remove setting from the GUI)
-# user\ Automatically: delete (default) | Always: 100000000 delete
-#   Once a day: 1 864000000000 | Once a week: 1 6048000000000 | Never: 0 0
+# user\ automatically: delete (default) | always: 100000000 delete
+#   once a day: 1 864000000000 | once a week: 1 6048000000000 | never: 0
 $PrivacyDiagnosticFeedbackFrequency = '[
   {
     "Hive"    : "HKEY_LOCAL_MACHINE",
@@ -16655,8 +16627,9 @@ function Set-PrivacyActivityHistory
         $CDPUserSettingsFile = "$((Get-LoggedUserEnvVariable).LOCALAPPDATA)\ConnectedDevicesPlatform\CDPGlobalSettings.cdp"
         $CDPUserSettings = Get-Content -Raw -Path $CDPUserSettingsFile | ConvertFrom-Json -AsHashtable
 
-        $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $State -eq 'Enabled' ? 0 : 1
-        $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $State -eq 'Enabled' ? 0 : 1
+        $Value = $State -eq 'Enabled' ? 0 : 1
+        $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $Value
+        $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $Value
 
         $CDPUserSettings | ConvertTo-Json -Depth 42 | Out-File -FilePath $CDPUserSettingsFile
     }
@@ -16681,7 +16654,7 @@ function Disable-PrivacyActivityHistory
 
 # safesearch
 #-------------------
-# Moderate: 1 (default) | Strict: 2 | off: 0
+# moderate: 1 (default) | strict: 2 | off: 0
 $PrivacySearchPermissionsSafesearch = '[
   {
     "Hive"    : "HKEY_CURRENT_USER",
@@ -17663,7 +17636,7 @@ $PrivacyUserMovement = @(
 <#
 Applies only to the apps installed from Microsoft Store (e.g. Calculator, Photos, Notepad, ...).
 If disabled, it will also disable Windows Spotlight.
-May also disable/break other apps features ? e.g. iCloud Photos synchronization, MsTeams/Discord/etc notifications
+May also disable/break other apps features ? e.g. iCloud Photos synchronization, MsTeams/Discord/etc notifications.
 #>
 
 $BackgroundAppsGPO = @{
@@ -17822,7 +17795,7 @@ $WinUpdatePauseUpdatesGPO = '[
 # gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
 #   configure automatic update
 # gpo\ not configured: delete (default) | on: 1 0
-# user\ on: 1 DefaultService 1 (default) | off: 0 delete 0
+# user\ on: 1 notDelete 1 (default) | off: 0 delete 0
 $WinUpdateOtherMicrosoftProducts = '[
   {
     "SkipKey" : true,
@@ -17964,9 +17937,9 @@ $WinUpdateNotifyRestart = '[
 
 # gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
 #   turn off auto-restart for updates during active hours
-# gpo\ not configured: delete (default) | Manually: 1 + define ActiveHours
-#      if enabled, it will remove the setting from the GUI page and disable 'get me up to date'
-# user\ Automatically: 1 (default) | Manually: 0 + define ActiveHours
+# gpo\ not configured: delete (default) | manually: 1 + define ActiveHours
+#   if defined, it will remove the setting from the GUI page and disable 'get me up to date'
+# user\ automatically: 1 (default) | manually: 0 + define ActiveHours
 $WinUpdateActiveHours = '[
   {
     "SkipKey" : true,
@@ -18017,7 +17990,7 @@ $WinUpdateActiveHours = '[
 #-------------------
 # gpo\ computer config > administrative tpl > windows components > delivery optimization
 #   download mode
-# gpo\ not configured: delete (default) | value: see user\ below (see also gpo for more options)
+# gpo\ not configured: delete (default) | value: see user\ below (see also GPO for more options)
 # user\ off: 0 | devices on my local network: 1 (default) | devices on the internet and my local network: 3
 $WinUpdateDeliveryOptimization = '[
   {
@@ -18315,7 +18288,7 @@ Not listed by 'Get-Service' but can be queried if the name is provided. e.g. Get
 #===================
 ### network protocol
 #===================
-# See also 'tweaks > network' if you want to disable these network protocols without disabling the drivers.
+# See also 'tweaks > network' to disable these network protocols without disabling the drivers.
 
 $BridgeDriver = '[
   {
@@ -21595,10 +21568,10 @@ function Set-Setting
 #=======================================
 #region action center
 
-function Set-ActionCenterSettings
+function Set-ActionCenterLayout
 {
-    Write-Section -Name 'Setting Action Center Settings'
-    Set-ActionCenterLayout
+    Write-Section -Name 'Setting Action Center Layout'
+    $ActionCenterLayout | Set-RegistryEntry
 }
 
 #endregion action center
@@ -21644,6 +21617,7 @@ $FileExplorerSettings = @{
     General = @(
         $FileExplorerOpenTo
         $FileExplorerBrowseFolders
+        $FileExplorerBrowseFoldersOpeninNewTab
         $FileExplorerClickItems
         $FileExplorerRecentlyUsedFiles
         $FileExplorerFrequentlyUsedFolders
@@ -22029,7 +22003,7 @@ function Remove-DefaultAppxPackages
     Remove-OneDriveAutoInstallationForNewUser
     Remove-MicrosoftEdge
     Remove-StartMenuPromotedApps
-    #Set-NewUserDefaultStartMenuLayout
+    #$DefaultStartMenuLayoutNewUser | Set-RegistryEntry
     $ApplicationsToRemove | Remove-Package
 }
 
@@ -22519,7 +22493,7 @@ function Set-NetworkAndInternetSettings
 {
     Write-Section -Name 'Setting Network & Internet'
     #Set-ConnectedNetworkToPrivate
-    Set-DnsProvider -Cloudflare 'Security'
+    Set-DnsProvider -Cloudflare 'Default'
     Set-Setting -Setting $NetworkAndInternetSettings
 }
 
@@ -23076,7 +23050,7 @@ function Set-ScheduledTasksEntries
 
 function Set-Tweaks
 {
-    Set-ActionCenterSettings
+    Set-ActionCenterLayout
     Set-DriversSettings
     #Set-EventLogLocation
     Set-FileExplorerSettings
