@@ -6202,6 +6202,35 @@ function Set-UWPAppSetting
     }
 }
 
+function Set-AppSetting
+{
+    <#
+    .SYNTAX
+        Set-AppSetting [-FilePath] <string> [-Setting] <string> [<CommonParameters>]
+
+    .EXAMPLE
+        PS> Set-AppSetting -FilePath $FilePath -Setting $Setting
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $FilePath,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Setting
+    )
+
+    process
+    {
+        New-ParentPath -Path $FilePath
+        $Setting | Out-File -FilePath $FilePath
+    }
+}
+
 #endregion helper function
 
 
@@ -7493,13 +7522,14 @@ function Set-GitSettings
 {
     Write-Verbose -Message 'Setting Git Settings ...'
 
-    $UserProfilePath = (Get-LoggedUserEnvVariable).USERPROFILE
+    $GitSettingsFilePath = "$((Get-LoggedUserEnvVariable).USERPROFILE)\.gitconfig"
+    $GitSettings = '
+        [user]
+            name = John Doe
+            email = johndoe@example.com
+    ' -replace '(?m)^ {8}'
 
-    '[user]
-        name = John Doe
-        email = johndoe@example.com
-    ' -replace '(?m)^ {4}' |
-        Out-File -FilePath "$UserProfilePath\.gitconfig"
+    Set-AppSetting -FilePath $GitSettingsFilePath -Setting $GitSettings
 }
 
 #endregion git
@@ -7514,22 +7544,19 @@ function Set-KeePassXCSettings
 {
     Write-Verbose -Message 'Setting KeePassXC Settings ...'
 
-    $KeePassXCUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\KeePassXC"
-    if (-not (Test-Path -Path $KeePassXCUserDataPath))
-    {
-        New-Item -ItemType 'Directory' -Path $KeePassXCUserDataPath -Force | Out-Null
-    }
+    $KeePassXCSettingsFilePath = "$((Get-LoggedUserEnvVariable).APPDATA)\KeePassXC\keepassxc.ini"
+    $KeePassXCSettings = '
+        [Security]
+        IconDownloadFallback=true
 
-    '[Security]
-    IconDownloadFallback=true
+        [GUI]
+        CheckForUpdates=true
 
-    [GUI]
-    CheckForUpdates=true
+        [General]
+        UpdateCheckMessageShown=true
+    ' -replace '(?m)^ *'
 
-    [General]
-    UpdateCheckMessageShown=true
-    ' -replace '(?m)^ *' |
-        Out-File -FilePath "$KeePassXCUserDataPath\keepassxc.ini"
+    Set-AppSetting -FilePath $KeePassXCSettingsFilePath -Setting $KeePassXCSettings
 
     $KeePassXCInfo = Get-ApplicationInfo -Name 'KeePassXC'
     if ($KeePassXCInfo)
@@ -8012,25 +8039,22 @@ function Set-qBittorrentSettings
 {
     Write-Verbose -Message 'Setting qBittorrent Settings ...'
 
-    $qBittorrentUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\qBittorrent"
-    if (-not (Test-Path -Path $qBittorrentUserDataPath))
-    {
-        New-Item -ItemType 'Directory' -Path $qBittorrentUserDataPath -Force | Out-Null
-    }
+    $qBittorrentSettingsFilePath = "$((Get-LoggedUserEnvVariable).APPDATA)\qBittorrent\qBittorrent.ini"
+    $qBittorrentSettings = '
+        [LegalNotice]
+        Accepted=true
 
-    '[LegalNotice]
-    Accepted=true
+        [Preferences]
+        General\PreventFromSuspendWhenDownloading=true
 
-    [Preferences]
-    General\PreventFromSuspendWhenDownloading=true
+        [BitTorrent]
+        Session\AddExtensionToIncompleteFiles=true
+        Session\AnonymousModeEnabled=true
+        Session\Encryption=1
+        Session\Port=0
+    ' -replace '(?m)^ *'
 
-    [BitTorrent]
-    Session\AddExtensionToIncompleteFiles=true
-    Session\AnonymousModeEnabled=true
-    Session\Encryption=1
-    Session\Port=0
-    ' -replace '(?m)^ *' |
-        Out-File -FilePath "$qBittorrentUserDataPath\qBittorrent.ini"
+    Set-AppSetting -FilePath $qBittorrentSettingsFilePath -Setting $qBittorrentSettings
 }
 
 #endregion qbittorrent
@@ -8050,53 +8074,52 @@ function Set-VisualStudioCodeSettings
 {
     Write-Verbose -Message 'Setting Visual Studio Code Settings ...'
 
-    $VSCodeUserDataPath = "$(Get-VSCodeUserDataPath)\User"
-    if (-not (Test-Path -Path $VSCodeUserDataPath))
-    {
-        New-Item -ItemType 'Directory' -Path $VSCodeUserDataPath -Force | Out-Null
-    }
+    $VSCodeSettingsFilePath = "$(Get-VSCodeUserDataPath)\User\settings.json"
+    $VSCodeSettings = '
+        {
+            // text editor
+            "editor.detectIndentation": false,
+            "editor.rulers": [
+                79,
+                114
+            ],
+            "diffEditor.ignoreTrimWhitespace": false,
+            "diffEditor.hideUnchangedRegions.enabled": true,
 
-    '{
-        // text editor
-        "editor.detectIndentation": false,
-        "editor.rulers": [
-            79,
-            114
-        ],
+            // workbench
+            "workbench.colorCustomizations": {
+                "editorRuler.foreground": "#464646"
+            },
+            "workbench.enableExperiments": false,
+            "workbench.settings.enableNaturalLanguageSearch": false,
+            "workbench.welcomePage.walkthroughs.openOnInstall": false,
 
-        // workbench
-        "workbench.colorCustomizations": {
-            "editorRuler.foreground": "#464646"
-        },
-        "workbench.enableExperiments": false,
-        "workbench.settings.enableNaturalLanguageSearch": false,
-        "workbench.welcomePage.walkthroughs.openOnInstall": false,
+            // features
+            "extensions.ignoreRecommendations": true,
+            "terminal.integrated.useWslProfiles": false,
+            "chat.commandCenter.enabled": false,
 
-        // features
-        "extensions.ignoreRecommendations": true,
-        "terminal.integrated.useWslProfiles": false,
+            // applications
+            "telemetry.telemetryLevel": "off",
+            "update.mode": "start", // none, manual, start
+            "update.showReleaseNotes": false,
 
-        // applications
-        "telemetry.telemetryLevel": "off",
-        "update.mode": "start", // none, manual, start
-        "update.showReleaseNotes": false,
+            // extensions
+            "git.allowForcePush": true,
+            "json.schemaDownload.enable": false,
+            "npm.fetchOnlinePackageInfo": false,
+            "powershell.integratedConsole.showOnStartup": false,
+            "powershell.developer.editorServicesLogLevel": "None",
+            "powershell.promptToUpdatePowerShell": false,
+            "typescript.disableAutomaticTypeAcquisition": true,
+            "typescript.surveys.enabled": false,
 
-        // extensions
-        "git.allowForcePush": true,
-        "json.schemaDownload.enable": false,
-        "npm.fetchOnlinePackageInfo": false,
-        "powershell.integratedConsole.showOnStartup": false,
-        "powershell.developer.editorServicesLogLevel": "None",
-        "powershell.promptToUpdatePowerShell": false,
-        "typescript.disableAutomaticTypeAcquisition": true,
-        "typescript.surveys.enabled": false,
-
-        // others (not preconfigured)
-        "": ""
-    }' -replace '(?m)^ {4}' |
-        Out-File -FilePath "$VSCodeUserDataPath\settings.json"
-
+            // others (not preconfigured)
+            "": ""
+        }' -replace '(?m)^ {8}'
     # The last empty setting is needed because new settings made through the GUI are added after the last setting.
+
+    Set-AppSetting -FilePath $VSCodeSettingsFilePath -Setting $VSCodeSettings
 }
 
 #endregion visual studio code
@@ -8111,22 +8134,19 @@ function Set-VLCSettings
 {
     Write-Verbose -Message 'Setting VLC media player Settings ...'
 
-    $VLCUserDataPath = "$((Get-LoggedUserEnvVariable).APPDATA)\vlc"
-    if (-not (Test-Path -Path $VLCUserDataPath))
-    {
-        New-Item -ItemType 'Directory' -Path $VLCUserDataPath -Force | Out-Null
-    }
+    $VLCSettingsFilePath = "$((Get-LoggedUserEnvVariable).APPDATA)\vlc\vlcrc"
+    $VLCSettings = '
+        [qt]
+        qt-privacy-ask=0
+        qt-recentplay=0
+        qt-system-tray=0
+        qt-video-autoresize=0
 
-    '[qt]
-    qt-privacy-ask=0
-    qt-recentplay=0
-    qt-system-tray=0
-    qt-video-autoresize=0
+        [core]
+        metadata-network-access=0
+    ' -replace '(?m)^ *'
 
-    [core]
-    metadata-network-access=0
-    ' -replace '(?m)^ *' |
-        Out-File -FilePath "$VLCUserDataPath\vlcrc"
+    Set-AppSetting -FilePath $VLCSettingsFilePath -Setting $VLCSettings
 }
 
 #endregion vlc media player
@@ -15500,7 +15520,7 @@ function Disable-Hotkey
         $UserSID = Get-LoggedUserSID
         $DisabledHotkeysRegPath = "Registry::HKEY_USERS\$UserSID\$($DisabledHotkeys.Path)"
         $DisabledHotkeysValue = (Get-ItemProperty $DisabledHotkeysRegPath).$($DisabledHotkeys.Entries[0].Name)
-        $DisabledHotkeysValue = $OverrideValue -or $null -eq $DisabledHotkeysValue ? '' : $DisabledHotkeysValue.ToUpper()
+        $DisabledHotkeysValue = $OverrideValue -or ($null -eq $DisabledHotkeysValue) ? '' : $DisabledHotkeysValue.ToUpper()
 
         foreach ($Key in $Value.ToUpper().ToCharArray())
         {
@@ -17795,7 +17815,7 @@ $WinUpdatePauseUpdatesGPO = '[
 # gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
 #   configure automatic update
 # gpo\ not configured: delete (default) | on: 1 0
-# user\ on: 1 notDelete 1 (default) | off: 0 delete 0
+# user\ on: 1 not-delete 1 (default) | off: 0 delete 0
 $WinUpdateOtherMicrosoftProducts = '[
   {
     "SkipKey" : true,
