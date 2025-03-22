@@ -1,0 +1,41 @@
+{
+    // text editor
+    "editor.detectIndentation": false,
+    "editor.rulers": [
+        79,
+        114
+    ],
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+
+    // workbench
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#464646"
+    },
+    "workbench.enableExperiments": false,
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    "workbench.welcomePage.walkthroughs.openOnInstall": false,
+
+    // features
+    "extensions.ignoreRecommendations": true,
+    "terminal.integrated.useWslProfiles": false,
+    "chat.commandCenter.enabled": false,
+
+    // applications
+    "telemetry.telemetryLevel": "off",
+    "update.mode": "start",
+    "update.showReleaseNotes": false,
+
+    // extensions
+    "git.allowForcePush": true,
+    "json.schemaDownload.enable": false,
+    "npm.fetchOnlinePackageInfo": false,
+    "powershell.integratedConsole.showOnStartup": false,
+    "powershell.developer.editorServicesLogLevel": "None",
+    "powershell.promptToUpdatePowerShell": false,
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "typescript.surveys.enabled": false,
+
+    // others (not preconfigured)
+    "": ""
+}
