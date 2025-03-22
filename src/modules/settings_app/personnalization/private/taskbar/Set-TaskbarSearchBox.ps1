@@ -54,7 +54,8 @@ function Set-TaskbarSearchBox
             {
                 # gpo\ computer config > administrative tpl > windows components > search
                 #   configures search on the taskbar
-                # not configured: delete (default) | value: same as 'State'
+                # not configured: delete (default) | hide: 0 | search icon only: 1
+                # search box: 2 (default) | search icon and label: 3
                 $TaskbarSearchBoxGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\Windows Search'

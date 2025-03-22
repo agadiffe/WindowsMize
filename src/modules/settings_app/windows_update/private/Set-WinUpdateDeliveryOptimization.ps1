@@ -54,7 +54,8 @@ function Set-WinUpdateDeliveryOptimization
             {
                 # gpo\ computer config > administrative tpl > windows components > delivery optimization
                 #   download mode
-                # not configured: delete (default) | value: same as 'State'
+                # not configured: delete (default) |  off: 0
+                # devices on my local network: 1 | devices on the internet and my local network: 3
                 $WinUpdateDeliveryOptimizationGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization'

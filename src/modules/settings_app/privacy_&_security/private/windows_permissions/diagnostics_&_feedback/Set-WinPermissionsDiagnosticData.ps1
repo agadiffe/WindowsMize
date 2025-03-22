@@ -34,8 +34,8 @@ function Set-WinPermissionsDiagnosticData
         {
             'State'
             {
-                # Send optional diagnostic data
-                # on: 3 3 3 (default) | off: 1 1 1
+                # send optional diagnostic data: 3 3 3 (default) | only send required diagnostic data: 1 1 1
+                # off: 0 0 0 (only supported on Enterprise, Education, and Server editions) (No GUI toggle)
                 $WinPermissionsDiagnosticData = @(
                     @{
                         Hive    = 'HKEY_CURRENT_USER'
@@ -53,13 +53,11 @@ function Set-WinPermissionsDiagnosticData
                         Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection'
                         Entries = @(
                             @{
-                                RemoveEntry = $IsNotConfigured
                                 Name  = 'AllowTelemetry'
                                 Value = [int]$State
                                 Type  = 'DWord'
                             }
                             @{
-                                RemoveEntry = $IsNotConfigured
                                 Name  = 'MaxTelemetryAllowed'
                                 Value = [int]$State
                                 Type  = 'DWord'
@@ -73,8 +71,6 @@ function Set-WinPermissionsDiagnosticData
             }
             'GPO'
             {
-                $IsNotConfigured = $GPO -eq 'NotConfigured'
-        
                 # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
                 #   allow diagnostic data
                 # not configured: delete (default)
@@ -85,7 +81,7 @@ function Set-WinPermissionsDiagnosticData
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\DataCollection'
                     Entries = @(
                         @{
-                            RemoveEntry = $IsNotConfigured
+                            RemoveEntry = $GPO -eq 'NotConfigured'
                             Name  = 'AllowTelemetry'
                             Value = [int]$GPO
                             Type  = 'DWord'

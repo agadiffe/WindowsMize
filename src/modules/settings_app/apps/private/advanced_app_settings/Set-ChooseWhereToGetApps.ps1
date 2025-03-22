@@ -68,7 +68,7 @@ function Set-ChooseWhereToGetApps
 
                 # gpo\ computer config > administrative tpl > windows components > windows defender smartScreen > explorer
                 #   configure app install control
-                # not configured: delete (default) | on: 1 + string: same as 'Value'
+                # not configured: delete (default) | on: 1 + string: Anywhere | Recommendations | PreferStore | StoreOnly
                 $WhereToGetAppsGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows Defender\SmartScreen'
