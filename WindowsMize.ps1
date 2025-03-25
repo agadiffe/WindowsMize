@@ -1144,7 +1144,7 @@ Set-MicrosoftStorePushToInstall -GPO 'Disabled'
 #---------------------------------------
 Remove-OneDrive
 
-# OneDrive : Auto install for new user 
+# OneDrive : Auto install for new user
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-OneDriveNewUserAutoInstall -State 'Disabled'
@@ -2516,6 +2516,9 @@ Set-MouseSetting -PointerSpeed 10
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-MouseSetting -EnhancedPointerPrecision 'Enabled'
+
+#               Scrolling
+#=======================================
 
 # Roll the mouse wheel to scroll
 # Lines to scroll at a time

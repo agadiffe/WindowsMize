@@ -34,7 +34,7 @@ function Set-TaskbarSetting
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarSetting 
+        PS> Set-TaskbarSetting -SearchBox 'Hide' -TaskView 'Disabled' -Alignment 'Center'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]

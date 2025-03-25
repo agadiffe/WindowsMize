@@ -19,5 +19,10 @@ function Get-LoggedOnUserShellFolder
         $ShellFolders.$ValueName = $ShellFolders.$ValueName.Replace('%USERPROFILE%', $UserProfilePath)
     }
 
+    if (-not $ShellFolders.ContainsKey('Downloads'))
+    {
+        $ShellFolders.Downloads = $ShellFolders.'{374de290-123f-4565-9164-39c4925e467b}'
+    }
+
     $ShellFolders
 }

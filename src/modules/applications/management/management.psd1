@@ -31,6 +31,7 @@
         'Set-OneDriveNewUserAutoInstall'
         'Set-StartMenuBingSearch'
         'Set-Widgets'
+        'Stop-ProcessByName'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

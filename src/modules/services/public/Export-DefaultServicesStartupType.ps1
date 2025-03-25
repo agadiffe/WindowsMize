@@ -23,7 +23,7 @@ function Export-DefaultServicesStartupType
         if (-not (Test-Path -Path $Services.$Key.LogFilePath))
         {
             Write-Verbose -Message "Exporting Default Services StartupType ($Key) ..."
-    
+
             $CurrentLUID = (Get-Service -Name 'WpnUserService_*').Name.Replace('WpnUserService', '')
             ((Invoke-Expression -Command $Services.$Key.GetData) |
                 ForEach-Object -Process {

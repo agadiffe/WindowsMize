@@ -149,7 +149,7 @@ function Set-PagingFileSize
                     {
                         $InitialSize = $MaximumSize = 0
                     }
-        
+
                     $PagingFileSetting.InitialSize = $InitialSize
                     $PagingFileSetting.MaximumSize = $MaximumSize
                     Set-CimInstance -InputObject $PagingFileSetting -Verbose:$false

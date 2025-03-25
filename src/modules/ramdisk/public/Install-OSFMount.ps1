@@ -8,5 +8,5 @@ function Install-OSFMount
     Remove-Item -Path "$((Get-LoggedOnUserShellFolder).Desktop)\OSFMount.lnk" -ErrorAction 'SilentlyContinue'
 
     # OSFMount is launched after installation. Close it.
-    Stop-Process -Name 'OSFMount' -ErrorAction 'SilentlyContinue'
+    Stop-Process -Name 'OSFMount' -Force -ErrorAction 'SilentlyContinue'
 }

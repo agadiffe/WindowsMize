@@ -108,7 +108,7 @@ function Set-ScheduledTaskState
                         $CurrentTask | Enable-ScheduledTask | Out-Null
                     }
                     'Disabled'
-                    { 
+                    {
                         try
                         {
                             $CurrentTask | Disable-ScheduledTask -ErrorAction 'Stop' | Out-Null

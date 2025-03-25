@@ -28,7 +28,7 @@ function Set-HomeSettingPageVisibility
         $RegPath = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
         $CurrentSettings = (Get-ItemProperty -Path $RegPath -ErrorAction 'SilentlyContinue').SettingsPageVisibility
 
-        $PageVisibility = switch -Regex ($CurrentSettings) 
+        $PageVisibility = switch -Regex ($CurrentSettings)
         {
             '^hide:.*home' { $CurrentSettings; break }
             '^showonly:'   { $CurrentSettings -replace 'home;?'; break }

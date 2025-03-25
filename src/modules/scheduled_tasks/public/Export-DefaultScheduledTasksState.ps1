@@ -23,7 +23,7 @@ function Export-DefaultScheduledTasksState
         if (-not (Test-Path -Path $ScheduledTasks.$Key.LogFilePath))
         {
             Write-Verbose -Message "Exporting Default Scheduled Tasks State ($Key) ..."
-    
+
             (Invoke-Expression -Command $ScheduledTasks.$Key.GetData) |
                 Group-Object -Property 'TaskPath' |
                 ForEach-Object -Process {

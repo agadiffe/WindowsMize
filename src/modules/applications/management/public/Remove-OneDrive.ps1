@@ -9,8 +9,7 @@ function Remove-OneDrive
     {
         Write-Verbose -Message 'Removing OneDrive ...'
 
-        Stop-Process -Name '*OneDrive*' -Force -ErrorAction 'SilentlyContinue'
-        Start-Sleep -Seconds 0.5
+        Stop-ProcessByName -Name '*OneDrive*'
         Invoke-Expression -Command "& $($OneDriveInfo.UninstallString)"
     }
     else

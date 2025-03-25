@@ -36,8 +36,8 @@ function Set-RamDisk
         New-ScheduledTaskRamDiskCreation -FilePath $StartupScriptFilePath -TaskName $RamDiskCreationTaskName
 
         $ScriptSetDataParam = @{
-            FilePath        = $LogonScriptFilePath 
-            RamDiskName     = $RamDiskName 
+            FilePath        = $LogonScriptFilePath
+            RamDiskName     = $RamDiskName
             RamDiskTaskName = $RamDiskCreationTaskName
             AppToRamDisk    = $AppToRamDisk
         }

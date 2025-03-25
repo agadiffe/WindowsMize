@@ -53,9 +53,8 @@ function Set-UwpAppSetting
 
         if (Test-Path -Path $AppxSettingsFilePath)
         {
-            # The app could be running in background or open, close it.
-            Stop-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
-            Start-Sleep -Seconds 0.5
+            # The app could be open or running in background, close it.
+            Stop-ProcessByName -Name $ProcessName
 
             Write-Verbose -Message "Setting $Name settings ..."
             $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
