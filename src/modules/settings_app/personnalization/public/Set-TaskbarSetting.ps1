@@ -9,6 +9,7 @@
         [-SearchBoxGPO {Hide | IconOnly | Box | IconAndLabel | NotConfigured}]
         [-TaskView {Disabled | Enabled}]
         [-TaskViewGPO {Disabled | NotConfigured}]
+        [-EmojiAndMore {Never | WhileTyping | Always}]
         [-PenMenu {Disabled | Enabled}]
         [-TouchKeyboard {Never | Always | WhenNoKeyboard}]
         [-VirtualTouchpad {Disabled | Enabled}]
@@ -47,6 +48,7 @@ function Set-TaskbarSetting
         [GpoStateWithoutEnabled] $TaskViewGPO,
 
         # system tray icons
+        [EmojiMode] $EmojiAndMore,
         [state] $PenMenu,
         [TouchKeyboardMode] $TouchKeyboard,
         [state] $VirtualTouchpad,
@@ -85,6 +87,7 @@ function Set-TaskbarSetting
             'TaskView'                        { Set-TaskbarTaskView -State $TaskView }
             'TaskViewGPO'                     { Set-TaskbarTaskView -GPO $TaskViewGPO }
 
+            'EmojiAndMore'                    { Set-TaskbarEmojiAndMore -Value $EmojiAndMore }
             'PenMenu'                         { Set-TaskbarPenMenu -State $PenMenu }
             'TouchKeyboard'                   { Set-TaskbarTouchKeyboard -Value $TouchKeyboard }
             'VirtualTouchpad'                 { Set-TaskbarVirtualTouchpad -State $VirtualTouchpad }

@@ -43,9 +43,9 @@
 #region requirements
 
 <#
-- PowerShell Core.
+- PowerShell 7 (aka PowerShell Core).
   Open a terminal and run:
-    winget install --exact --id 'Microsoft.PowerShell'
+    winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
   Before running the script, sets the PowerShell execution policies:
     Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
 
@@ -518,7 +518,7 @@ Block-NetFirewallInboundRule -Name 'NetBiosTcpIP'
 
 # Server Message Block (SMB) (e.g. File And Printer Sharing)
 #---------------------------------------
-#Block-NetFirewallInboundRule -Name 'SMB'
+Block-NetFirewallInboundRule -Name 'SMB'
 
 # Miscellaneous programs/services
 # lsass.exe, wininit.exe, Schedule, EventLog, services.exe
@@ -3014,6 +3014,11 @@ Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
 
 #           System tray icons
 #=======================================
+
+# Emoji and more
+#---------------------------------------
+# Never | WhileTyping (default) | Always
+Set-TaskbarSetting -EmojiAndMore 'Never'
 
 # Pen menu
 #---------------------------------------

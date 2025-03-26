@@ -69,6 +69,13 @@ enum GpoSearchBoxMode
     NotConfigured
 }
 
+enum EmojiMode
+{
+    Never       = 0
+    WhileTyping = 1
+    Always      = 2
+}
+
 enum TouchKeyboardMode
 {
     Never          = 0
