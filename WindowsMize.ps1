@@ -1661,10 +1661,10 @@ Set-WindowsNotepadSetting -AutoCorrect 'Disabled'
 #                       AI Features
 #==========================================================
 
-# Rewrite
+# Copilot
 #---------------------------------------
 # Disabled | Enabled (default)
-Set-WindowsNotepadSetting -AIRewrite 'Disabled'
+Set-WindowsNotepadSetting -Copilot 'Disabled'
 
 
 #==========================================================
@@ -1685,6 +1685,10 @@ Set-WindowsNotepadSetting -FirstLaunchTip 'Disabled'
 #region windows photos
 
 Write-Section -Name 'Windows Photos' -SubSection
+
+#==========================================================
+#                         Settings
+#==========================================================
 
 # Customize theme
 #---------------------------------------
@@ -1716,15 +1720,29 @@ Set-WindowsPhotosSetting -DeleteConfirmationDialog 'Enabled'
 # ZoomInOut (default) | NextPreviousItems
 Set-WindowsPhotosSetting -MouseWheelBehavior 'ZoomInOut'
 
-# Zoom preference
+# Zoom preference (media smaller than window)
 #---------------------------------------
 # FitWindow | ViewActualSize (default)
-Set-WindowsPhotosSetting -ZoomPreference 'FitWindow'
+Set-WindowsPhotosSetting -SmallMediaZoomPreference 'ViewActualSize'
 
 # Performance (run in the background at startup)
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
+
+#==========================================================
+#                      Miscellaneous
+#==========================================================
+
+# First Run Experience:
+#   First Run Experience Dialog
+#   OneDrive Promo flyout
+#   Designer Editor flyout
+#   ClipChamp flyout
+#   AI Generative Erase tip
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-WindowsPhotosSetting -FirstRunExperience 'Disabled'
 
 #endregion windows photos
 

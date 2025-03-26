@@ -14,7 +14,7 @@
         [-ContinuePreviousSession {Disabled | Enabled}]
         [-SpellCheck {Disabled | Enabled}]
         [-AutoCorrect {Disabled | Enabled}]
-        [-AIRewrite {Disabled | Enabled}]
+        [-Copilot {Disabled | Enabled}]
         [-FirstLaunchTip {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -59,7 +59,7 @@ function Set-WindowsNotepadSetting
         [state] $AutoCorrect,
 
         # AI features
-        [state] $AIRewrite,
+        [state] $Copilot,
 
         # miscellaneous
         [state] $FirstLaunchTip
@@ -189,15 +189,15 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$AutoCorrectReg) | Out-Null
             }
-            'AIRewrite'
+            'Copilot'
             {
                 # on: 1 (default) | off: 0
-                $AIRewriteReg = @{
+                $CopilotReg = @{
                     Name  = 'RewriteEnabled'
-                    Value = $AutoCorrect -eq 'Enabled' ? '1' : '0'
+                    Value = $Copilot -eq 'Enabled' ? '1' : '0'
                     Type  = '5f5e10b'
                 }
-                $NotepadSettings.Add([PSCustomObject]$AIRewriteReg) | Out-Null
+                $NotepadSettings.Add([PSCustomObject]$CopilotReg) | Out-Null
             }
             'FirstLaunchTip'
             {

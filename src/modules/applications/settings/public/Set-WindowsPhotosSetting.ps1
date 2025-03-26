@@ -11,8 +11,9 @@
         [-ShowICloudPhotos {Disabled | Enabled}]
         [-DeleteConfirmationDialog {Disabled | Enabled}]
         [-MouseWheelBehavior {ZoomInOut | NextPreviousItems}]
-        [-ZoomPreference {FitWindow | ViewActualSize}]
+        [-SmallMediaZoomPreference {FitWindow | ViewActualSize}]
         [-Theme {System | Light | Dark}]
+        [-FirstRunExperience {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -20,12 +21,13 @@ function Set-WindowsPhotosSetting
 {
     <#
     .EXAMPLE
-        PS> Set-WindowsPhotosSetting -Theme 'Dark' -ZoomPreference 'FitWindow' -RunAtStartup 'Disabled'
+        PS> Set-WindowsPhotosSetting -Theme 'Dark' -FirstRunExperience 'Disabled' -RunAtStartup 'Disabled'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        # settings
         [state] $RunAtStartup,
         [state] $ShowGalleryTilesAttributes,
         [state] $LocationBasedFeatures,
@@ -36,10 +38,13 @@ function Set-WindowsPhotosSetting
         [string] $MouseWheelBehavior,
 
         [ValidateSet('FitWindow', 'ViewActualSize')]
-        [string] $ZoomPreference,
+        [string] $SmallMediaZoomPreference,
 
         [ValidateSet('System', 'Light', 'Dark')]
-        [string] $Theme
+        [string] $Theme,
+
+        # miscellaneous
+        [state] $FirstRunExperience
     )
 
     process
@@ -127,15 +132,15 @@ function Set-WindowsPhotosSetting
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$MouseWheelBehaviorReg) | Out-Null
             }
-            'ZoomPreference'
+            'SmallMediaZoomPreference'
             {
                 # zoom to fit in window: 0 | view at actual size: 1 (default)
-                $ZoomPreferenceReg = @{
+                $SmallMediaZoomPreferenceReg = @{
                     Name  = 'SmallMediaDefaultZoomLevel'
-                    Value = $ZoomPreference -eq 'FitWindow' ? '0' : '1'
+                    Value = $SmallMediaZoomPreference -eq 'FitWindow' ? '0' : '1'
                     Type  = '5f5e104'
                 }
-                $WindowsPhotosSettings.Add([PSCustomObject]$ZoomPreferenceReg) | Out-Null
+                $WindowsPhotosSettings.Add([PSCustomObject]$SmallMediaZoomPreferenceReg) | Out-Null
             }
             'Theme'
             {
@@ -154,8 +159,54 @@ function Set-WindowsPhotosSetting
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$ThemeReg) | Out-Null
             }
+            'FirstRunExperience'
+            {
+                # on: false (default) | off: true
+                $FirstRunDialog = @{
+                    Name  = 'HasShownFREDialog'
+                    Value = $FirstRunExperience -eq 'Enabled' ? 'false' : 'true'
+                    Type  = '5f5e10c'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$FirstRunDialog) | Out-Null
+
+                # on: 0 (default) | off: 4294967295 (UINT_MAX)
+                # Should be a date (or timestamp?). Does work with the above values.
+                $OneDrivePromo = @{
+                    Name  = 'OneDrivePromoLastShown'
+                    Value = $FirstRunExperience -eq 'Enabled' ? 0 : [uint]::MaxValue
+                    Type  = '5f5e106'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$OneDrivePromo) | Out-Null
+
+                # on: 0 (default) | off: 1
+                $DesignerFlyout = @{
+                    Path  = 'LocalState\FlyoutDismissalStateContainer'
+                    Name  = 'DesignerEditor'
+                    Value = $FirstRunExperience -eq 'Enabled' ? '0' : '1'
+                    Type  = '5f5e10b'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$DesignerFlyout) | Out-Null
+
+                # on: 0 (default) | off: 1
+                $ClipChampFlyout = @{
+                    Path  = 'LocalState\FlyoutDismissalStateContainer'
+                    Name  = 'ClipChamp'
+                    Value = $FirstRunExperience -eq 'Enabled' ? '0' : '1'
+                    Type  = '5f5e10b'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$ClipChampFlyout) | Out-Null
+
+                # on: 0 (default) | off: 1
+                $AIMagicEraseTip = @{
+                    Name  = 'IsEditHVCMagicEraseTeachingTipDismissed'
+                    Value = $FirstRunExperience -eq 'Enabled' ? '0' : '1'
+                    Type  = '5f5e10b'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$AIMagicEraseTip) | Out-Null
+            }
         }
 
+        # do not execute if only 'RunAtStartup' is provided.
         if (-not ($PSBoundParameters.Keys.Count -eq 1 -and $PSBoundParameters.Keys.Contains(('RunAtStartup'))))
         {
             Set-UwpAppSetting -Name 'WindowsPhotos' -Setting $WindowsPhotosSettings

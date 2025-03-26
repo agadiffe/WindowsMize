@@ -7,6 +7,7 @@
 
 class UwpRegistryKeyEntry
 {
+    [string] $Path
     [string] $Name
     [string] $Value
     [string] $Type
@@ -103,11 +104,7 @@ function Set-UwpAppRegistryEntry
     begin
     {
         $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
-
-        $RegContent = "Windows Registry Editor Version 5.00
-
-            [$AppSettingsRegPath\LocalState]
-            " -replace '(?m)^ *'
+        $RegContent = "Windows Registry Editor Version 5.00`n"
     }
 
     process
@@ -118,10 +115,14 @@ function Set-UwpAppRegistryEntry
             '5f5e10b' { ([int]$Value | Format-Hex -Count 1).HexBytes }
             '5f5e10c' { [string]($Value | Format-Hex -Encoding 'unicode').HexBytes + ' 00 00' }
             '5f5e104' { ([int32]$Value | Format-Hex).HexBytes }
+            '5f5e106' { ([int64]$Value | Format-Hex).HexBytes }
         }
 
         $Value = $Value -replace '\s+', ','
-        $RegContent += """$($InputObject.Name)""=hex($($InputObject.Type)):$Value,00,00,00,00,00,00,00,00`n"
+        $RegKey = $InputObject.Path ? $InputObject.Path : 'LocalState'
+
+        $RegContent += "`n[$AppSettingsRegPath\$RegKey]
+            ""$($InputObject.Name)""=hex($($InputObject.Type)):$Value,00,00,00,00,00,00,00,00`n" -replace '(?m)^ *'
     }
 
     end

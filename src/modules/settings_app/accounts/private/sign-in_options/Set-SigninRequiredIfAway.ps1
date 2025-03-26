@@ -75,7 +75,7 @@ function Set-SigninRequiredIfAway
         {
             $SettingValue = switch ($Value)
             {
-                'Never'       { 4294967295 }
+                'Never'       { [uint]::MaxValue }
                 'Always'      { 0 }
                 'OneMin'      { 60 }
                 'ThreeMins'   { 180 }
@@ -83,7 +83,7 @@ function Set-SigninRequiredIfAway
                 'FifteenMins' { 900 }
             }
 
-            # never: 4294967295 (UINT_MAX) (hex: ffffffff) | every time: 0 (default)
+            # never: 4294967295 (UINT_MAX) | every time: 0 (default)
             # 1 minute: 60 | 3 minutes: 180 | 5 minutes: 300 | 15 minutes: 900
             $SigninRequiredIfAway = @{
                 Hive    = 'HKEY_CURRENT_USER'
