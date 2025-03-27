@@ -8,6 +8,8 @@
         [-SetToPicture]
         [-GetFunFactsTipsTricks {Disabled | Enabled}]
         [-ShowPictureOnSigninScreenGPO {Disabled | NotConfigured}]
+        [-YourWidgets {Disabled | Enabled}]
+        [-YourWidgetsGPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -25,7 +27,11 @@ function Set-LockScreenSetting
 
         [state] $GetFunFactsTipsTricks,
 
-        [GpoStateWithoutEnabled] $ShowPictureOnSigninScreenGPO
+        [GpoStateWithoutEnabled] $ShowPictureOnSigninScreenGPO,
+
+        [state] $YourWidgets,
+
+        [GpoStateWithoutEnabled] $YourWidgetsGPO
     )
 
     process
@@ -41,6 +47,8 @@ function Set-LockScreenSetting
             'SetToPicture'                 { if ($SetToPicture) { Set-LockScreenToPicture } }
             'GetFunFactsTipsTricks'        { Set-LockScreenGetFunFactsTipsTricks -State $GetFunFactsTipsTricks }
             'ShowPictureOnSigninScreenGPO' { Set-LockScreenShowPictureOnSigninScreen -GPO $ShowPictureOnSigninScreenGPO }
+            'YourWidgets'                  { Set-LockScreenYourWidgets -State $YourWidgets }
+            'YourWidgetsGPO'               { Set-LockScreenYourWidgets -GPO $YourWidgetsGPO }
         }
     }
 }

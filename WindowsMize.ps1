@@ -2945,6 +2945,13 @@ Set-LockScreenSetting -GetFunFactsTipsTricks 'Disabled'
 # Disabled | NotConfigured
 Set-LockScreenSetting -ShowPictureOnSigninScreenGPO 'NotConfigured'
 
+# Your widgets
+#---------------------------------------
+# Windows 11 24H2+ only.
+# State: Disabled | Enabled (default)
+# GPO: Disabled | NotConfigured
+Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
+
 #endregion lock screen
 
 
