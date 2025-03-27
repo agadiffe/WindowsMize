@@ -5,7 +5,8 @@
 <#
 .SYNTAX
     Write-ScriptRamDiskCreation
-        [-RamDiskName] <string>
+        [-Name] <string>
+        [-Size] <string>
         [<CommonParameters>]
 #>
 
@@ -13,14 +14,21 @@ function Write-ScriptRamDiskCreation
 {
     <#
     .EXAMPLE
-        PS> Write-ScriptRamDiskCreation -RamDiskName 'RamDisk'
+        PS> Write-ScriptRamDiskCreation -Name 'RamDisk' -Size '1G'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [string] $RamDiskName
+        [string] $Name,
+
+        [Parameter(Mandatory)]
+        [ValidatePattern(
+            '^\d[MG]$',
+            ErrorMessage = 'Size format must be a number followed by M or G. (e.g. ''512M'' or ''2G'').')]
+        [ValidateRange('NonNegative')]
+        [int] $Size
     )
 
     process
@@ -35,11 +43,11 @@ function Write-ScriptRamDiskCreation
         $RamDiskCreationScriptContent = $FunctionsToWrite | Write-Function
 
         # If you have multiple users, make sure to allocate enought RAM.
-        # For Brave, allocate at least 256MB per profile.
+        # For Brave, allocate at least 512MB per profile.
         $RamDiskCreationScriptContent += "
-            if (-not (Get-DrivePath -Name '$RamDiskName'))
+            if (-not (Get-DrivePath -Name '$Name'))
             {
-                New-RamDisk -Name '$RamDiskName' -Size '1G'
+                New-RamDisk -Name '$Name' -Size '$Size'
             }
         " -replace '(?m)^ {12}'
         $RamDiskCreationScriptContent

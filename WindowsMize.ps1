@@ -1888,8 +1888,6 @@ Write-Section -Name 'RamDisk'
 
 # Advanced topic (a bit).
 
-# Brave: For now, it only works with the default un-renamed profile.
-
 <#
   Brave (and web browsers in general) write a lot to the disk, wearing off SSD.
 
@@ -1911,6 +1909,11 @@ Write-Section -Name 'RamDisk'
   Let's do the same for VSCode (as it's somehow a web browser too).
 #>
 
+# Brave:
+#   If you changed the user data directory with '--user-data-dir=',
+#   you need to change the value of $BraveAppDataPath in
+#     src > modules > ramdisk > private > Get-BraveBrowserPathInfo.ps1
+
 # You can configure which folders/files are exclude from the RamDisk in:
 #   src > modules > ramdisk > private > app_data > BraveBrowserData.ps1
 #   src > modules > ramdisk > private > app_data > VSCodeData.ps1
@@ -1918,11 +1921,13 @@ Write-Section -Name 'RamDisk'
 # RamDisk application
 #Install-OSFMount
 
+# If you have multiple Brave profile, make sure to allocate enought RAM.
+# At least 512MB per profile.
 $AppToRamDisk = @(
     'Brave'
     #'VSCode'
 )
-#Set-RamDisk -AppToRamDisk $AppToRamDisk
+#Set-RamDisk -Size '1G' -AppToRamDisk $AppToRamDisk
 
 #endregion ramdisk
 
