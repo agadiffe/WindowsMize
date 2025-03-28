@@ -13,13 +13,14 @@ $ScheduledTasksList += @{
             Comment  = 'should be disabled ?'
         }
         @{
+            SkipTask = $true
             TaskPath = '\Microsoft\Windows\Data Integrity Scan\'
             Task     = @{
                 'Data Integrity Check And Scan'          = 'Disabled'
                 'Data Integrity Scan'                    = 'Disabled'
                 'Data Integrity Scan for Crash Recovery' = 'Disabled'
             }
-            Comment  = 'apply to ReFS volumes with integrity streams enabled.'
+            Comment  = 'ReFS related.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Diagnosis\'
@@ -99,6 +100,7 @@ $ScheduledTasksList += @{
             }
         }
         @{
+            SkipTask = $true
             TaskPath = '\Microsoft\Windows\ReFsDedupSvc\'
             Task     = @{
                 Initialization = 'Disabled'

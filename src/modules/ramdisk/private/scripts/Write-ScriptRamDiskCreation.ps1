@@ -25,10 +25,9 @@ function Write-ScriptRamDiskCreation
 
         [Parameter(Mandatory)]
         [ValidatePattern(
-            '^\d[MG]$',
+            '^\d+[MG]$',
             ErrorMessage = 'Size format must be a number followed by M or G. (e.g. ''512M'' or ''2G'').')]
-        [ValidateRange('NonNegative')]
-        [int] $Size
+        [string] $Size
     )
 
     process

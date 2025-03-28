@@ -22,9 +22,8 @@ function Set-RamDisk
     (
         [Parameter(Mandatory)]
         [ValidatePattern(
-            '^\d[MG]$',
+            '^\d+[MG]$',
             ErrorMessage = 'Size format must be a number followed by M or G. (e.g. ''512M'' or ''2G'').')]
-        [ValidateRange('NonNegative')]
         [string] $Size,
 
         [Parameter(Mandatory)]
@@ -40,7 +39,7 @@ function Set-RamDisk
         $LogonScriptFilePath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\set_data_to_ramdisk.ps1"
         $LogoffScriptFilePath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\save_brave_files_to_persistent_path.ps1"
 
-        New-ScriptRamDiskCreation -FilePath $StartupScriptFilePath -RamDiskName $RamDiskName -Size $Size
+        New-ScriptRamDiskCreation -FilePath $StartupScriptFilePath -Name $RamDiskName -Size $Size
         New-ScheduledTaskRamDiskCreation -FilePath $StartupScriptFilePath -TaskName $RamDiskCreationTaskName
 
         $ScriptSetDataParam = @{

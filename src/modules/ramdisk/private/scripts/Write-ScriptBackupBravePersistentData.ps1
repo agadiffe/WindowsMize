@@ -9,6 +9,7 @@ function Write-ScriptBackupBravePersistentData
         'Get-LoggedOnUserSID'
         'Get-LoggedOnUserEnvVariable'
         'Get-BraveBrowserPathInfo'
+        'Get-ProfilePathCombinations'
         'Get-BraveDataException'
         'Copy-Data'
         'Copy-BravePersistentData'

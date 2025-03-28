@@ -29,9 +29,8 @@ function New-ScriptRamDiskCreation
 
         [Parameter(Mandatory)]
         [ValidatePattern(
-            '^\d[MG]$',
+            '^\d+[MG]$',
             ErrorMessage = 'Size format must be a number followed by M or G. (e.g. ''512M'' or ''2G'').')]
-        [ValidateRange('NonNegative')]
         [string] $Size
     )
 
@@ -40,6 +39,6 @@ function New-ScriptRamDiskCreation
         Write-Verbose -Message 'Setting ''RamDisk - Creation'' Script ...'
 
         New-ParentPath -Path $FilePath
-        Write-ScriptRamDiskCreation -RamDiskName $Name -Size $Size | Out-File -FilePath $FilePath
+        Write-ScriptRamDiskCreation -Name $Name -Size $Size | Out-File -FilePath $FilePath
     }
 }

@@ -92,7 +92,7 @@ function New-GpoScript
                     }
                     @{
                         Name  = 'Script'
-                        Value = $ScriptFilePath
+                        Value = $FilePath
                         Type  = 'String'
                     }
                 )

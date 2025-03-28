@@ -33,11 +33,13 @@ function Write-ScriptRamDiskSetData
 
     process
     {
+        $RamDiskSetDataScriptContent = Get-Content -Path "$PSScriptRoot\..\..\classes\Enums.ps1"
         $FunctionsToWrite = @(
             'Get-LoggedOnUserUsername'
             'Get-LoggedOnUserSID'
             'Get-LoggedOnUserEnvVariable'
             'Get-BraveBrowserPathInfo'
+            'Get-ProfilePathCombinations'
             'Get-BraveDataException'
             'Get-BraveDataToSymlink'
             'Get-VSCodeUserDataPath'
@@ -54,7 +56,7 @@ function Write-ScriptRamDiskSetData
             'Get-DrivePath'
             'Set-DataToRamDisk'
         )
-        $RamDiskSetDataScriptContent = $FunctionsToWrite | Write-Function
+        $RamDiskSetDataScriptContent += $FunctionsToWrite | Write-Function
 
         $RamDiskSetDataScriptContent += "
             while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName') -eq 'Running')

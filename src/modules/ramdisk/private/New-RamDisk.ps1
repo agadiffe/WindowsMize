@@ -47,7 +47,7 @@ function New-RamDisk
         [string] $DriveLetter = '#:',
 
         [ValidatePattern(
-            '^\d[MG]$',
+            '^\d+[MG]$',
             ErrorMessage = 'Size format must be a number followed by M or G. (e.g. ''512M'' or ''2G'').')]
         [string] $Size = '512M'
     )
