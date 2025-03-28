@@ -70,8 +70,10 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
     ```powershell
     winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
     ```
-4. Open an elevated PowerShell prompt:  
-   Right-click on `Start Menu` > `Terminal (Admin)`.
+4. Open an elevated (i.e. Administrator) PowerShell prompt:  
+   Right-click on `Start Menu` > `Terminal (Admin)`.  
+   At the top of the Terminal window:  
+   Click on the down arrow and choose 'PowerShell'.
 5. Navigate to the directory where you extracted 'WindowsMize' (replace '\<User\>' with your username).  
    Example:
     ```powershell
