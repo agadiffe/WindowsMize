@@ -32,7 +32,7 @@ function Get-ProfilePathCombinations
     (
         [Parameter(Mandatory)]
         [string[]] $ProfilesNames,
-        
+
         [Parameter(Mandatory)]
         [string[]] $Path
     )

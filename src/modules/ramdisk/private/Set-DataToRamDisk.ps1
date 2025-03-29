@@ -38,6 +38,10 @@ function Set-DataToRamDisk
         {
             if (-not (Test-Path -Path $RamDiskUserProfilePath))
             {
+                # Copy the items if not a symlink and not in persistent folder.
+                # i.e. Save installed extensions if used on current installation.
+                Copy-BraveDataForSymlink -Name $DataToSymlink.BraveException.Data.Directory -Action 'Backup'
+
                 New-RamDiskUserProfile -Path $RamDiskUserProfilePath
                 $SymbolicLinksPair | New-SymbolicLink
             }
@@ -46,6 +50,8 @@ function Set-DataToRamDisk
         {
             # Brave/VSCode will fail to launch if the RamDisk creation failed.
             Remove-SymbolicLink -Path $SymbolicLinksPair.Path
+            Copy-BraveDataForSymlink -Name $DataToSymlink.BraveException.Data.Directory -Action 'Restore'
+
         }
 
         if ($AppToRamDisk.Contains([AppName]::Brave))

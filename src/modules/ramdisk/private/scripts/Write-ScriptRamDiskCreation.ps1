@@ -48,7 +48,7 @@ function Write-ScriptRamDiskCreation
             {
                 New-RamDisk -Name '$Name' -Size '$Size'
             }
-        " -replace '(?m)^ {12}'
+        " -replace '(?m)^ {0,12}'
         $RamDiskCreationScriptContent
     }
 }

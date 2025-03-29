@@ -1918,14 +1918,16 @@ Write-Section -Name 'RamDisk'
 #   src > modules > ramdisk > private > app_data > BraveBrowserData.ps1
 #   src > modules > ramdisk > private > app_data > VSCodeData.ps1
 
+# The RamDisk will be created on the next computer restart.
+
+
 # RamDisk application
 #---------------------------------------
 #Install-OSFMount
 
 # RamDisk
 #---------------------------------------
-# If you have multiple Brave profile, make sure to allocate enought RAM.
-# At least 512MB per profile.
+# If you have multiple Brave profiles, make sure to allocate enought RAM (at least 512MB per profile).
 # Size: number + M or G (e.g. 512M or 4G)
 $AppToRamDisk = @(
     'Brave'

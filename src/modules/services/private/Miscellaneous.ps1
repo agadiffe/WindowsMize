@@ -299,9 +299,9 @@ $ServicesList += @{
         @{
             DisplayName = 'ReFS Dedup Service'
             ServiceName = 'refsdedupsvc'
-            StartupType = 'Disabled'
+            StartupType = 'Manual'
             DefaultType = 'Manual'
-            Comment     = 'ReFS data deduplication (custom storage related).'
+            Comment     = 'ReFS data deduplication.'
         }
         @{
             DisplayName = 'Remote Access Auto Connection Manager'

@@ -33,7 +33,8 @@ function Write-ScriptRamDiskSetData
 
     process
     {
-        $RamDiskSetDataScriptContent = Get-Content -Path "$PSScriptRoot\..\..\classes\Enums.ps1"
+        $RamDiskSetDataScriptContent = Get-Content -Path "$PSScriptRoot\..\..\classes\Enums.ps1" |
+            Where-Object -FilterScript { $_ -notlike '#*' }
         $FunctionsToWrite = @(
             'Get-LoggedOnUserUsername'
             'Get-LoggedOnUserSID'
@@ -51,6 +52,7 @@ function Write-ScriptRamDiskSetData
             'New-SymbolicLinksPair'
             'Remove-SymbolicLink'
             'Copy-Data'
+            'Copy-BraveDataForSymlink'
             'Copy-BravePersistentData'
             'New-RamDiskUserProfile'
             'Get-DrivePath'
@@ -65,7 +67,7 @@ function Write-ScriptRamDiskSetData
             }
 
             Set-DataToRamDisk -RamDiskName '$RamDiskName' -AppToRamDisk $($AppToRamDisk.ForEach({ "'$_'" }) -join ', ')
-        " -replace '(?m)^ {12}'
+        " -replace '(?m)^ {0,12}'
         $RamDiskSetDataScriptContent
     }
 }
