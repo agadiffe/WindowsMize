@@ -9,14 +9,6 @@
   See the below minimal autounattend.xml file.
   More customization can be done, see Microsoft documentation and/or the online generator.
   https://schneegans.de/windows/unattend-generator/
-
-  If you do not want to use an 'answer file' to create a local accout:
-    if you have a Desktop, do not connect to Internet (unplug the cable).
-    'Shift + F10' to open a Command Prompt (use 'Alt + Tab' to bring it to the foreground).
-    type 'oobe\bypassnro' (computer will reboot).
-    if you have a wireless device (e.g. Laptop):
-    open a Command Prompt and type 'ipconfig /release'.
-    when Windows has boot, type 'ipconfig /renew' or restart Windows.
 #>
 
 <#

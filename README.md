@@ -10,7 +10,7 @@ __      __  _             _                       __  __   _
 ### Purpose
 PowerShell script to automate and customize the configuration of Windows.
 
-1. install Windows (semi-unattended) + updates
+1. install Windows (semi-unattended: see New-WindowsAnswerFile.ps1) + updates
 2. run the script
 3. finish some customization
 
@@ -19,8 +19,7 @@ PowerShell script to automate and customize the configuration of Windows.
 - fully non-interactive script: make sure to review everything before running it.
 
 ### Remarks
-Documentation files will be added later (probably).  
-For now, you can read some comments directly in the source code files.
+You can read some comments directly in the source code files.
 
 Example:
  - src > modules > network > private > NetFirewallRules.ps1
