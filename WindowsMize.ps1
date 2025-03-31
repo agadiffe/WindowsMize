@@ -1595,7 +1595,7 @@ Write-Section -Name 'Windows Notepad' -SubSection
 #                        Appearance
 #==========================================================
 
-# Customize theme
+# App theme
 #---------------------------------------
 # System (default) | Light | Dark
 Set-WindowsNotepadSetting -Theme 'System'
@@ -1617,8 +1617,8 @@ Set-WindowsNotepadSetting -FontStyle 'Regular'
 
 # Font size
 #---------------------------------------
-# available GUI size: 8,9,10,11,12,14,16,18,20,22,24,26,28,36,48
-# default: 11 (range 8-72)
+# Dropdown GUI values: 8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72
+# default: 11 (range 1-99)
 Set-WindowsNotepadSetting -FontSize 11
 
 # Word wrap
@@ -1640,6 +1640,11 @@ Set-WindowsNotepadSetting -OpenFile 'NewTab'
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-WindowsNotepadSetting -ContinuePreviousSession 'Disabled'
+
+# Recent Files
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-WindowsNotepadSetting -RecentFiles 'Enabled'
 
 
 #==========================================================
@@ -1670,6 +1675,11 @@ Set-WindowsNotepadSetting -Copilot 'Disabled'
 #==========================================================
 #                      Miscellaneous
 #==========================================================
+
+# Status bar
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-WindowsNotepadSetting -StatusBar 'Enabled'
 
 # First launch tip (tip: notepad automatically saves your progress)
 #---------------------------------------

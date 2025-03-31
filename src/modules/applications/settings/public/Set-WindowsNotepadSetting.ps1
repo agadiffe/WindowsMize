@@ -12,9 +12,11 @@
         [-WordWrap {Disabled | Enabled}]
         [-OpenFile {NewTab | NewWindow}]
         [-ContinuePreviousSession {Disabled | Enabled}]
+        [-RecentFiles {Disabled | Enabled}]
         [-SpellCheck {Disabled | Enabled}]
         [-AutoCorrect {Disabled | Enabled}]
         [-Copilot {Disabled | Enabled}]
+        [-StatusBar {Disabled | Enabled}]
         [-FirstLaunchTip {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -42,7 +44,7 @@ function Set-WindowsNotepadSetting
         [ValidateSet('Regular', 'Italic', 'Bold', 'Bold Italic')]
         [string] $FontStyle,
 
-        [ValidateRange(8, 72)]
+        [ValidateRange(1, 99)]
         [int] $FontSize,
 
         [state] $WordWrap,
@@ -53,6 +55,8 @@ function Set-WindowsNotepadSetting
 
         [state] $ContinuePreviousSession,
 
+        [state] $RecentFiles,
+
         # spelling
         [state] $SpellCheck,
 
@@ -62,6 +66,8 @@ function Set-WindowsNotepadSetting
         [state] $Copilot,
 
         # miscellaneous
+        [state] $StatusBar,
+
         [state] $FirstLaunchTip
     )
 
@@ -116,8 +122,8 @@ function Set-WindowsNotepadSetting
             }
             'FontSize'
             {
-                # GUI size: 8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72
-                # default: 11
+                # GUI values: 8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72
+                # default: 11 (range 1-99)
                 $FontSizeReg = @{
                     Name  = 'FontSize'
                     Value = $FontSize
@@ -154,6 +160,37 @@ function Set-WindowsNotepadSetting
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$ContinuePreviousSessionReg) | Out-Null
+            }
+            'RecentFiles'
+            {
+                # on: 1 (default) | off: 0
+                $RecentFilesReg = @{
+                    Name  = 'RecentFilesEnabled'
+                    Value = $RecentFiles -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$RecentFilesReg) | Out-Null
+
+                if ($RecentFiles -eq 'Enabled')
+                {
+                    # populate Recent Files list
+                    $RecentFilesFirstLoad = @{
+                        Name  = 'RecentFilesFirstLoad'
+                        Value = '1'
+                        Type  = '5f5e10b'
+                    }
+                    $NotepadSettings.Add([PSCustomObject]$RecentFilesFirstLoad) | Out-Null
+                }
+                else
+                {
+                    # remove Recent Files list
+                    $RecentFilesList = @{
+                        Name  = 'RecentFiles'
+                        Value = '[]'
+                        Type  = '5f5e10c'
+                    }
+                    $NotepadSettings.Add([PSCustomObject]$RecentFilesList) | Out-Null
+                }
             }
             'SpellCheck'
             {
@@ -198,6 +235,16 @@ function Set-WindowsNotepadSetting
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$CopilotReg) | Out-Null
+            }
+            'StatusBar'
+            {
+                # on: 1 (default) | off: 0
+                $StatusBarReg = @{
+                    Name  = 'StatusBarShown'
+                    Value = $StatusBar -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$StatusBarReg) | Out-Null
             }
             'FirstLaunchTip'
             {
