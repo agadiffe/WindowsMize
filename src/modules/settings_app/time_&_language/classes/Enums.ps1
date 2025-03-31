@@ -31,3 +31,10 @@ enum SwitchInputHotKeys
     LeftAltShift = 1
     GraveAccent  = 4
 }
+
+enum LanguageBarMode
+{
+    FloatingOnDesktop = 0
+    DockedInTaskbar   = 4
+    Hidden            = 3
+}

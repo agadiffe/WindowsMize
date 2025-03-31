@@ -11,6 +11,8 @@
         [-AutocorrectMisspelledWords {Disabled | Enabled}]
         [-HighlightMisspelledWords {Disabled | Enabled}]
         [-TypingAndCorrectionHistory {Disabled | Enabled}]
+        [-UseDifferentInputMethodForEachApp {Disabled | Enabled}]
+        [-LanguageBar {FloatingOnDesktop | DockedInTaskbar | Hidden}]
         [-SwitchInputLanguageHotKey {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}]
         [-SwitchKeyboardLayoutHotKey {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}]
         [<CommonParameters>]
@@ -38,6 +40,10 @@ function Set-TypingSetting
 
         [state] $TypingAndCorrectionHistory,
 
+        [state] $UseDifferentInputMethodForEachApp,
+
+        [LanguageBarMode] $LanguageBar,
+
         [SwitchInputHotKeys] $SwitchInputLanguageHotKey,
 
         [SwitchInputHotKeys] $SwitchKeyboardLayoutHotKey
@@ -59,6 +65,8 @@ function Set-TypingSetting
             'AutocorrectMisspelledWords'            { Set-TypingAutocorrectMisspelledWords -State $AutocorrectMisspelledWords }
             'HighlightMisspelledWords'              { Set-TypingHighlightMisspelledWords -State $HighlightMisspelledWords }
             'TypingAndCorrectionHistory'            { Set-TypingInsights -State $TypingAndCorrectionHistory }
+            'UseDifferentInputMethodForEachApp'     { Set-KeyboardUseDifferentInputMethodForEachApp -State $UseDifferentInputMethodForEachApp }
+            'LanguageBar'                           { Set-KeyboardLanguageBar -Value $LanguageBar }
             'SwitchInputLanguageHotKey'             { Set-KeyboardHotKeySwitchInputLanguage -Value $SwitchInputLanguageHotKey }
             'SwitchKeyboardLayoutHotKey'            { Set-KeyboardHotKeySwitchKeyboardLayout -Value $SwitchKeyboardLayoutHotKey }
         }

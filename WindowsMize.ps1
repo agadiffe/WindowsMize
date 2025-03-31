@@ -3381,6 +3381,7 @@ Write-Section -Name 'Language & region' -SubSection
 
 # Language Options
 #---------------------------------------
+# Windows 11 only.
 # Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
 #Remove-LanguageFeatures
 
@@ -3449,6 +3450,17 @@ Set-TypingSetting -TypingAndCorrectionHistory 'Disabled'
 
 #      Advanced keyboard settings
 #=======================================
+
+# Let me use a different input method for each app window
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-TypingSetting -UseDifferentInputMethodForEachApp 'Disabled'
+
+# Language bar options
+#---------------------------------------
+# Shown if more than one language and/or keyboard layout installed.
+# FloatingOnDesktop | DockedInTaskbar (default) | Hidden
+Set-TypingSetting -LanguageBar 'DockedInTaskbar'
 
 # Input language hot keys
 #---------------------------------------
