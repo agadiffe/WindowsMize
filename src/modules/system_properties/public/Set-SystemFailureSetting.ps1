@@ -7,8 +7,11 @@
 <#
 .SYNTAX
     Set-SystemFailureSetting
+        [-WriteEventToSystemLog {Disabled | Enabled}]
         [-AutoRestart {Disabled | Enabled}]
         [-WriteDebugInfo {None | Complete | Kernel | Small | Automatic | Active}]
+        [-OverwriteExistingDebugFile {Disabled | Enabled}]
+        [-AlwaysKeepMemoryDumpOnLowDiskSpace {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -29,9 +32,15 @@ function Set-SystemFailureSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        [state] $WriteEventToSystemLog,
+
         [state] $AutoRestart,
 
-        [DebugInfoMethod] $WriteDebugInfo
+        [DebugInfoMethod] $WriteDebugInfo,
+
+        [state] $OverwriteExistingDebugFile,
+
+        [state] $AlwaysKeepMemoryDumpOnLowDiskSpace
     )
 
     process
@@ -44,8 +53,11 @@ function Set-SystemFailureSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'AutoRestart'    { Set-SystemFailureAutoRestart -State $AutoRestart }
-            'WriteDebugInfo' { Set-SystemFailureWriteDebugInfo -Value $WriteDebugInfo }
+            'WriteEventToSystemLog'              { Set-SystemFailureWriteEventToSystemLog -State $WriteEventToSystemLog }
+            'AutoRestart'                        { Set-SystemFailureAutoRestart -State $AutoRestart }
+            'WriteDebugInfo'                     { Set-SystemFailureWriteDebugInfo -Value $WriteDebugInfo }
+            'OverwriteExistingDebugFile'         { Set-SystemFailureOverwriteExistingDebugFile -State $OverwriteExistingDebugFile }
+            'AlwaysKeepMemoryDumpOnLowDiskSpace' { Set-SystemFailureAlwaysKeepMemoryDump -State $AlwaysKeepMemoryDumpOnLowDiskSpace }
         }
     }
 }

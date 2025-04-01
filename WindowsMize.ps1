@@ -782,6 +782,11 @@ Set-DataExecutionPrevention -State 'OptIn'
 #            System failure
 #=======================================
 
+# Write an event to the system log
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-SystemFailureSetting -WriteEventToSystemLog 'Enabled'
+
 # Automatically restart
 #---------------------------------------
 # Disabled | Enabled (default)
@@ -792,6 +797,16 @@ Set-SystemFailureSetting -AutoRestart 'Disabled'
 # Requires a minimum paging file size according to the selected setting.
 # None | Complete (<YOUR_RAM> MB + 257 MB) | Kernel (800 MB) | Small (1 MB) | Automatic (800 MB) (default) | Active (800 MB)
 Set-SystemFailureSetting -WriteDebugInfo 'None'
+
+# Overwrite any existing file
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-SystemFailureSetting -OverwriteExistingDebugFile 'Enabled'
+
+# Disable automatic deletion of memory dumps when disk space is low
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-SystemFailureSetting -AlwaysKeepMemoryDumpOnLowDiskSpace 'Disabled'
 
 
 #==============================================================================
@@ -842,6 +857,10 @@ $RemoteAssistanceProperties = @{
     InvitationMethodGPO   = 'SimpleMAPI'
 }
 #Set-RemoteAssistance @RemoteAssistanceProperties
+
+# Remote Desktop
+#---------------------------------------
+# See 'Windows Settings App > System > Remote Desktop'
 
 #endregion system properties
 
@@ -2504,6 +2523,10 @@ Write-Section -Name 'Printers & scanners' -SubSection
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-DevicesSetting -DefaultPrinterSystemManaged 'Disabled'
+
+# Download drivers and devices software over metered connections
+#---------------------------------------
+# See 'Windows Settings App > Bluetooth & devices > Devices > Download over metered connections'
 
 #endregion printers & scanners
 
