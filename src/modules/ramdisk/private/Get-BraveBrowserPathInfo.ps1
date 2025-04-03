@@ -9,7 +9,7 @@ function Get-BraveBrowserPathInfo
 
     $BraveLocalStateFilePath = "$BraveAppDataPath\User Data\Local State"
     $BraveLocalState = Get-Content -Raw -Path $BraveLocalStateFilePath -ErrorAction 'SilentlyContinue' | ConvertFrom-Json
-    $ProfilesNames = $BraveLocalState.Profile.profiles_order ? $BraveLocalState.Profile.profiles_order : @('Default')
+    $ProfilesNames = if ($BraveLocalState.Profile.profiles_order) { $BraveLocalState.Profile.profiles_order } else { @('Default') }
 
     $BravePathInfo = @{
         LocalAppData   = $BraveAppDataPath

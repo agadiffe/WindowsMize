@@ -26,9 +26,7 @@ function Copy-BravePersistentData
 
     process
     {
-        $IsBackupAction = $Action -eq 'Backup'
-        $Path = $IsBackupAction ? 'UserData' : 'PersistentData'
-        $Destination = $IsBackupAction ? 'PersistentData' : 'UserData'
+        $Path, $Destination = if ($Action -eq 'Backup') { 'UserData', 'PersistentData' } else { 'PersistentData', 'UserData' }
 
         $BravePersistentData = @{
             Name        = (Get-BraveDataException).Persistent
