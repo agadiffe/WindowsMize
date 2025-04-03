@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                             File Explorer - Misc > Hide Duplicate Removable Drives
+#                         File Explorer - Misc > Show Removable Drives Only In 'This PC'
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-FileExplorerHideDuplicateRemovableDrives
+    Set-FileExplorerShowRemovableDrivesOnlyInThisPC
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-FileExplorerHideDuplicateRemovableDrives
+function Set-FileExplorerShowRemovableDrivesOnlyInThisPC
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerHideDuplicateRemovableDrives -State 'Enabled'
+        PS> Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State 'Enabled'
     #>
 
     [CmdletBinding()]
@@ -25,7 +25,7 @@ function Set-FileExplorerHideDuplicateRemovableDrives
 
     process
     {
-        # on: key present (default) | off: delete key
+        # on: delete key | off: key present (default)
         $DuplicateRemovableDrives = @{
             RemoveKey = $State -eq 'Disabled'
             Hive    = 'HKEY_LOCAL_MACHINE'
@@ -39,7 +39,7 @@ function Set-FileExplorerHideDuplicateRemovableDrives
             )
         }
 
-        Write-Verbose -Message "Setting 'File Explorer - Hide Duplicate Removable Drives' to '$State' ..."
+        Write-Verbose -Message "Setting 'File Explorer - Show Removable Drives Only In 'This PC'' to '$State' ..."
         Set-RegistryEntry -InputObject $DuplicateRemovableDrives
     }
 }

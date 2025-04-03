@@ -41,3 +41,23 @@ class HkcuExplorerAdvanced : RegistrySetting
         }
     }
 }
+
+class HkcuExplorerSearchPrefs : RegistrySetting
+{
+    # Constructors
+    #-------------
+    HkcuExplorerSearchPrefs([string]$EntryName, [object]$Value, [string]$Type)
+    {
+        $this.Settings = @{
+            Hive    = 'HKEY_CURRENT_USER'
+            Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Search\Preferences'
+            Entries = @(
+                @{
+                    Name  = $EntryName
+                    Value = $Value
+                    Type  = $Type
+                }
+            )
+        }
+    }
+}

@@ -18,7 +18,7 @@ function Set-FileExplorerDontUseSearchIndex
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerDontUseSearchIndex -State 'Enabled'
+        PS> Set-FileExplorerDontUseSearchIndex -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -31,19 +31,9 @@ function Set-FileExplorerDontUseSearchIndex
     process
     {
         # on: 1 | off: 0 (default)
-        $SearchIndex = @{
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Search\Preferences'
-            Entries = @(
-                @{
-                    Name  = 'WholeFileSystem'
-                    Value = $State -eq 'Enabled' ? '1' : '0'
-                    Type  = 'DWord'
-                }
-            )
-        }
 
-        Write-Verbose -Message "Setting 'File Explorer - Don't Use The Index When Searching' to '$State' ..."
-        Set-RegistryEntry -InputObject $SearchIndex
+        $SearchIndex = [HkcuExplorerSearchPrefs]::new('WholeFileSystem', [int]$State, 'DWord')
+        $SearchIndex.WriteVerboseMsg('File Explorer - Don''t Use The Index When Searching', $State)
+        $SearchIndex.SetRegistryEntry()
     }
 }

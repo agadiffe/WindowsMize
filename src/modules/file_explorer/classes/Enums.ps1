@@ -21,3 +21,9 @@ enum OpenItemMode
     SingleClick
     DoubleClick
 }
+
+enum TypingIntoListViewMode
+{
+    SelectItemInView    = 0
+    AutoTypeInSearchBox = 1
+}

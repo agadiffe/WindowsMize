@@ -890,7 +890,7 @@ Set-FileExplorerSetting -OpenFolder 'SameWindow'
 
 # Open desktop folders and external folder links in new tab
 #---------------------------------------
-# Requires 'open each folder in the same window'
+# Requires 'Open each folder in the same window'.
 # Disabled | Enabled (default)
 Set-FileExplorerSetting -OpenFolderInNewTab 'Enabled'
 
@@ -924,15 +924,40 @@ Write-Section -Name 'View' -SubSection
 #           Files and Folders
 #=======================================
 
+# Always show icons, never thumbnails
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-FileExplorerSetting -ShowIconsOnly 'Disabled'
+
 # Decrease space between items (compact view)
 #---------------------------------------
 # Disabled (default) | Enabled
 Set-FileExplorerSetting -CompactView 'Enabled'
 
+# Display file icon on thumbnails
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowFileIconOnThumbnails 'Enabled'
+
+# Display file size information in folder tips
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowFileSizeInFolderTips 'Enabled'
+
+# Display the full path in the title bar
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-FileExplorerSetting -ShowFullPathInTitleBar 'Disabled'
+
 # Hidden files, folders, and drives
 #---------------------------------------
 # Disabled (default) | Enabled
 Set-FileExplorerSetting -ShowHiddenItems 'Enabled'
+
+# Hide empty drives
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -HideEmptyDrives 'Enabled'
 
 # Hide extensions for known file types
 #---------------------------------------
@@ -944,15 +969,45 @@ Set-FileExplorerSetting -HideFileExtensions 'Disabled'
 # Disabled | Enabled (default)
 Set-FileExplorerSetting -HideFolderMergeConflicts 'Disabled'
 
+# Hide protected operating system files (Recommended)
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -HideProtectedSystemFiles 'Enabled'
+
 # Launch folder windows in a separate process
 #---------------------------------------
 # Disabled (default) | Enabled
 Set-FileExplorerSetting -LaunchFolderInSeparateProcess 'Disabled'
 
+# Restore previous folder windows at logon
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-FileExplorerSetting -RestorePreviousFoldersAtLogon 'Disabled'
+
+# Show drive letters
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowDriveLetters 'Enabled'
+
 # Show encrypted or compressed NTFS files in color
 #---------------------------------------
 # Disabled (default) | Enabled
 Set-FileExplorerSetting -ColorEncryptedAndCompressedFiles 'Disabled'
+
+# Show pop-up description for folder and desktop items
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowItemsInfoPopup 'Enabled'
+
+# Show preview handlers in preview pane
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowPreviewHandlers 'Enabled'
+
+# Show status bar
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowStatusBar 'Enabled'
 
 # Show sync provider notifications (OneDrive Ads)
 #---------------------------------------
@@ -969,8 +1024,18 @@ Set-FileExplorerSetting -ItemsCheckBoxes 'Enabled'
 # Disabled | Enabled (default)
 Set-FileExplorerSetting -SharingWizard 'Disabled'
 
+# When typing into list view
+#---------------------------------------
+# SelectItemInView (default) | AutoTypeInSearchBox
+Set-FileExplorerSetting -TypingIntoListViewBehavior 'SelectItemInView'
+
 #            Navigation pane
 #=======================================
+
+# Always show availability status (OneDrive files)
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowCloudStatesOnNavPane 'Disabled'
 
 # Expand to open folder
 #---------------------------------------
@@ -982,6 +1047,20 @@ Set-FileExplorerSetting -ExpandToCurrentFolder 'Disabled'
 # Disabled (default) | Enabled
 Set-FileExplorerSetting -ShowAllFolders 'Disabled'
 
+# Show Libraries
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-FileExplorerSetting -ShowLibraries 'Disabled'
+
+# Show Network
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowNetwork 'Enabled'
+
+# Show This PC
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowThisPC 'Enabled'
 
 #==============================================================================
 #                                    Search
@@ -989,10 +1068,31 @@ Set-FileExplorerSetting -ShowAllFolders 'Disabled'
 
 Write-Section -Name 'Search' -SubSection
 
+#             How to search
+#=======================================
+
 # Don't use the index when searching in file folders for system files
 #---------------------------------------
 # Disabled (default) | Enabled
 Set-FileExplorerSetting -DontUseSearchIndex 'Enabled'
+
+# When searching non-indexed locations
+#=======================================
+
+# Include system directories
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -IncludeSystemFolders 'Enabled'
+
+# Include compressed files (ZIP, CAB...)
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-FileExplorerSetting -IncludeCompressedFiles 'Disabled'
+
+# Always search file names and contents (this might take several minutes)
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-FileExplorerSetting -SearchFileNamesAndContents 'Disabled'
 
 
 #==============================================================================
@@ -1001,15 +1101,20 @@ Set-FileExplorerSetting -DontUseSearchIndex 'Enabled'
 
 Write-Section -Name 'Miscellaneous' -SubSection
 
-# Show gallery
+# Show Home
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-FileExplorerSetting -ShowHome 'Enabled'
+
+# Show Gallery
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-FileExplorerSetting -ShowGallery 'Disabled'
 
-# Hide duplicate removable drives
+# Show removable drives only in 'This PC'
 #---------------------------------------
 # Disabled (default) | Enabled
-Set-FileExplorerSetting -HideDuplicateRemovableDrives 'Enabled'
+Set-FileExplorerSetting -ShowRemovableDrivesOnlyInThisPC 'Enabled'
 
 # Max icon cache size
 #---------------------------------------

@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                       File Explorer - Misc > Show Gallery
+#                          File Explorer - View > Display The Full Path In The Title Bar
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-FileExplorerShowGallery
+    Set-FileExplorerShowFullPathInTitleBar
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-FileExplorerShowGallery
+function Set-FileExplorerShowFullPathInTitleBar
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerShowGallery -State 'Disabled'
+        PS> Set-FileExplorerShowFullPathInTitleBar -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -25,20 +25,20 @@ function Set-FileExplorerShowGallery
 
     process
     {
-        # on: 1 or delete (default) | off: 0
-        $ShowGallery = @{
+        # on: 1 | off: 0 (default)
+        $FullPathInTitleBar = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}'
+            Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
             Entries = @(
                 @{
-                    Name  = 'System.IsPinnedToNameSpaceTree'
+                    Name  = 'FullPath'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'File Explorer - Show Gallery' to '$State' ..."
-        Set-RegistryEntry -InputObject $ShowGallery
+        Write-Verbose -Message "Setting 'File Explorer - Display The Full Path In The Title Bar' to '$Value' ..."
+        Set-RegistryEntry -InputObject $FullPathInTitleBar
     }
 }

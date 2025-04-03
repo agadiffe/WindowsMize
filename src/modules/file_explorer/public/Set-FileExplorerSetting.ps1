@@ -12,20 +12,40 @@
         [-ShowRecentFiles {Disabled | Enabled}]
         [-ShowFrequentFolders {Disabled | Enabled}]
         [-ShowCloudFiles {Disabled | Enabled}]
+        [-ShowIconsOnly {Disabled | Enabled}]
         [-CompactView {Disabled | Enabled}]
+        [-ShowFileIconOnThumbnails {Disabled | Enabled}]
+        [-ShowFileSizeInFolderTips {Disabled | Enabled}]
+        [-ShowFullPathInTitleBar {Disabled | Enabled}]
         [-ShowHiddenItems {Disabled | Enabled}]
+        [-HideEmptyDrives {Disabled | Enabled}]
         [-HideFileExtensions {Disabled | Enabled}]
         [-HideFolderMergeConflicts {Disabled | Enabled}]
+        [-HideProtectedSystemFiles {Disabled | Enabled}]
         [-LaunchFolderInSeparateProcess {Disabled | Enabled}]
+        [-RestorePreviousFoldersAtLogon {Disabled | Enabled}]
+        [-ShowDriveLetters {Disabled | Enabled}]
+        [-ShowPreviewHandlers {Disabled | Enabled}]
+        [-ShowStatusBar {Disabled | Enabled}]
         [-ColorEncryptedAndCompressedFiles {Disabled | Enabled}]
+        [-ShowItemsInfoPopup {Disabled | Enabled}]
         [-ShowSyncProviderNotifications {Disabled | Enabled}]
         [-ItemsCheckBoxes {Disabled | Enabled}]
         [-SharingWizard {Disabled | Enabled}]
+        [-TypingIntoListViewBehavior {SelectItemInView | AutoTypeInSearchBox}]
+        [-ShowCloudStatesOnNavPane {Disabled | Enabled}]
         [-ExpandToCurrentFolder {Disabled | Enabled}]
         [-ShowAllFolders {Disabled | Enabled}]
+        [-ShowLibraries {Disabled | Enabled}]
+        [-ShowNetwork {Disabled | Enabled}]
+        [-ShowThisPC {Disabled | Enabled}]
         [-DontUseSearchIndex {Disabled | Enabled}]
+        [-IncludeSystemFolders {Disabled | Enabled}]
+        [-IncludeCompressedFiles {Disabled | Enabled}]
+        [-SearchFileNamesAndContents {Disabled | Enabled}]
+        [-ShowHome {Disabled | Enabled}]
         [-ShowGallery {Disabled | Enabled}]
-        [-HideDuplicateRemovableDrives {Disabled | Enabled}]
+        [-ShowRemovableDrivesOnlyInThisPC {Disabled | Enabled}]
         [-MaxIconCacheSize <int>]
         [-AutoFolderTypeDetection {Disabled | Enabled}]
         [-ConfirmFileDelete {Disabled | Enabled}]
@@ -58,24 +78,45 @@ function Set-FileExplorerSetting
         [state] $ShowCloudFiles,
 
         # view
+        [state] $ShowIconsOnly,
         [state] $CompactView,
+        [state] $ShowFileIconOnThumbnails,
+        [state] $ShowFileSizeInFolderTips,
+        [state] $ShowFullPathInTitleBar,
         [state] $ShowHiddenItems,
+        [state] $HideEmptyDrives,
         [state] $HideFileExtensions,
         [state] $HideFolderMergeConflicts,
+        [state] $HideProtectedSystemFiles,
         [state] $LaunchFolderInSeparateProcess,
+        [state] $RestorePreviousFoldersAtLogon,
+        [state] $ShowDriveLetters,
+        [state] $ShowPreviewHandlers,
+        [state] $ShowStatusBar,
         [state] $ColorEncryptedAndCompressedFiles,
+        [state] $ShowItemsInfoPopup,
         [state] $ShowSyncProviderNotifications,
         [state] $ItemsCheckBoxes,
         [state] $SharingWizard,
+        [TypingIntoListViewMode] $TypingIntoListViewBehavior,
+
+        [state] $ShowCloudStatesOnNavPane,
         [state] $ExpandToCurrentFolder,
         [state] $ShowAllFolders,
+        [state] $ShowLibraries,
+        [state] $ShowNetwork,
+        [state] $ShowThisPC,
 
         # search
         [state] $DontUseSearchIndex,
+        [state] $IncludeSystemFolders,
+        [state] $IncludeCompressedFiles,
+        [state] $SearchFileNamesAndContents,
 
         # misc
+        [state] $ShowHome,
         [state] $ShowGallery,
-        [state] $HideDuplicateRemovableDrives,
+        [state] $ShowRemovableDrivesOnlyInThisPC,
         [int] $MaxIconCacheSize,
         [state] $AutoFolderTypeDetection,
         [state] $ConfirmFileDelete,
@@ -102,22 +143,43 @@ function Set-FileExplorerSetting
             'ShowFrequentFolders'              { Set-FileExplorerShowFrequentFolders -State $ShowFrequentFolders }
             'ShowCloudFiles'                   { Set-FileExplorerShowCloudFiles -State $ShowCloudFiles }
 
+            'ShowIconsOnly'                    { Set-FileExplorerShowIconsOnly -State $ShowIconsOnly }
             'CompactView'                      { Set-FileExplorerCompactView -State $CompactView }
+            'ShowFileIconOnThumbnails'         { Set-FileExplorerShowFileIconOnThumbnails -State $ShowFileIconOnThumbnails }
+            'ShowFileSizeInFolderTips'         { Set-FileExplorerShowFileSizeInFolderTips -State $ShowFileSizeInFolderTips }
+            'ShowFullPathInTitleBar'           { Set-FileExplorerShowFullPathInTitleBar -State $ShowFullPathInTitleBar }
             'ShowHiddenItems'                  { Set-FileExplorerShowHiddenItems -State $ShowHiddenItems }
+            'HideEmptyDrives'                  { Set-FileExplorerHideEmptyDrives -State $HideEmptyDrives }
             'HideFileExtensions'               { Set-FileExplorerHideFileExtensions -State $HideFileExtensions }
             'HideFolderMergeConflicts'         { Set-FileExplorerHideFolderMergeConflicts -State $HideFolderMergeConflicts }
+            'HideProtectedSystemFiles'         { Set-FileExplorerHideProtectedSystemFiles -State $HideProtectedSystemFiles }
             'LaunchFolderInSeparateProcess'    { Set-FileExplorerLaunchFolderInSeparateProcess -State $LaunchFolderInSeparateProcess }
+            'RestorePreviousFoldersAtLogon'    { Set-FileExplorerRestorePreviousFoldersAtLogon -State $RestorePreviousFoldersAtLogon }
+            'ShowDriveLetters'                 { Set-FileExplorerShowDriveLetters -State $ShowDriveLetters }
+            'ShowPreviewHandlers'              { Set-FileExplorerShowPreviewHandlers -State $ShowPreviewHandlers }
+            'ShowStatusBar'                    { Set-FileExplorerShowStatusBar -State $ShowStatusBar }
             'ColorEncryptedAndCompressedFiles' { Set-FileExplorerColorEncryptedAndCompressedFiles -State $ColorEncryptedAndCompressedFiles }
+            'ShowItemsInfoPopup'               { Set-FileExplorerShowItemsInfoPopup -State $ShowItemsInfoPopup }
             'ShowSyncProviderNotifications'    { Set-FileExplorerShowSyncProviderNotifications -State $ShowSyncProviderNotifications }
             'ItemsCheckBoxes'                  { Set-FileExplorerItemsCheckBoxes -State $ItemsCheckBoxes }
             'SharingWizard'                    { Set-FileExplorerSharingWizard -State $SharingWizard }
+            'TypingIntoListViewBehavior'       { Set-FileExplorerTypingIntoListViewBehavior -Value $TypingIntoListViewBehavior }
+
+            'ShowCloudStatesOnNavPane'         { Set-FileExplorerShowCloudStatesOnNavPane -State $ShowCloudStatesOnNavPane }
             'ExpandToCurrentFolder'            { Set-FileExplorerExpandToCurrentFolder -State $ExpandToCurrentFolder }
             'ShowAllFolders'                   { Set-FileExplorerShowAllFolders -State $ShowAllFolders }
+            'ShowLibraries'                    { Set-FileExplorerShowLibraries -State $ShowLibraries }
+            'ShowNetwork'                      { Set-FileExplorerShowNetwork -State $ShowNetwork }
+            'ShowThisPC'                       { Set-FileExplorerShowThisPC -State $ShowThisPC }
 
             'DontUseSearchIndex'               { Set-FileExplorerDontUseSearchIndex -State $DontUseSearchIndex }
+            'IncludeSystemFolders'             { Set-FileExplorerIncludeSystemFolders -State $IncludeSystemFolders }
+            'IncludeCompressedFiles'           { Set-FileExplorerIncludeCompressedFiles -State $IncludeCompressedFiles }
+            'SearchFileNamesAndContents'       { Set-FileExplorerSearchFileNamesAndContents -State $SearchFileNamesAndContents }
 
+            'ShowHome'                         { Set-FileExplorerShowHome -State $ShowHome }
             'ShowGallery'                      { Set-FileExplorerShowGallery -State $ShowGallery }
-            'HideDuplicateRemovableDrives'     { Set-FileExplorerHideDuplicateRemovableDrives -State $HideDuplicateRemovableDrives }
+            'ShowRemovableDrivesOnlyInThisPC'  { Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State $ShowRemovableDrivesOnlyInThisPC }
             'MaxIconCacheSize'                 { Set-FileExplorerMaxIconCacheSize -Value $MaxIconCacheSize }
             'AutoFolderTypeDetection'          { Set-FileExplorerAutoFolderTypeDetection -State $AutoFolderTypeDetection }
             'ConfirmFileDelete'                { Set-RecycleBinConfirmFileDelete -State $ConfirmFileDelete }

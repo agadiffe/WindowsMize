@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                       File Explorer - Misc > Show Gallery
+#                                        File Explorer - Misc > Show Home
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-FileExplorerShowGallery
+    Set-FileExplorerShowHome
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-FileExplorerShowGallery
+function Set-FileExplorerShowHome
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerShowGallery -State 'Disabled'
+        PS> Set-FileExplorerShowHome -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,9 +26,9 @@ function Set-FileExplorerShowGallery
     process
     {
         # on: 1 or delete (default) | off: 0
-        $ShowGallery = @{
+        $ShowHome = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}'
+            Path    = 'Software\Classes\CLSID\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}'
             Entries = @(
                 @{
                     Name  = 'System.IsPinnedToNameSpaceTree'
@@ -38,7 +38,7 @@ function Set-FileExplorerShowGallery
             )
         }
 
-        Write-Verbose -Message "Setting 'File Explorer - Show Gallery' to '$State' ..."
-        Set-RegistryEntry -InputObject $ShowGallery
+        Write-Verbose -Message "Setting 'File Explorer - Show Home' to '$State' ..."
+        Set-RegistryEntry -InputObject $ShowHome
     }
 }

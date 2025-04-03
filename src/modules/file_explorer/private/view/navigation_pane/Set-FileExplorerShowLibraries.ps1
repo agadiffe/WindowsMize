@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                       File Explorer - Misc > Show Gallery
+#                                      File Explorer - View > Show Libraries
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-FileExplorerShowGallery
+    Set-FileExplorerShowLibraries
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-FileExplorerShowGallery
+function Set-FileExplorerShowLibraries
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerShowGallery -State 'Disabled'
+        PS> Set-FileExplorerShowLibraries -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -25,10 +25,10 @@ function Set-FileExplorerShowGallery
 
     process
     {
-        # on: 1 or delete (default) | off: 0
-        $ShowGallery = @{
+        # on: 1 | off: 0 (default)
+        $ShowLibraries = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}'
+            Path    = 'Software\Classes\CLSID\{031e4825-7b94-4dc3-b131-e946b44c8dd5}'
             Entries = @(
                 @{
                     Name  = 'System.IsPinnedToNameSpaceTree'
@@ -38,7 +38,7 @@ function Set-FileExplorerShowGallery
             )
         }
 
-        Write-Verbose -Message "Setting 'File Explorer - Show Gallery' to '$State' ..."
-        Set-RegistryEntry -InputObject $ShowGallery
+        Write-Verbose -Message "Setting 'File Explorer - Show Libraries' to '$State' ..."
+        Set-RegistryEntry -InputObject $ShowLibraries
     }
 }
