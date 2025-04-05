@@ -10,16 +10,16 @@ __      __  _             _                       __  __   _
 ### Purpose
 PowerShell script to automate and customize the configuration of Windows.
 
-1. install Windows (semi-unattended: see New-WindowsAnswerFile.ps1) + updates
-2. run the script
-3. finish some customization
+1. Install Windows (semi-unattended: see New-WindowsAnswerFile.ps1) + updates
+2. Run the script (WindowsMize.ps1)
+3. Finish some customization (see todo_manually.md)
 
 ### Characteristics
-- designed for Windows 11 (most tweaks/settings also works on Windows 10).  
-- fully non-interactive script: make sure to review everything before running it.
+- Designed for Windows 11 (most tweaks/settings also works on Windows 10).
+- Fully non-interactive script: make sure to review everything before running it.
 
 ### Remarks
-You can read some comments directly in the source code files.
+You can read some comments in the source code files about why you should disable some features.
 
 Example:
  - src > modules > network > private > NetFirewallRules.ps1
@@ -28,13 +28,86 @@ Example:
  - src > modules > tweaks > public
 
 ## Features
-- customize Windows settings (start > all apps > settings)
-- tweaks, telemetry, network, power options, system properties, file explorer
-- remove default unwanted apps (bloatware)
-- install applications (e.g. 7zip, VLC, Web Browser)
-- applications settings (including UWP apps like Photos and Notepad)
-- configure a RamDisk (Brave Browser / VSCode)
-- disable services & scheduled tasks
+### Windows settings
+Equivalent of the Windows GUI settings app (start > all apps > settings).  
+There are almost every settings, organized like the graphical counterpart.
+
+### File Explorer
+Every settings + few extra.  
+extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection, MaxIconCacheSize.
+
+### System Properties
+Equivalent of the Windows GUI System Properties.  
+Visual Effects, Virtual Memory (paging file), System failure, System Restore, Remote Assistance.
+
+### Power options
+Settings not present in the Windows GUI settings app.  
+Fast startup, Hibernate, Network connectivity in Modern standby (S0), Battery settings (Low, Critical, Reserve).
+
+### Network
+Improve security by disabling various network protocols.
+- Firewall : block some ports/programs shown as listening (locally) in Netstat or TCP View.
+- IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP)
+- Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit))
+- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, Smhnr, Wpad)
+
+### Telemetry
+Various Group Policies to minimize Windows telemetry:  
+DotNetTelemetry, NvidiaTelemetry, PowerShellTelemetry, AppAndDeviceInventory, ApplicationCompatibility, Ceip,  
+CloudContent, ConsumerExperience, DiagnosticLogAndDumpCollectionLimit, DiagnosticsAutoLogger,  
+DiagnosticTracing, ErrorReporting, GroupPolicySettingsLogging, HandwritingPersonalization, InventoryCollector,  
+KmsClientActivationDataSharing, MsrtDiagnosticReport, OneSettingsDownloads, UserInfoSharing.
+
+The main telemetry configurations are in the Windows settings app.  
+See 'Windows Settings App > Privacy & security > Windows permissions'.
+
+### Tweaks
+Various tweaks to improve and customize Windows (grouped by categories):
+- Security, privacy and networking:  
+  Hotspot2, IndexingEncryptedFiles, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage,  
+  PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt
+- System and performance:  
+  FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting,  
+  Short8Dot3FileName, StartupShutdownVerboseStatusMessages
+- User interface and experience:  
+  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, OnlineTips, ShortcutNameSuffix,  
+  StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation, WindowsInputExperience,  
+  WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight (+LearnAboutPictureDesktopIcon)
+- Windows features and settings:  
+  Move-CharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
+  FontProviders, HomeSettingPageVisibility, OpenWithDialogStoreAccess, WindowsHelpSupport (F1Key, Feedback),  
+  WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers
+
+### Applications
+#### Removal
+Remove default unwanted apps (bloatware).  
+e.g. Microsoft Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, Clipchamp, ...
+
+#### Installation
+Install applications with Winget.  
+There are some predefined apps with a friendly name:  
+e.g. 7zip, VLC, Web Browser, Password Manager, PDF Viewer, Utilities, Visual C++ Redistributable.  
+You can also install any app with their Winget app name (e.g. 'Valve.Steam').
+
+#### Settings
+Applications settings (including UWP apps).  
+e.g. Brave Browser, VSCode, Microsoft Office, Acrobat Reader.  
+UWP apps: Microsoft Store, Notepad, Photos, Snipping Tool, Terminal.
+
+### RamDisk
+Configure a RamDisk for 'Brave Browser' and 'VSCode'.
+
+For Brave, only a few elements are either restored to or excluded from the RamDisk:
+- Extensions and their settings (excluded. i.e. symlinked)
+- Bookmarks and their favicons (saved and restored upon logoff/logon)
+- Settings preferences (saved and restored upon logoff/logon)
+
+i.e. By default, history and cookies are not restored across logoff/logon.
+
+### Services & Scheduled Tasks
+Configure Windows Services & Scheduled Tasks (grouped by categories).  
+There are a lot of comments about the services in 'src > modules > services > private'.  
+Make sure to review them to know which one to disable according to your usages.
 
 
 ## Usage

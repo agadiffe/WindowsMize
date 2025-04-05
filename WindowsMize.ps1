@@ -144,6 +144,7 @@ Set-MessagingCloudSync -GPO 'Disabled'
 
 # Notification network usage
 #---------------------------------------
+# Needed by Discord, Microsoft Teams, ... to get real-time notifs.
 # Disabled | NotConfigured
 Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 
@@ -214,6 +215,7 @@ Set-ServiceHostSplitting -State 'Enabled'
 
 # Short 8.3 filenames
 #---------------------------------------
+# See the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'
 # Disabled | Enabled (default)
 #Set-Short8Dot3FileName -State 'Disabled'
 
@@ -331,7 +333,7 @@ Write-Section -Name 'Windows features and settings' -SubSection
 #---------------------------------------
 Move-CharacterMapShortcutToWindowsTools
 
-# Move event log location
+# Set event log location
 #---------------------------------------
 # Path: path where to save the windows event logs.
 # Default: restore to the default location ("$env:SystemRoot\system32\winevt\Logs").
