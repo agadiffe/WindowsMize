@@ -30,7 +30,7 @@
 .EXAMPLE
     PS> New-WindowsAnswerFile.ps1
     Enter password (empty allowed): MyPassword
-    PS> Get-ChildItem -Path '.' -Name
+    PS> Get-ChildItem -Name
     autounattend.xml
 
 .EXAMPLE
@@ -47,7 +47,7 @@ param
 
     [ValidateScript(
         {
-            $_.Trim() -notmatch '\.$' -and $_ -notmatch '^[ .]+$'
+            $_.Trim() -and -not $_.Trim().EndsWith('.')
         },
         ErrorMessage = 'User name can''t end with a dot or contain only space and/or dot.')]
     [ValidateScript(

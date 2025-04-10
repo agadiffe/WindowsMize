@@ -332,6 +332,7 @@ function New-BraveBrowserConfigData
     Merge-Hashtable $BravePreferences ('{
         "browser": {
             "clear_data": {
+                "brave_leo_on_exit": true,
                 "browsing_history_on_exit": false,
                 "cache_on_exit": false,
                 "cookies_on_exit": false,

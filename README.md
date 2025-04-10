@@ -47,9 +47,9 @@ Fast startup, Hibernate, Network connectivity in Modern standby (S0), Battery se
 ### Network
 Improve security by disabling various network protocols.
 - Firewall : block some ports/programs shown as listening (locally) in Netstat or TCP View.
-- IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP)
-- Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit))
-- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, Smhnr, Wpad)
+- IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP).
+- Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit)).
+- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, Smhnr, Wpad).
 
 ### Telemetry
 Various Group Policies to minimize Windows telemetry:  
@@ -62,45 +62,47 @@ The main telemetry configurations are in the Windows settings app.
 See 'Windows Settings App > Privacy & security > Windows permissions'.
 
 ### Tweaks
-Various tweaks to improve and customize Windows (grouped by categories):
+Various tweaks to improve and customize Windows:
 - Security, privacy and networking:  
   Hotspot2, IndexingEncryptedFiles, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage,  
-  PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt
+  PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 - System and performance:  
   FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting,  
-  Short8Dot3FileName, StartupShutdownVerboseStatusMessages
+  Short8Dot3FileName, StartupShutdownVerboseStatusMessages.
 - User interface and experience:  
   ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, OnlineTips, ShortcutNameSuffix,  
   StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation, WindowsInputExperience,  
-  WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight (+LearnAboutPictureDesktopIcon)
+  WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
 - Windows features and settings:  
-  Move-CharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
+  MoveCharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
   FontProviders, HomeSettingPageVisibility, OpenWithDialogStoreAccess, WindowsHelpSupport (F1Key, Feedback),  
-  WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers
+  WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 
 ### Applications
 #### Removal
 Remove default unwanted apps (bloatware).  
-e.g. Microsoft Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, Clipchamp, ...
+e.g. Microsoft Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, ClipChamp, etc...
 
 #### Installation
 Install applications with Winget.  
 There are some predefined apps with a friendly name:  
-e.g. 7zip, VLC, Web Browser, Password Manager, PDF Viewer, Utilities, Visual C++ Redistributable.  
-You can also install any app with their Winget app name (e.g. 'Valve.Steam').
+Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent,  
+Brave, Firefox, MullvadBrowser, DirectXEndUserRuntime, Visual C++ Redistributable.
+
+You can also install any apps with their Winget app name (e.g. 'Valve.Steam').
 
 #### Settings
-Applications settings (including UWP apps).  
-e.g. Brave Browser, VSCode, Microsoft Office, Acrobat Reader.  
+Configure applications settings (including UWP apps).  
+Apps: AcrobatReader, Brave Browser, Git, KeePassXC, MSOffice, qBittorrent, VLC, VSCode.  
 UWP apps: Microsoft Store, Notepad, Photos, Snipping Tool, Terminal.
 
 ### RamDisk
 Configure a RamDisk for 'Brave Browser' and 'VSCode'.
 
 For Brave, only a few elements are either restored to or excluded from the RamDisk:
-- Extensions and their settings (excluded. i.e. symlinked)
-- Bookmarks and their favicons (saved and restored upon logoff/logon)
-- Settings preferences (saved and restored upon logoff/logon)
+- Extensions and their settings (excluded. i.e. symlinked).
+- Bookmarks and their favicons (saved and restored upon logoff/logon).
+- Settings preferences (saved and restored upon logoff/logon).
 
 i.e. By default, history and cookies are not restored across logoff/logon.
 
