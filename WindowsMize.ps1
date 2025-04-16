@@ -1275,6 +1275,11 @@ Remove-OneDrive
 # Disabled | Enabled (default)
 Set-OneDriveNewUserAutoInstall -State 'Disabled'
 
+# Recall
+#---------------------------------------
+# Disabled | Enabled | NotConfigured
+Set-Recall -GPO 'Disabled'
+
 # Widgets
 #---------------------------------------
 # Disabled | NotConfigured
@@ -3904,6 +3909,20 @@ Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
 # Disabled | NotConfigured
 Set-WinPermissionsSetting -RecallSnapshotsGPO 'Disabled'
 
+# Help improve Recall snapshots filtering
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-WinPermissionsSetting -RecallFilteringTelemetry 'Disabled'
+
+#              Click to Do
+#=======================================
+
+# Click to Do
+#---------------------------------------
+# State: Disabled | Enabled (default)
+# GPO: Disabled | NotConfigured
+Set-WinPermissionsSetting -ClickToDo 'Disabled' -ClickToDoGPO 'NotConfigured'
+
 #                Speech
 #=======================================
 
@@ -3950,7 +3969,6 @@ Set-WinPermissionsSetting -DiagnosticDataViewer 'Disabled' -DiagnosticDataViewer
 
 # Delete diagnostic data
 #---------------------------------------
-# State: Disabled | Enabled (default)
 # GPO: Disabled | NotConfigured
 Set-WinPermissionsSetting -DeleteDiagnosticDataGPO 'NotConfigured'
 
@@ -4349,7 +4367,7 @@ Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO '
 
 
 #==========================================================
-#                Account Protection
+#                    Account Protection
 #==========================================================
 #region account protection
 
@@ -4573,7 +4591,7 @@ Export-DefaultSystemDriversStartupType
 <#
   You can review the services StartupType in: src > modules > services > private.
 
-  Make sure to review every services and configure them according to your usage.
+  Make sure to review every services and configure them according to your usages.
   (especially Features.ps1 and Miscellaneous.ps1 which contains unrelated services in the same group)
 
   If you want to let the default setting, comment the services group below (e.g. #'FileAndPrinterSharing').

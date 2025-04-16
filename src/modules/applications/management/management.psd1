@@ -29,6 +29,7 @@
         'Set-Cortana'
         'Set-MicrosoftStorePushToInstall'
         'Set-OneDriveNewUserAutoInstall'
+        'Set-Recall'
         'Set-StartMenuBingSearch'
         'Set-Widgets'
         'Stop-ProcessByName'

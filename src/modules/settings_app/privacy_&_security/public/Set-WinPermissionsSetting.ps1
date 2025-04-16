@@ -16,6 +16,9 @@
         [-ShowTipsInSettingsAppGPO {Disabled | NotConfigured}]
         [-ShowNotifsInSettingsApp {Disabled | Enabled}]
         [-RecallSnapshotsGPO {Disabled | NotConfigured}]
+        [-RecallFilteringTelemetry {Disabled | Enabled}]
+        [-ClickToDo {Disabled | Enabled}]
+        [-ClickToDoGPO {Disabled | NotConfigured}]
         [-SpeechRecognition {Disabled | Enabled}]
         [-SpeechRecognitionGPO {Disabled | NotConfigured}]
         [-InkingAndTypingPersonalization {Disabled | Enabled}]
@@ -70,6 +73,11 @@ function Set-WinPermissionsSetting
 
         # recall & snapshots
         [GpoStateWithoutEnabled] $RecallSnapshotsGPO,
+        [state] $RecallFilteringTelemetry,
+
+        # click to do
+        [state] $ClickToDo,
+        [GpoStateWithoutEnabled] $ClickToDoGPO,
 
         # speech
         [state] $SpeechRecognition,
@@ -132,6 +140,10 @@ function Set-WinPermissionsSetting
             'ShowNotifsInSettingsApp'        { Set-WinPermissionsShowNotifsInSettingsApp -State $ShowNotifsInSettingsApp }
 
             'RecallSnapshotsGPO'             { Set-WinPermissionsRecallSnapshots -GPO $RecallSnapshotsGPO }
+            'RecallFilteringTelemetry'       { Set-WinPermissionsRecallFilteringTelemetry -State $RecallFilteringTelemetry }
+
+            'ClickToDo'                      { Set-WinPermissionsClickToDo -State $ClickToDo }
+            'ClickToDoGPO'                   { Set-WinPermissionsClickToDo -GPO $ClickToDoGPO }
 
             'SpeechRecognition'              { Set-WinPermissionsSpeechRecognition -State $SpeechRecognition }
             'SpeechRecognitionGPO'           { Set-WinPermissionsSpeechRecognition -GPO $SpeechRecognitionGPO }
