@@ -15,6 +15,7 @@
         [-VirtualTouchpad {Disabled | Enabled}]
         [-HiddenIconMenu {Disabled | Enabled}]
         [-Alignment {Left | Center}]
+        [-TouchOptimized {Disabled | Enabled}]
         [-AutoHide {Disabled | Enabled}]
         [-ShowAppsBadges {Disabled | Enabled}]
         [-ShowAppsFlashing {Disabled | Enabled}]
@@ -58,6 +59,7 @@ function Set-TaskbarSetting
 
         # taskbar behaviors
         [TaskbarAlignment] $Alignment,
+        [state] $TouchOptimized,
         [state] $AutoHide,
         [state] $ShowAppsBadges,
         [state] $ShowAppsFlashing,
@@ -95,6 +97,7 @@ function Set-TaskbarSetting
             'HiddenIconMenu'                  { Set-TaskbarHiddenIconMenu -State $HiddenIconMenu }
 
             'Alignment'                       { Set-TaskbarAlignment -Value $Alignment }
+            'TouchOptimized'                  { Set-TaskbarTouchOptimized -State $TouchOptimized }
             'AutoHide'                        { Set-TaskbarAutoHide -State $AutoHide }
             'ShowAppsBadges'                  { Set-TaskbarShowAppsBadges -State $ShowAppsBadges }
             'ShowAppsFlashing'                { Set-TaskbarShowAppsFlashing -State $ShowAppsFlashing }

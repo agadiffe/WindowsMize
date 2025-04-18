@@ -3233,6 +3233,11 @@ Set-TaskbarSetting -HiddenIconMenu 'Enabled'
 # Left | Center (default)
 Set-TaskbarSetting -Alignment 'Center'
 
+# Optimize taskbar for touch interactions when this device is used as a tablet
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-TaskbarSetting -TouchOptimized 'Enabled'
+
 # Automatically hide the taskbar
 #---------------------------------------
 # Disabled (default) | Enabled

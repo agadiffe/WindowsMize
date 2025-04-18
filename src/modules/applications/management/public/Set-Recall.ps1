@@ -27,7 +27,7 @@ function Set-Recall
     {
         # gpo\ computer config > administrative tpl > windows components > windows AI​
         #   allow Recall to be enabled
-        # not configured: delete (default) | on: 1
+        # not configured: delete (default) | on: 1 | off: 0
 
         $WindowsRecallGpo = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
