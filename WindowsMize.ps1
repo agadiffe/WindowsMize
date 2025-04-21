@@ -732,10 +732,10 @@ Write-Section -Name 'Advanced' -SubSection
 
 # Visual effects
 #---------------------------------------
-# State: ManagedByWindows (default) | BestAppearance | BestPerformance | Custom
+# Value: ManagedByWindows (default) | BestAppearance | BestPerformance | Custom
 # Setting: <VisualEffectsCustomSetting> (see below)
 
-#Set-VisualEffects -State 'ManagedByWindows'
+#Set-VisualEffects -Value 'ManagedByWindows'
 
 $VisualEffectsCustomSettings = @{
     'Animate controls and elements inside windows'    = 'Enabled'
@@ -756,7 +756,7 @@ $VisualEffectsCustomSettings = @{
     'Smooth-scroll list boxes'                        = 'Enabled'
     'Use drop shadows for icon labels on the desktop' = 'Enabled'
 }
-Set-VisualEffects -State 'Custom' -Setting $VisualEffectsCustomSettings
+Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
 
 # Advanced > Virtual memory
 #---------------------------------------
