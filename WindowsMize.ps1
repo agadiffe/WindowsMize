@@ -4023,6 +4023,11 @@ Set-WinPermissionsSetting -SearchHistory 'Disabled'
 # GPO: Disabled | NotConfigured
 Set-WinPermissionsSetting -SearchHighlights 'Disabled' -SearchHighlightsGPO 'NotConfigured'
 
+# Enable deep content search of cloud content
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-WinPermissionsSetting -CloudContentSearch 'Disabled'
+
 # Let search apps show results
 #---------------------------------------
 # Disabled | Enabled (default)

@@ -42,6 +42,7 @@
         [-SearchHistory {Disabled | Enabled}]
         [-SearchHighlights {Disabled | Enabled}]
         [-SearchHighlightsGPO {Disabled | NotConfigured}]
+        [-CloudContentSearch {Disabled | Enabled}]
         [-WebSearch {Disabled | Enabled}]
         [-FindMyFiles {Classic | Enhanced}]
         [<CommonParameters>]
@@ -111,6 +112,7 @@ function Set-WinPermissionsSetting
         [state] $SearchHistory,
         [state] $SearchHighlights,
         [GpoStateWithoutEnabled] $SearchHighlightsGPO,
+        [state] $CloudContentSearch,
         [state] $WebSearch,
 
         # search permissions
@@ -172,9 +174,10 @@ function Set-WinPermissionsSetting
             'SearchHistory'                  { Set-WinPermissionsSearchHistory -State $SearchHistory }
             'SearchHighlights'               { Set-WinPermissionsSearchHighlights -State $SearchHighlights }
             'SearchHighlightsGPO'            { Set-WinPermissionsSearchHighlights -GPO $SearchHighlightsGPO }
+            'CloudContentSearch'             { Set-WinPermissionsCloudContentSearch -State $CloudContentSearch }
             'WebSearch'                      { Set-WinPermissionsWebSearch -State $WebSearch }
 
-            'FindMyFiles'                      { Set-WinPermissionsFindMyFiles -State $FindMyFiles }
+            'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -State $FindMyFiles }
         }
     }
 }
