@@ -78,31 +78,34 @@ Write-Output -InputObject 'Loading Modules ...'
 # Do not disable, otherwise the log file will be empty.
 $Global:ModuleVerbosePreference = 'Continue'
 
-Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
-Import-Module -Name "$PSScriptRoot\src\modules\tweaks"
-Import-Module -Name "$PSScriptRoot\src\modules\telemetry"
-Import-Module -Name "$PSScriptRoot\src\modules\network"
-Import-Module -Name "$PSScriptRoot\src\modules\power_options"
-Import-Module -Name "$PSScriptRoot\src\modules\system_properties"
-Import-Module -Name "$PSScriptRoot\src\modules\file_explorer"
-Import-Module -Name "$PSScriptRoot\src\modules\applications\management"
-Import-Module -Name "$PSScriptRoot\src\modules\applications\settings"
-Import-Module -Name "$PSScriptRoot\src\modules\ramdisk"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\accessibility"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\accounts"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\apps"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\bluetooth_&_devices"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\defender_security_center"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\gaming"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\network_&_internet"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\optional_features"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\personnalization"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\privacy_&_security"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\system"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\time_&_language"
-Import-Module -Name "$PSScriptRoot\src\modules\settings_app\windows_update"
-Import-Module -Name "$PSScriptRoot\src\modules\services"
-Import-Module -Name "$PSScriptRoot\src\modules\scheduled_tasks"
+$WindowsMizeModulesNames = @(
+    'helper_functions\general'
+    'tweaks'
+    'telemetry'
+    'network'
+    'power_options'
+    'system_properties'
+    'file_explorer'
+    'applications\management'
+    'applications\settings'
+    'ramdisk'
+    'settings_app\accessibility'
+    'settings_app\accounts'
+    'settings_app\apps'
+    'settings_app\bluetooth_&_devices'
+    'settings_app\defender_security_center'
+    'settings_app\gaming'
+    'settings_app\network_&_internet'
+    'settings_app\optional_features'
+    'settings_app\personnalization'
+    'settings_app\privacy_&_security'
+    'settings_app\system'
+    'settings_app\time_&_language'
+    'settings_app\windows_update'
+    'services'
+    'scheduled_tasks'
+)
+Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\src\modules\$_" })
 
 #endregion modules
 
@@ -126,11 +129,6 @@ Write-Section -Name 'Security, privacy and networking' -SubSection
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-Hotspot2 -State 'Disabled'
-
-# Indexing of encrypted files
-#---------------------------------------
-# Disabled | Enabled | NotConfigured
-Set-IndexingEncryptedFiles -GPO 'Disabled'
 
 # Lock screen camera access
 #-------------------
@@ -506,11 +504,11 @@ Write-Section -Name 'Network'
 
 Write-Section -Name 'Firewall' -SubSection
 
-# Connected Devices Platform service
+# Connected Devices Platform service (CDP)
 #---------------------------------------
 Block-NetFirewallInboundRule -Name 'CDP'
 
-# DCOM service control manager (RPC)
+# DCOM service control manager
 #---------------------------------------
 Block-NetFirewallInboundRule -Name 'DCOM'
 
@@ -4040,6 +4038,11 @@ Set-WinPermissionsSetting -WebSearch 'Disabled'
 #---------------------------------------
 # Classic (default) | Enhanced
 Set-WinPermissionsSetting -FindMyFiles 'Classic'
+
+# Advanced indexing options > Index encrypted files
+#---------------------------------------
+# Disabled | Enabled | NotConfigured
+Set-WinPermissionsSetting -IndexEncryptedFilesGPO 'Disabled'
 
 #endregion windows permissions
 

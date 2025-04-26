@@ -25,7 +25,6 @@
         'Set-HelpTips'
         'Set-HomeSettingPageVisibility'
         'Set-Hotspot2'
-        'Set-IndexingEncryptedFiles'
         'Set-LockScreenCameraAccess'
         'Set-LongPaths'
         'Set-MessagingCloudSync'

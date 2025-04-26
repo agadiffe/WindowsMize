@@ -1,19 +1,27 @@
 #=================================================================================================================
-#                                           Indexing Of Encrypted Files
+#           Privacy & Security > Searching Windows > Advanced Indexing Options > Index Encrypted Files
 #=================================================================================================================
+
+# Full volume encryption (such as BitLocker Drive Encryption or a non-Microsoft solution)
+# must be used for the location of the index to maintain security for encrypted files.
+
+# Indexing and allowing users to search encrypted files could potentially reveal confidential
+# data stored within the encrypted files.
+
+# STIG recommendation: Disabled
 
 <#
 .SYNTAX
-    Set-IndexingEncryptedFiles
+    Set-WinPermissionsIndexEncryptedFiles
         [-GPO] {Disabled | Enabled | NotConfigured}
         [<CommonParameters>]
 #>
 
-function Set-IndexingEncryptedFiles
+function Set-WinPermissionsIndexEncryptedFiles
 {
     <#
     .EXAMPLE
-        PS> Set-IndexingEncryptedFiles -GPO 'Disabled'
+        PS> Set-WinPermissionsIndexEncryptedFiles -GPO 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -28,7 +36,7 @@ function Set-IndexingEncryptedFiles
         # gpo\ computer config > administrative tpl > windows components > search
         #   allow indexing of encrypted files
         # not configured: delete (default) | on: 1 | off: 0
-        $IndexingEncryptedFilesGpo = @{
+        $IndexEncryptedFilesGpo = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Policies\Microsoft\Windows\Windows Search'
             Entries = @(
@@ -41,7 +49,7 @@ function Set-IndexingEncryptedFiles
             )
         }
 
-        Write-Verbose -Message "Setting 'Indexing Of Encrypted Files (GPO)' to '$GPO' ..."
-        Set-RegistryEntry -InputObject $IndexingEncryptedFilesGpo
+        Write-Verbose -Message "Setting 'Windows Permissions - Searching Windows: Index Encrypted Files (GPO)' to '$GPO' ..."
+        Set-RegistryEntry -InputObject $IndexEncryptedFilesGpo
     }
 }

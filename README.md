@@ -64,7 +64,7 @@ See 'Windows Settings App > Privacy & security > Windows permissions'.
 ### Tweaks
 Various tweaks to improve and customize Windows:
 - Security, privacy and networking:  
-  Hotspot2, IndexingEncryptedFiles, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage,  
+  Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage,  
   PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 - System and performance:  
   FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting,  
@@ -93,7 +93,7 @@ You can also install any apps with their Winget app name (e.g. 'Valve.Steam').
 
 #### Settings
 Configure applications settings (including UWP apps).  
-Apps: AcrobatReader, Brave Browser, Git, KeePassXC, MSOffice, qBittorrent, VLC, VSCode.  
+Apps: Acrobat Reader, Brave Browser, Git, KeePassXC, MS Office, qBittorrent, VLC, VSCode.  
 UWP apps: Microsoft Store, Notepad, Photos, Snipping Tool, Terminal.
 
 ### RamDisk

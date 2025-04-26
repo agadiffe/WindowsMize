@@ -45,6 +45,7 @@
         [-CloudContentSearch {Disabled | Enabled}]
         [-WebSearch {Disabled | Enabled}]
         [-FindMyFiles {Classic | Enhanced}]
+        [-IndexEncryptedFilesGPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -116,7 +117,8 @@ function Set-WinPermissionsSetting
         [state] $WebSearch,
 
         # search permissions
-        [FindMyFilesMode] $FindMyFiles
+        [FindMyFilesMode] $FindMyFiles,
+        [GpoState] $IndexEncryptedFilesGPO
     )
 
     process
@@ -178,6 +180,7 @@ function Set-WinPermissionsSetting
             'WebSearch'                      { Set-WinPermissionsWebSearch -State $WebSearch }
 
             'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -State $FindMyFiles }
+            'IndexEncryptedFilesGPO'         { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }
         }
     }
 }
