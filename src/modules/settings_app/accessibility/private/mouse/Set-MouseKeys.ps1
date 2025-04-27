@@ -38,7 +38,7 @@ function Set-MouseKeys
                 }
             )
         }
-        $SettingRegPath = "Registry::$($MouseKeysFlags.Hive)\$($MouseKeysFlags.Path)"
+        $SettingRegPath = $MouseKeysFlags.Path
         $SettingRegEntry = $MouseKeysFlags.Entries[0].Name
         $MouseKeysMsg = 'Mouse Keys'
 
@@ -49,7 +49,7 @@ function Set-MouseKeys
                 # 1st bit\ on: 1 | off: 0 (default)
                 $MKF_MOUSEKEYSON = 0x00000001
 
-                $CurrentFlags = Get-ItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
+                $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $MKF_MOUSEKEYSON -State ($State -eq 'Enabled')
 
                 $MouseKeysFlags.Entries[0].Value = $NewFlags
@@ -62,7 +62,7 @@ function Set-MouseKeys
                 # 3rd bit\ on: 1 (default) | off: 0
                 $MKF_HOTKEYACTIVE = 0x00000004
 
-                $CurrentFlags = Get-ItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
+                $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $MKF_HOTKEYACTIVE -State ($KeyboardShorcut -eq 'Enabled')
 
                 $MouseKeysFlags.Entries[0].Value = $NewFlags

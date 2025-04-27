@@ -10,6 +10,7 @@
 
     FunctionsToExport = @(
         'Get-LoggedOnUserEnvVariable'
+        'Get-LoggedOnUserItemPropertyValue'
         'Get-LoggedOnUserShellFolder'
         'Get-LoggedOnUserSID'
         'Get-LoggedOnUserUsername'

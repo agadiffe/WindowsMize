@@ -38,9 +38,8 @@ function Set-DisplayGraphics
             'WindowedGamesOptimizations' { 'SwapEffectUpgradeEnable' }
         }
 
-        $UserSID = Get-LoggedOnUserSID
-        $GpuPrefRegPath = "Registry::HKEY_USERS\$UserSID\Software\Microsoft\DirectX\UserGpuPreferences"
-        $CurrentSettings = (Get-ItemProperty -Path $GpuPrefRegPath -ErrorAction 'SilentlyContinue').DirectXUserGlobalSettings
+        $GpuPrefRegPath = 'Software\Microsoft\DirectX\UserGpuPreferences'
+        $CurrentSettings = Get-LoggedOnUserItemPropertyValue -Path $GpuPrefRegPath -Name 'DirectXUserGlobalSettings'
         $DirectXSettings = $CurrentSettings -like "*$SettingName*" ?
             $CurrentSettings -replace "($SettingName=)\d;", "`${1}$SettingValue;" :
             $CurrentSettings + "$SettingName=$SettingValue;"

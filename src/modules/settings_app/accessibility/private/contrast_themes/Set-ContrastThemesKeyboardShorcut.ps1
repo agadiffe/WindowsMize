@@ -32,8 +32,8 @@ function Set-ContrastThemesKeyboardShorcut
         # 3rd bit\ on: 1 (default) | off: 0
         $HCF_HOTKEYACTIVE = 0x00000004
 
-        $SettingRegPath = 'Registry::HKEY_CURRENT_USER\Control Panel\Accessibility\HighContrast'
-        $CurrentFlags = Get-ItemPropertyValue -Path $SettingRegPath -Name 'Flags'
+        $SettingRegPath = 'Control Panel\Accessibility\HighContrast'
+        $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'Flags'
         $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $HCF_HOTKEYACTIVE -State ($State -eq 'Enabled')
 
         $ContrastThemesKeyboardShorcut = @{

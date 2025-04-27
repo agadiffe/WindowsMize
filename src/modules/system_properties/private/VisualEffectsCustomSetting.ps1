@@ -176,9 +176,8 @@ function Set-VisualEffectsCustomSettingByteBitFlag
 
     begin
     {
-        $UserSID = Get-LoggedOnUserSID
-        $VisualEffectsRegPath = "Registry::HKEY_USERS\$UserSID\Control Panel\Desktop"
-        $VisualEffectsBytes = Get-ItemPropertyValue -Path $VisualEffectsRegPath -Name 'UserPreferencesMask'
+        $VisualEffectsRegPath = 'Control Panel\Desktop'
+        $VisualEffectsBytes = Get-LoggedOnUserItemPropertyValue -Path $VisualEffectsRegPath -Name 'UserPreferencesMask'
     }
 
     process

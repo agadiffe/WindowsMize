@@ -27,8 +27,8 @@ function Set-FileExplorerShowNetwork
     {
         # 5th byte\ on: 3rd bit 1, 4th bit 0 (default) | off: 3rd bit 0, 4th bit 1
 
-        $SettingRegPath = 'Registry::HKEY_CURRENT_USER\Software\Classes\NotificationData'
-        $SettingBytes = (Get-ItemProperty -Path $SettingRegPath).'0D83063EA3B8ACF5'
+        $SettingRegPath = 'Software\Classes\NotificationData'
+        $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name '0D83063EA3B8ACF5'
 
         if (-not $SettingBytes)
         {

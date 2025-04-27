@@ -4,7 +4,7 @@
 
 function Export-InstalledWindowsCapabilitiesNames
 {
-    $LogFilePath = "$PSScriptRoot\..\..\..\..\..\log\windows_capabilities_default.txt"
+    $LogFilePath = "$PSScriptRoot\..\..\..\..\..\log\windows_default_capabilities_names.txt"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Installed Windows Capabilities Names ...'

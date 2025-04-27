@@ -47,9 +47,11 @@ function Set-KeyboardHotkey
             )
         }
 
-        $UserSID = Get-LoggedOnUserSID
-        $DisabledHotkeysRegPath = "Registry::HKEY_USERS\$UserSID\$($DisabledHotkeys.Path)"
-        $DisabledHotkeysValue = (Get-ItemProperty $DisabledHotkeysRegPath).$($DisabledHotkeys.Entries[0].Name)
+        $DisabledHotkeysParam = @{
+            Path = $DisabledHotkeys.Path
+            Name = $DisabledHotkeys.Entries[0].Name
+        }
+        $DisabledHotkeysValue = Get-LoggedOnUserItemPropertyValue @DisabledHotkeysParam
         $DisabledHotkeysValue = $null -eq $DisabledHotkeysValue ? '' : $DisabledHotkeysValue.ToUpper()
 
     }

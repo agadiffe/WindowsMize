@@ -38,7 +38,7 @@ function Set-KeyboardFilterKeys
                 }
             )
         }
-        $SettingRegPath = "Registry::$($FilterKeysFlags.Hive)\$($FilterKeysFlags.Path)"
+        $SettingRegPath = $FilterKeysFlags.Path
         $SettingRegEntry = $FilterKeysFlags.Entries[0].Name
         $FilterKeysMsg = 'Keyboard Filter Keys'
 
@@ -49,7 +49,7 @@ function Set-KeyboardFilterKeys
                 # 1st bit\ on: 1 | off: 0 (default)
                 $FKF_FILTERKEYSON = 0x00000001
 
-                $CurrentFlags = Get-ItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
+                $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $FKF_FILTERKEYSON -State ($State -eq 'Enabled')
 
                 $FilterKeysFlags.Entries[0].Value = $NewFlags
@@ -62,7 +62,7 @@ function Set-KeyboardFilterKeys
                 # 3rd bit\ on: 1 (default) | off: 0
                 $FKF_HOTKEYACTIVE = 0x00000004
 
-                $CurrentFlags = Get-ItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
+                $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $FKF_HOTKEYACTIVE -State ($KeyboardShorcut -eq 'Enabled')
 
                 $FilterKeysFlags.Entries[0].Value = $NewFlags

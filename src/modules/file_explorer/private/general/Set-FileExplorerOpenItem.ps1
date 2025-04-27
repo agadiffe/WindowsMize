@@ -27,8 +27,8 @@ function Set-FileExplorerOpenItem
     {
         # 5th byte, 6th bit\ single-click to open an item: 0 | double-click to open an item: 1 (default)
 
-        $SettingRegPath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
-        $SettingBytes = Get-ItemPropertyValue -Path $SettingRegPath -Name 'ShellState'
+        $SettingRegPath = 'Software\Microsoft\Windows\CurrentVersion\Explorer'
+        $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'ShellState'
         Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 6 -State ($Value -eq 'DoubleClick')
 
         $OpenItem = [HkcuExplorer]::new('ShellState', $SettingBytes, 'Binary')

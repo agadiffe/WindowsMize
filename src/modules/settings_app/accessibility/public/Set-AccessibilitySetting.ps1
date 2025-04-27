@@ -88,6 +88,8 @@ function Set-AccessibilitySetting
             'VisualEffectsAnimation'                  { Set-VisualEffectsAnimation -State $VisualEffectsAnimation }
             'VisualEffectsNotificationsDuration'      { Set-VisualEffectsNotificationsDuration -Value $VisualEffectsNotificationsDuration }
 
+            'ContrastThemesKeyboardShorcut'           { Set-ContrastThemesKeyboardShorcut -State $ContrastThemesKeyboardShorcut }
+
             'NarratorKeyboardShorcut'                 { Set-NarratorKeyboardShorcut -State $NarratorKeyboardShorcut }
             'NarratorAutoSendTelemetry'               { Set-NarratorAutoSendTelemetry -State $NarratorAutoSendTelemetry }
 

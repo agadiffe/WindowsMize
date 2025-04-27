@@ -43,7 +43,7 @@ function Set-KeyboardHotKeySwitchKeyboardLayout
         Write-Verbose -Message "Setting 'Typing - Keyboard Input Language Hot Keys: Switch Keyboard Layout' to '$Value' ..."
         Set-RegistryEntry -InputObject $SwitchKeyboardLayoutHotkey
 
-        $LanguageHotkey = (Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Keyboard Layout\Toggle').'Language Hotkey'
+        $LanguageHotkey = Get-LoggedOnUserItemPropertyValue -Path 'Keyboard Layout\Toggle' -Name 'Language Hotkey'
         if ($Value -ne 'NotAssigned' -and [int]$Value -eq $LanguageHotkey)
         {
             Write-Verbose -Message ('  Hot key is also assigned to ''Switch Input Language''.' +

@@ -36,11 +36,11 @@ function Set-RecycleBinConfirmFileDelete
             {
                 # 5th byte, 3rd bit\ on: 0 | off: 1 (default)
 
-                $ConfirmFileDeletePath = 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer'
-                $ConfirmFileDeleteBytes = Get-ItemPropertyValue -Path $ConfirmFileDeletePath -Name 'ShellState'
-                Set-ByteBitFlag -Bytes $ConfirmFileDeleteBytes -ByteNum 4 -BitPos 3 -State ($State -eq 'Enabled' ? $false : $true)
+                $SettingRegPath = 'Software\Microsoft\Windows\CurrentVersion\Explorer'
+                $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'ShellState'
+                Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 3 -State ($State -eq 'Enabled' ? $false : $true)
 
-                $ConfirmFileDelete = [HkcuExplorerAdvanced]::new('ShellState', $ConfirmFileDeleteBytes, 'Binary')
+                $ConfirmFileDelete = [HkcuExplorerAdvanced]::new('ShellState', $SettingBytes, 'Binary')
                 $ConfirmFileDelete.WriteVerboseMsg($ConfirmFileDeleteMsg, $State)
                 $ConfirmFileDelete.SetRegistryEntry()
             }

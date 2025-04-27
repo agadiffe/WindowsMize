@@ -12,9 +12,8 @@ function Remove-MicrosoftEdge
     }
 
     # Get the user region.
-    $UserSID = Get-LoggedOnUserSID
-    $UserRegionRegPath = "Registry::HKEY_USERS\$UserSID\Control Panel\International\Geo"
-    $UserRegion = Get-ItemPropertyValue -Path $UserRegionRegPath -Name 'Name'
+    $UserRegionRegPath = 'Control Panel\International\Geo'
+    $UserRegion = Get-LoggedOnUserItemPropertyValue -Path $UserRegionRegPath -Name 'Name'
 
     # Get the 'RegionPolicy' config file content.
     $RegionPolicyFilePath = "$env:SystemRoot\System32\IntegratedServicesRegionPolicySet.json"

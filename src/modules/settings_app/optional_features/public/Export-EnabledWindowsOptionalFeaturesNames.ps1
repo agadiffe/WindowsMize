@@ -4,7 +4,7 @@
 
 function Export-EnabledWindowsOptionalFeaturesNames
 {
-    $LogFilePath = "$PSScriptRoot\..\..\..\..\..\log\windows_optional_features_default.txt"
+    $LogFilePath = "$PSScriptRoot\..\..\..\..\..\log\windows_default_optional_features_names.txt"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Enabled Windows Optional Features Names ...'

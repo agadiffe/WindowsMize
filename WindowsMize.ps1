@@ -418,8 +418,9 @@ Set-ApplicationCompatibility -GPO 'Disabled'
 
 # Cloud content experiences
 #---------------------------------------
+# Disabled: also disable Windows Spotlight
 # Disabled | NotConfigured
-Set-CloudContent -GPO 'Disabled'
+Set-CloudContent -GPO 'NotConfigured'
 
 # Consumer experiences
 #---------------------------------------

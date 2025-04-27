@@ -26,6 +26,8 @@ function Test-DefenderNotifsEnabled
 
     process
     {
+        $UserSID = Get-LoggedOnUserSID
+
         $NotifsRegPath, $NotifsRegEntries = switch ($Name)
         {
             'VirusAndThreat'
@@ -39,7 +41,7 @@ function Test-DefenderNotifsEnabled
             }
             'Account'
             {
-                'HKEY_CURRENT_USER\Software\Microsoft\Windows Defender Security Center\Account protection',
+                "HKEY_USERS\$UserSID\Software\Microsoft\Windows Defender Security Center\Account protection",
                 @(
                     'DisableDynamiclockNotifications'
                     'DisableWindowsHelloNotifications'
