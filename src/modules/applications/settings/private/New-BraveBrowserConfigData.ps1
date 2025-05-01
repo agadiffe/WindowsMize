@@ -340,7 +340,7 @@ function New-BraveBrowserConfigData
                 "form_data_on_exit": true,
                 "hosted_apps_data_on_exit": true,
                 "passwords_on_exit": true,
-                "site_settings_on_exit": false // if enabled, will not remember Shields settings (e.g. agressive)
+                "site_settings_on_exit": false
             }
         }
     }' | ConvertFrom-Json -AsHashtable)
@@ -489,6 +489,7 @@ function New-BraveBrowserConfigData
                 "auto_generate_questions": false, // suggested prompts
                 "context_menu_enabled": false,
                 "storage_enabled": false, // history
+                "tab_organization_enabled": false, // tab Focus Mode
                 "user_dismissed_premium_prompt": true
             }
         }
@@ -569,6 +570,28 @@ function New-BraveBrowserConfigData
         },
         "download_bubble": {
             "partial_view_enabled": true // show downloads when done
+        }
+    }' | ConvertFrom-Json -AsHashtable)
+
+    #------------------------------------
+    ## Accessibility
+    #------------------------------------
+    Merge-Hashtable $BravePreferences ('{
+        "settings": {
+            "a11y": {
+                "caretbrowsing": { // navigate pages with a text cursor
+                    "enabled": false
+                },
+                "focus_highlight": false
+            }
+        }
+    }' | ConvertFrom-Json -AsHashtable)
+
+    Merge-Hashtable $BraveLocalState ('{
+        "settings": {
+            "a11y": {
+                "overscroll_history_navigation": true // swipe between pages
+            }
         }
     }' | ConvertFrom-Json -AsHashtable)
 
