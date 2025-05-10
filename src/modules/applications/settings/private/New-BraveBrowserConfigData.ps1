@@ -647,8 +647,22 @@ function New-BraveBrowserConfigData
                     3, // Bookmarks
                     4  // Reading List
                 ],
-                "side_panel_width": 500
+                "item_added_feedback_bubble_shown_count": 3 // overlay tip: added, Right-click to remove\ on: 0 | off: 3
+                "side_panel_width": 500 // default and minimum: 320
+            },
+            "tabs": {
+                "vertical_tabs_expanded_width": 220 // default: 220 | min: 114 | max: 482
             }
+        },
+        "in_product_help": {
+            "snoozed_feature": {
+                "IPH_DiscardRing": {
+                    "is_dismissed": true // overlay tip: Inactive tabs get a new look
+                }
+            }
+        },
+        "omnibox": {
+            "shown_count_history_scope_promo": 3 // tip: Type @history to search your browsing history\ on: 0 | off: 3
         },
         "tab_search": {
             "recently_closed_expanded": true
@@ -659,7 +673,7 @@ function New-BraveBrowserConfigData
         "brave": {
             "dont_ask_for_crash_reporting": true,
             "onboarding": {
-                "last_shields_icon_highlighted_time": "1" // disable Shields onboarding highlight
+                "last_shields_icon_highlighted_time": "1" // Shields onboarding highlight\ on: 0 | off: non-0
             }
         }
     }' | ConvertFrom-Json -AsHashtable)

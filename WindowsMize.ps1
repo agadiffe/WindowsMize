@@ -1514,6 +1514,7 @@ Write-Section -Name 'Brave Browser' -SubSection
 
 # If used on current install, it will override the current settings.
 # Including your profiles if you have more than one (the data folder will not be deleted).
+# It means that you will have only 1 profile after applying this function.
 
 # For now, to customize the settings, open the file:
 #   src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
