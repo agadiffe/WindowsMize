@@ -36,8 +36,11 @@ function New-BraveBrowserConfigData
                 "show_background_image": true,
                 "show_branded_background_image": false,
                 "show_brave_news": false,
+                "show_brave_vpn": false,
                 "show_clock": false,
+                "show_rewards": false,
                 "show_stats": false,
+                "show_together": false, // talk card
                 "shows_options": 0 // new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
             }
         },
@@ -654,12 +657,8 @@ function New-BraveBrowserConfigData
                 "vertical_tabs_expanded_width": 220 // default: 220 | min: 114 | max: 482
             }
         },
-        "in_product_help": {
-            "snoozed_feature": {
-                "IPH_DiscardRing": {
-                    "is_dismissed": true // overlay tip: Inactive tabs get a new look
-                }
-            }
+        "in_product_help": { // disable overlay tip: Inactive tabs get a new look (and probably more)
+            "policy_last_heavyweight_promo_time": "99999999999999999"
         },
         "omnibox": {
             "shown_count_history_scope_promo": 3 // tip: Type @history to search your browsing history\ on: 0 | off: 3

@@ -11,7 +11,7 @@ $PreinstalledAppsList = [ordered]@{
     Compatibility    = 'Microsoft.ApplicationCompatibilityEnhancements'
     Cortana          = 'Microsoft.549981C3F5F10' # old
     CrossDevice      = 'MicrosoftWindows.CrossDevice' # link and manage your mobile devices
-    DevHome          = 'Microsoft.Windows.DevHome'
+    DevHome          = 'Microsoft.Windows.DevHome' # old
     Extensions       = @(
                        'Microsoft.AV1VideoExtension'
                        'Microsoft.AVCEncoderVideoExtension'
