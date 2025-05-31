@@ -3387,6 +3387,21 @@ Set-GeneralAppsSetting -AppsOpenLinksInsteadOfBrowserGPO 'NotConfigured'
 
 #endregion apps for websites
 
+
+#==========================================================
+#                          Resume
+#==========================================================
+#region resume
+
+Write-Section -Name 'Resume' -SubSection
+
+# Resume
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-GeneralAppsSetting -AppsResume 'Disabled'
+
+#endregion resume
+
 #endregion apps
 
 
