@@ -1757,6 +1757,11 @@ Set-WindowsNotepadSetting -FontSize 11
 # Disabled | Enabled (default)
 Set-WindowsNotepadSetting -WordWrap 'Enabled'
 
+# Formatting
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-WindowsNotepadSetting -Formatting 'Enabled'
+
 
 #==========================================================
 #                     Opening Notepad
@@ -1812,10 +1817,15 @@ Set-WindowsNotepadSetting -Copilot 'Disabled'
 # Disabled | Enabled (default)
 Set-WindowsNotepadSetting -StatusBar 'Enabled'
 
-# First launch tip (tip: notepad automatically saves your progress)
+# Continue Previous Session tip (notepad automatically saves your progress)
 #---------------------------------------
 # Disabled | Enabled (default)
-Set-WindowsNotepadSetting -FirstLaunchTip 'Disabled'
+Set-WindowsNotepadSetting -ContinuePreviousSessionTip 'Disabled'
+
+# Formatting tips
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-WindowsNotepadSetting -FormattingTips 'Disabled'
 
 #endregion windows notepad
 

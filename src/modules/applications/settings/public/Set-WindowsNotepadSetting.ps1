@@ -10,6 +10,7 @@
         [-FontStyle {Regular | Italic | Bold | Bold Italic}]
         [-FontSize <int>]
         [-WordWrap {Disabled | Enabled}]
+        [-Formatting {Disabled | Enabled}]
         [-OpenFile {NewTab | NewWindow}]
         [-ContinuePreviousSession {Disabled | Enabled}]
         [-RecentFiles {Disabled | Enabled}]
@@ -17,7 +18,8 @@
         [-AutoCorrect {Disabled | Enabled}]
         [-Copilot {Disabled | Enabled}]
         [-StatusBar {Disabled | Enabled}]
-        [-FirstLaunchTip {Disabled | Enabled}]
+        [-ContinuePreviousSessionTip {Disabled | Enabled}]
+        [-FormattingTips {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -49,6 +51,8 @@ function Set-WindowsNotepadSetting
 
         [state] $WordWrap,
 
+        [state] $Formatting,
+
         # opening notepad
         [ValidateSet('NewTab', 'NewWindow')]
         [string] $OpenFile,
@@ -68,7 +72,9 @@ function Set-WindowsNotepadSetting
         # miscellaneous
         [state] $StatusBar,
 
-        [state] $FirstLaunchTip
+        [state] $ContinuePreviousSessionTip,
+
+        [state] $FormattingTips
     )
 
     process
@@ -140,6 +146,16 @@ function Set-WindowsNotepadSetting
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$WordWrapReg) | Out-Null
+            }
+            'Formatting'
+            {
+                # on: 1 (default) | off: 0
+                $FormattingReg = @{
+                    Name  = 'FormattingEnabled'
+                    Value = $Formatting -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$FormattingReg) | Out-Null
             }
             'OpenFile'
             {
@@ -246,16 +262,35 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$StatusBarReg) | Out-Null
             }
-            'FirstLaunchTip'
+            'ContinuePreviousSessionTip'
             {
                 # first launch tip closed (tip: notepad automatically saves your progress)
                 # on: 1 | off: 0 (default)
-                $FirstLaunchTipReg = @{
+                $ContinuePreviousSessionTipReg = @{
                     Name  = 'TeachingTipExplicitClose'
-                    Value = $FirstLaunchTip -eq 'Enabled' ? '0' : '1'
+                    Value = $ContinuePreviousSessionTip -eq 'Enabled' ? '0' : '1'
                     Type  = '5f5e10b'
                 }
-                $NotepadSettings.Add([PSCustomObject]$FirstLaunchTipReg) | Out-Null
+                $NotepadSettings.Add([PSCustomObject]$ContinuePreviousSessionTipReg) | Out-Null
+
+                # default: 0 (needed by TeachingTipExplicitClose to work)
+                # Should already be there by default (enforce the entry creation just in case)
+                $TeachingTipVersionReg = @{
+                    Name  = 'TeachingTipVersion'
+                    Value = '0'
+                    Type  = '5f5e105'
+                }
+                $NotepadSettings.Add([PSCustomObject]$TeachingTipVersionReg) | Out-Null
+            }
+            'FormattingTips'
+            {
+                # on: 1 (default) | off: 0
+                $FormattingTipsReg = @{
+                    Name  = 'FormattingFREFirstLoad'
+                    Value = $FormattingTips -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$FormattingTipsReg) | Out-Null
             }
         }
 

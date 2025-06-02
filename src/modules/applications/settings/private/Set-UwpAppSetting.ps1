@@ -62,7 +62,7 @@ function Set-UwpAppSetting
         }
         else
         {
-            Write-Verbose -Message "$Name is not installed"
+            Write-Verbose -Message "$Name is not installed (settings.dat not found)"
         }
     }
 }
@@ -114,7 +114,8 @@ function Set-UwpAppRegistryEntry
         {
             '5f5e10b' { ([int]$Value | Format-Hex -Count 1).HexBytes }
             '5f5e10c' { [string]($Value | Format-Hex -Encoding 'unicode').HexBytes + ' 00 00' }
-            '5f5e104' { ([int32]$Value | Format-Hex).HexBytes }
+            '5f5e104' { ([int]$Value | Format-Hex).HexBytes }
+            '5f5e105' { ([uint]$Value | Format-Hex).HexBytes }
             '5f5e106' { ([int64]$Value | Format-Hex).HexBytes }
         }
 
