@@ -1,0 +1,117 @@
+#=================================================================================================================
+#                   __      __  _             _                       __  __   _
+#                   \ \    / / (_)  _ _    __| |  ___  __ __ __  ___ |  \/  | (_)  ___  ___
+#                    \ \/\/ /  | | | ' \  / _` | / _ \ \ V  V / (_-< | |\/| | | | |_ / / -_)
+#                     \_/\_/   |_| |_||_| \__,_| \___/  \_/\_/  /__/ |_|  |_| |_| /__| \___|
+#
+#                    PowerShell script to automate and customize the configuration of Windows
+#
+#=================================================================================================================
+
+#==============================================================================
+#                                Requirements
+#==============================================================================
+
+#Requires -RunAsAdministrator
+#Requires -Version 7.5
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
+
+
+#==============================================================================
+#                                   Modules
+#==============================================================================
+
+Write-Output -InputObject 'Loading ''Win_settings_app\Accounts'' Module ...'
+
+# Do not disable, otherwise the log file will be empty.
+$Global:ModuleVerbosePreference = 'Continue'
+
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\accounts"
+
+
+
+#=================================================================================================================
+#                                              Windows Settings App
+#=================================================================================================================
+
+#==============================================================================
+#                                   Accounts
+#==============================================================================
+
+Write-Section -Name 'Windows Settings App - Accounts'
+
+#==========================================================
+#                        Your info
+#==========================================================
+#region your info
+
+Write-Section -Name 'Your info' -SubSection
+
+# Account setting
+#---------------------------------------
+# Enabled: also disable and gray out 'settings > bluetooth & devices > mobile devices'
+# CannotAddMicrosoftAccount | CannotAddOrLogonWithMicrosoftAccount | NotConfigured
+Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured'
+
+#endregion your info
+
+
+#==========================================================
+#                     Sign-in options
+#==========================================================
+#region sign-in options
+
+Write-Section -Name 'Sign-in options' -SubSection
+
+# Biometrics
+#---------------------------------------
+# Disabled | NotConfigured
+Set-SigninOptionsSetting -BiometricsGPO 'NotConfigured'
+
+# Sign in with an external camera or fingerprint reader
+#---------------------------------------
+# Requires compatible hardware and software components to have this option visible.
+# Disabled | Enabled (default)
+Set-SigninOptionsSetting -SigninWithExternalDevice 'Enabled'
+
+# For improved security, only allow Windows Hello sign-in for Microsoft accounts on this device
+#---------------------------------------
+# Requires a Microsoft account to have this option visible.
+# Disabled (default) | Enabled
+Set-SigninOptionsSetting -OnlyWindowsHelloForMSAccount 'Disabled'
+
+# If you've been away, when should Windows require you to sign in again
+#---------------------------------------
+# Only available if your account has a password.
+# Standard Standby (S3): Never | OnWakesUpFromSleep (default)
+# Modern Standby (S0): Never | Always (default) | OneMin | ThreeMins | FiveMins | FifteenMins
+Set-SigninOptionsSetting -SigninRequiredIfAway 'Never'
+
+# Dynamic lock : Allow Windows to automatically lock your device when you're away
+#---------------------------------------
+# State: Disabled (default) | Enabled
+# GPO: Disabled | Enabled | NotConfigured
+Set-SigninOptionsSetting -DynamicLock 'Disabled' -DynamicLockGPO 'NotConfigured'
+
+# Automatically save my restartable apps and restart them when I sign back in
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-SigninOptionsSetting -AutoRestartApps 'Disabled'
+
+# Show account details such as my email address on the sign-in screen
+#---------------------------------------
+# Disabled | NotConfigured
+Set-SigninOptionsSetting -ShowAccountDetailsGPO 'NotConfigured'
+
+# Use my sign-in info to automatically finish setting up after an update
+#---------------------------------------
+# State: Disabled | Enabled (default)
+# GPO: Disabled | Enabled | NotConfigured
+Set-SigninOptionsSetting -AutoFinishSettingUpAfterUpdate 'Disabled' -AutoFinishSettingUpAfterUpdateGPO 'NotConfigured'
+
+#endregion sign-in options
+
+
+Stop-Transcript

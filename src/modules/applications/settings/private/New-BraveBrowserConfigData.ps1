@@ -650,7 +650,7 @@ function New-BraveBrowserConfigData
                     3, // Bookmarks
                     4  // Reading List
                 ],
-                "item_added_feedback_bubble_shown_count": 3 // overlay tip: added, Right-click to remove\ on: 0 | off: 3
+                "item_added_feedback_bubble_shown_count": 3, // overlay tip: added, Right-click to remove\ on: 0 | off: 3
                 "side_panel_width": 500 // default and minimum: 320
             },
             "tabs": {

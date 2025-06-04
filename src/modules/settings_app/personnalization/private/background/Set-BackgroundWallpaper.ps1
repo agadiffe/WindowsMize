@@ -30,19 +30,43 @@ function Set-BackgroundWallpaper
 
     process
     {
-        $BackgroundWallpaper = @{
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Control Panel\Desktop'
-            Entries = @(
-                @{
-                    Name  = 'WallPaper'
-                    Value = $FilePath
-                    Type  = 'String'
-                }
-            )
-        }
+        $BackgroundWallpaper = @(
+            @{
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers'
+                Entries = @(
+                    @{
+                        Name  = 'BackgroundType'
+                        Value = '0'
+                        Type  = 'DWord'
+                    }
+                )
+            }
+            @{
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Windows\CurrentVersion\DesktopSpotlight\Settings'
+                Entries = @(
+                    @{
+                        Name  = 'EnabledState'
+                        Value = '0'
+                        Type  = 'DWord'
+                    }
+                )
+            }
+            @{
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Control Panel\Desktop'
+                Entries = @(
+                    @{
+                        Name  = 'WallPaper'
+                        Value = $FilePath
+                        Type  = 'String'
+                    }
+                )
+            }
+        )
 
         Write-Verbose -Message "Setting 'Background Picture - Choose A Photo' to '$FilePath' ..."
-        Set-RegistryEntry -InputObject $BackgroundWallpaper
+        $BackgroundWallpaper | Set-RegistryEntry
     }
 }

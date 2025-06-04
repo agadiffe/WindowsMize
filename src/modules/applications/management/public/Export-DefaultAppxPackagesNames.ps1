@@ -4,7 +4,7 @@
 
 function Export-DefaultAppxPackagesNames
 {
-    $LogFilePath = "$PSScriptRoot\..\..\..\..\..\log\windows_appx_packages_default.txt"
+    $LogFilePath = "$PSScriptRoot\..\..\..\..\..\log\windows_default_appx_packages_names.txt"
     if (-not (Test-Path -Path $LogFilePath))
     {
         Write-Verbose -Message 'Exporting Default Appx Packages Names ...'

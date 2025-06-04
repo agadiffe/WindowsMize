@@ -117,21 +117,21 @@ function Set-WindowsSpotlight
             }
             'LearnAboutPictureDesktopIcon'
             {
-                # on: delete (or 0) (default) | off: 1
+                # on: key present (default) | off: delete key
                 $LearnAboutPicture = @{
                     Hive    = 'HKEY_CURRENT_USER'
-                    Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
+                    Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{2cc5ca98-6485-489a-920e-b3e88a6ccce3}'
                     Entries = @(
                         @{
                             RemoveEntry = $LearnAboutPictureDesktopIcon -eq 'Disabled'
-                            Name  = '{2cc5ca98-6485-489a-920e-b3e88a6ccce3}'
-                            Value = '1'
-                            Type  = 'DWord'
+                            Name  = '(Default)'
+                            Value = 'Windows Spotlight'
+                            Type  = 'String'
                         }
                     )
                 }
 
-                $LearnAboutPictureState = "Learn About This Picture Desktop Icon' to '$LearnAboutPictureDesktopIcon'"
+                $LearnAboutPictureState = "'Learn About This Picture' Desktop Icon to '$LearnAboutPictureDesktopIcon'"
                 Write-Verbose -Message "Setting 'Windows Spotlight - $LearnAboutPictureState ..."
                 Set-RegistryEntry -InputObject $LearnAboutPicture
             }
