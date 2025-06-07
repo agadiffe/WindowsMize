@@ -81,3 +81,13 @@ enum TouchpadSwipesCustomMode
     VolumeDown              = 17
     Mute                    = 18
 }
+
+
+# autoplay
+enum AutoPlayMode
+{
+    Default
+    NoAction
+    OpenFolder
+    AskEveryTime
+}

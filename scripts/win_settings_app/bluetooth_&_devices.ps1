@@ -303,6 +303,19 @@ Write-Section -Name 'AutoPlay' -SubSection
 # GPO: Disabled | NotConfigured
 Set-AutoPlaySetting -AutoPlay 'Enabled' -AutoPlayGPO 'NotConfigured'
 
+#       Choose AutoPlay defaults
+#=======================================
+
+# Removable Drive
+#---------------------------------------
+# Default (default) | NoAction | OpenFolder | AskEveryTime
+Set-AutoPlaySetting -RemovableDrive 'OpenFolder'
+
+# Memory card
+#---------------------------------------
+# Default (default) | NoAction | OpenFolder | AskEveryTime
+Set-AutoPlaySetting -MemoryCard 'OpenFolder'
+
 #endregion autoplay
 
 

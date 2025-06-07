@@ -7,6 +7,8 @@
     Set-AutoPlaySetting
         [-AutoPlay {Disabled | Enabled}]
         [-AutoPlayGPO {Disabled | NotConfigured}]
+        [-RemovableDrive {Default | NoAction | OpenFolder | AskEveryTime}]
+        [-MemoryCard {Default | NoAction | OpenFolder | AskEveryTime}]
         [<CommonParameters>]
 #>
 
@@ -22,7 +24,11 @@ function Set-AutoPlaySetting
     (
         [state] $AutoPlay,
 
-        [GpoStateWithoutEnabled] $AutoPlayGPO
+        [GpoStateWithoutEnabled] $AutoPlayGPO,
+
+        [AutoPlayMode] $RemovableDrive,
+
+        [AutoPlayMode] $MemoryCard
     )
 
     process
@@ -35,8 +41,10 @@ function Set-AutoPlaySetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'AutoPlay'    { Set-AutoPlay -State $AutoPlay }
-            'AutoPlayGPO' { Set-AutoPlay -GPO $AutoPlayGPO }
+            'AutoPlay'       { Set-AutoPlay -State $AutoPlay }
+            'AutoPlayGPO'    { Set-AutoPlay -GPO $AutoPlayGPO }
+            'RemovableDrive' { Set-AutoPlayRemovableDrive -Value $RemovableDrive }
+            'MemoryCard'     { Set-AutoPlayMemoryCard -Value $MemoryCard }
         }
     }
 }
