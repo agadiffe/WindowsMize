@@ -43,6 +43,7 @@ function Set-TouchpadGesturesAdvancedFingersSwipes
     {
         $FingerMode = $Name
         $PSBoundParameters.Remove('Name') | Out-Null
+
         foreach ($Key in $PSBoundParameters.Keys)
         {
             # Three/Four Finger Up/Down/Left/Right\ ignored if 'Three/Four FingerSlideEnabled' is NOT set to 'custom'

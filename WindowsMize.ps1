@@ -16,7 +16,7 @@
 #Requires -Version 7.5
 
 <#
-- These 2 below steps are automated if you use Run_WindowsMize.bat.
+- These 2 below steps are automated if you use Run_WindowsMize.cmd.
   - PowerShell 7 (aka PowerShell Core).
     Open a terminal and run:
       winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements

@@ -144,7 +144,7 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
     ```
 3. Navigate to the extracted 'WindowsMize' folder in your 'Downloads' folder.
 4. **Configure the script (WindowsMize.ps1) according to your preferences**.
-5. Double click on the `Run_WindowsMize.bat` file to run the script.  
+5. Double click on the `Run_WindowsMize.cmd` file to run the script.  
    Accept the Windows UAC prompt to run it as Administrator (required).  
    If 'PowerShell 7' is not installed, it will be automatically installed.
 6. Restart (Mandatory for a lot of tweaks/settings).

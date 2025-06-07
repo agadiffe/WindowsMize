@@ -62,6 +62,26 @@ Set-NetworkSetting -ConnectedNetworkProfile 'Private'
 
 
 #==========================================================
+#                           VPN
+#==========================================================
+#region vpn
+
+Write-Section -Name 'VPN' -SubSection
+
+# Allow VPN over metered networks
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetworkSetting -VpnOverMeteredNetworks 'Enabled'
+
+# Allow VPN while roaming
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetworkSetting -VpnWhileRoaming 'Enabled'
+
+#endregion vpn
+
+
+#==========================================================
 #                          Proxy
 #==========================================================
 #region proxy
