@@ -37,6 +37,7 @@
 .SYNTAX
     Set-Short8Dot3FileName
         [-State] {Disabled | Enabled}
+        [-RemoveExisting8dot3FileNames]
         [<CommonParameters>]
 #>
 
@@ -44,14 +45,16 @@ function Set-Short8Dot3FileName
 {
     <#
     .EXAMPLE
-        PS> Set-Short8Dot3FileName -State 'Disabled'
+        PS> Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [state] $State
+        [state] $State,
+
+        [switch] $RemoveExisting8dot3FileNames
     )
 
     process
@@ -61,13 +64,28 @@ function Set-Short8Dot3FileName
         # on: 0 (default) | off: 1
         fsutil.exe behavior set Disable8dot3 ($State -eq 'Enabled' ? '0' : '1')
 
-        if ($State -eq 'Disabled')
+        if ($RemoveExisting8dot3FileNames)
         {
             # It can take a moment on HDD (few minutes). It's really fast on SSD (few seconds).
             Write-Verbose -Message ("   The following Warning is not as bad as stated.`n" +
                 "            Open the generated log file and replace any mention of 8dot3 Name in the registry.`n" +
-                "            Read the comment in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.`n")
-            fsutil.exe 8Dot3Name strip /f /s $env:SystemDrive
+                "            Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.`n")
+
+            $LogFolderPath = "$PSScriptRoot\..\..\..\..\..\log"
+            $LogFileName = '8dot3_removal.log'
+
+            if (Test-Path -Path "$LogFolderPath\$LogFileName")
+            {
+                # use default log file path: %temp%\8dot3_removal_log@(GMT YYYY-MM-DD HH-MM-SS).log
+                fsutil.exe 8Dot3Name strip /f /s $env:SystemDrive
+            }
+            else
+            {
+                New-Item -Path $LogFolderPath -ItemType 'Directory' -Force -ErrorAction 'SilentlyContinue' | Out-Null
+                $LogFolderPath = Resolve-Path $LogFolderPath
+                fsutil.exe 8Dot3Name strip /f /s /l "$LogFolderPath\$LogFileName" $env:SystemDrive
+            }
+
         }
     }
 }

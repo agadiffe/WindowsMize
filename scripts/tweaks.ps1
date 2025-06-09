@@ -130,11 +130,14 @@ Set-NumLockAtStartup -State 'Enabled'
 # Disabled | Enabled (default)
 Set-ServiceHostSplitting -State 'Enabled'
 
-# Short 8.3 filenames
+# Short 8.3 file names
 #---------------------------------------
-# See the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'
-# Disabled | Enabled (default)
-#Set-Short8Dot3FileName -State 'Disabled'
+# State: Disabled | Enabled (default)
+# RemoveExisting8dot3FileNames (switch): Removes 8dot3 file names for all files in $env:SystemDrive (i.e. C:)
+#   Might require manual editing of some registry entries (should not on a fresh install).
+#   Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.
+Set-Short8Dot3FileName -State 'Disabled'
+#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
 # Startup/Shutdown verbose status messages
 #---------------------------------------
