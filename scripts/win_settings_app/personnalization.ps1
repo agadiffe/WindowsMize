@@ -205,6 +205,11 @@ Write-Section -Name 'Start' -SubSection
 # Default (default) | MorePins | MoreRecommendations
 Set-StartSetting -LayoutMode 'Default'
 
+# Show All Pins By Default
+#---------------------------------------
+# Disabled (default) | Enabled
+Set-StartSetting -ShowAllPins 'Disabled'
+
 # Show recently added apps
 #---------------------------------------
 # State: Disabled | Enabled (default)

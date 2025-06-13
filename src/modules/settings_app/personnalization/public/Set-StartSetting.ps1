@@ -6,6 +6,7 @@
 .SYNTAX
     Set-StartSetting
         [-LayoutMode {Default | MorePins | MoreRecommendations}]
+        [-ShowAllPins {Disabled | Enabled}]
         [-ShowRecentlyAddedApps {Disabled | Enabled}]
         [-ShowRecentlyAddedAppsGPO {Disabled | NotConfigured}]
         [-ShowMostUsedApps {Disabled | Enabled}]
@@ -21,6 +22,7 @@
 
     Set-StartSetting
         [-LayoutMode {Default | MorePins | MoreRecommendations}]
+        [-ShowAllPins {Disabled | Enabled}]
         [-ShowRecentlyAddedApps {Disabled | Enabled}]
         [-ShowRecentlyAddedAppsGPO {Disabled | NotConfigured}]
         [-ShowMostUsedApps {Disabled | Enabled}]
@@ -48,6 +50,8 @@ function Set-StartSetting
     param
     (
         [StartLayoutMode] $LayoutMode,
+
+        [state] $ShowAllPins,
 
         [state] $ShowRecentlyAddedApps,
 
@@ -85,6 +89,7 @@ function Set-StartSetting
         switch ($PSBoundParameters.Keys)
         {
             'LayoutMode'                      { Set-StartLayoutMode -Value $LayoutMode }
+            'ShowAllPins'                     { Set-StartShowAllPins -State $ShowAllPins }
             'ShowMostUsedApps'                { Set-StartShowMostUsedApps -State $ShowMostUsedApps }
             'ShowMostUsedAppsGPO'             { Set-StartShowMostUsedApps -GPO $ShowMostUsedAppsGPO }
             'ShowRecentlyAddedApps'           { Set-StartShowRecentlyAddedApps -State $ShowRecentlyAddedApps }
