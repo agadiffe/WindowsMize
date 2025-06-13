@@ -238,6 +238,26 @@ function New-BraveBrowserConfigData
                 "cookie_list_opt_in_shown": true,
                 "custom_filters": "$BraveCustomFilters",
                 "list_subscriptions": {
+                    "https://filters.adtidy.org/extension/ublock/filters/3.txt": {
+                        "enabled": false, // AdGuard Tracking Protection
+                        "last_successful_update_attempt": "1",
+                        "last_update_attempt": "1"
+                    },
+                    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareAdGuard.txt": {
+                        "enabled": false, // Dandelion Sprout Anti-Malware List
+                        "last_successful_update_attempt": "1",
+                        "last_update_attempt": "1"
+                    },
+                    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt": {
+                        "enabled": false, // Actually Legitimate URL Shortener Tool (not fully compatible with Brave)
+                        "last_successful_update_attempt": "1",
+                        "last_update_attempt": "1"
+                    },
+                    "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.mini.txt": {
+                        "enabled": false, // HaGeZi DNS Blocklist (light, multi, pro, pro.plus, ultimate) (.mini)
+                        "last_successful_update_attempt": "1",
+                        "last_update_attempt": "1"
+                    },
                     "https://secure.fanboy.co.nz/fanboy-antifacebook.txt": {
                         "enabled": false, // Fanboy Anti-Facebook
                         "last_successful_update_attempt": "1",

@@ -201,6 +201,7 @@ Write-Section -Name 'Brave Browser' -SubSection
 
 # For now, to customize the settings, open the file:
 #   src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
+# The settings are organized in the same way as in the GUI.
 
 # By default, it disable everythings: AI, Web3, Vpn, etc ...
 # This is not done via policy, so you can customize everything afterward with the Brave GUI.

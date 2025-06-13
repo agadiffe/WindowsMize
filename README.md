@@ -30,7 +30,7 @@ There are almost every settings, organized like the graphical counterpart.
 Every settings + few extra.  
 extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection, MaxIconCacheSize.
 
-### ⚙️ System Properties
+### ⌛ System Properties
 Equivalent of the Windows GUI System Properties.  
 Visual Effects, Virtual Memory (paging file), System failure, System Restore, Remote Assistance.
 
@@ -121,7 +121,7 @@ For Brave, only a few elements are either restored to or excluded from the RamDi
 i.e. By default, history and cookies are not restored across logoff/logon.
 </details>
 
-### ⌛ Services & Scheduled Tasks
+### ⚙️ Services & Scheduled Tasks
 Configure (e.g. disable) Windows Services & Scheduled Tasks (grouped by categories).
 
 There are a lot of comments about the services in 'src > modules > services > private'.  
