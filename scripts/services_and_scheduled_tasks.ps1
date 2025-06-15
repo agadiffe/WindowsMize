@@ -71,12 +71,6 @@ $ServicesToConfig = @(
     # SystemDriver
     #-----------------
     'UserChoiceProtectionDriver'
-    #'BridgeDriver'
-    #'NetBiosDriver'
-    #'LldpDriver'
-    #'LltdDriver'
-    #'MicrosoftMultiplexorDriver'
-    #'QosPacketSchedulerDriver'
     #'OfflineFilesDriver'
     #'NetworkDataUsageDriver'
 

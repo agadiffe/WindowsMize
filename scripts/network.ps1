@@ -28,7 +28,11 @@ Write-Output -InputObject 'Loading ''Network'' Module ...'
 # Do not disable, otherwise the log file will be empty.
 $Global:ModuleVerbosePreference = 'Continue'
 
-Import-Module -Name "$PSScriptRoot\..\src\modules\network"
+$WindowsMizeModulesNames = @(
+    'network'
+    'services'
+)
+Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
 
 
 
@@ -105,18 +109,37 @@ Write-Section -Name 'Network adapter protocol' -SubSection
 
 Export-DefaultNetAdapterProtocolsState
 
-# Microsoft LLDP Protocol Driver (Link-Layer Discovery Protocol)
-#---------------------------------------
-# Disabled | Enabled (default)
-Set-NetAdapterProtocol -Name 'LLDP' -State 'Disabled'
-
-# Link-Layer Topology Discovery Responder
 # Link-Layer Topology Discovery Mapper I/O Driver
 #---------------------------------------
 # Disabled | Enabled (default)
-Set-NetAdapterProtocol -Name 'LLTD' -State 'Disabled'
+Set-NetAdapterProtocol -Name 'LltdIo' -State 'Disabled'
 
-# Bridge Driver
+# Link-Layer Topology Discovery Responder
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetAdapterProtocol -Name 'LltdResponder' -State 'Disabled'
+
+# TCP/IPv4
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetAdapterProtocol -Name 'IPv4' -State 'Enabled'
+
+# TCP/IPv6
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetAdapterProtocol -Name 'IPv6' -State 'Enabled'
+
+# Client for Microsoft Networks (access other computers)
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetAdapterProtocol -Name 'FileSharingClient' -State 'Disabled'
+
+# File and Printer Sharing for Microsoft Networks (be accessible by other computers)
+#---------------------------------------
+# Disabled | Enabled (default)
+Set-NetAdapterProtocol -Name 'FileSharingServer' -State 'Disabled'
+
+# Bridge Driver |  old ?
 #---------------------------------------
 # Disabled | Enabled (default)
 Set-NetAdapterProtocol -Name 'BridgeDriver' -State 'Disabled'
@@ -131,26 +154,37 @@ Set-NetAdapterProtocol -Name 'QosPacketScheduler' -State 'Disabled'
 # Disabled (default) | Enabled
 Set-NetAdapterProtocol -Name 'HyperVExtensibleVirtualSwitch' -State 'Disabled'
 
-# Internet Protocol Version 4 (TCP/IPv4)
+# Microsoft LLDP Protocol Driver (Link-Layer Discovery Protocol)
 #---------------------------------------
 # Disabled | Enabled (default)
-Set-NetAdapterProtocol -Name 'IPv4' -State 'Enabled'
-
-# Internet Protocol Version 6 (TCP/IPv6)
-#---------------------------------------
-# Disabled | Enabled (default)
-Set-NetAdapterProtocol -Name 'IPv6' -State 'Enabled'
+Set-NetAdapterProtocol -Name 'Lldp' -State 'Disabled'
 
 # Microsoft Network Adapter Multiplexor Protocol
 #---------------------------------------
 # Disabled (default) | Enabled
 Set-NetAdapterProtocol -Name 'MicrosoftMultiplexor' -State 'Disabled'
 
-# Client for Microsoft Networks
-# File and Printer Sharing for Microsoft Networks
-#---------------------------------------
-# Disabled | Enabled (default)
-Set-NetAdapterProtocol -Name 'FileAndPrinterSharing' -State 'Disabled'
+#       System Drivers (Services)
+#=======================================
+
+Export-DefaultSystemDriversStartupType
+
+# Comment the drivers you want to disable.
+$SystemDriversToConfig = @(
+    'BridgeDriver' # old ?
+    #'NetBiosDriver' # needed by: File and Printer Sharing
+    #'NetBiosOverTcpIpDriver' # legacy/old | needed by (if really old pc): File and Printer Sharing
+    'LldpDriver'
+    'LltdIoDriver'
+    'LltdResponderDriver'
+    'MicrosoftMultiplexorDriver'
+    'QosPacketSchedulerDriver' # not really needed on small home network
+)
+# Disable the above selected drivers.
+#$SystemDriversToConfig | Set-ServiceStartupTypeGroup
+
+# Restore to default the above selected drivers.
+#$SystemDriversToConfig | Set-ServiceStartupTypeGroup -RestoreDefault
 
 
 #==============================================================================

@@ -13,13 +13,15 @@ class ServicesGroupName : System.Management.Automation.IValidateSetValuesGenerat
 <#
 .SYNTAX
     Set-ServiceStartupTypeGroup
-        [-Name] {UserChoiceProtectionDriver | BridgeDriver | NetBiosDriver | LldpDriver | LltdDriver |
-                 MicrosoftMultiplexorDriver | QosPacketSchedulerDriver | OfflineFilesDriver | NetworkDataUsageDriver |
+        [-Name] {UserChoiceProtectionDriver | BridgeDriver | NetBiosDriver | NetBiosOverTcpIpDriver | LldpDriver |
+                 LltdIoDriver | LltdResponderDriver | MicrosoftMultiplexorDriver | QosPacketSchedulerDriver |
+                 OfflineFilesDriver | NetworkDataUsageDriver |
                  Autoplay | Bluetooth | BluetoothAndCast | BluetoothAudio | DefenderPhishingProtection | Deprecated |
                  DiagnosticAndUsage | Features | FileAndPrinterSharing | HyperV | MicrosoftEdge | MicrosoftOffice |
                  MicrosoftStore | Miscellaneous | Network | NetworkDiscovery | Printer | RemoteDesktop | Sensor |
                  SmartCard | Telemetry | VirtualReality | Vpn | Webcam | WindowsBackupAndSystemRestore | WindowsSearch |
                  WindowsSubsystemForLinux | Xbox | AdobeAcrobat | Intel | Nvidia}
+        [-RestoreDefault]
         [<CommonParameters>]
 #>
 
@@ -27,14 +29,14 @@ function Set-ServiceStartupTypeGroup
 {
     <#
     .EXAMPLE
-        PS> $ServiceToDisable = @(
+        PS> $ServiceToConfig = @(
                 'UserChoiceProtectionDriver'
                 'NetBiosDriver'
                 'DefenderPhishingProtection'
                 'Deprecated'
                 'Telemetry'
             )
-        PS> $TaskToDisable | Set-ServiceStartupTypeGroup
+        PS> $ServiceToConfig | Set-ServiceStartupTypeGroup
     #>
 
     [CmdletBinding()]
@@ -42,12 +44,22 @@ function Set-ServiceStartupTypeGroup
     (
         [Parameter(Mandatory, ValueFromPipeline)]
         [ValidateSet([ServicesGroupName])]
-        [string] $Name
+        [string] $Name,
+
+        [switch] $RestoreDefault
     )
 
     process
     {
         $GroupToConfig = $SystemDriversList.Keys -contains $Name ? $SystemDriversList.$Name : $ServicesList.$Name
-        $GroupToConfig | Set-ServiceStartupType
+
+        if ($RestoreDefault)
+        {
+            $GroupToConfig | Set-ServiceStartupType -RestoreDefault
+        }
+        else
+        {
+            $GroupToConfig | Set-ServiceStartupType
+        }
     }
 }

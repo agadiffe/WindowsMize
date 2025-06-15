@@ -50,6 +50,8 @@ $SystemDriversList += @{
             StartupType = "Disabled"
             DefaultType = "System"
         }
+    )
+    NetBiosOverTcpIpDriver = @(
         @{
             DisplayName = "netbt"
             ServiceName = "NetBT"
@@ -66,13 +68,15 @@ $SystemDriversList += @{
             DefaultType = "Automatic"
         }
     )
-    LltdDriver = @(
+    LltdIoDriver = @(
         @{
             DisplayName = "Link-Layer Topology Discovery Mapper I/O Driver"
             ServiceName = "lltdio"
             StartupType = "Disabled"
             DefaultType = "Automatic"
         }
+    )
+    LltdResponderDriver = @(
         @{
             DisplayName = "Link-Layer Topology Discovery Responder"
             ServiceName = "rspndr"

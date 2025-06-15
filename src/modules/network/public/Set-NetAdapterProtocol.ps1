@@ -14,8 +14,8 @@
 <#
 .SYNTAX
     Set-NetAdapterProtocol
-        [-Name] {LLDP | LLTD | BridgeDriver | QosPacketScheduler | HyperVExtensibleVirtualSwitch |
-                 IPv4 | IPv6 | MicrosoftMultiplexor | FileAndPrinterSharing}
+        [-Name] {Lldp | LltdIo | LltdResponder | BridgeDriver | QosPacketScheduler | HyperVExtensibleVirtualSwitch |
+                 IPv4 | IPv6 | MicrosoftMultiplexor | FileSharingClient | FileSharingServer}
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
@@ -32,15 +32,17 @@ function Set-NetAdapterProtocol
     (
         [Parameter(Mandatory)]
         [ValidateSet(
-            'LLDP',
-            'LLTD',
+            'Lldp',
+            'LltdIo',
+            'LltdResponder',
             'BridgeDriver',
             'QosPacketScheduler',
             'HyperVExtensibleVirtualSwitch',
             'IPv4',
             'IPv6',
             'MicrosoftMultiplexor',
-            'FileAndPrinterSharing')]
+            'FileSharingClient',
+            'FileSharingServer')]
         [string[]] $Name,
 
         [Parameter(Mandatory)]
@@ -52,20 +54,21 @@ function Set-NetAdapterProtocol
         $IsEnabled = $State -eq 'Enabled'
 
         $NetAdapterProtocol = @{
-            LLDP = @{
+            Lldp = @{
                 DisplayName = 'Microsoft LLDP Protocol Driver'
                 ComponentID = 'ms_lldp'
                 Enabled     = $IsEnabled
                 Default     = $true
             }
-
-            LLTD = @(
+            LltdIo = @(
                 @{
                     DisplayName = 'Link-Layer Topology Discovery Mapper I/O Driver'
                     ComponentID = 'ms_lltdio'
                     Enabled     = $IsEnabled
                     Default     = $true
                 }
+            )
+            LltdResponder = @(
                 @{
                     DisplayName = 'Link-Layer Topology Discovery Responder'
                     ComponentID = 'ms_rspndr'
@@ -73,7 +76,6 @@ function Set-NetAdapterProtocol
                     Default     = $true
                 }
             )
-
             BridgeDriver = @{
                 DisplayName = 'Bridge Driver'
                 ComponentID = 'ms_l2bridge'
@@ -119,7 +121,7 @@ function Set-NetAdapterProtocol
                 Default     = $false
             }
 
-            FileAndPrinterSharing = @(
+            FileSharingClient = @(
                 @{
                     DisplayName = 'Client for Microsoft Networks'
                     ComponentID = 'ms_msclient'
@@ -127,6 +129,8 @@ function Set-NetAdapterProtocol
                     Default     = $true
                     Comment     = 'SMB client (access other computer)'
                 }
+            )
+            FileSharingServer = @(
                 @{
                     DisplayName = 'File and Printer Sharing for Microsoft Networks'
                     ComponentID = 'ms_server'
