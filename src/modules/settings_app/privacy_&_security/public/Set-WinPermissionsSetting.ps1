@@ -5,6 +5,8 @@
 <#
 .SYNTAX
     Set-WinPermissionsSetting
+
+        # User Data
         [-FindMyDevice {Disabled | Enabled}]
         [-FindMyDeviceGPO {Disabled | Enabled | NotConfigured}]
         [-AdvertisingID {Disabled | Enabled}]
@@ -15,6 +17,10 @@
         [-ShowTipsInSettingsApp {Disabled | Enabled}]
         [-ShowTipsInSettingsAppGPO {Disabled | NotConfigured}]
         [-ShowNotifsInSettingsApp {Disabled | Enabled}]
+        [-ActivityHistory {Disabled | Enabled}]
+        [-ActivityHistoryGPO {Disabled | NotConfigured}]
+
+        # AI
         [-RecallSnapshotsGPO {Disabled | NotConfigured}]
         [-RecallFilteringTelemetry {Disabled | Enabled}]
         [-ClickToDo {Disabled | Enabled}]
@@ -22,6 +28,8 @@
         [-SpeechRecognition {Disabled | Enabled}]
         [-SpeechRecognitionGPO {Disabled | NotConfigured}]
         [-InkingAndTypingPersonalization {Disabled | Enabled}]
+
+        # Telemetry
         [-DiagnosticData {Disabled | OnlyRequired | OptionalAndRequired}]
         [-DiagnosticDataGPO {Disabled | OnlyRequired | OptionalAndRequired | NotConfigured}]
         [-DiagnosticDataViewer {Disabled | Enabled}]
@@ -33,8 +41,8 @@
         [-TailoredExperiencesGPO {Disabled | NotConfigured}]
         [-FeedbackFrequency {Never | Automatically | Always | Daily | Weekly}]
         [-FeedbackFrequencyGPO {Disabled | NotConfigured}]
-        [-ActivityHistory {Disabled | Enabled}]
-        [-ActivityHistoryGPO {Disabled | NotConfigured}]
+
+        # Search
         [-SafeSearch {Disabled | Moderate | Strict}]
         [-CloudSearchMicrosoftAccount {Disabled | Enabled}]
         [-CloudSearchWorkOrSchoolAccount {Disabled | Enabled}]
@@ -59,11 +67,10 @@ function Set-WinPermissionsSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        # security
+        # User Data (General / Recommendations & offers)
         [state] $FindMyDevice,
         [GpoState] $FindMyDeviceGPO,
 
-        # general permissions
         [state] $AdvertisingID,
         [GpoStateWithoutEnabled] $AdvertisingIDGPO,
         [state] $LanguageListAccess,
@@ -73,22 +80,22 @@ function Set-WinPermissionsSetting
         [GpoStateWithoutEnabled] $ShowTipsInSettingsAppGPO,
         [state] $ShowNotifsInSettingsApp,
 
-        # recall & snapshots
+        [state] $ActivityHistory,
+        [GpoStateWithoutEnabled] $ActivityHistoryGPO,
+
+        # AI
         [GpoStateWithoutEnabled] $RecallSnapshotsGPO,
         [state] $RecallFilteringTelemetry,
 
-        # click to do
         [state] $ClickToDo,
         [GpoStateWithoutEnabled] $ClickToDoGPO,
 
-        # speech
         [state] $SpeechRecognition,
         [GpoStateWithoutEnabled] $SpeechRecognitionGPO,
 
-        # inking & typing personalization
         [state] $InkingAndTypingPersonalization,
 
-        # diagnostics & feedback
+        # Telemetry (diagnostics & feedback)
         [DiagnosticDataMode] $DiagnosticData,
         [GpoDiagnosticDataMode] $DiagnosticDataGPO,
         [state] $DiagnosticDataViewer,
@@ -101,11 +108,7 @@ function Set-WinPermissionsSetting
         [FeedbackFrequencyMode] $FeedbackFrequency,
         [GpoStateWithoutEnabled] $FeedbackFrequencyGPO,
 
-        # activity history
-        [state] $ActivityHistory,
-        [GpoStateWithoutEnabled] $ActivityHistoryGPO,
-
-        # search permissions
+        # Search
         [SafeSearchMode] $SafeSearch,
         [state] $CloudSearchMicrosoftAccount,
         [state] $CloudSearchWorkOrSchoolAccount,
@@ -116,7 +119,6 @@ function Set-WinPermissionsSetting
         [state] $CloudContentSearch,
         [state] $WebSearch,
 
-        # search permissions
         [FindMyFilesMode] $FindMyFiles,
         [GpoState] $IndexEncryptedFilesGPO
     )
@@ -131,6 +133,7 @@ function Set-WinPermissionsSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # User Data (General / Recommendations & offers)
             'FindMyDevice'                   { Set-SecurityFindMyDevice -State $FindMyDevice }
             'FindMyDeviceGPO'                { Set-SecurityFindMyDevice -GPO $FindMyDeviceGPO }
 
@@ -143,6 +146,10 @@ function Set-WinPermissionsSetting
             'ShowTipsInSettingsAppGPO'       { Set-WinPermissionsShowTipsInSettingsApp -GPO $ShowTipsInSettingsAppGPO }
             'ShowNotifsInSettingsApp'        { Set-WinPermissionsShowNotifsInSettingsApp -State $ShowNotifsInSettingsApp }
 
+            'ActivityHistory'                { Set-WinPermissionsActivityHistory -State $ActivityHistory }
+            'ActivityHistoryGPO'             { Set-WinPermissionsActivityHistory -GPO $ActivityHistoryGPO }
+
+            # AI
             'RecallSnapshotsGPO'             { Set-WinPermissionsRecallSnapshots -GPO $RecallSnapshotsGPO }
             'RecallFilteringTelemetry'       { Set-WinPermissionsRecallFilteringTelemetry -State $RecallFilteringTelemetry }
 
@@ -154,6 +161,7 @@ function Set-WinPermissionsSetting
 
             'InkingAndTypingPersonalization' { Set-WinPermissionsInkingAndTypingPersonalization -State $InkingAndTypingPersonalization }
 
+            # Telemetry (diagnostics & feedback)
             'DiagnosticData'                 { Set-WinPermissionsDiagnosticData -State $DiagnosticData }
             'DiagnosticDataGPO'              { Set-WinPermissionsDiagnosticData -GPO $DiagnosticDataGPO }
             'DiagnosticDataViewer'           { Set-WinPermissionsDiagnosticDataViewer -State $DiagnosticDataViewer }
@@ -166,9 +174,7 @@ function Set-WinPermissionsSetting
             'FeedbackFrequency'              { Set-WinPermissionsFeedbackFrequency -State $FeedbackFrequency }
             'FeedbackFrequencyGPO'           { Set-WinPermissionsFeedbackFrequency -GPO $FeedbackFrequencyGPO }
 
-            'ActivityHistory'                { Set-WinPermissionsActivityHistory -State $ActivityHistory }
-            'ActivityHistoryGPO'             { Set-WinPermissionsActivityHistory -GPO $ActivityHistoryGPO }
-
+            # Search
             'SafeSearch'                     { Set-WinPermissionsSafeSearch -State $SafeSearch }
             'CloudSearchMicrosoftAccount'    { Set-WinPermissionsCloudSearch -MicrosoftAccount $CloudSearchMicrosoftAccount }
             'CloudSearchWorkOrSchoolAccount' { Set-WinPermissionsCloudSearch -WorkOrSchoolAccount $CloudSearchWorkOrSchoolAccount }

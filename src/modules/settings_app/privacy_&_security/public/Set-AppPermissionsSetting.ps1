@@ -5,6 +5,8 @@
 <#
 .SYNTAX
     Set-AppPermissionsSetting
+
+        # General
         [-Location {Disabled | Enabled}]
         [-LocationGPO {Disabled | Enabled | NotConfigured}]
         [-LocationAllowOverride {Disabled | Enabled}]
@@ -17,6 +19,13 @@
         [-VoiceActivationGPO {Disabled | Enabled | NotConfigured}]
         [-Notifications {Disabled | Enabled}]
         [-NotificationsGPO {Disabled | Enabled | NotConfigured}]
+
+        [-GenerativeAI {Disabled | Enabled}]
+        [-GenerativeAIGPO {Disabled | Enabled | NotConfigured}]
+        [-BackgroundApps {Disabled | Enabled}]
+        [-BackgroundAppsGPO {Disabled | Enabled | NotConfigured}]
+
+        # User Data
         [-AccountInfo {Disabled | Enabled}]
         [-AccountInfoGPO {Disabled | Enabled | NotConfigured}]
         [-Contacts {Disabled | Enabled}]
@@ -40,6 +49,8 @@
         [-TrustedDevicesGPO {Disabled | Enabled | NotConfigured}]
         [-AppDiagnostics {Disabled | Enabled}]
         [-AppDiagnosticsGPO {Disabled | Enabled | NotConfigured}]
+
+        # User Files
         [-Documents {Disabled | Enabled}]
         [-DownloadsFolder {Disabled | Enabled}]
         [-MusicLibrary {Disabled | Enabled}]
@@ -50,8 +61,8 @@
         [-ScreenshotBordersGPO {Disabled | Enabled | NotConfigured}]
         [-ScreenshotsAndRecording {Disabled | Enabled}]
         [-ScreenshotsAndRecordingGPO {Disabled | Enabled | NotConfigured}]
-        [-GenerativeAI {Disabled | Enabled}]
-        [-GenerativeAIGPO {Disabled | Enabled | NotConfigured}]
+
+        # Tablet
         [-EyeTracker {Disabled | Enabled}]
         [-EyeTrackerGPO {Disabled | Enabled | NotConfigured}]
         [-Motion {Disabled | Enabled}]
@@ -62,8 +73,6 @@
         [-UserMovementGPO {Disabled | Enabled | NotConfigured}]
         [-CellularData {Disabled | Enabled}]
         [-CellularDataGPO {Disabled | Enabled | NotConfigured}]
-        [-BackgroundApps {Disabled | Enabled}]
-        [-BackgroundAppsGPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -77,6 +86,7 @@ function Set-AppPermissionsSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        # General
         [state] $Location,
         [GpoState] $LocationGPO,
         [state] $LocationAllowOverride,
@@ -89,6 +99,13 @@ function Set-AppPermissionsSetting
         [GpoState] $VoiceActivationGPO,
         [state] $Notifications,
         [GpoState] $NotificationsGPO,
+
+        [state] $GenerativeAI,
+        [GpoState] $GenerativeAIGPO,
+        [state] $BackgroundApps,
+        [GpoState] $BackgroundAppsGPO,
+
+        # User Data
         [state] $AccountInfo,
         [GpoState] $AccountInfoGPO,
         [state] $Contacts,
@@ -112,6 +129,8 @@ function Set-AppPermissionsSetting
         [GpoState] $TrustedDevicesGPO,
         [state] $AppDiagnostics,
         [GpoState] $AppDiagnosticsGPO,
+
+        # User Files
         [state] $Documents,
         [state] $DownloadsFolder,
         [state] $MusicLibrary,
@@ -122,8 +141,8 @@ function Set-AppPermissionsSetting
         [GpoState] $ScreenshotBordersGPO,
         [state] $ScreenshotsAndRecording,
         [GpoState] $ScreenshotsAndRecordingGPO,
-        [state] $GenerativeAI,
-        [GpoState] $GenerativeAIGPO,
+
+        # Tablet
         [state] $EyeTracker,
         [GpoState] $EyeTrackerGPO,
         [state] $Motion,
@@ -133,9 +152,7 @@ function Set-AppPermissionsSetting
         [state] $UserMovement,
         [GpoState] $UserMovementGPO,
         [state] $CellularData,
-        [GpoState] $CellularDataGPO,
-        [state] $BackgroundApps,
-        [GpoState] $BackgroundAppsGPO
+        [GpoState] $CellularDataGPO
     )
 
     process
@@ -148,6 +165,7 @@ function Set-AppPermissionsSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # General
             'Location'                   { Set-AppPermissionsLocation -State $Location }
             'LocationGPO'                { Set-AppPermissionsLocation -GPO $LocationGPO }
             'LocationAllowOverride'      { Set-AppPermissionsLocationAllowOverride -State $LocationAllowOverride }
@@ -160,6 +178,13 @@ function Set-AppPermissionsSetting
             'VoiceActivationGPO'         { Set-AppPermissionsVoiceActivation -GPO $VoiceActivationGPO }
             'Notifications'              { Set-AppPermissionsNotifications -State $Notifications }
             'NotificationsGPO'           { Set-AppPermissionsNotifications -GPO $NotificationsGPO }
+
+            'GenerativeAI'               { Set-AppPermissionsGenerativeAI -State $GenerativeAI }
+            'GenerativeAIGPO'            { Set-AppPermissionsGenerativeAI -GPO $GenerativeAIGPO }
+            'BackgroundApps'             { Set-AppPermissionsBackgroundApps -State $BackgroundApps }
+            'BackgroundAppsGPO'          { Set-AppPermissionsBackgroundApps -GPO $BackgroundAppsGPO }
+
+            # User Data
             'AccountInfo'                { Set-AppPermissionsAccountInfo -State $AccountInfo }
             'AccountInfoGPO'             { Set-AppPermissionsAccountInfo -GPO $AccountInfoGPO }
             'Contacts'                   { Set-AppPermissionsContacts -State $Contacts }
@@ -183,6 +208,8 @@ function Set-AppPermissionsSetting
             'TrustedDevicesGPO'          { Set-AppPermissionsDevicesTrustedHadware -GPO $TrustedDevicesGPO }
             'AppDiagnostics'             { Set-AppPermissionsAppDiagnostics -State $AppDiagnostics }
             'AppDiagnosticsGPO'          { Set-AppPermissionsAppDiagnostics -GPO $AppDiagnosticsGPO }
+
+            # User Files
             'Documents'                  { Set-AppPermissionsDocuments -State $Documents }
             'DownloadsFolder'            { Set-AppPermissionsDownloadsFolder -State $DownloadsFolder }
             'MusicLibrary'               { Set-AppPermissionsMusicLibrary -State $MusicLibrary }
@@ -193,8 +220,8 @@ function Set-AppPermissionsSetting
             'ScreenshotBordersGPO'       { Set-AppPermissionsScreenshotBorders -GPO $ScreenshotBordersGPO }
             'ScreenshotsAndRecording'    { Set-AppPermissionsScreenshotsAndRecording -State $ScreenshotsAndRecording }
             'ScreenshotsAndRecordingGPO' { Set-AppPermissionsScreenshotsAndRecording -GPO $ScreenshotsAndRecordingGPO }
-            'GenerativeAI'               { Set-AppPermissionsGenerativeAI -State $GenerativeAI }
-            'GenerativeAIGPO'            { Set-AppPermissionsGenerativeAI -GPO $GenerativeAIGPO }
+
+            # Tablet
             'EyeTracker'                 { Set-AppPermissionsEyeTracker -State $EyeTracker }
             'EyeTrackerGPO'              { Set-AppPermissionsEyeTracker -GPO $EyeTrackerGPO }
             'Motion'                     { Set-AppPermissionsMotion -State $Motion }
@@ -205,8 +232,6 @@ function Set-AppPermissionsSetting
             'UserMovementGPO'            { Set-AppPermissionsUserMovement -GPO $UserMovementGPO }
             'CellularData'               { Set-AppPermissionsCellularData -State $CellularData }
             'CellularDataGPO'            { Set-AppPermissionsCellularData -GPO $CellularDataGPO }
-            'BackgroundApps'             { Set-AppPermissionsBackgroundApps -State $BackgroundApps }
-            'BackgroundAppsGPO'          { Set-AppPermissionsBackgroundApps -GPO $BackgroundAppsGPO }
         }
     }
 }
