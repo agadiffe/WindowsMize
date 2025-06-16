@@ -8,133 +8,92 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Telemetry'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\src\modules\telemetry"
 
 
+# The main telemetry configurations are in the Windows settings app.  
+# See 'scripts > win_settings_app > privacy_&_security.ps1'.
+
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                                    Telemetry
 #=================================================================================================================
 
-# The main telemetry configurations are in the Windows settings app.  
-# See 'scripts > win_settings_app > privacy_&_security.ps1'.
-
 Write-Section -Name 'Telemetry'
 
-# .Net
-#---------------------------------------
+# --- .Net
 Disable-DotNetTelemetry
 
-# Nvidia
-#---------------------------------------
+# --- Nvidia
 Disable-NvidiaTelemetry
 
-# PowerShell
-#---------------------------------------
+# --- PowerShell
 Disable-PowerShellTelemetry
 
-# App and device inventory
-#---------------------------------------
+# --- App and device inventory
 # Windows 11 24H2+ only.
-# Disabled | NotConfigured
 Set-AppAndDeviceInventory -GPO 'Disabled'
 
-# Application compatibility
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Application compatibility
 Set-ApplicationCompatibility -GPO 'Disabled'
 
-# Cloud content experiences
-#---------------------------------------
+# --- Cloud content experiences
 # Disabled: also disable Windows Spotlight
-# Disabled | NotConfigured
 Set-CloudContent -GPO 'NotConfigured'
 
-# Consumer experiences
-#---------------------------------------
+# --- Consumer experiences
 # Disabled: also disable and gray out: 'settings > bluetooth & devices > mobile devices'
-# Disabled | NotConfigured
 Set-ConsumerExperience -GPO 'NotConfigured'
 
-# Customer Experience Improvement Program (CEIP)
-#---------------------------------------
-# Disabled | Enabled | NotConfigured
+# --- Customer Experience Improvement Program (CEIP)
+# GPO: Disabled | Enabled | NotConfigured
 Set-Ceip -GPO 'Disabled'
 
-# Diagnostic log and dump collection limit
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Diagnostic log and dump collection limit
 Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
 
-# Diagnostic auto-logger (system boot log)
-#---------------------------------------
-# Name: DiagTrack-Listener
-# State: Disabled | Enabled (default)
+# --- Diagnostic auto-logger (system boot log) (default: Enabled)
 Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
 
-# Diagnostic tracing
-#---------------------------------------
+# --- Diagnostic tracing
 # Protected key. Need to be changed manually.
 # See 'Set-DiagnosticTracing.ps1' in 'src > modules > telemetry > private'.
 
-# Error reporting
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Error reporting
 Set-ErrorReporting -GPO 'Disabled'
 
-# Group policy settings logging
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Group policy settings logging
 Set-GroupPolicySettingsLogging -GPO 'Disabled'
 
-# Handwriting personalization
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Handwriting personalization
 Set-HandwritingPersonalization -GPO 'Disabled'
 
-# Inventory collector
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Inventory collector
 Set-InventoryCollector -GPO 'Disabled'
 
-# KMS client activation data
-#---------------------------------------
-# Disabled | NotConfigured
+# --- KMS client activation data
 Set-KmsClientActivationDataSharing -GPO 'Disabled'
 
-# Microsoft Windows Malicious Software Removal Tool (MSRT) : Heartbeat report
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Microsoft Windows Malicious Software Removal Tool (MSRT) : Heartbeat report
 Set-MsrtDiagnosticReport -GPO 'Disabled'
 
-# OneSettings downloads
-#---------------------------------------
-# Disabled | NotConfigured
+# --- OneSettings downloads
 Set-OneSettingsDownloads -GPO 'Disabled'
 
-# User info sharing
-#---------------------------------------
-# Disabled | Enabled | NotConfigured
+# --- User info sharing
+# GPO: Disabled | Enabled | NotConfigured
 Set-UserInfoSharing -GPO 'Disabled'
 
 

@@ -8,29 +8,21 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Personnalization'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\personnalization"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -49,27 +41,21 @@ Write-Section -Name 'Windows Settings App - Personnalization'
 
 Write-Section -Name 'Background' -SubSection
 
-# Personalize your background
-#---------------------------------------
+# --- Personalize your background
 # default: Windows spotlight
 
 #                Picture
 #=======================================
 
-# Choose a photo
-#---------------------------------------
-# Default images location: C:\Windows\Web\Wallpaper
+# --- Choose a photo
 # default: "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
-# ThemeA: Glow | ThemeB: Captured Motion | ThemeC: Sunrive | ThemeD: Flow
 Set-BackgroundSetting -Wallpaper "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
 
-# Choose a fit for your desktop image
-#---------------------------------------
-# Fill (default) | Fit | Stretch | Span | Tile | Center
+# --- Choose a fit for your desktop image (default: Fill)
+# State: Fill | Fit | Stretch | Span | Tile | Center
 Set-BackgroundSetting -WallpaperStyle 'Fill'
 
 #endregion background
-
 
 #==========================================================
 #                          Colors
@@ -78,35 +64,26 @@ Set-BackgroundSetting -WallpaperStyle 'Fill'
 
 Write-Section -Name 'Colors' -SubSection
 
-# Choose your mode
-#---------------------------------------
-# Dark | Light (default)
+# --- Choose your mode (default: Light)
+# State: Dark | Light
 Set-ColorsSetting -Theme 'Dark'
 #Set-ColorsSetting -AppsTheme 'Dark' -SystemTheme 'Dark'
 
-# Transparency effects
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Transparency effects (default: Enabled)
 Set-ColorsSetting -Transparency 'Enabled'
 
-# Accent color
-#---------------------------------------
+# --- Accent color (default: Automatic)
 # default manual color: blue (#0078D4)
-# Manual | Automatic (default)
+# State: Manual | Automatic
 Set-ColorsSetting -AccentColorMode 'Manual'
 
-# Show accent color on Start and taskbar (requires Dark mode)
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Show accent color on Start and taskbar (requires Dark mode) (default: Disabled)
 Set-ColorsSetting -ShowAccentColorOnStartAndTaskbar 'Disabled'
 
-# Show accent color on title bars and windows borders
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Show accent color on title bars and windows borders (default: Disabled)
 Set-ColorsSetting -ShowAccentColorOnTitleAndBorders 'Disabled'
 
 #endregion colors
-
 
 #==========================================================
 #                          Themes
@@ -118,8 +95,7 @@ Write-Section -Name 'Themes' -SubSection
 #         Desktop icon settings
 #=======================================
 
-# Desktop icons
-#---------------------------------------
+# --- Desktop icons
 $DesktopIcons = @(
     'ThisPC'
     #'UserFiles'
@@ -130,13 +106,10 @@ $DesktopIcons = @(
 #Set-ThemesSetting -DesktopIcons $DesktopIcons
 Set-ThemesSetting -HideAllDesktopIcons
 
-# Allow themes to change desktop icons
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Allow themes to change desktop icons (default: Enabled)
 Set-ThemesSetting -ThemesCanChangeDesktopIcons 'Disabled'
 
 #endregion themes
-
 
 #==========================================================
 #                     Dynamic Lighting
@@ -145,18 +118,13 @@ Set-ThemesSetting -ThemesCanChangeDesktopIcons 'Disabled'
 
 Write-Section -Name 'Dynamic Lighting' -SubSection
 
-# Use Dynamic Lighting on my device
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Use Dynamic Lighting on my device (default: Enabled)
 Set-DynamicLightingSetting -DynamicLighting 'Disabled'
 
-# Compatible apps in the foreground always control lighting
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Compatible apps in the foreground always control lighting (default: Enabled)
 Set-DynamicLightingSetting -ControlledByForegroundApp 'Disabled'
 
 #endregion dynamic lighting
-
 
 #==========================================================
 #                       Lock screen
@@ -165,33 +133,23 @@ Set-DynamicLightingSetting -ControlledByForegroundApp 'Disabled'
 
 Write-Section -Name 'Lock screen' -SubSection
 
-# Personalize your lock screen
-#---------------------------------------
-# default: Windows spotlight
+# --- Personalize your lock screen (default: Windows spotlight)
 # Picture choice is not handled.
 # Default images location: C:\Windows\Web\Screen
 Set-LockScreenSetting -SetToPicture
 
-# Get fun facts, tips, tricks, and more on your lock screen
-#---------------------------------------
+# --- Get fun facts, tips, tricks, and more on your lock screen (default: Enabled)
 # If disabled, Windows spotlight will be unset.
-# Disabled | Enabled (default)
 Set-LockScreenSetting -GetFunFactsTipsTricks 'Disabled'
 
-# Show the lock screen background picture on the sign-in screen
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Show the lock screen background picture on the sign-in screen
 Set-LockScreenSetting -ShowPictureOnSigninScreenGPO 'NotConfigured'
 
-# Your widgets
-#---------------------------------------
+# --- Your widgets (default: Enabled)
 # Windows 11 24H2+ only.
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
 Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
 
 #endregion lock screen
-
 
 #==========================================================
 #                          Start
@@ -200,46 +158,31 @@ Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
 
 Write-Section -Name 'Start' -SubSection
 
-# Layout
-#---------------------------------------
-# Default (default) | MorePins | MoreRecommendations
+# --- Layout (default: Default)
+# State: Default | MorePins | MoreRecommendations
 Set-StartSetting -LayoutMode 'Default'
 
-# Show All Pins By Default
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Show All Pins By Default (default: Disabled)
 Set-StartSetting -ShowAllPins 'Disabled'
 
-# Show recently added apps
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Show recently added apps (default: Enabled)
 Set-StartSetting -ShowRecentlyAddedApps 'Disabled' -ShowRecentlyAddedAppsGPO 'NotConfigured'
 
-# Show most used apps
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Show most used apps (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StartSetting -ShowMostUsedApps 'Disabled' -ShowMostUsedAppsGPO 'NotConfigured'
 
-# Show recommended files in Start, recent files in File Explorer, and items in Jump Lists
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Show recommended files in Start, recent files in File Explorer, and items in Jump Lists (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StartSetting -ShowRecentlyOpenedItems 'Enabled' -ShowRecentlyOpenedItemsGPO 'NotConfigured'
 
-# Show recommendations for tips, shortcuts, new apps, and more
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show recommendations for tips, shortcuts, new apps, and more (default: Enabled)
 Set-StartSetting -ShowRecommendations 'Disabled'
 
-# Show account-related notifications
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show account-related notifications (default: Enabled)
 Set-StartSetting -ShowAccountNotifications 'Disabled'
 
-# Folders (choose which folders appear on Start next to the Power button)
-#---------------------------------------
+# --- Folders (choose which folders appear on Start next to the Power button)
 # Windows 11 only.
 $StartMenuFolders = @(
     'Settings'
@@ -255,13 +198,10 @@ $StartMenuFolders = @(
 Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 #Set-StartSetting -HideAllFoldersNextToPowerButton
 
-# Show mobile device in Start
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Show mobile device in Start (default: Disabled)
 Set-StartSetting -ShowMobileDevice 'Disabled'
 
 #endregion start
-
 
 #==========================================================
 #                         Taskbar
@@ -273,117 +213,81 @@ Write-Section -Name 'Taskbar' -SubSection
 #             Taskbar items
 #=======================================
 
-# Search
-#---------------------------------------
-# State: Hide | IconOnly | Box (default) | IconAndLabel
-# GPO: Hide | IconOnly | Box | IconAndLabel | NotConfigured
+# --- Search (default: Box)
+# State: Hide | IconOnly | Box | IconAndLabel # GPO: State + NotConfigured
 Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 
-# Task view
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Task view (default: Enabled)
 Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
 
 #           System tray icons
 #=======================================
 
-# Emoji and more
-#---------------------------------------
-# Never | WhileTyping (default) | Always
+# --- Emoji and more (default: WhileTyping)
+# State: Never | WhileTyping | Always
 Set-TaskbarSetting -EmojiAndMore 'Never'
 
-# Pen menu
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Pen menu (default: Enabled)
 Set-TaskbarSetting -PenMenu 'Disabled'
 
-# Touch keyboard
-#---------------------------------------
-# Never | Always | WhenNoKeyboard (default)
+# --- Touch keyboard (default: WhenNoKeyboard)
+# State: Never | Always | WhenNoKeyboard
 Set-TaskbarSetting -TouchKeyboard 'Never'
 
-# Virtual touchpad
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Virtual touchpad (default: Disabled)
 Set-TaskbarSetting -VirtualTouchpad 'Disabled'
 
 #        Other system tray icons
 #=======================================
 
-# Hidden icon menu
-#---------------------------------------
+# --- Hidden icon menu (default: Enabled)
 # If disabled, don't forget to manually turn on icons you want to be visible.
-# Disabled | Enabled (default)
 Set-TaskbarSetting -HiddenIconMenu 'Enabled'
 
 #           Taskbar behaviors
 #=======================================
 
-# Taskbar alignment
-#---------------------------------------
-# Left | Center (default)
+# --- Taskbar alignment (default: Center)
+# State: Left | Center
 Set-TaskbarSetting -Alignment 'Center'
 
-# Optimize taskbar for touch interactions when this device is used as a tablet
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Optimize taskbar for touch interactions when this device is used as a tablet (default: Enabled)
 Set-TaskbarSetting -TouchOptimized 'Enabled'
 
-# Automatically hide the taskbar
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Automatically hide the taskbar (default: Disabled)
 Set-TaskbarSetting -AutoHide 'Disabled'
 
-# Show badges on taskbar apps
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show badges on taskbar apps (default: Enabled)
 Set-TaskbarSetting -ShowAppsBadges 'Enabled'
 
-# Show flashing on taskbar apps
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show flashing on taskbar apps (default: Enabled)
 Set-TaskbarSetting -ShowAppsFlashing 'Enabled'
 
-# Show my taskbar on all displays
-#---------------------------------------
-# State: Disabled (default) | Enabled
-# GPO: Disabled | NotConfigured
+# --- Show my taskbar on all displays (default: Disabled)
 Set-TaskbarSetting -ShowOnAllDisplays 'Disabled' -ShowOnAllDisplaysGPO 'NotConfigured'
 
-# When using multiple displays, show my taskbar apps on
-#---------------------------------------
-# AllTaskbars (default) | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen
+# --- When using multiple displays, show my taskbar apps on (default: AllTaskbars)
+# State: AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen
 Set-TaskbarSetting -ShowAppsOnMultipleDisplays 'AllTaskbars'
 
-# Share any window from my taskbar
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Share any window from my taskbar (default: Enabled)
 Set-TaskbarSetting -ShareAnyWindow 'Enabled'
 
-# Select the far corner of the taskbar to show the desktop
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Select the far corner of the taskbar to show the desktop (default: Enabled)
 Set-TaskbarSetting -FarCornerToShowDesktop 'Enabled'
 
-# Combine taskbar buttons and hide labels
-#---------------------------------------
-# State: Always (default) | WhenTaskbarIsFull | Never
-# GPO: Disabled | NotConfigured
+# --- Combine taskbar buttons and hide labels (default: Always)
+# State: Always | WhenTaskbarIsFull | Never
 Set-TaskbarSetting -GroupAndHideLabelsMainTaskbar 'Always' -GroupAndHideLabelsGPO 'NotConfigured'
 
-# Combine taskbar buttons and hide labels on other taskbars
-#---------------------------------------
-# Always (default) | WhenTaskbarIsFull | Never
+# --- Combine taskbar buttons and hide labels on other taskbars (default: Always)
+# State: Always | WhenTaskbarIsFull | Never
 Set-TaskbarSetting -GroupAndHideLabelsOtherTaskbars 'Always'
 
-# Show hover cards for inactive and pinned taskbar apps
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show hover cards for inactive and pinned taskbar apps (default: Enabled)
 Set-TaskbarSetting -ShowJumplistOnHover 'Disabled'
 
 #endregion taskbar
-
 
 #==========================================================
 #                       Device usage
@@ -392,7 +296,7 @@ Set-TaskbarSetting -ShowJumplistOnHover 'Disabled'
 
 Write-Section -Name 'Device usage' -SubSection
 
-# default: Disabled
+# default: DisableAll
 $DeviceUsageOption = @(
     #'Creativity'
     #'Business'

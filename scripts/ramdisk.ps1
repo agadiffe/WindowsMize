@@ -8,37 +8,25 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Ramdisk'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\src\modules\ramdisk"
 
 
+# Advanced topic (a bit).
 
 #=================================================================================================================
 #                                                     RamDisk
 #=================================================================================================================
 
 Write-Section -Name 'RamDisk'
-
-# Advanced topic (a bit).
 
 <#
   Brave (and web browsers in general) write a lot to the disk, wearing off SSD.
@@ -73,14 +61,13 @@ Write-Section -Name 'RamDisk'
 # The RamDisk will be created on the next computer restart.
 
 
-# RamDisk application
-#---------------------------------------
+# --- RamDisk application
 Install-OSFMount
 
-# RamDisk
-#---------------------------------------
+# --- RamDisk
 # If you have multiple Brave profiles, make sure to allocate enought RAM (at least 512MB per profile).
 # Size: number + M or G (e.g. 512M or 4G)
+
 $AppToRamDisk = @(
     'Brave'
     #'VSCode'

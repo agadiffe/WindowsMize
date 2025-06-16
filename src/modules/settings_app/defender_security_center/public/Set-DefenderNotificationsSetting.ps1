@@ -13,8 +13,8 @@
         [-RecentActivityAndScanResults {Disabled | Enabled}]
         [-ThreatsFoundNoActionNeeded {Disabled | Enabled}]
         [-FilesOrActivitiesBlocked {Disabled | Enabled}]
-        [-WindowsHello {Disabled | Enabled}]
-        [-DynamicLock {Disabled | Enabled}]
+        [-WindowsHelloProblems {Disabled | Enabled}]
+        [-DynamicLockProblems {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -44,10 +44,10 @@ function Set-DefenderNotificationsSetting
         [state] $FilesOrActivitiesBlocked,
 
         [Parameter(ParameterSetName = 'Specific')]
-        [state] $WindowsHello,
+        [state] $WindowsHelloProblems,
 
         [Parameter(ParameterSetName = 'Specific')]
-        [state] $DynamicLock
+        [state] $DynamicLockProblems
     )
 
     process
@@ -66,8 +66,8 @@ function Set-DefenderNotificationsSetting
             'RecentActivityAndScanResults' { Set-DefenderVirusAndThreatNotifs -RecentActivityAndScanResults $RecentActivityAndScanResults }
             'ThreatsFoundNoActionNeeded'   { Set-DefenderVirusAndThreatNotifs -ThreatsFoundNoActionNeeded $ThreatsFoundNoActionNeeded }
             'FilesOrActivitiesBlocked'     { Set-DefenderVirusAndThreatNotifs -FilesOrActivitiesBlocked $FilesOrActivitiesBlocked }
-            'WindowsHello'                 { Set-DefenderAccountNotifs -WindowsHello $WindowsHello }
-            'DynamicLock'                  { Set-DefenderAccountNotifs -DynamicLock $DynamicLock }
+            'WindowsHelloProblems'         { Set-DefenderAccountNotifs -WindowsHelloProblems $WindowsHelloProblems }
+            'DynamicLockProblems'          { Set-DefenderAccountNotifs -DynamicLockProblems $DynamicLockProblems }
         }
     }
 }

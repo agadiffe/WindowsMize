@@ -8,29 +8,20 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Power_options'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\src\modules\power_options"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
 
 #=================================================================================================================
 #                                                  Power Options
@@ -38,37 +29,30 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\power_options"
 
 Write-Section -Name 'Power Options'
 
-# Fast startup
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Fast startup (default: Enabled)
 Set-FastStartup -State 'Disabled'
 
-# Hibernate
-#---------------------------------------
-# Disabled (also disable 'Fast startup') | Enabled (default)
+# --- Hibernate (default: Enabled)
+# Disabled: also disable 'Fast startup'
 Set-Hibernate -State 'Disabled'
 
-# Turn off hard disk after idle time
-#---------------------------------------
-# default: 20 (PluggedIn), 10 (OnBattery)
+# --- Turn off hard disk after idle time (default: 20 (PluggedIn), 10 (OnBattery))
 # PowerSource: PluggedIn | OnBattery
 # Timeout: value in minutes
 Set-HardDiskTimeout -PowerSource 'OnBattery' -Timeout 20
 Set-HardDiskTimeout -PowerSource 'PluggedIn' -Timeout 60
 
-# Modern standby (S0) : Network connectivity
-#---------------------------------------
+# --- Modern standby (S0) : Network connectivity (default: Enabled)
 # PowerSource: PluggedIn | OnBattery
-# State: Disabled | Enabled (default) | ManagedByWindows
+# State: Disabled | Enabled | ManagedByWindows
 Set-ModernStandbyNetworkConnectivity -PowerSource 'OnBattery' -State 'Disabled'
 Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 
-# Battery settings
-#---------------------------------------
-# default (depends): Low 10%, DoNothing | Reserve 7% | Critical 5%, Hibernate
+# --- Battery settings (default: Low 10%, DoNothing | Reserve 7% | Critical 5%, Hibernate)
 # Battery: Low | Critical | Reserve
 # Level: value in percent (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
+
 Set-AdvancedBatterySetting -Battery 'Low'      -Level 15 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 10
 Set-AdvancedBatterySetting -Battery 'Critical' -Level 7  -Action 'ShutDown'

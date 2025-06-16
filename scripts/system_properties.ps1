@@ -8,29 +8,20 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''System_properties'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\src\modules\system_properties"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
 
 #=================================================================================================================
 #                                                System Properties
@@ -44,10 +35,8 @@ Write-Section -Name 'System Properties'
 
 Write-Section -Name 'Hardware' -SubSection
 
-# Device installation settings:
+# --- FDevice installation settings (default: Enabled)
 #   Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
-#---------------------------------------
-# State: Disabled | Enabled (default)
 # GPO: Disabled | NotConfigured
 Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 
@@ -55,6 +44,7 @@ Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 #==============================================================================
 #                                   Advanced
 #==============================================================================
+#region advanced
 
 Write-Section -Name 'Advanced' -SubSection
 
@@ -62,8 +52,7 @@ Write-Section -Name 'Advanced' -SubSection
 #                       Performance
 #==========================================================
 
-# Visual effects
-#---------------------------------------
+# --- FVisual effects
 # Value: ManagedByWindows (default) | BestAppearance | BestPerformance | Custom
 # Setting: <VisualEffectsCustomSetting> (see below)
 
@@ -90,8 +79,7 @@ $VisualEffectsCustomSettings = @{
 }
 Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
 
-# Advanced > Virtual memory
-#---------------------------------------
+# --- FAdvanced > Virtual memory
 # AllDrivesAutoManaged: Disabled | Enabled (default)
 # Drive: drive to config (e.g. 'C:')
 # State: CustomSize | SystemManaged | NoPagingFile
@@ -101,13 +89,11 @@ Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
 Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 512 -MaximumSize 2048
 #Set-PagingFileSize -Drive 'X:', 'Y:' -State 'SystemManaged'
 
-# Data execution prevention:
+# --- FData execution prevention
 #   Essential Windows programs and services only (OptIn)
 #   All programs and services except those I select (OptOut)
-#---------------------------------------
-# OptIn (default) | OptOut
+# State: OptIn (default) | OptOut
 Set-DataExecutionPrevention -State 'OptIn'
-
 
 #==========================================================
 #                   Startup and recovery
@@ -116,71 +102,65 @@ Set-DataExecutionPrevention -State 'OptIn'
 #            System failure
 #=======================================
 
-# Write an event to the system log
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- FWrite an event to the system log (default: Enabled)
 Set-SystemFailureSetting -WriteEventToSystemLog 'Enabled'
 
-# Automatically restart
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- FAutomatically restart (default: Enabled)
 Set-SystemFailureSetting -AutoRestart 'Disabled'
 
-# Write debugging information
-#---------------------------------------
+# --- FWrite debugging information
 # Requires a minimum paging file size according to the selected setting.
 # None | Complete (<YOUR_RAM> MB + 257 MB) | Kernel (800 MB) | Small (1 MB) | Automatic (800 MB) (default) | Active (800 MB)
 Set-SystemFailureSetting -WriteDebugInfo 'None'
 
-# Overwrite any existing file
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- FOverwrite any existing file (default: Enabled)
 Set-SystemFailureSetting -OverwriteExistingDebugFile 'Enabled'
 
-# Disable automatic deletion of memory dumps when disk space is low
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- FDisable automatic deletion of memory dumps when disk space is low (default: Disabled)
 Set-SystemFailureSetting -AlwaysKeepMemoryDumpOnLowDiskSpace 'Disabled'
 
+#endregion advanced
 
 #==============================================================================
 #                              System protection
 #==============================================================================
+#region sys protection
 
 Write-Section -Name 'System protection' -SubSection
 
-# Protection settings
-#---------------------------------------
+# --- FProtection settings
+# Also controlled by the group 'Services & Scheduled Tasks > WindowsBackupAndSystemRestore' in the
+# file 'scripts\services_and_scheduled_tasks.ps1'. The services are left to default state 'Manual'.
+
 # AllDrivesDisabled: turn off System Restore
 # Drive: drive to config (e.g. 'C:')
 # State: Disabled | Enabled (default)
 # GPO: Disabled | NotConfigured
 
-#Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
 #Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
 
+#endregion sys protection
 
 #==============================================================================
 #                                    Remote
 #==============================================================================
+#region remote
 
 Write-Section -Name 'Remote' -SubSection
 
-# Remote assistance:
-#   Allow remote assistance connections to this computer
-#   Allow this computer to be controlled remotely
-#---------------------------------------
-# State: Disabled | FullControl | ViewOnly (default)
-# GPO: Disabled | FullControl | ViewOnly | NotConfigured
-# InvitationMaxTime: number (range 1-99), default: 6
-# InvitationMaxTimeUnit: Minutes | Hours (default) | Days
-# EncryptedOnly: Disabled (Windows default) | Enabled (script default)
-# EncryptedOnlyGPO: Disabled | Enabled | NotConfigured (default)
-# InvitationMethodGPO (ignored if 'GPO' is 'NotConfigured'): SimpleMAPI (default) | Mailto
-
+# --- FRemote assistance
+#   Allow remote assistance connections to this computer (ViewOnly)
+#   Allow this computer to be controlled remotely (FullControl)
+# State: Disabled | FullControl | ViewOnly (default) # GPO: State + NotConfigured
 Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured'
 
-# advanced settings
+# Advanced settings
+#  InvitationMaxTime     : number (range 1-99), default: 6
+#  InvitationMaxTimeUnit : Minutes | Hours (default) | Days
+#  EncryptedOnly         : Disabled (Windows default) | Enabled (script default)
+#  EncryptedOnlyGPO      : Disabled | Enabled | NotConfigured (default)
+#  InvitationMethodGPO   : SimpleMAPI (default) | Mailto
 $RemoteAssistanceProperties = @{
     State                 = 'ViewOnly'
     GPO                   = 'NotConfigured'
@@ -188,13 +168,14 @@ $RemoteAssistanceProperties = @{
     InvitationMaxTimeUnit = 'Hours'
     EncryptedOnly         = 'Enabled'
     EncryptedOnlyGPO      = 'NotConfigured'
-    InvitationMethodGPO   = 'SimpleMAPI'
+    InvitationMethodGPO   = 'SimpleMAPI' # ignored if 'GPO' is 'NotConfigured'
 }
 #Set-RemoteAssistance @RemoteAssistanceProperties
 
-# Remote Desktop
-#---------------------------------------
+# --- FRemote Desktop
 # See 'Windows Settings App > System > Remote Desktop'
+
+#endregion remote
 
 
 Stop-Transcript

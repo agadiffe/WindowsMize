@@ -50,7 +50,7 @@ function Set-MouseSetting
             $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
             $DynamicParamProperties = @{
                 Dictionary = $ParamDictionary
-                Name       = 'WheelScrollLinesToScroll'
+                Name       = 'LinesToScroll'
                 Type       = [int]
                 Attribute  = @{ ValidateRange = 1, 100 }
             }
@@ -77,8 +77,7 @@ function Set-MouseSetting
 
             'WheelScroll'
             {
-                $LinesToScrollValue = $PSBoundParameters.ContainsKey('WheelScrollLinesToScroll') ?
-                    $PSBoundParameters.WheelScrollLinesToScroll : 3
+                $LinesToScrollValue = $PSBoundParameters.ContainsKey('LinesToScroll') ? $PSBoundParameters.LinesToScroll : 3
                 Set-MouseWheelScroll -Value $WheelScroll -LinesToScroll $LinesToScrollValue
             }
         }

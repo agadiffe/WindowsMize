@@ -8,29 +8,21 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Apps'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\apps"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -49,25 +41,18 @@ Write-Section -Name 'Windows Settings App - Apps'
 
 Write-Section -Name 'Advanced app settings' -SubSection
 
-# Choose where to get apps
-#---------------------------------------
-# State: Anywhere (default) | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly
-# GPO: Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly | NotConfigured
+# --- Choose where to get apps (default: Anywhere)
+# State: Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly # GPO: State + NotConfigured
 Set-GeneralAppsSetting -ChooseWhereToGetApps 'Anywhere' -ChooseWhereToGetAppsGPO 'NotConfigured'
 
-# Share across devices
-#---------------------------------------
-# Disabled | DevicesOnly (default) | EveryoneNearby
+# --- Share across devices (default: DevicesOnly)
+# State: Disabled | DevicesOnly | EveryoneNearby
 Set-GeneralAppsSetting -ShareAcrossDevices 'Disabled'
 
-# Archive apps
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Archive apps (default: Enabled)
 Set-GeneralAppsSetting -AutoArchiveApps 'Disabled' -AutoArchiveAppsGPO 'NotConfigured'
 
 #endregion advanced app settings
-
 
 #==========================================================
 #                       Offline maps
@@ -76,19 +61,14 @@ Set-GeneralAppsSetting -AutoArchiveApps 'Disabled' -AutoArchiveAppsGPO 'NotConfi
 
 Write-Section -Name 'Offline maps' -SubSection
 
-# Metered connection
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Metered connection (default: Disabled)
 Set-OfflineMapsSetting -DownloadOverMeteredConnection 'Disabled'
 
-# Maps update
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Maps update (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-OfflineMapsSetting -AutoUpdateOnACAndWifi 'Disabled' -AutoUpdateOnACAndWifiGPO 'NotConfigured'
 
 #endregion offline maps
-
 
 #==========================================================
 #                    Apps for websites
@@ -97,13 +77,10 @@ Set-OfflineMapsSetting -AutoUpdateOnACAndWifi 'Disabled' -AutoUpdateOnACAndWifiG
 
 Write-Section -Name 'Apps for websites' -SubSection
 
-# Open links in an app instead of a browser
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Open links in an app instead of a browser
 Set-GeneralAppsSetting -AppsOpenLinksInsteadOfBrowserGPO 'NotConfigured'
 
 #endregion apps for websites
-
 
 #==========================================================
 #                          Resume
@@ -112,9 +89,7 @@ Set-GeneralAppsSetting -AppsOpenLinksInsteadOfBrowserGPO 'NotConfigured'
 
 Write-Section -Name 'Resume' -SubSection
 
-# Resume
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Resume (default: Enabled)
 Set-GeneralAppsSetting -AppsResume 'Disabled'
 
 #endregion resume

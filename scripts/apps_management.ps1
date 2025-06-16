@@ -8,28 +8,16 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Applications\Management'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\src\modules\applications\management"
-
 
 
 #=================================================================================================================
@@ -41,62 +29,54 @@ Write-Section -Name 'Applications Management'
 #==============================================================================
 #                                Installation
 #==============================================================================
+#region installation
 
 Write-Section -Name 'Installation' -SubSection
 
-# Custom applications
-#---------------------------------------
+# --- Custom applications
 # Name: winget name of the app
 # Scope (optional): Machine | User
 # e.g. Install-ApplicationWithWinget -Name 'Valve.Steam' -Scope 'Machine'
+
 $CustomAppsToInstall = @(
-    'AppName1'
+    'Valve.Steam'
     'AppName2'
     'AppName3'
 )
 #$CustomAppsToInstall | Install-ApplicationWithWinget -Scope 'Machine'
 
-# Predefined applications
-#---------------------------------------
+# --- Predefined applications
 $AppsToInstall = @(
-    # Development
-    #-----------------
+    # --- Development
     #'Git'
     #'VSCode'
 
-    # Multimedia
-    #-----------------
+    # --- Multimedia
     'VLC'
 
-    # Password Manager
-    #-----------------
+    # --- Password Manager
     #'Bitwarden'
     #'KeePassXC'
     #'ProtonPass'
 
-    # PDF Viewer
-    #-----------------
+    # --- PDF Viewer
     #'AcrobatReader'
     #'SumatraPDF'
 
-    # Utilities
-    #-----------------
+    # --- Utilities
     #'7zip'
     #'Notepad++'
     #'qBittorrent'
 
-    # Web Browser
-    #-----------------
+    # --- Web Browser
     'Brave'
     #'Firefox'
     #'MullvadBrowser'
 
-    # Microsoft DirectX (might be needed for older games)
-    #-----------------
+    # --- Microsoft DirectX (might be needed for older games)
     #'DirectXEndUserRuntime'
 
-    # Microsoft Visual C++ Redistributable
-    #-----------------
+    # --- Microsoft Visual C++ Redistributable
     #'VCRedist2015+.ARM'
     'VCRedist2015+'
     #'VCRedist2013'
@@ -107,79 +87,66 @@ $AppsToInstall = @(
 )
 $AppsToInstall | Install-Application
 
-# Desktop shortcuts
-#---------------------------------------
+# --- Desktop shortcuts
 Remove-AllDesktopShortcuts
 
-# Windows Subsystem For Linux
-#---------------------------------------
+# --- Windows Subsystem For Linux
 #Install-WindowsSubsystemForLinux
 #Install-WindowsSubsystemForLinux -Distribution 'Debian'
 
+#endregion installation
 
 #==============================================================================
 #                         Appx & provisioned packages
 #==============================================================================
+#region appx packages
+
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 Write-Section -Name 'Appx & provisioned packages' -SubSection
 
-# Bing Search in Start Menu
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
-Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
-
-# Copilot | deprecated
-# This policy isn't for the new Copilot app experience.
-#---------------------------------------
-# Disabled | NotConfigured
-Set-Copilot -GPO 'Disabled'
-
-# Cortana | deprecated
-#---------------------------------------
-# Disabled | NotConfigured
-Set-Cortana -GPO 'Disabled'
-
-# Microsoft Edge
-#---------------------------------------
-Remove-MicrosoftEdge
-
-# Microsoft Store : Push to install service
-#---------------------------------------
-# Disabled | NotConfigured
-Set-MicrosoftStorePushToInstall -GPO 'Disabled'
-
-# Microsoft Windows Malicious Software Removal Tool
-#---------------------------------------
-#Remove-MSMaliciousSoftwareRemovalTool
-
-# OneDrive
-#---------------------------------------
-Remove-OneDrive
-
-# OneDrive : Auto install for new user
-#---------------------------------------
-# Disabled | Enabled (default)
-Set-OneDriveNewUserAutoInstall -State 'Disabled'
-
-# Recall
-#---------------------------------------
-# Disabled | Enabled | NotConfigured
-Set-Recall -GPO 'Disabled'
-
-# Widgets
-#---------------------------------------
-# Disabled | NotConfigured
-Set-Widgets -GPO 'Disabled'
-
-# Promoted/Sponsored apps (e.g. Spotify, LinkedIn)
-#---------------------------------------
+# --- Promoted/Sponsored apps (e.g. Spotify, LinkedIn)
 # Windows 11 only.
 Remove-StartMenuPromotedApps
 
-# Preinstalled default apps
-#---------------------------------------
+# --- Bing Search in Start Menu (default: Enabled)
+Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
+
+# --- Recall
+# GPO: Disabled | Enabled | NotConfigured
+Set-Recall -GPO 'Disabled'
+
+# --- Widgets
+Set-Widgets -GPO 'Disabled'
+
+# --- Microsoft Store : Push to install service (remote app installation)
+Set-MicrosoftStorePushToInstall -GPO 'Disabled'
+
+# --- Copilot | deprecated (This policy isn't for the new Copilot app experience)
+Set-Copilot -GPO 'Disabled'
+
+# --- Cortana | deprecated
+Set-Cortana -GPO 'Disabled'
+
+#       Preinstalled default apps
+#=======================================
+# aka: Bloatware
+
 Export-DefaultAppxPackagesNames
+
+# --- Microsoft Edge
+Remove-MicrosoftEdge
+
+# --- OneDrive
+Remove-OneDrive
+
+# --- OneDrive : Auto install for new user (default: Enabled)
+Set-OneDriveNewUserAutoInstall -State 'Disabled'
+
+# --- Microsoft Windows Malicious Software Removal Tool
+#Remove-MSMaliciousSoftwareRemovalTool
 
 $PreinstalledAppsToRemove = @(
     'BingSearch'
@@ -232,6 +199,8 @@ $PreinstalledAppsToRemove = @(
     'Wallet'
 )
 $PreinstalledAppsToRemove | Remove-PreinstalledAppPackage
+
+#endregion appx packages
 
 
 Stop-Transcript

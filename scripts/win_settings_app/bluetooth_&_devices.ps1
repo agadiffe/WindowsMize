@@ -8,29 +8,21 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Bluetooth_&_devices'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\bluetooth_&_devices"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -49,34 +41,23 @@ Write-Section -Name 'Windows Settings App - Bluetooth & devices'
 
 Write-Section -Name 'Devices' -SubSection
 
-# Bluetooth
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Bluetooth
 Set-BluetoothSetting -BluetoothGPO 'NotConfigured'
 
-# Show notifications to connect using Swift Pair
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Show notifications to connect using Swift Pair (default: Enabled)
 Set-BluetoothSetting -ShowQuickPairConnectionNotif 'Enabled' -ShowQuickPairConnectionNotifGPO 'NotConfigured'
 
-# Download over metered connections (device software (drivers, info, and apps))
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Download over metered connections (device software (drivers, info, and apps)) (default: Disabled)
 Set-DevicesSetting -DownloadOverMeteredConnections 'Disabled'
 
-# Use LE Audio when available
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Use LE Audio when available (default: Enabled)
 Set-BluetoothSetting -LowEnergyAudio 'Enabled'
 
-# Bluetooth devices discovery | deprecated
-#---------------------------------------
-# Default (default) | Advanced
+# --- Bluetooth devices discovery (default: Default) | deprecated
+# State: Default | Advanced
 Set-BluetoothSetting -DiscoveryMode 'Default'
 
 #endregion devices
-
 
 #==========================================================
 #                   Printers & scanners
@@ -85,17 +66,13 @@ Set-BluetoothSetting -DiscoveryMode 'Default'
 
 Write-Section -Name 'Printers & scanners' -SubSection
 
-# Let Windows manage my default printer
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Let Windows manage my default printer (default: Enabled)
 Set-DevicesSetting -DefaultPrinterSystemManaged 'Disabled'
 
-# Download drivers and devices software over metered connections
-#---------------------------------------
-# See 'Windows Settings App > Bluetooth & devices > Devices > Download over metered connections'
+# --- Download drivers and devices software over metered connections
+# See 'Devices > Download over metered connections' in the previous section.
 
 #endregion printers & scanners
-
 
 #==========================================================
 #                      Mobile devices
@@ -104,24 +81,16 @@ Set-DevicesSetting -DefaultPrinterSystemManaged 'Disabled'
 
 Write-Section -Name 'Mobile devices' -SubSection
 
-# Allow this PC to access your mobile devices
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Allow this PC to access your mobile devices (default: Disabled)
 Set-MobileDevicesSetting -MobileDevices 'Disabled'
 
-# Phone Link
-#---------------------------------------
-# State: Disabled (default) | Enabled
-# GPO: Disabled | NotConfigured
+# --- Phone Link (default: Disabled)
 Set-MobileDevicesSetting -PhoneLink 'Disabled' -PhoneLinkGPO 'NotConfigured'
 
-# Show me suggestions for using my mobile device with Windows
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show me suggestions for using my mobile device with Windows (default: Enabled)
 Set-MobileDevicesSetting -ShowUsageSuggestions 'Disabled'
 
 #endregion mobile devices
-
 
 #==========================================================
 #                          Mouse
@@ -130,44 +99,33 @@ Set-MobileDevicesSetting -ShowUsageSuggestions 'Disabled'
 
 Write-Section -Name 'Mouse' -SubSection
 
-# Primary mouse button
-#---------------------------------------
-# Left (default) | Right
+# --- Primary mouse button (default: Left)
+# State: Left | Right
 Set-MouseSetting -PrimaryButton 'Left'
 
-# Mouse pointer speed
-#---------------------------------------
-# default: 10 (range 1-20)
+# --- Mouse pointer speed (default: 10 (range 1-20))
 Set-MouseSetting -PointerSpeed 10
 
-# Enhance pointer precision
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Enhance pointer precision (default: Enabled)
 Set-MouseSetting -EnhancedPointerPrecision 'Enabled'
 
 #               Scrolling
 #=======================================
 
-# Roll the mouse wheel to scroll
-# Lines to scroll at a time
-#---------------------------------------
-# MultipleLines (default) | OneScreen
-# WheelScrollLinesToScroll: 3 (default) (range 1-100)
+# --- Roll the mouse wheel to scroll (default: MultipleLines)
+# --- Lines to scroll at a time (default: 3 (range 1-100))
+# State: MultipleLines (+ LinesToScroll) | OneScreen
 #Set-MouseSetting -WheelScroll 'OneScreen'
-Set-MouseSetting -WheelScroll 'MultipleLines' -WheelScrollLinesToScroll 3
+Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3
 
-# Scroll inactive windows when hovering over them
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Scroll inactive windows when hovering over them (default: Enabled)
 Set-MouseSetting -ScrollInactiveWindowsOnHover 'Enabled'
 
-# Scrolling direction
-#---------------------------------------
-# DownMotionScrollsDown (default) | DownMotionScrollsUp
+# --- Scrolling direction (default: DownMotionScrollsDown)
+# State: DownMotionScrollsDown | DownMotionScrollsUp
 Set-MouseSetting -ScrollingDirection 'DownMotionScrollsDown'
 
 #endregion mouse
-
 
 #==========================================================
 #                         Touchpad
@@ -176,79 +134,56 @@ Set-MouseSetting -ScrollingDirection 'DownMotionScrollsDown'
 
 Write-Section -Name 'Touchpad' -SubSection
 
-# Touchpad
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Touchpad (default: Enabled)
 Set-TouchpadSetting -Touchpad 'Enabled'
 
-# Leave touchpad on when a mouse is connected
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Leave touchpad on when a mouse is connected (default: Enabled)
 Set-TouchpadSetting -LeaveOnWithMouse 'Enabled'
 
-# Cursor speed
-#---------------------------------------
-# default: 5 (range 1-10)
+# --- Cursor speed (default: 5 (range 1-10))
 Set-TouchpadSetting -CursorSpeed 5
 
 #                 Taps
 #=======================================
 
-# Touchpad sensitivity
-#---------------------------------------
-# Max | High | Medium (default) | Low
+# --- Touchpad sensitivity (default: Medium)
+# State: Max | High | Medium | Low
 Set-TouchpadSetting -Sensitivity 'Medium'
 
-# Tap with a single finger to single-click
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Tap with a single finger to single-click (default: Enabled)
 Set-TouchpadSetting -TapToClick 'Enabled'
 
-# Tap with two fingers to right-click
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Tap with two fingers to right-click (default: Enabled)
 Set-TouchpadSetting -TwoFingersTapToRightClick 'Enabled'
 
-# Tap twice and drag to multi-select
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Tap twice and drag to multi-select (default: Enabled)
 Set-TouchpadSetting -TapTwiceAndDragToMultiSelect 'Enabled'
 
-# Press the lower right corner of the touchpad to right-click
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Press the lower right corner of the touchpad to right-click (default: Enabled)
 Set-TouchpadSetting -RightClickButton 'Enabled'
 
 #             Scroll & zoom
 #=======================================
 
-# Drag two fingers to scroll
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Drag two fingers to scroll (default: Enabled)
 Set-TouchpadSetting -TwoFingersToScroll 'Enabled'
 
-# Scrolling direction
-#---------------------------------------
-# DownMotionScrollsDown | DownMotionScrollsUp (default)
+# --- Scrolling direction (default: DownMotionScrollsUp)
+# State: DownMotionScrollsDown | DownMotionScrollsUp
 Set-TouchpadSetting -ScrollingDirection 'DownMotionScrollsUp'
 
-# Pinch to zoom
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Pinch to zoom (default: Enabled)
 Set-TouchpadSetting -PinchToZoom 'Enabled'
 
 #         Three-finger gestures
 #=======================================
 
-# Taps
-#---------------------------------------
-# Nothing | OpenSearch (default) | NotificationCenter | PlayPause |
-# MiddleMouseButton | MouseBackButton | MouseForwardButton
+# --- Taps (default: OpenSearch)
+# Nothing | OpenSearch | NotificationCenter | PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
 Set-TouchpadSetting -ThreeFingersTap 'OpenSearch'
 
-# Swipes
-#---------------------------------------
-# Nothing | SwitchAppsAndShowDesktop (default) | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
+# --- Swipes (default: SwitchAppsAndShowDesktop)
+# Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
 Set-TouchpadSetting -ThreeFingersSwipes 'SwitchAppsAndShowDesktop'
 
 # Nothing | SwitchApps (left/right) | TaskView (up) | ShowDesktop (down) | SwitchDesktops | HideAllExceptAppInFocus |
@@ -265,15 +200,12 @@ $ThreeFingersSwipesCustom = @{
 #         Four-finger gestures
 #=======================================
 
-# Taps
-#---------------------------------------
-# Nothing | OpenSearch | NotificationCenter (default) | PlayPause |
-# MiddleMouseButton | MouseBackButton | MouseForwardButton
+# --- Taps (default: NotificationCenter)
+# Nothing | OpenSearch | NotificationCenter| PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
 Set-TouchpadSetting -FourFingersTap 'NotificationCenter'
 
-# Swipes
-#---------------------------------------
-# Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop (default) | ChangeAudioAndVolume | Custom
+# --- Swipes (default: SwitchDesktopsAndShowDesktop)
+# Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
 Set-TouchpadSetting -FourFingersSwipes 'SwitchDesktopsAndShowDesktop'
 
 # Nothing | SwitchApps | TaskView (up) | ShowDesktop (down) | SwitchDesktops (left/right) | HideAllExceptAppInFocus |
@@ -289,7 +221,6 @@ $FourFingersSwipesCustom = @{
 
 #endregion touchpad
 
-
 #==========================================================
 #                         AutoPlay
 #==========================================================
@@ -297,27 +228,21 @@ $FourFingersSwipesCustom = @{
 
 Write-Section -Name 'AutoPlay' -SubSection
 
-# Use AutoPlay for all media and devices
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Use AutoPlay for all media and devices (default: Enabled)
 Set-AutoPlaySetting -AutoPlay 'Enabled' -AutoPlayGPO 'NotConfigured'
 
 #       Choose AutoPlay defaults
 #=======================================
 
-# Removable Drive
-#---------------------------------------
-# Default (default) | NoAction | OpenFolder | AskEveryTime
+# --- Removable Drive (default: Default)
+# State: Default | NoAction | OpenFolder | AskEveryTime
 Set-AutoPlaySetting -RemovableDrive 'OpenFolder'
 
-# Memory card
-#---------------------------------------
-# Default (default) | NoAction | OpenFolder | AskEveryTime
+# --- Memory card (default: Default)
+# State: Default | NoAction | OpenFolder | AskEveryTime
 Set-AutoPlaySetting -MemoryCard 'OpenFolder'
 
 #endregion autoplay
-
 
 #==========================================================
 #                           USB
@@ -326,19 +251,13 @@ Set-AutoPlaySetting -MemoryCard 'OpenFolder'
 
 Write-Section -Name 'USB' -SubSection
 
-# Connection notifications (if issues with USB)
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Connection notifications (if issues with USB) (default: Enabled)
 Set-UsbSetting -NotifOnErrors 'Enabled'
 
-# USB battery saver
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- USB battery saver (default: Enabled)
 Set-UsbSetting -BatterySaver 'Enabled'
 
-# Show a notification if this PC is charging slowly over USB
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show a notification if this PC is charging slowly over USB (default: Enabled)
 Set-UsbSetting -NotifOnWeakCharger 'Enabled'
 
 #endregion usb

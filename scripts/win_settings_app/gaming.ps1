@@ -8,29 +8,20 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Gaming'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\gaming"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -42,50 +33,15 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\gaming"
 
 Write-Section -Name 'Windows Settings App - Gaming'
 
-#==========================================================
-#                         Game Bar
-#==========================================================
-#region game bar
-
-Write-Section -Name 'Game Bar' -SubSection
-
-# Allow your controller to open Game Bar
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Allow your controller to open Game Bar (default: Disabled)
 Set-GamingSetting -OpenGameBarWithController 'Disabled'
 
-#endregion game bar
-
-
-#==========================================================
-#                         Captures
-#==========================================================
-#region captures
-
-Write-Section -Name 'Captures' -SubSection
-
-# Record what happened
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Captures: Record what happened (default: Disabled)
 # GPO: Disabled | NotConfigured
 Set-GamingSetting -GameRecording 'Disabled' -GameRecordingGPO 'NotConfigured'
 
-#endregion captures
-
-
-#==========================================================
-#                        Game Mode
-#==========================================================
-#region game mode
-
-Write-Section -Name 'Game Mode' -SubSection
-
-# Game Mode
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Game Mode (default: Enabled)
 Set-GamingSetting -GameMode 'Disabled'
-
-#endregion game mode
 
 
 Stop-Transcript

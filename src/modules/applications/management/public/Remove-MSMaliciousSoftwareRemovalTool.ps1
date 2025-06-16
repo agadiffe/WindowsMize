@@ -16,7 +16,6 @@ function Remove-MSMaliciousSoftwareRemovalTool
             Path    = 'SOFTWARE\Policies\Microsoft\MRT'
             Entries = @(
                 @{
-                    RemoveEntry = $GPO -eq 'NotConfigured'
                     Name  = 'DontOfferThroughWUAU'
                     Value = '1'
                     Type  = 'DWord'

@@ -8,29 +8,20 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Defender_security_center'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\defender_security_center"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -52,20 +43,15 @@ Write-Section -Name 'Virus & threat protection' -SubSection
 #               Settings
 #=======================================
 
-# Cloud-delivered protection
-#---------------------------------------
-# State: Disabled | Basic | Advanced (default)
-# GPO: Disabled | Basic | Advanced | NotConfigured
+# --- Cloud-delivered protection (default: Advanced)
+# State: Disabled | Basic | Advanced # GPO: State + NotConfigured
 Set-DefenderSetting -CloudDeliveredProtection 'Disabled' -CloudDeliveredProtectionGPO 'NotConfigured'
 
-# Automatic sample submission
-#---------------------------------------
-# State: NeverSend | AlwaysPrompt | SendSafeSamples (default) | SendAllSamples
-# GPO: NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured
+# --- Automatic sample submission (default: SendSafeSamples)
+# State: NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples # GPO: State + NotConfigured
 Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO 'NotConfigured'
 
 #endregion virus & threat protection
-
 
 #==========================================================
 #                    Account Protection
@@ -74,13 +60,10 @@ Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO '
 
 Write-Section -Name 'Account Protection' -SubSection
 
-# Administrator Protection
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Administrator Protection (default: Disabled)
 Set-DefenderSetting -AdminProtection 'Disabled'
 
 #endregion account protection
-
 
 #==========================================================
 #                  App & browser control
@@ -92,36 +75,26 @@ Write-Section -Name 'App & browser control' -SubSection
 #      Reputation-based protection
 #=======================================
 
-# Check apps and files
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Check apps and files (default: Enabled)
 # GPO: Disabled | Warn | Block | NotConfigured
 Set-DefenderSetting -CheckAppsAndFiles 'Disabled' -CheckAppsAndFilesGPO 'NotConfigured'
 
-# Smartscreen for Microsoft Edge
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Smartscreen for Microsoft Edge (default: Enabled)
 # GPO: Disabled | Warn | Block | NotConfigured
 Set-DefenderSetting -SmartScreenForEdge 'Disabled' -SmartScreenForEdgeGPO 'NotConfigured'
 
-# Phishing protection
-#---------------------------------------
-# Disabled | Warn | Block | NotConfigured
+# --- Phishing protection
+# GPO: Disabled | Warn | Block | NotConfigured
 Set-DefenderSetting -PhishingProtectionGPO 'Disabled'
 
-# Potentially unwanted app blocking
-#---------------------------------------
-# State: Disabled | Enabled (default) | AuditMode
-# GPO: Disabled | Enabled | AuditMode | NotConfigured
+# --- Potentially unwanted app blocking (default: Enabled)
+# State: Disabled | Enabled | AuditMode # GPO: State + NotConfigured
 Set-DefenderSetting -UnwantedAppBlocking 'Disabled' -UnwantedAppBlockingGPO 'NotConfigured'
 
-# Smartscreen for Microsoft Store apps
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Smartscreen for Microsoft Store apps (default: Enabled)
 Set-DefenderSetting -SmartScreenForStoreApps 'Disabled'
 
 #endregion app & browser control
-
 
 #==========================================================
 #                      Notifications
@@ -133,51 +106,31 @@ Write-Section -Name 'Notifications' -SubSection
 #       Virus & threat protection
 #=======================================
 
-# Get informational notifications:
-#   Recent activity and scan results
-#   Threats found, but no immediate action is needed
-#   Files or activities are blocked
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Get informational notifications (i.e. All notifs) (default: Enabled)
 #Set-DefenderNotificationsSetting -VirusAndThreatAllNotifs 'Enabled'
 
-# Recent activity and scan results
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- --- Recent activity and scan results (default: Enabled)
 Set-DefenderNotificationsSetting -RecentActivityAndScanResults 'Disabled'
 
-# Threats found, but no immediate action is needed
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- --- Threats found, but no immediate action is needed (default: Enabled)
 Set-DefenderNotificationsSetting -ThreatsFoundNoActionNeeded 'Enabled'
 
-# Files or activities are blocked
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- --- Files or activities are blocked (default: Enabled)
 Set-DefenderNotificationsSetting -FilesOrActivitiesBlocked 'Enabled'
 
 #          Account protection
 #=======================================
 
-# Get account protection notifications:
-#   Problems with Windows Hello
-#   Problems with Dynamic lock
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Get account protection notifications (i.e. All notifs) (default: Enabled)
 #Set-DefenderNotificationsSetting -AccountAllNotifs 'Enabled'
 
-# Problems with Windows Hello
-#---------------------------------------
-# Disabled | Enabled (default)
-Set-DefenderNotificationsSetting -WindowsHello 'Enabled'
+# --- --- Problems with Windows Hello (default: Enabled)
+Set-DefenderNotificationsSetting -WindowsHelloProblems 'Enabled'
 
-# Problems with Dynamic lock
-#---------------------------------------
-# Disabled | Enabled (default)
-Set-DefenderNotificationsSetting -DynamicLock 'Enabled'
+# --- --- Problems with Dynamic lock (default: Enabled)
+Set-DefenderNotificationsSetting -DynamicLockProblems 'Enabled'
 
 #endregion notifications
-
 
 #==========================================================
 #                      Miscellaneous
@@ -186,9 +139,8 @@ Set-DefenderNotificationsSetting -DynamicLock 'Enabled'
 
 Write-Section -Name 'Miscellaneous' -SubSection
 
-# Watson events report
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Watson events report
+# GPO: Disabled | NotConfigured
 Set-DefenderSetting -WatsonEventsReportGPO 'Disabled'
 
 #endregion miscellaneous

@@ -8,29 +8,21 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Accounts'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\accounts"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -49,14 +41,12 @@ Write-Section -Name 'Windows Settings App - Accounts'
 
 Write-Section -Name 'Your info' -SubSection
 
-# Account setting
-#---------------------------------------
+# --- Account setting
 # Enabled: also disable and gray out 'settings > bluetooth & devices > mobile devices'
-# CannotAddMicrosoftAccount | CannotAddOrLogonWithMicrosoftAccount | NotConfigured
+# GPO: CannotAddMicrosoftAccount | CannotAddOrLogonWithMicrosoftAccount | NotConfigured
 Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured'
 
 #endregion your info
-
 
 #==========================================================
 #                     Sign-in options
@@ -65,49 +55,34 @@ Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured'
 
 Write-Section -Name 'Sign-in options' -SubSection
 
-# Biometrics
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Biometrics
 Set-SigninOptionsSetting -BiometricsGPO 'NotConfigured'
 
-# Sign in with an external camera or fingerprint reader
-#---------------------------------------
+# --- Sign in with an external camera or fingerprint reader (default: Enabled)
 # Requires compatible hardware and software components to have this option visible.
-# Disabled | Enabled (default)
 Set-SigninOptionsSetting -SigninWithExternalDevice 'Enabled'
 
-# For improved security, only allow Windows Hello sign-in for Microsoft accounts on this device
-#---------------------------------------
+# --- For improved security, only allow Windows Hello sign-in for Microsoft accounts on this device (default: Disabled)
 # Requires a Microsoft account to have this option visible.
-# Disabled (default) | Enabled
 Set-SigninOptionsSetting -OnlyWindowsHelloForMSAccount 'Disabled'
 
-# If you've been away, when should Windows require you to sign in again
-#---------------------------------------
+# --- If you've been away, when should Windows require you to sign in again
 # Only available if your account has a password.
-# Standard Standby (S3): Never | OnWakesUpFromSleep (default)
-# Modern Standby (S0): Never | Always (default) | OneMin | ThreeMins | FiveMins | FifteenMins
+# Standard Standby (S3) : Never | OnWakesUpFromSleep (default)
+# Modern Standby (S0)   : Never | Always (default) | OneMin | ThreeMins | FiveMins | FifteenMins
 Set-SigninOptionsSetting -SigninRequiredIfAway 'Never'
 
-# Dynamic lock : Allow Windows to automatically lock your device when you're away
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Dynamic lock : Allow Windows to automatically lock your device when you're away (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-SigninOptionsSetting -DynamicLock 'Disabled' -DynamicLockGPO 'NotConfigured'
 
-# Automatically save my restartable apps and restart them when I sign back in
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Automatically save my restartable apps and restart them when I sign back in (default: Enabled)
 Set-SigninOptionsSetting -AutoRestartApps 'Disabled'
 
-# Show account details such as my email address on the sign-in screen
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Show account details such as my email address on the sign-in screen
 Set-SigninOptionsSetting -ShowAccountDetailsGPO 'NotConfigured'
 
-# Use my sign-in info to automatically finish setting up after an update
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Use my sign-in info to automatically finish setting up after an update (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-SigninOptionsSetting -AutoFinishSettingUpAfterUpdate 'Disabled' -AutoFinishSettingUpAfterUpdateGPO 'NotConfigured'
 

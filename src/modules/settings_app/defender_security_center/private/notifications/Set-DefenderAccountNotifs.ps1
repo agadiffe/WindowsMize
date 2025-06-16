@@ -9,8 +9,8 @@
         [<CommonParameters>]
 
     Set-DefenderAccountNotifs
-        [-WindowsHello {Disabled | Enabled}]
-        [-DynamicLock {Disabled | Enabled}]
+        [-WindowsHelloProblems {Disabled | Enabled}]
+        [-DynamicLockProblems {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -28,24 +28,24 @@ function Set-DefenderAccountNotifs
         [state] $AllNotifs,
 
         [Parameter(ParameterSetName = 'Specific')]
-        [state] $WindowsHello,
+        [state] $WindowsHelloProblems,
 
         [Parameter(ParameterSetName = 'Specific')]
-        [state] $DynamicLock
+        [state] $DynamicLockProblems
     )
 
     process
     {
         if ($PSCmdlet.ParameterSetName -eq 'All')
         {
-            $PSBoundParameters.WindowsHello = $AllNotifs
-            $PSBoundParameters.DynamicLock = $AllNotifs
+            $PSBoundParameters.WindowsHelloProblems = $AllNotifs
+            $PSBoundParameters.DynamicLockProblems = $AllNotifs
         }
 
         switch ($PSBoundParameters.Keys)
         {
-            'WindowsHello' { Set-DefenderNotifsWindowsHello -State $PSBoundParameters.WindowsHello }
-            'DynamicLock'  { Set-DefenderNotifsDynamicLock -State $PSBoundParameters.DynamicLock }
+            'WindowsHelloProblems' { Set-DefenderNotifsWindowsHello -State $PSBoundParameters.WindowsHelloProblems }
+            'DynamicLockProblems'  { Set-DefenderNotifsDynamicLock -State $PSBoundParameters.DynamicLockProblems }
         }
 
         # on: 0 (default) | off: 1

@@ -8,10 +8,6 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
@@ -25,8 +21,8 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\privacy_&_secu
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # "State default's" is in parentheses next to title.
-#   GPO:   Disabled | NotConfigured (default)
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -142,12 +138,11 @@ Set-WinPermissionsSetting -FeedbackFrequency 'Never' -FeedbackFrequencyGPO 'Disa
 # State: Disabled | Moderate | Strict
 Set-WinPermissionsSetting -SafeSearch 'Disabled'
 
-# --- Cloud content search (default: Enabled):
-#   Microsoft account
-#   Work or School account
+# --- Cloud content search
+#   Microsoft account (default: Enabled)
+#   Work or School account (default: Enabled)
 Set-WinPermissionsSetting -CloudSearchGPO 'NotConfigured'
-Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled'
-Set-WinPermissionsSetting -CloudSearchWorkOrSchoolAccount 'Disabled'
+Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled' -CloudSearchWorkOrSchoolAccount 'Disabled'
 
 # --- Search history in this device (default: Enabled)
 Set-WinPermissionsSetting -SearchHistory 'Disabled'
@@ -187,10 +182,10 @@ Write-Section -Name 'App permissions' -SubSection
 # --- Location (default: Enabled)
 Set-AppPermissionsSetting -Location 'Disabled' -LocationGPO 'NotConfigured'
 
-# --- Allow location override (default: Enabled)
+# --- --- Allow location override (default: Enabled)
 Set-AppPermissionsSetting -LocationAllowOverride 'Disabled'
 
-# --- Notify when apps request location (default: Enabled)
+# --- --- Notify when apps request location (default: Enabled)
 Set-AppPermissionsSetting -LocationAppsRequestNotif 'Disabled'
 
 # --- Camera (default: Enabled)
@@ -247,7 +242,7 @@ Set-AppPermissionsSetting -Radios 'Disabled' -RadiosGPO 'NotConfigured'
 # --- Communicate with unpaired devices (Others devices) (default: Enabled)
 Set-AppPermissionsSetting -SyncWithUnpairedDevices 'Disabled' -SyncWithUnpairedDevicesGPO 'NotConfigured'
 
-# --- Use trusted devices (Others devices)
+# --- --- Use trusted devices (Others devices)
 Set-AppPermissionsSetting -TrustedDevicesGPO 'NotConfigured'
 
 # --- App diagnostics (default: Enabled)

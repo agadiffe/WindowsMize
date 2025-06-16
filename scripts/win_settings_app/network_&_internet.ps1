@@ -8,29 +8,20 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Network_&_internet'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\network_&_internet"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -52,14 +43,12 @@ Write-Section -Name 'Ethernet / Wi-Fi' -SubSection
 #              Properties
 #=======================================
 
-# Network profile
-#---------------------------------------
+# --- Network profile (default: Public)
 # Change all currently connected network.
-# Public (default) | Private | DomainAuthenticated
+# State: Public | Private | DomainAuthenticated
 Set-NetworkSetting -ConnectedNetworkProfile 'Private'
 
 #endregion ethernet / wi-fi
-
 
 #==========================================================
 #                           VPN
@@ -68,18 +57,13 @@ Set-NetworkSetting -ConnectedNetworkProfile 'Private'
 
 Write-Section -Name 'VPN' -SubSection
 
-# Allow VPN over metered networks
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Allow VPN over metered networks (default: Enabled)
 Set-NetworkSetting -VpnOverMeteredNetworks 'Enabled'
 
-# Allow VPN while roaming
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Allow VPN while roaming (default: Enabled)
 Set-NetworkSetting -VpnWhileRoaming 'Enabled'
 
 #endregion vpn
-
 
 #==========================================================
 #                          Proxy
@@ -88,13 +72,10 @@ Set-NetworkSetting -VpnWhileRoaming 'Enabled'
 
 Write-Section -Name 'Proxy' -SubSection
 
-# Automatically detect settings
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Automatically detect settings (default: Enabled)
 Set-NetworkSetting -ProxyAutoDetectSettings 'Enabled'
 
 #endregion proxy
-
 
 #==========================================================
 #                Advanced network settings
@@ -106,8 +87,7 @@ Write-Section -Name 'Advanced network settings' -SubSection
 #           Ethernet / Wi-Fi
 #=======================================
 
-# View additional properties > DNS server assignment
-#---------------------------------------
+# --- View additional properties > DNS server assignment
 # ResetServerAddresses
 # FallbackToPlaintext (not available for Mullvad)
 # Adguard: Default | Unfiltered | Family

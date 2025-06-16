@@ -8,26 +8,15 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\System'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 $WindowsMizeModulesNames = @(
     'optional_features'
     'system'
@@ -35,6 +24,9 @@ $WindowsMizeModulesNames = @(
 Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\..\..\src\modules\settings_app\$_" })
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -56,47 +48,33 @@ Write-Section -Name 'Display' -SubSection
 #              Brightness
 #=======================================
 
-# Brightness
-#---------------------------------------
+# --- Brightness (range: 0-100)
 # available with a built-in display (e.g. Laptop)
-# range: 0-100
 Set-DisplayBrightnessSetting -Brightness 70
 
-# Change brightness automatically when lighting changes
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Change brightness automatically when lighting changes (default: Enabled)
 Set-DisplayBrightnessSetting -AdjustOnLightingChanges 'Disabled'
 
-# Change brightness based on content
-#---------------------------------------
-# Disabled | Enabled | BatteryOnly (default)
+# --- Change brightness based on content
+# State: Disabled | Enabled | BatteryOnly (default)
 Set-DisplayBrightnessSetting -AdjustBasedOnContent 'Disabled'
 
 #               Graphics
 #=======================================
 
-# Optimizations for windowed games
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Optimizations for windowed games (default: Enabled)
 Set-DisplayGraphicsSetting -WindowedGamesOptimizations 'Disabled'
 
-# Auto HDR
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Auto HDR (default: Enabled)
 Set-DisplayGraphicsSetting -AutoHDR 'Disabled'
 
-# Hardware-accelerated GPU scheduling
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Hardware-accelerated GPU scheduling (default: Disabled)
 Set-DisplayGraphicsSetting -GPUScheduling 'Enabled'
 
-# Variable refresh rate
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Variable refresh rate (default: Enabled)
 Set-DisplayGraphicsSetting -GamesVariableRefreshRate 'Disabled'
 
 #endregion display
-
 
 #==========================================================
 #                          Sound
@@ -108,13 +86,11 @@ Write-Section -Name 'Sound' -SubSection
 #          More sound settings
 #=======================================
 
-# Communications > when Windows detects communications activity
-#---------------------------------------
+# --- Communications > when Windows detects communications activity
 # DoNothing | MuteOtherSounds | ReduceOtherSoundsBy80Percent (default) | ReduceOtherSoundsBy50Percent
 Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 
 #endregion sound
-
 
 #==========================================================
 #                      Notifications
@@ -126,31 +102,19 @@ Write-Section -Name 'Notifications' -SubSection
 #             Notifications
 #=======================================
 
-# Notifications
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Notifications (default: Enabled)
 Set-NotificationsSetting -Notifications 'Disabled' -NotificationsGPO 'NotConfigured'
 
-# Allow notifications to play sounds
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Allow notifications to play sounds (default: Enabled)
 Set-NotificationsSetting -PlaySounds 'Disabled'
 
-# Show notifications on the lock screen
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Show notifications on the lock screen (default: Enabled)
 Set-NotificationsSetting -ShowOnLockScreen 'Disabled' -ShowOnLockScreenGPO 'NotConfigured'
 
-# Show reminders and incoming VoIP calls on the lock screen
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show reminders and incoming VoIP calls on the lock screen (default: Enabled)
 Set-NotificationsSetting -ShowRemindersAndIncomingCallsOnLockScreen 'Disabled'
 
-# Show notifications bell icon
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show notifications bell icon (default: Enabled)
 Set-NotificationsSetting -ShowBellIcon 'Disabled'
 
 #  Notifs from apps and other senders
@@ -168,31 +132,21 @@ $SendersNotifs = @(
     'Suggested'
     'WindowsBackup'
 )
-# State: Disabled | Enabled
 Set-NotificationsSetting -AppsAndOtherSenders $SendersNotifs -State 'Disabled'
 
 #          Additional settings
 #=======================================
 
-# Show the Windows welcome experience after updates and when signed in to show what's new and suggested
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Show the Windows welcome experience after updates and when signed in to show what's new and suggested (default: Enabled)
 Set-NotificationsSetting -ShowWelcomeExperience 'Disabled' -ShowWelcomeExperienceGPO 'NotConfigured'
 
-# Suggest ways to get the most out of Windows and finish setting up this device
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Suggest ways to get the most out of Windows and finish setting up this device (default: Enabled)
 Set-NotificationsSetting -SuggestWaysToFinishConfig 'Disabled'
 
-# Get tips and suggestions when using Windows
-#---------------------------------------
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
+# --- Get tips and suggestions when using Windows (default: Enabled)
 Set-NotificationsSetting -TipsAndSuggestions 'Disabled' -TipsAndSuggestionsGPO 'NotConfigured'
 
 #endregion notifications
-
 
 #==========================================================
 #                    Power (& battery)
@@ -201,8 +155,7 @@ Set-NotificationsSetting -TipsAndSuggestions 'Disabled' -TipsAndSuggestionsGPO '
 
 Write-Section -Name 'Power (& battery)' -SubSection
 
-# Power Mode
-#---------------------------------------
+# --- Power Mode
 # Available only when using the Balanced power plan.
 # Applies only to the active power state (e.g. Laptop: PluggedIn or OnBattery).
 # BestPowerEfficiency | Balanced (default) | BestPerformance
@@ -211,10 +164,9 @@ Set-PowerSetting -PowerMode 'Balanced'
 # Screen, sleep, & hibernate timeouts
 #=======================================
 
-# Turn my screen off after
-# Make my device sleep after
-# Make my device hibernate after
-#---------------------------------------
+# --- Turn my screen off after
+# --- Make my device sleep after
+# --- Make my device hibernate after
 # PowerSource: PluggedIn | OnBattery
 # PowerState: Screen | Sleep | Hibernate
 # Timeout: value in minutes | never: 0
@@ -230,18 +182,14 @@ Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -Timeout 30
 #             Energy saver
 #=======================================
 
-# Always use energy saver
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Always use energy saver (default: Disabled)
 Set-EnergySaverSetting -AlwaysOn 'Disabled'
 
-# Turn energy saver on automatically when battery level is at
-#---------------------------------------
+# --- Turn energy saver on automatically when battery level is at
 # default: 30 | never: 0 | always: 100
 Set-EnergySaverSetting -TurnOnAtBatteryLevel 30
 
-# Lower screen brightness when using energy saver
-#---------------------------------------
+# --- Lower screen brightness when using energy saver
 # If you use a custom value and turn off the feature in the GUI,
 # when you turn it back on, the default value will be used.
 # Enabled: 70 (default) (range 0-99) | Disabled: 100
@@ -250,10 +198,9 @@ Set-EnergySaverSetting -LowerBrightness 70
 #  Lid, power & sleep button controls
 #=======================================
 
-# Pressing the power button will make my PC
-# Pressing the sleep button will make my PC
-# Closing the lid will make my PC
-#---------------------------------------
+# --- Pressing the power button will make my PC
+# --- Pressing the sleep button will make my PC
+# --- Closing the lid will make my PC
 # PowerSource: PluggedIn | OnBattery
 # ButtonControls: PowerButton | SleepButton | LidClose
 # Action: DoNothing | Sleep (default) | Hibernate | ShutDown | DisplayOff
@@ -268,7 +215,6 @@ Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'LidClose'    -Action 
 
 #endregion power (& battery)
 
-
 #==========================================================
 #                         Storage
 #==========================================================
@@ -279,20 +225,15 @@ Write-Section -Name 'Storage' -SubSection
 #             Storage Sense
 #=======================================
 
-# Automatic User content cleanup
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Automatic User content cleanup (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StorageSenseSetting -StorageSense 'Disabled' -StorageSenseGPO 'NotConfigured'
 
-# Cleanup of temporary files
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Cleanup of temporary files (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StorageSenseSetting -CleanupTempFiles 'Enabled' -CleanupTempFilesGPO 'NotConfigured'
 
 #endregion storage
-
 
 #==========================================================
 #                      Nearby sharing
@@ -301,18 +242,15 @@ Set-StorageSenseSetting -CleanupTempFiles 'Enabled' -CleanupTempFilesGPO 'NotCon
 
 Write-Section -Name 'Nearby sharing' -SubSection
 
-# Nearby sharing
-#---------------------------------------
-# Disabled (default) | DevicesOnly | EveryoneNearby
+# --- Nearby sharing
+# State: Disabled (default) | DevicesOnly | EveryoneNearby
 Set-NearbySharingSetting -NearbySharing 'Disabled'
 
-# Save files I receive to
-#---------------------------------------
+# --- Save files I receive to
 # default location: Downloads folder
 #Set-NearbySharingSetting -FileSaveLocation 'X:\MySharedFiles'
 
 #endregion nearby sharing
-
 
 #==========================================================
 #                       Multitasking
@@ -321,66 +259,46 @@ Set-NearbySharingSetting -NearbySharing 'Disabled'
 
 Write-Section -Name 'Multitasking' -SubSection
 
-# Show tabs from apps when snapping or pressing Alt+Tab
-#---------------------------------------
-# State: TwentyMostRecent | FiveMostRecent | ThreeMostRecent (default) | Disabled
-# GPO: TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled | NotConfigured
+# --- Show tabs from apps when snapping or pressing Alt+Tab
+# State: TwentyMostRecent | FiveMostRecent | ThreeMostRecent (default) | Disabled # GPO: State + NotConfigured
 Set-MultitaskingSetting -ShowAppsTabsOnSnapAndAltTab 'ThreeMostRecent' -ShowAppsTabsOnSnapAndAltTabGPO 'NotConfigured'
 
-# Title bar window shake
-#---------------------------------------
-# State: Disabled (default) | Enabled
-# GPO: Disabled | NotConfigured
+# --- Title bar window shake (default: Disabled)
 Set-MultitaskingSetting -TitleBarWindowShake 'Disabled' -TitleBarWindowShakeGPO 'NotConfigured'
 
 #             Snap windows
 #=======================================
 
-# Snap windows
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Snap windows (default: Enabled)
 Set-SnapWindowsSetting -SnapWindows 'Enabled'
 
-# When I snap a window, suggest what I can snap next to it
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- When I snap a window, suggest what I can snap next to it (default: Enabled)
 Set-SnapWindowsSetting -SnapSuggestions 'Enabled'
 
-# Show snap layouts when I hover a window's maximize button
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show snap layouts when I hover a window's maximize button (default: Enabled)
 Set-SnapWindowsSetting -ShowLayoutOnMaxButtonHover 'Enabled'
 
-# Show snap layouts when I drag a window to the top of my screen
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show snap layouts when I drag a window to the top of my screen (default: Enabled)
 Set-SnapWindowsSetting -ShowLayoutOnTopScreen 'Enabled'
 
-# Show my snapped windows when I hover taskbar apps, in Task View, and when I press Alt+Tab
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Show my snapped windows when I hover taskbar apps, in Task View, and when I press Alt+Tab (default: Enabled)
 Set-SnapWindowsSetting -ShowSnappedWindowGroup 'Enabled'
 
-# When I drag a window, let me snap it without dragging all the way to the screen edge
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- When I drag a window, let me snap it without dragging all the way to the screen edge (default: Enabled)
 Set-SnapWindowsSetting -SnapBeforeReachingScreenEdge 'Enabled'
 
 #          Desktops (virtual)
 #=======================================
 
-# On the taskbar, show all the open windows
-#---------------------------------------
-# AllDesktops | CurrentDesktop (default)
+# --- On the taskbar, show all the open windows
+# State: AllDesktops | CurrentDesktop (default)
 Set-MultitaskingSetting -ShowAllWindowsOnTaskbar 'CurrentDesktop'
 
-# Show all open windows when I press Alt+Tab
-#---------------------------------------
-# AllDesktops | CurrentDesktop (default)
+# --- Show all open windows when I press Alt+Tab
+# State: AllDesktops | CurrentDesktop (default)
 Set-MultitaskingSetting -ShowAllWindowsOnAltTab 'CurrentDesktop'
 
 #endregion multitasking
-
 
 #==========================================================
 #                      For developers
@@ -389,18 +307,14 @@ Set-MultitaskingSetting -ShowAllWindowsOnAltTab 'CurrentDesktop'
 
 Write-Section -Name 'For developers' -SubSection
 
-# End task
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- End task (default: Disabled)
 Set-ForDevelopersSetting -EndTask 'Disabled'
 
-# Enable sudo
-#---------------------------------------
-# Disabled (default) | NewWindow | InputDisabled | Inline
+# --- Enable sudo
+# State: Disabled (default) | NewWindow | InputDisabled | Inline
 Set-ForDevelopersSetting -Sudo 'Disabled'
 
 #endregion for developers
-
 
 #==========================================================
 #                       Troubleshoot
@@ -409,13 +323,11 @@ Set-ForDevelopersSetting -Sudo 'Disabled'
 
 Write-Section -Name 'Troubleshoot' -SubSection
 
-# Recommended troubleshooter preference
-#---------------------------------------
-# Disabled | AskBeforeRunning (default) | AutoRunAndNotify | AutoRunSilently
+# --- Recommended troubleshooter preference
+# State: Disabled | AskBeforeRunning (default) | AutoRunAndNotify | AutoRunSilently
 Set-TroubleshooterPreference -Value 'Disabled'
 
 #endregion troubleshoot
-
 
 #==========================================================
 #                  Projecting to this PC
@@ -424,14 +336,11 @@ Set-TroubleshooterPreference -Value 'Disabled'
 
 Write-Section -Name 'Projecting to this PC' -SubSection
 
-# Projecting to this PC
-#---------------------------------------
+# --- Projecting to this PC
 # Disabled: The PC isn't discoverable unless Wireless Display app is manually launched.
-# Disabled | NotConfigured
 Set-ProjectingToThisPC -GPO 'Disabled'
 
 #endregion projecting to this PC
-
 
 #==========================================================
 #                      Remote desktop
@@ -440,24 +349,16 @@ Set-ProjectingToThisPC -GPO 'Disabled'
 
 Write-Section -Name 'Remote desktop' -SubSection
 
-# Remote desktop
-#---------------------------------------
-# State: Disabled (default) | Enabled
-# GPO: Disabled | NotConfigured
+# --- Remote desktop (default: Disabled)
 Set-RemoteDesktopSetting -RemoteDesktop 'Disabled' -RemoteDesktopGPO 'NotConfigured'
 
-# Require devices to use Network Level Authentication to connect
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Require devices to use Network Level Authentication to connect (default: Enabled)
 Set-RemoteDesktopSetting -NetworkLevelAuthentication 'Enabled'
 
-# Remote desktop port
-#---------------------------------------
-# default: 3389
+# --- Remote desktop port (default: 3389)
 #Set-RemoteDesktopSetting -PortNumber 3389
 
 #endregion remote desktop
-
 
 #==========================================================
 #                        Clipboard
@@ -466,25 +367,19 @@ Set-RemoteDesktopSetting -NetworkLevelAuthentication 'Enabled'
 
 Write-Section -Name 'Clipboard' -SubSection
 
-# Clipboard history
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Clipboard history (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-ClipboardSetting -History 'Disabled' -HistoryGPO 'NotConfigured'
 
-# Sync across your devices
-#---------------------------------------
+# --- Sync across your devices
 # State: Disabled (default) | AutoSync | ManualSync
 # GPO: Disabled | Enabled | NotConfigured
 Set-ClipboardSetting -SyncAcrossDevices 'Disabled' -SyncAcrossDevicesGPO 'NotConfigured'
 
-# Suggested actions | deprecated
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Suggested actions (default: Enabled) | deprecated
 Set-ClipboardSetting -SuggestedActions 'Disabled'
 
 #endregion clipboard
-
 
 #==========================================================
 #                    Optional features
@@ -497,8 +392,7 @@ Export-InstalledWindowsCapabilitiesNames
 Export-EnabledWindowsOptionalFeaturesNames
 
 $OptionalFeatures = @(
-    # Features
-    #-----------------
+    # --- Features
     'ExtendedThemeContent'
     'FacialRecognitionWindowsHello'
     'InternetExplorerMode'
@@ -516,8 +410,7 @@ $OptionalFeatures = @(
     'WordPad'
     'XpsViewer'
 
-    # More Windows features
-    #-----------------
+    # --- More Windows features
     'InternetPrintingClient'
     'MediaFeatures'
     'MicrosoftXpsDocumentWriter'

@@ -8,29 +8,20 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Windows_update'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\windows_update"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -42,58 +33,45 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\windows_update
 
 Write-Section -Name 'Windows Settings App - Windows Update'
 
-# Get the latest updates as soon as they are available
-#---------------------------------------
-# State: Disabled (default) | Enabled
-# GPO: Disabled | Enabled | NotConfigured
+# --- Get the latest updates as soon as they are available (default: Disabled)
 Set-WinUpdateSetting -GetLatestAsSoonAsAvailable 'Disabled' -GetLatestAsSoonAsAvailableGPO 'NotConfigured'
 
-# Pause updates
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Pause updates
+# GPO: Disabled | NotConfigured
 Set-WinUpdateSetting -PauseUpdatesGPO 'NotConfigured'
 
 #           Advanced options
 #=======================================
 
-# Receive updates for other Microsoft products
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Receive updates for other Microsoft products (default: Enabled)
 # GPO: Enabled | NotConfigured
 Set-WinUpdateSetting -UpdateOtherMicrosoftProducts 'Enabled' -UpdateOtherMicrosoftProductsGPO 'NotConfigured'
 
-# Get me up to date (restart as soon as possible)
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Get me up to date (restart as soon as possible) (default: Disabled)
 Set-WinUpdateSetting -GetMeUpToDate 'Disabled'
 
-# Download updates over metered connections
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Download updates over metered connections (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-WinUpdateSetting -DownloadOverMeteredConnections 'Disabled' -DownloadOverMeteredConnectionsGPO 'NotConfigured'
 
-# Notify me when a restart is required to finish updating
-#---------------------------------------
-# State: Disabled (default) | Enabled
+# --- Notify me when a restart is required to finish updating (default: Disabled)
 # GPO: Disabled (also disable 'Get me up to date') | NotConfigured
 Set-WinUpdateSetting -RestartNotification 'Enabled' -RestartNotificationGPO 'NotConfigured'
 
-# Active hours
-#---------------------------------------
+# --- Active hours
 # State: Automatically (default) | Manually
 # GPO: Enabled | NotConfigured
 # ActiveHoursStart/ActiveHoursEnd: value in 24H clock format (range 0-23)
 #   Max range is 18 hours from the active hours start time.
 
 #Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured'
+# GPO: Disabled | Enabled | NotConfigured
 Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursGPO 'NotConfigured' -ActiveHoursStart 7 -ActiveHoursEnd 1
 
 #         Delivery Optimization
 #=======================================
 
-# Allow downloads from other PCs
-#---------------------------------------
+# --- Allow downloads from other PCs
 # State: Disabled | LocalNetwork (default) | InternetAndLocalNetwork
 # GPO: Disabled | LocalNetwork | InternetAndLocalNetwork | NotConfigured
 Set-WinUpdateSetting -DeliveryOptimization 'Disabled' -DeliveryOptimizationGPO 'NotConfigured'
@@ -101,9 +79,7 @@ Set-WinUpdateSetting -DeliveryOptimization 'Disabled' -DeliveryOptimizationGPO '
 #        Windows Insider Program
 #=======================================
 
-# Setting page visibility
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Setting page visibility (default: Enabled)
 Set-WinUpdateSetting -InsiderProgramPageVisibility 'Disabled'
 
 

@@ -8,29 +8,21 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
 
-
-#==============================================================================
-#                                   Modules
-#==============================================================================
+$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 
 Write-Output -InputObject 'Loading ''Tweaks'' Module ...'
-
-# Do not disable, otherwise the log file will be empty.
-$Global:ModuleVerbosePreference = 'Continue'
-
 Import-Module -Name "$PSScriptRoot\..\src\modules\tweaks"
 
 
+# Parameters values (if not specified):
+#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
 #                                                     Tweaks
@@ -41,118 +33,90 @@ Write-Section -Name 'Tweaks'
 #==============================================================================
 #                       Security, privacy and networking
 #==============================================================================
+#region security
 
 Write-Section -Name 'Security, privacy and networking' -SubSection
 
-# Hotspot 2.0
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Hotspot 2.0 (default: Enabled)
 Set-Hotspot2 -State 'Disabled'
 
-# Lock screen camera access
-#-------------------
-# Disabled | NotConfigured
+# --- Lock screen camera access
 Set-LockScreenCameraAccess -GPO 'Disabled'
 
-# Messaging cloud sync
-#-------------------
-# Disabled | NotConfigured
+# --- Messaging cloud sync
 Set-MessagingCloudSync -GPO 'Disabled'
 
-# Notification network usage
-#---------------------------------------
+# --- Notification network usage
 # Needed by Discord, Microsoft Teams, ... to get real-time notifs.
-# Disabled | NotConfigured
 Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 
-# Password expiration
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Password expiration (default: Enabled)
 Set-PasswordExpiration -State 'Disabled'
 
-# Password reveal button
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Password reveal button
 Set-PasswordRevealButton -GPO 'Disabled'
 
-# Printer drivers : Download over HTTP
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Printer drivers : Download over HTTP
 Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
 
-# Wifi sense
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Wifi sense
 Set-WifiSense -GPO 'Disabled'
 
-# Windows Platform Binary Table (WPBT)
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Windows Platform Binary Table (WPBT) (default: Enabled)
 Set-Wpbt -State 'Disabled'
 
+#endregion security
 
 #==============================================================================
 #                            System and performance
 #==============================================================================
+#region system
 
 Write-Section -Name 'System and performance' -SubSection
 
-# First sign-in animation
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- First sign-in animation (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-FirstSigninAnimation -State 'Disabled' -GPO 'NotConfigured'
 
-# Fullscreen optimizations
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Fullscreen optimizations (default: Enabled)
 #Set-FullscreenOptimizations -State 'Disabled'
 
-# Long paths
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Long paths (default: Disabled)
 Set-LongPaths -State 'Enabled'
 
-# NTFS Last Access Time
-#---------------------------------------
+# --- NTFS Last Access Time
 # default: System Enabled
-# Managed: User | System
-# State: Disabled | Enabled
+#   Managed: User | System
+#   State: Disabled | Enabled
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled'
 
-# Numlock at startup
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Numlock at startup (default: Disabled)
 Set-NumLockAtStartup -State 'Enabled'
 
-# Service host splitting
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Service host splitting (default: Enabled)
 Set-ServiceHostSplitting -State 'Enabled'
 
-# Short 8.3 file names
-#---------------------------------------
-# State: Disabled | Enabled (default)
+# --- Short 8.3 file names (default: Enabled)
 # RemoveExisting8dot3FileNames (switch): Removes 8dot3 file names for all files in $env:SystemDrive (i.e. C:)
 #   Might require manual editing of some registry entries (should not on a fresh install).
 #   Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.
 Set-Short8Dot3FileName -State 'Disabled'
 #Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
-# Startup/Shutdown verbose status messages
-#---------------------------------------
-# Enabled | NotConfigured
+# --- Startup/Shutdown verbose status messages
+# GPO: Enabled | NotConfigured
 Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
 
+#endregion system
 
 #==============================================================================
 #                        User interface and experience
 #==============================================================================
+#region ui
 
 Write-Section -Name 'User interface and experience' -SubSection
 
-# Action center layout
-#---------------------------------------
+# --- Action center layout
 # Windows 11 24H2+ only.
 # Rearrange the order according to your preferences.
 $ActionCenterLayout = @(
@@ -178,132 +142,94 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-# Copy/Paste dialog : Show more details
-#---------------------------------------
-# Disabled (default) | Enabled
+# --- Copy/Paste dialog : Show more details (default: Disabled)
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 
-# Help tips
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Help tips
 Set-HelpTips -GPO 'Disabled'
 
-# Online tips
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Online tips
 Set-OnlineTips -GPO 'Disabled'
 
-# Shortcut name suffix (e.g. "File - Shortcut")
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Shortcut name suffix (e.g. "File - Shortcut") (default: Enabled)
 Set-ShortcutNameSuffix -State 'Disabled'
 
-# Start Menu recommended section
-#---------------------------------------
+# --- Start Menu recommended section | soon old
 # Enterprise and Education only.
-# Disabled | NotConfigured
 Set-StartMenuRecommendedSection -GPO 'NotConfigured'
 
-# Suggested content
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Suggested content (default: Enabled)
 Set-SuggestedContent -State 'Disabled'
 
-# Windows experimentation
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Windows experimentation
 Set-WindowsExperimentation -GPO 'Disabled'
 
-# Windows input experience
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Windows input experience (default: Enabled)
 Set-WindowsInputExperience -State 'Disabled'
 
-# Windows privacy settings experience
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Windows privacy settings experience
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
 
-# Windows shared experience
-#---------------------------------------
+# --- Windows shared experience
 # Disabled: also disable and gray out:
 #   'settings > system > nearby sharing'
 #   'settings > apps > advanced app settings > share across devices'
-# Disabled | NotConfigured
 Set-WindowsSharedExperience -GPO 'NotConfigured'
 
-# Windows Spotlight
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Windows Spotlight
 Set-WindowsSpotlight -GPO 'NotConfigured'
 
-# Windows Spotlight : Learn about this picture (Desktop icon)
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Windows Spotlight : Learn about this picture (Desktop icon) (default: Enabled)
 Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
 
+#endregion ui
 
 #==============================================================================
 #                        Windows features and settings
 #==============================================================================
+#region settings
 
 Write-Section -Name 'Windows features and settings' -SubSection
 
-# Move character map shorcut
-#---------------------------------------
+# --- Move character map shorcut
 Move-CharacterMapShortcutToWindowsTools
 
-# Set event log location
-#---------------------------------------
+# --- Set event log location
 # Path: path where to save the windows event logs.
 # Default: restore to the default location ("$env:SystemRoot\system32\winevt\Logs").
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
 #Set-EventLogLocation -Default
 
-# Ease of access : Always read/scan this section
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Ease of access : Always read/scan this section (default: Enabled)
 Set-EaseOfAccessReadScanSection -State 'Disabled'
 
-# File History
-#---------------------------------------
-# Disabled | NotConfigured
+# --- File History
 Set-FileHistory -GPO 'NotConfigured'
 
-# Font providers
-#---------------------------------------
-# Disabled | Enabled | NotConfigured
+# --- Font providers
+# GPO: Disabled | Enabled | NotConfigured
 Set-FontProviders -GPO 'Disabled'
 
-# Home setting page visibility
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Home setting page visibility
 Set-HomeSettingPageVisibility -GPO 'Disabled'
 
-# 'Open With' dialog : Look for an app in the Store
-#---------------------------------------
-# Disabled | NotConfigured
+# --- 'Open With' dialog : Look for an app in the Store
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
 
-# Windows help and support : F1Key
-#---------------------------------------
-# Disabled | Enabled (default)
+# --- Windows help and support : F1Key (default: Enabled)
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 
-# Windows help and support : Feedback
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Windows help and support : Feedback
 Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
 
-# Windows media digital rights management (DRM)
-#---------------------------------------
-# Disabled | NotConfigured
+# --- Windows media digital rights management (DRM)
 Set-WindowsMediaDrmOnlineAccess -GPO 'Disabled'
 
-# Windows update drivers
-#---------------------------------------
-# Disabled | Enabled | NotConfigured
+# --- Windows update drivers
+# GPO: Disabled | Enabled | NotConfigured
 Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured'
+
+#endregion settings
 
 
 Stop-Transcript

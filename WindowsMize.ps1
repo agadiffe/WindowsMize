@@ -8,10 +8,6 @@
 #
 #=================================================================================================================
 
-#==============================================================================
-#                                Requirements
-#==============================================================================
-
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
@@ -33,7 +29,6 @@
   e.g. browser bookmarks, apps settings, personal files, passwords database
 #>
 
-
 #==============================================================================
 #                                    Usage
 #==============================================================================
@@ -41,7 +36,8 @@
 <#
   The scripts are located in the 'scripts' folder.
   Configure their settings according to your preferences.
-
+#>
+<#
   To don't run a function, comment it (i.e. Add the "#" character before it).
   e.g. #Disable-PowerShellTelemetry
   To run a function, uncomment it (i.e. Remove the "#" character before it).
@@ -49,9 +45,8 @@
 
   Mostly all functions have a '-State' and/or '-GPO' parameters.
   Example:
-  # Bing Search in Start Menu
-  #---------------------------------------
-  # State: Disabled | Enabled (default)
+  # --- Bing Search in Start Menu (default: Enabled)
+  # State: Disabled | Enabled
   # GPO: Disabled | NotConfigured
   Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 
@@ -60,7 +55,6 @@
   e.g.
   Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
 #>
-
 
 
 #=================================================================================================================
@@ -92,8 +86,4 @@ $ScriptsToExecute = @(
     'win_settings_app\windows_update'
     'services_and_scheduled_tasks'
 )
-
-foreach ($Name in $ScriptsToExecute)
-{
-    & "$PSScriptRoot\scripts\$Name.ps1"
-}
+$ScriptsToExecute.ForEach({ & "$PSScriptRoot\scripts\$_.ps1" })
