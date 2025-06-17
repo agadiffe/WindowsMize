@@ -6,7 +6,7 @@
 .SYNTAX
     Set-WindowsTerminalSetting
         [-DefaultProfile {WindowsPowerShell | CommandPrompt | PowerShellCore}]
-        [-DefaultTerminalApp {LetWindowsDecide | WindowsConsoleHost | WindowsTerminal}]
+        [-DefaultCommandTerminalApp {LetWindowsDecide | WindowsConsoleHost | WindowsTerminal}]
         [-DefaultColorScheme {CGA | Campbell | Campbell Powershell | Dark+ | IBM 5153 | One Half Dark |
                               One Half Light | Ottosson | Solarized Dark | Solarized Light | Tango Dark |
                               Tango Light | Vintage}]
@@ -29,7 +29,7 @@ function Set-WindowsTerminalSetting
         [string] $DefaultProfile,
 
         [ValidateSet('LetWindowsDecide', 'WindowsConsoleHost', 'WindowsTerminal')]
-        [string] $DefaultTerminalApp,
+        [string] $DefaultCommandTerminalApp,
 
         [ValidateSet(
             'CGA',
@@ -95,11 +95,11 @@ function Set-WindowsTerminalSetting
                         $TerminalSettings.defaultProfile = $ProfileData.guid
                     }
                 }
-                'DefaultTerminalApp'
+                'DefaultCommandTerminalApp'
                 {
-                    Write-Verbose -Message "Setting '$TerminalMsg - DefaultTerminalApp' to '$DefaultTerminalApp' ..."
+                    Write-Verbose -Message "Setting '$TerminalMsg - DefaultCommandTerminalApp' to '$DefaultCommandTerminalApp' ..."
 
-                    $DelegationConsoleGuid, $DelegationTerminalGuid = switch ($DefaultTerminalApp)
+                    $DelegationConsoleGuid, $DelegationTerminalGuid = switch ($DefaultCommandTerminalApp)
                     {
                         'LetWindowsDecide'   { '{00000000-0000-0000-0000-000000000000}', '{00000000-0000-0000-0000-000000000000}' }
                         'WindowsConsoleHost' { '{b23d10c0-e52e-411e-9d5b-c09fdf709c7d}', '{b23d10c0-e52e-411e-9d5b-c09fdf709c7d}' }

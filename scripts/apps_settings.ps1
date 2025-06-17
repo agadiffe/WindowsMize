@@ -225,17 +225,15 @@ Set-MicrosoftStoreSetting -VideoAutoplay 'Disabled'
 
 Write-Section -Name 'Windows Notepad' -SubSection
 
-#==========================================================
-#                        Appearance
-#==========================================================
+#              Appearance
+#=======================================
 
 # App theme
 # System (default) | Light | Dark
 Set-WindowsNotepadSetting -Theme 'System'
 
-#==========================================================
-#                     Text Formatting
-#==========================================================
+#            Text Formatting
+#=======================================
 
 # --- Font family
 # example: Arial | Calibri | Consolas (default) | Comic Sans MS | Times New Roman
@@ -256,9 +254,8 @@ Set-WindowsNotepadSetting -WordWrap 'Enabled'
 # --- Formatting (default: Enabled)
 Set-WindowsNotepadSetting -Formatting 'Enabled'
 
-#==========================================================
-#                     Opening Notepad
-#==========================================================
+#            Opening Notepad
+#=======================================
 
 # --- Opening files
 # NewTab (default) | NewWindow
@@ -270,9 +267,8 @@ Set-WindowsNotepadSetting -ContinuePreviousSession 'Disabled'
 # --- Recent Files (default: Enabled)
 Set-WindowsNotepadSetting -RecentFiles 'Enabled'
 
-#==========================================================
-#                         Spelling
-#==========================================================
+#               Spelling
+#=======================================
 
 # --- Spell check (default: Enabled)
 Set-WindowsNotepadSetting -SpellCheck 'Disabled'
@@ -280,16 +276,14 @@ Set-WindowsNotepadSetting -SpellCheck 'Disabled'
 # --- Autocorrect (default: Enabled)
 Set-WindowsNotepadSetting -AutoCorrect 'Disabled'
 
-#==========================================================
-#                       AI Features
-#==========================================================
+#              AI Features
+#=======================================
 
 # --- Copilot (default: Enabled)
 Set-WindowsNotepadSetting -Copilot 'Disabled'
 
-#==========================================================
-#                      Miscellaneous
-#==========================================================
+#             Miscellaneous
+#=======================================
 
 # --- Status bar (default: Enabled)
 Set-WindowsNotepadSetting -StatusBar 'Enabled'
@@ -309,9 +303,8 @@ Set-WindowsNotepadSetting -FormattingTips 'Disabled'
 
 Write-Section -Name 'Windows Photos' -SubSection
 
-#==========================================================
-#                         Settings
-#==========================================================
+#               Settings
+#=======================================
 
 # --- Customize theme
 # System | Light | Dark (default)
@@ -340,9 +333,8 @@ Set-WindowsPhotosSetting -SmallMediaZoomPreference 'ViewActualSize'
 # --- Performance (run in the background at startup) (default: Enabled)
 Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
 
-#==========================================================
-#                      Miscellaneous
-#==========================================================
+#             Miscellaneous
+#=======================================
 
 # --- First Run Experience (default: Enabled)
 #   First Run Experience Dialog
@@ -361,9 +353,8 @@ Set-WindowsPhotosSetting -FirstRunExperience 'Disabled'
 
 Write-Section -Name 'Windows Snipping Tool' -SubSection
 
-#==========================================================
-#                         Snipping
-#==========================================================
+#               Snipping
+#=======================================
 
 # --- Automatically copy changes (default: Enabled)
 Set-WindowsSnippingToolSetting -AutoCopyScreenshotChangesToClipboard 'Enabled'
@@ -383,15 +374,14 @@ Set-WindowsSnippingToolSetting -ScreenshotBorder 'Disabled'
 # --- HDR screenshot color corrector (default: Disabled)
 Set-WindowsSnippingToolSetting -HDRColorCorrector 'Disabled'
 
-#==========================================================
-#                     Screen recording
-#==========================================================
+#           Screen recording
+#=======================================
 
 # --- Automatically copy changes (default: Enabled)
 Set-WindowsSnippingToolSetting -AutoCopyRecordingChangesToClipboard 'Enabled'
 
 # --- Automatically save original screen recordings (default: Enabled)
-Set-WindowsSnippingToolSetting -AutoSaveScreenshoots 'Enabled'
+Set-WindowsSnippingToolSetting -AutoSaveRecordings 'Enabled'
 
 # --- Include microphone input by default when a screen recording starts (default: Disabled)
 Set-WindowsSnippingToolSetting -IncludeMicrophoneInRecording 'Disabled'
@@ -399,9 +389,8 @@ Set-WindowsSnippingToolSetting -IncludeMicrophoneInRecording 'Disabled'
 # --- Include system audio by default when a screen recording starts (default: Enabled)
 Set-WindowsSnippingToolSetting -IncludeSystemAudioInRecording 'Enabled'
 
-#==========================================================
-#                        Appearance
-#==========================================================
+#              Appearance
+#=======================================
 
 # --- App theme
 # System (default) | Light | Dark
@@ -426,7 +415,7 @@ Set-WindowsTerminalSetting -DefaultProfile 'PowerShellCore'
 
 # --- Default terminal application (e.g. command-line from Start Menu or Run dialog)
 # LetWindowsDecide | WindowsConsoleHost (default) | WindowsTerminal
-Set-WindowsTerminalSetting -DefaultTerminalApp 'WindowsTerminal'
+Set-WindowsTerminalSetting -DefaultCommandTerminalApp 'WindowsTerminal'
 
 # --- Launch on machine startup (default: Disabled)
 Set-WindowsTerminalSetting -RunAtStartup 'Disabled'
@@ -494,7 +483,6 @@ Set-BraveBrowserSettings
     src > modules > applications > settings > config_files
 
   Edit these files to your preferences (don't change the file name).
-
   A backup is created if the config file already exist.
 #>
 
