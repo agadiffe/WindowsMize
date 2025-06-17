@@ -5,11 +5,7 @@
 <#
 .SYNTAX
     Set-MyAppsSetting
-        [-Git]
-        [-KeePassXC]
-        [-qBittorrent]
-        [-VLC]
-        [-VSCode]
+        [-Name] {KeePassXC | qBittorrent | VLC | VSCode | Git}
         [<CommonParameters>]
 #>
 
@@ -21,60 +17,58 @@ function Set-MyAppsSetting
         A backup is made with the extension '.old'.
 
     .EXAMPLE
-        PS> Set-MyAppsSetting -qBittorrent -VSCode
+        PS> Set-MyAppsSetting -Name 'qBittorrent'
     #>
 
     [CmdletBinding()]
     param
     (
-        [switch] $Git,
-        [switch] $KeePassXC,
-        [switch] $qBittorrent,
-        [switch] $VLC,
-        [switch] $VSCode
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [ValidateSet('KeePassXC', 'qBittorrent', 'VLC', 'VSCode', 'Git')]
+        [string] $Name
     )
+
+    begin
+    {
+        $EnvVariable = Get-LoggedOnUserEnvVariable
+        $AppsListData = @{
+            KeePassXC = @{
+                ConfigFileName  = 'KeePassXC.ini'
+                SettingFilePath = "$($EnvVariable.APPDATA)\KeePassXC\keepassxc.ini"
+            }
+            qBittorrent = @{
+                ConfigFileName  = 'qBittorrent.ini'
+                SettingFilePath = "$($EnvVariable.APPDATA)\qBittorrent\qBittorrent.ini"
+            }
+            VLC = @{
+                ConfigFileName  = 'VLC.ini'
+                SettingFilePath = "$($EnvVariable.APPDATA)\vlc\vlcrc"
+            }
+            VSCode = @{
+                ConfigFileName  = 'VSCode.json'
+                SettingFilePath = "$($EnvVariable.APPDATA)\Code\User\settings.json"
+            }
+            Git = @{
+                ConfigFileName  = 'Git.ini'
+                SettingFilePath = "$($EnvVariable.USERPROFILE)\.gitconfig"
+            }
+        }
+    }
 
     process
     {
-        if (-not $PSBoundParameters.Keys.Count)
+        Write-Verbose -Message "Setting $Name Settings ..."
+
+        $Target = $AppsListData.$Name.SettingFilePath
+        $Source = $AppsListData.$Name.ConfigFileName
+        $ConfigFilePath = "$PSScriptRoot\..\config_files\$Source"
+
+        if (Test-Path -Path $Target)
         {
-            Write-Error -Message (Write-InsufficientParameterCount)
-            return
+            Rename-Item -Path $Target -NewName "$Target.old" -ErrorAction 'SilentlyContinue'
         }
 
-        $EnvVariable = Get-LoggedOnUserEnvVariable
-        $AppsListData = @{
-            Git = @{
-                SettingFilePath = "$($EnvVariable.USERPROFILE)\.gitconfig"
-                ConfigFileName  = 'Git.ini'
-            }
-            KeePassXC = @{
-                SettingFilePath = "$($EnvVariable.APPDATA)\KeePassXC\keepassxc.ini"
-                ConfigFileName  = 'KeePassXC.ini'
-            }
-            qBittorrent = @{
-                SettingFilePath = "$($EnvVariable.APPDATA)\qBittorrent\qBittorrent.ini"
-                ConfigFileName  = 'qBittorrent.ini'
-            }
-            VLC = @{
-                SettingFilePath = "$($EnvVariable.APPDATA)\vlc\vlcrc"
-                ConfigFileName  = 'VLC.ini'
-            }
-            VSCode = @{
-                SettingFilePath = "$($EnvVariable.APPDATA)\Code\User\settings.json"
-                ConfigFileName  = 'VSCode.json'
-            }
-        }
-
-        foreach ($Key in $PSBoundParameters.Keys)
-        {
-            if ($PSBoundParameters.$Key)
-            {
-                Write-Verbose -Message "Setting $Key Settings ..."
-
-                $AppData = $AppsListData.$Key
-                Copy-AppConfigFile -Destination $AppData.SettingFilePath -ConfigFileName $AppData.ConfigFileName
-            }
-        }
+        New-ParentPath -Path $Target
+        Copy-Item -Path $ConfigFilePath -Destination $Target
     }
 }

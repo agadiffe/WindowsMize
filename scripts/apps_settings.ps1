@@ -499,20 +499,13 @@ Set-BraveBrowserSettings
 #>
 
 $AppsToConfig = @(
-    'KeePassXC'
-    'qBittorrent'
+    #'KeePassXC'
+    #'qBittorrent'
     'VLC'
     #'VSCode'
     #'Git'
 )
-
-foreach ($Name in $AppsToConfig)
-{
-    Write-Section -Name $Name -SubSection
-
-    $Params = @{ $Name = $true }
-    Set-MyAppsSetting @Params
-}
+$AppsToConfig.ForEach({ Write-Section -Name $_ -SubSection ; Set-MyAppsSetting -Name $_ })
 
 #endregion config files
 
