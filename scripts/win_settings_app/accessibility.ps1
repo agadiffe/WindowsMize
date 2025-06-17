@@ -115,7 +115,7 @@ Set-AccessibilitySetting -KeyboardStickyKeysShorcut 'Disabled'
 # --- Filter keys (default: Disabled)
 Set-AccessibilitySetting -KeyboardFilterKeys 'Disabled'
 
-# Keyboard shorcut for Filter keys (default: Enabled)
+# --- Keyboard shorcut for Filter keys (default: Enabled)
 Set-AccessibilitySetting -KeyboardFilterKeysShorcut 'Disabled'
 
 #              Toggle keys
@@ -124,7 +124,7 @@ Set-AccessibilitySetting -KeyboardFilterKeysShorcut 'Disabled'
 # --- Toggle keys (default: Disabled)
 Set-AccessibilitySetting -KeyboardToggleKeysTone 'Disabled'
 
-# Keyboard shorcut for Toggle keys (default: Disabled)
+# --- Keyboard shorcut for Toggle keys (default: Disabled)
 Set-AccessibilitySetting -KeyboardToggleKeysToneShorcut 'Disabled'
 
 #endregion keyboard

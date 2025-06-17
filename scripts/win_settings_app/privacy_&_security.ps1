@@ -284,6 +284,9 @@ Set-AppPermissionsSetting -ScreenshotsAndRecording 'Disabled' -ScreenshotsAndRec
 #=======================================
 #region tablet
 
+# --- Cellular data (default: Enabled)
+Set-AppPermissionsSetting -CellularData 'Disabled' -CellularDataGPO 'NotConfigured'
+
 # --- Eye tracker (default: Enabled)
 Set-AppPermissionsSetting -EyeTracker 'Disabled' -EyeTrackerGPO 'NotConfigured'
 
@@ -295,9 +298,6 @@ Set-AppPermissionsSetting -PresenceSensing 'Disabled' -PresenceSensingGPO 'NotCo
 
 # --- User movement (default: Enabled)
 Set-AppPermissionsSetting -UserMovement 'Disabled' -UserMovementGPO 'NotConfigured'
-
-# --- Cellular data (default: Enabled)
-Set-AppPermissionsSetting -CellularData 'Disabled' -CellularDataGPO 'NotConfigured'
 
 #endregion tablet
 

@@ -174,7 +174,7 @@ Set-NetLlmnr -GPO 'Disabled'
 Set-NetSmhnr -GPO 'Disabled'
 
 # --- Web Proxy Auto-Discovery protocol (WPAD) (default: Enabled)
-#Set-NetWpad -State 'Disabled'
+#Set-NetProxyAutoDetect -State 'Disabled'
 
 #endregion miscellaneous
 

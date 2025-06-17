@@ -35,7 +35,7 @@ Write-Section -Name 'System Properties'
 
 Write-Section -Name 'Hardware' -SubSection
 
-# --- FDevice installation settings (default: Enabled)
+# --- Device installation settings (default: Enabled)
 #   Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
 # GPO: Disabled | NotConfigured
 Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
@@ -52,11 +52,9 @@ Write-Section -Name 'Advanced' -SubSection
 #                       Performance
 #==========================================================
 
-# --- FVisual effects
+# --- Visual effects
 # Value: ManagedByWindows (default) | BestAppearance | BestPerformance | Custom
 # Setting: <VisualEffectsCustomSetting> (see below)
-
-#Set-VisualEffects -Value 'ManagedByWindows'
 
 $VisualEffectsCustomSettings = @{
     'Animate controls and elements inside windows'    = 'Enabled'
@@ -78,8 +76,9 @@ $VisualEffectsCustomSettings = @{
     'Use drop shadows for icon labels on the desktop' = 'Enabled'
 }
 Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
+#Set-VisualEffects -Value 'ManagedByWindows'
 
-# --- FAdvanced > Virtual memory
+# --- Advanced > Virtual memory
 # AllDrivesAutoManaged: Disabled | Enabled (default)
 # Drive: drive to config (e.g. 'C:')
 # State: CustomSize | SystemManaged | NoPagingFile
@@ -89,7 +88,7 @@ Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
 Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 512 -MaximumSize 2048
 #Set-PagingFileSize -Drive 'X:', 'Y:' -State 'SystemManaged'
 
-# --- FData execution prevention
+# --- Data execution prevention
 #   Essential Windows programs and services only (OptIn)
 #   All programs and services except those I select (OptOut)
 # State: OptIn (default) | OptOut
@@ -102,21 +101,21 @@ Set-DataExecutionPrevention -State 'OptIn'
 #            System failure
 #=======================================
 
-# --- FWrite an event to the system log (default: Enabled)
+# --- Write an event to the system log (default: Enabled)
 Set-SystemFailureSetting -WriteEventToSystemLog 'Enabled'
 
-# --- FAutomatically restart (default: Enabled)
+# --- Automatically restart (default: Enabled)
 Set-SystemFailureSetting -AutoRestart 'Disabled'
 
-# --- FWrite debugging information
+# --- Write debugging information
 # Requires a minimum paging file size according to the selected setting.
 # None | Complete (<YOUR_RAM> MB + 257 MB) | Kernel (800 MB) | Small (1 MB) | Automatic (800 MB) (default) | Active (800 MB)
 Set-SystemFailureSetting -WriteDebugInfo 'None'
 
-# --- FOverwrite any existing file (default: Enabled)
+# --- Overwrite any existing file (default: Enabled)
 Set-SystemFailureSetting -OverwriteExistingDebugFile 'Enabled'
 
-# --- FDisable automatic deletion of memory dumps when disk space is low (default: Disabled)
+# --- Disable automatic deletion of memory dumps when disk space is low (default: Disabled)
 Set-SystemFailureSetting -AlwaysKeepMemoryDumpOnLowDiskSpace 'Disabled'
 
 #endregion advanced
@@ -128,7 +127,7 @@ Set-SystemFailureSetting -AlwaysKeepMemoryDumpOnLowDiskSpace 'Disabled'
 
 Write-Section -Name 'System protection' -SubSection
 
-# --- FProtection settings
+# --- Protection settings
 # Also controlled by the group 'Services & Scheduled Tasks > WindowsBackupAndSystemRestore' in the
 # file 'scripts\services_and_scheduled_tasks.ps1'. The services are left to default state 'Manual'.
 
@@ -149,7 +148,7 @@ Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
 
 Write-Section -Name 'Remote' -SubSection
 
-# --- FRemote assistance
+# --- Remote assistance
 #   Allow remote assistance connections to this computer (ViewOnly)
 #   Allow this computer to be controlled remotely (FullControl)
 # State: Disabled | FullControl | ViewOnly (default) # GPO: State + NotConfigured
@@ -172,7 +171,7 @@ $RemoteAssistanceProperties = @{
 }
 #Set-RemoteAssistance @RemoteAssistanceProperties
 
-# --- FRemote Desktop
+# --- Remote Desktop
 # See 'Windows Settings App > System > Remote Desktop'
 
 #endregion remote

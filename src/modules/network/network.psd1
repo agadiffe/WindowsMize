@@ -21,8 +21,8 @@
         'Set-NetIPSourceRouting'
         'Set-NetIPv6Transition'
         'Set-NetLlmnr'
+        'Set-NetProxyAutoDetectprotocol'
         'Set-NetSmhnr'
-        'Set-NetWpad'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

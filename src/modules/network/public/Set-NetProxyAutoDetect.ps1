@@ -13,16 +13,16 @@
 
 <#
 .SYNTAX
-    Set-NetWpad
+    Set-NetProxyAutoDetect
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-NetWpad
+function Set-NetProxyAutoDetect
 {
     <#
     .EXAMPLE
-        PS> Set-NetWpad -State 'Disabled'
+        PS> Set-NetProxyAutoDetect -State 'Disabled'
     #>
 
     [CmdletBinding()]
