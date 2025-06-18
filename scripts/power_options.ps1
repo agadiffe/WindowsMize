@@ -55,7 +55,7 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 
 Set-AdvancedBatterySetting -Battery 'Low'      -Level 15 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 10
-Set-AdvancedBatterySetting -Battery 'Critical' -Level 7  -Action 'ShutDown'
+Set-AdvancedBatterySetting -Battery 'Critical' -Level 7  -Action 'Hibernate'
 
 
 Stop-Transcript

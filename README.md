@@ -15,7 +15,7 @@ irm 'https://github.com/agadiffe/WindowsMize/raw/main/Download_WindowsMize.ps1' 
 
 ## 🎯 Purpose
 1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](New-WindowsAnswerFile.ps1)) + updates
-2. Run the script ([WindowsMize.ps1](WindowsMize.ps1))
+2. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the no comment version [WindowsMize.mini.ps1](WindowsMize.mini.ps1))
 3. Finish some customization (see [todo_manually.md](todo_manually.md))
 
 
@@ -204,7 +204,7 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
 
 
 ## 📍 Remarks
-Read some comments in the source code files about why should you disable some features.
+Read some comments in the source code files about why you should disable some features.
 
  - src > modules > network > private > NetFirewallRules.ps1
  - src > modules > network > public
