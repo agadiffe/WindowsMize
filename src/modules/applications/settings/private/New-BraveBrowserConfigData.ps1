@@ -614,6 +614,9 @@ function New-BraveBrowserConfigData
         "settings": {
             "a11y": {
                 "overscroll_history_navigation": true // swipe between pages
+            },
+            "toast": {
+                "alert_level": 0 // copied to clipboard confirmations\ on: 0 | off: 1
             }
         }
     }' | ConvertFrom-Json -AsHashtable)

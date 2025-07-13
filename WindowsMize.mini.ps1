@@ -18,10 +18,14 @@
   e.g. Open a new PowerShell-Tab.
 #>
 
+#Requires -RunAsAdministrator
+#Requires -Version 7.5
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$PSScriptRoot\log\$ScriptFileName.log"
 
 $Global:ModuleVerbosePreference = 'Continue'
 
-# --- Comment or uncomment needed modules.
 $WindowsMizeModulesNames = @(
     'tweaks'
     'telemetry'
@@ -33,6 +37,7 @@ $WindowsMizeModulesNames = @(
     'applications\settings'
     'ramdisk'
     'settings_app\system'
+    'settings_app\optional_features'
     'settings_app\bluetooth_&_devices'
     'settings_app\network_&_internet'
     'settings_app\personnalization'
@@ -47,6 +52,7 @@ $WindowsMizeModulesNames = @(
     'services'
     'scheduled_tasks'
 )
+Write-Output -InputObject 'Loading WindowsMize Modules ...'
 Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\src\modules\$_" })
 
 
@@ -60,22 +66,26 @@ Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\src\module
 #region file Explorer
 
 $FileExplorerSettings = @{
-    LaunchTo            = 'ThisPC'
-    ShowRecentFiles     = 'Enabled'
-    ShowFrequentFolders = 'Disabled'
-    ShowCloudFiles      = 'Disabled'
-    CompactView         = 'Enabled'
-    ShowHiddenItems     = 'Enabled'
-    HideFileExtensions  = 'Disabled'
-    ItemsCheckBoxes     = 'Enabled'
-    SharingWizard       = 'Disabled'
-    DontUseSearchIndex  = 'Enabled'
-    ShowHome            = 'Enabled'
-    ShowGallery         = 'Disabled'
-    MaxIconCacheSize    = 4096
+    LaunchTo                        = 'ThisPC'
+    ShowRecentFiles                 = 'Enabled'
+    ShowFrequentFolders             = 'Disabled'
+    ShowCloudFiles                  = 'Disabled'
+    CompactView                     = 'Enabled'
+    ShowHiddenItems                 = 'Enabled'
+    HideFileExtensions              = 'Disabled'
+    HideFolderMergeConflicts        = 'Disabled'
+    ShowSyncProviderNotifications   = 'Disabled' # OneDrive Ads
+    ItemsCheckBoxes                 = 'Enabled'
+    SharingWizard                   = 'Disabled'
+    ShowCloudStatesOnNavPane        = 'Disabled'
+    DontUseSearchIndex              = 'Enabled'
+    ShowHome                        = 'Enabled'
+    ShowGallery                     = 'Disabled'
+    MaxIconCacheSize                = 4096
     AutoFolderTypeDetection         = 'Disabled'
     ShowRemovableDrivesOnlyInThisPC = 'Enabled'
-    ShowSyncProviderNotifications   = 'Disabled' # OneDrive Ads
+    #RecycleBin                      = 'Enabled'  ; RecycleBinGPO        = 'NotConfigured'
+    #ConfirmFileDelete               = 'Disabled' ; ConfirmFileDeleteGPO = 'NotConfigured'
 }
 Set-FileExplorerSetting @FileExplorerSettings
 
@@ -114,7 +124,7 @@ $PrivacyWinPermTelemetry = @{
     TailoredExperiences     = 'Disabled' ; TailoredExperiencesGPO    = 'Disabled'
     DiagnosticDataViewer    = 'Disabled' ; DiagnosticDataViewerGPO   = 'Disabled'
     DeleteDiagnosticDataGPO = 'NotConfigured'
-    FeedbackFrequency       = 'Disabled' ; FeedbackFrequencyGPO      = 'Disabled'
+    FeedbackFrequency       = 'Never'    ; FeedbackFrequencyGPO      = 'Disabled'
 }
 Set-WinPermissionsSetting @PrivacyWinPermTelemetry
 
@@ -491,7 +501,7 @@ $AppsToConfig = @(
     #'VSCode'
     #'Git'
 )
-$AppsToConfig.ForEach({ Write-Section -Name $_ -SubSection ; Set-MyAppsSetting -Name $_ })
+$AppsToConfig.ForEach({ Set-MyAppsSetting -Name $_ })
 
 # --- Brave Browser
 Set-BraveBrowserSettings
@@ -506,16 +516,17 @@ $AdobeReaderSettings = @{
     Javascript                 = 'Disabled'
     ProtectedMode              = 'Enabled'
     AppContainer               = 'Enabled'
-    ProtectedView              = 'Enabled'
+    ProtectedView              = 'Disabled'
     EnhancedSecurity           = 'Enabled'
     TrustCertifiedDocuments    = 'Disabled'
     TrustOSTrustedSites        = 'Disabled'
     OpenFileAttachments        = 'Disabled'
     PageUnits                  = 'Centimeters'
-    RecommendedTools           = 'Disabled'
+    RecommendedTools           = 'Collapse'
     FirstLaunchExperience      = 'Disabled'
     Upsell                     = 'Disabled'
     UsageStatistics            = 'Disabled'
+    OnlineServices             = 'Disabled'
     AdobeCloud                 = 'Disabled'
     SharePoint                 = 'Disabled'
     Webmail                    = 'Disabled'
@@ -544,8 +555,8 @@ Set-MicrosoftOfficeSetting @MsOfficeSettings
 
 # --- Microsoft Store
 $MsStoreSettings = @{
-    AutoAppsUpdates         = 'Disabled'
-    AppInstallNotifications = 'Disabled'
+    AutoAppsUpdates         = 'Enabled'
+    AppInstallNotifications = 'Enabled'
     VideoAutoplay           = 'Disabled'
 }
 Set-MicrosoftStoreSetting @MsStoreSettings
@@ -631,13 +642,13 @@ $ServicesToConfig = @(
     #'Bluetooth'
     #'BluetoothAndCast'
     #'BluetoothAudio'
-    'DefenderPhishingProtection' # do not diable if you use Edge with 'Phishing Protection' enabled.
+    'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
     'Features' # adjust to your needs: src > modules > services > private > Features.ps1
     'FileAndPrinterSharing'
     'HyperV'
-    'MicrosoftEdge' # do not diable if you use Edge.
+    'MicrosoftEdge' # do not disable if you use Edge.
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Miscellaneous' # adjust to your needs: src > modules > services > private > Miscellaneous.ps1
@@ -669,7 +680,7 @@ Export-DefaultScheduledTasksState
 $TasksToConfig = @(
     #'AdobeAcrobat'
     'Features'
-    #'MicrosoftEdge'
+    'MicrosoftEdge' # do not disable if you didn't uninstalled Edge.
     #'MicrosoftOffice'
     'Miscellaneous'
     'Telemetry'
@@ -712,7 +723,7 @@ $DisplayBrightnessSettings = @{
     AdjustOnLightingChanges = 'Disabled'
     AdjustBasedOnContent    = 'Disabled'
 }
-Set-AutoPlaySetting @DisplayBrightnessSettings
+Set-DisplayBrightnessSetting @DisplayBrightnessSettings
 
 $DisplayGraphicsSettings = @{
     WindowedGamesOptimizations = 'Disabled'
@@ -720,7 +731,7 @@ $DisplayGraphicsSettings = @{
     GPUScheduling              = 'Enabled'
     GamesVariableRefreshRate   = 'Disabled'
 }
-Set-AutoPlaySetting @DisplayGraphicsSettings
+Set-DisplayGraphicsSetting @DisplayGraphicsSettings
 
 # --- Sound
 Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
@@ -733,7 +744,7 @@ $NotificationsSettings = @{
     ShowRemindersAndIncomingCallsOnLockScreen = 'Disabled'
     ShowBellIcon     = 'Disabled'
 }
-Set-AutoPlaySetting @NotificationsSettings
+Set-NotificationsSetting @NotificationsSettings
 
 $SendersNotifs = @(
     'Apps'
@@ -768,7 +779,7 @@ $DeviceTimeouts = @(
     @{ PowerSource = 'OnBattery' ; PowerState = 'Screen'    ; Timeout = 3 }
     @{ PowerSource = 'OnBattery' ; PowerState = 'Sleep'     ; Timeout = 5 }
     @{ PowerSource = 'OnBattery' ; PowerState = 'Hibernate' ; Timeout = 30 }
-)
+) | ForEach-Object { [PSCustomObject]$_ }
 $DeviceTimeouts | Set-PowerSetting
 
 $ButtonControlsSettings = @(
@@ -779,7 +790,7 @@ $ButtonControlsSettings = @(
     @{ PowerSource = 'OnBattery' ; ButtonControls = 'PowerButton' ; Action = 'Sleep' }
     @{ PowerSource = 'OnBattery' ; ButtonControls = 'SleepButton' ; Action = 'Sleep' }
     @{ PowerSource = 'OnBattery' ; ButtonControls = 'LidClose'    ; Action = 'Sleep' }
-)
+) | ForEach-Object { [PSCustomObject]$_ }
 $ButtonControlsSettings | Set-PowerSetting
 
 # --- Storage
@@ -896,7 +907,7 @@ $BackgroundSettings = @{
     Wallpaper      = "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
     WallpaperStyle = 'Fill'
 }
-Set-LockScreenSetting @BackgroundSettings
+Set-BackgroundSetting @BackgroundSettings
 
 # --- Colors
 $ColorsSettings = @{
@@ -906,7 +917,7 @@ $ColorsSettings = @{
     ShowAccentColorOnStartAndTaskbar = 'Disabled'
     ShowAccentColorOnTitleAndBorders = 'Disabled'
 }
-Set-LockScreenSetting @ColorsSettings
+Set-ColorsSetting @ColorsSettings
 
 # --- Themes - Desktop icons
 $DesktopIcons = @(
@@ -1018,7 +1029,7 @@ Set-SigninOptionsSetting @AccountsSettings
 #region time & language
 
 # --- Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
-#Remove-LanguageFeatures
+#Remove-LanguageFeatures # W11
 
 # --- Date & time
 $DateTimeSettings = @{
@@ -1065,7 +1076,7 @@ $NetworkSettings = @{
     GameRecording = 'Disabled' ; GameRecordingGPO = 'NotConfigured'
     GameMode      = 'Disabled'
 }
-Set-NetworkSetting @NetworkSettings
+Set-GamingSetting @NetworkSettings
 
 #endregion gaming
 
@@ -1099,13 +1110,13 @@ Set-AccessibilitySetting @AccessibilitySettings
 
 # --- Settings
 $DefenderSettings = @{
-    CloudDeliveredProtection = 'Disabled' ; CloudDeliveredProtectionGPO = 'NotConfigured'
-    AutoSampleSubmission     = 'Disabled' ; AutoSampleSubmissionGPO     = 'NotConfigured'
+    CloudDeliveredProtection = 'Disabled'  ; CloudDeliveredProtectionGPO = 'NotConfigured'
+    AutoSampleSubmission     = 'NeverSend' ; AutoSampleSubmissionGPO     = 'NotConfigured'
     AdminProtection          = 'Disabled'
-    CheckAppsAndFiles        = 'Disabled' ; CheckAppsAndFilesGPO        = 'NotConfigured'
-    SmartScreenForEdge       = 'Disabled' ; SmartScreenForEdgeGPO       = 'NotConfigured'
+    CheckAppsAndFiles        = 'Disabled'  ; CheckAppsAndFilesGPO        = 'NotConfigured'
+    SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured'
     PhishingProtectionGPO    = 'Disabled'
-    UnwantedAppBlocking      = 'Disabled' ; UnwantedAppBlockingGPO      = 'NotConfigured'
+    UnwantedAppBlocking      = 'Disabled'  ; UnwantedAppBlockingGPO      = 'NotConfigured'
     SmartScreenForStoreApps  = 'Disabled'
     WatsonEventsReportGPO    = 'Disabled'
 }
@@ -1144,3 +1155,6 @@ Set-WinUpdateSetting @WindowsUpdateSettings
 #endregion Windows Update
 
 #endregion Part 2
+
+
+Stop-Transcript

@@ -66,13 +66,13 @@ $ServicesToConfig = @(
     #'Bluetooth'
     #'BluetoothAndCast'
     #'BluetoothAudio'
-    'DefenderPhishingProtection' # do not diable if you use Edge with 'Phishing Protection' enabled.
+    'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
     'Features' # adjust to your needs: src > modules > services > private > Features.ps1
     'FileAndPrinterSharing'
     'HyperV'
-    'MicrosoftEdge' # do not diable if you use Edge.
+    'MicrosoftEdge' # do not disable if you use Edge.
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Miscellaneous' # adjust to your needs: src > modules > services > private > Miscellaneous.ps1
@@ -125,7 +125,7 @@ Export-DefaultScheduledTasksState
 $TasksToConfig = @(
     #'AdobeAcrobat'
     'Features'
-    #'MicrosoftEdge'
+    'MicrosoftEdge' # do not disable if you didn't uninstalled Edge.
     #'MicrosoftOffice'
     'Miscellaneous'
     'Telemetry'
