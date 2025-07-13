@@ -24,6 +24,8 @@ function Export-DefaultScheduledTasksState
         {
             Write-Verbose -Message "Exporting Default Scheduled Tasks State ($Key) ..."
 
+            New-ParentPath -Path $ScheduledTasks.$Key.LogFilePath
+
             (Invoke-Expression -Command $ScheduledTasks.$Key.GetData) |
                 Group-Object -Property 'TaskPath' |
                 ForEach-Object -Process {

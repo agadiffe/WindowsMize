@@ -9,6 +9,8 @@ function Export-EnabledWindowsOptionalFeaturesNames
     {
         Write-Verbose -Message 'Exporting Enabled Windows Optional Features Names ...'
 
+        New-ParentPath -Path $LogFilePath
+
         Get-WindowsOptionalFeature -Online -Verbose:$false |
             Where-Object -Property 'State' -EQ -Value 'Enabled' |
             Select-Object -ExpandProperty 'FeatureName' |

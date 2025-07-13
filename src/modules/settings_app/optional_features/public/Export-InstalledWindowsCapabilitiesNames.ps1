@@ -9,6 +9,8 @@ function Export-InstalledWindowsCapabilitiesNames
     {
         Write-Verbose -Message 'Exporting Installed Windows Capabilities Names ...'
 
+        New-ParentPath -Path $LogFilePath
+
         Get-WindowsCapability -Online -Verbose:$false |
             Where-Object -Property 'State' -EQ -Value 'Installed' |
             Select-Object -ExpandProperty 'Name' |

@@ -23,6 +23,8 @@ function Export-DefaultSystemDriversStartupType
         {
             Write-Verbose -Message "Exporting Default System Drivers StartupType ($Key) ..."
 
+            New-ParentPath -Path $SystemDrivers.$Key.LogFilePath
+
             (Invoke-Expression -Command $SystemDrivers.$Key.GetData) |
                 ForEach-Object -Process {
                     $StartMode = $_.StartMode.Replace("Auto", "Automatic")

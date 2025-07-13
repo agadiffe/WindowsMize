@@ -9,6 +9,8 @@ function Export-DefaultAppxPackagesNames
     {
         Write-Verbose -Message 'Exporting Default Appx Packages Names ...'
 
+        New-ParentPath -Path $LogFilePath
+
         $DefaultAppxPackages = "# AppxPackage`n "
         $DefaultAppxPackages += ((Get-AppxPackage -AllUsers).Name).ForEach{ "$_`n" }
         $DefaultAppxPackages += "`n# ProvisionedAppxPackage`n "

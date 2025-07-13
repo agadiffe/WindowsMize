@@ -9,6 +9,8 @@ function Export-DefaultNetAdapterProtocolsState
     {
         Write-Verbose -Message 'Exporting Default Network Adapter Protocols State ...'
 
+        New-ParentPath -Path $LogFilePath
+
         Get-NetAdapterBinding |
             Group-Object -Property 'Name' |
             ForEach-Object -Process {
