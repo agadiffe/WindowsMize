@@ -250,10 +250,11 @@ $ServicesList += @{
         @{
             DisplayName = 'Microsoft Storage Spaces SMP'
             ServiceName = 'smphost'
-            StartupType = 'Disabled'
+            StartupType = 'Manual'
             DefaultType = 'Manual'
             Comment     = 'group drives together to helps protect from drive failure.
                            settings > storage > advanced storage settings > storage spaces.
+                           needed by settings > about > storage.
                            also needed by Powershell Get-Volume and Get-Disk (and possibly more cmdlet).'
         }
         @{
@@ -423,6 +424,13 @@ $ServicesList += @{
             DefaultType = 'Automatic'
         }
         @{
+            DisplayName = 'Windows Health and Optimized Experiences'
+            ServiceName = 'whesvc'
+            StartupType = 'Disabled'
+            DefaultType = 'AutomaticDelayedStart'
+            Comment     = 'adaptive Energy Saver mode.'
+        }
+        @{
             DisplayName = 'Windows Image Acquisition (WIA)'
             ServiceName = 'StiSvc'
             StartupType = 'Disabled'
@@ -489,6 +497,13 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'probably an Azure AI-related thing.'
+        }
+        @{
+            DisplayName = 'ZTHELPER'
+            ServiceName = 'ZTHELPER'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'zero trust DNS.'
         }
     )
 }

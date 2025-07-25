@@ -157,6 +157,12 @@ $ServicesListNotConfigured += @{
                            cannot be changed with registry editing.'
         }
         @{
+            DisplayName = 'Hotpatch Monitoring Service'
+            ServiceName = 'hpatchmon'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'Host Network Service'
             ServiceName = 'hns'
             StartupType = 'Manual'
@@ -391,6 +397,12 @@ $ServicesListNotConfigured += @{
             DefaultType = 'Automatic'
             Comment     = 'cannot be changed with services.msc.
                            DO NOT DISABLE (system will fail to boot).'
+        }
+        @{
+            DisplayName = 'This service provides profile management for mobile connectivity modules'
+            ServiceName = 'McmSvc'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
         }
         @{
             DisplayName = 'Time Broker'
