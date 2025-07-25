@@ -6,22 +6,13 @@
   You can use the 'Office Deployment Tool (ODT)' to automate the installation of Microsoft Office.
   With that tool, you can choose which program to install. e.g. Only Word, Excel and PowerPoint.
   Use your favorite search engine for more information.
+  
+  To activate office, be careful not to fall into the mass grave.
 
-  Configuration file example (configuration.xml):
-  <Configuration>
-    <Add OfficeClientEdition="64" Channel="PerpetualVL2024">
-      <Product ID="ProPlus2024Volume" PIDKEY="XJ2XN-FW8RK-P4HMP-DKDBV-GCVGB">
-        <Language ID="MatchOS" />
-        <ExcludeApp ID="Access" />
-        <ExcludeApp ID="Lync" />
-        <ExcludeApp ID="OneDrive" />
-        <ExcludeApp ID="OneNote" />
-        <ExcludeApp ID="Outlook" />
-        <ExcludeApp ID="Publisher" />
-      </Product>
-    </Add>
-    <Display AcceptEULA="TRUE" />
-  </Configuration>
+  https://officecdn.microsoft.com/pr/wsus/setup.exe (Office Deployment Tool (ODT))
+  https://config.office.com/deploymentsettings (MS Office configuration file)
+
+  Run 'tools\MsOffice365_Install.cmd' to install Ms Office 365.
 #>
 
 <#
