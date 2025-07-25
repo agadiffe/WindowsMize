@@ -9,17 +9,18 @@ Debloat, minimize telemetry, apps installation, general settings, and more.
 
 ### 🐢 Quick download cmd
 ```powershell
-irm 'https://github.com/agadiffe/WindowsMize/raw/main/Download_WindowsMize.ps1' | iex
+irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
 ```
 
 
 ## 🎯 Purpose
-1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](New-WindowsAnswerFile.ps1)) + updates
+1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](tools/New-WindowsAnswerFile.ps1)) + updates
 2. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the no comment version [WindowsMize.mini.ps1](WindowsMize.mini.ps1))
 3. Finish some customization (see [todo_manually.md](todo_manually.md))
 
 
 ## 📝 Characteristics
+- Works on both Administrator and Standard account.
 - Each tweak/setting has its own function.
 - Designed for Windows 11 (most tweaks/settings also work on Windows 10).
 - Fully non-interactive script: make sure to review everything before running it.
@@ -32,7 +33,7 @@ There are almost every settings, organized like the graphical counterpart.
 
 ### 📁 File Explorer
 Every settings + few extra.  
-Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection,  
+extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection,  
 MaxIconCacheSize, RecycleBin, ConfirmFileDelete.
 
 ### ⌛ System Properties
@@ -155,7 +156,7 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
    If the folder 'WindowsMize' exist, it will be deleted.  
    Save any data you want to keep (e.g. previous configuration and/or log files).
     ```powershell
-    irm 'https://github.com/agadiffe/WindowsMize/raw/main/Download_WindowsMize.ps1' | iex
+    irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
     ```
 3. Navigate to the extracted 'WindowsMize' folder in your 'Downloads' folder.
 4. **Configure the script (WindowsMize.ps1) according to your preferences**.
@@ -214,4 +215,4 @@ Read some comments in the source code files about why you should disable some fe
 
 ## 💙 Support
 If you find a bug, please open an issue.  
-If you like the project, leave a ⭐ (top right) :)
+If you like the project, leave a ⭐.

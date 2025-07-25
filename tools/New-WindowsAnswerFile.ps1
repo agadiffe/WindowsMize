@@ -80,7 +80,7 @@ param
 
 process
 {
-    # Prompt the Password to prevents command-line history exposure.
+    # Prompt the Password to prevent command-line history exposure.
     $Password = Read-Host -Prompt "Enter password (empty allowed)"
 
     $UserName = $UserName.Trim()
