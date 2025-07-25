@@ -146,6 +146,12 @@ Set-NotificationsSetting -SuggestWaysToFinishConfig 'Disabled'
 # --- Get tips and suggestions when using Windows (default: Enabled)
 Set-NotificationsSetting -TipsAndSuggestions 'Disabled' -TipsAndSuggestionsGPO 'NotConfigured'
 
+#   Indicators from keyboard actions
+#=======================================
+
+# --- Position of on-screen indicators (default: BottomCenter)
+Set-NotificationsSetting -ScreenIndicatorsPosition 'BottomCenter'
+
 #endregion notifications
 
 #==========================================================
@@ -160,6 +166,9 @@ Write-Section -Name 'Power (& battery)' -SubSection
 # Applies only to the active power state (e.g. Laptop: PluggedIn or OnBattery).
 # BestPowerEfficiency | Balanced (default) | BestPerformance
 Set-PowerSetting -PowerMode 'Balanced'
+
+# --- Battery percentage (default: Disabled)
+Set-PowerSetting -BatteryPercentage 'Disabled'
 
 # Screen, sleep, & hibernate timeouts
 #=======================================

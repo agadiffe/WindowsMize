@@ -1,19 +1,19 @@
 #=================================================================================================================
-#          Personnalization > Taskbar Behaviors > Show Jump List When Hovering On Inactive Taskbar Apps
+#                        Time & Language > Date & Time > Show Time In Notification Center
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-TaskbarShowJumplistOnHover
+    Set-DateAndTimeShowTimeInNotifCenter
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-TaskbarShowJumplistOnHover
+function Set-DateAndTimeShowTimeInNotifCenter
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarShowJumplistOnHover -State 'Disabled'
+        PS> Set-DateAndTimeShowTimeInNotifCenter -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -25,20 +25,20 @@ function Set-TaskbarShowJumplistOnHover
 
     process
     {
-        # on: 1 (default) | off: 0
-        $TaskbarJumplistOnHover = @{
+        # on: 1 | off: 0 (default)
+        $DateAndTimeShowTimeInNotifCenter = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
             Entries = @(
                 @{
-                    Name  = 'JumplistOnHover'
+                    Name  = 'ShowClockInNotificationCenter'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar - Show Jump List When Hovering On Inactive Taskbar Apps' to '$State' ..."
-        Set-RegistryEntry -InputObject $TaskbarJumplistOnHover
+        Write-Verbose -Message "Setting 'Date & Time - Show Time In Notification Center' to '$State' ..."
+        Set-RegistryEntry -InputObject $DateAndTimeShowTimeInNotifCenter
     }
 }

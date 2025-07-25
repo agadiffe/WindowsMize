@@ -5,7 +5,8 @@
 <#
 .SYNTAX
     Set-PowerSetting
-        -PowerMode {BestPowerEfficiency | Balanced | BestPerformance}
+        [-PowerMode {BestPowerEfficiency | Balanced | BestPerformance}]
+        [-BatteryPercentage {Disabled | Enabled}]
         [<CommonParameters>]
 
     Set-PowerSetting
@@ -25,7 +26,7 @@ function Set-PowerSetting
 {
     <#
     .EXAMPLE
-        PS> Set-PowerSetting -PowerMode 'BestPowerEfficiency'
+        PS> Set-PowerSetting -PowerMode 'BestPowerEfficiency' -BatteryPercentage 'Disabled'
 
     .EXAMPLE
         PS> Set-PowerSetting -PowerState 'Sleep' -Timeout 10 -PowerSource 'PluggedIn'
@@ -34,11 +35,14 @@ function Set-PowerSetting
         PS> Set-PowerSetting -ButtonControls 'LidClose' -Action 'Sleep' -PowerSource 'OnBattery'
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'PowerMode')]
+    [CmdletBinding(DefaultParameterSetName = 'GeneralSettings')]
     param
     (
-        [Parameter(Mandatory, ParameterSetName = 'PowerMode')]
+        [Parameter(ParameterSetName = 'GeneralSettings')]
         [PowerMode] $PowerMode,
+
+        [Parameter(ParameterSetName = 'GeneralSettings')]
+        [state] $BatteryPercentage,
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
         [PowerState] $PowerState,
@@ -62,7 +66,20 @@ function Set-PowerSetting
     {
         switch ($PSCmdlet.ParameterSetName)
         {
-            'PowerMode'         { Set-PowerMode -Value $PowerMode }
+            'GeneralSettings'
+            {
+                if (-not $PSBoundParameters.Keys.Count)
+                {
+                    Write-Error -Message (Write-InsufficientParameterCount)
+                    return
+                }
+
+                switch ($PSBoundParameters.Keys)
+                {
+                    'PowerMode'         { Set-PowerMode -Value $PowerMode }
+                    'BatteryPercentage' { Set-PowerBatteryPercentage -State $BatteryPercentage }
+                }
+            }
             'PowerStateTimeout' { Set-PowerStateTimeout -Name $PowerState -Timeout $Timeout -PowerSource $PowerSource }
             'ButtonControls'    { Set-PowerButtonControls -Name $ButtonControls -Action $Action -PowerSource $PowerSource }
         }

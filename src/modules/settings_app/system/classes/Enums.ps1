@@ -31,20 +31,6 @@ enum SudoMode
 
 
 # multitasking
-enum NotifsAppsAndOtherSenders
-{
-    Apps
-    Autoplay
-    BatterySaver
-    MicrosoftStore
-    NotificationSuggestions
-    PrintNotification
-    Settings
-    StartupAppNotification
-    Suggested
-    WindowsBackup
-}
-
 enum AppsTabsOnSnapMode
 {
     TwentyMostRecent = 0
@@ -123,4 +109,27 @@ enum AdjustVolumeMode
     ReduceOtherSoundsBy80Percent = 1
     ReduceOtherSoundsBy50Percent = 2
     DoNothing                    = 3
+}
+
+
+# notifications
+enum NotifsAppsAndOtherSenders
+{
+    Apps
+    Autoplay
+    BatterySaver
+    MicrosoftStore
+    NotificationSuggestions
+    PrintNotification
+    Settings
+    StartupAppNotification
+    Suggested
+    WindowsBackup
+}
+
+enum NotifsPositionIndex
+{
+    BottomCenter = 1
+    TopLeft      = 2
+    TopCenter    = 3
 }

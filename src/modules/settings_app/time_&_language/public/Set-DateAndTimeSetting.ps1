@@ -10,6 +10,7 @@
         [-ShowInSystemTray {Disabled | Enabled}]
         [-ShowAbbreviatedValue {Disabled | Enabled}]
         [-ShowSecondsInSystemClock {Disabled | Enabled}]
+        [-ShowTimeInNotifCenter {Disabled | Enabled}]
         [-TimeServer {Windows | NistGov | PoolNtpOrg}]
         [<CommonParameters>]
 #>
@@ -34,6 +35,8 @@ function Set-DateAndTimeSetting
 
         [state] $ShowSecondsInSystemClock,
 
+        [state] $ShowTimeInNotifCenter,
+
         [InternetTimeServer] $TimeServer
     )
 
@@ -52,6 +55,7 @@ function Set-DateAndTimeSetting
             'ShowInSystemTray'         { Set-DateAndTimeShowInSystemTray -State $ShowInSystemTray }
             'ShowAbbreviatedValue'     { Set-DateAndTimeShowAbbreviatedValue -State $ShowAbbreviatedValue }
             'ShowSecondsInSystemClock' { Set-DateAndTimeShowSecondsInSystemClock -State $ShowSecondsInSystemClock }
+            'ShowTimeInNotifCenter'    { Set-DateAndTimeShowTimeInNotifCenter -State $ShowTimeInNotifCenter }
             'TimeServer'               { Set-TimeServer -Server $TimeServer }
         }
     }

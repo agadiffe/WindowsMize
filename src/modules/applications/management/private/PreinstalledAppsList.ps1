@@ -12,6 +12,7 @@ $PreinstalledAppsList = [ordered]@{
     Cortana          = 'Microsoft.549981C3F5F10' # old
     CrossDevice      = 'MicrosoftWindows.CrossDevice' # link and manage your mobile devices
     DevHome          = 'Microsoft.Windows.DevHome' # old
+    EdgeGameAssist   = 'Microsoft.Edge.GameAssist'
     Extensions       = @(
                        'Microsoft.AV1VideoExtension'
                        'Microsoft.AVCEncoderVideoExtension'

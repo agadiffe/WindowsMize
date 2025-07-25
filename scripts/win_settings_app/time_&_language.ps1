@@ -57,6 +57,9 @@ Set-DateAndTimeSetting -ShowAbbreviatedValue 'Disabled'
 # --- Show seconds in system tray clock (uses more power) (default: Disabled)
 Set-DateAndTimeSetting -ShowSecondsInSystemClock 'Disabled'
 
+# --- Show time in Notification Center (default: Disabled)
+Set-DateAndTimeSetting -ShowTimeInNotifCenter 'Disabled'
+
 # --- Internet time (NTP server) (default: Windows)
 # State: Windows | NistGov | PoolNtpOrg
 Set-DateAndTimeSetting -TimeServer 'Windows'

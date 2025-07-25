@@ -200,8 +200,8 @@ Set-AppPermissionsSetting -VoiceActivation 'Disabled' -VoiceActivationGPO 'NotCo
 # --- Notifications (default: Enabled)
 Set-AppPermissionsSetting -Notifications 'Disabled' -NotificationsGPO 'NotConfigured'
 
-# --- Generative AI (default: Enabled)
-Set-AppPermissionsSetting -GenerativeAI 'Disabled' -GenerativeAIGPO 'NotConfigured'
+# --- Text And Image Generation (default: Enabled)
+Set-AppPermissionsSetting -TextAndImageGeneration 'Disabled' -TextAndImageGenerationGPO 'NotConfigured'
 
 # --- Background apps (default: Enabled)
 Set-AppPermissionsSetting -BackgroundApps 'Enabled' -BackgroundAppsGPO 'NotConfigured'

@@ -20,8 +20,8 @@
         [-Notifications {Disabled | Enabled}]
         [-NotificationsGPO {Disabled | Enabled | NotConfigured}]
 
-        [-GenerativeAI {Disabled | Enabled}]
-        [-GenerativeAIGPO {Disabled | Enabled | NotConfigured}]
+        [-TextAndImageGeneration {Disabled | Enabled}]
+        [-TextAndImageGenerationGPO {Disabled | Enabled | NotConfigured}]
         [-BackgroundApps {Disabled | Enabled}]
         [-BackgroundAppsGPO {Disabled | Enabled | NotConfigured}]
 
@@ -100,8 +100,8 @@ function Set-AppPermissionsSetting
         [state] $Notifications,
         [GpoState] $NotificationsGPO,
 
-        [state] $GenerativeAI,
-        [GpoState] $GenerativeAIGPO,
+        [state] $TextAndImageGeneration,
+        [GpoState] $TextAndImageGenerationGPO,
         [state] $BackgroundApps,
         [GpoState] $BackgroundAppsGPO,
 
@@ -179,8 +179,8 @@ function Set-AppPermissionsSetting
             'Notifications'              { Set-AppPermissionsNotifications -State $Notifications }
             'NotificationsGPO'           { Set-AppPermissionsNotifications -GPO $NotificationsGPO }
 
-            'GenerativeAI'               { Set-AppPermissionsGenerativeAI -State $GenerativeAI }
-            'GenerativeAIGPO'            { Set-AppPermissionsGenerativeAI -GPO $GenerativeAIGPO }
+            'TextAndImageGeneration'     { Set-AppPermissionsTextAndImageGeneration -State $TextAndImageGeneration }
+            'TextAndImageGenerationGPO'  { Set-AppPermissionsTextAndImageGeneration -GPO $TextAndImageGenerationGPO }
             'BackgroundApps'             { Set-AppPermissionsBackgroundApps -State $BackgroundApps }
             'BackgroundAppsGPO'          { Set-AppPermissionsBackgroundApps -GPO $BackgroundAppsGPO }
 

@@ -17,6 +17,7 @@
         [-SuggestWaysToFinishConfig {Disabled | Enabled}]
         [-TipsAndSuggestions {Disabled | Enabled}]
         [-TipsAndSuggestionsGPO {Disabled | NotConfigured}]
+        [-ScreenIndicatorsPosition {BottomCenter | TopLeft | TopCenter}]
         [<CommonParameters>]
 
     Set-NotificationsSetting
@@ -79,7 +80,10 @@ function Set-NotificationsSetting
         [state] $TipsAndSuggestions,
 
         [Parameter(ParameterSetName = 'Notifications')]
-        [GpoStateWithoutEnabled] $TipsAndSuggestionsGPO
+        [GpoStateWithoutEnabled] $TipsAndSuggestionsGPO,
+
+        [Parameter(ParameterSetName = 'Notifications')]
+        [NotifsPositionIndex] $ScreenIndicatorsPosition
     )
 
     process
@@ -108,6 +112,8 @@ function Set-NotificationsSetting
             'SuggestWaysToFinishConfig' { Set-NotificationsSuggestWaysToFinishConfig -State $SuggestWaysToFinishConfig }
             'TipsAndSuggestions'        { Set-NotificationsTipsAndSuggestions -State $TipsAndSuggestions }
             'TipsAndSuggestionsGPO'     { Set-NotificationsTipsAndSuggestions -GPO $TipsAndSuggestionsGPO }
+
+            'ScreenIndicatorsPosition'  { Set-NotificationsScreenIndicatorsPosition -Value $ScreenIndicatorsPosition }
         }
     }
 }

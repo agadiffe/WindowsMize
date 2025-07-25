@@ -103,6 +103,13 @@ enum TaskbarGroupingMode
     Never             = 2
 }
 
+enum TaskbarSmallerButtonsMode
+{
+    Always   = 0
+    Never    = 1
+    WhenFull = 2
+}
+
 
 # themes
 enum DesktopIcons
