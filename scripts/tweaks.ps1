@@ -154,7 +154,11 @@ Set-OnlineTips -GPO 'Disabled'
 # --- Shortcut name suffix (e.g. "File - Shortcut") (default: Enabled)
 Set-ShortcutNameSuffix -State 'Disabled'
 
-# --- Start Menu recommended section | soon old
+# --- Start Menu - All Apps View Mode (default: Category)
+# Category | Grid | List
+Set-StartMenuAllAppsViewMode -Value 'Category'
+
+# --- Start Menu - Recommended section
 # Enterprise and Education only.
 Set-StartMenuRecommendedSection -GPO 'NotConfigured'
 
