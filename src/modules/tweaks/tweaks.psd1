@@ -39,6 +39,7 @@
         'Set-ServiceHostSplitting'
         'Set-Short8Dot3FileName'
         'Set-ShortcutNameSuffix'
+        'Set-StartMenuAllAppsViewMode'
         'Set-StartMenuRecommendedSection'
         'Set-StartupShutdownVerboseStatusMessages'
         'Set-SuggestedContent'

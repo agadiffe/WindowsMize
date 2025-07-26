@@ -1,8 +1,9 @@
 #=================================================================================================================
-#                                         Start Menu Recommended Section
+#                                        Start Menu - Recommended Section
 #=================================================================================================================
 
-# Only applies to Enterprise and Education SKUs
+# Only applies to Enterprise and Education SKUs.
+# With the new Start Menu, the Recommended section can be disabled in the settings.
 
 <#
 .SYNTAX
@@ -43,7 +44,7 @@ function Set-StartMenuRecommendedSection
             )
         }
 
-        Write-Verbose -Message "Setting 'Set-StartMenuRecommendedSection (GPO)' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'Start Menu - Recommended Section (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $StartMenuRecommendedSectionGpo
     }
 }
