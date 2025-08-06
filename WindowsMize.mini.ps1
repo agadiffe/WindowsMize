@@ -445,6 +445,7 @@ $PreinstalledAppsToRemove = @(
     'Cortana'
     'CrossDevice'
     'DevHome'
+    'EdgeGameAssist'
     #'Extensions'
     'Family'
     'FeedbackHub'
