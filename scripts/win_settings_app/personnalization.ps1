@@ -284,7 +284,10 @@ Set-TaskbarSetting -GroupAndHideLabelsMainTaskbar 'Always' -GroupAndHideLabelsGP
 # State: Always | WhenTaskbarIsFull | Never
 Set-TaskbarSetting -GroupAndHideLabelsOtherTaskbars 'Always'
 
-# --- Show hover cards for inactive and pinned taskbar apps (default: Enabled)
+# --- Show smaller taskbar buttons (default: WhenFull)
+Set-TaskbarSetting -ShowSmallerButtons 'WhenFull'
+
+# --- Show jump list when hovering on inactive taskbar apps (default: Enabled)
 Set-TaskbarSetting -ShowJumplistOnHover 'Disabled'
 
 #endregion taskbar

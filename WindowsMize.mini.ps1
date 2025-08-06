@@ -151,16 +151,16 @@ Set-WinPermissionsSetting @PrivacyWinPermTelemetry
 
 # --- General
 $PrivacyAppPermGeneral = @{
-    Location        = 'Disabled' ; LocationGPO        = 'NotConfigured'
+    Location               = 'Disabled' ; LocationGPO               = 'NotConfigured'
       LocationAllowOverride    = 'Disabled'
       LocationAppsRequestNotif = 'Disabled'
-    Camera          = 'Disabled' ; CameraGPO          = 'NotConfigured'
-    Microphone      = 'Disabled' ; MicrophoneGPO      = 'NotConfigured'
-    VoiceActivation = 'Disabled' ; VoiceActivationGPO = 'NotConfigured'
-    Notifications   = 'Disabled' ; NotificationsGPO   = 'NotConfigured'
+    Camera                 = 'Disabled' ; CameraGPO                 = 'NotConfigured'
+    Microphone             = 'Disabled' ; MicrophoneGPO             = 'NotConfigured'
+    VoiceActivation        = 'Disabled' ; VoiceActivationGPO        = 'NotConfigured'
+    Notifications          = 'Disabled' ; NotificationsGPO          = 'NotConfigured'
 
-    GenerativeAI    = 'Disabled' ; GenerativeAIGPO    = 'NotConfigured'
-    BackgroundApps  = 'Disabled' ; BackgroundAppsGPO  = 'NotConfigured'
+    TextAndImageGeneration = 'Disabled' ; TextAndImageGenerationGPO = 'NotConfigured'
+    BackgroundApps         = 'Disabled' ; BackgroundAppsGPO         = 'NotConfigured'
 }
 Set-AppPermissionsSetting @PrivacyAppPermGeneral
 
@@ -765,7 +765,7 @@ Set-NotificationsSetting -AppsAndOtherSenders $SendersNotifs -State 'Disabled'
 $NotificationsAdsSettings = @{
     ShowWelcomeExperience     = 'Disabled' ; ShowWelcomeExperienceGPO = 'NotConfigured'
     SuggestWaysToFinishConfig = 'Disabled'
-    TipsAndSuggestions        = 'Disabled' ; TipsAndSuggestionsGPO = 'NotConfigured'
+    TipsAndSuggestions        = 'Disabled' ; TipsAndSuggestionsGPO    = 'NotConfigured'
 }
 Set-NotificationsSetting @NotificationsAdsSettings
 
@@ -818,7 +818,7 @@ Set-RemoteDesktopSetting -RemoteDesktop 'Disabled' -RemoteDesktopGPO 'NotConfigu
 
 # --- Clipboard
 $ClipboardSettings = @{
-    History           = 'Disabled' ; HistoryGPO = 'NotConfigured'
+    History           = 'Disabled' ; HistoryGPO           = 'NotConfigured'
     SyncAcrossDevices = 'Disabled' ; SyncAcrossDevicesGPO = 'NotConfigured'
 }
 Set-ClipboardSetting @ClipboardSettings
