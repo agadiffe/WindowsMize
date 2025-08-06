@@ -216,6 +216,9 @@ Set-MicrosoftStoreSetting -AppInstallNotifications 'Enabled'
 # --- Video autoplay (default: Enabled)
 Set-MicrosoftStoreSetting -VideoAutoplay 'Disabled'
 
+# --- Personalized experiences (default: Enabled)
+Set-MicrosoftStoreSetting -PersonalizedExperiences 'Disabled'
+
 #endregion ms store
 
 #==============================================================================

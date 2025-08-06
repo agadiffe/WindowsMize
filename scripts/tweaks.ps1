@@ -220,6 +220,9 @@ Set-HomeSettingPageVisibility -GPO 'Disabled'
 # --- 'Open With' dialog : Look for an app in the Store
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
 
+# --- Taskbar : Last Active Click (default: Disabled)
+Set-TaskbarLastActiveClick -State 'Disabled'
+
 # --- Windows help and support : F1Key (default: Enabled)
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 

@@ -7,7 +7,7 @@ Automate and customize the configuration of Windows.
 Debloat, minimize telemetry, apps installation, general settings, and more.
 </div>
 
-### 🐢 Quick download cmd
+## 🐢 Quick download cmd
 ```powershell
 irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
 ```
@@ -20,10 +20,9 @@ irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize
 
 
 ## 📝 Characteristics
-- Works on both Administrator and Standard account.
-- Each tweak/setting has its own function.
-- Designed for Windows 11 (most tweaks/settings also work on Windows 10).
 - Fully non-interactive script: make sure to review everything before running it.
+- Designed for Windows 11 (most tweaks/settings also work on Windows 10).
+- Works on both Administrator and Standard account.
 
 
 ## 💫 Features
@@ -94,8 +93,8 @@ See 'Windows Settings App > Privacy & security > Windows permissions'.
   <summary>Windows features and settings (click to expand).</summary>
 
   MoveCharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
-  FontProviders, HomeSettingPageVisibility, OpenWithDialogStoreAccess, WindowsHelpSupport (F1Key, Feedback),  
-  WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  FontProviders, HomeSettingPageVisibility, OpenWithDialogStoreAccess, TaskbarLastActiveClick,  
+  WindowsHelpSupport (F1Key, Feedback), WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 </details>
 
 </details>

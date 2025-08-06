@@ -43,6 +43,7 @@
         'Set-StartMenuRecommendedSection'
         'Set-StartupShutdownVerboseStatusMessages'
         'Set-SuggestedContent'
+        'Set-TaskbarLastActiveClick'
         'Set-WifiSense'
         'Set-WindowsExperimentation'
         'Set-WindowsHelpSupportSetting'

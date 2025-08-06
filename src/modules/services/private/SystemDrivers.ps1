@@ -12,9 +12,7 @@
 #>
 
 <#
-  UserChoiceProtectionDriver
-
-  To list currently registered (loaded) filters:
+  To list the currently registered (loaded) filters:
     fltMC.exe filters
 
   To list all filters:

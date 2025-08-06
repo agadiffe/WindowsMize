@@ -272,6 +272,7 @@ Set-FileHistory -GPO 'NotConfigured'
 Set-FontProviders -GPO 'Disabled'
 Set-HomeSettingPageVisibility -GPO 'Disabled'
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
+Set-TaskbarLastActiveClick -State 'Disabled'
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
 Set-WindowsMediaDrmOnlineAccess -GPO 'Disabled'
@@ -409,7 +410,6 @@ $AppsToInstall = @(
     'Brave'
     #'Firefox'
     #'MullvadBrowser'
-    #'DirectXEndUserRuntime'
     #'VCRedist2015+.ARM'
     'VCRedist2015+'
     #'VCRedist2013'
@@ -566,6 +566,7 @@ $MsStoreSettings = @{
     AutoAppsUpdates         = 'Enabled'
     AppInstallNotifications = 'Enabled'
     VideoAutoplay           = 'Disabled'
+    PersonalizedExperiences = 'Disabled'
 }
 Set-MicrosoftStoreSetting @MsStoreSettings
 

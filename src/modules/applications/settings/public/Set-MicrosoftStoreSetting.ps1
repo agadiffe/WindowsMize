@@ -8,6 +8,7 @@
         [-AutoAppsUpdates {Disabled | Enabled}]
         [-AppInstallNotifications {Disabled | Enabled}]
         [-VideoAutoplay {Disabled | Enabled}]
+        [-PersonalizedExperiences {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -23,7 +24,8 @@ function Set-MicrosoftStoreSetting
     (
         [state] $AutoAppsUpdates,
         [state] $AppInstallNotifications,
-        [state] $VideoAutoplay
+        [state] $VideoAutoplay,
+        [state] $PersonalizedExperiences
     )
 
     process
@@ -67,6 +69,17 @@ function Set-MicrosoftStoreSetting
                     Type  = '5f5e10b'
                 }
                 $MicrosoftStoreSettings.Add([PSCustomObject]$VideoAutoplayReg) | Out-Null
+            }
+            'PersonalizedExperiences'
+            {
+                # on: 1 (default) | off: 0
+                $PersonalizedExperiencesReg = @{
+                    Path  = 'LocalState\PersistentSettings'
+                    Name  = 'PersonalizationEnabled'
+                    Value = $PersonalizedExperiences -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $MicrosoftStoreSettings.Add([PSCustomObject]$PersonalizedExperiencesReg) | Out-Null
             }
         }
 
