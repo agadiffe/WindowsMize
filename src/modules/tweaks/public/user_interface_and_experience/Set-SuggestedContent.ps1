@@ -38,6 +38,11 @@ function Set-SuggestedContent
                     Type  = 'DWord'
                 }
                 @{
+                    Name  = 'FeatureManagementEnabled'
+                    Value = $Value
+                    Type  = 'DWord'
+                }
+                @{
                     Name  = 'OemPreInstalledAppsEnabled'
                     Value = $Value
                     Type  = 'DWord'
@@ -53,12 +58,22 @@ function Set-SuggestedContent
                     Type  = 'DWord'
                 }
                 @{
+                    Name  = 'SubscribedContentEnabled'
+                    Value = $Value
+                    Type  = 'DWord'
+                }
+                @{
                     Name  = 'SilentInstalledAppsEnabled'
                     Value = $Value
                     Type  = 'DWord'
                 }
                 @{
                     Name  = 'SubscribedContent-338388Enabled' # Win10
+                    Value = $Value
+                    Type  = 'DWord'
+                }
+                @{
+                    Name  = 'SubscribedContent-353698Enabled' # Win10
                     Value = $Value
                     Type  = 'DWord'
                 }
