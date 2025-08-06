@@ -32,10 +32,6 @@ $AppsList = [ordered]@{
     Firefox        = 'Mozilla.Firefox'
     MullvadBrowser = 'MullvadVPN.MullvadBrowser'
 
-
-    # Microsoft DirectX (might be needed for older games)
-    DirectXEndUserRuntime  = 'Microsoft.DirectX'
-
     # Microsoft Visual C++ Redistributable
     'VCRedist2015+.ARM' =
         'Microsoft.VCRedist.2015+.arm64'
@@ -64,4 +60,14 @@ $AppsList = [ordered]@{
         'Microsoft.VCRedist.2005.x64'
         'Microsoft.VCRedist.2005.x86'
     )
+
+    # Microsoft DirectX End-User Runtime (required for older games)
+    DirectXEndUserRuntime = 'Microsoft.DirectX'
+
+    # Microsoft .NET Windows Desktop Runtime
+    DotNetDesktopRuntime5 = 'Microsoft.DotNet.DesktopRuntime.5'
+    DotNetDesktopRuntime6 = 'Microsoft.DotNet.DesktopRuntime.6'
+    DotNetDesktopRuntime7 = 'Microsoft.DotNet.DesktopRuntime.7'
+    DotNetDesktopRuntime8 = 'Microsoft.DotNet.DesktopRuntime.8'
+    DotNetDesktopRuntime9 = 'Microsoft.DotNet.DesktopRuntime.9'
 }

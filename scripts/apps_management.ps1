@@ -73,9 +73,6 @@ $AppsToInstall = @(
     #'Firefox'
     #'MullvadBrowser'
 
-    # --- Microsoft DirectX (might be needed for older games)
-    #'DirectXEndUserRuntime'
-
     # --- Microsoft Visual C++ Redistributable
     #'VCRedist2015+.ARM'
     'VCRedist2015+'
@@ -84,6 +81,16 @@ $AppsToInstall = @(
     #'VCRedist2010'
     #'VCRedist2008'
     #'VCRedist2005'
+
+    # --- Microsoft DirectX (might be needed for older games)
+    #'DirectXEndUserRuntime'
+
+    # --- Microsoft .NET Windows Desktop Runtime
+    #'DotNetDesktopRuntime5'
+    #'DotNetDesktopRuntime6'
+    #'DotNetDesktopRuntime7'
+    #'DotNetDesktopRuntime8'
+    #'DotNetDesktopRuntime9'
 )
 $AppsToInstall | Install-Application
 

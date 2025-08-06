@@ -417,6 +417,12 @@ $AppsToInstall = @(
     #'VCRedist2010'
     #'VCRedist2008'
     #'VCRedist2005'
+    #'DirectXEndUserRuntime'
+    #'DotNetDesktopRuntime5'
+    #'DotNetDesktopRuntime6'
+    #'DotNetDesktopRuntime7'
+    #'DotNetDesktopRuntime8'
+    #'DotNetDesktopRuntime9'
 )
 $AppsToInstall | Install-Application
 Remove-AllDesktopShortcuts

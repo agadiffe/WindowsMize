@@ -16,7 +16,8 @@ class AppsList : System.Management.Automation.IValidateSetValuesGenerator
         [-Name] {Git | VSCode | VLC | Bitwarden | KeePassXC | ProtonPass | AcrobatReader | SumatraPDF | 7zip |
                  Notepad++ | qBittorrent | Brave | Firefox | MullvadBrowser | DirectXEndUserRuntime |
                  VCRedist2015+.ARM | VCRedist2015+ | VCRedist2013 | VCRedist2012 | VCRedist2010 | VCRedist2008 |
-                 VCRedist2005}
+                 VCRedist2005 | DotNetDesktopRuntime5 | DotNetDesktopRuntime6 | DotNetDesktopRuntime7 |
+                 DotNetDesktopRuntime8 | DotNetDesktopRuntime9}
         [<CommonParameters>]
 #>
 
@@ -46,6 +47,11 @@ function Install-Application
         # Manifest doesn't have 'User' or 'Machine' scope.
         $NoScope = @(
             'DirectXEndUserRuntime'
+            'DotNetDesktopRuntime5'
+            'DotNetDesktopRuntime6'
+            'DotNetDesktopRuntime7'
+            'DotNetDesktopRuntime8'
+            'DotNetDesktopRuntime9'
         )
     }
 
