@@ -350,6 +350,12 @@ function New-BraveBrowserConfigData
         "enable_do_not_track": false
     }' | ConvertFrom-Json -AsHashtable)
 
+    Merge-Hashtable $BraveLocalState ('{
+        "brave": {
+            "windows_recall_disabled": true
+        }
+    }' | ConvertFrom-Json -AsHashtable)
+
     ### Clear Browsing data
     #---------------
     Merge-Hashtable $BravePreferences ('{
@@ -540,9 +546,6 @@ function New-BraveBrowserConfigData
         },
         "media_router": {
             "enable_media_router": false
-        },
-        "brave": {
-            "webtorrent_enabled": false
         }
     }' | ConvertFrom-Json -AsHashtable)
 
@@ -556,19 +559,36 @@ function New-BraveBrowserConfigData
     ## Autofill and passwords
     #------------------------------------
     Merge-Hashtable $BravePreferences ('{
+        "brave": {
+            "autofill_private_windows": false
+        }
+    }' | ConvertFrom-Json -AsHashtable)
+
+    ### Password Manager
+    #---------------
+    Merge-Hashtable $BravePreferences ('{
+        "credentials_enable_autosignin": false,
+        "credentials_enable_service": false // offer to save passwords and passkeys
+    }' | ConvertFrom-Json -AsHashtable)
+
+    ### Payment methods
+    #---------------
+    Merge-Hashtable $BravePreferences ('{
         "autofill": {
             "credit_card_enabled": false, // save and fill payment methods
-            "payment_methods_mandatory_reauth": false, // manually verify every time you pay
-            "payment_cvc_storage": true, // save security codes
-            "profile_enabled": false // save and fill addresses
+            "payment_methods_mandatory_reauth": false, // verify it is you (always use fingerprint, face, or other screen lock)
+            "payment_cvc_storage": true // save security codes
         },
-        "credentials_enable_autosignin": false, // sign in automatically
-        "credentials_enable_service": false, // offer to save passwords and passkeys
         "payments": {
             "can_make_payment_enabled": false // allow sites to check if you have payment methods saved
-        },
-        "brave": {
-            "autofill_private_windows": false // allow auto-fill in private windows
+        }
+    }' | ConvertFrom-Json -AsHashtable)
+
+    ### Addresses and more
+    #---------------
+    Merge-Hashtable $BravePreferences ('{
+        "autofill": {
+            "profile_enabled": false // save and fill addresses
         }
     }' | ConvertFrom-Json -AsHashtable)
 
