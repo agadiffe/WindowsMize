@@ -7,11 +7,6 @@ Automate and customize the configuration of Windows.
 Debloat, minimize telemetry, apps installation, general settings, and more.
 </div>
 
-## 🐢 Quick download cmd
-```powershell
-irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
-```
-
 
 ## 🎯 Purpose
 1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](tools/New-WindowsAnswerFile.ps1)) + updates
@@ -32,7 +27,7 @@ There are almost every settings, organized like the graphical counterpart.
 
 ### 📁 File Explorer
 Every settings + few extra.  
-extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection,  
+Extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection,  
 MaxIconCacheSize, RecycleBin, ConfirmFileDelete.
 
 ### ⌛ System Properties
@@ -47,7 +42,7 @@ Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectiv
 <details>
   <summary>Improve security by disabling various network protocols (click to expand).</summary>
 
-- Firewall : block some ports/programs shown as listening (locally) in Netstat or TCP View.
+- Firewall: block some ports/programs shown as listening (locally) in Netstat or TCP View.
 - IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP).
 - Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit)).
 - Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, Smhnr, Wpad).
@@ -101,23 +96,23 @@ See 'Windows Settings App > Privacy & security > Windows permissions'.
 
 ### 💿 Applications
 <details>
-  <summary>Removal | Install | Config (click to expand)</summary>
+  <summary>Removal | Installation | Configuration (click to expand)</summary>
 
-- Remove default unwanted apps (bloatware).  
+- Uninstall unwanted default apps (bloatware).  
   e.g. Microsoft Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, ClipChamp, etc...
 
-- Install applications with Winget.
+- Install applications via Winget.
 
   <details>
-    <summary>There are some predefined apps with a friendly name (click to expand).</summary>
+    <summary>Predefined apps with short names (aliases for Winget package names) (click to expand).</summary>
 
   Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent,  
-  Brave, Firefox, MullvadBrowser, DirectXEndUserRuntime, Visual C++ Redistributable.
+  Brave, Firefox, MullvadBrowser, VCRedist, DirectXEndUserRuntime, DotNetDesktopRuntime.
   </details>
 
   You can also install any apps with their Winget app name (e.g. 'Valve.Steam').
 
-- Configure applications settings (including UWP apps).
+- Configure application settings.
 
   Apps: Acrobat Reader, Brave Browser, Git, KeePassXC, MS Office, qBittorrent, VLC, VSCode.  
   UWP apps: Microsoft Store, Notepad, Photos, Snipping Tool, Terminal.
@@ -206,10 +201,11 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
 ## 📍 Remarks
 Read some comments in the source code files about why you should disable some features.
 
- - src > modules > network > private > NetFirewallRules.ps1
- - src > modules > network > public
- - src > modules > telemetry > public
- - src > modules > tweaks > public
+ - src > modules > 
+    - network > private > NetFirewallRules.ps1
+    - network > public
+    - telemetry > public
+    - tweaks > public
 
 
 ## 💙 Support
