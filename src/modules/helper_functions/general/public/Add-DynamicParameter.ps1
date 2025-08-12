@@ -7,6 +7,7 @@ class AttributesDynParam
     [hashtable] $Parameter
     [string[]] $ValidateSet
     [object[]] $ValidateRange
+    [bool] $ValidateNotNullOrWhiteSpace
 }
 
 <#
@@ -35,6 +36,7 @@ function Add-DynamicParameter
                     Parameter     = @{ Mandatory = $true }
                     ValidateSet   = 'Value1', 'Value2'
                     ValidateRange = 1, 100
+                    ValidateNotNullOrWhiteSpace = $true
                 }
             }
         PS> Add-DynamicParameter @DynamicParamProperties
@@ -44,49 +46,59 @@ function Add-DynamicParameter
     [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [System.Management.Automation.RuntimeDefinedParameterDictionary] $Dictionary,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [string] $Name,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [type] $Type,
 
+        [Parameter(ValueFromPipelineByPropertyName)]
         [AttributesDynParam] $Attribute
-
     )
 
-    $AttributeCollection = [System.Collections.ObjectModel.Collection[System.Attribute]]::new()
-
-    if (-not $Attribute.Parameter.Count)
+    process
     {
-        $ParamAttribute = [System.Management.Automation.ParameterAttribute]::new()
-        $ParamAttribute.ParameterSetName = "__AllParameterSets"
-    }
-    else
-    {
-        $ParamAttribute = [System.Management.Automation.ParameterAttribute]$Attribute.Parameter
-    }
+        $AttributeCollection = [System.Collections.ObjectModel.Collection[System.Attribute]]::new()
 
-    $AttributeCollection.Add($ParamAttribute)
-
-    if ($Attribute.ValidateSet)
-    {
-        $ValidateSetAttribute = [System.Management.Automation.ValidateSetAttribute]::new($Attribute.ValidateSet)
-        $AttributeCollection.Add($ValidateSetAttribute)
-    }
-
-    if ($Attribute.ValidateRange)
-    {
-        $ValidateRangeAttributeProperties = @{
-            TypeName     = 'System.Management.Automation.ValidateRangeAttribute'
-            ArgumentList = $Attribute.ValidateRange
+        # Parameter attribube (e.g. [Parameter(Mandatory, ValueFromPipeline)])
+        if (-not $Attribute.Parameter.Count)
+        {
+            $ParamAttribute = [System.Management.Automation.ParameterAttribute]::new()
+            $ParamAttribute.ParameterSetName = "__AllParameterSets"
         }
-        $ValidateRangeAttribute = New-Object @ValidateRangeAttributeProperties
-        $AttributeCollection.Add($ValidateRangeAttribute)
-    }
+        else
+        {
+            $ParamAttribute = [System.Management.Automation.ParameterAttribute]$Attribute.Parameter
+        }
+        $AttributeCollection.Add($ParamAttribute)
 
-    $DynamicParam = [System.Management.Automation.RuntimeDefinedParameter]::new($Name, $Type, $AttributeCollection)
-    $Dictionary.Add($Name, $DynamicParam)
+        switch ($true)
+        {
+            { $Attribute.ValidateSet } # e.g. [ValidateSet("Low", "Average", "High")]
+            {
+                $ValidateSetAttribute = [System.Management.Automation.ValidateSetAttribute]::new($Attribute.ValidateSet)
+                $AttributeCollection.Add($ValidateSetAttribute)
+            }
+            { $Attribute.ValidateRange } # e.g. [ValidateRange(0, 10)]
+            {
+                $ValidateRangeAttributeProperties = @{
+                    TypeName     = 'System.Management.Automation.ValidateRangeAttribute'
+                    ArgumentList = $Attribute.ValidateRange
+                }
+                $ValidateRangeAttribute = New-Object @ValidateRangeAttributeProperties
+                $AttributeCollection.Add($ValidateRangeAttribute)
+            }
+            { $Attribute.ValidateNotNullOrWhiteSpace } # e.g. [ValidateNotNullOrWhiteSpace()]
+            {
+                $ValidateNotNullOrWhiteSpaceAttribute = [System.Management.Automation.ValidateNotNullOrWhiteSpaceAttribute]::new()
+                $AttributeCollection.Add($ValidateNotNullOrWhiteSpaceAttribute)
+            }
+        }
+
+        $DynamicParam = [System.Management.Automation.RuntimeDefinedParameter]::new($Name, $Type, $AttributeCollection)
+        $Dictionary.Add($Name, $DynamicParam)
+    }
 }
