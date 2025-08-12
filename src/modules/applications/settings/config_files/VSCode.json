@@ -19,9 +19,9 @@
     // features
     "extensions.ignoreRecommendations": true,
     "terminal.integrated.useWslProfiles": false,
-    "chat.commandCenter.enabled": false,
 
     // applications
+    "telemetry.feedback.enabled": false,
     "telemetry.telemetryLevel": "off",
     "update.mode": "start",
     "update.showReleaseNotes": false,
@@ -34,8 +34,7 @@
     "powershell.developer.editorServicesLogLevel": "None",
     "powershell.promptToUpdatePowerShell": false,
     "typescript.disableAutomaticTypeAcquisition": true,
-    "typescript.surveys.enabled": false,
 
-    // others (not preconfigured)
+    // others (not preconfigured or manually edited)
     "": ""
 }
