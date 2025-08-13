@@ -821,6 +821,7 @@ Set-SnapWindowsSetting @SnapWindowsSettingSettings
 # --- Miscellaneous
 Set-ForDevelopersSetting -EndTask 'Disabled'
 Set-TroubleshooterPreference -Value 'Disabled'
+Set-QuickMachineRecovery -State 'Disabled'
 Set-ProjectingToThisPC -GPO 'Disabled'
 Set-RemoteDesktopSetting -RemoteDesktop 'Disabled' -RemoteDesktopGPO 'NotConfigured'
 

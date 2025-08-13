@@ -339,6 +339,29 @@ Set-TroubleshooterPreference -Value 'Disabled'
 #endregion troubleshoot
 
 #==========================================================
+#                         Recovery
+#==========================================================
+#region recovery
+
+Write-Section -Name 'Recovery' -SubSection
+
+#        Quick Machine Recovery
+#=======================================
+
+# --- Quick Machine Recovery (default: Enabled on Home | Disabled on Pro/Enterprise)
+# Disabled: Also disable AutoRemediation.
+Set-QuickMachineRecovery -State 'Disabled'
+
+# --- Continue searching if a solution isn't found (default: Disabled)
+#   Look for solutions every (RetryInterval)
+#   Restart every (RestartInterval)
+# RetryInterval: 10min | 30min (default) | 1hour | 2hours | 3hours | 6hours | 12hours
+# RestartInterval: 12hours | 24hours | 36hours | 48hours | 60hours | 72hours (default)
+#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval '30min' -RestartInterval '72hours'
+
+#endregion recovery
+
+#==========================================================
 #                  Projecting to this PC
 #==========================================================
 #region projecting to this PC

@@ -23,6 +23,7 @@
         'Set-NotificationsSetting'
         'Set-PowerSetting'
         'Set-ProjectingToThisPC'
+        'Set-QuickMachineRecovery'
         'Set-RemoteDesktopSetting'
         'Set-SnapWindowsSetting'
         'Set-SoundSetting'
