@@ -5,217 +5,197 @@
 $ScheduledTasksList += @{
     Miscellaneous = @(
         @{
-            SkipTask = $true
-            TaskPath = '\Microsoft\Windows\Chkdsk\'
+            TaskPath = '\Microsoft\Windows\.NET Framework\'
             Task     = @{
-                ProactiveScan = 'Disabled'
+                '.NET Framework NGEN v4.0.30319'             = 'Disabled' # default: Enabled
+                '.NET Framework NGEN v4.0.30319 64'          = 'Disabled' # default: Enabled
+                '.NET Framework NGEN v4.0.30319 64 Critical' = 'Disabled' # default: Disabled
+                '.NET Framework NGEN v4.0.30319 Critical'    = 'Disabled' # default: Disabled
             }
-            Comment  = 'should be disabled ?'
+            Comment  = 'The two Critical tasks are enabled when computer is idle.'
         }
         @{
-            SkipTask = $true
-            TaskPath = '\Microsoft\Windows\Data Integrity Scan\'
+            TaskPath = '\Microsoft\Windows\ApplicationData\'
             Task     = @{
-                'Data Integrity Check And Scan'          = 'Disabled'
-                'Data Integrity Scan'                    = 'Disabled'
-                'Data Integrity Scan for Crash Recovery' = 'Disabled'
+                appuriverifierdaily = 'Disabled' # default: Enabled
+                DsSvcCleanup        = 'Disabled' # default: Enabled
             }
-            Comment  = 'ReFS related.'
+            Comment  = 'DsSvcCleanup : maintenance for the Data Sharing Service.'
         }
         @{
-            TaskPath = '\Microsoft\Windows\Diagnosis\'
+            TaskPath = '\Microsoft\Windows\DiskCleanup\'
             Task     = @{
-                RecommendedTroubleshootingScanner = 'Disabled'
-                Scheduled                         = 'Disabled'
-                UnexpectedCodepath                = 'Disabled'
+                SilentCleanup = 'Disabled' # default: Enabled
             }
+            Comment  = 'auto disk cleanup when running low on free disk space.'
         }
         @{
-            TaskPath = '\Microsoft\Windows\Input\'
+            TaskPath = '\Microsoft\Windows\EnterpriseMgmt\'
             Task     = @{
-                InputSettingsRestoreDataAvailable = 'Disabled'
-                LocalUserSyncDataAvailable        = 'Disabled'
-                MouseSyncDataAvailable            = 'Disabled'
-                PenSyncDataAvailable              = 'Disabled'
-                syncpensettings                   = 'Disabled'
-                TouchpadSyncDataAvailable         = 'Disabled'
+                MDMMaintenenceTask = 'Disabled' # default: Enabled
+            }
+            Comment  = 'mobile device management.'
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\input\'
+            Task     = @{
+                InputSettingsRestoreDataAvailable = 'Disabled' # default: Enabled
+                LocalUserSyncDataAvailable        = 'Disabled' # default: Enabled
+                MouseSyncDataAvailable            = 'Disabled' # default: Enabled
+                PenSyncDataAvailable              = 'Disabled' # default: Enabled
+                RemoteMouseSyncDataAvailable      = 'Disabled' # default: Enabled
+                RemotePenSyncDataAvailable        = 'Disabled' # default: Enabled
+                RemoteTouchpadSyncDataAvailable   = 'Disabled' # default: Enabled
+                syncpensettings                   = 'Disabled' # default: Enabled
+                TouchpadSyncDataAvailable         = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\International\'
             Task     = @{
-                'Synchronize Language Settings' = 'Disabled'
+                'Synchronize Language Settings' = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\LanguageComponentsInstaller\'
             Task     = @{
-                Installation               = 'Disabled'
-                ReconcileLanguageResources = 'Disabled'
-                Uninstallation             = 'Disabled'
+                Installation               = 'Disabled' # default: Enabled
+                ReconcileLanguageResources = 'Disabled' # default: Enabled
+                Uninstallation             = 'Disabled' # default: Disabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\License Manager\'
             Task     = @{
-                TempSignedLicenseExchange = 'Disabled'
+                TempSignedLicenseExchange = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Management\Provisioning\'
             Task     = @{
-                Cellular = 'Disabled'
-                Logon    = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Windows Media Sharing\'
-            Task     = @{
-                UpdateLibrary = 'Disabled'
+                Cellular = 'Disabled' # default: Enabled
+                Logon    = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\MUI\'
             Task     = @{
-                LPRemove = 'Disabled'
+                LPRemove = 'Disabled' # default: Enabled
             }
             Comment  = 'cleanup unused language packs.'
         }
         @{
             TaskPath = '\Microsoft\Windows\NlaSvc\'
             Task     = @{
-                WiFiTask = 'Disabled'
+                WiFiTask = 'Disabled' # default: Enabled
+            }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\PerformanceTrace\'
+            Task     = @{
+                RequestTrace = 'Disabled' # default: Enabled
+            }
+            Comment  = 'take a Shell performance trace (Win+Shift+Control+T).'
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\Printing\'
+            Task     = @{
+                EduPrintProv        = 'Disabled' # default: Enabled
+                PrinterCleanupTask  = 'Disabled' # default: Enabled
+                PrintJobCleanupTask = 'Disabled' # default: Disabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Ras\'
             Task     = @{
-                MobilityManager = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\RecoveryEnvironment\'
-            Task     = @{
-                VerifyWinRE = 'Disabled'
-            }
-        }
-        @{
-            SkipTask = $true
-            TaskPath = '\Microsoft\Windows\ReFsDedupSvc\'
-            Task     = @{
-                Initialization = 'Disabled'
+                MobilityManager = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Registry\'
             Task     = @{
-                RegIdleBackup = 'Disabled'
+                RegIdleBackup = 'Disabled' # default: Enabled
             }
         }
         @{
             SkipTask = $true
             TaskPath = '\Microsoft\Windows\Servicing\'
             Task     = @{
-                StartComponentCleanup = 'Disabled'
+                StartComponentCleanup = 'Disabled' # default: Enabled
             }
             Comment  = 'clean Up the WinSxS Folder.'
         }
         @{
             TaskPath = '\Microsoft\Windows\SpacePort\'
             Task     = @{
-                SpaceAgentTask   = 'Disabled'
-                SpaceManagerTask = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Speech\'
-            Task     = @{
-                SpeechModelDownloadTask = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Storage Tiers Management\'
-            Task     = @{
-                'Storage Tiers Management Initialization' = 'Disabled'
-                'Storage Tiers Optimization'              = 'Disabled'
+                SpaceAgentTask   = 'Disabled' # default: Enabled
+                SpaceManagerTask = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Subscription\'
             Task     = @{
-                EnableLicenseAcquisition = 'Disabled'
-                LicenseAcquisition       = 'Disabled'
+                EnableLicenseAcquisition = 'Disabled' # default: Enabled
+                LicenseAcquisition       = 'Disabled' # default: Disabled
             }
             Comment  = 'activation on Azure AD joined devices.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Task Manager\'
             Task     = @{
-                Interactive = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\TextServicesFramework\'
-            Task     = @{
-                MsCtfMonitor = 'Disabled'
+                Interactive = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\UPnP\'
             Task     = @{
-                UPnPHostConfig = 'Disabled'
+                UPnPHostConfig = 'Disabled' # default: Enabled
             }
+            Comment  = 'Set UPnPHost service to Auto-Start.'
         }
         @{
             TaskPath = '\Microsoft\Windows\User Profile Service\'
             Task     = @{
-                HiveUploadTask = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\WDI\'
-            Task     = @{
-                ResolutionHost = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Windows Filtering Platform\'
-            Task     = @{
-                BfeOnServiceStartTypeChange = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\WOF\'
-            Task     = @{
-                'WIM-Hash-Management' = 'Disabled'
-                'WIM-Hash-Validation' = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\WwanSvc\'
-            Task     = @{
-                NotificationTask = 'Disabled'
-                OobeDiscovery    = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Printing\'
-            Task     = @{
-                EduPrintProv        = 'Disabled'
-                PrinterCleanupTask  = 'Disabled'
-                PrintJobCleanupTask = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\WlanSvc\'
-            Task     = @{
-                CDSSync = 'Disabled'
+                HiveUploadTask = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\WCM\'
             Task     = @{
-                WiFiTask = 'Disabled'
+                WiFiTask = 'Disabled' # default: Enabled
+            }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\WDI\'
+            Task     = @{
+                ResolutionHost = 'Disabled' # default: Enabled
+            }
+            Comment  = 'used by the Diagnostic Policy Service.'
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\Windows Media Sharing\'
+            Task     = @{
+                UpdateLibrary = 'Disabled' # default: Enabled
+            }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\WlanSvc\'
+            Task     = @{
+                CDSSync = 'Disabled' # default: Enabled
+            }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\WOF\'
+            Task     = @{
+                'WIM-Hash-Management' = 'Disabled' # default: Enabled
+                'WIM-Hash-Validation' = 'Disabled' # default: Enabled
+            }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\WwanSvc\'
+            Task     = @{
+                NotificationTask = 'Disabled' # default: Enabled
+                OobeDiscovery    = 'Disabled' # default: Enabled
             }
         }
     )

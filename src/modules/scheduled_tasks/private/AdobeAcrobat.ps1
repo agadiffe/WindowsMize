@@ -10,7 +10,7 @@ $ScheduledTasksList += @{
         @{
             TaskPath = '\'
             Task     = @{
-                'Adobe Acrobat Update Task' = 'Disabled'
+                'Adobe Acrobat Update Task' = 'Disabled' # default: Enabled
             }
         }
     )

@@ -688,12 +688,12 @@ Export-DefaultScheduledTasksState
 
 $TasksToConfig = @(
     #'AdobeAcrobat'
+    'Diagnostic'
     'Features'
     'MicrosoftEdge' # do not disable if you didn't uninstalled Edge.
     #'MicrosoftOffice'
     'Miscellaneous'
     'Telemetry'
-    'TelemetryDiagnostic'
     'UserChoiceProtectionDriver'
 )
 $TasksToConfig | Set-ScheduledTaskStateGroup

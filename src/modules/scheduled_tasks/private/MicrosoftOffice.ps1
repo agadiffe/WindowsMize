@@ -9,14 +9,14 @@ $ScheduledTasksList += @{
         @{
             TaskPath = '\Microsoft\Office\'
             Task     = @{
-                'Office Actions Server'             = 'Disabled'
-                'Office Automatic Updates 2.0'      = 'Disabled'
-                'Office ClickToRun Service Monitor' = 'Disabled'
-                'Office Feature Updates'            = 'Disabled'
-                'Office Feature Updates Logon'      = 'Disabled'
-                'Office Performance Monitor'        = 'Disabled'
-                'Office Startup Boost'              = 'Disabled'
-                'Office Startup Boost Logon'        = 'Disabled'
+                'Office Actions Server'             = 'Disabled' # default: Enabled
+                'Office Automatic Updates 2.0'      = 'Disabled' # default: Enabled
+                'Office ClickToRun Service Monitor' = 'Disabled' # default: Enabled
+                'Office Feature Updates'            = 'Disabled' # default: Enabled
+                'Office Feature Updates Logon'      = 'Disabled' # default: Enabled
+                'Office Performance Monitor'        = 'Disabled' # default: Enabled
+                'Office Startup Boost'              = 'Disabled' # default: Enabled
+                'Office Startup Boost Logon'        = 'Disabled' # default: Enabled
             }
         }
     )

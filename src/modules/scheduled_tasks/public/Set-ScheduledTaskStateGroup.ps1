@@ -13,8 +13,8 @@ class ScheduledTasksGroupName : System.Management.Automation.IValidateSetValuesG
 <#
 .SYNTAX
     Set-ScheduledTaskStateGroup
-        [-Name] {AdobeAcrobat | Features | MicrosoftEdge | MicrosoftOffice | Miscellaneous | Telemetry |
-                 TelemetryDiagnostic | UserChoiceProtectionDriver}
+        [-Name] {AdobeAcrobat | Diagnostic | Features | MicrosoftEdge | MicrosoftOffice | Miscellaneous | Telemetry |
+                 UserChoiceProtectionDriver}
         [<CommonParameters>]
 #>
 
@@ -23,11 +23,11 @@ function Set-ScheduledTaskStateGroup
     <#
     .EXAMPLE
         PS> $TaskToDisable = @(
+                'Diagnostic'
                 'Features'
                 'FilterDrivers'
                 'Miscellaneous'
                 'Telemetry'
-                'TelemetryDiagnostic'
             )
         PS> $TaskToDisable | Set-ScheduledTaskStateGroup
     #>

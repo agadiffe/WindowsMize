@@ -9,8 +9,8 @@ $ScheduledTasksList += @{
         @{
             TaskPath = '\'
             Task     = @{
-                MicrosoftEdgeUpdateTaskMachineCore = 'Disabled'
-                MicrosoftEdgeUpdateTaskMachineUA   = 'Disabled'
+                MicrosoftEdgeUpdateTaskMachineCore = 'Disabled' # default: Enabled
+                MicrosoftEdgeUpdateTaskMachineUA   = 'Disabled' # default: Enabled
             }
         }
     )

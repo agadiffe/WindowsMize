@@ -7,89 +7,95 @@ $ScheduledTasksList += @{
         @{
             TaskPath = '\Microsoft\Windows\AppListBackup\'
             Task     = @{
-                Backup               = 'Disabled'
-                BackupNonMaintenance = 'Disabled'
+                Backup               = 'Disabled' # default: Enabled
+                BackupNonMaintenance = 'Disabled' # default: Enabled
             }
+            Comment  = 'Windows Backup.'
         }
         @{
             TaskPath = '\Microsoft\Windows\CloudRestore\'
             Task     = @{
-                Backup  = 'Disabled'
-                Restore = 'Disabled'
+                Backup  = 'Disabled' # default: Enabled
+                Restore = 'Disabled' # default: Enabled
             }
+            Comment  = 'Windows Backup.'
         }
         @{
             TaskPath = '\Microsoft\Windows\FileHistory\'
             Task     = @{
-                'File History (maintenance mode)' = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Offline Files\'
-            Task     = @{
-                'Background Synchronization' = 'Disabled'
-                'Logon Synchronization'      = 'Disabled'
-            }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Flighting\OneSettings\'
-            Task     = @{
-                RefreshCache = 'Disabled'
+                'File History (maintenance mode)' = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Maps\'
             Task     = @{
-                MapsToastTask  = 'Disabled'
-                MapsUpdateTask = 'Disabled'
+                MapsToastTask  = 'Disabled' # default: Enabled
+                MapsUpdateTask = 'Disabled' # default: Enabled
+            }
+            Comment  = 'Windows Maps is drepecated.'
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\Offline Files\'
+            Task     = @{
+                'Background Synchronization' = 'Disabled' # default: Disabled
+                'Logon Synchronization'      = 'Disabled' # default: Disabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\PushToInstall\'
             Task     = @{
-                LoginCheck   = 'Disabled'
-                Registration = 'Disabled'
+                LoginCheck   = 'Disabled' # default: Enabled
+                Registration = 'Disabled' # default: Enabled
             }
+            Comment  = 'install Store apps remotely.'
         }
         @{
             TaskPath = '\Microsoft\Windows\RemoteAssistance\'
             Task     = @{
-                RemoteAssistanceTask = 'Disabled'
+                RemoteAssistanceTask = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Shell\'
             Task     = @{
-                FamilySafetyMonitor         = 'Disabled'
-                FamilySafetyRefreshTask     = 'Disabled'
-                IndexerAutomaticMaintenance = 'Disabled'
+                FamilySafetyMonitor         = 'Disabled' # default: Enabled
+                FamilySafetyRefreshTask     = 'Disabled' # default: Enabled
+                IndexerAutomaticMaintenance = 'Disabled' # default: Enabled
+                ThemeAssetTask_SyncFODState = 'Disabled' # default: Disabled
+                ThemesSyncedImageDownload   = 'Disabled' # default: Enabled
+            }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\Speech\'
+            Task     = @{
+                SpeechModelDownloadTask = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Sysmain\'
             Task     = @{
-                ResPriStaticDbSync   = 'Disabled'
-                WsSwapAssessmentTask = 'Disabled'
+                ResPriStaticDbSync   = 'Disabled' # default: Enabled
+                WsSwapAssessmentTask = 'Disabled' # default: Enabled
             }
         }
         @{
             SkipTask = $true
             TaskPath = '\Microsoft\Windows\SystemRestore\'
             Task     = @{
-                SR = 'Disabled'
+                SR = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\Windows\Work Folders\'
             Task     = @{
-                'Work Folders Logon Synchronization' = 'Disabled'
-                'Work Folders Maintenance Work'      = 'Disabled'
+                'Work Folders Logon Synchronization' = 'Disabled' # default: Enabled
+                'Work Folders Maintenance Work'      = 'Disabled' # default: Enabled
             }
         }
         @{
             TaskPath = '\Microsoft\XblGameSave\'
             Task     = @{
-                XblGameSaveTask = 'Disabled'
+                XblGameSaveTask = 'Disabled' # default: Enabled
             }
         }
     )
