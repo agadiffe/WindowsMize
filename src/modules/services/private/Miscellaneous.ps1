@@ -56,12 +56,6 @@ $ServicesList += @{
             Comment     = 'set time from mobile network.'
         }
         @{
-            DisplayName = 'Cloud Backup and Restore Service'
-            ServiceName = 'CloudBackupRestoreSvc'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-        }
-        @{
             DisplayName = 'Connected Devices Platform Service'
             ServiceName = 'CDPSvc'
             StartupType = 'AutomaticDelayedStart'
@@ -91,8 +85,7 @@ $ServicesList += @{
             ServiceName = 'DsSvc'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'telemetry related ?
-                           needed by SMB (e.g. file and printer sharing) ?'
+            Comment     = 'primary purposes: facilitate the sharing of diagnostic and usage data with Microsoft.'
         }
         @{
             DisplayName = 'Delivery Optimization'
@@ -223,13 +216,6 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'needed to install additional Windows languages.'
-        }
-        @{
-            DisplayName = 'Link-Layer Topology Discovery Mapper'
-            ServiceName = 'lltdsvc'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'network map.'
         }
         @{
             DisplayName = 'MessagingService'

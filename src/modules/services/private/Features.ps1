@@ -27,6 +27,12 @@ $ServicesList += @{
                            settings > apps > offline maps.'
         }
         @{
+            DisplayName = 'File History Service'
+            ServiceName = 'fhsvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'GameDVR and Broadcast User Service'
             ServiceName = 'BcastDVRUserService'
             StartupType = 'Disabled'

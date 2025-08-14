@@ -28,6 +28,13 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'Link-Layer Topology Discovery Mapper'
+            ServiceName = 'lltdsvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'network map.'
+        }
+        @{
             DisplayName = 'Microsoft iSCSI Initiator Service'
             ServiceName = 'MSiSCSI'
             StartupType = 'Disabled'

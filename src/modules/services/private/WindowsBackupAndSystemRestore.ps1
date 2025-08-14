@@ -11,10 +11,11 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'File History Service'
-            ServiceName = 'fhsvc'
+            DisplayName = 'Cloud Backup and Restore Service'
+            ServiceName = 'CloudBackupRestoreSvc'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
+            Comment     = 'Windows Backup.'
         }
         @{
             DisplayName = 'Microsoft Software Shadow Copy Provider'
