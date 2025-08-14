@@ -251,6 +251,7 @@ Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
 # --- User interface and experience
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 Set-HelpTips -GPO 'Disabled'
+Set-MenuShowDelay -Value '200'
 Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
 Set-StartMenuAllAppsViewMode -Value 'Category'

@@ -148,6 +148,10 @@ Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 # --- Help tips
 Set-HelpTips -GPO 'Disabled'
 
+# --- Menu Show Delay (default: 400)
+# Value is in milliseconds (range 50-1000).
+Set-MenuShowDelay -Value '200'
+
 # --- Online tips
 Set-OnlineTips -GPO 'Disabled'
 

@@ -80,7 +80,7 @@ See 'Windows Settings App > Privacy & security > Windows permissions'.
 <details>
   <summary>User interface and experience (click to expand).</summary>
 
-  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, OnlineTips, ShortcutNameSuffix,  
+  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix,  
   StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation,  
   WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
 </details>

@@ -27,6 +27,7 @@
         'Set-Hotspot2'
         'Set-LockScreenCameraAccess'
         'Set-LongPaths'
+        'Set-MenuShowDelay'
         'Set-MessagingCloudSync'
         'Set-NotificationsNetworkUsage'
         'Set-NtfsLastAccessTime'
