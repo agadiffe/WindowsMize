@@ -39,7 +39,7 @@ function Set-AppsAutoArchive
                 # on: 1 (default) | off: 0
                 $ArchiveApps = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
-                    Path    = "SOFTWARE\Microsoft\Windows\\CurrentVersion\InstallService\Stubification\$UserSid"
+                    Path    = "SOFTWARE\Microsoft\Windows\CurrentVersion\InstallService\Stubification\$UserSid"
                     Entries = @(
                         @{
                             Name  = 'EnableAppOffloading'

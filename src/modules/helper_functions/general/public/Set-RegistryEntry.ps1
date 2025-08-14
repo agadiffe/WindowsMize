@@ -32,18 +32,18 @@ function Set-RegistryEntry
     .EXAMPLE
         PS> $Foo = @(
                 @{
-                    Hive    = 'HKEY_LOCAL_MACHINE',
-                    Path    = 'SOFTWARE\FooApp\Config',
+                    Hive    = 'HKEY_LOCAL_MACHINE'
+                    Path    = 'SOFTWARE\FooApp\Config'
                     Entries = @(
                         @{
-                            Name  = 'Enabled',
-                            Value = '1',
+                            Name  = 'Enabled'
+                            Value = '1'
                             Type  = 'DWord'
                         }
                         @{
-                            RemoveEntry = $true,
-                            Name  = 'Autostart',
-                            Value = '1',
+                            RemoveEntry = $true
+                            Name  = 'Autostart'
+                            Value = '1'
                             Type  = 'DWord'
                         }
                     )

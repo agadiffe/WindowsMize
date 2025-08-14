@@ -154,8 +154,8 @@ Set-OnlineTips -GPO 'Disabled'
 # --- Shortcut name suffix (e.g. "File - Shortcut") (default: Enabled)
 Set-ShortcutNameSuffix -State 'Disabled'
 
-# --- Start Menu - All Apps View Mode (default: Category)
-# Category | Grid | List
+# --- Start Menu - All Apps View Mode
+# Category (default) | Grid | List
 Set-StartMenuAllAppsViewMode -Value 'Category'
 
 # --- Start Menu - Recommended section
@@ -169,6 +169,7 @@ Set-SuggestedContent -State 'Disabled'
 Set-WindowsExperimentation -GPO 'Disabled'
 
 # --- Windows input experience (default: Enabled)
+# Do not disable if device has a touchscreen.
 Set-WindowsInputExperience -State 'Disabled'
 
 # --- Windows privacy settings experience
