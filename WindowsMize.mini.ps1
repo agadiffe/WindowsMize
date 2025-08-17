@@ -564,7 +564,8 @@ Set-MicrosoftOfficeSetting @MsOfficeSettings
 
 # --- Microsoft Store
 $MsStoreSettings = @{
-    AutoAppsUpdates         = 'Enabled'
+    AutoAppUpdates          = 'Enabled'
+    AutoAppUpdatesGPO       = 'NotConfigured'
     AppInstallNotifications = 'Enabled'
     VideoAutoplay           = 'Disabled'
     PersonalizedExperiences = 'Disabled'

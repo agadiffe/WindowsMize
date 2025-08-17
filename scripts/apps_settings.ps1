@@ -208,7 +208,7 @@ Set-MicrosoftOfficeSetting -Telemetry 'Disabled'
 Write-Section -Name 'Microsoft Store' -SubSection
 
 # --- App updates (default: Enabled)
-Set-MicrosoftStoreSetting -AutoAppsUpdates 'Enabled'
+Set-MicrosoftStoreSetting -AutoAppUpdates 'Enabled' -AutoAppUpdatesGPO 'NotConfigured'
 
 # --- Notifications for app installations (default: Enabled)
 Set-MicrosoftStoreSetting -AppInstallNotifications 'Enabled'

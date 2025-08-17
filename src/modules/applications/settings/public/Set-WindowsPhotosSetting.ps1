@@ -62,9 +62,8 @@ function Set-WindowsPhotosSetting
             'RunAtStartup'
             {
                 # Run in the background at startup
-                #   There is a registry key in the settings file: IsBackgroundProcessEnabled (5f5e10b).
-                #   But it will be applied only when Photos is launched.
-                #   So let's use the below registry entry instead.
+                #   settings.dat registry key: IsBackgroundProcessEnabled (5f5e10b).
+                #   Applied only when Photos is launched.
 
                 # on: 2 (default) | off: 1
                 $RunAtStartupReg = @{
@@ -206,8 +205,7 @@ function Set-WindowsPhotosSetting
             }
         }
 
-        # do not execute if only 'RunAtStartup' is provided.
-        if (-not ($PSBoundParameters.Keys.Count -eq 1 -and $PSBoundParameters.Keys.Contains(('RunAtStartup'))))
+        if ($WindowsPhotosSettings.Count)
         {
             Set-UwpAppSetting -Name 'WindowsPhotos' -Setting $WindowsPhotosSettings
         }

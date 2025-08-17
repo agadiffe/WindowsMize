@@ -5,7 +5,8 @@
 <#
 .SYNTAX
     Set-MicrosoftStoreSetting
-        [-AutoAppsUpdates {Disabled | Enabled}]
+        [-AutoAppUpdates {Disabled | Enabled}]
+        [-AutoAppUpdatesGPO {Disabled | Enabled | NotConfigured}]
         [-AppInstallNotifications {Disabled | Enabled}]
         [-VideoAutoplay {Disabled | Enabled}]
         [-PersonalizedExperiences {Disabled | Enabled}]
@@ -22,7 +23,8 @@ function Set-MicrosoftStoreSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [state] $AutoAppsUpdates,
+        [state] $AutoAppUpdates,
+        [GpoState] $AutoAppUpdatesGPO,
         [state] $AppInstallNotifications,
         [state] $VideoAutoplay,
         [state] $PersonalizedExperiences
@@ -40,15 +42,59 @@ function Set-MicrosoftStoreSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'AutoAppsUpdates'
+            'AutoAppUpdates'
             {
-                # on: 1 (default) | off: 0
-                $AutoAppsUpdatesReg = @{
-                    Name  = 'UpdateAppsAutomatically'
-                    Value = $AutoAppsUpdate -eq 'Enabled' ? '1' : '0'
-                    Type  = '5f5e10b'
+                # settings.dat registry key: UpdateAppsAutomatically (5f5e10b).
+                # Applied only when Microsoft Store is launched.
+
+                # on: 4 (default) | off: 2
+                $AutoAppUpdatesReg = @(
+                    @{
+                        Hive    = 'HKEY_LOCAL_MACHINE'
+                        Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate'
+                        Entries = @(
+                            @{
+                                Name  = 'AutoDownload'
+                                Value = $AutoAppUpdates -eq 'Enabled' ? '4' : '2'
+                                Type  = 'DWord'
+                            }
+                        )
+                    }
+                    @{
+                        Hive    = 'HKEY_LOCAL_MACHINE'
+                        Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\InstallService\State'
+                        Entries = @(
+                            @{
+                                Name  = 'AutoUpdatePauseEndTime'
+                                Value = (Get-Date).AddDays(7).ToString('yyyy-MM-ddTHH:mm:ssK')
+                                Type  = 'String'
+                            }
+                        )
+                    }
+                )
+                Write-Verbose -Message "Setting 'Microsoft Store - Auto App Updates' to '$AutoAppUpdates' ..."
+                $AutoAppUpdatesReg | Set-RegistryEntry
+            }
+            'AutoAppUpdatesGPO'
+            {
+                # gpo\ computer config > administrative tpl > windows components > store
+                #   turn off automatic download and install of updates
+                # not configured: delete (default) | on: 4 | off: 2
+                $AutoAppUpdatesRegGPO = @{
+                    Hive    = 'HKEY_LOCAL_MACHINE'
+                    Path    = 'SOFTWARE\Policies\Microsoft\WindowsStore'
+                    Entries = @(
+                        @{
+                            RemoveEntry = $AutoAppUpdatesGPO -eq 'NotConfigured'
+                            Name  = 'AutoDownload'
+                            Value = $AutoAppUpdatesGPO -eq 'Enabled' ? '4' : '2'
+                            Type  = 'DWord'
+                        }
+                    )
                 }
-                $MicrosoftStoreSettings.Add([PSCustomObject]$AutoAppsUpdatesReg) | Out-Null
+
+                Write-Verbose -Message "Setting 'Microsoft Store - Auto App Updates (GPO)' to '$AutoAppUpdatesGPO' ..."
+                Set-RegistryEntry -InputObject $AutoAppUpdatesRegGPO
             }
             'AppInstallNotifications'
             {
@@ -83,6 +129,9 @@ function Set-MicrosoftStoreSetting
             }
         }
 
-        Set-UwpAppSetting -Name 'MicrosoftStore' -Setting $MicrosoftStoreSettings
+        if ($MicrosoftStoreSettings.Count)
+        {
+            Set-UwpAppSetting -Name 'MicrosoftStore' -Setting $MicrosoftStoreSettings
+        }
     }
 }
