@@ -38,11 +38,11 @@ function Get-ProfilePathCombinations
     )
 
     $Data = @(
-        foreach ($Profile in $ProfilesNames)
+        foreach ($ProfileName in $ProfilesNames)
         {
             foreach ($Item in $Path)
             {
-                "$Profile\$Item"
+                "$ProfileName\$Item"
             }
         }
     )

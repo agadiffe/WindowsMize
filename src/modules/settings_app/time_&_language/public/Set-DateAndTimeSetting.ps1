@@ -11,7 +11,7 @@
         [-ShowAbbreviatedValue {Disabled | Enabled}]
         [-ShowSecondsInSystemClock {Disabled | Enabled}]
         [-ShowTimeInNotifCenter {Disabled | Enabled}]
-        [-TimeServer {Windows | NistGov | PoolNtpOrg}]
+        [-TimeServer {Cloudflare | Windows | NistGov | PoolNtpOrg}]
         [<CommonParameters>]
 #>
 

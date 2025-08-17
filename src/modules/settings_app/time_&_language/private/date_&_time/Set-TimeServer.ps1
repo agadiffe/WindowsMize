@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-TimeServer
-        [-Server] {Windows | NistGov | PoolNtpOrg}
+        [-Server] {Cloudflare | Windows | NistGov | PoolNtpOrg}
         [<CommonParameters>]
 #>
 
@@ -29,6 +29,7 @@ function Set-TimeServer
     {
         $TimeServer = switch ($Server)
         {
+            'Cloudflare' { 'time.cloudflare.com' }
             'Windows'    { 'time.windows.com' }
             'NistGov'    { 'time.nist.gov' }
             'PoolNtpOrg' { '0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org' }

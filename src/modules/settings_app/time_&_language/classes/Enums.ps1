@@ -5,6 +5,7 @@
 # date & time
 enum InternetTimeServer
 {
+    Cloudflare
     Windows
     NistGov
     PoolNtpOrg
