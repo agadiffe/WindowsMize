@@ -32,7 +32,7 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\applications\settings"
 Write-Section -Name 'Applications Settings'
 
 #==============================================================================
-#                            Adobe Acrobat Reader
+#                             Adobe Acrobat Reader
 #==============================================================================
 #region adobe reader
 
@@ -137,7 +137,7 @@ Set-AdobeAcrobatReaderSetting -Webmail 'Disabled'
 #endregion adobe reader
 
 #==============================================================================
-#                               Microsoft Edge
+#                                Microsoft Edge
 #==============================================================================
 #region edge
 
@@ -160,7 +160,7 @@ Set-MicrosoftEdgePolicy -BackgroundMode 'Disabled'
 #endregion edge
 
 #==============================================================================
-#                              Microsoft Office
+#                               Microsoft Office
 #==============================================================================
 #region office
 
@@ -173,30 +173,82 @@ Write-Section -Name 'Microsoft Office' -SubSection
 #                General
 #=======================================
 
-# --- Privacy settings : Turn on optional connected experiences (default: Enabled)
-Set-MicrosoftOfficeSetting -ConnectedExperiences 'Disabled'
-
 # --- Enable Linkedin features in my Office applications (default: Enabled)
-Set-MicrosoftOfficeSetting -LinkedinFeatures 'Disabled'
+Set-MicrosoftOfficeSetting -LinkedinFeatures 'Disabled' -LinkedinFeaturesGPO 'NotConfigured'
 
 # --- Show the Start screen when this application starts (default: Enabled)
-Set-MicrosoftOfficeSetting -ShowStartScreen 'Disabled'
+Set-MicrosoftOfficeSetting -ShowStartScreen 'Disabled' -ShowStartScreenGPO 'NotConfigured'
+
+#==========================================================
+#                      Miscellaneous
+#==========================================================
+
+# --- Accept all EULAs (End-User License Agreement)
+# GPO: Enabled | NotConfigured
+Set-MicrosoftOfficeSetting -AcceptEULAsGPO 'Enabled'
+
+# --- Block sign-in into Office
+# GPO: Enabled | NotConfigured
+Set-MicrosoftOfficeSetting -BlockSigninGPO 'NotConfigured'
+
+# --- Teaching Tips (aka Teaching Callouts) (default: Enabled)
+Set-MicrosoftOfficeSetting -TeachingTips 'Disabled'
+
+#==========================================================
+#                  Connected Experiences
+#==========================================================
+
+# --- Connected experiences
+Set-MicrosoftOfficeSetting -AllConnectedExperiencesGPO 'NotConfigured'
+
+# --- Connected experiences that analyze content
+Set-MicrosoftOfficeSetting -ConnectedExperiencesThatAnalyzeContentGPO 'NotConfigured'
+
+# --- Connected experiences that download online content
+Set-MicrosoftOfficeSetting -ConnectedExperiencesThatDownloadContentGPO 'NotConfigured'
+
+# --- Optional connected experiences (default: Enabled)
+Set-MicrosoftOfficeSetting -OptionalConnectedExperiences 'Disabled' -OptionalConnectedExperiencesGPO 'NotConfigured'
 
 #==========================================================
 #                         Privacy
 #==========================================================
 
-# --- Customer experience improvement program (default: Enabled)
-Set-MicrosoftOfficeSetting -Ceip 'Disabled'
+# --- Local training of AI features
+Set-MicrosoftOfficeSetting -AILocalTrainingGPO 'Disabled'
 
-# --- Feedback (default: Enabled)
-Set-MicrosoftOfficeSetting -Feedback 'Disabled'
+# --- Customer experience improvement program
+Set-MicrosoftOfficeSetting -CeipGPO 'Disabled'
 
-# --- Logging (default: Enabled)
-Set-MicrosoftOfficeSetting -Logging 'Disabled'
+# --- Diagnostics
+# GPO: Disabled | Enabled | NotConfigured
+Set-MicrosoftOfficeSetting -DiagnosticsGPO 'Disabled'
 
-# --- Telemetry (default: Enabled)
-Set-MicrosoftOfficeSetting -Telemetry 'Disabled'
+# --- Microsoft Workplace Discount Program notifications
+# GPO: Disabled | Enabled | NotConfigured
+Set-MicrosoftOfficeSetting -DiscountProgramNotifsGPO 'Disabled'
+
+# --- Error Reporting
+Set-MicrosoftOfficeSetting -ErrorReportingGPO 'Disabled'
+
+# --- Feedback
+Set-MicrosoftOfficeSetting -FeedbackGPO 'Disabled'
+
+# --- First Run about sign-in to Office
+Set-MicrosoftOfficeSetting -FirstRunAboutSigninGPO 'Disabled'
+
+# --- Opt-In Wizard On First Run
+Set-MicrosoftOfficeSetting -FirstRunOptinWizardGPO 'Disabled'
+
+# --- Send Personal Information
+# Not applicable to Microsoft 365 App for enterprise (Replaced by Connected Experiences policies).
+Set-MicrosoftOfficeSetting -SendPersonalInfoGPO 'Disabled'
+
+# --- Surveys
+Set-MicrosoftOfficeSetting -SurveysGPO 'Disabled'
+
+# --- Telemetry
+Set-MicrosoftOfficeSetting -TelemetryGPO 'Disabled'
 
 #endregion office
 

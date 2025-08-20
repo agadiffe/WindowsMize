@@ -9,9 +9,10 @@ Debloat, minimize telemetry, apps installation, general settings, and more.
 
 
 ## 🎯 Purpose
-1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](tools/New-WindowsAnswerFile.ps1)) + updates
-2. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the no comment version [WindowsMize.mini.ps1](WindowsMize.mini.ps1))
-3. Finish some customization (see [todo_manually.md](todo_manually.md))
+1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](tools/New-WindowsAnswerFile.ps1)) + updates.  
+   While installing the updates, install Office365 if desired (run [MsOffice365_Install.cmd](tools/MsOffice365_Install.cmd)).
+2. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the no comment version [WindowsMize.mini.ps1](WindowsMize.mini.ps1)).
+3. Finish some customization (see [todo_manually.md](todo_manually.md)).
 
 
 ## 📝 Characteristics
@@ -60,6 +61,8 @@ Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectiv
 
 The main telemetry configurations are in the Windows settings app.  
 See 'Windows Settings App > Privacy & security > Windows permissions'.
+
+For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
 
 ### 🛠️ Tweaks
 <details>
@@ -201,7 +204,7 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
 ## 📍 Remarks
 Read some comments in the source code files about why you should disable some features.
 
- - src > modules > 
+  - src > modules > 
     - network > private > NetFirewallRules.ps1
     - network > public
     - telemetry > public

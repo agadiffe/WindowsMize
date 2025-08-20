@@ -5,26 +5,41 @@
 <#
   You can use the 'Office Deployment Tool (ODT)' to automate the installation of Microsoft Office.
   With that tool, you can choose which program to install. e.g. Only Word, Excel and PowerPoint.
-  Use your favorite search engine for more information.
   
-  To activate office, be careful not to fall into the mass grave.
-
   https://officecdn.microsoft.com/pr/wsus/setup.exe (Office Deployment Tool (ODT))
   https://config.office.com/deploymentsettings (MS Office configuration file)
 
   Run 'tools\MsOffice365_Install.cmd' to install Ms Office 365.
+
+  To activate Office, be careful not to fall into the mass grave.
 #>
 
 <#
 .SYNTAX
     Set-MicrosoftOfficeSetting
-        [-ConnectedExperiences {Disabled | Enabled}]
+        [-AcceptEULAsGPO {Enabled | NotConfigured}]
+        [-BlockSigninGPO {Enabled | NotConfigured}]
         [-LinkedinFeatures {Disabled | Enabled}]
+        [-LinkedinFeaturesGPO {Disabled | NotConfigured}]
         [-ShowStartScreen {Disabled | Enabled}]
-        [-Ceip {Disabled | Enabled}]
-        [-Feedback {Disabled | Enabled}]
-        [-Logging {Disabled | Enabled}]
-        [-Telemetry {Disabled | Enabled}]
+        [-ShowStartScreenGPO {Disabled | NotConfigured}]
+        [-TeachingTips {Disabled | Enabled}]
+        [-AILocalTrainingGPO {Disabled | Enabled}]
+        [-CeipGPO {Disabled | NotConfigured}]
+        [-DiagnosticsGPO {Disabled | Enabled | NotConfigured}]
+        [-DiscountProgramNotifsGPO {Disabled | Enabled | NotConfigured}]
+        [-ErrorReportingGPO {Disabled | NotConfigured}]
+        [-FeedbackGPO {Disabled | NotConfigured}]
+        [-FirstRunAboutSigninGPO {Disabled | NotConfigured}]
+        [-FirstRunOptinWizardGPO {Disabled | NotConfigured}]
+        [-SendPersonalInfoGPO {Disabled | NotConfigured}]
+        [-SurveysGPO {Disabled | NotConfigured}]
+        [-TelemetryGPO {Disabled | NotConfigured}]
+        [-AllConnectedExperiencesGPO {Disabled | NotConfigured}]
+        [-ConnectedExperiencesThatAnalyzeContentGPO {Disabled | NotConfigured}]
+        [-ConnectedExperiencesThatDownloadContentGPO {Disabled | NotConfigured}]
+        [-OptionalConnectedExperiences {Disabled | Enabled}]
+        [-OptionalConnectedExperiencesGPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -32,19 +47,37 @@ function Set-MicrosoftOfficeSetting
 {
     <#
     .EXAMPLE
-        PS> Set-MicrosoftOfficeSetting -Ceip 'Disabled' -Feedback 'Disabled' -Telemetry 'Disabled'
+        PS> Set-MicrosoftOfficeSetting -TeachingTips 'Disabled' -SendPersonalInfoGPO 'Disabled' -TelemetryGPO 'Disabled'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [state] $ConnectedExperiences,
+        [GpoStateWithoutDisabled] $AcceptEULAsGPO,
+        [GpoStateWithoutDisabled] $BlockSigninGPO,
         [state] $LinkedinFeatures,
+        [GpoStateWithoutEnabled] $LinkedinFeaturesGPO,
         [state] $ShowStartScreen,
-        [state] $Ceip,
-        [state] $Feedback,
-        [state] $Logging,
-        [state] $Telemetry
+        [GpoStateWithoutEnabled] $ShowStartScreenGPO,
+        [state] $TeachingTips,
+
+        [GpoStateWithoutEnabled] $AILocalTrainingGPO,
+        [GpoStateWithoutEnabled] $CeipGPO,
+        [GpoState] $DiagnosticsGPO,
+        [GpoState] $DiscountProgramNotifsGPO,
+        [GpoStateWithoutEnabled] $ErrorReportingGPO,
+        [GpoStateWithoutEnabled] $FeedbackGPO,
+        [GpoStateWithoutEnabled] $FirstRunAboutSigninGPO,
+        [GpoStateWithoutEnabled] $FirstRunOptinWizardGPO,
+        [GpoStateWithoutEnabled] $SendPersonalInfoGPO,
+        [GpoStateWithoutEnabled] $SurveysGPO,
+        [GpoStateWithoutEnabled] $TelemetryGPO,
+
+        [GpoStateWithoutEnabled] $AllConnectedExperiencesGPO,
+        [GpoStateWithoutEnabled] $ConnectedExperiencesThatAnalyzeContentGPO,
+        [GpoStateWithoutEnabled] $ConnectedExperiencesThatDownloadContentGPO,
+        [state] $OptionalConnectedExperiences,
+        [GpoStateWithoutEnabled] $OptionalConnectedExperiencesGPO
     )
 
     process
@@ -57,13 +90,31 @@ function Set-MicrosoftOfficeSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'ConnectedExperiences' { Set-MSOfficeConnectedExperiences -State $ConnectedExperiences }
-            'LinkedinFeatures'     { Set-MSOfficeLinkedinFeatures -State $LinkedinFeatures }
-            'ShowStartScreen'      { Set-MSOfficeShowStartScreen -State $ShowStartScreen }
-            'Ceip'                 { Set-MSOfficeCeip -State $Ceip }
-            'Feedback'             { Set-MSOfficeFeedback -State $Feedback }
-            'Logging'              { Set-MSOfficeLogging -State $Logging }
-            'Telemetry'            { Set-MSOfficeTelemetry -State $Telemetry }
+            'AcceptEULAsGPO'           { Set-MSOfficeAcceptEULAs -GPO $AcceptEULAsGPO }
+            'BlockSigninGPO'           { Set-MSOfficeBlockSignin -GPO $BlockSigninGPO }
+            'LinkedinFeatures'         { Set-MSOfficeLinkedinFeatures -State $LinkedinFeatures }
+            'LinkedinFeaturesGPO'      { Set-MSOfficeLinkedinFeatures -GPO $LinkedinFeaturesGPO }
+            'ShowStartScreen'          { Set-MSOfficeShowStartScreen -State $ShowStartScreen }
+            'ShowStartScreenGPO'       { Set-MSOfficeShowStartScreen -GPO $ShowStartScreenGPO }
+            'TeachingTips'             { Set-MSOfficeTeachingTips -State $TeachingTips }
+
+            'AILocalTrainingGPO'       { Set-MSOfficeAILocalTraining -GPO $AILocalTraining }
+            'CeipGPO'                  { Set-MSOfficeCeip -GPO $CeipGPO }
+            'DiagnosticsGPO'           { Set-MSOfficeDiagnostics -GPO $DiagnosticsGPO }
+            'DiscountProgramNotifsGPO' { Set-MSOfficeDiscountProgramNotifs -GPO $DiscountProgramNotifsGPO }
+            'ErrorReportingGPO'        { Set-MSOfficeErrorReporting -GPO $ErrorReportingGPO }
+            'FeedbackGPO'              { Set-MSOfficeFeedback -GPO $FeedbackGPO }
+            'FirstRunAboutSigninGPO'   { Set-MSOfficeFirstRunAboutSignin -GPO $FirstRunAboutSigninGPO }
+            'FirstRunOptinWizardGPO'   { Set-MSOfficeFirstRunOptinWizard -GPO $FirstRunOptinWizardGPO }
+            'SendPersonalInfoGPO'      { Set-MSOfficeSendPersonalInfo -GPO $SendPersonalInfoGPO }
+            'SurveysGPO'               { Set-MSOfficeSurveys -GPO $SurveysGPO }
+            'TelemetryGPO'             { Set-MSOfficeTelemetry -GPO $TelemetryGPO }
+
+            'AllConnectedExperiencesGPO'                 { Set-MSOfficeConnectedExperiences -AllConnectedExperiencesGPO $AllConnectedExperiencesGPO }
+            'ConnectedExperiencesThatAnalyzeContentGPO'  { Set-MSOfficeConnectedExperiences -ConnectedExperiencesThatAnalyzeContentGPO $ConnectedExperiencesThatAnalyzeContentGPO }
+            'ConnectedExperiencesThatDownloadContentGPO' { Set-MSOfficeConnectedExperiences -ConnectedExperiencesThatDownloadContentGPO $ConnectedExperiencesThatDownloadContentGPO }
+            'OptionalConnectedExperiences'               { Set-MSOfficeConnectedExperiences -OptionalConnectedExperiences $OptionalConnectedExperiences }
+            'OptionalConnectedExperiencesGPO'            { Set-MSOfficeConnectedExperiences -OptionalConnectedExperiencesGPO $OptionalConnectedExperiencesGPO }
         }
     }
 }
