@@ -10,6 +10,12 @@
 $ServicesListNotConfigured += @{
     OthersServices = @(
         @{
+            DisplayName = 'ADPSvc'
+            ServiceName = 'ADPSvc'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'App Readiness'
             ServiceName = 'AppReadiness'
             StartupType = 'Manual'
