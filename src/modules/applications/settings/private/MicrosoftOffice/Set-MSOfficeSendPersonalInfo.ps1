@@ -1,21 +1,21 @@
 #=================================================================================================================
-#                                         MSOffice - Privacy > Telemetry
+#                                 MSOffice - Privacy > Send Personal Information
 #=================================================================================================================
 
-# If not configured, required and optional diagnostic data are sent to Microsoft.
+# No longer applicable to Microsoft 365 App for enterprise, starting with Version 1904.
 
 <#
 .SYNTAX
-    Set-MSOfficeTelemetry
+    Set-MSOfficeSendPersonalInfo
         [-GPO] {Disabled | NotConfigured}
         [<CommonParameters>]
 #>
 
-function Set-MSOfficeTelemetry
+function Set-MSOfficeSendPersonalInfo
 {
     <#
     .EXAMPLE
-        PS> Set-MSOfficeTelemetry -GPO 'Disabled'
+        PS> Set-MSOfficeSendPersonalInfo -GPO 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -28,22 +28,22 @@ function Set-MSOfficeTelemetry
     process
     {
         # gpo\ user config > administrative tpl > microsoft office > privacy > trust center
-        #   configure the level of client software diagnostic data sent by Office to Microsoft
-        # not configured: delete (default) | on: Required (1), Optional (2), Neither (3)
-        $MSOfficeTelemetryGpo = @{
+        #   send personal information
+        # not configured: delete (default) | off: 0
+        $MSOfficeSendPersonalInfoGpo = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Policies\Microsoft\Office\Common\ClientTelemetry'
+            Path    = 'Software\Policies\Microsoft\Office\16.0\Common'
             Entries = @(
                 @{
                     RemoveEntry = $GPO -eq 'NotConfigured'
-                    Name  = 'SendTelemetry'
-                    Value = '3'
+                    Name  = 'SendCustomerData'
+                    Value = '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'MSOffice - Telemetry (GPO)' to '$GPO' ..."
-        Set-RegistryEntry -InputObject $MSOfficeTelemetryGpo
+        Write-Verbose -Message "Setting 'MSOffice - Send Personal Information (GPO)' to '$GPO' ..."
+        Set-RegistryEntry -InputObject $MSOfficeSendPersonalInfoGpo
     }
 }

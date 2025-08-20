@@ -552,13 +552,36 @@ Set-MicrosoftEdgePolicy @MicrosoftEdgePolicy
 
 # --- Microsoft Office
 $MsOfficeSettings = @{
-    ConnectedExperiences = 'Disabled'
-    LinkedinFeatures     = 'Disabled'
-    ShowStartScreen      = 'Disabled'
-    Ceip                 = 'Disabled'
-    Feedback             = 'Disabled'
-    Logging              = 'Disabled'
-    Telemetry            = 'Disabled'
+    # options
+    LinkedinFeatures         = 'Disabled'
+    LinkedinFeaturesGPO      = 'NotConfigured'
+    ShowStartScreen          = 'Disabled'
+    ShowStartScreenGPO       = 'NotConfigured'
+
+    # miscellaneous
+    AcceptEULAsGPO           = 'Enabled'
+    BlockSigninGPO           = 'NotConfigured'
+    TeachingTips             = 'Disabled'
+
+    # privacy
+    AILocalTrainingGPO       = 'Disabled'
+    CeipGPO                  = 'Disabled'
+    DiagnosticsGPO           = 'Disabled'
+    DiscountProgramNotifsGPO = 'Disabled'
+    ErrorReportingGPO        = 'Disabled'
+    FeedbackGPO              = 'Disabled'
+    FirstRunAboutSigninGPO   = 'Disabled'
+    FirstRunOptinWizardGPO   = 'Disabled'
+    SendPersonalInfoGPO      = 'Disabled'
+    SurveysGPO               = 'Disabled'
+    TelemetryGPO             = 'Disabled'
+
+    # connected experiences
+    AllConnectedExperiencesGPO                 = 'NotConfigured'
+    ConnectedExperiencesThatAnalyzeContentGPO  = 'NotConfigured'
+    ConnectedExperiencesThatDownloadContentGPO = 'NotConfigured'
+    OptionalConnectedExperiences               = 'Disabled'
+    OptionalConnectedExperiencesGPO            = 'NotConfigured'
 }
 Set-MicrosoftOfficeSetting @MsOfficeSettings
 

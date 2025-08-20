@@ -1,11 +1,14 @@
 #=================================================================================================================
-#                     MSOffice - Options > Privacy > Customer Experience Improvement Program
+#                          MSOffice - Privacy > Customer Experience Improvement Program
 #=================================================================================================================
+
+# If not configured, users have the opportunity to opt into participation in the CEIP the first time they run
+# an Office application.
 
 <#
 .SYNTAX
     Set-MSOfficeCeip
-        [-State] {Disabled | Enabled}
+        [-GPO] {Disabled | NotConfigured}
         [<CommonParameters>]
 #>
 
@@ -13,47 +16,35 @@ function Set-MSOfficeCeip
 {
     <#
     .EXAMPLE
-        PS> Set-MSOfficeCeip -State 'Disabled'
+        PS> Set-MSOfficeCeip -GPO 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [state] $State
+        [GpoStateWithoutEnabled] $GPO
     )
 
     process
     {
-        $Value = $State -eq 'Enabled' ? '1' : '0'
+        # gpo\ user config > administrative tpl > microsoft office > privacy > trust center
+        #   enable Customer Experience Improvement Program
+        # not configured: delete (default) | off: 0
+        $MSOfficeCeipGpo = @{
+            Hive    = 'HKEY_CURRENT_USER'
+            Path    = 'Software\Policies\Microsoft\Office\16.0\Common'
+            Entries = @(
+                @{
+                    RemoveEntry = $GPO -eq 'NotConfigured'
+                    Name  = 'QMEnable'
+                    Value = '0'
+                    Type  = 'DWord'
+                }
+            )
+        }
 
-        # on: 1 (default) | off: 0
-        $MSOfficeCeip = @(
-            @{
-                Hive    = 'HKEY_CURRENT_USER'
-                Path    = 'Software\Policies\Microsoft\Office\16.0\Common'
-                Entries = @(
-                    @{
-                        Name  = 'QMEnable'
-                        Value = $Value
-                        Type  = 'DWord'
-                    }
-                )
-            }
-            @{
-                Hive    = 'HKEY_CURRENT_USER'
-                Path    = 'Software\Microsoft\Office\16.0\Common'
-                Entries = @(
-                    @{
-                        Name  = 'QMEnable'
-                        Value = $Value
-                        Type  = 'DWord'
-                    }
-                )
-            }
-        )
-
-        Write-Verbose -Message "Setting 'MSOffice - Customer Experience Improvement Program (CEIP)' to '$State' ..."
-        $MSOfficeCeip | Set-RegistryEntry
+        Write-Verbose -Message "Setting 'MSOffice - Customer Experience Improvement Program (CEIP) (GPO)' to '$GPO' ..."
+        Set-RegistryEntry -InputObject $MSOfficeCeipGpo
     }
 }
