@@ -20,7 +20,7 @@ function Set-AcrobatReaderSendCrashReports
     param
     (
         [Parameter(Mandatory)]
-        [CrashReportsMode] $Value
+        [AdobeCrashReportsMode] $Value
     )
 
     process

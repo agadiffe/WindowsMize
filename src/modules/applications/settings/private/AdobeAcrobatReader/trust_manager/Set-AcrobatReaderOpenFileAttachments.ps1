@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                  Acrobat Reader - Preferences > Trust Manager > Allow Opening File Attachments
+#            Acrobat Reader - Preferences > Trust Manager > Allow Opening Of Non-PDF File Attachments
 #=================================================================================================================
 
 # Attachments represent a potential security risk because they can contain malicious content,
@@ -11,7 +11,8 @@
 <#
 .SYNTAX
     Set-AcrobatReaderOpenFileAttachments
-        [-State] {Disabled | Enabled}
+        [[-State] {Disabled | Enabled}]
+        [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -19,43 +20,65 @@ function Set-AcrobatReaderOpenFileAttachments
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderOpenFileAttachments -State 'Disabled'
+        PS> Set-AcrobatReaderOpenFileAttachments -State 'Disabled' -GPO 'NotConfigured'
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Mandatory)]
-        [state] $State
+        [Parameter(Position = 0)]
+        [state] $State,
+
+        [GpoStateWithoutEnabled] $GPO
     )
 
     process
     {
-        $IsEnabled = $State -eq 'Enabled'
+        $OpenFileAttachmentsMsg = 'Acrobat Reader - Allow Opening Of Non-PDF File Attachments'
 
-        # allow opening of non-PDF file attachments with external applications
-        # on: 1 (default) | off: 0
-        #
-        # allow opening of non-PDF file attachments (gray out the above setting) (no GUI item)
-        # on: 0 (default) | off: 1
-        $AcrobatReaderOpenFileAttachments = @{
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Adobe\Adobe Acrobat\DC\Originals'
-            Entries = @(
-                @{
-                    Name  = 'bAllowOpenFile'
-                    Value = $IsEnabled ? '1' : '0'
-                    Type  = 'DWord'
+        switch ($PSBoundParameters.Keys)
+        {
+            'State'
+            {
+                # on: 1 (default) | off: 0
+                $AcrobatReaderOpenFileAttachments = @{
+                    Hive    = 'HKEY_CURRENT_USER'
+                    Path    = 'Software\Adobe\Adobe Acrobat\DC\Originals'
+                    Entries = @(
+                        @{
+                            Name  = 'bAllowOpenFile'
+                            Value = $State -eq 'Enabled' ? '1' : '0'
+                            Type  = 'DWord'
+                        }
+                    )
                 }
-                @{
-                    Name  = 'bSecureOpenFile'
-                    Value = $IsEnabled ? '0' : '1'
-                    Type  = 'DWord'
+
+                Write-Verbose -Message "Setting '$OpenFileAttachmentsMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $AcrobatReaderOpenFileAttachments
+            }
+            'GPO'
+            {
+                # Not really a GPO, but achieve the same result by graying out the GUI setting.
+
+                # gpo\ Originals (General Application Settings) > Attachments
+                #   specifies whether to allow opening attachments which are not PDF
+                # not configured: delete (default) | off: 1
+                $AcrobatReaderOpenFileAttachmentsGpo = @{
+                    Hive    = 'HKEY_CURRENT_USER'
+                    Path    = 'Software\Adobe\Adobe Acrobat\DC\Originals'
+                    Entries = @(
+                        @{
+                            RemoveEntry = $GPO -eq 'NotConfigured'
+                            Name  = 'bSecureOpenFile'
+                            Value = '1'
+                            Type  = 'DWord'
+                        }
+                    )
                 }
-            )
+
+                Write-Verbose -Message "Setting '$OpenFileAttachmentsMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $AcrobatReaderOpenFileAttachmentsGpo
+            }
         }
-
-        Write-Verbose -Message "Setting 'Acrobat Reader - Allow Opening Of Non-PDF File Attachments' to '$State' ..."
-        Set-RegistryEntry -InputObject $AcrobatReaderOpenFileAttachments
     }
 }

@@ -25,6 +25,60 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\applications\settings"
 #   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 #=================================================================================================================
+#                                            Applications Config Files
+#=================================================================================================================
+#region config files
+
+Write-Section -Name 'Applications Settings'
+
+#==============================================================================
+#                                Brave Browser
+#==============================================================================
+
+Write-Section -Name 'Brave Browser' -SubSection
+
+<#
+  Meant to be used on a fresh Brave installation.
+
+  If used on current install, it will override the current settings.
+  Including your profiles if you have more than one (the data folder will not be deleted).
+  It means that you will have only 1 profile after applying this function.
+
+  For now, to customize the settings, open the file:
+    src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
+  The settings are organized in the same way as in the GUI.
+
+  By default, everything is disabled: AI, Web3, Vpn, etc ...
+  This is not done via policy, so you can customize everything afterward with the Brave GUI.
+#>
+
+Set-BraveBrowserSettings
+
+#==============================================================================
+#                                    Others
+#==============================================================================
+
+<#
+  The apps config files are located in the follwing folder:
+    src > modules > applications > settings > config_files
+
+  Edit these files to your preferences (don't change the file name).
+  A backup is created if the config file already exist.
+#>
+
+$AppsToConfig = @(
+    #'KeePassXC'
+    #'qBittorrent'
+    'VLC'
+    #'VSCode'
+    #'Git'
+)
+$AppsToConfig.ForEach({ Write-Section -Name $_ -SubSection ; Set-MyAppsSetting -Name $_ })
+
+#endregion config files
+
+
+#=================================================================================================================
 #                                              Applications Settings
 #=================================================================================================================
 #region settings
@@ -51,51 +105,99 @@ Set-AdobeAcrobatReaderSetting -ShowToolsPane 'Disabled'
 #                General
 #=======================================
 
-# --- Show online storage when openings files (default: Disabled)
+# --- Show online storage when openings files (default: Enabled)
 Set-AdobeAcrobatReaderSetting -ShowCloudStorageOnFileOpen 'Disabled'
 
 # --- Show online storage when saving files (default: Enabled)
 Set-AdobeAcrobatReaderSetting -ShowCloudStorageOnFileSave 'Disabled'
 
-# --- Show me messages when I launch Adobe Acrobat (default: Enabled)
-Set-AdobeAcrobatReaderSetting -ShowMessagesAtLaunch 'Disabled'
+# --- Show me messages when I launch Adobe Acrobat (ads & tips related) (default: Enabled)
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -ShowMessagesAtLaunch 'Disabled' -ShowMessagesAtLaunchGPO 'Disabled'
+
+# --- Show messages while viewing a document (popup tips related) (default: Enabled)
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -ShowMessagesWhenViewingPdf 'Disabled' -ShowMessagesWhenViewingPdfGPO 'Disabled'
 
 # --- Send crash reports
 # State: Ask (default) | Always | Never
 Set-AdobeAcrobatReaderSetting -SendCrashReports 'Never'
 
+#            Email Accounts
+#=======================================
+
+# --- Add account
+Set-AdobeAcrobatReaderSetting -WebmailGPO 'Disabled'
+
 #              Javascript
 #=======================================
 
 # --- Enable Acrobat Javascript (default: Enabled)
-Set-AdobeAcrobatReaderSetting -Javascript 'Disabled'
+Set-AdobeAcrobatReaderSetting -Javascript 'Disabled' -JavascriptGPO 'NotConfigured'
+
+# --- Enable Menu Items Javascript Execution Privileges (default: Disabled)
+Set-AdobeAcrobatReaderSetting -JavascriptMenuItemsExecution 'Disabled'
+
+# --- Enable Global Object Security Policy (default: Enabled)
+Set-AdobeAcrobatReaderSetting -JavascriptGlobalObjectSecurity 'Enabled'
+
+#               Reviewing
+#=======================================
+
+# --- Show Welcome Dialog When Opening File (default: Enabled)
+Set-AdobeAcrobatReaderSetting -SharedReviewWelcomeDialog 'Disabled'
 
 #          Security (enhanced)
 #=======================================
 
 # --- Protected mode at startup (default: Enabled)
-Set-AdobeAcrobatReaderSetting -ProtectedMode 'Enabled'
+# GPO: Disabled | Enabled | NotConfigured
+# GPO Disabled: disable both "Protected Mode At Startup" and "Run In AppContainer".
+# GPO Enabled : only enforce "Protected Mode At Startup".
+Set-AdobeAcrobatReaderSetting -ProtectedMode 'Enabled' -ProtectedModeGPO 'NotConfigured'
 
 # --- Run in AppContainer (default: Enabled)
-Set-AdobeAcrobatReaderSetting -AppContainer 'Enabled'
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -AppContainer 'Enabled' -AppContainerGPO 'NotConfigured'
 
-# --- Protected view (default: Disabled)
-Set-AdobeAcrobatReaderSetting -ProtectedView 'Disabled'
+# --- Protected view 
+# State: Disabled (default) | UnsafeLocationsFiles | AllFiles
+# GPO: Disabled | UnsafeLocationsFiles | AllFiles | NotConfigured
+Set-AdobeAcrobatReaderSetting -ProtectedView 'Disabled' -ProtectedViewGPO 'NotConfigured'
 
 # --- Enhanced security (default: Enabled)
-Set-AdobeAcrobatReaderSetting -EnhancedSecurity 'Enabled'
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -EnhancedSecurity 'Enabled' -EnhancedSecurityGPO 'NotConfigured'
 
 # --- Automatically trust documents with valid certification (default: Disabled)
-Set-AdobeAcrobatReaderSetting -TrustCertifiedDocuments 'Disabled'
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -TrustCertifiedDocuments 'Disabled' -TrustCertifiedDocumentsGPO 'NotConfigured'
 
 # --- Automatically trust sites from my Win OS security zones (default: Enabled)
-Set-AdobeAcrobatReaderSetting -TrustOSTrustedSites 'Disabled'
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -TrustOSTrustedSites 'Disabled' -TrustOSTrustedSitesGPO 'NotConfigured'
 
-#             Trust manager
+# --- Privileged Locations: Add File / Add Folder Path
+Set-AdobeAcrobatReaderSetting -AddTrustedFilesFoldersGPO 'NotConfigured'
+
+# --- Privileged Locations: Add Host
+Set-AdobeAcrobatReaderSetting -AddTrustedSitesGPO 'NotConfigured'
+
+#             Trust Manager
 #=======================================
 
 # --- Allow opening of non-PDF file attachments with external applications (default: Enabled)
-Set-AdobeAcrobatReaderSetting -OpenFileAttachments 'Disabled'
+Set-AdobeAcrobatReaderSetting -OpenFileAttachments 'Disabled' -OpenFileAttachmentsGPO 'NotConfigured'
+
+# --- Internet access from PDF files: Access All Web Sites
+# State: BlockAllWebSites | AllowAllWebSites | Custom (default)
+# GPO: BlockAllWebSites | AllowAllWebSites | Custom | NotConfigured
+Set-AdobeAcrobatReaderSetting -InternetAccessFromPdf 'Custom' -InternetAccessFromPdfGPO 'NotConfigured'
+
+# --- Internet access from PDF files: Behavior if not in the list
+# State: Ask (default) | Allow | Block
+# GPO: Ask | Allow | Block | NotConfigured
+Set-AdobeAcrobatReaderSetting -InternetAccessFromPdfUnknownUrl 'Ask' -InternetAccessFromPdfUnknownUrlGPO 'NotConfigured'
 
 #                 Units
 #=======================================
@@ -108,31 +210,69 @@ Set-AdobeAcrobatReaderSetting -PageUnits 'Centimeters'
 #                      Miscellaneous
 #==========================================================
 
-# --- Home page : Collapse recommended tools for you
-# State: Expand (default) | Collapse
-Set-AdobeAcrobatReaderSetting -RecommendedTools 'Collapse'
+#                  Ads
+#=======================================
 
-# --- First launch introduction and UI tutorial overlay (default: Enabled)
-Set-AdobeAcrobatReaderSetting -FirstLaunchExperience 'Disabled'
+# --- Upsell (offers to buy extra tools)
+Set-AdobeAcrobatReaderSetting -UpsellGPO 'Disabled'
 
-# --- Upsell (offers to buy extra tools) (default: Enabled)
-Set-AdobeAcrobatReaderSetting -Upsell 'Disabled'
+# --- Upsell Mobile App (ads on Home banner)
+Set-AdobeAcrobatReaderSetting -UpsellMobileAppGPO 'Disabled'
 
-# --- Usage statistics (default: Enabled)
-# Doesn't work for Acrobat DC ?
-Set-AdobeAcrobatReaderSetting -UsageStatistics 'Disabled'
+#             Cloud Storage
+#=======================================
 
-# --- Online services and features (e.g. Sign, Sync) (default: Enabled)
-Set-AdobeAcrobatReaderSetting -OnlineServices 'Disabled'
+# --- Adobe Cloud Storage
+Set-AdobeAcrobatReaderSetting -AdobeCloudStorageGPO 'Disabled'
 
-# --- Adobe cloud (default: Enabled)
-Set-AdobeAcrobatReaderSetting -AdobeCloud 'Disabled'
+# --- SharePoint
+Set-AdobeAcrobatReaderSetting -SharePointGPO 'Disabled'
 
-# --- SharePoint (default: Enabled)
-Set-AdobeAcrobatReaderSetting -SharePoint 'Disabled'
+# --- Third Party Cloud Storage
+Set-AdobeAcrobatReaderSetting -ThirdPartyCloudStorageGPO 'Disabled'
 
-# --- Webmail (default: Enabled)
-Set-AdobeAcrobatReaderSetting -Webmail 'Disabled'
+#                 Tips
+#=======================================
+
+# --- First launch experiences
+Set-AdobeAcrobatReaderSetting -FirstLaunchExperienceGPO 'Disabled'
+
+# --- Onboarding dialogs
+Set-AdobeAcrobatReaderSetting -OnboardingDialogsGPO 'Disabled'
+
+# --- Popup tips
+Set-AdobeAcrobatReaderSetting -PopupTipsGPO 'Disabled'
+
+#                Others
+#=======================================
+
+# --- Accept EULA (End-User License Agreement)
+# GPO: Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -AcceptEulaGPO 'Enabled'
+
+# --- Crash reporter dialog
+Set-AdobeAcrobatReaderSetting -CrashReporterDialogGPO 'Disabled'
+
+# --- Home View : Top Banner
+# GPO: Disabled | Expanded (default) | Collapsed
+Set-AdobeAcrobatReaderSetting -HomeTopBannerGPO 'Disabled'
+
+# --- Adobe Online Services
+# Disable annoyances if you don't use an Adobe account.
+# Disables:
+#   Top bar icons (sign-in, notifs, ...)
+#   Home page online services
+#   Tools that requires Acrobat
+Set-AdobeAcrobatReaderSetting -OnlineServicesGPO 'Disabled'
+
+# --- Outlook Plugin (Adobe Send and Track plugin)
+Set-AdobeAcrobatReaderSetting -OutlookPluginGPO 'Disabled'
+
+# --- Share File (replace the Share Icon with the Email Icon)
+Set-AdobeAcrobatReaderSetting -ShareFileGPO 'Disabled'
+
+# --- Telemetry
+Set-AdobeAcrobatReaderSetting -TelemetryGPO 'Disabled'
 
 #endregion adobe reader
 
@@ -497,60 +637,6 @@ Set-WindowsTerminalSetting -DefaultHistorySize 32767
 #endregion terminal
 
 #endregion settings
-
-
-#=================================================================================================================
-#                                            Applications Config Files
-#=================================================================================================================
-#region config files
-
-Write-Section -Name 'Applications Settings'
-
-#==============================================================================
-#                                Brave Browser
-#==============================================================================
-
-Write-Section -Name 'Brave Browser' -SubSection
-
-<#
-  Meant to be used on a fresh Brave installation.
-
-  If used on current install, it will override the current settings.
-  Including your profiles if you have more than one (the data folder will not be deleted).
-  It means that you will have only 1 profile after applying this function.
-
-  For now, to customize the settings, open the file:
-    src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
-  The settings are organized in the same way as in the GUI.
-
-  By default, everything is disabled: AI, Web3, Vpn, etc ...
-  This is not done via policy, so you can customize everything afterward with the Brave GUI.
-#>
-
-Set-BraveBrowserSettings
-
-#==============================================================================
-#                                    Others
-#==============================================================================
-
-<#
-  The apps config files are located in the follwing folder:
-    src > modules > applications > settings > config_files
-
-  Edit these files to your preferences (don't change the file name).
-  A backup is created if the config file already exist.
-#>
-
-$AppsToConfig = @(
-    #'KeePassXC'
-    #'qBittorrent'
-    'VLC'
-    #'VSCode'
-    #'Git'
-)
-$AppsToConfig.ForEach({ Write-Section -Name $_ -SubSection ; Set-MyAppsSetting -Name $_ })
-
-#endregion config files
 
 
 Stop-Transcript

@@ -33,14 +33,14 @@ function Set-AcrobatReaderShowCloudStorage
         {
             'OnFileOpen'
             {
-                # on: 0 | off: 1 (default)
+                # on: 0 (default) | off: 1
                 $AcrobatReaderCloudStorageOnFileOpen = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Adobe\Adobe Acrobat\DC\AVGeneral'
                     Entries = @(
                         @{
                             Name  = 'bToggleCustomOpenExperience'
-                            Value = $OnFileOpen -eq 'Enabled' ? '1' : '0'
+                            Value = $OnFileOpen -eq 'Enabled' ? '0' : '1'
                             Type  = 'DWord'
                         }
                     )
@@ -58,7 +58,7 @@ function Set-AcrobatReaderShowCloudStorage
                     Entries = @(
                         @{
                             Name  = 'bToggleCustomSaveExperience'
-                            Value = $OnFileSave -eq 'Enabled' ? '1' : '0'
+                            Value = $OnFileSave -eq 'Enabled' ? '0' : '1'
                             Type  = 'DWord'
                         }
                     )

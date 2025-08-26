@@ -504,8 +504,8 @@ $PreinstalledAppsToRemove | Remove-PreinstalledAppPackage
 
 # --- Misc
 $AppsToConfig = @(
-    'KeePassXC'
-    'qBittorrent'
+    #'KeePassXC'
+    #'qBittorrent'
     'VLC'
     #'VSCode'
     #'Git'
@@ -517,28 +517,71 @@ Set-BraveBrowserSettings
 
 # --- Adobe Acrobat Reader
 $AdobeReaderSettings = @{
-    ShowToolsPane              = 'Disabled'
-    ShowCloudStorageOnFileOpen = 'Disabled'
-    ShowCloudStorageOnFileSave = 'Disabled'
-    ShowMessagesAtLaunch       = 'Disabled'
-    SendCrashReports           = 'Never'
-    Javascript                 = 'Disabled'
-    ProtectedMode              = 'Enabled'
-    AppContainer               = 'Enabled'
-    ProtectedView              = 'Disabled'
-    EnhancedSecurity           = 'Enabled'
-    TrustCertifiedDocuments    = 'Disabled'
-    TrustOSTrustedSites        = 'Disabled'
-    OpenFileAttachments        = 'Disabled'
-    PageUnits                  = 'Centimeters'
-    RecommendedTools           = 'Collapse'
-    FirstLaunchExperience      = 'Disabled'
-    Upsell                     = 'Disabled'
-    UsageStatistics            = 'Disabled'
-    OnlineServices             = 'Disabled'
-    AdobeCloud                 = 'Disabled'
-    SharePoint                 = 'Disabled'
-    Webmail                    = 'Disabled'
+    # --- Preferences
+    ## documents
+    ShowToolsPane                      = 'Disabled'
+    ## general
+    ShowCloudStorageOnFileOpen         = 'Disabled'
+    ShowCloudStorageOnFileSave         = 'Disabled'
+    ShowMessagesAtLaunch               = 'Disabled'
+    ShowMessagesAtLaunchGPO            = 'Disabled'
+    ShowMessagesWhenViewingPdf         = 'Disabled'
+    ShowMessagesWhenViewingPdfGPO      = 'Disabled'
+    SendCrashReports                   = 'Never'
+    ## email accounts
+    WebmailGPO                         = 'Disabled'
+    ## javascript
+    Javascript                         = 'Disabled'
+    JavascriptGPO                      = 'NotConfigured'
+    JavascriptMenuItemsExecution       = 'Disabled'
+    JavascriptGlobalObjectSecurity     = 'Enabled'
+    ## reviewing
+    SharedReviewWelcomeDialog          = 'Disabled'
+    ## security (enhanced)
+    ProtectedMode                      = 'Enabled'
+    ProtectedModeGPO                   = 'NotConfigured'
+    AppContainer                       = 'Enabled'
+    AppContainerGPO                    = 'NotConfigured'
+    ProtectedView                      = 'Disabled'
+    ProtectedViewGPO                   = 'NotConfigured'
+    EnhancedSecurity                   = 'Enabled'
+    EnhancedSecurityGPO                = 'NotConfigured'
+    TrustCertifiedDocuments            = 'Disabled'
+    TrustCertifiedDocumentsGPO         = 'NotConfigured'
+    TrustOSTrustedSites                = 'Disabled'
+    TrustOSTrustedSitesGPO             = 'NotConfigured'
+    AddTrustedFilesFoldersGPO          = 'NotConfigured'
+    AddTrustedSitesGPO                 = 'NotConfigured'
+    ## trust manager
+    OpenFileAttachments                = 'Disabled'
+    OpenFileAttachmentsGPO             = 'NotConfigured'
+    InternetAccessFromPdf              = 'Custom'
+    InternetAccessFromPdfGPO           = 'NotConfigured'
+    InternetAccessFromPdfUnknownUrl    = 'Ask'
+    InternetAccessFromPdfUnknownUrlGPO = 'NotConfigured'
+    ## units
+    PageUnits                          = 'Centimeters'
+
+    # --- Miscellaneous
+    ## ads
+    UpsellGPO                          = 'Disabled'
+    UpsellMobileAppGPO                 = 'Disabled'
+    ## cloud storage
+    AdobeCloudStorageGPO               = 'Disabled'
+    SharePointGPO                      = 'Disabled'
+    ThirdPartyCloudStorageGPO          = 'Disabled'
+    ## tips
+    FirstLaunchExperienceGPO           = 'Disabled'
+    OnboardingDialogsGPO               = 'Disabled'
+    PopupTipsGPO                       = 'Disabled'
+    ## others
+    AcceptEulaGPO                      = 'Enabled'
+    CrashReporterDialogGPO             = 'Disabled'
+    HomeTopBannerGPO                   = 'Disabled'
+    OnlineServicesGPO                  = 'Disabled'
+    OutlookPluginGPO                   = 'Disabled'
+    ShareFileGPO                       = 'Disabled'
+    TelemetryGPO                       = 'Disabled'
 }
 Set-AdobeAcrobatReaderSetting @AdobeReaderSettings
 
@@ -603,15 +646,15 @@ $NotepadSettings = @{
     FontSize       = '11'
     WordWrap       = 'Enabled'
     Formatting     = 'Enabled'
+    FormattingTips = 'Disabled'
     OpenFile       = 'NewTab'
-    ContinuePreviousSession = 'Disabled'
     RecentFiles    = 'Enabled'
     SpellCheck     = 'Disabled'
     AutoCorrect    = 'Disabled'
     Copilot        = 'Disabled'
     StatusBar      = 'Enabled'
+    ContinuePreviousSession    = 'Disabled'
     ContinuePreviousSessionTip = 'Disabled'
-    FormattingTips = 'Disabled'
 }
 Set-WindowsNotepadSetting @NotepadSettings
 
@@ -637,7 +680,7 @@ $SnippingToolSettings = @{
     MultipleWindows               = 'Disabled'
     ScreenshotBorder              = 'Disabled'
     HDRColorCorrector             = 'Disabled'
-    AutoCopyRecordingChangesToClipboard = 'Enabled'
+    AutoCopyRecordingChangesToClipboard  = 'Enabled'
     AutoSaveRecordings            = 'Enabled'
     IncludeMicrophoneInRecording  = 'Disabled'
     IncludeSystemAudioInRecording = 'Enabled'

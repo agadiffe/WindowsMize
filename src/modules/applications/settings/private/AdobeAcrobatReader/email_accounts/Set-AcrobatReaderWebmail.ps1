@@ -1,11 +1,11 @@
 #=================================================================================================================
-#                                    Acrobat Reader - Miscellaneous > Webmail
+#                                  Acrobat Reader - Preferences > Email Accounts
 #=================================================================================================================
 
 <#
 .SYNTAX
     Set-AcrobatReaderWebmail
-        [-State] {Disabled | Enabled}
+        [-GPO] {Disabled | NotConfigured}
         [<CommonParameters>]
 #>
 
@@ -13,32 +13,35 @@ function Set-AcrobatReaderWebmail
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderWebmail -State 'Disabled'
+        PS> Set-AcrobatReaderWebmail -GPO 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [state] $State
+        [GpoStateWithoutEnabled] $GPO
     )
 
     process
     {
-        # on: 0 (default) | off: 1
+        # gpo\ WebMail > Webmail Basics
+        #   specifies whether to disable WebMail
+        # not configured: delete (default) | off: 1
         $AcrobatReaderWebmail = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\cWebmailProfiles'
             Entries = @(
                 @{
+                    RemoveEntry = $GPO -eq 'NotConfigured'
                     Name  = 'bDisableWebmail'
-                    Value = $State -eq 'Enabled' ? '0' : '1'
+                    Value = '1'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Acrobat Reader - Webmail' to '$State' ..."
+        Write-Verbose -Message "Setting 'Acrobat Reader - Email Accounts (Webmail) (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $AcrobatReaderWebmail
     }
 }

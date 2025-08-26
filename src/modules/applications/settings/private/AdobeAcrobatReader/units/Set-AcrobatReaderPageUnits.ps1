@@ -20,7 +20,7 @@ function Set-AcrobatReaderPageUnits
     param
     (
         [Parameter(Mandatory)]
-        [PageUnits] $Value
+        [AdobePageUnits] $Value
     )
 
     process

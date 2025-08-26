@@ -2,6 +2,8 @@
 #                           Acrobat Reader - Preferences > Documents > Show Tools Pane
 #=================================================================================================================
 
+# The GUI have only this setting: Remember last state of the All tools pane when opening documents
+
 <#
 .SYNTAX
     Set-AcrobatReaderShowToolsPane
@@ -25,11 +27,11 @@ function Set-AcrobatReaderShowToolsPane
 
     process
     {
-        # remember current state of Tools Pane
+        # bRHPSticky\ remember current state of All tools pane
         # on: 1 | off: 0 (default)
         #
-        # Tools Pane state
-        # If 'bRHPSticky' is enabled, it reads the state from this entry.
+        # All tools pane state
+        # If 'bRHPSticky' is enabled, it reads the state from 'iAV2ViewerAllToolsState'.
         # on: 4 (default) | off: 3
         $AcrobatReaderShowToolsPane = @{
             Hive    = 'HKEY_CURRENT_USER'
