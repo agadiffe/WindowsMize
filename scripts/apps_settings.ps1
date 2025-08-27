@@ -29,7 +29,7 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\applications\settings"
 #=================================================================================================================
 #region config files
 
-Write-Section -Name 'Applications Settings'
+Write-Section -Name 'Applications Config Files'
 
 #==============================================================================
 #                                Brave Browser
@@ -273,6 +273,14 @@ Set-AdobeAcrobatReaderSetting -ShareFileGPO 'Disabled'
 
 # --- Telemetry
 Set-AdobeAcrobatReaderSetting -TelemetryGPO 'Disabled'
+
+# --- Synchronizer: Run At Startup
+Set-AdobeAcrobatReaderSetting -SynchronizerRunAtStartup 'Disabled'
+
+# --- Synchronizer: Task Manager Process
+# Disabled: Add a ".bak" extension to "AdobeCollabSync.exe" and "FullTrustNotifier.exe" files.
+# Need to be reapplied after each update (or create a scheduled task).
+#Set-AdobeAcrobatReaderSetting -SynchronizerTaskManagerProcess 'Disabled'
 
 #endregion adobe reader
 

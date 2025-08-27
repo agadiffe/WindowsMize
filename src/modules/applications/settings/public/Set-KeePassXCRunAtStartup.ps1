@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-KeePassXCRunAtStartup
-        [[-State] {Disabled | Enabled}]
+        [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
@@ -19,6 +19,7 @@ function Set-KeePassXCRunAtStartup
     [CmdletBinding()]
     param
     (
+        [Parameter(Mandatory)]
         [state] $State
     )
 

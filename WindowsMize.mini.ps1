@@ -582,6 +582,8 @@ $AdobeReaderSettings = @{
     OutlookPluginGPO                   = 'Disabled'
     ShareFileGPO                       = 'Disabled'
     TelemetryGPO                       = 'Disabled'
+    SynchronizerRunAtStartup           = 'Disabled'
+    #SynchronizerTaskManagerProcess     = 'Disabled'
 }
 Set-AdobeAcrobatReaderSetting @AdobeReaderSettings
 

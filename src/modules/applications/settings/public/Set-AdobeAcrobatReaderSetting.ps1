@@ -60,6 +60,8 @@
         [-OnlineServicesGPO {Disabled | NotConfigured}]
         [-OutlookPluginGPO {Disabled | NotConfigured}]
         [-ShareFileGPO {Disabled | NotConfigured}]
+        [-SynchronizerRunAtStartup {Disabled | Enabled}]
+        [-SynchronizerTaskManagerProcess {Disabled | Enabled}]
 
         [-UsageStatistics {Disabled | Enabled}]
         [<CommonParameters>]
@@ -149,7 +151,9 @@ function Set-AdobeAcrobatReaderSetting
         [GpoStateWithoutEnabled] $OnlineServicesGPO,
         [GpoStateWithoutEnabled] $OutlookPluginGPO,
         [GpoStateWithoutEnabled] $ShareFileGPO,
-        [GpoStateWithoutEnabled] $TelemetryGPO
+        [GpoStateWithoutEnabled] $TelemetryGPO,
+        [state] $SynchronizerRunAtStartup,
+        [state] $SynchronizerTaskManagerProcess
     )
 
     process
@@ -224,6 +228,8 @@ function Set-AdobeAcrobatReaderSetting
             'OnlineServicesGPO'                  { Set-AcrobatReaderOnlineServices -GPO $OnlineServicesGPO }
             'OutlookPluginGPO'                   { Set-AcrobatReaderOutlookPlugin -GPO $OutlookPluginGPO }
             'TelemetryGPO'                       { Set-AcrobatReaderTelemetry -GPO $TelemetryGPO }
+            'SynchronizerRunAtStartup'           { Set-AdobeSynchronizer -RunAtStartup $SynchronizerRunAtStartup }
+            'SynchronizerTaskManagerProcess'     { Set-AdobeSynchronizer -TaskManagerProcess $SynchronizerTaskManagerProcess }
         }
     }
 }
