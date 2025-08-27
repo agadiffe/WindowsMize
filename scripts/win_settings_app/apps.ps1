@@ -90,7 +90,7 @@ Set-GeneralAppsSetting -AppsOpenLinksInsteadOfBrowserGPO 'NotConfigured'
 Write-Section -Name 'Resume' -SubSection
 
 # --- Resume (default: Enabled)
-Set-GeneralAppsSetting -AppsResume 'Disabled'
+Set-GeneralAppsSetting -AppsResume 'Disabled' -AppsResumeGPO 'NotConfigured'
 
 #endregion resume
 

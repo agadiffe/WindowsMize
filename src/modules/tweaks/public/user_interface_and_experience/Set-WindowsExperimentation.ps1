@@ -25,7 +25,7 @@ function Set-WindowsExperimentation
 
     process
     {
-        # on: 1 (default) | off: 0
+        # gpo\ not configured: 1 (default) | off: 0
         $WindowsExperimentation = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Microsoft\PolicyManager\default\System\AllowExperimentation'

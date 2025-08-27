@@ -1077,7 +1077,7 @@ $AppsSettings = @{
     ShareAcrossDevices = 'Disabled'
     AutoArchiveApps    = 'Disabled' ; AutoArchiveAppsGPO = 'NotConfigured'
     AppsOpenLinksInsteadOfBrowserGPO = 'NotConfigured'
-    AppsResume         = 'Disabled'
+    AppsResume         = 'Disabled' ; AppsResumeGPO      = 'NotConfigured'
 }
 Set-GeneralAppsSetting @AppsSettings
 

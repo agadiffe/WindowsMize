@@ -12,6 +12,7 @@
         [-AutoArchiveAppsGPO {Disabled | Enabled | NotConfigured}]
         [-AppsOpenLinksInsteadOfBrowserGPO {Disabled | NotConfigured}]
         [-AppsResume {Disabled | Enabled}]
+        [-AppsResumeGPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -40,7 +41,9 @@ function Set-GeneralAppsSetting
         [GpoStateWithoutEnabled] $AppsOpenLinksInsteadOfBrowserGPO,
 
         # resume
-        [state] $AppsResume
+        [state] $AppsResume,
+
+        [GpoStateWithoutEnabled] $AppsResumeGPO
     )
 
     process
@@ -62,6 +65,7 @@ function Set-GeneralAppsSetting
             'AppsOpenLinksInsteadOfBrowserGPO'  { Set-AppsOpenLinksInsteadOfBrowser -GPO $AppsOpenLinksInsteadOfBrowserGPO }
 
             'AppsResume'                        { Set-AppsResume -State $AppsResume }
+            'AppsResumeGPO'                     { Set-AppsResume -GPO $AppsResumeGPO }
         }
     }
 }
