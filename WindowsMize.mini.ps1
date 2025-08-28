@@ -300,6 +300,7 @@ Set-NetBiosOverTcpIP -State 'Disabled'
 Set-NetIcmpRedirects -State 'Disabled'
 Set-NetIPSourceRouting -State 'Disabled'
 Set-NetLlmnr -GPO 'Disabled'
+Set-NetLmhosts -State 'Disabled'
 Set-NetSmhnr -GPO 'Disabled'
 #Set-NetProxyAutoDetect -State 'Disabled'
 

@@ -169,6 +169,9 @@ Set-NetIPSourceRouting -State 'Disabled'
 # GPO: Disabled | NotConfigured
 Set-NetLlmnr -GPO 'Disabled'
 
+# --- LAN Manager Hosts (LMHOSTS) (default: Enabled)
+Set-NetLmhosts -State 'Disabled'
+
 # --- Smart Multi-Homed Name Resolution
 # GPO: Disabled | NotConfigured
 Set-NetSmhnr -GPO 'Disabled'

@@ -46,7 +46,7 @@ Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectiv
 - Firewall: block some ports/programs shown as listening (locally) in Netstat or TCP View.
 - IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP).
 - Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit)).
-- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, Smhnr, Wpad).
+- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, LMHOSTS, SMHNR, WPAD).
 </details>
 
 ### 📊 Telemetry
