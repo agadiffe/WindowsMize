@@ -84,6 +84,7 @@ $FileExplorerSettings = @{
     MaxIconCacheSize                = 4096
     AutoFolderTypeDetection         = 'Disabled'
     ShowRemovableDrivesOnlyInThisPC = 'Enabled'
+    UndoRedo                        = 'Enabled'
     #RecycleBin                      = 'Enabled'  ; RecycleBinGPO        = 'NotConfigured'
     #ConfirmFileDelete               = 'Disabled' ; ConfirmFileDeleteGPO = 'NotConfigured'
 }

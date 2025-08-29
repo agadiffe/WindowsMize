@@ -209,6 +209,9 @@ Set-FileExplorerSetting -MaxIconCacheSize 4096
 # --- Auto folder type detection (default: Enabled)
 Set-FileExplorerSetting -AutoFolderTypeDetection 'Disabled'
 
+# --- Undo/Redo feature (default: Enabled)
+Set-FileExplorerSetting -UndoRedo 'Enabled'
+
 # --- Recycle Bin (default: Enabled)
 # Disabled: don't move files to the Recycle Bin. Remove files immediately when deleted.
 # GPO: Disabled | NotConfigured

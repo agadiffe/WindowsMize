@@ -29,7 +29,7 @@ There are almost every settings, organized like the graphical counterpart.
 ### 📁 File Explorer
 Every settings + few extra.  
 Extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection,  
-MaxIconCacheSize, RecycleBin, ConfirmFileDelete.
+MaxIconCacheSize, UndoRedo, RecycleBin, ConfirmFileDelete.
 
 ### ⌛ System Properties
 Equivalent of the Windows GUI System Properties.  

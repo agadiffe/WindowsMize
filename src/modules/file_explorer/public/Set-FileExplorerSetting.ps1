@@ -48,6 +48,7 @@
         [-ShowRemovableDrivesOnlyInThisPC {Disabled | Enabled}]
         [-MaxIconCacheSize <int>]
         [-AutoFolderTypeDetection {Disabled | Enabled}]
+        [-UndoRedo {Disabled | Enabled}]
         [-ConfirmFileDelete {Disabled | Enabled}]
         [-ConfirmFileDeleteGPO {Disabled | NotConfigured}]
         [-RecycleBin {Disabled | Enabled}]
@@ -119,6 +120,7 @@ function Set-FileExplorerSetting
         [state] $ShowRemovableDrivesOnlyInThisPC,
         [int] $MaxIconCacheSize,
         [state] $AutoFolderTypeDetection,
+        [state] $UndoRedo,
         [state] $ConfirmFileDelete,
         [GpoStateWithoutEnabled] $ConfirmFileDeleteGPO,
         [state] $RecycleBin,
@@ -182,6 +184,7 @@ function Set-FileExplorerSetting
             'ShowRemovableDrivesOnlyInThisPC'  { Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State $ShowRemovableDrivesOnlyInThisPC }
             'MaxIconCacheSize'                 { Set-FileExplorerMaxIconCacheSize -Value $MaxIconCacheSize }
             'AutoFolderTypeDetection'          { Set-FileExplorerAutoFolderTypeDetection -State $AutoFolderTypeDetection }
+            'UndoRedo'                         { Set-FileExplorerUndoRedo -State $UndoRedo }
             'ConfirmFileDelete'                { Set-RecycleBinConfirmFileDelete -State $ConfirmFileDelete }
             'ConfirmFileDeleteGPO'             { Set-RecycleBinConfirmFileDelete -GPO $ConfirmFileDeleteGPO }
             'RecycleBin'                       { Set-RecycleBinRemoveFilesImmediately -State $RecycleBin }
