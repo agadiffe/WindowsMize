@@ -222,8 +222,18 @@ Set-FontProviders -GPO 'Disabled'
 # --- Home setting page visibility
 Set-HomeSettingPageVisibility -GPO 'Disabled'
 
+# --- Location permission
+Set-LocationPermission -GPO 'NotConfigured'
+
+# --- Location Scripting permission
+Set-LocationScriptingPermission -GPO 'NotConfigured'
+
 # --- 'Open With' dialog : Look for an app in the Store
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
+
+# --- Sensors permission
+# e.g. screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in)
+Set-SensorsPermission -GPO 'NotConfigured'
 
 # --- Taskbar : Last Active Click (default: Disabled)
 Set-TaskbarLastActiveClick -State 'Disabled'

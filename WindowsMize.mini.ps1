@@ -272,7 +272,10 @@ Set-EaseOfAccessReadScanSection -State 'Disabled'
 Set-FileHistory -GPO 'NotConfigured'
 Set-FontProviders -GPO 'Disabled'
 Set-HomeSettingPageVisibility -GPO 'Disabled'
+Set-LocationPermission -GPO 'NotConfigured'
+Set-LocationScriptingPermission -GPO 'NotConfigured'
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
+Set-SensorsPermission -GPO 'NotConfigured'
 Set-TaskbarLastActiveClick -State 'Disabled'
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
@@ -736,7 +739,7 @@ $ServicesToConfig = @(
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
     'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' (and maybe 'PrintNotify') services.
     'RemoteDesktop'
-    'Sensor'
+    #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in)
     'SmartCard'
     'Telemetry'
     'VirtualReality'

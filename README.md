@@ -91,8 +91,9 @@ For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
   <summary>Windows features and settings (click to expand).</summary>
 
   MoveCharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
-  FontProviders, HomeSettingPageVisibility, OpenWithDialogStoreAccess, TaskbarLastActiveClick,  
-  WindowsHelpSupport (F1Key, Feedback), WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission,  
+  OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport (F1Key, Feedback),  
+  WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 </details>
 
 </details>

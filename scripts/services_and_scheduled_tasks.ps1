@@ -80,7 +80,7 @@ $ServicesToConfig = @(
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
     'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' (and maybe 'PrintNotify') services.
     'RemoteDesktop'
-    'Sensor'
+    #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in)
     'SmartCard'
     'Telemetry'
     'VirtualReality'
