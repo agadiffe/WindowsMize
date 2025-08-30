@@ -32,7 +32,6 @@
         'Set-Recall'
         'Set-StartMenuBingSearch'
         'Set-Widgets'
-        'Stop-ProcessByName'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

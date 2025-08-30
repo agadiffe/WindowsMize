@@ -57,13 +57,14 @@ function Remove-MicrosoftEdge
     # Uninstall Microsoft Edge.
     Write-Verbose -Message 'Removing Microsoft Edge ...'
 
-    Stop-ProcessByName -Name '*edge*'
+    Stop-Process -Name '*edge*' -Force -ErrorAction 'SilentlyContinue'
+    Start-Sleep -Seconds 0.5
 
     Remove-ApplicationPackage -Name 'Microsoft.MicrosoftEdge.Stable' -Verbose:$false
     Start-Sleep -Seconds 0.5
 
     $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall".Replace('"', '\"')
-    Start-Process -Wait -NoNewWindow -FilePath 'pwsh.exe' -ArgumentList "-Command Invoke-Expression '$EdgeUninstallCmd'"
+    Start-Process -Wait -NoNewWindow -FilePath 'powershell.exe' -ArgumentList "-Command Invoke-Expression '$EdgeUninstallCmd'"
 
     if ($IsRegionPolicyFileChanged)
     {

@@ -25,7 +25,8 @@ function Set-BraveBrowserSettings
     # Remove welcome splash screen on first launch (also need '"has_seen_welcome_page": true' in prefs file).
     New-Item -ItemType 'File' -Path "$BraveUserDataPath\First Run" -ErrorAction 'SilentlyContinue' | Out-Null
 
-    Stop-ProcessByName -Name '*Brave*'
+    Stop-Process -Name '*Brave*' -Force -ErrorAction 'SilentlyContinue'
+    Start-Sleep -Seconds 0.5
 
     $BraveLocalState | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveUserDataPath\Local State"
     $BravePreferences | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveProfilePath\Preferences"

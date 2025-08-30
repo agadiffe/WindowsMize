@@ -55,7 +55,23 @@ function Set-UwpAppSetting
         if (Test-Path -Path $AppxSettingsFilePath)
         {
             # The app could be open or running in background.
-            Stop-ProcessByName -Name $ProcessName
+            Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
+            Start-Sleep -Seconds 0.25
+
+            $MaxRetries = 10
+            $RetryCount = 0
+
+            while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and ($RetryCount -lt $MaxRetries))
+            {
+                Start-Sleep -Seconds 0.25
+                $RetryCount++
+            }
+
+            if ($RetryCount -eq $MaxRetries)
+            {
+                Write-Error -Message "$Name settings.dat file is still locked after the maximum retries."
+                return
+            }
 
             Write-Verbose -Message "Setting $Name settings ..."
             $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
