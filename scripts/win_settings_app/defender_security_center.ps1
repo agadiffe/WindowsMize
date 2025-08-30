@@ -43,12 +43,14 @@ Write-Section -Name 'Virus & threat protection' -SubSection
 #               Settings
 #=======================================
 
-# --- Cloud-delivered protection (default: Advanced)
-# State: Disabled | Basic | Advanced # GPO: State + NotConfigured
+# --- Cloud-delivered protection
+# State: Disabled | Basic | Advanced (default)
+# GPO: Disabled | Basic | Advanced | NotConfigured
 Set-DefenderSetting -CloudDeliveredProtection 'Disabled' -CloudDeliveredProtectionGPO 'NotConfigured'
 
-# --- Automatic sample submission (default: SendSafeSamples)
-# State: NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples # GPO: State + NotConfigured
+# --- Automatic sample submission
+# State: NeverSend | AlwaysPrompt | SendSafeSamples (default) | SendAllSamples
+# GPO: NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured
 Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO 'NotConfigured'
 
 #endregion virus & threat protection
@@ -87,8 +89,9 @@ Set-DefenderSetting -SmartScreenForEdge 'Disabled' -SmartScreenForEdgeGPO 'NotCo
 # GPO: Disabled | Warn | Block | NotConfigured
 Set-DefenderSetting -PhishingProtectionGPO 'Disabled'
 
-# --- Potentially unwanted app blocking (default: Enabled)
-# State: Disabled | Enabled | AuditMode # GPO: State + NotConfigured
+# --- Potentially unwanted app blocking
+# State: Disabled | Enabled (default) | AuditMode
+# GPO: Disabled | Enabled | AuditMode | NotConfigured
 Set-DefenderSetting -UnwantedAppBlocking 'Disabled' -UnwantedAppBlockingGPO 'NotConfigured'
 
 # --- Smartscreen for Microsoft Store apps (default: Enabled)

@@ -136,7 +136,7 @@ Write-Section -Name 'System protection' -SubSection
 # State: Disabled | Enabled (default)
 # GPO: Disabled | NotConfigured
 
-Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+#Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
 #Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
 
 #endregion sys protection
@@ -151,7 +151,8 @@ Write-Section -Name 'Remote' -SubSection
 # --- Remote assistance
 #   Allow remote assistance connections to this computer (ViewOnly)
 #   Allow this computer to be controlled remotely (FullControl)
-# State: Disabled | FullControl | ViewOnly (default) # GPO: State + NotConfigured
+# State: Disabled | FullControl | ViewOnly (default)
+# GPO: Disabled | FullControl | ViewOnly | NotConfigured
 Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured'
 
 # Advanced settings

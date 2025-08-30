@@ -37,20 +37,20 @@ Write-Section -Name 'File Explorer'
 Write-Section -Name 'General' -SubSection
 
 # --- Open file explorer to
-# ThisPC | Home (default) | Downloads | OneDrive
+# State: ThisPC | Home (default) | Downloads | OneDrive
 Set-FileExplorerSetting -LaunchTo 'Home'
 
 # --- Open each folder in same/new window
-# SameWindow (default) | NewWindow
-Set-FileExplorerSetting -OpenFolder 'SameWindow'
+# State: SameWindow (default) | NewWindow
+#Set-FileExplorerSetting -OpenFolder 'SameWindow'
 
 # --- Open desktop folders and external folder links in new tab (default: Enabled)
 # Requires 'Open each folder in the same window'.
-Set-FileExplorerSetting -OpenFolderInNewTab 'Enabled'
+#Set-FileExplorerSetting -OpenFolderInNewTab 'Enabled'
 
 # --- Single/Double-click to open an item
-# SingleClick | DoubleClick (default)
-Set-FileExplorerSetting -OpenItem 'DoubleClick'
+# State: SingleClick | DoubleClick (default)
+#Set-FileExplorerSetting -OpenItem 'DoubleClick'
 
 # --- Show recently used files (default: Enabled)
 Set-FileExplorerSetting -ShowRecentFiles 'Enabled'
@@ -74,25 +74,25 @@ Write-Section -Name 'View' -SubSection
 #=======================================
 
 # --- Always show icons, never thumbnails (default: Disabled)
-Set-FileExplorerSetting -ShowIconsOnly 'Disabled'
+#Set-FileExplorerSetting -ShowIconsOnly 'Disabled'
 
 # --- Decrease space between items (compact view) (default: Disabled)
 Set-FileExplorerSetting -CompactView 'Enabled'
 
 # --- Display file icon on thumbnails (default: Enabled)
-Set-FileExplorerSetting -ShowFileIconOnThumbnails 'Enabled'
+#Set-FileExplorerSetting -ShowFileIconOnThumbnails 'Enabled'
 
 # --- Display file size information in folder tips (default: Enabled)
-Set-FileExplorerSetting -ShowFileSizeInFolderTips 'Enabled'
+#Set-FileExplorerSetting -ShowFileSizeInFolderTips 'Enabled'
 
 # --- Display the full path in the title bar (default: Disabled)
-Set-FileExplorerSetting -ShowFullPathInTitleBar 'Disabled'
+#Set-FileExplorerSetting -ShowFullPathInTitleBar 'Disabled'
 
 # --- Hidden files, folders, and drives (default: Disabled)
 Set-FileExplorerSetting -ShowHiddenItems 'Enabled'
 
 # --- Hide empty drives (default: Enabled)
-Set-FileExplorerSetting -HideEmptyDrives 'Enabled'
+#Set-FileExplorerSetting -HideEmptyDrives 'Enabled'
 
 # --- Hide extensions for known file types (default: Enabled)
 Set-FileExplorerSetting -HideFileExtensions 'Disabled'
@@ -101,28 +101,28 @@ Set-FileExplorerSetting -HideFileExtensions 'Disabled'
 Set-FileExplorerSetting -HideFolderMergeConflicts 'Disabled'
 
 # --- Hide protected operating system files (Recommended) (default: Enabled)
-Set-FileExplorerSetting -HideProtectedSystemFiles 'Enabled'
+#Set-FileExplorerSetting -HideProtectedSystemFiles 'Enabled'
 
 # --- Launch folder windows in a separate process (default: Disabled)
-Set-FileExplorerSetting -LaunchFolderInSeparateProcess 'Disabled'
+#Set-FileExplorerSetting -LaunchFolderInSeparateProcess 'Disabled'
 
 # --- Restore previous folder windows at logon (default: Disabled)
-Set-FileExplorerSetting -RestorePreviousFoldersAtLogon 'Disabled'
+#Set-FileExplorerSetting -RestorePreviousFoldersAtLogon 'Disabled'
 
 # --- Show drive letters (default: Enabled)
-Set-FileExplorerSetting -ShowDriveLetters 'Enabled'
+#Set-FileExplorerSetting -ShowDriveLetters 'Enabled'
 
 # --- Show encrypted or compressed NTFS files in color (default: Disabled)
-Set-FileExplorerSetting -ColorEncryptedAndCompressedFiles 'Disabled'
+#Set-FileExplorerSetting -ColorEncryptedAndCompressedFiles 'Disabled'
 
 # --- Show pop-up description for folder and desktop items (default: Enabled)
-Set-FileExplorerSetting -ShowItemsInfoPopup 'Enabled'
+#Set-FileExplorerSetting -ShowItemsInfoPopup 'Enabled'
 
 # --- Show preview handlers in preview pane (default: Enabled)
-Set-FileExplorerSetting -ShowPreviewHandlers 'Enabled'
+#Set-FileExplorerSetting -ShowPreviewHandlers 'Enabled'
 
 # --- Show status bar (default: Enabled)
-Set-FileExplorerSetting -ShowStatusBar 'Enabled'
+#Set-FileExplorerSetting -ShowStatusBar 'Enabled'
 
 # --- Show sync provider notifications (OneDrive Ads) (default: Enabled)
 Set-FileExplorerSetting -ShowSyncProviderNotifications 'Disabled'
@@ -134,8 +134,8 @@ Set-FileExplorerSetting -ItemsCheckBoxes 'Enabled'
 Set-FileExplorerSetting -SharingWizard 'Disabled'
 
 # --- When typing into list view
-# SelectItemInView (default) | AutoTypeInSearchBox
-Set-FileExplorerSetting -TypingIntoListViewBehavior 'SelectItemInView'
+# State: SelectItemInView (default) | AutoTypeInSearchBox
+#Set-FileExplorerSetting -TypingIntoListViewBehavior 'SelectItemInView'
 
 #            Navigation pane
 #=======================================
@@ -144,19 +144,19 @@ Set-FileExplorerSetting -TypingIntoListViewBehavior 'SelectItemInView'
 Set-FileExplorerSetting -ShowCloudStatesOnNavPane 'Disabled'
 
 # --- Expand to open folder (default: Disabled)
-Set-FileExplorerSetting -ExpandToCurrentFolder 'Disabled'
+#Set-FileExplorerSetting -ExpandToCurrentFolder 'Disabled'
 
 # --- Show all folders (default: Disabled)
-Set-FileExplorerSetting -ShowAllFolders 'Disabled'
+#Set-FileExplorerSetting -ShowAllFolders 'Disabled'
 
 # --- Show Libraries (default: Disabled)
-Set-FileExplorerSetting -ShowLibraries 'Disabled'
+#Set-FileExplorerSetting -ShowLibraries 'Disabled'
 
 # --- Show Network (default: Enabled)
-Set-FileExplorerSetting -ShowNetwork 'Enabled'
+#Set-FileExplorerSetting -ShowNetwork 'Enabled'
 
 # --- Show This PC (default: Enabled)
-Set-FileExplorerSetting -ShowThisPC 'Enabled'
+#Set-FileExplorerSetting -ShowThisPC 'Enabled'
 
 #endregion view
 
@@ -177,13 +177,13 @@ Set-FileExplorerSetting -DontUseSearchIndex 'Enabled'
 #=======================================
 
 # --- Include system directories (default: Enabled)
-Set-FileExplorerSetting -IncludeSystemFolders 'Enabled'
+#Set-FileExplorerSetting -IncludeSystemFolders 'Enabled'
 
 # --- Include compressed files (ZIP, CAB...) (default: Disabled)
-Set-FileExplorerSetting -IncludeCompressedFiles 'Disabled'
+#Set-FileExplorerSetting -IncludeCompressedFiles 'Disabled'
 
 # --- Always search file names and contents (this might take several minutes) (default: Disabled)
-Set-FileExplorerSetting -SearchFileNamesAndContents 'Disabled'
+#Set-FileExplorerSetting -SearchFileNamesAndContents 'Disabled'
 
 #endregion search
 
@@ -210,16 +210,16 @@ Set-FileExplorerSetting -MaxIconCacheSize 4096
 Set-FileExplorerSetting -AutoFolderTypeDetection 'Disabled'
 
 # --- Undo/Redo feature (default: Enabled)
-Set-FileExplorerSetting -UndoRedo 'Enabled'
+#Set-FileExplorerSetting -UndoRedo 'Enabled'
 
 # --- Recycle Bin (default: Enabled)
 # Disabled: don't move files to the Recycle Bin. Remove files immediately when deleted.
 # GPO: Disabled | NotConfigured
-Set-FileExplorerSetting -RecycleBin 'Enabled' -RecycleBinGPO 'NotConfigured'
+#Set-FileExplorerSetting -RecycleBin 'Enabled' -RecycleBinGPO 'NotConfigured'
 
 # --- Display delete confirmation dialog (default: Disabled)
 # GPO: Disabled | NotConfigured
-Set-FileExplorerSetting -ConfirmFileDelete 'Disabled' -ConfirmFileDeleteGPO 'NotConfigured'
+#Set-FileExplorerSetting -ConfirmFileDelete 'Disabled' -ConfirmFileDeleteGPO 'NotConfigured'
 
 #endregion miscellaneous
 

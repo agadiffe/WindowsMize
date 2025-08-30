@@ -132,8 +132,8 @@ Export-DefaultSystemDriversStartupType
 # Comment the drivers you want to disable.
 $SystemDriversToConfig = @(
     'BridgeDriver' # old ?
-    #'NetBiosDriver' # needed by: File and Printer Sharing
-    #'NetBiosOverTcpIpDriver' # legacy/old | needed by old pc/hardware: File and Printer Sharing
+    'NetBiosDriver' # needed by: File and Printer Sharing
+    'NetBiosOverTcpIpDriver' # legacy/old | needed by old pc/hardware: File and Printer Sharing
     'LldpDriver'
     'LltdIoDriver'
     'LltdResponderDriver'

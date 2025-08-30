@@ -104,7 +104,7 @@ function Set-MicrosoftOfficeSetting
             'BlockSigninGPO'           { Set-MSOfficeBlockSignin -GPO $BlockSigninGPO }
             'TeachingTips'             { Set-MSOfficeTeachingTips -State $TeachingTips }
 
-            'AILocalTrainingGPO'       { Set-MSOfficeAILocalTraining -GPO $AILocalTraining }
+            'AILocalTrainingGPO'       { Set-MSOfficeAILocalTraining -GPO $AILocalTrainingGPO }
             'CeipGPO'                  { Set-MSOfficeCeip -GPO $CeipGPO }
             'DiagnosticsGPO'           { Set-MSOfficeDiagnostics -GPO $DiagnosticsGPO }
             'DiscountProgramNotifsGPO' { Set-MSOfficeDiscountProgramNotifs -GPO $DiscountProgramNotifsGPO }

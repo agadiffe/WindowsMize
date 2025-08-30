@@ -432,18 +432,18 @@ Write-Section -Name 'Windows Notepad' -SubSection
 #=======================================
 
 # App theme
-# System (default) | Light | Dark
+# State: System (default) | Light | Dark
 Set-WindowsNotepadSetting -Theme 'System'
 
 #            Text Formatting
 #=======================================
 
 # --- Font family
-# example: Arial | Calibri | Consolas (default) | Comic Sans MS | Times New Roman
+# State (e.g.): Arial | Calibri | Consolas (default) | Comic Sans MS | Times New Roman | ...
 Set-WindowsNotepadSetting -FontFamily 'Consolas'
 
 # --- Font style
-# Regular (default) | Italic | Bold | Bold Italic
+# State: Regular (default) | Italic | Bold | Bold Italic
 Set-WindowsNotepadSetting -FontStyle 'Regular'
 
 # --- Font size
@@ -461,7 +461,7 @@ Set-WindowsNotepadSetting -Formatting 'Enabled'
 #=======================================
 
 # --- Opening files
-# NewTab (default) | NewWindow
+# State: NewTab (default) | NewWindow
 Set-WindowsNotepadSetting -OpenFile 'NewTab'
 
 # --- When Notepad starts : Continue previous session (default: Enabled)
@@ -510,7 +510,7 @@ Write-Section -Name 'Windows Photos' -SubSection
 #=======================================
 
 # --- Customize theme
-# System | Light | Dark (default)
+# State: System | Light | Dark (default)
 Set-WindowsPhotosSetting -Theme 'Dark'
 
 # --- Show gallery tiles attributes (default: Enabled)
@@ -526,11 +526,11 @@ Set-WindowsPhotosSetting -ShowICloudPhotos 'Disabled'
 Set-WindowsPhotosSetting -DeleteConfirmationDialog 'Enabled'
 
 # --- Mouse wheel
-# ZoomInOut (default) | NextPreviousItems
+# State: ZoomInOut (default) | NextPreviousItems
 Set-WindowsPhotosSetting -MouseWheelBehavior 'ZoomInOut'
 
 # --- Zoom preference (media smaller than window)
-# FitWindow | ViewActualSize (default)
+# State: FitWindow | ViewActualSize (default)
 Set-WindowsPhotosSetting -SmallMediaZoomPreference 'ViewActualSize'
 
 # --- Performance (run in the background at startup) (default: Enabled)
@@ -596,7 +596,7 @@ Set-WindowsSnippingToolSetting -IncludeSystemAudioInRecording 'Enabled'
 #=======================================
 
 # --- App theme
-# System (default) | Light | Dark
+# State: System (default) | Light | Dark
 Set-WindowsSnippingToolSetting -Theme 'System'
 
 #endregion snipping tool
@@ -613,11 +613,12 @@ Write-Section -Name 'Windows Terminal' -SubSection
 #==========================================================
 
 # --- Default profile
-# WindowsPowerShell (default) | CommandPrompt | PowerShellCore
+# State: WindowsPowerShell (default) | CommandPrompt | PowerShellCore
 Set-WindowsTerminalSetting -DefaultProfile 'PowerShellCore'
 
-# --- Default terminal application (e.g. command-line from Start Menu or Run dialog)
-# LetWindowsDecide | WindowsConsoleHost (default) | WindowsTerminal
+# --- Default terminal application
+# e.g. command-line from Start Menu or Run dialog
+# State: LetWindowsDecide | WindowsConsoleHost (default) | WindowsTerminal
 Set-WindowsTerminalSetting -DefaultCommandTerminalApp 'WindowsTerminal'
 
 # --- Launch on machine startup (default: Disabled)
@@ -631,8 +632,8 @@ Set-WindowsTerminalSetting -RunAtStartup 'Disabled'
 #=======================================
 
 # --- Color scheme
-# CGA | Campbell (default) | Campbell Powershell | Dark+ | IBM 5153 | One Half Dark | One Half Light |
-# Ottosson | Solarized Dark | Solarized Light | Tango Dark | Tango Light | Vintage
+# State: CGA | Campbell (default) | Campbell Powershell | Dark+ | IBM 5153 | One Half Dark | One Half Light |
+#        Ottosson | Solarized Dark | Solarized Light | Tango Dark | Tango Light | Vintage
 Set-WindowsTerminalSetting -DefaultColorScheme 'One Half Dark'
 
 #               Advanced

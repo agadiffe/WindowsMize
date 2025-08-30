@@ -41,12 +41,13 @@ Write-Section -Name 'Windows Settings App - Apps'
 
 Write-Section -Name 'Advanced app settings' -SubSection
 
-# --- Choose where to get apps (default: Anywhere)
-# State: Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly # GPO: State + NotConfigured
+# --- Choose where to get apps
+# State: Anywhere (default) | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly
+# GPO: Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly | NotConfigured
 Set-GeneralAppsSetting -ChooseWhereToGetApps 'Anywhere' -ChooseWhereToGetAppsGPO 'NotConfigured'
 
-# --- Share across devices (default: DevicesOnly)
-# State: Disabled | DevicesOnly | EveryoneNearby
+# --- Share across devices
+# State: Disabled | DevicesOnly (default) | EveryoneNearby
 Set-GeneralAppsSetting -ShareAcrossDevices 'Disabled'
 
 # --- Archive apps (default: Enabled)

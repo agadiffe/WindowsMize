@@ -60,8 +60,8 @@ Set-DateAndTimeSetting -ShowSecondsInSystemClock 'Disabled'
 # --- Show time in Notification Center (default: Disabled)
 Set-DateAndTimeSetting -ShowTimeInNotifCenter 'Disabled'
 
-# --- Internet time (NTP server) (default: Windows)
-# State: Windows | NistGov | PoolNtpOrg
+# --- Internet time (NTP server)
+# State: Cloudflare | Windows (default) | NistGov | PoolNtpOrg
 Set-DateAndTimeSetting -TimeServer 'Windows'
 
 #endregion date & time
@@ -133,20 +133,20 @@ Set-TypingSetting -TypingAndCorrectionHistory 'Disabled'
 # --- Let me use a different input method for each app window (default: Disabled)
 Set-TypingSetting -UseDifferentInputMethodForEachApp 'Disabled'
 
-# --- Language bar options (default: DockedInTaskbar)
+# --- Language bar options
 # Shown if more than one language and/or keyboard layout are installed.
-# State: FloatingOnDesktop | DockedInTaskbar | Hidden
+# State: FloatingOnDesktop | DockedInTaskbar (default) | Hidden
 Set-TypingSetting -LanguageBar 'DockedInTaskbar'
 
 # --- Input language hot keys
 # 'Win + Space' is not affected by the follwing settings.
 
-# --- --- Switch Input Language (default: LeftAltShift)
-# State: NotAssigned | CtrlShift | LeftAltShift | GraveAccent
+# --- --- Switch Input Language
+# State: NotAssigned | CtrlShift | LeftAltShift (default) | GraveAccent
 Set-TypingSetting -SwitchInputLanguageHotKey 'NotAssigned'
 
-# --- --- Switch Keyboard Layout (default: CtrlShift)
-# State: NotAssigned | CtrlShift | LeftAltShift | GraveAccent
+# --- --- Switch Keyboard Layout
+# State: NotAssigned | CtrlShift (default) | LeftAltShift | GraveAccent
 Set-TypingSetting -SwitchKeyboardLayoutHotKey 'NotAssigned'
 
 #endregion typing

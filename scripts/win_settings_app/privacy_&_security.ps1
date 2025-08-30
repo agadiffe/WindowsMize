@@ -108,8 +108,9 @@ Set-WinPermissionsSetting -InkingAndTypingPersonalization 'Disabled'
 # aka: Diagnostics & feedback
 #region telemetry
 
-# --- Diagnostic data (default: OptionalAndRequired)
-# State: Disabled | OnlyRequired | OptionalAndRequired # GPO: State + NotConfigured
+# --- Diagnostic data
+# State: Disabled | OnlyRequired | OptionalAndRequired (default)
+# GPO: Disabled | OnlyRequired | OptionalAndRequired | NotConfigured
 Set-WinPermissionsSetting -DiagnosticData 'Disabled' -DiagnosticDataGPO 'Disabled'
 
 # --- Improve inking and typing (default: Enabled)
@@ -124,8 +125,8 @@ Set-WinPermissionsSetting -DiagnosticDataViewer 'Disabled' -DiagnosticDataViewer
 # --- Delete diagnostic data
 Set-WinPermissionsSetting -DeleteDiagnosticDataGPO 'NotConfigured'
 
-# --- Feedback frequency (default: Automatically)
-# State: Never | Automatically | Always | Daily | Weekly
+# --- Feedback frequency
+# State: Never | Automatically (default) | Always | Daily | Weekly
 Set-WinPermissionsSetting -FeedbackFrequency 'Never' -FeedbackFrequencyGPO 'Disabled'
 
 #endregion telemetry
@@ -134,8 +135,8 @@ Set-WinPermissionsSetting -FeedbackFrequency 'Never' -FeedbackFrequencyGPO 'Disa
 #=======================================
 #region search
 
-# --- SafeSearch (default: Moderate)
-# State: Disabled | Moderate | Strict
+# --- SafeSearch
+# State: Disabled | Moderate (default) | Strict
 Set-WinPermissionsSetting -SafeSearch 'Disabled'
 
 # --- Cloud content search
@@ -156,8 +157,8 @@ Set-WinPermissionsSetting -CloudContentSearch 'Disabled'
 # --- Let search apps show results (default: Enabled)
 Set-WinPermissionsSetting -WebSearch 'Disabled'
 
-# --- Find my files (default: Classic)
-# State: Classic | Enhanced
+# --- Find my files
+# State: Classic (default) | Enhanced
 Set-WinPermissionsSetting -FindMyFiles 'Classic'
 
 # --- Advanced indexing options > Index encrypted files
@@ -285,19 +286,19 @@ Set-AppPermissionsSetting -ScreenshotsAndRecording 'Disabled' -ScreenshotsAndRec
 #region tablet
 
 # --- Cellular data (default: Enabled)
-Set-AppPermissionsSetting -CellularData 'Disabled' -CellularDataGPO 'NotConfigured'
+#Set-AppPermissionsSetting -CellularData 'Disabled' -CellularDataGPO 'NotConfigured'
 
 # --- Eye tracker (default: Enabled)
-Set-AppPermissionsSetting -EyeTracker 'Disabled' -EyeTrackerGPO 'NotConfigured'
+#Set-AppPermissionsSetting -EyeTracker 'Disabled' -EyeTrackerGPO 'NotConfigured'
 
 # --- Motion (default: Enabled)
-Set-AppPermissionsSetting -Motion 'Disabled' -MotionGPO 'NotConfigured'
+#Set-AppPermissionsSetting -Motion 'Disabled' -MotionGPO 'NotConfigured'
 
 # --- Presence sensing (default: Enabled)
-Set-AppPermissionsSetting -PresenceSensing 'Disabled' -PresenceSensingGPO 'NotConfigured'
+#Set-AppPermissionsSetting -PresenceSensing 'Disabled' -PresenceSensingGPO 'NotConfigured'
 
 # --- User movement (default: Enabled)
-Set-AppPermissionsSetting -UserMovement 'Disabled' -UserMovementGPO 'NotConfigured'
+#Set-AppPermissionsSetting -UserMovement 'Disabled' -UserMovementGPO 'NotConfigured'
 
 #endregion tablet
 

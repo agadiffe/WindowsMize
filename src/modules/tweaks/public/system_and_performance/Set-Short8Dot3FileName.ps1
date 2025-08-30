@@ -62,7 +62,7 @@ function Set-Short8Dot3FileName
         Write-Verbose -Message "Setting 'Short 8.3 File Names' to '$State' ..."
 
         # on: 0 (default) | off: 1
-        fsutil.exe behavior set Disable8dot3 ($State -eq 'Enabled' ? '0' : '1')
+        fsutil.exe behavior set Disable8dot3 ($State -eq 'Enabled' ? '0' : '1') | Out-Null
 
         if ($RemoveExisting8dot3FileNames)
         {

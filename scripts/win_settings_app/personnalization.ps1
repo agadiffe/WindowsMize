@@ -51,8 +51,8 @@ Write-Section -Name 'Background' -SubSection
 # default: "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
 Set-BackgroundSetting -Wallpaper "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
 
-# --- Choose a fit for your desktop image (default: Fill)
-# State: Fill | Fit | Stretch | Span | Tile | Center
+# --- Choose a fit for your desktop image
+# State: Fill (default) | Fit | Stretch | Span | Tile | Center
 Set-BackgroundSetting -WallpaperStyle 'Fill'
 
 #endregion background
@@ -64,20 +64,21 @@ Set-BackgroundSetting -WallpaperStyle 'Fill'
 
 Write-Section -Name 'Colors' -SubSection
 
-# --- Choose your mode (default: Light)
-# State: Dark | Light
+# --- Choose your mode
+# State: Dark | Light (default)
 Set-ColorsSetting -Theme 'Dark'
 #Set-ColorsSetting -AppsTheme 'Dark' -SystemTheme 'Dark'
 
 # --- Transparency effects (default: Enabled)
 Set-ColorsSetting -Transparency 'Enabled'
 
-# --- Accent color (default: Automatic)
+# --- Accent color
 # default manual color: blue (#0078D4)
-# State: Manual | Automatic
+# State: Manual | Automatic (default)
 Set-ColorsSetting -AccentColorMode 'Manual'
 
-# --- Show accent color on Start and taskbar (requires Dark mode) (default: Disabled)
+# --- Show accent color on Start and taskbar (default: Disabled)
+# Requires Dark mode.
 Set-ColorsSetting -ShowAccentColorOnStartAndTaskbar 'Disabled'
 
 # --- Show accent color on title bars and windows borders (default: Disabled)
@@ -158,8 +159,8 @@ Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
 
 Write-Section -Name 'Start' -SubSection
 
-# --- Layout (default: Default)
-# State: Default | MorePins | MoreRecommendations
+# --- Layout
+# State: Default (default) | MorePins | MoreRecommendations
 Set-StartSetting -LayoutMode 'Default'
 
 # --- Show All Pins By Default (default: Disabled)
@@ -213,8 +214,9 @@ Write-Section -Name 'Taskbar' -SubSection
 #             Taskbar items
 #=======================================
 
-# --- Search (default: Box)
-# State: Hide | IconOnly | Box | IconAndLabel # GPO: State + NotConfigured
+# --- Search
+# State: Hide | IconOnly | Box (default) | IconAndLabel
+# GPO: Hide | IconOnly | Box | IconAndLabel | NotConfigured
 Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 
 # --- Task view (default: Enabled)
@@ -223,15 +225,15 @@ Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
 #           System tray icons
 #=======================================
 
-# --- Emoji and more (default: WhileTyping)
-# State: Never | WhileTyping | Always
+# --- Emoji and more
+# State: Never | WhileTyping (default) | Always
 Set-TaskbarSetting -EmojiAndMore 'Never'
 
 # --- Pen menu (default: Enabled)
 Set-TaskbarSetting -PenMenu 'Disabled'
 
-# --- Touch keyboard (default: WhenNoKeyboard)
-# State: Never | Always | WhenNoKeyboard
+# --- Touch keyboard
+# State: Never | Always | WhenNoKeyboard (default)
 Set-TaskbarSetting -TouchKeyboard 'Never'
 
 # --- Virtual touchpad (default: Disabled)
@@ -247,44 +249,45 @@ Set-TaskbarSetting -HiddenIconMenu 'Enabled'
 #           Taskbar behaviors
 #=======================================
 
-# --- Taskbar alignment (default: Center)
-# State: Left | Center
+# --- Taskbar alignment
+# State: Left | Center (default)
 Set-TaskbarSetting -Alignment 'Center'
 
 # --- Optimize taskbar for touch interactions when this device is used as a tablet (default: Enabled)
-Set-TaskbarSetting -TouchOptimized 'Enabled'
+#Set-TaskbarSetting -TouchOptimized 'Enabled'
 
 # --- Automatically hide the taskbar (default: Disabled)
 Set-TaskbarSetting -AutoHide 'Disabled'
 
 # --- Show badges on taskbar apps (default: Enabled)
-Set-TaskbarSetting -ShowAppsBadges 'Enabled'
+#Set-TaskbarSetting -ShowAppsBadges 'Enabled'
 
 # --- Show flashing on taskbar apps (default: Enabled)
-Set-TaskbarSetting -ShowAppsFlashing 'Enabled'
+#Set-TaskbarSetting -ShowAppsFlashing 'Enabled'
 
 # --- Show my taskbar on all displays (default: Disabled)
-Set-TaskbarSetting -ShowOnAllDisplays 'Disabled' -ShowOnAllDisplaysGPO 'NotConfigured'
+#Set-TaskbarSetting -ShowOnAllDisplays 'Disabled' -ShowOnAllDisplaysGPO 'NotConfigured'
 
-# --- When using multiple displays, show my taskbar apps on (default: AllTaskbars)
-# State: AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen
-Set-TaskbarSetting -ShowAppsOnMultipleDisplays 'AllTaskbars'
+# --- When using multiple displays, show my taskbar apps on
+# State: AllTaskbars (default) | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen
+#Set-TaskbarSetting -ShowAppsOnMultipleDisplays 'AllTaskbars'
 
 # --- Share any window from my taskbar (default: Enabled)
-Set-TaskbarSetting -ShareAnyWindow 'Enabled'
+#Set-TaskbarSetting -ShareAnyWindow 'Enabled'
 
 # --- Select the far corner of the taskbar to show the desktop (default: Enabled)
 Set-TaskbarSetting -FarCornerToShowDesktop 'Enabled'
 
-# --- Combine taskbar buttons and hide labels (default: Always)
-# State: Always | WhenTaskbarIsFull | Never
-Set-TaskbarSetting -GroupAndHideLabelsMainTaskbar 'Always' -GroupAndHideLabelsGPO 'NotConfigured'
+# --- Combine taskbar buttons and hide labels
+# State: Always (default) | WhenTaskbarIsFull | Never
+#Set-TaskbarSetting -GroupAndHideLabelsMainTaskbar 'Always' -GroupAndHideLabelsGPO 'NotConfigured'
 
-# --- Combine taskbar buttons and hide labels on other taskbars (default: Always)
-# State: Always | WhenTaskbarIsFull | Never
-Set-TaskbarSetting -GroupAndHideLabelsOtherTaskbars 'Always'
+# --- Combine taskbar buttons and hide labels on other taskbars
+# State: Always (default) | WhenTaskbarIsFull | Never
+#Set-TaskbarSetting -GroupAndHideLabelsOtherTaskbars 'Always'
 
-# --- Show smaller taskbar buttons (default: WhenFull)
+# --- Show smaller taskbar buttons
+# State: Always | Never | WhenFull (default)
 Set-TaskbarSetting -ShowSmallerButtons 'WhenFull'
 
 # --- Show jump list when hovering on inactive taskbar apps (default: Enabled)

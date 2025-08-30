@@ -65,8 +65,8 @@ Set-WinUpdateSetting -RestartNotification 'Enabled' -RestartNotificationGPO 'Not
 #   Max range is 18 hours from the active hours start time.
 
 #Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured'
-# GPO: Disabled | Enabled | NotConfigured
-Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursGPO 'NotConfigured' -ActiveHoursStart 7 -ActiveHoursEnd 1
+Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHoursEnd 1
+#Set-WinUpdateSetting -ActiveHoursGPO 'Enabled' -ActiveHoursStart 7 -ActiveHoursEnd 1
 
 #         Delivery Optimization
 #=======================================

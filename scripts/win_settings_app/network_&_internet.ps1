@@ -43,9 +43,9 @@ Write-Section -Name 'Ethernet / Wi-Fi' -SubSection
 #              Properties
 #=======================================
 
-# --- Network profile (default: Public)
+# --- Network profile
 # Change all currently connected network.
-# State: Public | Private | DomainAuthenticated
+# State: Public (default) | Private | DomainAuthenticated
 Set-NetworkSetting -ConnectedNetworkProfile 'Private'
 
 #endregion ethernet / wi-fi
@@ -73,7 +73,7 @@ Set-NetworkSetting -VpnWhileRoaming 'Enabled'
 Write-Section -Name 'Proxy' -SubSection
 
 # --- Automatically detect settings (default: Enabled)
-Set-NetworkSetting -ProxyAutoDetectSettings 'Enabled'
+Set-NetworkSetting -ProxyAutoDetectSettings 'Disabled'
 
 #endregion proxy
 

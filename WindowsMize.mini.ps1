@@ -66,27 +66,59 @@ Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\src\module
 #region file Explorer
 
 $FileExplorerSettings = @{
-    LaunchTo                        = 'ThisPC'
-    ShowRecentFiles                 = 'Enabled'
-    ShowFrequentFolders             = 'Disabled'
-    ShowCloudFiles                  = 'Disabled'
-    CompactView                     = 'Enabled'
-    ShowHiddenItems                 = 'Enabled'
-    HideFileExtensions              = 'Disabled'
-    HideFolderMergeConflicts        = 'Disabled'
-    ShowSyncProviderNotifications   = 'Disabled' # OneDrive Ads
-    ItemsCheckBoxes                 = 'Enabled'
-    SharingWizard                   = 'Disabled'
-    ShowCloudStatesOnNavPane        = 'Disabled'
-    DontUseSearchIndex              = 'Enabled'
-    ShowHome                        = 'Enabled'
-    ShowGallery                     = 'Disabled'
-    MaxIconCacheSize                = 4096
-    AutoFolderTypeDetection         = 'Disabled'
-    ShowRemovableDrivesOnlyInThisPC = 'Enabled'
-    UndoRedo                        = 'Enabled'
-    #RecycleBin                      = 'Enabled'  ; RecycleBinGPO        = 'NotConfigured'
-    #ConfirmFileDelete               = 'Disabled' ; ConfirmFileDeleteGPO = 'NotConfigured'
+    # --- General
+    LaunchTo                         = 'Home'
+    #OpenFolder                       = 'SameWindow'
+    #OpenFolderInNewTab               = 'Enabled'
+    #OpenItem                         = 'DoubleClick'
+    ShowRecentFiles                  = 'Enabled'
+    ShowFrequentFolders              = 'Disabled'
+    ShowCloudFiles                   = 'Disabled'
+
+    # --- View
+    #ShowIconsOnly                    = 'Disabled'
+    CompactView                      = 'Enabled'
+    #ShowFileIconOnThumbnails         = 'Enabled'
+    #ShowFileSizeInFolderTips         = 'Enabled'
+    #ShowFullPathInTitleBar           = 'Disabled'
+    ShowHiddenItems                  = 'Enabled'
+    #HideEmptyDrives                  = 'Enabled'
+    HideFileExtensions               = 'Disabled'
+    HideFolderMergeConflicts         = 'Disabled'
+    #HideProtectedSystemFiles         = 'Enabled'
+    #LaunchFolderInSeparateProcess    = 'Disabled'
+    #RestorePreviousFoldersAtLogon    = 'Disabled'
+    #ShowDriveLetters                 = 'Enabled'
+    #ColorEncryptedAndCompressedFiles = 'Disabled'
+    #ShowItemsInfoPopup               = 'Enabled'
+    #ShowPreviewHandlers              = 'Enabled'
+    #ShowStatusBar                    = 'Enabled'
+    ShowSyncProviderNotifications    = 'Disabled' # OneDrive Ads
+    ItemsCheckBoxes                  = 'Enabled'
+    SharingWizard                    = 'Disabled'
+    #TypingIntoListViewBehavior       = 'SelectItemInView'
+    ShowCloudStatesOnNavPane         = 'Disabled'
+    #ExpandToCurrentFolder            = 'Disabled'
+    #ShowAllFolders                   = 'Disabled'
+    #ShowLibraries                    = 'Disabled'
+    #ShowNetwork                      = 'Enabled'
+    #ShowThisPC                       = 'Enabled'
+
+    # --- Search
+    DontUseSearchIndex               = 'Enabled'
+    #IncludeSystemFolders             = 'Enabled'
+    #IncludeCompressedFiles           = 'Disabled'
+    #SearchFileNamesAndContents       = 'Disabled'
+
+    # --- Miscellaneous
+    ShowHome                         = 'Enabled'
+    ShowGallery                      = 'Disabled'
+    ShowRemovableDrivesOnlyInThisPC  = 'Enabled'
+    MaxIconCacheSize                 = 4096
+    AutoFolderTypeDetection          = 'Disabled'
+    #UndoRedo                         = 'Enabled'
+    #RecycleBin                       = 'Enabled'  ; RecycleBinGPO        = 'NotConfigured'
+    #ConfirmFileDelete                = 'Disabled' ; ConfirmFileDeleteGPO = 'NotConfigured'
 }
 Set-FileExplorerSetting @FileExplorerSettings
 
@@ -197,6 +229,16 @@ $PrivacyAppPermUserFiles = @{
 }
 Set-AppPermissionsSetting @PrivacyAppPermUserFiles
 
+# --- Tablet
+$PrivacyAppPermTablet = @{
+    CellularData    = 'Disabled' ; CellularDataGPO    = 'NotConfigured'
+    EyeTracker      = 'Disabled' ; EyeTrackerGPO      = 'NotConfigured'
+    Motion          = 'Disabled' ; MotionGPO          = 'NotConfigured'
+    PresenceSensing = 'Disabled' ; PresenceSensingGPO = 'NotConfigured'
+    UserMovement    = 'Disabled' ; UserMovementGPO    = 'NotConfigured'
+}
+#Set-AppPermissionsSetting @PrivacyAppPermTablet
+
 #endregion app Permissions
 
 #               Telemetry
@@ -213,8 +255,8 @@ Set-ConsumerExperience -GPO 'NotConfigured'
 Set-Ceip -GPO 'Disabled'
 Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
 Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
-Set-GroupPolicySettingsLogging -GPO 'Disabled'
 Set-ErrorReporting -GPO 'Disabled'
+Set-GroupPolicySettingsLogging -GPO 'Disabled'
 Set-HandwritingPersonalization -GPO 'Disabled'
 Set-InventoryCollector -GPO 'Disabled'
 Set-KmsClientActivationDataSharing -GPO 'Disabled'
@@ -246,10 +288,35 @@ Set-LongPaths -State 'Enabled'
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled'
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
-Set-Short8Dot3FileName -State 'Disabled' # -RemoveExisting8dot3FileNames # Read comments in Set-Short8Dot3FileName.ps1
+Set-Short8Dot3FileName -State 'Disabled'
+#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # Read comments in Set-Short8Dot3FileName.ps1
 Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
 
 # --- User interface and experience
+# Win11 24H2+ only.
+$ActionCenterLayout = @(
+    'WiFi'
+    'Bluetooth'
+    'Cellular'
+    'WindowsStudio'
+    'AirplaneMode'
+    'Accessibility'
+    'Vpn'
+    'RotationLock'
+    'BatterySaver'
+    'EnergySaverAcOnly'
+    'LiveCaptions'
+    'BlueLightReduction'
+    'MobileHotspot'
+    'NearShare'
+    'ColorProfile'
+    'Cast'
+    'ProjectL2'
+    'LocalBluetooth'
+)
+#Set-ActionCenterLayout -Value $ActionCenterLayout
+#Set-ActionCenterLayout -Reset
+
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 Set-HelpTips -GPO 'Disabled'
 Set-MenuShowDelay -Value '200'
@@ -299,15 +366,7 @@ $FirewallInboundRules = @(
 )
 Block-NetFirewallInboundRule -Name $FirewallInboundRules
 
-# --- Protocols
-Set-NetBiosOverTcpIP -State 'Disabled'
-Set-NetIcmpRedirects -State 'Disabled'
-Set-NetIPSourceRouting -State 'Disabled'
-Set-NetLlmnr -GPO 'Disabled'
-Set-NetLmhosts -State 'Disabled'
-Set-NetSmhnr -GPO 'Disabled'
-#Set-NetProxyAutoDetect -State 'Disabled'
-
+# --- IPv6 transition technologies
 $IPv6TransitionTech = @(
     '6to4'
     'Teredo'
@@ -316,7 +375,10 @@ $IPv6TransitionTech = @(
 )
 Set-NetIPv6Transition -Name $IPv6TransitionTech -State 'Disabled' -GPO 'Disabled'
 
-$AdapterProtocols = @(
+# --- Network adapter protocol
+Export-DefaultNetAdapterProtocolsState
+
+$AdapterProtocolsToDisable = @(
     'LltdIo'
     'LltdResponder'
     'FileSharingClient'
@@ -327,7 +389,36 @@ $AdapterProtocols = @(
     'Lldp'
     'MicrosoftMultiplexor'
 )
-Set-NetAdapterProtocol -Name $AdapterProtocols -State 'Disabled'
+Set-NetAdapterProtocol -Name $AdapterProtocolsToDisable -State 'Disabled'
+
+$AdapterProtocolsToEnable = @(
+    'IPv4'
+    'IPv6'
+)
+#Set-NetAdapterProtocol -Name $AdapterProtocolsToEnable -State 'Enabled'
+
+# --- System Drivers (Services)
+$SystemDriversToConfig = @(
+    'BridgeDriver' # old ?
+    'NetBiosDriver' # needed by: File and Printer Sharing
+    'NetBiosOverTcpIpDriver' # legacy/old | needed by old pc/hardware: File and Printer Sharing
+    'LldpDriver'
+    'LltdIoDriver'
+    'LltdResponderDriver'
+    'MicrosoftMultiplexorDriver'
+    'QosPacketSchedulerDriver' # not really needed on small home network
+)
+# Disable the above selected drivers.
+#$SystemDriversToConfig | Set-ServiceStartupTypeGroup
+
+# --- Miscellaneous
+Set-NetBiosOverTcpIP -State 'Disabled'
+Set-NetIcmpRedirects -State 'Disabled'
+Set-NetIPSourceRouting -State 'Disabled'
+Set-NetLlmnr -GPO 'Disabled'
+Set-NetLmhosts -State 'Disabled'
+Set-NetSmhnr -GPO 'Disabled'
+#Set-NetProxyAutoDetect -State 'Disabled'
 
 #endregion network
 
@@ -346,7 +437,7 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 
 Set-AdvancedBatterySetting -Battery 'Low'      -Level 15 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 10
-Set-AdvancedBatterySetting -Battery 'Critical' -Level 7  -Action 'Hibernate'
+Set-AdvancedBatterySetting -Battery 'Critical' -Level 7  -Action 'Sleep'
 
 #endregion power options
 
@@ -354,11 +445,25 @@ Set-AdvancedBatterySetting -Battery 'Critical' -Level 7  -Action 'Hibernate'
 #=======================================
 #region system properties
 
-# --- Misc
+# --- Miscellaneous
 Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 512 -MaximumSize 2048
-Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+Set-DataExecutionPrevention -State 'OptIn'
+
+#Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+#Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
+
 Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured'
+$RemoteAssistanceProperties = @{
+    State                 = 'ViewOnly'
+    GPO                   = 'NotConfigured'
+    InvitationMaxTime     = 6
+    InvitationMaxTimeUnit = 'Hours'
+    EncryptedOnly         = 'Enabled'
+    EncryptedOnlyGPO      = 'NotConfigured'
+    InvitationMethodGPO   = 'SimpleMAPI' # ignored if 'GPO' is 'NotConfigured'
+}
+#Set-RemoteAssistance @RemoteAssistanceProperties
 
 # --- Visual Effects
 $VisualEffectsCustomSettings = @{
@@ -401,6 +506,13 @@ Set-SystemFailureSetting @SystemFailureSettings
 # i.e. Install & Debloat
 
 # --- Installation
+$CustomAppsToInstall = @(
+    'Valve.Steam'
+    'AppName2'
+    'AppName3'
+)
+#$CustomAppsToInstall | Install-ApplicationWithWinget -Scope 'Machine'
+
 $AppsToInstall = @(
     #'Git'
     #'VSCode'
@@ -432,6 +544,9 @@ $AppsToInstall = @(
 )
 $AppsToInstall | Install-Application
 Remove-AllDesktopShortcuts
+
+#Install-WindowsSubsystemForLinux
+#Install-WindowsSubsystemForLinux -Distribution 'Debian'
 
 # --- Appx & provisioned packages
 Remove-StartMenuPromotedApps # W11
@@ -507,7 +622,7 @@ $PreinstalledAppsToRemove | Remove-PreinstalledAppPackage
 #=======================================
 #region apps settings
 
-# --- Misc
+# --- Miscellaneous
 $AppsToConfig = @(
     #'KeePassXC'
     #'qBittorrent'
@@ -523,72 +638,70 @@ Set-BraveBrowserSettings
 # --- Adobe Acrobat Reader
 $AdobeReaderSettings = @{
     # --- Preferences
-    ## documents
-    ShowToolsPane                      = 'Disabled'
-    ## general
-    ShowCloudStorageOnFileOpen         = 'Disabled'
-    ShowCloudStorageOnFileSave         = 'Disabled'
-    ShowMessagesAtLaunch               = 'Disabled'
-    ShowMessagesAtLaunchGPO            = 'Disabled'
-    ShowMessagesWhenViewingPdf         = 'Disabled'
-    ShowMessagesWhenViewingPdfGPO      = 'Disabled'
-    SendCrashReports                   = 'Never'
-    ## email accounts
-    WebmailGPO                         = 'Disabled'
-    ## javascript
-    Javascript                         = 'Disabled'
-    JavascriptGPO                      = 'NotConfigured'
-    JavascriptMenuItemsExecution       = 'Disabled'
-    JavascriptGlobalObjectSecurity     = 'Enabled'
-    ## reviewing
-    SharedReviewWelcomeDialog          = 'Disabled'
-    ## security (enhanced)
-    ProtectedMode                      = 'Enabled'
-    ProtectedModeGPO                   = 'NotConfigured'
-    AppContainer                       = 'Enabled'
-    AppContainerGPO                    = 'NotConfigured'
-    ProtectedView                      = 'Disabled'
-    ProtectedViewGPO                   = 'NotConfigured'
-    EnhancedSecurity                   = 'Enabled'
-    EnhancedSecurityGPO                = 'NotConfigured'
-    TrustCertifiedDocuments            = 'Disabled'
-    TrustCertifiedDocumentsGPO         = 'NotConfigured'
-    TrustOSTrustedSites                = 'Disabled'
-    TrustOSTrustedSitesGPO             = 'NotConfigured'
-    AddTrustedFilesFoldersGPO          = 'NotConfigured'
-    AddTrustedSitesGPO                 = 'NotConfigured'
-    ## trust manager
-    OpenFileAttachments                = 'Disabled'
-    OpenFileAttachmentsGPO             = 'NotConfigured'
-    InternetAccessFromPdf              = 'Custom'
-    InternetAccessFromPdfGPO           = 'NotConfigured'
-    InternetAccessFromPdfUnknownUrl    = 'Ask'
-    InternetAccessFromPdfUnknownUrlGPO = 'NotConfigured'
-    ## units
-    PageUnits                          = 'Centimeters'
+    ## Documents
+    ShowToolsPane                   = 'Disabled'
+
+    ## General
+    ShowCloudStorageOnFileOpen      = 'Disabled'
+    ShowCloudStorageOnFileSave      = 'Disabled'
+    ShowMessagesAtLaunch            = 'Disabled' ; ShowMessagesAtLaunchGPO       = 'Disabled'
+    ShowMessagesWhenViewingPdf      = 'Disabled' ; ShowMessagesWhenViewingPdfGPO = 'Disabled'
+    SendCrashReports                = 'Never'
+
+    ## Email accounts
+    WebmailGPO                      = 'Disabled'
+
+    ## Javascript
+    Javascript                      = 'Disabled' ; JavascriptGPO = 'NotConfigured'
+    JavascriptMenuItemsExecution    = 'Disabled'
+    JavascriptGlobalObjectSecurity  = 'Enabled'
+
+    ## Reviewing
+    SharedReviewWelcomeDialog       = 'Disabled'
+
+    ## Security (enhanced)
+    ProtectedMode                   = 'Enabled'  ; ProtectedModeGPO           = 'NotConfigured'
+    AppContainer                    = 'Enabled'  ; AppContainerGPO            = 'NotConfigured'
+    ProtectedView                   = 'Disabled' ; ProtectedViewGPO           = 'NotConfigured'
+    EnhancedSecurity                = 'Enabled'  ; EnhancedSecurityGPO        = 'NotConfigured'
+    TrustCertifiedDocuments         = 'Disabled' ; TrustCertifiedDocumentsGPO = 'NotConfigured'
+    TrustOSTrustedSites             = 'Disabled' ; TrustOSTrustedSitesGPO     = 'NotConfigured'
+    AddTrustedFilesFoldersGPO       = 'NotConfigured'
+    AddTrustedSitesGPO              = 'NotConfigured'
+
+    ## Trust manager
+    OpenFileAttachments             = 'Disabled' ; OpenFileAttachmentsGPO             = 'NotConfigured'
+    InternetAccessFromPdf           = 'Custom'   ; InternetAccessFromPdfGPO           = 'NotConfigured'
+    InternetAccessFromPdfUnknownUrl = 'Ask'      ; InternetAccessFromPdfUnknownUrlGPO = 'NotConfigured'
+
+    ## Units
+    PageUnits                       = 'Centimeters'
 
     # --- Miscellaneous
-    ## ads
-    UpsellGPO                          = 'Disabled'
-    UpsellMobileAppGPO                 = 'Disabled'
-    ## cloud storage
-    AdobeCloudStorageGPO               = 'Disabled'
-    SharePointGPO                      = 'Disabled'
-    ThirdPartyCloudStorageGPO          = 'Disabled'
-    ## tips
-    FirstLaunchExperienceGPO           = 'Disabled'
-    OnboardingDialogsGPO               = 'Disabled'
-    PopupTipsGPO                       = 'Disabled'
-    ## others
-    AcceptEulaGPO                      = 'Enabled'
-    CrashReporterDialogGPO             = 'Disabled'
-    HomeTopBannerGPO                   = 'Disabled'
-    OnlineServicesGPO                  = 'Disabled'
-    OutlookPluginGPO                   = 'Disabled'
-    ShareFileGPO                       = 'Disabled'
-    TelemetryGPO                       = 'Disabled'
-    SynchronizerRunAtStartup           = 'Disabled'
-    #SynchronizerTaskManagerProcess     = 'Disabled'
+    ## Ads
+    UpsellGPO                       = 'Disabled'
+    UpsellMobileAppGPO              = 'Disabled'
+
+    ## Cloud storage
+    AdobeCloudStorageGPO            = 'Disabled'
+    SharePointGPO                   = 'Disabled'
+    ThirdPartyCloudStorageGPO       = 'Disabled'
+
+    ## Tips
+    FirstLaunchExperienceGPO        = 'Disabled'
+    OnboardingDialogsGPO            = 'Disabled'
+    PopupTipsGPO                    = 'Disabled'
+
+    ## Others
+    AcceptEulaGPO                   = 'Enabled'
+    CrashReporterDialogGPO          = 'Disabled'
+    HomeTopBannerGPO                = 'Disabled'
+    OnlineServicesGPO               = 'Disabled'
+    OutlookPluginGPO                = 'Disabled'
+    ShareFileGPO                    = 'Disabled'
+    TelemetryGPO                    = 'Disabled'
+    SynchronizerRunAtStartup        = 'Disabled'
+    #SynchronizerTaskManagerProcess  = 'Disabled'
 }
 Set-AdobeAcrobatReaderSetting @AdobeReaderSettings
 
@@ -602,18 +715,16 @@ Set-MicrosoftEdgePolicy @MicrosoftEdgePolicy
 
 # --- Microsoft Office
 $MsOfficeSettings = @{
-    # options
-    LinkedinFeatures         = 'Disabled'
-    LinkedinFeaturesGPO      = 'NotConfigured'
-    ShowStartScreen          = 'Disabled'
-    ShowStartScreenGPO       = 'NotConfigured'
+    # --- Options
+    LinkedinFeatures         = 'Disabled' ; LinkedinFeaturesGPO = 'NotConfigured'
+    ShowStartScreen          = 'Disabled' ; ShowStartScreenGPO  = 'NotConfigured'
 
-    # miscellaneous
+    # --- Miscellaneous
     AcceptEULAsGPO           = 'Enabled'
     BlockSigninGPO           = 'NotConfigured'
     TeachingTips             = 'Disabled'
 
-    # privacy
+    # --- Privacy
     AILocalTrainingGPO       = 'Disabled'
     CeipGPO                  = 'Disabled'
     DiagnosticsGPO           = 'Disabled'
@@ -626,19 +737,17 @@ $MsOfficeSettings = @{
     SurveysGPO               = 'Disabled'
     TelemetryGPO             = 'Disabled'
 
-    # connected experiences
+    # --- Connected experiences
     AllConnectedExperiencesGPO                 = 'NotConfigured'
     ConnectedExperiencesThatAnalyzeContentGPO  = 'NotConfigured'
     ConnectedExperiencesThatDownloadContentGPO = 'NotConfigured'
-    OptionalConnectedExperiences               = 'Disabled'
-    OptionalConnectedExperiencesGPO            = 'NotConfigured'
+    OptionalConnectedExperiences               = 'Disabled' ; OptionalConnectedExperiencesGPO = 'NotConfigured'
 }
 Set-MicrosoftOfficeSetting @MsOfficeSettings
 
 # --- Microsoft Store
 $MsStoreSettings = @{
-    AutoAppUpdates          = 'Enabled'
-    AutoAppUpdatesGPO       = 'NotConfigured'
+    AutoAppUpdates          = 'Enabled' ; AutoAppUpdatesGPO = 'NotConfigured'
     AppInstallNotifications = 'Enabled'
     VideoAutoplay           = 'Disabled'
     PersonalizedExperiences = 'Disabled'
@@ -682,16 +791,16 @@ Set-WindowsPhotosSetting @PhotosSettings
 # --- Windows Snipping Tool
 $SnippingToolSettings = @{
     AutoCopyScreenshotChangesToClipboard = 'Enabled'
-    AutoSaveScreenshoots          = 'Enabled'
-    AskToSaveEditedScreenshots    = 'Disabled'
-    MultipleWindows               = 'Disabled'
-    ScreenshotBorder              = 'Disabled'
-    HDRColorCorrector             = 'Disabled'
+    AutoSaveScreenshoots                 = 'Enabled'
+    AskToSaveEditedScreenshots           = 'Disabled'
+    MultipleWindows                      = 'Disabled'
+    ScreenshotBorder                     = 'Disabled'
+    HDRColorCorrector                    = 'Disabled'
     AutoCopyRecordingChangesToClipboard  = 'Enabled'
-    AutoSaveRecordings            = 'Enabled'
-    IncludeMicrophoneInRecording  = 'Disabled'
-    IncludeSystemAudioInRecording = 'Enabled'
-    Theme                         = 'System'
+    AutoSaveRecordings                   = 'Enabled'
+    IncludeMicrophoneInRecording         = 'Disabled'
+    IncludeSystemAudioInRecording        = 'Enabled'
+    Theme                                = 'System'
 }
 Set-WindowsSnippingToolSetting @SnippingToolSettings
 
@@ -822,11 +931,12 @@ Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 
 # --- Notifications
 $NotificationsSettings = @{
-    Notifications    = 'Disabled' ; NotificationsGPO = 'NotConfigured'
-    PlaySounds       = 'Disabled'
-    ShowOnLockScreen = 'Disabled' ; ShowOnLockScreenGPO = 'NotConfigured'
+    Notifications            = 'Disabled' ; NotificationsGPO    = 'NotConfigured'
+    PlaySounds               = 'Disabled'
+    ShowOnLockScreen         = 'Disabled' ; ShowOnLockScreenGPO = 'NotConfigured'
     ShowRemindersAndIncomingCallsOnLockScreen = 'Disabled'
-    ShowBellIcon     = 'Disabled'
+    ShowBellIcon             = 'Disabled'
+    ScreenIndicatorsPosition = 'BottomCenter'
 }
 Set-NotificationsSetting @NotificationsSettings
 
@@ -853,7 +963,11 @@ $NotificationsAdsSettings = @{
 Set-NotificationsSetting @NotificationsAdsSettings
 
 # --- Power (& battery)
-Set-PowerSetting -PowerMode 'Balanced'
+$PowerSettings = @{
+    PowerMode         = 'Balanced'
+    BatteryPercentage = 'Disabled'
+}
+Set-PowerSetting @PowerSettings
 
 $DeviceTimeouts = @(
     @{ PowerSource = 'PluggedIn' ; PowerState = 'Screen'    ; Timeout = 3 }
@@ -865,6 +979,13 @@ $DeviceTimeouts = @(
     @{ PowerSource = 'OnBattery' ; PowerState = 'Hibernate' ; Timeout = 30 }
 ) | ForEach-Object { [PSCustomObject]$_ }
 $DeviceTimeouts | Set-PowerSetting
+
+$EnergySaverSettings = @{
+    AlwaysOn             = 'Disabled'
+    TurnOnAtBatteryLevel = 30
+    LowerBrightness      = 70
+}
+Set-EnergySaverSetting @EnergySaverSettings
 
 $ButtonControlsSettings = @(
     @{ PowerSource = 'PluggedIn' ; ButtonControls = 'PowerButton' ; Action = 'Sleep' }
@@ -884,26 +1005,60 @@ $StorageSenseSettings = @{
 }
 Set-StorageSenseSetting @StorageSenseSettings
 
+# --- Nearby sharing
+$NearbySharingSettings = @{
+    NearbySharing     = 'Disabled'
+    #FileSaveLocation = 'X:\MySharedFiles'
+}
+Set-NearbySharingSetting @NearbySharingSettings
+
 # --- Multitasking
-$SnapWindowsSettingSettings = @{
+$MultitaskingSettingSettings = @{
+    ShowAppsTabsOnSnapAndAltTab = 'ThreeMostRecent' ; ShowAppsTabsOnSnapAndAltTabGPO = 'NotConfigured'
+    TitleBarWindowShake         = 'Disabled'        ; TitleBarWindowShakeGPO         = 'NotConfigured'
+    ShowAllWindowsOnTaskbar     = 'CurrentDesktop'
+    ShowAllWindowsOnAltTab      = 'CurrentDesktop'
+}
+Set-MultitaskingSetting @MultitaskingSettingSettings
+
+$SnapWindowsSettings = @{
     SnapWindows                = 'Enabled'
     SnapSuggestions            = 'Enabled'
     ShowLayoutOnMaxButtonHover = 'Enabled'
     ShowLayoutOnTopScreen      = 'Enabled'
 }
-Set-SnapWindowsSetting @SnapWindowsSettingSettings
+Set-SnapWindowsSetting @SnapWindowsSettings
 
-# --- Miscellaneous
-Set-ForDevelopersSetting -EndTask 'Disabled'
+# --- For developers
+$AdvancedSettings = @{
+    EndTask = 'Disabled'
+    Sudo    = 'Disabled'
+}
+Set-ForDevelopersSetting @AdvancedSettings
+
+# --- Troubleshoot
 Set-TroubleshooterPreference -Value 'Disabled'
+
+# --- Recovery
 Set-QuickMachineRecovery -State 'Disabled'
+#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval '30min' -RestartInterval '72hours'
+
+# --- Projecting to this PC
 Set-ProjectingToThisPC -GPO 'Disabled'
-Set-RemoteDesktopSetting -RemoteDesktop 'Disabled' -RemoteDesktopGPO 'NotConfigured'
+
+# --- Remote desktop
+$RemoteDesktopSettings = @{
+    RemoteDesktop = 'Disabled' ; RemoteDesktopGPO = 'NotConfigured'
+    NetworkLevelAuthentication = 'Enabled'
+    #PortNumber = 3389
+}
+Set-RemoteDesktopSetting @RemoteDesktopSettings
 
 # --- Clipboard
 $ClipboardSettings = @{
     History           = 'Disabled' ; HistoryGPO           = 'NotConfigured'
     SyncAcrossDevices = 'Disabled' ; SyncAcrossDevicesGPO = 'NotConfigured'
+    SuggestedActions  = 'Disabled'
 }
 Set-ClipboardSetting @ClipboardSettings
 
@@ -950,22 +1105,94 @@ $OptionalFeatures | Remove-PreinstalledOptionalFeature
 #=======================================
 #region bluetooth & devices
 
+# --- Devices
+$BluetoothSettings = @{
+    BluetoothGPO                   = 'NotConfigured'
+    ShowQuickPairConnectionNotif   = 'Enabled'  ; ShowQuickPairConnectionNotifGPO = 'NotConfigured'
+    LowEnergyAudio                 = 'Enabled'
+    DiscoveryMode                  = 'Default'
+}
+Set-BluetoothSetting @BluetoothSettings
+
 $DevicesSettings = @{
+    DownloadOverMeteredConnections = 'Disabled'
+    DefaultPrinterSystemManaged    = 'Disabled'
+}
+Set-DevicesSetting @DevicesSettings
+
+# --- Mobile devices
+$MobileDevicesSettings = @{
     MobileDevices        = 'Disabled'
     PhoneLink            = 'Disabled' ; PhoneLinkGPO = 'NotConfigured'
     ShowUsageSuggestions = 'Disabled'
 }
-Set-MobileDevicesSetting @DevicesSettings
+Set-MobileDevicesSetting @MobileDevicesSettings
 
-Set-MouseSetting -EnhancedPointerPrecision 'Enabled'
-Set-TouchpadSetting -ScrollingDirection 'DownMotionScrollsUp'
+# --- Mouse
+$MouseSettings = @{
+    PrimaryButton                = 'Left'
+    PointerSpeed                 = 10
+    EnhancedPointerPrecision     = 'Enabled'
+    ScrollInactiveWindowsOnHover = 'Enabled'
+    ScrollingDirection           = 'DownMotionScrollsDown'
+}
+Set-MouseSetting @MouseSettings
 
+#Set-MouseSetting -WheelScroll 'OneScreen'
+Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3
+
+# --- Touchpad
+$TouchpadSettings = @{
+    Touchpad                     = 'Enabled'
+    LeaveOnWithMouse             = 'Enabled'
+    CursorSpeed                  = 5
+    Sensitivity                  = 'Medium'
+    TapToClick                   = 'Enabled'
+    TwoFingersTapToRightClick    = 'Enabled'
+    TapTwiceAndDragToMultiSelect = 'Enabled'
+    RightClickButton             = 'Enabled'
+    TwoFingersToScroll           = 'Enabled'
+    ScrollingDirection           = 'DownMotionScrollsUp'
+    PinchToZoom                  = 'Enabled'
+    #ThreeFingersTap              = 'OpenSearch'
+    #ThreeFingersSwipes           = 'SwitchAppsAndShowDesktop'
+    #FourFingersTap               = 'NotificationCenter'
+    #FourFingersSwipes            = 'SwitchDesktopsAndShowDesktop'
+}
+Set-TouchpadSetting @TouchpadSettings
+
+$ThreeFingersSwipesCustom = @{
+    ThreeFingersUp    = 'TaskView'
+    ThreeFingersDown  = 'ShowDesktop'
+    ThreeFingersLeft  = 'SwitchApps'
+    ThreeFingersRight = 'SwitchApps'
+}
+#Set-TouchpadSetting -ThreeFingersSwipes 'Custom' @ThreeFingersSwipesCustom
+
+$FourFingersSwipesCustom = @{
+    FourFingersUp    = 'TaskView'
+    FourFingersDown  = 'ShowDesktop'
+    FourFingersLeft  = 'SwitchDesktops'
+    FourFingersRight = 'SwitchDesktops'
+}
+#Set-TouchpadSetting -FourFingersSwipes 'Custom' @FourFingersSwipesCustom
+
+
+# --- AutoPlay
 $AutoPlaySettings = @{
     AutoPlay       = 'Enabled'    ; AutoPlayGPO = 'NotConfigured'
     RemovableDrive = 'OpenFolder'
     MemoryCard     = 'OpenFolder'
 }
 Set-AutoPlaySetting @AutoPlaySettings
+
+# --- USB
+$UsbSettings = @{
+    NotifOnErrors      = 'Enabled'
+    BatterySaver       = 'Enabled'
+    NotifOnWeakCharger = 'Enabled'
+}
+Set-UsbSetting @UsbSettings
 
 #endregion bluetooth & devices
 
@@ -974,10 +1201,13 @@ Set-AutoPlaySetting @AutoPlaySettings
 #region network & internet
 
 Set-DnsServer -Cloudflare 'Default'
+#Set-DnsServer -ResetServerAddresses
 
 $NetworkSettings = @{
     ConnectedNetworkProfile = 'Private'
-    ProxyAutoDetectSettings = 'Enabled'
+    VpnOverMeteredNetworks  = 'Enabled'
+    VpnWhileRoaming         = 'Enabled'
+    ProxyAutoDetectSettings = 'Disabled'
 }
 Set-NetworkSetting @NetworkSettings
 
@@ -1025,9 +1255,10 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 
 # --- Lock screen
 $LockScreenSettings = @{
-    SetToPicture          = $true
-    GetFunFactsTipsTricks = 'Disabled'
-    YourWidgets           = 'Disabled' ; YourWidgetsGPO = 'NotConfigured'
+    SetToPicture                 = $true
+    GetFunFactsTipsTricks        = 'Disabled'
+    ShowPictureOnSigninScreenGPO = 'NotConfigured'
+    YourWidgets                  = 'Disabled' ; YourWidgetsGPO = 'NotConfigured'
 }
 Set-LockScreenSetting @LockScreenSettings
 
@@ -1060,18 +1291,40 @@ Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 
 # --- Taskbar
 $TaskbarSettings = @{
-    SearchBox           = 'Hide'     ; SearchBoxGPO = 'NotConfigured'
-    TaskView            = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
-    EmojiAndMore        = 'Never'
-    PenMenu             = 'Disabled'
-    TouchKeyboard       = 'Never'
-    VirtualTouchpad     = 'Disabled'
-    Alignment           = 'Center'
-    ShowJumplistOnHover = 'Disabled'
+    SearchBox                       = 'Hide'     ; SearchBoxGPO = 'NotConfigured'
+    TaskView                        = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
+    EmojiAndMore                    = 'Never'
+    PenMenu                         = 'Disabled'
+    TouchKeyboard                   = 'Never'
+    VirtualTouchpad                 = 'Disabled'
+    HiddenIconMenu                  = 'Enabled'
+    Alignment                       = 'Center'
+    #TouchOptimized                  = 'Enabled'
+    AutoHide                        = 'Disabled'
+    #ShowAppsBadges                  = 'Enabled'
+    #ShowAppsFlashing                = 'Enabled'
+    #ShowOnAllDisplays               = 'Disabled' ; ShowOnAllDisplaysGPO = 'NotConfigured'
+    #ShowAppsOnMultipleDisplays      = 'AllTaskbars'
+    #ShareAnyWindow                  = 'Enabled'
+    FarCornerToShowDesktop          = 'Enabled'
+    #GroupAndHideLabelsMainTaskbar   = 'Always' ; GroupAndHideLabelsGPO = 'NotConfigured'
+    #GroupAndHideLabelsOtherTaskbars = 'Always'
+    ShowSmallerButtons              = 'WhenFull'
+    ShowJumplistOnHover             = 'Disabled'
 }
 Set-TaskbarSetting @TaskbarSettings
 
 # --- Device usage
+$DeviceUsageOption = @(
+    #'Creativity'
+    #'Business'
+    #'Development'
+    'Entertainment'
+    #'Family'
+    #'Gaming'
+    #'School'
+)
+#Set-DeviceUsageSetting -Value $DeviceUsageOption
 Set-DeviceUsageSetting -DisableAll
 
 #endregion personnalization
@@ -1081,15 +1334,20 @@ Set-DeviceUsageSetting -DisableAll
 #region apps
 
 $AppsSettings = @{
-    ShareAcrossDevices = 'Disabled'
-    AutoArchiveApps    = 'Disabled' ; AutoArchiveAppsGPO = 'NotConfigured'
+    ChooseWhereToGetApps = 'Anywhere' ; ChooseWhereToGetAppsGPO = 'NotConfigured'
+    ShareAcrossDevices   = 'Disabled'
+    AutoArchiveApps      = 'Disabled' ; AutoArchiveAppsGPO      = 'NotConfigured'
     AppsOpenLinksInsteadOfBrowserGPO = 'NotConfigured'
-    AppsResume         = 'Disabled' ; AppsResumeGPO      = 'NotConfigured'
+    AppsResume           = 'Disabled' ; AppsResumeGPO           = 'NotConfigured'
 }
 Set-GeneralAppsSetting @AppsSettings
 
 # Deprecated app
-Set-OfflineMapsSetting -AutoUpdateOnACAndWifi 'Disabled' -AutoUpdateOnACAndWifiGPO 'NotConfigured'
+$OfflineMapsSettings = @{
+    DownloadOverMeteredConnection = 'Disabled'
+    AutoUpdateOnACAndWifi         = 'Disabled' ; AutoUpdateOnACAndWifiGPO = 'NotConfigured'
+}
+Set-OfflineMapsSetting @OfflineMapsSettings
 
 #endregion apps
 
@@ -1097,12 +1355,16 @@ Set-OfflineMapsSetting -AutoUpdateOnACAndWifi 'Disabled' -AutoUpdateOnACAndWifiG
 #=======================================
 #region accounts
 
-# GPO: CannotAddMicrosoftAccount | CannotAddOrLogonWithMicrosoftAccount | NotConfigured
 Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured'
 
 $AccountsSettings = @{
+    BiometricsGPO                  = 'NotConfigured'
+    SigninWithExternalDevice       = 'Enabled'
+    OnlyWindowsHelloForMSAccount   = 'Disabled'
     SigninRequiredIfAway           = 'Never'
+    DynamicLock                    = 'Disabled' ; DynamicLockGPO = 'NotConfigured'
     AutoRestartApps                = 'Disabled'
+    ShowAccountDetailsGPO          = 'NotConfigured'
     AutoFinishSettingUpAfterUpdate = 'Disabled' ; AutoFinishSettingUpAfterUpdateGPO = 'NotConfigured'
 }
 Set-SigninOptionsSetting @AccountsSettings
@@ -1113,9 +1375,6 @@ Set-SigninOptionsSetting @AccountsSettings
 #=======================================
 #region time & language
 
-# --- Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
-#Remove-LanguageFeatures # W11
-
 # --- Date & time
 $DateTimeSettings = @{
     AutoTimeZone             = 'Disabled'
@@ -1123,6 +1382,7 @@ $DateTimeSettings = @{
     ShowInSystemTray         = 'Enabled'
     ShowAbbreviatedValue     = 'Disabled' 
     ShowSecondsInSystemClock = 'Disabled'
+    ShowTimeInNotifCenter    = 'Disabled'
     TimeServer               = 'Windows'
 }
 Set-DateAndTimeSetting @DateTimeSettings
@@ -1134,6 +1394,9 @@ $LanguageRegionSettings = @{
     Utf8ForNonUnicodePrograms = 'Enabled'
 }
 Set-LanguageAndRegionSetting @LanguageRegionSettings
+
+# Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
+#Remove-LanguageFeatures # W11
 
 # --- Typing
 $TypingSettings = @{
@@ -1170,26 +1433,28 @@ Set-GamingSetting @NetworkSettings
 #region accessibility
 
 $AccessibilitySettings = @{
-    VisualEffectsAnimation        = 'Enabled'
-    ContrastThemesKeyboardShorcut = 'Disabled'
-    NarratorKeyboardShorcut       = 'Disabled'
-    NarratorAutoSendTelemetry     = 'Disabled'
-    VoiceTypingKeyboardShorcut    = 'Disabled'
-    MouseKeys                     = 'Disabled'
-    MouseKeysShorcut              = 'Disabled'
-    KeyboardStickyKeys            = 'Disabled'
-    KeyboardStickyKeysShorcut     = 'Disabled'
-    KeyboardFilterKeys            = 'Disabled'
-    KeyboardFilterKeysShorcut     = 'Disabled'
-    KeyboardToggleKeysTone        = 'Disabled'
-    KeyboardToggleKeysToneShorcut = 'Disabled'
+    VisualEffectsAlwaysShowScrollbars       = 'Disabled'
+    VisualEffectsAnimation                  = 'Enabled'
+    VisualEffectsNotificationsDuration      = 5
+    ContrastThemesKeyboardShorcut           = 'Disabled'
+    NarratorKeyboardShorcut                 = 'Disabled'
+    NarratorAutoSendTelemetry               = 'Disabled'
+    VoiceTypingKeyboardShorcut              = 'Disabled'
+    MouseKeys                               = 'Disabled'
+    MouseKeysShorcut                        = 'Disabled'
+    KeyboardStickyKeys                      = 'Disabled'
+    KeyboardStickyKeysShorcut               = 'Disabled'
+    KeyboardFilterKeys                      = 'Disabled'
+    KeyboardFilterKeysShorcut               = 'Disabled'
+    KeyboardToggleKeysTone                  = 'Disabled'
+    KeyboardToggleKeysToneShorcut           = 'Disabled'
     KeyboardPrintScreenKeyOpenScreenCapture = 'Disabled'
 }
 Set-AccessibilitySetting @AccessibilitySettings
 
 #endregion accessibility
 
-#           Windows Security
+#    Windows Security (aka Defender)
 #=======================================
 #region Windows security
 
@@ -1226,16 +1491,20 @@ Set-DefenderNotificationsSetting @DefenderNotifs
 #region Windows Update
 
 $WindowsUpdateSettings = @{
-    ActiveHoursMode  = 'Manually' ; ActiveHoursGPO = 'NotConfigured'
-    ActiveHoursStart = 7          ; ActiveHoursEnd = 1
-
-    DeliveryOptimization         = 'Disabled' ; DeliveryOptimizationGPO         = 'NotConfigured'
-    RestartNotification          = 'Disabled' ; RestartNotificationGPO          = 'NotConfigured'
-    GetLatestAsSoonAsAvailable   = 'Disabled' ; GetLatestAsSoonAsAvailableGPO   = 'NotConfigured'
-    UpdateOtherMicrosoftProducts = 'Enabled'  ; UpdateOtherMicrosoftProductsGPO = 'NotConfigured'
-    InsiderProgramPageVisibility = 'Disabled'
+    GetLatestAsSoonAsAvailable     = 'Disabled' ; GetLatestAsSoonAsAvailableGPO     = 'NotConfigured'
+    PauseUpdatesGPO                = 'NotConfigured'
+    UpdateOtherMicrosoftProducts   = 'Enabled'  ; UpdateOtherMicrosoftProductsGPO   = 'NotConfigured'
+    GetMeUpToDate                  = 'Disabled'
+    DownloadOverMeteredConnections = 'Disabled' ; DownloadOverMeteredConnectionsGPO = 'NotConfigured'
+    RestartNotification            = 'Disabled' ; RestartNotificationGPO            = 'NotConfigured'
+    DeliveryOptimization           = 'Disabled' ; DeliveryOptimizationGPO           = 'NotConfigured'
+    InsiderProgramPageVisibility   = 'Disabled'
 }
 Set-WinUpdateSetting @WindowsUpdateSettings
+
+#Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured'
+Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHoursEnd 1
+#Set-WinUpdateSetting -ActiveHoursGPO 'Enabled' -ActiveHoursStart 7 -ActiveHoursEnd 1
 
 #endregion Windows Update
 

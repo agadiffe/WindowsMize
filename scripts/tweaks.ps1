@@ -159,7 +159,7 @@ Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
 
 # --- Start Menu - All Apps View Mode
-# Category (default) | Grid | List
+# State: Category (default) | Grid | List
 Set-StartMenuAllAppsViewMode -Value 'Category'
 
 # --- Start Menu - Recommended section

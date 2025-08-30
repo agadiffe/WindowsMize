@@ -87,7 +87,7 @@ Write-Section -Name 'Sound' -SubSection
 #=======================================
 
 # --- Communications > when Windows detects communications activity
-# DoNothing | MuteOtherSounds | ReduceOtherSoundsBy80Percent (default) | ReduceOtherSoundsBy50Percent
+# State: DoNothing | MuteOtherSounds | ReduceOtherSoundsBy80Percent (default) | ReduceOtherSoundsBy50Percent
 Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 
 #endregion sound
@@ -164,7 +164,7 @@ Write-Section -Name 'Power (& battery)' -SubSection
 # --- Power Mode
 # Available only when using the Balanced power plan.
 # Applies only to the active power state (e.g. Laptop: PluggedIn or OnBattery).
-# BestPowerEfficiency | Balanced (default) | BestPerformance
+# State: BestPowerEfficiency | Balanced (default) | BestPerformance
 Set-PowerSetting -PowerMode 'Balanced'
 
 # --- Battery percentage (default: Disabled)
@@ -269,7 +269,8 @@ Set-NearbySharingSetting -NearbySharing 'Disabled'
 Write-Section -Name 'Multitasking' -SubSection
 
 # --- Show tabs from apps when snapping or pressing Alt+Tab
-# State: TwentyMostRecent | FiveMostRecent | ThreeMostRecent (default) | Disabled # GPO: State + NotConfigured
+# State: TwentyMostRecent | FiveMostRecent | ThreeMostRecent (default) | Disabled
+# GPO: TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled | NotConfigured
 Set-MultitaskingSetting -ShowAppsTabsOnSnapAndAltTab 'ThreeMostRecent' -ShowAppsTabsOnSnapAndAltTabGPO 'NotConfigured'
 
 # --- Title bar window shake (default: Disabled)
@@ -348,7 +349,8 @@ Write-Section -Name 'Recovery' -SubSection
 #        Quick Machine Recovery
 #=======================================
 
-# --- Quick Machine Recovery (default: Enabled on Home | Disabled on Pro/Enterprise)
+# --- Quick Machine Recovery
+# default: Enabled on Home | Disabled on Pro/Enterprise
 # Disabled: Also disable AutoRemediation.
 Set-QuickMachineRecovery -State 'Disabled'
 

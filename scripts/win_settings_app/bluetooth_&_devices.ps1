@@ -53,8 +53,8 @@ Set-DevicesSetting -DownloadOverMeteredConnections 'Disabled'
 # --- Use LE Audio when available (default: Enabled)
 Set-BluetoothSetting -LowEnergyAudio 'Enabled'
 
-# --- Bluetooth devices discovery (default: Default) | deprecated
-# State: Default | Advanced
+# --- Bluetooth devices discovery | deprecated
+# State: Default (default) | Advanced
 Set-BluetoothSetting -DiscoveryMode 'Default'
 
 #endregion devices
@@ -99,8 +99,8 @@ Set-MobileDevicesSetting -ShowUsageSuggestions 'Disabled'
 
 Write-Section -Name 'Mouse' -SubSection
 
-# --- Primary mouse button (default: Left)
-# State: Left | Right
+# --- Primary mouse button
+# State: Left (default) | Right
 Set-MouseSetting -PrimaryButton 'Left'
 
 # --- Mouse pointer speed (default: 10 (range 1-20))
@@ -112,17 +112,17 @@ Set-MouseSetting -EnhancedPointerPrecision 'Enabled'
 #               Scrolling
 #=======================================
 
-# --- Roll the mouse wheel to scroll (default: MultipleLines)
+# --- Roll the mouse wheel to scroll
 # --- Lines to scroll at a time (default: 3 (range 1-100))
-# State: MultipleLines (+ LinesToScroll) | OneScreen
+# State: MultipleLines [+ LinesToScroll] (default) | OneScreen
 #Set-MouseSetting -WheelScroll 'OneScreen'
 Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3
 
 # --- Scroll inactive windows when hovering over them (default: Enabled)
 Set-MouseSetting -ScrollInactiveWindowsOnHover 'Enabled'
 
-# --- Scrolling direction (default: DownMotionScrollsDown)
-# State: DownMotionScrollsDown | DownMotionScrollsUp
+# --- Scrolling direction
+# State: DownMotionScrollsDown (default) | DownMotionScrollsUp
 Set-MouseSetting -ScrollingDirection 'DownMotionScrollsDown'
 
 #endregion mouse
@@ -146,8 +146,8 @@ Set-TouchpadSetting -CursorSpeed 5
 #                 Taps
 #=======================================
 
-# --- Touchpad sensitivity (default: Medium)
-# State: Max | High | Medium | Low
+# --- Touchpad sensitivity
+# State: Max | High | Medium (default) | Low
 Set-TouchpadSetting -Sensitivity 'Medium'
 
 # --- Tap with a single finger to single-click (default: Enabled)
@@ -168,8 +168,8 @@ Set-TouchpadSetting -RightClickButton 'Enabled'
 # --- Drag two fingers to scroll (default: Enabled)
 Set-TouchpadSetting -TwoFingersToScroll 'Enabled'
 
-# --- Scrolling direction (default: DownMotionScrollsUp)
-# State: DownMotionScrollsDown | DownMotionScrollsUp
+# --- Scrolling direction
+# State: DownMotionScrollsDown | DownMotionScrollsUp (default)
 Set-TouchpadSetting -ScrollingDirection 'DownMotionScrollsUp'
 
 # --- Pinch to zoom (default: Enabled)
@@ -178,13 +178,13 @@ Set-TouchpadSetting -PinchToZoom 'Enabled'
 #         Three-finger gestures
 #=======================================
 
-# --- Taps (default: OpenSearch)
-# Nothing | OpenSearch | NotificationCenter | PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
-Set-TouchpadSetting -ThreeFingersTap 'OpenSearch'
+# --- Taps
+# State: Nothing | OpenSearch (default) | NotificationCenter | PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
+#Set-TouchpadSetting -ThreeFingersTap 'OpenSearch'
 
-# --- Swipes (default: SwitchAppsAndShowDesktop)
-# Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
-Set-TouchpadSetting -ThreeFingersSwipes 'SwitchAppsAndShowDesktop'
+# --- Swipes
+# State: Nothing | SwitchAppsAndShowDesktop (default) | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
+#Set-TouchpadSetting -ThreeFingersSwipes 'SwitchAppsAndShowDesktop'
 
 # Nothing | SwitchApps (left/right) | TaskView (up) | ShowDesktop (down) | SwitchDesktops | HideAllExceptAppInFocus |
 # CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation | SnapWindowToLeft | SnapWindowToRight |
@@ -200,13 +200,13 @@ $ThreeFingersSwipesCustom = @{
 #         Four-finger gestures
 #=======================================
 
-# --- Taps (default: NotificationCenter)
-# Nothing | OpenSearch | NotificationCenter| PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
-Set-TouchpadSetting -FourFingersTap 'NotificationCenter'
+# --- Taps
+# State: Nothing | OpenSearch | NotificationCenter (default) | PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
+#Set-TouchpadSetting -FourFingersTap 'NotificationCenter'
 
-# --- Swipes (default: SwitchDesktopsAndShowDesktop)
-# Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
-Set-TouchpadSetting -FourFingersSwipes 'SwitchDesktopsAndShowDesktop'
+# --- Swipes
+# State: Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop (default) | ChangeAudioAndVolume | Custom
+#Set-TouchpadSetting -FourFingersSwipes 'SwitchDesktopsAndShowDesktop'
 
 # Nothing | SwitchApps | TaskView (up) | ShowDesktop (down) | SwitchDesktops (left/right) | HideAllExceptAppInFocus |
 # CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation | SnapWindowToLeft | SnapWindowToRight |
@@ -234,12 +234,12 @@ Set-AutoPlaySetting -AutoPlay 'Enabled' -AutoPlayGPO 'NotConfigured'
 #       Choose AutoPlay defaults
 #=======================================
 
-# --- Removable Drive (default: Default)
-# State: Default | NoAction | OpenFolder | AskEveryTime
+# --- Removable Drive
+# State: Default (default) | NoAction | OpenFolder | AskEveryTime
 Set-AutoPlaySetting -RemovableDrive 'OpenFolder'
 
-# --- Memory card (default: Default)
-# State: Default | NoAction | OpenFolder | AskEveryTime
+# --- Memory card
+# State: Default (default) | NoAction | OpenFolder | AskEveryTime
 Set-AutoPlaySetting -MemoryCard 'OpenFolder'
 
 #endregion autoplay
