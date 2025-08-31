@@ -2,35 +2,58 @@
 #                                             Visual Studio Code Data
 #=================================================================================================================
 
+<#
+.SYNTAX
+    Get-VSCodeUserDataPath [<CommonParameters>]
+#>
+
 function Get-VSCodeUserDataPath
 {
-    "$((Get-LoggedOnUserEnvVariable).APPDATA)\Code"
+    [CmdletBinding()]
+    param ()
+
+    process
+    {
+        "$((Get-LoggedOnUserEnvVariable).APPDATA)\Code"
+    }
 }
+
+
+<#
+.SYNTAX
+    Get-VSCodeDataToRamDisk [<CommonParameters>]
+#>
 
 function Get-VSCodeDataToRamDisk
 {
-    $VSCodeUserFolders = @(
-        'User\globalStorage\ms-vscode.powershell' # powershell extension
-    )
+    [CmdletBinding()]
+    param ()
 
-    $VSCodeDirectoryExcluded = @(
-        'User'
-    )
-    $VSCodeFoldersParam = @{
-        Path      = Get-VSCodeUserDataPath
-        Directory = $true
-        Name      = $true
-        Exclude   = $VSCodeDirectoryExcluded
-    }
-    $VSCodeFolders = Get-ChildItem @VSCodeFoldersParam
-
-    $VSCodeDataToRamDisk = @{
-        Directory = @(
-            $VSCodeFolders
-            $VSCodeUserFolders
+    process
+    {
+        $VSCodeUserFolders = @(
+            'User\globalStorage\ms-vscode.powershell' # powershell extension
         )
+
+        $VSCodeDirectoryExcluded = @(
+            'User'
+        )
+        $VSCodeFoldersParam = @{
+            Path      = Get-VSCodeUserDataPath
+            Directory = $true
+            Name      = $true
+            Exclude   = $VSCodeDirectoryExcluded
+        }
+        $VSCodeFolders = Get-ChildItem @VSCodeFoldersParam
+
+        $VSCodeDataToRamDisk = @{
+            Directory = @(
+                $VSCodeFolders
+                $VSCodeUserFolders
+            )
+        }
+        $VSCodeDataToRamDisk
     }
-    $VSCodeDataToRamDisk
 }
 
 

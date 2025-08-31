@@ -11,15 +11,26 @@
 
 # It should also works for Active Directory users ? (untested)
 
+<#
+.SYNTAX
+    Get-LoggedOnUserUsername [<CommonParameters>]
+#>
+
 function Get-LoggedOnUserUsername
 {
-    $ComputerInfo = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
-    $Username = $ComputerInfo.UserName | Split-Path -Leaf
+    [CmdletBinding()]
+    param ()
 
-    if (-not $Username)
+    process
     {
-        Write-Error -Message 'Error to get the UserName of current logged-on user.'
-        exit
+        $ComputerInfo = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
+        $Username = $ComputerInfo.UserName | Split-Path -Leaf
+
+        if (-not $Username)
+        {
+            Write-Error -Message 'Error to get the UserName of current logged-on user.'
+            exit
+        }
+        $Username
     }
-    $Username
 }

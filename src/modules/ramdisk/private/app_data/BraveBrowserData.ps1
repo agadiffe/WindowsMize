@@ -37,53 +37,67 @@ function Get-ProfilePathCombinations
         [string[]] $Path
     )
 
-    $Data = @(
-        foreach ($ProfileName in $ProfilesNames)
-        {
-            foreach ($Item in $Path)
+    process
+    {
+        $Data = @(
+            foreach ($ProfileName in $ProfilesNames)
             {
-                "$ProfileName\$Item"
+                foreach ($Item in $Path)
+                {
+                    "$ProfileName\$Item"
+                }
             }
-        }
-    )
-    $Data
+        )
+        $Data
+    }
 }
 
 
+<#
+.SYNTAX
+    Get-BraveDataException [<CommonParameters>]
+#>
+
 function Get-BraveDataException
 {
-    $ProfilesNames = (Get-BraveBrowserPathInfo).ProfilesNames
-    $SymlinkFolders = @{
-        UserData = @()
-        ProfileData = Get-ProfilePathCombinations -ProfilesNames $ProfilesNames -Path @(
-            'DNR Extension Rules' # e.g. uBOL
-            'Extensions'
-            'Local Extension Settings'
-        )
-    }
-    $PersistentData = @{
-        UserData = @(
-            'First Run'
-            'Local State'
-        )
-        ProfileData = Get-ProfilePathCombinations -ProfilesNames $ProfilesNames -Path @(
-            'FilterListSubscriptionCache\' # custom filter lists
-            #'Network\Cookies'
-            'Bookmarks'
-            'Favicons'
-            #'History'
-            'Preferences'
-            'Secure Preferences'
-        )
-    }
+    [CmdletBinding()]
+    param ()
 
-    $BraveDataException = @{
-        Symlink = @{
-            Directory = $SymlinkFolders.Values.ForEach({ $_ })
+    process
+    {
+        $ProfilesNames = (Get-BraveBrowserPathInfo).ProfilesNames
+        $SymlinkFolders = @{
+            UserData = @()
+            ProfileData = Get-ProfilePathCombinations -ProfilesNames $ProfilesNames -Path @(
+                'DNR Extension Rules' # e.g. uBOL
+                'Extensions'
+                'Local Extension Settings'
+            )
         }
-        Persistent = $PersistentData.Values.ForEach({ $_ })
+        $PersistentData = @{
+            UserData = @(
+                'First Run'
+                'Local State'
+            )
+            ProfileData = Get-ProfilePathCombinations -ProfilesNames $ProfilesNames -Path @(
+                'FilterListSubscriptionCache\' # custom filter lists
+                #'Network\Cookies'
+                'Bookmarks'
+                'Favicons'
+                #'History'
+                'Preferences'
+                'Secure Preferences'
+            )
+        }
+
+        $BraveDataException = @{
+            Symlink = @{
+                Directory = $SymlinkFolders.Values.ForEach({ $_ })
+            }
+            Persistent = $PersistentData.Values.ForEach({ $_ })
+        }
+        $BraveDataException
     }
-    $BraveDataException
 }
 
 

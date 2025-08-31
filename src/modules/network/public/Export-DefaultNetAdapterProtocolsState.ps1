@@ -2,32 +2,43 @@
 #                           Network Adapter - Export Default NetAdapter Protocols State
 #=================================================================================================================
 
+<#
+.SYNTAX
+    Export-DefaultNetAdapterProtocolsState [<CommonParameters>]
+#>
+
 function Export-DefaultNetAdapterProtocolsState
 {
-    $LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_netadapter_protocols_state.json"
-    if (-not (Test-Path -Path $LogFilePath))
+    [CmdletBinding()]
+    param ()
+
+    process
     {
-        Write-Verbose -Message 'Exporting Default Network Adapter Protocols State ...'
+        $LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_netadapter_protocols_state.json"
+        if (-not (Test-Path -Path $LogFilePath))
+        {
+            Write-Verbose -Message 'Exporting Default Network Adapter Protocols State ...'
 
-        New-ParentPath -Path $LogFilePath
+            New-ParentPath -Path $LogFilePath
 
-        Get-NetAdapterBinding |
-            Group-Object -Property 'Name' |
-            ForEach-Object -Process {
-                $ProtocolsDictionary = [ordered]@{}
-                $_.Group |
-                    Sort-Object -Property 'DisplayName' |
-                    ForEach-Object -Process {
-                        $ProtocolState = $_.Enabled ? 'Enabled' : 'Disabled'
-                        $ProtocolsDictionary.$($_.DisplayName) = $ProtocolState
+            Get-NetAdapterBinding |
+                Group-Object -Property 'Name' |
+                ForEach-Object -Process {
+                    $ProtocolsDictionary = [ordered]@{}
+                    $_.Group |
+                        Sort-Object -Property 'DisplayName' |
+                        ForEach-Object -Process {
+                            $ProtocolState = $_.Enabled ? 'Enabled' : 'Disabled'
+                            $ProtocolsDictionary.$($_.DisplayName) = $ProtocolState
+                        }
+
+                    [ordered]@{
+                        NetAdapter = $_.Name
+                        Protocol   = $ProtocolsDictionary
                     }
-
-                [ordered]@{
-                    NetAdapter = $_.Name
-                    Protocol   = $ProtocolsDictionary
-                }
-            } |
-            ConvertTo-Json |
-            Out-File -FilePath $LogFilePath
+                } |
+                ConvertTo-Json |
+                Out-File -FilePath $LogFilePath
+        }
     }
 }

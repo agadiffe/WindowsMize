@@ -4,15 +4,27 @@
 
 # Only available if your account has a password.
 
+<#
+.SYNTAX
+    Test-ModernStandbyAvailability [<CommonParameters>]
+#>
+
 function Test-ModernStandbyAvailability
 {
-    $PowercfgOutput = powercfg.exe /a
-    $AvailableStates = $PowercfgOutput |
-        Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
-        Select-Object -First $PowercfgOutput.IndexOf("")
-    $S0Enabled = $AvailableStates | Select-String -Pattern 'S0' -Quiet
-    $S0Enabled
+    [CmdletBinding()]
+    param ()
+
+    process
+    {
+        $PowercfgOutput = powercfg.exe /a
+        $AvailableStates = $PowercfgOutput |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+            Select-Object -First $PowercfgOutput.IndexOf("")
+        $S0Enabled = $AvailableStates | Select-String -Pattern 'S0' -Quiet
+        $S0Enabled
+    }
 }
+
 
 <#
 .SYNTAX for Standard Standby (S3)

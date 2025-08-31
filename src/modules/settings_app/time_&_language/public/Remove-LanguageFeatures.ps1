@@ -6,36 +6,47 @@
 
 # Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
 
+<#
+.SYNTAX
+    Remove-LanguageFeatures [<CommonParameters>]
+#>
+
 function Remove-LanguageFeatures
 {
-    $AllWinPackages = Get-WindowsPackage -Online -Verbose:$false
+    [CmdletBinding()]
+    param ()
 
-    # Basic Typing must be removed in last.
-    $LanguageFeatures = 'Handwriting', 'OCR', 'Speech', 'TextToSpeech', 'Basic'
-
-    foreach ($Feature in $LanguageFeatures)
+    process
     {
-        # e.g. Microsoft-Windows-LanguageFeatures-Basic-en-us-Package~31bf3856ad364e35~amd64~~10.0.22621.3007
-        $WinPackage = $AllWinPackages |
-            Where-Object -FilterScript {
-                $_.PackageName -like "*LanguageFeatures-$Feature*" -and
-                $_.PackageState -eq 'Installed'
-            }
+        $AllWinPackages = Get-WindowsPackage -Online -Verbose:$false
 
-        if ($WinPackage)
-        {
-            $WindowsPackageOptions = @{
-                NoRestart     = $true
-                Verbose       = $false
-                WarningAction = 'SilentlyContinue'
-            }
+        # Basic Typing must be removed in last.
+        $LanguageFeatures = 'Handwriting', 'OCR', 'Speech', 'TextToSpeech', 'Basic'
 
-            Write-Verbose -Message "Removing LanguageFeatures-$Feature ..."
-            $WinPackage | Remove-WindowsPackage -Online @WindowsPackageOptions | Out-Null
-        }
-        else
+        foreach ($Feature in $LanguageFeatures)
         {
-            Write-Verbose -Message "LanguageFeatures-$Feature is not installed"
+            # e.g. Microsoft-Windows-LanguageFeatures-Basic-en-us-Package~31bf3856ad364e35~amd64~~10.0.22621.3007
+            $WinPackage = $AllWinPackages |
+                Where-Object -FilterScript {
+                    $_.PackageName -like "*LanguageFeatures-$Feature*" -and
+                    $_.PackageState -eq 'Installed'
+                }
+
+            if ($WinPackage)
+            {
+                $WindowsPackageOptions = @{
+                    NoRestart     = $true
+                    Verbose       = $false
+                    WarningAction = 'SilentlyContinue'
+                }
+
+                Write-Verbose -Message "Removing LanguageFeatures-$Feature ..."
+                $WinPackage | Remove-WindowsPackage -Online @WindowsPackageOptions | Out-Null
+            }
+            else
+            {
+                Write-Verbose -Message "LanguageFeatures-$Feature is not installed"
+            }
         }
     }
 }

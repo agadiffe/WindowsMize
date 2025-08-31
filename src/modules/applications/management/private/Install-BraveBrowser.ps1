@@ -4,14 +4,25 @@
 
 # Brave fails to update itself when installed with Winget.
 
+<#
+.SYNTAX
+    Install-BraveBrowser [<CommonParameters>]
+#>
+
 function Install-BraveBrowser
 {
-    Write-Verbose -Message 'Installing Brave Browser ...'
+    [CmdletBinding()]
+    param ()
 
-    $Url = 'https://laptop-updates.brave.com/latest/winx64'
-    $OutPath = "$env:TEMP\BraveBrowserSetup.exe"
+    process
+    {
+        Write-Verbose -Message 'Installing Brave Browser ...'
 
-    Invoke-RestMethod -Uri $Url -OutFile $OutPath -Verbose:$false
-    Start-Process -Wait -FilePath $OutPath -ArgumentList '/silent /install'
-    Remove-Item -Path $OutPath
+        $Url = 'https://laptop-updates.brave.com/latest/winx64'
+        $OutPath = "$env:TEMP\BraveBrowserSetup.exe"
+
+        Invoke-RestMethod -Uri $Url -OutFile $OutPath -Verbose:$false
+        Start-Process -Wait -FilePath $OutPath -ArgumentList '/silent /install'
+        Remove-Item -Path $OutPath
+    }
 }

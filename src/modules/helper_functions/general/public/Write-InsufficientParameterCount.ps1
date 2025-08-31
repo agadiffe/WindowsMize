@@ -2,7 +2,18 @@
 #                              Helper Function - Write Insufficient Parameter Count
 #=================================================================================================================
 
+<#
+.SYNTAX
+    Write-InsufficientParameterCount [<CommonParameters>]
+#>
+
 function Write-InsufficientParameterCount
 {
-    'Insufficient number of parameters were provided.'
+    [CmdletBinding()]
+    param ()
+
+    process
+    {
+        'Insufficient number of parameters were provided.'
+    }
 }
