@@ -10,33 +10,46 @@
 #   It may enhance security by reducing the risk of certain types of attacks that exploit short file names.
 
 <#
-  The command "fsutil.exe 8Dot3Name strip" will display a scary Warning. That's not as bad as stated.
+  The command "fsutil.exe 8Dot3Name strip/ f /s C:" will display a scary Warning. That's not as bad as stated.
 
-  You should replace any mention of 8.3 Name in the registry (open the generated log file to find them).
+  This command lists, but does not modify the registry keys that point to the files that had 8dot3 file names.
 
-  Checking the log file:
-  In the first part of the log (between the start and before 'Total affected registry keys:').
-  In the column 'Registry Data', if you have a 8.3 Name, open the registry and replace the value with the full path.
+  You might need to edit some affected registry entries.
+  On a fresh installation (or even on an existing one), you shouldn't have any.
+  Short 8.3 file names are used by very old/legacy programs.
 
-  There shouldn't have many, if at all, registry keys affected. On my fresh install testing VM, I had none.
-  This script run this command before installing any programs, so in theory, there shouldn't have any 8.3 file names.
-  If your UserName is longer than 8 characters, you may need to adjust some affected registry keys.
+  Open the generated log file to find them:
+    At the top, you have a table of affected registry keys.
+    The tool reports all keys with a tilde (~) character, but that doesn't mean they are 8.3 file names.
 
-  The tool report all keys with a tilde(~) character, but that doesn't mean it's a 8.3 Name.
-  This was the only one on my system ... despite the tool reported 200+ affected registry keys.
+  8.3 file names format: 6 first characters, then a tilde (~), then a single digit (1-9).
+  Example: 'PROGRA~1' and 'COMMON~1'.
+
+  Example of an affected registry key:
   hive  : HKLM\SOFTWARE\WOW6432Node\Classes\CLSID\{CA8A9780-280D-11CF-A24D-444553540000}\ToolboxBitmap32
   key   : (Default)
   value : C:\PROGRA~1\COMMON~1\Adobe\Acrobat\ActiveX\AcroPDF.dll, 102
 
-  The 8.3 File Names are 'PROGRA~1' and 'COMMON~1'.
-  Replace the value with the full path name in the registry.
+  Open the regedit and replace the value data with the full path name:
   i.e. "C:\Program Files\Common Files\Adobe\Acrobat\ActiveX\AcroPDF.dll"
+
+  'PROGRA~1', 'COMMON~1', and others, will not be stripped because they are in used (access denied).
+  To remove them:
+    - Settings > System > Recovery > Advanced Startup: click on "Restart now".
+    - On the recovery Menu, choose: Troubleshoot > Commmand Prompt.
+    - On the Commmand Prompt, run: fsutil.exe 8Dot3Name strip /f /s /l C:\8dot3.log C:
+      /l C:\8dot3.log: save the log file into your C: drive instead of the recovery partition.
+
+  If your are not sure about your system drive letter (C:), you can confirm it with Diskpart:
+    - Run: Diskpart.exe
+    - DISKPART> list volume # confirm your system drive letter.
+    - DISKPART> exit # exit Diskpart and return to Commmand Prompt.
 #>
 
 <#
 .SYNTAX
     Set-Short8Dot3FileName
-        [-State] {Disabled | Enabled}
+        [-State] {Disabled | Enabled | PerVolumeBasis | DisabledExceptSystemVolume}
         [-RemoveExisting8dot3FileNames]
         [<CommonParameters>]
 #>
@@ -52,7 +65,8 @@ function Set-Short8Dot3FileName
     param
     (
         [Parameter(Mandatory)]
-        [state] $State,
+        [ValidateSet('Disabled', 'Enabled', 'PerVolumeBasis', 'DisabledExceptSystemVolume')]
+        [string] $State,
 
         [switch] $RemoveExisting8dot3FileNames
     )
@@ -61,31 +75,34 @@ function Set-Short8Dot3FileName
     {
         Write-Verbose -Message "Setting 'Short 8.3 File Names' to '$State' ..."
 
-        # on: 0 (default) | off: 1
-        fsutil.exe behavior set Disable8dot3 ($State -eq 'Enabled' ? '0' : '1') | Out-Null
+        # 0 - Enable 8dot3 name creation on all volumes on the system
+        # 1 - Disable 8dot3 name creation on all volumes on the system
+        # 2 - Set 8dot3 name creation on a per volume basis (default)
+        # 3 - Disable 8dot3 name creation on all volumes except the system volume
+        $8Dot3NameBehavior = switch ($State)
+        {
+            'Enabled'                    { '0' }
+            'Disabled'                   { '1' }
+            'PerVolumeBasis'             { '2' }
+            'DisabledExceptSystemVolume' { '3' }
+        }
+        fsutil.exe 8Dot3Name set $8Dot3NameBehavior | Out-Null
 
         if ($RemoveExisting8dot3FileNames)
         {
             # It can take a moment on HDD (few minutes). It's really fast on SSD (few seconds).
             Write-Verbose -Message ("   The following Warning is not as bad as stated.`n" +
-                "            Open the generated log file and replace any mention of 8dot3 Name in the registry.`n" +
+                "            Open the generated log file and replace any mention of 8dot3 names in the registry.`n" +
                 "            Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.`n")
 
             $LogFolderPath = "$PSScriptRoot\..\..\..\..\..\log"
-            $LogFileName = '8dot3_removal.log'
+            $LogFileName = "8dot3_removal_@($(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssK')).log"
 
-            if (Test-Path -Path "$LogFolderPath\$LogFileName")
-            {
-                # use default log file path: %temp%\8dot3_removal_log@(GMT YYYY-MM-DD HH-MM-SS).log
-                fsutil.exe 8Dot3Name strip /f /s $env:SystemDrive
-            }
-            else
-            {
-                New-Item -Path $LogFolderPath -ItemType 'Directory' -Force -ErrorAction 'SilentlyContinue' | Out-Null
-                $LogFolderPath = Resolve-Path $LogFolderPath
-                fsutil.exe 8Dot3Name strip /f /s /l "$LogFolderPath\$LogFileName" $env:SystemDrive
-            }
+            $LogFolderPath = Resolve-Path -Path $LogFolderPath
+            $LogFilePath = "$LogFolderPath\$LogFileName"
+            New-ParentPath -Path $LogFilePath
 
+            fsutil.exe 8Dot3Name strip /f /s /l $LogFilePath $env:SystemDrive
         }
     }
 }

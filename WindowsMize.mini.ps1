@@ -289,7 +289,7 @@ Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled'
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
 Set-Short8Dot3FileName -State 'Disabled'
-#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # Read comments in Set-Short8Dot3FileName.ps1
+#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # Read the comments in Set-Short8Dot3FileName.ps1
 Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
 
 # --- User interface and experience

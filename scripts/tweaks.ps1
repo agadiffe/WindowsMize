@@ -96,9 +96,10 @@ Set-NumLockAtStartup -State 'Enabled'
 # --- Service host splitting (default: Enabled)
 Set-ServiceHostSplitting -State 'Enabled'
 
-# --- Short 8.3 file names (default: Enabled)
+# --- Short 8.3 file names
+# State: Disabled | Enabled | PerVolumeBasis (default) | DisabledExceptSystemVolume
 # RemoveExisting8dot3FileNames (switch): Removes 8dot3 file names for all files in $env:SystemDrive (i.e. C:)
-#   Might require manual editing of some registry entries (should not on a fresh install).
+#   Might require manual editing of some registry entries (should not on a fresh install (or even on a current system)).
 #   Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.
 Set-Short8Dot3FileName -State 'Disabled'
 #Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
