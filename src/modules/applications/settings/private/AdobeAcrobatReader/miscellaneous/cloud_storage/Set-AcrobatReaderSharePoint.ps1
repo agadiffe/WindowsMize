@@ -30,7 +30,7 @@ function Set-AcrobatReaderSharePoint
         # not configured: delete (default) | off: 1
         $AcrobatReaderSharePointGpo = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
-            Path    = 'SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\cCloud'
+            Path    = 'SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown\cSharePoint'
             Entries = @(
                 @{
                     RemoveEntry = $GPO -eq 'NotConfigured'

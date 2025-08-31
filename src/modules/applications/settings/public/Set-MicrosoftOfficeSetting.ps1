@@ -17,13 +17,19 @@
 <#
 .SYNTAX
     Set-MicrosoftOfficeSetting
-        [-AcceptEULAsGPO {Enabled | NotConfigured}]
-        [-BlockSigninGPO {Enabled | NotConfigured}]
+
+        # Options
         [-LinkedinFeatures {Disabled | Enabled}]
         [-LinkedinFeaturesGPO {Disabled | NotConfigured}]
         [-ShowStartScreen {Disabled | Enabled}]
         [-ShowStartScreenGPO {Disabled | NotConfigured}]
+
+        # Miscellaneous
+        [-AcceptEULAsGPO {Enabled | NotConfigured}]
+        [-BlockSigninGPO {Enabled | NotConfigured}]
         [-TeachingTips {Disabled | Enabled}]
+
+        # Privacy
         [-AILocalTrainingGPO {Disabled | Enabled}]
         [-CeipGPO {Disabled | NotConfigured}]
         [-DiagnosticsGPO {Disabled | Enabled | NotConfigured}]
@@ -35,6 +41,8 @@
         [-SendPersonalInfoGPO {Disabled | NotConfigured}]
         [-SurveysGPO {Disabled | NotConfigured}]
         [-TelemetryGPO {Disabled | NotConfigured}]
+
+        # Connected experiences
         [-AllConnectedExperiencesGPO {Disabled | NotConfigured}]
         [-ConnectedExperiencesThatAnalyzeContentGPO {Disabled | NotConfigured}]
         [-ConnectedExperiencesThatDownloadContentGPO {Disabled | NotConfigured}]
@@ -53,18 +61,18 @@ function Set-MicrosoftOfficeSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        # options
+        # Options
         [state] $LinkedinFeatures,
         [GpoStateWithoutEnabled] $LinkedinFeaturesGPO,
         [state] $ShowStartScreen,
         [GpoStateWithoutEnabled] $ShowStartScreenGPO,
 
-        # miscellaneous
+        # Miscellaneous
         [GpoStateWithoutDisabled] $AcceptEULAsGPO,
         [GpoStateWithoutDisabled] $BlockSigninGPO,
         [state] $TeachingTips,
 
-        # privacy
+        # Privacy
         [GpoStateWithoutEnabled] $AILocalTrainingGPO,
         [GpoStateWithoutEnabled] $CeipGPO,
         [GpoState] $DiagnosticsGPO,
@@ -77,7 +85,7 @@ function Set-MicrosoftOfficeSetting
         [GpoStateWithoutEnabled] $SurveysGPO,
         [GpoStateWithoutEnabled] $TelemetryGPO,
 
-        # connected experiences
+        # Connected experiences
         [GpoStateWithoutEnabled] $AllConnectedExperiencesGPO,
         [GpoStateWithoutEnabled] $ConnectedExperiencesThatAnalyzeContentGPO,
         [GpoStateWithoutEnabled] $ConnectedExperiencesThatDownloadContentGPO,
@@ -95,15 +103,18 @@ function Set-MicrosoftOfficeSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # Options
             'LinkedinFeatures'         { Set-MSOfficeLinkedinFeatures -State $LinkedinFeatures }
             'LinkedinFeaturesGPO'      { Set-MSOfficeLinkedinFeatures -GPO $LinkedinFeaturesGPO }
             'ShowStartScreen'          { Set-MSOfficeShowStartScreen -State $ShowStartScreen }
             'ShowStartScreenGPO'       { Set-MSOfficeShowStartScreen -GPO $ShowStartScreenGPO }
 
+            # Miscellaneous
             'AcceptEULAsGPO'           { Set-MSOfficeAcceptEULAs -GPO $AcceptEULAsGPO }
             'BlockSigninGPO'           { Set-MSOfficeBlockSignin -GPO $BlockSigninGPO }
             'TeachingTips'             { Set-MSOfficeTeachingTips -State $TeachingTips }
 
+            # Privacy
             'AILocalTrainingGPO'       { Set-MSOfficeAILocalTraining -GPO $AILocalTrainingGPO }
             'CeipGPO'                  { Set-MSOfficeCeip -GPO $CeipGPO }
             'DiagnosticsGPO'           { Set-MSOfficeDiagnostics -GPO $DiagnosticsGPO }
@@ -116,6 +127,7 @@ function Set-MicrosoftOfficeSetting
             'SurveysGPO'               { Set-MSOfficeSurveys -GPO $SurveysGPO }
             'TelemetryGPO'             { Set-MSOfficeTelemetry -GPO $TelemetryGPO }
 
+            # Connected experiences
             'AllConnectedExperiencesGPO'                 { Set-MSOfficeConnectedExperiences -AllConnectedExperiencesGPO $AllConnectedExperiencesGPO }
             'ConnectedExperiencesThatAnalyzeContentGPO'  { Set-MSOfficeConnectedExperiences -ConnectedExperiencesThatAnalyzeContentGPO $ConnectedExperiencesThatAnalyzeContentGPO }
             'ConnectedExperiencesThatDownloadContentGPO' { Set-MSOfficeConnectedExperiences -ConnectedExperiencesThatDownloadContentGPO $ConnectedExperiencesThatDownloadContentGPO }

@@ -5,7 +5,6 @@
 <#
 .SYNTAX
     Set-FirstSigninAnimation
-        [-State] {Disabled | Enabled}
         -GPO {Disabled | Enabled | NotConfigured}
         [<CommonParameters>]
 #>
@@ -14,15 +13,12 @@ function Set-FirstSigninAnimation
 {
     <#
     .EXAMPLE
-        PS> Set-FirstSigninAnimation -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-FirstSigninAnimation -GPO 'Disabled'
     #>
 
-    [CmdletBinding(PositionalBinding = $false)]
+    [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory, Position = 0)]
-        [state] $State,
-
         [Parameter(Mandatory)]
         [GpoState] $GPO
     )
@@ -36,15 +32,11 @@ function Set-FirstSigninAnimation
             Entries = @(
                 @{
                     Name  = 'EnableFirstLogonAnimation'
-                    Value = $State -eq 'Enabled' ? '1' : '0'
+                    Value = $GPO -eq 'Disabled' ? '0' : '1'
                     Type  = 'DWord'
                 }
             )
         }
-
-        Write-Verbose -Message "Setting 'First Sign-In Animation' to '$State' ..."
-        Set-RegistryEntry -InputObject $FirstSigninAnimation
-
 
         # gpo\ computer config > administrative tpl > system > logon
         #   show first sign-in animation
@@ -63,6 +55,6 @@ function Set-FirstSigninAnimation
         }
 
         Write-Verbose -Message "Setting 'First Sign-In Animation (GPO)' to '$GPO' ..."
-        Set-RegistryEntry -InputObject $FirstSigninAnimationGpo
+        $FirstSigninAnimation, $FirstSigninAnimationGpo | Set-RegistryEntry
     }
 }

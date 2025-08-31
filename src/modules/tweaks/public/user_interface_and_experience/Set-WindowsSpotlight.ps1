@@ -119,11 +119,11 @@ function Set-WindowsSpotlight
             {
                 # on: key present (default) | off: delete key
                 $LearnAboutPicture = @{
+                    RemoveKey = $LearnAboutPictureDesktopIcon -eq 'Disabled'
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{2cc5ca98-6485-489a-920e-b3e88a6ccce3}'
                     Entries = @(
                         @{
-                            RemoveEntry = $LearnAboutPictureDesktopIcon -eq 'Disabled'
                             Name  = '(Default)'
                             Value = 'Windows Spotlight'
                             Type  = 'String'

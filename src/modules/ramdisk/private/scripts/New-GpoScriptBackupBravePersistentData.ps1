@@ -12,10 +12,8 @@
 function New-GpoScriptBackupBravePersistentData
 {
     <#
-    .SYNTAX
-        New-GpoScriptBackupBravePersistentData
-            [-FilePath] <string>
-            [<CommonParameters>]
+    .EXAMPLE
+        PS> New-GpoScriptBackupBravePersistentData -FilePath 'C:\MyScript.ps1'
     #>
 
     [CmdletBinding()]

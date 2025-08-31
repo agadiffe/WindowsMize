@@ -20,7 +20,7 @@ function Set-SensorsPermission
     param
     (
         [Parameter(Mandatory)]
-        [GpoState] $GPO
+        [GpoStateWithoutEnabled] $GPO
     )
 
     process

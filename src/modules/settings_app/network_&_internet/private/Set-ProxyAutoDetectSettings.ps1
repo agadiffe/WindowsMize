@@ -2,7 +2,7 @@
 #                           Network & Internet > Proxy > Automatically Detect Settings
 #=================================================================================================================
 
-# See also: network > Set-NetWpad (Web Proxy Auto-Discovery protocol)
+# See also: network > Set-NetProxyAutoDetect (Web Proxy Auto-Discovery protocol)
 
 <#
 .SYNTAX

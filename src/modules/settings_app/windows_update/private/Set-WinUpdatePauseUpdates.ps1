@@ -19,6 +19,7 @@ function Set-WinUpdatePauseUpdates
     [CmdletBinding()]
     param
     (
+        [Parameter(Mandatory)]
         [GpoStateWithoutEnabled] $GPO
     )
 

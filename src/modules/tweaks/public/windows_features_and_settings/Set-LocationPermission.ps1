@@ -20,7 +20,7 @@ function Set-LocationPermission
     param
     (
         [Parameter(Mandatory)]
-        [GpoState] $GPO
+        [GpoStateWithoutEnabled] $GPO
     )
 
     process

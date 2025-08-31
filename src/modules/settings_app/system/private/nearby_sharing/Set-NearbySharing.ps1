@@ -25,6 +25,7 @@ function Set-NearbySharing
 
     process
     {
+        # x means that the value doesn't matters.
         # off: 0 0 x 0 0 (default) | my devices only: 1 1 1 x x | everyone nearby: 2 2 2 x x
         $NearbySharing = @(
             @{

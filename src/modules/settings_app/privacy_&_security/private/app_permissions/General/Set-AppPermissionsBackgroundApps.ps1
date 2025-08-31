@@ -3,8 +3,8 @@
 #=================================================================================================================
 
 # Applies only to the apps installed from Microsoft Store (e.g. Calculator, Photos, Notepad, ...).
-# If disabled, it will also disable Windows Spotlight.
 
+# If disabled, it will also disable Windows Spotlight.
 # May also disable/break other apps features ?
 # e.g. iCloud Photos synchronization, MsTeams/Discord/etc notifications.
 
@@ -59,7 +59,7 @@ function Set-AppPermissionsBackgroundApps
             'GPO'
             {
                 # gpo\ computer config > administrative tpl > windows components > app privacy
-                #   let Windows apps rin in the background
+                #   let Windows apps run in the background
                 # not configured: delete (default) | on: 1 | off: 2
 
                 $BackgroundAppsGpo = [AppPermissionPolicy]::new('LetAppsRunInBackground', $GPO)

@@ -61,7 +61,7 @@ function Set-UwpAppSetting
             $MaxRetries = 10
             $RetryCount = 0
 
-            while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and ($RetryCount -lt $MaxRetries))
+            while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and $RetryCount -lt $MaxRetries)
             {
                 Start-Sleep -Seconds 0.25
                 $RetryCount++

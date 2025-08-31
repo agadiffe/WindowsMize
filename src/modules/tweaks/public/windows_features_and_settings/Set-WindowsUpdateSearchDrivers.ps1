@@ -2,7 +2,7 @@
 #                                          Windows Update Search Drivers
 #=================================================================================================================
 
-# See also Set-ManufacturerAppsAutoDownload (tweaks > system properties).
+# See also Set-ManufacturerAppsAutoDownload in System Properties script.
 
 <#
 .SYNTAX

@@ -5,6 +5,8 @@
 <#
 .SYNTAX
     Set-FileExplorerSetting
+
+        # General
         [-LaunchTo {ThisPC | Home | Downloads | OneDrive}]
         [-OpenFolder {SameWindow | NewWindow}]
         [-OpenFolderInNewTab {Disabled | Enabled}]
@@ -12,6 +14,8 @@
         [-ShowRecentFiles {Disabled | Enabled}]
         [-ShowFrequentFolders {Disabled | Enabled}]
         [-ShowCloudFiles {Disabled | Enabled}]
+
+        # View
         [-ShowIconsOnly {Disabled | Enabled}]
         [-CompactView {Disabled | Enabled}]
         [-ShowFileIconOnThumbnails {Disabled | Enabled}]
@@ -39,10 +43,14 @@
         [-ShowLibraries {Disabled | Enabled}]
         [-ShowNetwork {Disabled | Enabled}]
         [-ShowThisPC {Disabled | Enabled}]
+
+        # Search
         [-DontUseSearchIndex {Disabled | Enabled}]
         [-IncludeSystemFolders {Disabled | Enabled}]
         [-IncludeCompressedFiles {Disabled | Enabled}]
         [-SearchFileNamesAndContents {Disabled | Enabled}]
+
+        # Miscellaneous
         [-ShowHome {Disabled | Enabled}]
         [-ShowGallery {Disabled | Enabled}]
         [-ShowRemovableDrivesOnlyInThisPC {Disabled | Enabled}]
@@ -69,7 +77,7 @@ function Set-FileExplorerSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        # general
+        # General
         [LaunchTo] $LaunchTo,
         [OpenFolderMode] $OpenFolder,
         [state] $OpenFolderInNewTab,
@@ -78,7 +86,7 @@ function Set-FileExplorerSetting
         [state] $ShowFrequentFolders,
         [state] $ShowCloudFiles,
 
-        # view
+        # View
         [state] $ShowIconsOnly,
         [state] $CompactView,
         [state] $ShowFileIconOnThumbnails,
@@ -108,13 +116,13 @@ function Set-FileExplorerSetting
         [state] $ShowNetwork,
         [state] $ShowThisPC,
 
-        # search
+        # Search
         [state] $DontUseSearchIndex,
         [state] $IncludeSystemFolders,
         [state] $IncludeCompressedFiles,
         [state] $SearchFileNamesAndContents,
 
-        # misc
+        # Miscellaneous
         [state] $ShowHome,
         [state] $ShowGallery,
         [state] $ShowRemovableDrivesOnlyInThisPC,
@@ -137,6 +145,7 @@ function Set-FileExplorerSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # General
             'LaunchTo'                         { Set-FileExplorerLaunchTo -Value $LaunchTo }
             'OpenFolder'                       { Set-FileExplorerOpenFolder -Value $OpenFolder }
             'OpenFolderInNewTab'               { Set-FileExplorerOpenFolderInNewTab -State $OpenFolderInNewTab }
@@ -145,6 +154,7 @@ function Set-FileExplorerSetting
             'ShowFrequentFolders'              { Set-FileExplorerShowFrequentFolders -State $ShowFrequentFolders }
             'ShowCloudFiles'                   { Set-FileExplorerShowCloudFiles -State $ShowCloudFiles }
 
+            # View
             'ShowIconsOnly'                    { Set-FileExplorerShowIconsOnly -State $ShowIconsOnly }
             'CompactView'                      { Set-FileExplorerCompactView -State $CompactView }
             'ShowFileIconOnThumbnails'         { Set-FileExplorerShowFileIconOnThumbnails -State $ShowFileIconOnThumbnails }
@@ -174,11 +184,13 @@ function Set-FileExplorerSetting
             'ShowNetwork'                      { Set-FileExplorerShowNetwork -State $ShowNetwork }
             'ShowThisPC'                       { Set-FileExplorerShowThisPC -State $ShowThisPC }
 
+            # Search
             'DontUseSearchIndex'               { Set-FileExplorerDontUseSearchIndex -State $DontUseSearchIndex }
             'IncludeSystemFolders'             { Set-FileExplorerIncludeSystemFolders -State $IncludeSystemFolders }
             'IncludeCompressedFiles'           { Set-FileExplorerIncludeCompressedFiles -State $IncludeCompressedFiles }
             'SearchFileNamesAndContents'       { Set-FileExplorerSearchFileNamesAndContents -State $SearchFileNamesAndContents }
 
+            # Miscellaneous
             'ShowHome'                         { Set-FileExplorerShowHome -State $ShowHome }
             'ShowGallery'                      { Set-FileExplorerShowGallery -State $ShowGallery }
             'ShowRemovableDrivesOnlyInThisPC'  { Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State $ShowRemovableDrivesOnlyInThisPC }

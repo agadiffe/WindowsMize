@@ -2,14 +2,16 @@
 #                                                 Write Function
 #=================================================================================================================
 
+<#
+.SYNTAX
+    Write-Function
+        [-Name] <string>
+        [<CommonParameters>]
+#>
+
 function Write-Function
 {
     <#
-    .SYNTAX
-        Write-Function
-            [-Name] <string>
-            [<CommonParameters>]
-
     .EXAMPLE
         PS> Write-Function -Name 'MyFunction'
         function MyFunction

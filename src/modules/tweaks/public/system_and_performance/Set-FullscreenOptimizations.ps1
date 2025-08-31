@@ -11,10 +11,12 @@
 
 # If issues with color managment or alt + tab, set GameDVR_DXGIHonorFSEWindowsCompatible to 0 ?
 
+# Recommendation: Default
+
 <#
 .SYNTAX
     Set-FullscreenOptimizations
-        [-State] {Disabled | Enabled}
+        [-State] {Disabled | Enabled | Default}
         [<CommonParameters>]
 #>
 
@@ -29,12 +31,14 @@ function Set-FullscreenOptimizations
     param
     (
         [Parameter(Mandatory)]
-        [state] $State
+        [ValidateSet('Disabled', 'Enabled', 'Default')]
+        [string] $State
     )
 
     process
     {
         $IsEnabled = $State -eq 'Enabled'
+        $IsDisabled = $State -eq 'Disabled'
 
         # default: delete 0 0 delete 2 0
         # on: 0 0 1 0 0 0 | off: 2 1 0 2 2 1
@@ -43,13 +47,14 @@ function Set-FullscreenOptimizations
             Path    = 'System\GameConfigStore'
             Entries = @(
                 @{
+                    RemoveEntry = $State -eq 'Default'
                     Name  = 'GameDVR_DSEBehavior'
                     Value = $IsEnabled ? '0' : '2'
                     Type  = 'DWord'
                 }
                 @{
                     Name  = 'GameDVR_DXGIHonorFSEWindowsCompatible'
-                    Value = $IsEnabled ? '0' : '1'
+                    Value = $IsDisabled ? '1' : '0'
                     Type  = 'DWord'
                 }
                 @{
@@ -58,6 +63,7 @@ function Set-FullscreenOptimizations
                     Type  = 'DWord'
                 }
                 @{
+                    RemoveEntry = $State -eq 'Default'
                     Name  = 'GameDVR_FSEBehavior'
                     Value = $IsEnabled ? '0' : '2'
                     Type  = 'DWord'
@@ -69,7 +75,7 @@ function Set-FullscreenOptimizations
                 }
                 @{
                     Name  = 'GameDVR_HonorUserFSEBehaviorMode'
-                    Value = $IsEnabled ? '0' : '1'
+                    Value = $IsDisabled ? '1' : '0'
                     Type  = 'DWord'
                 }
             )

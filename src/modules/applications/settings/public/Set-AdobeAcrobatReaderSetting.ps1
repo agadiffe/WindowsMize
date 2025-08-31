@@ -11,7 +11,12 @@
 <#
 .SYNTAX
     Set-AdobeAcrobatReaderSetting
+
+        # --- Preferences
+        ## Documents
         [-ShowToolsPane {Disabled | Enabled}]
+
+        ## General
         [-ShowCloudStorageOnFileOpen {Disabled | Enabled}]
         [-ShowCloudStorageOnFileSave {Disabled | Enabled}]
         [-ShowMessagesAtLaunch {Disabled | Enabled}]
@@ -19,12 +24,20 @@
         [-ShowMessagesWhenViewingPdf {Disabled | Enabled}]
         [-ShowMessagesWhenViewingPdfGPO {Disabled | Enabled | NotConfigured}]
         [-SendCrashReports {Ask | Always | Never}]
+
+        ## Email accounts
         [-WebmailGPO {Disabled | NotConfigured}]
+
+        ## Javascript
         [-Javascript {Disabled | Enabled}]
         [-JavascriptGPO {Disabled | NotConfigured}]
         [-JavascriptMenuItemsExecution {Disabled | Enabled}]
         [-JavascriptGlobalObjectSecurity {Disabled | Enabled}]
+
+        ## Reviewing
         [-SharedReviewWelcomeDialog {Disabled | Enabled}]
+
+        ## Security (enhanced)
         [-ProtectedMode {Disabled | Enabled}]
         [-ProtectedModeGPO {Disabled | Enabled | NotConfigured}]
         [-AppContainer {Disabled | Enabled}]
@@ -39,31 +52,43 @@
         [-TrustOSTrustedSitesGPO {Disabled | Enabled | NotConfigured}]
         [-AddTrustedFilesFoldersGPO {Disabled | NotConfigured}]
         [-AddTrustedSitesGPO {Disabled | NotConfigured}]
+
+        ## Trust manager
         [-OpenFileAttachments {Disabled | Enabled}]
         [-OpenFileAttachmentsGPO {Disabled | NotConfigured}]
         [-InternetAccessFromPdf {BlockAllWebSites | AllowAllWebSites | Custom}]
         [-InternetAccessFromPdfGPO {BlockAllWebSites | AllowAllWebSites | Custom | NotConfigured}]
         [-InternetAccessFromPdfUnknownUrl {Ask | Allow | Block}]
         [-InternetAccessFromPdfUnknownUrlGPO {Ask | Allow | Block | NotConfigured}]
+
+        ## Units
         [-PageUnits {Points | Inches | Millimeters | Centimeters | Picas}]
+
+        # --- Miscellaneous
+        ## Ads
         [-UpsellGPO {Disabled | NotConfigured}]
         [-UpsellMobileAppGPO {Disabled | NotConfigured}]
+
+        ## Cloud storage
         [-AdobeCloudStorageGPO {Disabled | NotConfigured}]
         [-SharePointGPO {Disabled | NotConfigured}]
         [-ThirdPartyCloudStorageGPO {Disabled | NotConfigured}]
+
+        ## Tips
         [-FirstLaunchExperienceGPO {Disabled | NotConfigured}]
         [-OnboardingDialogsGPO {Disabled | NotConfigured}]
         [-PopupTipsGPO {Disabled | NotConfigured}]
+
+        ## Others
         [-AcceptEulaGPO {Enabled | NotConfigured}]
         [-CrashReporterDialogGPO {Disabled | NotConfigured}]
         [-HomeTopBannerGPO {Disabled | Expanded | Collapsed}]
         [-OnlineServicesGPO {Disabled | NotConfigured}]
         [-OutlookPluginGPO {Disabled | NotConfigured}]
         [-ShareFileGPO {Disabled | NotConfigured}]
+        [-TelemetryGPO {Disabled | NotConfigured}]
         [-SynchronizerRunAtStartup {Disabled | Enabled}]
         [-SynchronizerTaskManagerProcess {Disabled | Enabled}]
-
-        [-UsageStatistics {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -78,10 +103,10 @@ function Set-AdobeAcrobatReaderSetting
     param
     (
         # --- Preferences
-        ## documents
+        ## Documents
         [state] $ShowToolsPane,
 
-        ## general
+        ## General
         [state] $ShowCloudStorageOnFileOpen,
         [state] $ShowCloudStorageOnFileSave,
         [state] $ShowMessagesAtLaunch,
@@ -90,19 +115,19 @@ function Set-AdobeAcrobatReaderSetting
         [GpoState] $ShowMessagesWhenViewingPdfGPO,
         [AdobeCrashReportsMode] $SendCrashReports,
 
-        ## email accounts
+        ## Email accounts
         [GpoStateWithoutEnabled] $WebmailGPO,
 
-        ## javascript
+        ## Javascript
         [state] $Javascript,
         [GpoStateWithoutEnabled] $JavascriptGPO,
         [state] $JavascriptMenuItemsExecution,
         [state] $JavascriptGlobalObjectSecurity,
 
-        ## reviewing
+        ## Reviewing
         [state] $SharedReviewWelcomeDialog,
 
-        ## security (enhanced)
+        ## Security (enhanced)
         [state] $ProtectedMode,
         [GpoState] $ProtectedModeGPO,
         [state] $AppContainer,
@@ -118,7 +143,7 @@ function Set-AdobeAcrobatReaderSetting
         [GpoStateWithoutEnabled] $AddTrustedFilesFoldersGPO,
         [GpoStateWithoutEnabled] $AddTrustedSitesGPO,
 
-        ## trust manager
+        ## Trust manager
         [state] $OpenFileAttachments,
         [GpoStateWithoutEnabled] $OpenFileAttachmentsGPO,
         [AdobeInternetAccessMode] $InternetAccessFromPdf,
@@ -126,25 +151,25 @@ function Set-AdobeAcrobatReaderSetting
         [AdobeInternetAccessUnknownUrlMode] $InternetAccessFromPdfUnknownUrl,
         [AdobeInternetAccessUnknownUrlModeGpo] $InternetAccessFromPdfUnknownUrlGPO,
 
-        ## units
+        ## Units
         [AdobePageUnits] $PageUnits,
 
         # --- Miscellaneous
-        ## ads
+        ## Ads
         [GpoStateWithoutEnabled] $UpsellGPO,
         [GpoStateWithoutEnabled] $UpsellMobileAppGPO,
 
-        ## cloud storage
+        ## Cloud storage
         [GpoStateWithoutEnabled] $AdobeCloudStorageGPO,
         [GpoStateWithoutEnabled] $SharePointGPO,
         [GpoStateWithoutEnabled] $ThirdPartyCloudStorageGPO,
 
-        ## tips
+        ## Tips
         [GpoStateWithoutEnabled] $FirstLaunchExperienceGPO,
         [GpoStateWithoutEnabled] $OnboardingDialogsGPO,
         [GpoStateWithoutEnabled] $PopupTipsGPO,
 
-        ## others
+        ## Others
         [GpoStateWithoutDisabled] $AcceptEulaGPO,
         [GpoStateWithoutEnabled] $CrashReporterDialogGPO,
         [AdobeHomeTopBannerMode] $HomeTopBannerGPO,
@@ -166,8 +191,11 @@ function Set-AdobeAcrobatReaderSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # --- Preferences
+            ## Documents
             'ShowToolsPane'                      { Set-AcrobatReaderShowToolsPane -State $ShowToolsPane }
 
+            ## General
             'ShowCloudStorageOnFileOpen'         { Set-AcrobatReaderShowCloudStorage -OnFileOpen $ShowCloudStorageOnFileOpen }
             'ShowCloudStorageOnFileSave'         { Set-AcrobatReaderShowCloudStorage -OnFileSave $ShowCloudStorageOnFileSave }
             'ShowMessagesAtLaunch'               { Set-AcrobatReaderShowMessagesAtLaunch -State $ShowMessagesAtLaunch }
@@ -176,15 +204,19 @@ function Set-AdobeAcrobatReaderSetting
             'ShowMessagesWhenViewingPdfGPO'      { Set-AcrobatReaderShowMessagesWhenViewingPdf -GPO $ShowMessagesWhenViewingPdfGPO }
             'SendCrashReports'                   { Set-AcrobatReaderSendCrashReports -Value $SendCrashReports }
 
+            ## Email accounts
             'WebmailGPO'                         { Set-AcrobatReaderWebmail -GPO $WebmailGPO }
 
+            ## Javascript
             'Javascript'                         { Set-AcrobatReaderJavascript -State $Javascript }
             'JavascriptGPO'                      { Set-AcrobatReaderJavascript -GPO $JavascriptGPO }
             'JavascriptMenuItemsExecution'       { Set-AcrobatReaderJavascriptMenuItemsExecution -State $JavascriptMenuItemsExecution }
             'JavascriptGlobalObjectSecurity'     { Set-AcrobatReaderJavascriptGlobalObjectSecurity -State $JavascriptGlobalObjectSecurity }
 
+            ## Reviewing
             'SharedReviewWelcomeDialog'          { Set-AcrobatReaderSharedReviewWelcomeDialog -State $SharedReviewWelcomeDialog }
 
+            ## Security (enhanced)
             'ProtectedMode'                      { Set-AcrobatReaderProtectedMode -State $ProtectedMode }
             'ProtectedModeGPO'                   { Set-AcrobatReaderProtectedMode -GPO $ProtectedModeGPO }
             'AppContainer'                       { Set-AcrobatReaderAppContainer -State $AppContainer }
@@ -200,6 +232,7 @@ function Set-AdobeAcrobatReaderSetting
             'AddTrustedFilesFoldersGPO'          { Set-AcrobatReaderTrustedFilesFolders -GPO $AddTrustedFilesFoldersGPO }
             'AddTrustedSitesGPO'                 { Set-AcrobatReaderTrustedSites -GPO $AddTrustedSitesGPO }
 
+            ## Trust manager
             'OpenFileAttachments'                { Set-AcrobatReaderOpenFileAttachments -State $OpenFileAttachments }
             'OpenFileAttachmentsGPO'             { Set-AcrobatReaderOpenFileAttachments -GPO $OpenFileAttachmentsGPO }
             'InternetAccessFromPdf'              { Set-AcrobatReaderInternetAccess -State $InternetAccessFromPdf }
@@ -207,20 +240,26 @@ function Set-AdobeAcrobatReaderSetting
             'InternetAccessFromPdfUnknownUrl'    { Set-AcrobatReaderInternetAccessUnknownUrl -State $InternetAccessFromPdfUnknownUrl }
             'InternetAccessFromPdfUnknownUrlGPO' { Set-AcrobatReaderInternetAccessUnknownUrl -GPO $InternetAccessFromPdfUnknownUrlGPO }
 
+            ## Units
             'PageUnits'                          { Set-AcrobatReaderPageUnits -Value $PageUnits }
 
 
+            # --- Miscellaneous
+            ## Ads
             'UpsellGPO'                          { Set-AcrobatReaderUpsell -GPO $UpsellGPO }
             'UpsellMobileAppGPO'                 { Set-AcrobatReaderUpsellMobileApp -GPO $UpsellMobileAppGPO }
 
+            ## Cloud storage
             'AdobeCloudStorageGPO'               { Set-AcrobatReaderAdobeCloudStorage -GPO $AdobeCloudStorageGPO }
             'SharePointGPO'                      { Set-AcrobatReaderSharePoint -GPO $SharePointGPO }
             'ThirdPartyCloudStorageGPO'          { Set-AcrobatReaderThirdPartyCloudStorage -GPO $ThirdPartyCloudStorageGPO }
 
+            ## Tips
             'FirstLaunchExperienceGPO'           { Set-AcrobatReaderFirstLaunchExperience -GPO $FirstLaunchExperienceGPO }
             'OnboardingDialogsGPO'               { Set-AcrobatReaderOnboardingDialogs -GPO $OnboardingDialogsGPO }
             'PopupTipsGPO'                       { Set-AcrobatReaderPopupTips -GPO $PopupTipsGPO }
 
+            ## Others
             'AcceptEulaGPO'                      { Set-AcrobatReaderAcceptEULA -GPO $AcceptEulaGPO }
             'CrashReporterDialogGPO'             { Set-AcrobatReaderCrashReporterDialog -GPO $CrashReporterDialogGPO }
             'ShareFileGPO'                       { Set-AcrobatReaderShareFile -GPO $ShareFileGPO }

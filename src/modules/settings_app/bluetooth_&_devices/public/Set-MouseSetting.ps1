@@ -9,7 +9,7 @@
         [-PointerSpeed <int>]
         [-EnhancedPointerPrecision {Disabled | Enabled}]
         [-WheelScroll {MultipleLines | OneScreen}]
-        [-WheelScrollLinesToScroll <int>]
+        [-LinesToScroll <int>]
         [-ScrollInactiveWindowsOnHover {Disabled | Enabled}]
         [-ScrollingDirection {DownMotionScrollsDown | DownMotionScrollsUp}]
         [<CommonParameters>]
@@ -20,7 +20,7 @@ function Set-MouseSetting
     <#
     .DESCRIPTION
         Dynamic parameters:
-            [-WheelScrollLinesToScroll <int>] : available when 'WheelScroll' is defined to 'MultipleLines'.
+            [-LinesToScroll <int>] : available when 'WheelScroll' is defined to 'MultipleLines'.
 
     .EXAMPLE
         PS> Set-MouseSetting -PrimaryButton 'Left' -PointerSpeed 10 -WheelScroll 'MultipleLines'

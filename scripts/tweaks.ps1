@@ -74,11 +74,12 @@ Set-Wpbt -State 'Disabled'
 
 Write-Section -Name 'System and performance' -SubSection
 
-# --- First sign-in animation (default: Enabled)
+# --- First sign-in animation
 # GPO: Disabled | Enabled | NotConfigured
-Set-FirstSigninAnimation -State 'Disabled' -GPO 'NotConfigured'
+Set-FirstSigninAnimation -GPO 'NotConfigured'
 
-# --- Fullscreen optimizations (default: Enabled)
+# --- Fullscreen optimizations
+# State: Disabled | Enabled | Default (default)
 #Set-FullscreenOptimizations -State 'Disabled'
 
 # --- Long paths (default: Disabled)

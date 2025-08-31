@@ -282,7 +282,7 @@ Set-WifiSense -GPO 'Disabled'
 Set-Wpbt -State 'Disabled'
 
 # --- System and performance
-Set-FirstSigninAnimation -State 'Disabled' -GPO 'NotConfigured'
+Set-FirstSigninAnimation -GPO 'Disabled'
 #Set-FullscreenOptimizations -State 'Disabled'
 Set-LongPaths -State 'Enabled'
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled'
@@ -1176,7 +1176,6 @@ $FourFingersSwipesCustom = @{
     FourFingersRight = 'SwitchDesktops'
 }
 #Set-TouchpadSetting -FourFingersSwipes 'Custom' @FourFingersSwipesCustom
-
 
 # --- AutoPlay
 $AutoPlaySettings = @{

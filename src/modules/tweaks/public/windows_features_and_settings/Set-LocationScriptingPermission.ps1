@@ -20,7 +20,7 @@ function Set-LocationScriptingPermission
     param
     (
         [Parameter(Mandatory)]
-        [GpoState] $GPO
+        [GpoStateWithoutEnabled] $GPO
     )
 
     process

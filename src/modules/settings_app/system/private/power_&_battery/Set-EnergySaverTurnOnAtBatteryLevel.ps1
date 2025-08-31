@@ -20,6 +20,7 @@ function Set-EnergySaverTurnOnAtBatteryLevel
     param
     (
         [Parameter(Mandatory)]
+        [ValidateRange(0, 100)]
         [int] $Percent
     )
 

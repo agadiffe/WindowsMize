@@ -38,7 +38,23 @@ function Set-TimeServer
         Write-Verbose -Message "Setting 'Internet Time Server' to '$TimeServer' ..."
 
         Start-Service -Name 'W32Time'
-        Start-Sleep -Seconds 0.5
+        Start-Sleep -Seconds 0.25
+
+        $MaxRetries = 10
+        $RetryCount = 0
+
+        while ((Get-Service -Name 'W32Time').Status -ne 'Running' -and $RetryCount -lt $MaxRetries)
+        {
+            Start-Sleep -Seconds 0.25
+            $RetryCount++
+        }
+
+        if ($RetryCount -eq $MaxRetries)
+        {
+            Write-Error -Message "    Cannot start W32Time service. Settings not applied."
+            return
+        }
+
         w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$TimeServer" /update | Out-Null
     }
 }
