@@ -40,22 +40,20 @@ function Set-AdobeSynchronizer
         {
             'RunAtStartup'
             {
-                $IsDisabled = $RunAtStartup -eq 'Disabled'
-
-                # Adobe default behavior create 2 instances ...
+                # Adobe default installation may create 2 instances ...
                 # on: not-delete | off: delete
                 $AdobeSynchronizerRunAtStartup = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Run'
                     Entries = @(
                         @{
-                            RemoveEntry = $IsDisabled
+                            RemoveEntry = $RunAtStartup -eq 'Disabled'
                             Name  = 'Adobe Acrobat Synchronizer'
                             Value = $AdobeSynchronizerFilePath
                             Type  = 'String'
                         }
                         @{
-                            RemoveEntry = $IsDisabled
+                            RemoveEntry = $true
                             Name  = 'Adobe Reader Synchronizer'
                             Value = $AdobeSynchronizerFilePath
                             Type  = 'String'

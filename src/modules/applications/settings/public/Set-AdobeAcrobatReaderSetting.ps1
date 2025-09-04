@@ -2,11 +2,20 @@
 #                                          Adobe Acrobat Reader Setting
 #=================================================================================================================
 
+# https://adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Windows/
+
 # GPO parameters are not always a featurelockdown inside HKEY_LOCAL_MACHINE\SOFTWARE\Policies.
 # In this context, GPO means that the setting may not have a GUI option.
 # This is the case for all settings in the "miscellaneous" folder.
 
-# https://adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Windows/
+# does not work if defined in Remove-AcrobatToolFromToolsTab (Unable to find type [AdobeAcrobatAppNames])
+class AdobeAcrobatAppNames : System.Management.Automation.IValidateSetValuesGenerator
+{
+    [string[]] GetValidValues()
+    {
+        return $Script:AdobeAcrobatAppID.Keys
+    }
+}
 
 <#
 .SYNTAX
@@ -89,6 +98,11 @@
         [-TelemetryGPO {Disabled | NotConfigured}]
         [-SynchronizerRunAtStartup {Disabled | Enabled}]
         [-SynchronizerTaskManagerProcess {Disabled | Enabled}]
+        [-RemoveToolFromToolsTab {AddComments | AddRichMedia | AddSearchIndex | AddStamp | ApplyPdfStandards | CombineFiles |
+                                  CompareFiles | CompressPdf | ConvertPdf | CreatePdf | EditPdf | ExportPdf | FillAndSign |
+                                  MeasureObjects | OrganizePages | PrepareForAccessibility | PrepareForm | ProtectPdf | RedactPdf |
+                                  RequestSignatures | ScanAndOCR | UseCertificate | UseGuidedActions | UsePrintProduction}]
+        [-ResetRemovedToolsFromToolsTab]
         [<CommonParameters>]
 #>
 
@@ -178,7 +192,11 @@ function Set-AdobeAcrobatReaderSetting
         [GpoStateWithoutEnabled] $ShareFileGPO,
         [GpoStateWithoutEnabled] $TelemetryGPO,
         [state] $SynchronizerRunAtStartup,
-        [state] $SynchronizerTaskManagerProcess
+        [state] $SynchronizerTaskManagerProcess,
+
+        [ValidateSet([AdobeAcrobatAppNames])]
+        [string[]] $RemoveToolFromToolsTab,
+        [switch] $ResetRemovedToolsFromToolsTab
     )
 
     process
@@ -269,6 +287,8 @@ function Set-AdobeAcrobatReaderSetting
             'TelemetryGPO'                       { Set-AcrobatReaderTelemetry -GPO $TelemetryGPO }
             'SynchronizerRunAtStartup'           { Set-AdobeSynchronizer -RunAtStartup $SynchronizerRunAtStartup }
             'SynchronizerTaskManagerProcess'     { Set-AdobeSynchronizer -TaskManagerProcess $SynchronizerTaskManagerProcess }
+            'RemoveToolFromToolsTab'             { Remove-AcrobatToolFromToolsTab -Name $RemoveToolFromToolsTab }
+            'ResetRemovedToolsFromToolsTab'      { Remove-AcrobatToolFromToolsTab -Reset:$ResetRemovedToolsFromToolsTab }
         }
     }
 }

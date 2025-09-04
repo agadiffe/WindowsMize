@@ -705,6 +705,35 @@ $AdobeReaderSettings = @{
 }
 Set-AdobeAcrobatReaderSetting @AdobeReaderSettings
 
+$RemovedTools = @(
+    #'AddComments'
+    'AddRichMedia'
+    'AddSearchIndex'
+    #'AddStamp'
+    'ApplyPdfStandards'
+    'CreatePdf'
+    'CombineFiles'
+    'CompareFiles'
+    'CompressPdf'
+    'ConvertPdf'
+    'EditPdf'
+    'ExportPdf'
+    #'FillAndSign'
+    'MeasureObjects'
+    'OrganizePages'
+    'PrepareForAccessibility'
+    'PrepareForm'
+    'ProtectPdf'
+    'RedactPdf'
+    'RequestSignatures'
+    'ScanAndOcr'
+    'UseCertificate'
+    'UseGuidedActions'
+    'UsePrintProduction'
+)
+Set-AdobeAcrobatReaderSetting -RemoveToolFromToolsTab $RemovedTools
+#Set-AdobeAcrobatReaderSetting -ResetRemovedToolsFromToolsTab
+
 # --- Microsoft Edge
 $MicrosoftEdgePolicy = @{
     Prelaunch      = 'Disabled'

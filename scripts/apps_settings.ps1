@@ -223,6 +223,10 @@ Set-AdobeAcrobatReaderSetting -UpsellMobileAppGPO 'Disabled'
 #=======================================
 
 # --- Adobe Cloud Storage
+# Disable annoyances if you don't use an Adobe account.
+# Disables:
+#   Home page online services
+#   Tools that requires Acrobat
 Set-AdobeAcrobatReaderSetting -AdobeCloudStorageGPO 'Disabled'
 
 # --- SharePoint
@@ -274,13 +278,50 @@ Set-AdobeAcrobatReaderSetting -ShareFileGPO 'Disabled'
 # --- Telemetry
 Set-AdobeAcrobatReaderSetting -TelemetryGPO 'Disabled'
 
-# --- Synchronizer: Run At Startup
+# --- Synchronizer: Run At Startup (default: Enabled)
+# Disabled: Need to be reapplied after each update (or create a scheduled task).
 Set-AdobeAcrobatReaderSetting -SynchronizerRunAtStartup 'Disabled'
 
-# --- Synchronizer: Task Manager Process
-# Disabled: Add a ".bak" extension to "AdobeCollabSync.exe" and "FullTrustNotifier.exe" files.
-# Need to be reapplied after each update (or create a scheduled task).
+# --- Synchronizer: Task Manager Process (default: Enabled)
+# Disabled:
+#   Add a ".bak" extension to "AdobeCollabSync.exe" and "FullTrustNotifier.exe" files.
+#   Need to be reapplied after each update (or create a scheduled task).
 #Set-AdobeAcrobatReaderSetting -SynchronizerTaskManagerProcess 'Disabled'
+
+# --- Removes tool from the Tools tab
+# Name: list of tools to remove.
+# Reset: Reset every removed tools.
+# Most tools are only available on Acrobat.
+# Override any existing removed tools.
+# i.e. Only the listed tools will be removed from the Tools tab.
+$RemovedTools = @(
+    #'AddComments'
+    'AddRichMedia'
+    'AddSearchIndex'
+    #'AddStamp'
+    'ApplyPdfStandards'
+    'CreatePdf'
+    'CombineFiles'
+    'CompareFiles'
+    'CompressPdf'
+    'ConvertPdf'
+    'EditPdf'
+    'ExportPdf'
+    #'FillAndSign'
+    'MeasureObjects'
+    'OrganizePages'
+    'PrepareForAccessibility'
+    'PrepareForm'
+    'ProtectPdf'
+    'RedactPdf'
+    'RequestSignatures'
+    'ScanAndOcr'
+    'UseCertificate'
+    'UseGuidedActions'
+    'UsePrintProduction'
+)
+Set-AdobeAcrobatReaderSetting -RemoveToolFromToolsTab $RemovedTools
+#Set-AdobeAcrobatReaderSetting -ResetRemovedToolsFromToolsTab
 
 #endregion adobe reader
 
