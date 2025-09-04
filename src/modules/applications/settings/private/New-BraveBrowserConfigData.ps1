@@ -23,7 +23,8 @@ function New-BraveBrowserConfigData
         Merge-Hashtable $BraveLocalState ('{
             "browser": {
                 "enabled_labs_experiments": [
-                    //"enable-force-dark@1", // web content night mode
+                    //"brave-adblock-show-hidden-components@1" // show hidden adblock filter list
+                    //"enable-force-dark@1", // auto dark mode for web content
                     "enable-gpu-rasterization@1",
                     "enable-parallel-downloading@1"
                 ]
@@ -38,7 +39,6 @@ function New-BraveBrowserConfigData
         Merge-Hashtable $BravePreferences ('{
             "brave": {
                 "brave_search": {
-                    "ntp-search_prompt_enable_suggestions": false,
                     "show-ntp-search": false // search widgets
                 },
                 "new_tab_page": {
@@ -63,9 +63,16 @@ function New-BraveBrowserConfigData
         #------------------------------------
         ## Appearance
         #------------------------------------
-        Merge-Hashtable $BraveLocalState ('{
+        Merge-Hashtable $BravePreferences ('{
+            // show bookmarks:
+            //   always\ show_on_all_tabs: true, always_show_bookmark_bar_on_ntp: true or false (ignored)
+            //   never\ show_on_all_tabs: false, always_show_bookmark_bar_on_ntp: false
+            //   only on new tabe page\ show_on_all_tabs: false, always_show_bookmark_bar_on_ntp: true
+            "bookmark_bar": {
+                "show_on_all_tabs": true
+            },
             "brave": {
-                "dark_mode": 0 // same as Windows: 0 | dark: 1 | light: 2
+                "always_show_bookmark_bar_on_ntp": false
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -73,44 +80,97 @@ function New-BraveBrowserConfigData
             "bookmark_bar": {
                 "show_tab_groups": false
             },
-            "auto_pin_new_tab_groups": false
+            "auto_pin_new_tab_groups": false,
+            "brave": {
+                "autocomplete_enabled": true,
+                "top_site_suggestions_enabled": false,
+                "omnibox": {
+                    "history_suggestions_enabled": true,
+                    "bookmark_suggestions_enabled": true,
+                    "commander_suggestions_enabled": true // quick commands
+                },
+                "ai_chat": {
+                    "autocomplete_provider_enabled": false // Leo suggestions in address bar
+                },
+                "location_bar_is_wide": false,
+                "omnibox": {
+                    "prevent_url_elisions": false // show full URLs
+                }
+            }
         }' | ConvertFrom-Json -AsHashtable)
 
-        ### Toolbar
+        ### Theme
         #---------------
+        Merge-Hashtable $BraveLocalState ('{
+            "brave": {
+                "dark_mode": 0 // device: 0 | dark: 1 | light: 2
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        ### Customize your toolbar
+        #---------------
+        #### Navigation
         Merge-Hashtable $BravePreferences ('{
-            "bookmark_bar": {
-                "show_on_all_tabs": true // always: true | never: false + always_show_bookmark_bar_on_ntp false
+            "browser": {
+                "show_forward_button": true
             },
             "brave": {
-                "always_show_bookmark_bar_on_ntp": false, // only on the new tabe page (ignored if show_on_all_tabs is true)
                 "show_bookmarks_button": true,
-                "today": {
-                    "should_show_toolbar_button": false // show Brave News button
-                },
-                "rewards": {
-                    "inline_tip_buttons_enabled": false, // old ? tip buttons within web content
-                    "show_brave_rewards_button_in_location_bar": false
-                },
+                "show_side_panel_button": false, // Sidebar
                 "wallet": {
                     "show_wallet_icon_on_toolbar": false
                 },
-                "show_side_panel_button": false, // show Sidebar button
+                "ai_chat": {
+                    "show_toolbar_button": false // Leo AI
+                },
                 "brave_vpn": {
                     "show_button": false
+                }
+            },
+            "toolbar": {
+                "pinned_actions": [
+                    //"kActionNewIncognitoWindow", // new private window
+                    "kActionTabSearch"
+                ]
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        #### Toolbar
+        Merge-Hashtable $BravePreferences ('{
+            "toolbar": {
+                "pinned_actions": [
+                    //"kActionShowPasswordsBubbleOrPage",
+                    //"kActionSidePanelShowBookmarks",
+                    //"kActionSidePanelShowReadingList",
+                    //"kActionShowDownloads",
+                    //"kActionClearBrowsingData"
+                ]
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        #### Tools and actions
+        Merge-Hashtable $BravePreferences ('{
+            "toolbar": {
+                "pinned_actions": [
+                    //"kActionPrint",
+                    //"kActionQrCodeGenerator",
+                    //"kActionRouteMedia", // cast
+                    //"kActionCopyUrl",
+                    //"kActionSendTabToSelf", // send to your devices
+                    //"kActionTaskManager",
+                    //"kActionDevTools"
+                ]
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        #### Adress bar
+        Merge-Hashtable $BravePreferences ('{
+            "brave": {
+                "rewards": {
+                    "show_brave_rewards_button_in_location_bar": false
                 },
-                "location_bar_is_wide": false,
-                "autocomplete_enabled": true,
-                "omnibox": {
-                    "prevent_url_elisions": false, // show full URL
-                    "bookmark_suggestions_enabled": true,
-                    "commander_suggestions_enabled": true, // quick commands
-                    "history_suggestions_enabled": true
-                },
-                "top_site_suggestions_enabled": false,
-                "ai_chat": {
-                    "autocomplete_provider_enabled": false, // Leo in address bar
-                    "show_toolbar_button": false
+                "today": {
+                    "should_show_toolbar_button": false // Brave News
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
@@ -129,8 +189,7 @@ function New-BraveBrowserConfigData
                     "vertical_tabs_on_right": false,
                     "mute_indicator_not_clickable": false,
                     "hover_mode": 0 // tooltip: 0 | card: 1 | card with preview: 2
-                },
-                "tabs_search_show": true
+                }
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -168,7 +227,8 @@ function New-BraveBrowserConfigData
                 "mru_cycling_enabled": false, // cycle through the most recently used tabs
                 "wayback_machine_enabled": false,
                 "speedreader": {
-                    "enabled": false
+                    "feature_enabled": false,
+                    "enabled_for_all_sites": false // auto use when possible
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
@@ -312,6 +372,9 @@ function New-BraveBrowserConfigData
                         },
                         "E2FA7D98-0BD5-493E-8AF4-950604ADE9CB": {
                             "enabled": true // AdGuard URL Tracking Protection
+                        },
+                        "6B91E355-1421-4C03-9A30-911B4D0FB277": {
+                            "enabled": false // Anti-AI Search Filters
                         },
                         "F61D6B7B-4110-4EA4-9C81-38FB4CE90AEC": {
                             "enabled": false // Blocklists Anti-Porn
@@ -479,6 +542,16 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        Merge-Hashtable $BravePreferences ('{
+            "brave": {
+                "new_tab_page": {
+                    "sponsored_images": {
+                        "survey_panelist": false // Brave surveys links
+                    }
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
         #------------------------------------
         ## Web3
         #------------------------------------
@@ -530,6 +603,17 @@ function New-BraveBrowserConfigData
                     "storage_enabled": false, // history
                     "tab_organization_enabled": false, // tab Focus Mode
                     "user_dismissed_premium_prompt": true
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        ### Customize Leo's responses and memories
+        #---------------
+        Merge-Hashtable $BravePreferences ('{
+            "brave": {
+                "ai_chat": {
+                    "user_customization_enabled": false, // about you
+                    "user_memory_enabled": false
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
