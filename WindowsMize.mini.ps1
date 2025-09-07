@@ -1228,7 +1228,7 @@ Set-UsbSetting @UsbSettings
 #=======================================
 #region network & internet
 
-Set-DnsServer -Cloudflare 'Default'
+Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 #Set-DnsServer -ResetServerAddresses
 
 $NetworkSettings = @{

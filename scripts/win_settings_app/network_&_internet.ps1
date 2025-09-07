@@ -89,16 +89,18 @@ Write-Section -Name 'Advanced network settings' -SubSection
 
 # --- View additional properties > DNS server assignment
 # ResetServerAddresses
-# FallbackToPlaintext (not available for Mullvad)
-# Adguard: Default | Unfiltered | Family
-# Cloudflare: Default | Security | Family
-# Dns0: Default | Zero | Kids
-# Mullvad: Default | Adblock | Base | Extended | Family | All
-# Quad9: Default | Unfiltered
+# FallbackToPlaintext (does not work for Mullvad)
+# Provider: Adguard | Cloudflare | Dns0 | Mullvad | Quad9
+# Server:
+#   Adguard    : Default | Unfiltered | Family
+#   Cloudflare : Default | Security | Family
+#   Dns0       : Default | Zero | Kids
+#   Mullvad    : Default | Adblock | Base | Extended | Family | All
+#   Quad9      : Default | Unfiltered
 
 #Set-DnsServer -ResetServerAddresses
-#Set-DnsServer -Cloudflare 'Default' -FallbackToPlaintext
-Set-DnsServer -Cloudflare 'Default'
+#Set-DnsServer -Provider 'Cloudflare' -Server 'Default' -FallbackToPlaintext
+Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 
 #endregion advanced network settings
 
