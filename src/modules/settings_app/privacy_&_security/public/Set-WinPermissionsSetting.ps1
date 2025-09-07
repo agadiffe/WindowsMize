@@ -23,6 +23,7 @@
         # AI
         [-RecallSnapshotsGPO {Disabled | NotConfigured}]
         [-RecallFilteringTelemetry {Disabled | Enabled}]
+        [-RecallPersonalizedHomepage {Disabled | Enabled}]
         [-ClickToDo {Disabled | Enabled}]
         [-ClickToDoGPO {Disabled | NotConfigured}]
         [-SpeechRecognition {Disabled | Enabled}]
@@ -86,6 +87,7 @@ function Set-WinPermissionsSetting
         # AI
         [GpoStateWithoutEnabled] $RecallSnapshotsGPO,
         [state] $RecallFilteringTelemetry,
+        [state] $RecallPersonalizedHomepage,
 
         [state] $ClickToDo,
         [GpoStateWithoutEnabled] $ClickToDoGPO,
@@ -152,6 +154,7 @@ function Set-WinPermissionsSetting
             # AI
             'RecallSnapshotsGPO'             { Set-WinPermissionsRecallSnapshots -GPO $RecallSnapshotsGPO }
             'RecallFilteringTelemetry'       { Set-WinPermissionsRecallFilteringTelemetry -State $RecallFilteringTelemetry }
+            'RecallPersonalizedHomepage'     { Set-WinPermissionsRecallPersonalizedHomepage -State $RecallPersonalizedHomepage }
 
             'ClickToDo'                      { Set-WinPermissionsClickToDo -State $ClickToDo }
             'ClickToDoGPO'                   { Set-WinPermissionsClickToDo -GPO $ClickToDoGPO }

@@ -143,7 +143,8 @@ Set-WinPermissionsSetting @PrivacyWinPermUserData
 # --- AI (Recall / Speech / Typing)
 $PrivacyWinPermAI = @{
     RecallSnapshotsGPO = 'Disabled'
-      RecallFilteringTelemetry = 'Disabled'
+      RecallFilteringTelemetry   = 'Disabled'
+      RecallPersonalizedHomepage = 'Disabled'
     ClickToDo          = 'Disabled' ; ClickToDoGPO         = 'NotConfigured'
     SpeechRecognition  = 'Disabled' ; SpeechRecognitionGPO = 'NotConfigured'
     InkingAndTypingPersonalization = 'Disabled'

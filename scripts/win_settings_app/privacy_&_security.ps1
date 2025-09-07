@@ -74,7 +74,7 @@ Set-WinPermissionsSetting -ShowTipsInSettingsApp 'Disabled' -ShowTipsInSettingsA
 # --- Show me notifications in the Settings app (default: Enabled)
 Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
 
-# --- Activity history (default: Enabled):
+# --- Activity history (default: Enabled)
 #   Store my activity history on this device
 #   Store my activity history to Microsoft | old
 Set-WinPermissionsSetting -ActivityHistory 'Disabled' -ActivityHistoryGPO 'NotConfigured'
@@ -89,8 +89,11 @@ Set-WinPermissionsSetting -ActivityHistory 'Disabled' -ActivityHistoryGPO 'NotCo
 # --- Save snapshots
 Set-WinPermissionsSetting -RecallSnapshotsGPO 'Disabled'
 
-# --- Help improve Recall snapshots filtering (default: Disabled)
+# --- --- Help improve Recall snapshots filtering (default: Disabled)
 Set-WinPermissionsSetting -RecallFilteringTelemetry 'Disabled'
+
+# --- --- Recall shows a customized experience using your snapshots (default: Enabled)
+Set-WinPermissionsSetting -RecallPersonalizedHomepage 'Disabled'
 
 # --- Click to Do (default: Enabled)
 Set-WinPermissionsSetting -ClickToDo 'Disabled' -ClickToDoGPO 'NotConfigured'
