@@ -181,6 +181,9 @@ Set-WindowsInputExperience -State 'Disabled'
 # --- Windows privacy settings experience
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
 
+# --- Windows Settings Agentic Search Experience
+Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
+
 # --- Windows shared experience
 # Disabled: also disable and gray out:
 #   'settings > system > nearby sharing'

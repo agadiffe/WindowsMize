@@ -54,6 +54,7 @@
         'Set-WindowsInputExperience'
         'Set-WindowsMediaDrmOnlineAccess'
         'Set-WindowsPrivacySettingsExperience'
+        'Set-WindowsSettingsSearchAgent'
         'Set-WindowsSharedExperience'
         'Set-WindowsSpotlight'
         'Set-WindowsUpdateSearchDrivers'
