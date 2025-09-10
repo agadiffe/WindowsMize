@@ -11,6 +11,12 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
+if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
+{
+    Write-Error 'The script cannot be run: LanguageMode is set to ConstrainedLanguage.'
+    exit
+}
+
 <#
 - These 2 below steps are automated if you use Run_WindowsMize.cmd.
   - PowerShell 7 (aka PowerShell Core).

@@ -21,6 +21,12 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
+if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
+{
+    Write-Error 'The script cannot be run: LanguageMode is set to ConstrainedLanguage.'
+    exit
+}
+
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$PSScriptRoot\log\$ScriptFileName.log"
 
