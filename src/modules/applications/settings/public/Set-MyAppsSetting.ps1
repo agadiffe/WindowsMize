@@ -14,7 +14,7 @@ function Set-MyAppsSetting
     <#
     .DESCRIPTION
         The current app settings will be overwritten.
-        A backup is made with the extension '.old'.
+        A backup file is created with the ".bak" extension.
 
     .EXAMPLE
         PS> Set-MyAppsSetting -Name 'qBittorrent'
@@ -59,16 +59,16 @@ function Set-MyAppsSetting
     {
         Write-Verbose -Message "Setting $Name Settings ..."
 
-        $Target = $AppsListData.$Name.SettingFilePath
-        $Source = $AppsListData.$Name.ConfigFileName
-        $ConfigFilePath = "$PSScriptRoot\..\config_files\$Source"
+        $TargetFilePath = $AppsListData.$Name.SettingFilePath
+        $SourceFileName = $AppsListData.$Name.ConfigFileName
+        $SourceFilePath = "$PSScriptRoot\..\config_files\$SourceFileName"
 
-        if (Test-Path -Path $Target)
+        if ((Test-Path -Path $TargetFilePath) -and -not (Test-Path -Path "$TargetFilePath.bak"))
         {
-            Rename-Item -Path $Target -NewName "$Target.old" -ErrorAction 'SilentlyContinue'
+            Copy-Item -Path $TargetFilePath -Destination "$TargetFilePath.bak"
         }
 
-        New-ParentPath -Path $Target
-        Copy-Item -Path $ConfigFilePath -Destination $Target
+        New-ParentPath -Path $TargetFilePath
+        Copy-Item -Path $SourceFilePath -Destination $TargetFilePath
     }
 }

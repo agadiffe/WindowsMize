@@ -150,6 +150,11 @@ function Set-WindowsTerminalSetting
                 }
             }
 
+            if (-not (Test-Path -Path "$TerminalSettingsFilePath.bak"))
+            {
+                Copy-Item -Path $TerminalSettingsFilePath -Destination "$TerminalSettingsFilePath.bak"
+            }
+
             $TerminalSettings | ConvertTo-Json -Depth 100 | Out-File -FilePath $TerminalSettingsFilePath
         }
     }

@@ -632,7 +632,7 @@ $AppsToConfig = @(
     #'VSCode'
     #'Git'
 )
-$AppsToConfig.ForEach({ Set-MyAppsSetting -Name $_ })
+$AppsToConfig | Set-MyAppsSetting
 
 # --- Brave Browser
 Set-BraveBrowserSettings

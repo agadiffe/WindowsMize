@@ -35,6 +35,6 @@
     "powershell.promptToUpdatePowerShell": false,
     "typescript.disableAutomaticTypeAcquisition": true,
 
-    // others (not preconfigured or manually edited)
+    // others (not preconfigured or edited via the GUI)
     "": ""
 }

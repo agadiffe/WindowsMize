@@ -21,7 +21,6 @@ function Test-FileLock
     param
     (
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [string] $FilePath
     )
 
