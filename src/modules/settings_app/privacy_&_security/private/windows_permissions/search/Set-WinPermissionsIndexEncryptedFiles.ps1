@@ -1,5 +1,5 @@
 #=================================================================================================================
-#           Privacy & Security > Searching Windows > Advanced Indexing Options > Index Encrypted Files
+#                 Privacy & Security > Search > Advanced Indexing Options > Index Encrypted Files
 #=================================================================================================================
 
 # Full volume encryption (such as BitLocker Drive Encryption or a non-Microsoft solution)
@@ -49,7 +49,7 @@ function Set-WinPermissionsIndexEncryptedFiles
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Searching Windows: Index Encrypted Files (GPO)' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Search: Index Encrypted Files (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $IndexEncryptedFilesGpo
     }
 }

@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                     Privacy & Security > Search Permissions > Search History In This Device
+#                                  Privacy & Security > Search > Search History
 #=================================================================================================================
 
 <#
@@ -38,7 +38,7 @@ function Set-WinPermissionsSearchHistory
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Search Permissions: Search History In This Device' to '$State' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Search Permissions: Search History' to '$State' ..."
         Set-RegistryEntry -InputObject $WinPermissionsSearchHistory
     }
 }

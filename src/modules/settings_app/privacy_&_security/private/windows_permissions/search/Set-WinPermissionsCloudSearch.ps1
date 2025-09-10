@@ -1,8 +1,8 @@
 #=================================================================================================================
-#                       Privacy & Security > Search Permissions > Cloud Content Search
+#                                Privacy & Security > Search > Search My Accounts
 #=================================================================================================================
 
-# Cloud Content Search
+# Search my accounts
 #   Microsoft account
 #   Work or School account
 
@@ -34,7 +34,7 @@ function Set-WinPermissionsCloudSearch
 
     process
     {
-        $WinPermissionsCloudSearchMsg = 'Windows Permissions - Search Permissions: Cloud Content Search'
+        $WinPermissionsCloudSearchMsg = 'Windows Permissions - Search: Search My Accounts'
 
         switch ($PSBoundParameters.Keys)
         {

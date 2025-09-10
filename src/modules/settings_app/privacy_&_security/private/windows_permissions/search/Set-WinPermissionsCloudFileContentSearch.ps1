@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                     Privacy & Security > Search Permissions > Let Search Apps Show Results
+#                        Privacy & Security > Search > Search The Contents Of Online Files
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-WinPermissionsWebSearch
+    Set-WinPermissionsCloudFileContentSearch
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-WinPermissionsWebSearch
+function Set-WinPermissionsCloudFileContentSearch
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsWebSearch -State 'Disabled'
+        PS> Set-WinPermissionsCloudFileContentSearch -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,19 +26,21 @@ function Set-WinPermissionsWebSearch
     process
     {
         # on: 1 (default) | off: 0
-        $WinPermissionsWebSearch = @{
+        $WinPermissionsCloudFileContentSearch = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\SearchSettings'
             Entries = @(
                 @{
-                    Name  = 'IsGlobalWebSearchProviderToggleEnabled'
+                    Name  = 'IsGlobalFileSearchProviderToggleEnabled'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Search Permissions: Let Search Apps Show Results' to '$State' ..."
-        Set-RegistryEntry -InputObject $WinPermissionsWebSearch
+        $CloudFileContentSearchMsg = 'Search: Search The Contents Of Online Files'
+
+        Write-Verbose -Message "Setting 'Windows Permissions - $CloudFileContentSearchMsg' to '$State' ..."
+        Set-RegistryEntry -InputObject $WinPermissionsCloudFileContentSearch
     }
 }

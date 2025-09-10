@@ -1,10 +1,10 @@
 #=================================================================================================================
-#                Privacy & Security > Activity History > Store My Activity History On This Device
+#                        Privacy & Security > Activity History > Store My Activity History
 #=================================================================================================================
 
-# Activity History
+# Activity History | old
 #   Store my activity history on this device
-#   Store my activity history to Microsoft | deprecated
+#   Store my activity history to Microsoft
 
 <#
 .SYNTAX
@@ -32,7 +32,7 @@ function Set-WinPermissionsActivityHistory
 
     process
     {
-        $WinPermissionsActivityHistoryMsg = 'Windows Permissions - Activity History: Store My Activity History On This Device'
+        $WinPermissionsActivityHistoryMsg = 'Windows Permissions - Activity History'
 
         switch ($PSBoundParameters.Keys)
         {
@@ -40,15 +40,23 @@ function Set-WinPermissionsActivityHistory
             {
 
                 $CDPUserSettingsFile = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\ConnectedDevicesPlatform\CDPGlobalSettings.cdp"
-                $CDPUserSettings = Get-Content -Raw -Path $CDPUserSettingsFile | ConvertFrom-Json -AsHashtable
+    
+                if (Test-Path -Path $CDPUserSettingsFile)
+                {
+                    $CDPUserSettings = Get-Content -Raw -Path $CDPUserSettingsFile | ConvertFrom-Json -AsHashtable
 
-                # on: 0 (default) | off: 1
-                $Value = $State -eq 'Enabled' ? 0 : 1
-                $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $Value
-                $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $Value
+                    # on: 0 (default) | off: 1
+                    $Value = $State -eq 'Enabled' ? 0 : 1
+                    $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $Value
+                    $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $Value
 
-                Write-Verbose -Message "Setting '$WinPermissionsActivityHistoryMsg' to '$State' ..."
-                $CDPUserSettings | ConvertTo-Json -Depth 100 | Out-File -FilePath $CDPUserSettingsFile
+                    Write-Verbose -Message "Setting '$WinPermissionsActivityHistoryMsg' to '$State' ..."
+                    $CDPUserSettings | ConvertTo-Json -Depth 100 | Out-File -FilePath $CDPUserSettingsFile
+                }
+                else
+                {
+                    Write-Verbose -Message "Setting '$WinPermissionsActivityHistoryMsg': '$CDPUserSettingsFile' not found"
+                }
             }
             'GPO'
             {

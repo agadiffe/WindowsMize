@@ -1,19 +1,19 @@
 #=================================================================================================================
-#              Privacy & Security > Search Permissions > Enable Deep Content Search Of Cloud Content
+#                           Privacy & Security > Search > Let Search Apps Show Results
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-WinPermissionsCloudContentSearch
+    Set-WinPermissionsStartMenuWebSearch
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-WinPermissionsCloudContentSearch
+function Set-WinPermissionsStartMenuWebSearch
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsCloudContentSearch -State 'Disabled'
+        PS> Set-WinPermissionsStartMenuWebSearch -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,21 +26,19 @@ function Set-WinPermissionsCloudContentSearch
     process
     {
         # on: 1 (default) | off: 0
-        $WinPermissionsCloudContentSearch = @{
+        $WinPermissionsStartMenuWebSearch = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\SearchSettings'
             Entries = @(
                 @{
-                    Name  = 'IsGlobalFileSearchProviderToggleEnabled'
+                    Name  = 'IsGlobalWebSearchProviderToggleEnabled'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        $CloudContentSearchMsg = 'Search Permissions: Enable Deep Content Search Of Cloud Content'
-
-        Write-Verbose -Message "Setting 'Windows Permissions - $CloudContentSearchMsg' to '$State' ..."
-        Set-RegistryEntry -InputObject $WinPermissionsCloudContentSearch
+        Write-Verbose -Message "Setting 'Windows Permissions - Search: Let Search Apps Show Results' to '$State' ..."
+        Set-RegistryEntry -InputObject $WinPermissionsStartMenuWebSearch
     }
 }

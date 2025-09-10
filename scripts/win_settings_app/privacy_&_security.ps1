@@ -74,9 +74,9 @@ Set-WinPermissionsSetting -ShowTipsInSettingsApp 'Disabled' -ShowTipsInSettingsA
 # --- Show me notifications in the Settings app (default: Enabled)
 Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
 
-# --- Activity history (default: Enabled)
+# --- Activity history (default: Enabled) | old
 #   Store my activity history on this device
-#   Store my activity history to Microsoft | old
+#   Store my activity history to Microsoft
 Set-WinPermissionsSetting -ActivityHistory 'Disabled' -ActivityHistoryGPO 'NotConfigured'
 
 #endregion user data
@@ -86,7 +86,7 @@ Set-WinPermissionsSetting -ActivityHistory 'Disabled' -ActivityHistoryGPO 'NotCo
 # Recall / Speech / Typing
 #region ai
 
-# --- Save snapshots
+# --- Recall: Save snapshots
 Set-WinPermissionsSetting -RecallSnapshotsGPO 'Disabled'
 
 # --- --- Help improve Recall snapshots filtering (default: Disabled)
@@ -138,27 +138,28 @@ Set-WinPermissionsSetting -FeedbackFrequency 'Never' -FeedbackFrequencyGPO 'Disa
 #=======================================
 #region search
 
-# --- SafeSearch
+# --- SafeSearch | old
 # State: Disabled | Moderate (default) | Strict
 Set-WinPermissionsSetting -SafeSearch 'Disabled'
 
-# --- Cloud content search
-#   Microsoft account (default: Enabled)
-#   Work or School account (default: Enabled)
-Set-WinPermissionsSetting -CloudSearchGPO 'NotConfigured'
-Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled' -CloudSearchWorkOrSchoolAccount 'Disabled'
-
-# --- Search history in this device (default: Enabled)
+# --- Search history (default: Enabled)
 Set-WinPermissionsSetting -SearchHistory 'Disabled'
 
 # --- Show search highlights (default: Enabled)
 Set-WinPermissionsSetting -SearchHighlights 'Disabled' -SearchHighlightsGPO 'NotConfigured'
 
-# --- Enable deep content search of cloud content (default: Enabled)
-Set-WinPermissionsSetting -CloudContentSearch 'Disabled'
+# --- Search my accounts
+#   Microsoft account (default: Enabled)
+#   Work or School account (default: Enabled)
+# CloudSearchGPO: disable both settings
+Set-WinPermissionsSetting -CloudSearchGPO 'NotConfigured'
+Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled' -CloudSearchWorkOrSchoolAccount 'Disabled'
 
-# --- Let search apps show results (default: Enabled)
-Set-WinPermissionsSetting -WebSearch 'Disabled'
+# --- Search the contents of online files (default: Enabled)
+Set-WinPermissionsSetting -CloudFileContentSearch 'Disabled'
+
+# --- Let search apps show results (EEA only) (default: Enabled)
+Set-WinPermissionsSetting -StartMenuWebSearch 'Disabled'
 
 # --- Find my files
 # State: Classic (default) | Enhanced

@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                        Privacy & Security > Search Permissions > Show Search Highlights
+#                              Privacy & Security > Search > Show Search Highlights
 #=================================================================================================================
 
 # Also disabled if Set-StartMenuBingSearch is disabled (applications > management).
@@ -30,7 +30,7 @@ function Set-WinPermissionsSearchHighlights
 
     process
     {
-        $WinPermissionsSearchHighlightsMsg = 'Windows Permissions - Search Permissions: Show Search Highlights'
+        $WinPermissionsSearchHighlightsMsg = 'Windows Permissions - Search: Show Search Highlights'
 
         switch ($PSBoundParameters.Keys)
         {

@@ -45,14 +45,14 @@
 
         # Search
         [-SafeSearch {Disabled | Moderate | Strict}]
-        [-CloudSearchMicrosoftAccount {Disabled | Enabled}]
-        [-CloudSearchWorkOrSchoolAccount {Disabled | Enabled}]
-        [-CloudSearchGPO {Disabled | NotConfigured}]
         [-SearchHistory {Disabled | Enabled}]
         [-SearchHighlights {Disabled | Enabled}]
         [-SearchHighlightsGPO {Disabled | NotConfigured}]
-        [-CloudContentSearch {Disabled | Enabled}]
-        [-WebSearch {Disabled | Enabled}]
+        [-CloudSearchMicrosoftAccount {Disabled | Enabled}]
+        [-CloudSearchWorkOrSchoolAccount {Disabled | Enabled}]
+        [-CloudSearchGPO {Disabled | NotConfigured}]
+        [-CloudFileContentSearch {Disabled | Enabled}]
+        [-StartMenuWebSearch {Disabled | Enabled}]
         [-FindMyFiles {Classic | Enhanced}]
         [-IndexEncryptedFilesGPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
@@ -112,14 +112,14 @@ function Set-WinPermissionsSetting
 
         # Search
         [SafeSearchMode] $SafeSearch,
-        [state] $CloudSearchMicrosoftAccount,
-        [state] $CloudSearchWorkOrSchoolAccount,
-        [GpoStateWithoutEnabled] $CloudSearchGPO,
         [state] $SearchHistory,
         [state] $SearchHighlights,
         [GpoStateWithoutEnabled] $SearchHighlightsGPO,
-        [state] $CloudContentSearch,
-        [state] $WebSearch,
+        [state] $CloudSearchMicrosoftAccount,
+        [state] $CloudSearchWorkOrSchoolAccount,
+        [GpoStateWithoutEnabled] $CloudSearchGPO,
+        [state] $CloudFileContentSearch,
+        [state] $StartMenuWebSearch,
 
         [FindMyFilesMode] $FindMyFiles,
         [GpoState] $IndexEncryptedFilesGPO
@@ -179,14 +179,14 @@ function Set-WinPermissionsSetting
 
             # Search
             'SafeSearch'                     { Set-WinPermissionsSafeSearch -State $SafeSearch }
-            'CloudSearchMicrosoftAccount'    { Set-WinPermissionsCloudSearch -MicrosoftAccount $CloudSearchMicrosoftAccount }
-            'CloudSearchWorkOrSchoolAccount' { Set-WinPermissionsCloudSearch -WorkOrSchoolAccount $CloudSearchWorkOrSchoolAccount }
-            'CloudSearchGPO'                 { Set-WinPermissionsCloudSearch -GPO $CloudSearchGPO }
             'SearchHistory'                  { Set-WinPermissionsSearchHistory -State $SearchHistory }
             'SearchHighlights'               { Set-WinPermissionsSearchHighlights -State $SearchHighlights }
             'SearchHighlightsGPO'            { Set-WinPermissionsSearchHighlights -GPO $SearchHighlightsGPO }
-            'CloudContentSearch'             { Set-WinPermissionsCloudContentSearch -State $CloudContentSearch }
-            'WebSearch'                      { Set-WinPermissionsWebSearch -State $WebSearch }
+            'CloudSearchMicrosoftAccount'    { Set-WinPermissionsCloudSearch -MicrosoftAccount $CloudSearchMicrosoftAccount }
+            'CloudSearchWorkOrSchoolAccount' { Set-WinPermissionsCloudSearch -WorkOrSchoolAccount $CloudSearchWorkOrSchoolAccount }
+            'CloudSearchGPO'                 { Set-WinPermissionsCloudSearch -GPO $CloudSearchGPO }
+            'CloudFileContentSearch'         { Set-WinPermissionsCloudFileContentSearch -State $CloudFileContentSearch }
+            'StartMenuWebSearch'             { Set-WinPermissionsStartMenuWebSearch -State $StartMenuWebSearch }
 
             'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -State $FindMyFiles }
             'IndexEncryptedFilesGPO'         { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }

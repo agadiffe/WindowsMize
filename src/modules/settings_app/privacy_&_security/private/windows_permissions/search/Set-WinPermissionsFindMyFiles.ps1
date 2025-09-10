@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                             Privacy & Security > Searching Windows > Find My Files
+#                                   Privacy & Security > Search > Find My Files
 #=================================================================================================================
 
 <#
@@ -38,7 +38,7 @@ function Set-WinPermissionsFindMyFiles
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Searching Windows: Find My Files' to '$State' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Search: Find My Files' to '$State' ..."
         Set-RegistryEntry -InputObject $WinPermissionsFindMyFiles
     }
 }

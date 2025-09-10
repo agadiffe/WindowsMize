@@ -164,15 +164,15 @@ Set-WinPermissionsSetting @PrivacyWinPermTelemetry
 
 # --- Search
 $PrivacyWinPermTelemetry = @{
-    SafeSearch         = 'Disabled'
-    CloudSearchGPO     = 'NotConfigured'
+    SafeSearch             = 'Disabled'
+    SearchHistory          = 'Disabled'
+    SearchHighlights       = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
+    CloudSearchGPO         = 'NotConfigured'
       CloudSearchMicrosoftAccount    = 'Disabled'
       CloudSearchWorkOrSchoolAccount = 'Disabled'
-    SearchHistory      = 'Disabled'
-    SearchHighlights   = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
-    CloudContentSearch = 'Disabled'
-    WebSearch          = 'Disabled'
-    FindMyFiles        = 'Classic'
+    CloudFileContentSearch = 'Disabled'
+    StartMenuWebSearch     = 'Disabled'
+    FindMyFiles            = 'Classic'
     IndexEncryptedFilesGPO = 'Disabled'
 }
 Set-WinPermissionsSetting @PrivacyWinPermTelemetry

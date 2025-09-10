@@ -1,6 +1,8 @@
 #=================================================================================================================
-#                              Privacy & Security > Search Permissions > SafeSearch
+#                                    Privacy & Security > Search > SafeSearch
 #=================================================================================================================
+
+# old
 
 <#
 .SYNTAX
@@ -38,7 +40,7 @@ function Set-WinPermissionsSafesearch
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Search Permissions: SafeSearch' to '$State' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Search: SafeSearch' to '$State' ..."
         Set-RegistryEntry -InputObject $WinPermissionsSafeSearch
     }
 }
