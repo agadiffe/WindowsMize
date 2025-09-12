@@ -11,10 +11,12 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
-
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
+
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Win_settings_app\System'' Module ...'
 $WindowsMizeModulesNames = @(
@@ -410,7 +412,7 @@ Set-ClipboardSetting -History 'Disabled' -HistoryGPO 'NotConfigured'
 # GPO: Disabled | Enabled | NotConfigured
 Set-ClipboardSetting -SyncAcrossDevices 'Disabled' -SyncAcrossDevicesGPO 'NotConfigured'
 
-# --- Suggested actions (default: Enabled) | deprecated
+# --- Suggested actions (default: Enabled) | old
 Set-ClipboardSetting -SuggestedActions 'Disabled'
 
 #endregion clipboard

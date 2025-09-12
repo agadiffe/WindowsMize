@@ -16,11 +16,11 @@ function Export-DefaultServicesStartupType
     {
         $Services = @{
             All     = @{
-                LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_services_all.json"
+                LogFilePath = "$(Get-LogPath)\windows_default_services_all.json"
                 GetData     = 'Get-Service -ErrorAction SilentlyContinue'
             }
             WinMize = @{
-                LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_services_winmize.json"
+                LogFilePath = "$(Get-LogPath)\windows_default_services_winmize.json"
                 GetData     = '$ServicesList.Values |
                     ForEach-Object -Process {
                         Get-Service -Name $_.ServiceName -ErrorAction SilentlyContinue

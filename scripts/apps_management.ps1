@@ -11,10 +11,12 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
-
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
+
+Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Applications\Management'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\applications\management"
@@ -131,10 +133,10 @@ Set-Widgets -GPO 'Disabled'
 # --- Microsoft Store : Push to install service (remote app installation)
 Set-MicrosoftStorePushToInstall -GPO 'Disabled'
 
-# --- Copilot | deprecated (This policy isn't for the new Copilot app experience)
+# --- Copilot | old (This policy isn't for the new Copilot app experience)
 Set-Copilot -GPO 'Disabled'
 
-# --- Cortana | deprecated
+# --- Cortana | old
 Set-Cortana -GPO 'Disabled'
 
 #       Preinstalled default apps

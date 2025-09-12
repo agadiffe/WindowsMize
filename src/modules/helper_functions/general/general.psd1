@@ -13,6 +13,7 @@
     FunctionsToExport = @(
         'Add-DynamicParameter'
         'Get-HashtableSubset'
+        'Get-LogPath'
         'New-ParentPath'
         'Set-ByteBitFlag'
         'Set-FileSystemAdminsFullControl'

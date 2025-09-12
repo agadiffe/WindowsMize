@@ -16,11 +16,11 @@ function Export-DefaultSystemDriversStartupType
     {
         $SystemDrivers = @{
             All     = @{
-                LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_system_drivers_all.json"
+                LogFilePath = "$(Get-LogPath)\windows_default_system_drivers_all.json"
                 GetData     = 'Get-CimInstance -ClassName Win32_SystemDriver -Verbose:$false'
             }
             WinMize = @{
-                LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_system_drivers_winmize.json"
+                LogFilePath = "$(Get-LogPath)\windows_default_system_drivers_winmize.json"
                 GetData     = '
                     $SystemDriverFilter = "Name = ''$($SystemDriversList.Values.ServiceName -join "'' OR Name = ''")''"
                     Get-CimInstance -ClassName Win32_SystemDriver -Filter $SystemDriverFilter -Verbose:$false'

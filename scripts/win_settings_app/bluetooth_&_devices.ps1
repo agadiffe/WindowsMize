@@ -11,10 +11,12 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$PSScriptRoot\..\..\log\win_settings_app_$ScriptFileName.log"
-
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
+
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Win_settings_app\Bluetooth_&_devices'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\bluetooth_&_devices"
@@ -53,7 +55,7 @@ Set-DevicesSetting -DownloadOverMeteredConnections 'Disabled'
 # --- Use LE Audio when available (default: Enabled)
 Set-BluetoothSetting -LowEnergyAudio 'Enabled'
 
-# --- Bluetooth devices discovery | deprecated
+# --- Bluetooth devices discovery | old
 # State: Default (default) | Advanced
 Set-BluetoothSetting -DiscoveryMode 'Default'
 

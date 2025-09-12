@@ -11,10 +11,12 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$PSScriptRoot\..\log\$ScriptFileName.log"
-
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
+
+Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Tweaks'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\tweaks"

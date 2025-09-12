@@ -14,7 +14,7 @@ function Export-DefaultNetAdapterProtocolsState
 
     process
     {
-        $LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_netadapter_protocols_state.json"
+        $LogFilePath = "$(Get-LogPath)\windows_default_netadapter_protocols_state.json"
         if (-not (Test-Path -Path $LogFilePath))
         {
             Write-Verbose -Message 'Exporting Default Network Adapter Protocols State ...'

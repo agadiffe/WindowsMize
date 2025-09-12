@@ -95,12 +95,12 @@ function Set-Short8Dot3FileName
                 "            Open the generated log file and replace any mention of 8dot3 names in the registry.`n" +
                 "            Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.`n")
 
-            $LogFolderPath = "$PSScriptRoot\..\..\..\..\..\log"
+            $LogPath = Get-LogPath
             $LogFileName = "8dot3_removal_@($(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssK')).log"
 
-            $LogFolderPath = Resolve-Path -Path $LogFolderPath
-            $LogFilePath = "$LogFolderPath\$LogFileName"
-            New-ParentPath -Path $LogFilePath
+            New-ParentPath -Path "$LogPath\x"
+            $LogPath = Resolve-Path -Path $LogPath
+            $LogFilePath = "$LogPath\$LogFileName"
 
             fsutil.exe 8Dot3Name strip /f /s /l $LogFilePath $env:SystemDrive
         }

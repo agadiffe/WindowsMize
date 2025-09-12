@@ -16,11 +16,11 @@ function Export-DefaultScheduledTasksState
     {
         $ScheduledTasks = @{
             All     = @{
-                LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_scheduled_tasks_all.json"
+                LogFilePath = "$(Get-LogPath)\windows_default_scheduled_tasks_all.json"
                 GetData     = 'Get-ScheduledTask'
             }
             WinMize = @{
-                LogFilePath = "$PSScriptRoot\..\..\..\..\log\windows_default_scheduled_tasks_winmize.json"
+                LogFilePath = "$(Get-LogPath)\windows_default_scheduled_tasks_winmize.json"
                 GetData     = '$ScheduledTasksList.Values |
                     ForEach-Object -Process {
                         Get-ScheduledTask -TaskPath $_.TaskPath -TaskName $_.Task.Keys -ErrorAction SilentlyContinue

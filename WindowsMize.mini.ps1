@@ -27,10 +27,12 @@ if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
     exit
 }
 
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$PSScriptRoot\log\$ScriptFileName.log"
-
 $Global:ModuleVerbosePreference = 'Continue'
+
+Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
+
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 $WindowsMizeModulesNames = @(
     'tweaks'
@@ -882,7 +884,7 @@ $ServicesToConfig = @(
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Miscellaneous' # adjust to your needs: src > modules > services > private > Miscellaneous.ps1
-    'Network' # all disabaled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
+    'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
     'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' (and maybe 'PrintNotify') services.
     'RemoteDesktop'
