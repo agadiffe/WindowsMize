@@ -46,7 +46,7 @@ function Set-NetSmhnr
             )
         }
 
-        Write-Verbose -Message "Setting 'Network SMHNR (GPO)' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'Network - Smart Multi-Homed Name Resolution (SMHNR) (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $NetworkSmhnrGpo
     }
 }

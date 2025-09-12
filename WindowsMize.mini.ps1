@@ -425,8 +425,9 @@ $SystemDriversToConfig = @(
 Set-NetBiosOverTcpIP -State 'Disabled'
 Set-NetIcmpRedirects -State 'Disabled'
 Set-NetIPSourceRouting -State 'Disabled'
-Set-NetLlmnr -GPO 'Disabled'
+Set-NetLlmnr -GPO 'NotConfigured'
 Set-NetLmhosts -State 'Disabled'
+#Set-NetMulicastDns -State 'Enabled'
 Set-NetSmhnr -GPO 'Disabled'
 #Set-NetProxyAutoDetect -State 'Disabled'
 

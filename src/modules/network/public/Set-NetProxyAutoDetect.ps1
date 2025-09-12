@@ -48,7 +48,7 @@ function Set-NetProxyAutoDetect
             )
         }
 
-        Write-Verbose -Message "Setting 'Network WPAD' to '$State' ..."
+        Write-Verbose -Message "Setting 'Network - Web Proxy Auto-Discovery protocol (WPAD)' to '$State' ..."
         Set-RegistryEntry -InputObject $NetworkWpad
     }
 }

@@ -59,7 +59,7 @@ function Set-NetIPSourceRouting
             }
         )
 
-        Write-Verbose -Message "Setting 'Network IP Source Routing' to '$State' ..."
+        Write-Verbose -Message "Setting 'Network - IP Source Routing' to '$State' ..."
         $NetworkIPSourceRouting | Set-RegistryEntry
     }
 }

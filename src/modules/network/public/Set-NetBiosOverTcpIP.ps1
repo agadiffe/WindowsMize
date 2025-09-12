@@ -57,7 +57,7 @@ function Set-NetBiosOverTcpIP
             )
         }
 
-        Write-Verbose -Message "Setting 'NetBIOS over TCP/IP' to '$State' ..."
+        Write-Verbose -Message "Setting 'Network - NetBIOS over TCP/IP' to '$State' ..."
         Set-RegistryEntry -InputObject $NetBiosTcpIP
     }
 }

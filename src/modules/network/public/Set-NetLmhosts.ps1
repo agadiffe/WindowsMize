@@ -45,7 +45,7 @@ function Set-NetLmhosts
             )
         }
 
-        Write-Verbose -Message "Setting 'Network LAN Manager Hosts (LMHOSTS)' to '$State' ..."
+        Write-Verbose -Message "Setting 'Network - LAN Manager Hosts (LMHOSTS)' to '$State' ..."
         Set-RegistryEntry -InputObject $NetworkLmhosts
     }
 }

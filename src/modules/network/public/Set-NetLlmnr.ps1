@@ -5,6 +5,12 @@
 # Configuring the system to disable LLMNR mitigate local name resolution poisoning.
 # To completely mitigate local name resolution poisoning, in addition to this setting,
 # the properties of each installed NIC should also be set to 'Disable NetBIOS over TCP/IP'.
+# See also: Multicast DNS (mDNS).
+
+# LLMNR resolve DNS names to their respective IP addresses.
+# e.g. File Explorer > Network > Computer_Name
+# If disabled, double-clicking on Computer_Name will probably fail with the error: Path not found.
+# You will need to access the computer using its IP address.
 
 # CIS recommendation: Disabled
 
@@ -47,7 +53,7 @@ function Set-NetLlmnr
             )
         }
 
-        Write-Verbose -Message "Setting 'Network LLMNR (GPO)' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'Network - Link Local Multicast Name Resolution (LLMNR) (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $NetworkLlmnrGpo
     }
 }

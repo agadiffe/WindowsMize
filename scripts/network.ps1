@@ -169,10 +169,20 @@ Set-NetIPSourceRouting -State 'Disabled'
 
 # --- Link Local Multicast Name Resolution (LLMNR)
 # GPO: Disabled | NotConfigured
-Set-NetLlmnr -GPO 'Disabled'
+# Disabled: Might fail to resolve hostname to IP address.
+#   e.g. File Explorer > Network > Computer_Name : error path not found.
+Set-NetLlmnr -GPO 'NotConfigured'
 
 # --- LAN Manager Hosts (LMHOSTS) (default: Enabled)
 Set-NetLmhosts -State 'Disabled'
+
+# --- Multicast DNS (mDNS) (default: Enabled)
+# Disabled:
+#   Might fail to resolve hostname to IP address.
+#   e.g. File Explorer > Network > Computer_Name : error path not found.
+#   Workstations may not be able to find wireless screen mirroring devices.
+#   e.g. Chromecasts, Apple AirPlay, Printers and anything else that relies on MDNS.
+#Set-NetMulicastDns -State 'Enabled'
 
 # --- Smart Multi-Homed Name Resolution
 # GPO: Disabled | NotConfigured

@@ -22,6 +22,7 @@
         'Set-NetIPv6Transition'
         'Set-NetLlmnr'
         'Set-NetLmhosts'
+        'Set-NetMulicastDns'
         'Set-NetProxyAutoDetectprotocol'
         'Set-NetSmhnr'
     )

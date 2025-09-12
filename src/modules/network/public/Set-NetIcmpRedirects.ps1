@@ -30,7 +30,7 @@ function Set-NetIcmpRedirects
 
     process
     {
-        Write-Verbose -Message "Setting 'Network Icmp Redirects' to '$State' ..."
+        Write-Verbose -Message "Setting 'Network - Internet Control Message Protocol (ICMP) Redirects' to '$State' ..."
 
         Set-NetIPv4Protocol -IcmpRedirects $State
         Set-NetIPv6Protocol -IcmpRedirects $State
