@@ -64,11 +64,14 @@ Set-DisplayBrightnessSetting -AdjustBasedOnContent 'Disabled'
 #               Graphics
 #=======================================
 
-# --- Optimizations for windowed games (default: Enabled)
-Set-DisplayGraphicsSetting -WindowedGamesOptimizations 'Disabled'
+# --- Automatic super resolution (default: Enabled)
+Set-DisplayGraphicsSetting -AutoSuperResolution 'Disabled'
 
 # --- Auto HDR (default: Enabled)
 Set-DisplayGraphicsSetting -AutoHDR 'Disabled'
+
+# --- Optimizations for windowed games (default: Enabled)
+Set-DisplayGraphicsSetting -WindowedGamesOptimizations 'Enabled'
 
 # --- Hardware-accelerated GPU scheduling (default: Disabled)
 Set-DisplayGraphicsSetting -GPUScheduling 'Enabled'

@@ -21,7 +21,7 @@ function Set-DisplayGraphics
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('AutoHDR', 'GamesVariableRefreshRate', 'WindowedGamesOptimizations')]
+        [ValidateSet('AutoHDR', 'AutoSuperResolution', 'GamesVariableRefreshRate', 'WindowedGamesOptimizations')]
         [string] $Name,
 
         [Parameter(Mandatory)]
@@ -30,18 +30,19 @@ function Set-DisplayGraphics
 
     process
     {
-        $SettingValue = $State -eq 'Enabled' ? 1 : 0
-        $SettingName = switch ($Name)
+        $IsEnabled = $State -eq 'Enabled'
+        $SettingName, $SettingValue = switch ($Name)
         {
-            'AutoHDR'                    { 'AutoHDREnable' }
-            'GamesVariableRefreshRate'   { 'VRROptimizeEnable' }
-            'WindowedGamesOptimizations' { 'SwapEffectUpgradeEnable' }
+            'AutoHDR'                    { 'AutoHDREnable'          , ($IsEnabled ? '1' : '0') }
+            'AutoSuperResolution'        { 'DXGIEffects'            , ($IsEnabled ? '1028' : '1024') }
+            'GamesVariableRefreshRate'   { 'VRROptimizeEnable'      , ($IsEnabled ? '1' : '0') }
+            'WindowedGamesOptimizations' { 'SwapEffectUpgradeEnable', ($IsEnabled ? '1' : '0') }
         }
 
         $GpuPrefRegPath = 'Software\Microsoft\DirectX\UserGpuPreferences'
         $CurrentSettings = Get-LoggedOnUserItemPropertyValue -Path $GpuPrefRegPath -Name 'DirectXUserGlobalSettings'
         $DirectXSettings = $CurrentSettings -like "*$SettingName*" ?
-            $CurrentSettings -replace "($SettingName=)\d;", "`${1}$SettingValue;" :
+            $CurrentSettings -replace "($SettingName=)\d+;", "`${1}$SettingValue;" :
             $CurrentSettings + "$SettingName=$SettingValue;"
 
         $DisplayDirectXSettings = @{

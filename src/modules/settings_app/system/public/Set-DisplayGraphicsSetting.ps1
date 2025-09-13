@@ -6,6 +6,7 @@
 .SYNTAX
     Set-DisplayGraphicsSetting
         [-AutoHDR {Disabled | Enabled}]
+        [-AutoSuperResolution {Disabled | Enabled}]
         [-GamesVariableRefreshRate {Disabled | Enabled}]
         [-GPUScheduling {Disabled | Enabled}]
         [-WindowedGamesOptimizations {Disabled | Enabled}]
@@ -23,6 +24,8 @@ function Set-DisplayGraphicsSetting
     param
     (
         [state] $AutoHDR,
+
+        [state] $AutoSuperResolution,
 
         [state] $GamesVariableRefreshRate,
 
@@ -48,6 +51,10 @@ function Set-DisplayGraphicsSetting
                     Set-DisplayGraphics -Name 'WindowedGamesOptimizations' -State 'Enabled'
                 }
                 Set-DisplayGraphics -Name 'AutoHDR' -State $AutoHDR
+            }
+            'AutoSuperResolution'
+            {
+                Set-DisplayGraphics -Name 'AutoSuperResolution' -State $AutoSuperResolution
             }
             'GamesVariableRefreshRate'
             {

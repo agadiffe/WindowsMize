@@ -959,8 +959,9 @@ $DisplayBrightnessSettings = @{
 Set-DisplayBrightnessSetting @DisplayBrightnessSettings
 
 $DisplayGraphicsSettings = @{
-    WindowedGamesOptimizations = 'Disabled'
+    AutoSuperResolution        = 'Disabled'
     AutoHDR                    = 'Disabled'
+    WindowedGamesOptimizations = 'Enabled'
     GPUScheduling              = 'Enabled'
     GamesVariableRefreshRate   = 'Disabled'
 }
