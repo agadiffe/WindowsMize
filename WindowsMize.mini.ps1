@@ -1243,12 +1243,24 @@ Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 #Set-DnsServer -ResetServerAddresses
 
 $NetworkSettings = @{
-    ConnectedNetworkProfile = 'Private'
-    VpnOverMeteredNetworks  = 'Enabled'
-    VpnWhileRoaming         = 'Enabled'
-    ProxyAutoDetectSettings = 'Disabled'
+    ConnectedNetworkProfile   = 'Private'
+    VpnOverMeteredNetworks    = 'Enabled'
+    VpnWhileRoaming           = 'Enabled'
+    ProxyAutoDetectSettings   = 'Disabled'
+    AutoSetupConnectedDevices = 'Disabled'
 }
 Set-NetworkSetting @NetworkSettings
+
+$NetworkSharingSettings = @(
+    @{ Name = 'NetworkDiscovery' ; NetProfile = 'Private' ; State = 'Disabled' }
+    @{ Name = 'NetworkDiscovery' ; NetProfile = 'Public'  ; State = 'Disabled' }
+    @{ Name = 'NetworkDiscovery' ; NetProfile = 'Domain'  ; State = 'Disabled' }
+
+    @{ Name = 'FileAndPrinterSharing' ; NetProfile = 'Private' ; State = 'Disabled' }
+    @{ Name = 'FileAndPrinterSharing' ; NetProfile = 'Public'  ; State = 'Disabled' }
+    @{ Name = 'FileAndPrinterSharing' ; NetProfile = 'Domain'  ; State = 'Disabled' }
+) | ForEach-Object { [PSCustomObject]$_ }
+$NetworkSharingSettings | Set-NetworkSharingSetting
 
 #endregion network & internet
 

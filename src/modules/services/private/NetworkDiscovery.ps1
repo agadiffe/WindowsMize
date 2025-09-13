@@ -19,12 +19,6 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'Network Connected Devices Auto-Setup'
-            ServiceName = 'NcdAutoSetup'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-        }
-        @{
             DisplayName = 'SSDP Discovery'
             ServiceName = 'SSDPSRV'
             StartupType = 'Disabled'

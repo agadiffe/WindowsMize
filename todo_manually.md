@@ -18,8 +18,6 @@ Review these todos after the script execution and computer restart.
 - Network & internet:
   - wi-fi:
     - random hardware addresses > enable if needed (e.g. public wifi)
-  - advanced network settings:
-    - advanced sharing settings > adjust as needed (if network discovery services are not disabled)
 
 - Personalization:
   - taskbar:
@@ -32,14 +30,14 @@ Review these todos after the script execution and computer restart.
 - Privacy & security:
   - windows security (aka Defender) > review the settings and dismiss any warning message
   - device encryption  > turn off device encryption (if desired) (not automated because it can take a long time)  
-    The recommended way is to use an "answer file" to prevent auto device encryption.
+    The recommended way is to use an "answer file" to prevent the auto device encryption.
 
 ## Miscellaneous
 - Battery setting (e.g. Laptop)  
-  Limit the maximum charge to 90% to preserve the battery longevity.  
+  Limit the maximum charge to 90% (or 85%) to preserve the battery longevity.  
   This option is generaly in the BIOS or via a manufacturer application.
 
-- Move default user folders location outside of the system drive.  
+- Move the default user folders location outside of the system drive (if possible).  
   i.e. desktop, downloads, documents, music, pictures, videos
 
 - Personalize the Start Menu and taskbar items.  

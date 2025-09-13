@@ -104,6 +104,22 @@ Write-Section -Name 'Advanced network settings' -SubSection
 #Set-DnsServer -Provider 'Cloudflare' -Server 'Default' -FallbackToPlaintext
 Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 
+#       Advanced sharing settings
+#=======================================
+
+# --- Private networks: Set up network connected devices automatically (default: Enabled)
+Set-NetworkSetting -AutoSetupConnectedDevices 'Disabled'
+
+# --- Network discovery (default\ Private: Enabled | Public: Disabled | Domain: Disabled)
+Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Private' -State 'Disabled'
+Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Public'  -State 'Disabled'
+Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Domain'  -State 'Disabled'
+
+# --- File and Printer Sharing (default: Disabled)
+Set-NetworkSharingSetting -Name 'FileAndPrinterSharing' -NetProfile 'Private' -State 'Disabled'
+Set-NetworkSharingSetting -Name 'FileAndPrinterSharing' -NetProfile 'Public'  -State 'Disabled'
+Set-NetworkSharingSetting -Name 'FileAndPrinterSharing' -NetProfile 'Domain'  -State 'Disabled'
+
 #endregion advanced network settings
 
 

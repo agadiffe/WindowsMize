@@ -9,6 +9,7 @@
         [-VpnOverMeteredNetworks {Disabled | Enabled}]
         [-VpnWhileRoaming {Disabled | Enabled}]
         [-ProxyAutoDetectSettings {Disabled | Enabled}]
+        [-AutoSetupConnectedDevices {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -30,8 +31,11 @@ function Set-NetworkSetting
         [state] $VpnOverMeteredNetworks,
         [state] $VpnWhileRoaming,
 
-        # proxy
-        [state] $ProxyAutoDetectSettings
+        # Proxy
+        [state] $ProxyAutoDetectSettings,
+
+        # Sharing settings
+        [state] $AutoSetupConnectedDevices
     )
 
     process
@@ -50,9 +54,10 @@ function Set-NetworkSetting
                 Write-Verbose -Message "Setting 'Connected Network' To '$ConnectedNetworkProfile' ..."
                 Set-NetConnectionProfile -NetworkCategory $ConnectedNetworkProfile
             }
-            'VpnOverMeteredNetworks'  { Set-VpnOverMeteredNetworks -State $VpnOverMeteredNetworks }
-            'VpnWhileRoaming'         { Set-VpnWhileRoaming -State $VpnWhileRoaming }
-            'ProxyAutoDetectSettings' { Set-ProxyAutoDetectSettings -State $ProxyAutoDetectSettings }
+            'VpnOverMeteredNetworks'    { Set-VpnOverMeteredNetworks -State $VpnOverMeteredNetworks }
+            'VpnWhileRoaming'           { Set-VpnWhileRoaming -State $VpnWhileRoaming }
+            'ProxyAutoDetectSettings'   { Set-ProxyAutoDetectSettings -State $ProxyAutoDetectSettings }
+            'AutoSetupConnectedDevices' { Set-NetConnectedDevicesAutoSetup -State $AutoSetupConnectedDevices }
         }
     }
 }

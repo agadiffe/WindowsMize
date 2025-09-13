@@ -15,6 +15,7 @@
     FunctionsToExport = @(
         'Set-DnsServer'
         'Set-NetworkSetting'
+        'Set-NetworkSharingSetting'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

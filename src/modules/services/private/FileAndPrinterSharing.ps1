@@ -11,7 +11,9 @@ $ServicesList += @{
             ServiceName = 'LanmanServer'
             StartupType = 'Disabled'
             DefaultType = 'Automatic'
-            Comment     = 'file and printer sharing (SMB server).'
+            Comment     = 'file and printer sharing (SMB server).
+                           needed to share files & folders to other computer.
+                           if disabled, removes the sharing tab from folder properties.'
         }
         @{
             DisplayName = 'Workstation'
