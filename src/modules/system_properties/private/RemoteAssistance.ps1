@@ -75,6 +75,8 @@ function Set-RemoteAssistanceState
         Write-Verbose -Message "Setting 'Remote Assistance' to '$State' ..."
         Set-RegistryEntry -InputObject $RemoteAssistance
 
+        Write-Verbose -Message "  Setting 'Firewall rules (group: @FirewallAPI.dll,-33002)' to '$State'"
+        Set-NetFirewallRule -Group '@FirewallAPI.dll,-33002' -Enabled ($State -ne 'Disabled' ? 'True' : 'False')
 
         if ($State -ne 'Disabled')
         {

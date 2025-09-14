@@ -9,13 +9,8 @@
 #=================================================================================================================
 
 <#
-  All functions in the 'scripts' folder can be imported.
-  
-  They are also listed in the corresponding module within the public folder.
-  e.g. src\modules\file_explorer\public\Set-FileExplorerSetting.ps1
-  
-  Reload the terminal session if you have made changes to the powershell source code.
-  e.g. Open a new PowerShell-Tab.
+  This file is the equivalent of all functions within the 'scripts' folder.
+  It doesn't include any comments or parameter value choices.
 #>
 
 #Requires -RunAsAdministrator
@@ -101,7 +96,7 @@ $FileExplorerSettings = @{
     #ShowItemsInfoPopup               = 'Enabled'
     #ShowPreviewHandlers              = 'Enabled'
     #ShowStatusBar                    = 'Enabled'
-    ShowSyncProviderNotifications    = 'Disabled' # OneDrive Ads
+    ShowSyncProviderNotifications    = 'Disabled'
     ItemsCheckBoxes                  = 'Enabled'
     SharingWizard                    = 'Disabled'
     #TypingIntoListViewBehavior       = 'SelectItemInView'
@@ -283,7 +278,7 @@ Set-UserInfoSharing -GPO 'Disabled'
 Set-Hotspot2 -State 'Disabled'
 Set-LockScreenCameraAccess -GPO 'Disabled'
 Set-MessagingCloudSync -GPO 'Disabled'
-Set-NotificationsNetworkUsage -GPO 'NotConfigured' # real-time notifs (Discord, MSTeams)
+Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 Set-PasswordExpiration -State 'Disabled'
 Set-PasswordRevealButton -GPO 'Disabled'
 Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
@@ -298,7 +293,7 @@ Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled'
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
 Set-Short8Dot3FileName -State 'Disabled'
-#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # Read the comments in Set-Short8Dot3FileName.ps1
+#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
 
 # --- User interface and experience
@@ -338,7 +333,7 @@ Set-WindowsExperimentation -GPO 'Disabled'
 Set-WindowsInputExperience -State 'Disabled'
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
 Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
-Set-WindowsSharedExperience -GPO 'NotConfigured' # disable: system > nearby sharing | apps > share across devices'
+Set-WindowsSharedExperience -GPO 'NotConfigured'
 Set-WindowsSpotlight -GPO 'NotConfigured'
 Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
 
@@ -367,6 +362,9 @@ Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured'
 #region network
 
 # --- Firewall
+Set-AllJoynRouterNetFirewallRule -State 'Disabled'
+Set-DiagTrackNetFirewallRule -State 'Disabled'
+
 $FirewallInboundRules = @(
     'CDP'
     'DCOM'
@@ -375,6 +373,7 @@ $FirewallInboundRules = @(
     'MiscProgSrv' # lsass.exe, wininit.exe, Schedule, EventLog, services.exe
 )
 Block-NetFirewallInboundRule -Name $FirewallInboundRules
+#Block-NetFirewallInboundRule -Name $FirewallInboundRules -Reset
 
 # --- IPv6 transition technologies
 $IPv6TransitionTech = @(
@@ -409,14 +408,14 @@ $AdapterProtocolsToEnable = @(
 
 # --- System Drivers (Services)
 $SystemDriversToConfig = @(
-    'BridgeDriver' # old ?
-    'NetBiosDriver' # needed by: File and Printer Sharing
-    'NetBiosOverTcpIpDriver' # legacy/old | needed by old pc/hardware: File and Printer Sharing
+    'BridgeDriver'
+    'NetBiosDriver'
+    'NetBiosOverTcpIpDriver'
     'LldpDriver'
     'LltdIoDriver'
     'LltdResponderDriver'
     'MicrosoftMultiplexorDriver'
-    'QosPacketSchedulerDriver' # not really needed on small home network
+    'QosPacketSchedulerDriver'
 )
 # Disable the above selected drivers.
 #$SystemDriversToConfig | Set-ServiceStartupTypeGroup
@@ -472,7 +471,7 @@ $RemoteAssistanceProperties = @{
     InvitationMaxTimeUnit = 'Hours'
     EncryptedOnly         = 'Enabled'
     EncryptedOnlyGPO      = 'NotConfigured'
-    InvitationMethodGPO   = 'SimpleMAPI' # ignored if 'GPO' is 'NotConfigured'
+    InvitationMethodGPO   = 'SimpleMAPI'
 }
 #Set-RemoteAssistance @RemoteAssistanceProperties
 
@@ -875,27 +874,27 @@ $ServicesToConfig = @(
     #'Bluetooth'
     #'BluetoothAndCast'
     #'BluetoothAudio'
-    'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
+    'DefenderPhishingProtection'
     'Deprecated'
     'DiagnosticAndUsage'
-    'Features' # adjust to your needs: src > modules > services > private > Features.ps1
+    'Features'
     'FileAndPrinterSharing'
     'HyperV'
-    'MicrosoftEdge' # do not disable if you use Edge.
+    'MicrosoftEdge'
     #'MicrosoftOffice'
-    'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
-    'Miscellaneous' # adjust to your needs: src > modules > services > private > Miscellaneous.ps1
-    'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
-    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
-    'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' (and maybe 'PrintNotify') services.
+    'MicrosoftStore'
+    'Miscellaneous'
+    'Network'
+    #'NetworkDiscovery'
+    'Printer'
     'RemoteDesktop'
-    #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in)
+    #'Sensor'
     'SmartCard'
     'Telemetry'
     'VirtualReality'
     #'Vpn'
     #'Webcam'
-    'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'. Update ps1 file if desired.
+    'WindowsBackupAndSystemRestore'
     'WindowsSearch'
     #'WindowsSubsystemForLinux'
     'Xbox'
@@ -914,7 +913,7 @@ $TasksToConfig = @(
     #'AdobeAcrobat'
     'Diagnostic'
     'Features'
-    'MicrosoftEdge' # do not disable if you didn't uninstalled Edge.
+    'MicrosoftEdge'
     #'MicrosoftOffice'
     'Miscellaneous'
     'Telemetry'
@@ -1440,15 +1439,14 @@ $DateTimeSettings = @{
 Set-DateAndTimeSetting @DateTimeSettings
 
 # --- Language & region
-$LanguageRegionSettings = @{
+#Remove-LanguageFeatures # W11
+
+$LanguageAndRegionSettings = @{
     FirstDayOfWeek            = 'Monday'
     ShortDateFormat           = 'dd-MMM-yy'
     Utf8ForNonUnicodePrograms = 'Enabled'
 }
-Set-LanguageAndRegionSetting @LanguageRegionSettings
-
-# Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
-#Remove-LanguageFeatures # W11
+Set-LanguageAndRegionSetting @LanguageAndRegionSettings
 
 # --- Typing
 $TypingSettings = @{

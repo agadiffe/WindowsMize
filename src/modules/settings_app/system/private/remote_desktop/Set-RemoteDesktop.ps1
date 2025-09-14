@@ -56,6 +56,9 @@ function Set-RemoteDesktop
 
                 Write-Verbose -Message "Setting '$RemoteDesktopMsg' to '$State' ..."
                 Set-RegistryEntry -InputObject $RemoteDesktop
+
+                Write-Verbose -Message "  Setting 'Firewall rules (group: @FirewallAPI.dll,-28752)' to '$State'"
+                Set-NetFirewallRule -Group '@FirewallAPI.dll,-28752' -Enabled ($IsEnabled ? 'True' : 'False')
             }
             'GPO'
             {

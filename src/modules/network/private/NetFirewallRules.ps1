@@ -122,33 +122,33 @@ $NetFirewallRules += @{
                 DisplayName = 'Block Inbound TCP - lsass.exe'
                 #LocalPort   = '49664'
                 Protocol    = 'TCP'
-                Program     = "$env:SystemRoot\System32\lsass.exe"
+                Program     = '%SystemRoot%\System32\lsass.exe'
             }
             @{
                 DisplayName = 'Block Inbound TCP - wininit.exe'
                 #LocalPort   = '49665'
                 Protocol    = 'TCP'
-                Program     = "$env:SystemRoot\System32\wininit.exe"
+                Program     = '%SystemRoot%\System32\wininit.exe'
             }
             @{
                 DisplayName = 'Block Inbound TCP - Schedule'
                 #LocalPort   = '49666'
                 Protocol    = 'TCP'
-                Program     = "$env:SystemRoot\System32\svchost.exe"
+                Program     = '%SystemRoot%\system32\svchost.exe'
                 Service     = 'Schedule'
             }
             @{
                 DisplayName = 'Block Inbound TCP - EventLog'
                 #LocalPort   = '49667'
                 Protocol    = 'TCP'
-                Program     = "$env:SystemRoot\System32\svchost.exe"
+                Program     = '%SystemRoot%\system32\svchost.exe'
                 Service     = 'EventLog'
             }
             @{
                 DisplayName = 'Block Inbound TCP - services.exe'
                 #LocalPort   = '49668' or '49669'
                 Protocol    = 'TCP'
-                Program     = "$env:SystemRoot\System32\services.exe"
+                Program     = '%SystemRoot%\System32\services.exe'
             }
         )
     }

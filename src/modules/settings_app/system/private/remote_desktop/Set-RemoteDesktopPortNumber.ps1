@@ -23,6 +23,7 @@ function Set-RemoteDesktopPortNumber
     [CmdletBinding()]
     param
     (
+        [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
         [int] $PortNumber
     )
@@ -45,14 +46,8 @@ function Set-RemoteDesktopPortNumber
         Write-Verbose -Message "Setting 'Remote Desktop - Remote Desktop Port' to '$PortNumber' ..."
         Set-RegistryEntry -InputObject $RemoteDesktopPortNumber
 
-        # update Windows Firewall rules
-        $FirewallRule = @{
-            DisplayName = @(
-                'Remote Desktop - User Mode (TCP-In)'
-                'Remote Desktop - User Mode (UDP-In)'
-            )
-            LocalPort   = $PortNumber
-        }
-        Set-NetFirewallRule @FirewallRule
+        $FirewallRuleName = 'RemoteDesktop-UserMode-In-TCP', 'RemoteDesktop-UserMode-In-UDP'
+        Write-Verbose -Message "  Setting 'Firewall rules: $($FirewallRuleName -join ', '))' to '$PortNumber'"
+        Set-NetFirewallRule -Name $FirewallRuleName -LocalPort $PortNumber
     }
 }

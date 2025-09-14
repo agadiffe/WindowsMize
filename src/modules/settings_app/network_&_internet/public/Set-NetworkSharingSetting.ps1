@@ -39,11 +39,12 @@ function Set-NetworkSharingSetting
 
         $NetFirewallGroupID = switch ($Name)
         {
-            'NetworkDiscovery'      { '-32752' }
-            'FileAndPrinterSharing' { '-28502' }
+            'NetworkDiscovery'      { '@FirewallAPI.dll,-32752' }
+            'FileAndPrinterSharing' { '@FirewallAPI.dll,-28502' }
         }
 
-        Get-NetFirewallRule -Group "*$NetFirewallGroupID*" |
+        Write-Verbose -Message "  Setting 'Firewall rules (group: $NetFirewallGroupID)' to '$State'"
+        Get-NetFirewallRule -Group $NetFirewallGroupID |
             Where-Object -Property 'Profile' -Match -Value $NetProfile |
             Set-NetFirewallRule -Enabled ($State -eq 'Enabled' ? 'True' : 'False')
     }

@@ -9,6 +9,7 @@
 .SYNTAX
     Block-NetFirewallInboundRule
         [-Name] {CDP | DCOM | NetBiosTcpIP | SMB | MiscProgSrv}
+        [-Reset]
         [<CommonParameters>]
 #>
 
@@ -31,7 +32,9 @@ function Block-NetFirewallInboundRule
     (
         [Parameter(Mandatory)]
         [ValidateSet('CDP', 'DCOM', 'NetBiosTcpIP', 'SMB', 'MiscProgSrv')]
-        [string[]] $Name
+        [string[]] $Name,
+
+        [switch] $Reset
     )
 
     process
@@ -39,21 +42,24 @@ function Block-NetFirewallInboundRule
         foreach ($Item in $Name)
         {
             $ItemData = $NetFirewallRules.$Item
-            $RulesDisplayName = $ItemData.Rules.DisplayName -join "`n             "
-
-            Write-Verbose -Message 'Adding firewall rules:'
-            Write-Verbose -Message "    $RulesDisplayName"
-
             Remove-NetFirewallRule -Group $ItemData.Group -ErrorAction 'SilentlyContinue'
 
-            $RuleProperties = @{
-                Action    = 'Block'
-                Direction = 'Inbound'
-                Group     = $ItemData.Group
-            }
-            foreach ($Rule in $ItemData.Rules)
+            if (-not $Reset)
             {
-                New-NetFirewallRule @RuleProperties @Rule | Out-Null
+                $RulesDisplayName = $ItemData.Rules.DisplayName -join "`n             "
+
+                Write-Verbose -Message 'Adding Firewall rules:'
+                Write-Verbose -Message "    $RulesDisplayName"
+
+                $RuleProperties = @{
+                    Action    = 'Block'
+                    Direction = 'Inbound'
+                    Group     = $ItemData.Group
+                }
+                foreach ($Rule in $ItemData.Rules)
+                {
+                    New-NetFirewallRule @RuleProperties @Rule | Out-Null
+                }
             }
         }
     }

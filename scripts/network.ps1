@@ -42,21 +42,34 @@ Write-Section -Name 'Network'
 
 Write-Section -Name 'Firewall' -SubSection
 
+# --- AllJoyn Router (default: Enabled)
+# Internet of Things related.
+Set-AllJoynRouterNetFirewallRule -State 'Disabled'
+
+# --- Connected User Experiences and Telemetry (default: Enabled)
+# By default, Firewall outbound are all allowed, so this setting doesn't matter.
+Set-DiagTrackNetFirewallRule -State 'Disabled'
+
 # --- Connected Devices Platform service (CDP)
 Block-NetFirewallInboundRule -Name 'CDP'
+#Block-NetFirewallInboundRule -Name 'CDP' -Reset
 
 # --- DCOM service control manager
 Block-NetFirewallInboundRule -Name 'DCOM'
+#Block-NetFirewallInboundRule -Name 'DCOM' -Reset
 
 # --- NetBIOS over TCP/IP
 Block-NetFirewallInboundRule -Name 'NetBiosTcpIP'
+#Block-NetFirewallInboundRule -Name 'NetBiosTcpIP' -Reset
 
 # --- Server Message Block (SMB) (e.g. File And Printer Sharing)
 Block-NetFirewallInboundRule -Name 'SMB'
+#Block-NetFirewallInboundRule -Name 'SMB' -Reset
 
 # --- Miscellaneous programs/services
 # lsass.exe, wininit.exe, Schedule, EventLog, services.exe
 Block-NetFirewallInboundRule -Name 'MiscProgSrv'
+#Block-NetFirewallInboundRule -Name 'MiscProgSrv' -Reset
 
 #endregion firewall
 
@@ -100,10 +113,10 @@ Set-NetAdapterProtocol -Name 'LltdIo' -State 'Disabled'
 Set-NetAdapterProtocol -Name 'LltdResponder' -State 'Disabled'
 
 # --- TCP/IPv4 (default: Enabled)
-Set-NetAdapterProtocol -Name 'IPv4' -State 'Enabled'
+#Set-NetAdapterProtocol -Name 'IPv4' -State 'Enabled'
 
 # --- TCP/IPv6 (default: Enabled)
-Set-NetAdapterProtocol -Name 'IPv6' -State 'Enabled'
+#Set-NetAdapterProtocol -Name 'IPv6' -State 'Enabled'
 
 # --- Client for Microsoft Networks (access other computers) (default: Enabled)
 Set-NetAdapterProtocol -Name 'FileSharingClient' -State 'Disabled'
