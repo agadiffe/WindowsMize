@@ -14,46 +14,90 @@ function Export-DefaultScheduledTasksState
 
     process
     {
-        $ScheduledTasks = @{
-            All     = @{
-                LogFilePath = "$(Get-LogPath)\windows_default_scheduled_tasks_all.json"
-                GetData     = 'Get-ScheduledTask'
-            }
-            WinMize = @{
-                LogFilePath = "$(Get-LogPath)\windows_default_scheduled_tasks_winmize.json"
-                GetData     = '$ScheduledTasksList.Values |
-                    ForEach-Object -Process {
-                        Get-ScheduledTask -TaskPath $_.TaskPath -TaskName $_.Task.Keys -ErrorAction SilentlyContinue
-                    }'
-            }
+        $LogFilePath = @{
+            All     = "$(Get-LogPath)\windows_default_scheduled_tasks_all.json"
+            WinMize = "$(Get-LogPath)\windows_default_scheduled_tasks_winmize.json"
         }
 
-        foreach ($Key in $ScheduledTasks.Keys)
+        if ((Test-Path -Path @($LogFilePath.Values)) -contains $false)
         {
-            if (-not (Test-Path -Path $ScheduledTasks.$Key.LogFilePath))
+            $AllTasks = Get-ScheduledTask
+            foreach ($Key in $LogFilePath.Keys)
             {
-                Write-Verbose -Message "Exporting Default Scheduled Tasks State ($Key) ..."
+                if (-not (Test-Path -Path $LogFilePath.$Key))
+                {
+                    Write-Verbose -Message "Exporting Default Scheduled Tasks State ($Key) ..."
 
-                New-ParentPath -Path $ScheduledTasks.$Key.LogFilePath
+                    New-ParentPath -Path $LogFilePath.$Key
 
-                (Invoke-Expression -Command $ScheduledTasks.$Key.GetData) |
-                    Group-Object -Property 'TaskPath' |
-                    ForEach-Object -Process {
-                        $TaskDictionary = [ordered]@{}
-                        $_.Group |
-                            ForEach-Object -Process {
-                                $TaskState = $_.State -eq 'Disabled' ? 'Disabled' : 'Enabled'
-                                $TaskDictionary.$($_.TaskName) = $TaskState
+                    $ScheduledTasks = $Key -eq 'WinMize' ? (Get-WinMizeScheduledTask -AllTasks $AllTasks) : $AllTasks
+
+                    $ScheduledTasks |
+                        Group-Object -Property 'TaskPath' |
+                        ForEach-Object -Process {
+                            $TaskDictionary = [ordered]@{}
+                            $_.Group |
+                                ForEach-Object -Process {
+                                    $TaskState = $_.State -eq 'Disabled' ? 'Disabled' : 'Enabled'
+                                    $TaskDictionary.$($_.TaskName) = $TaskState
+                                }
+
+                            [ordered]@{
+                                TaskPath = $_.Name
+                                Task     = $TaskDictionary
                             }
-
-                        [ordered]@{
-                            TaskPath = $_.Name
-                            Task     = $TaskDictionary
-                        }
-                    } |
-                    ConvertTo-Json -EnumsAsStrings |
-                    Out-File -FilePath $ScheduledTasks.$Key.LogFilePath
+                        } |
+                        ConvertTo-Json -EnumsAsStrings |
+                        Out-File -FilePath $LogFilePath.$Key
+                }
             }
         }
+    }
+}
+
+
+<#
+.SYNTAX
+    Get-WinMizeScheduledTask
+        [-AllTasks <CimInstance[]>]
+        [<CommonParameters>]
+#>
+
+function Get-WinMizeScheduledTask
+{
+    <#
+    .EXAMPLE
+        PS> Get-WinMizeScheduledTask
+
+    .EXAMPLE
+        PS> $AllTasks = Get-ScheduledTask
+        PS> Get-WinMizeScheduledTask -AllTasks $AllTasks
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [CimInstance[]] $AllTasks
+    )
+
+    process
+    {
+        $TaskRequests = foreach ($Category in $ScheduledTasksList.Values)
+        {
+            foreach ($Entry in $Category)
+            {
+                foreach ($TaskName in $Entry.Task.Keys)
+                {
+                    "$($Entry.TaskPath)$TaskName"
+                }
+            }
+        }
+
+        if (-not $AllTasks)
+        {
+            $AllTasks = Get-ScheduledTask
+        }
+
+        $AllTasks | Where-Object -FilterScript { $TaskRequests -contains "$($_.TaskPath)$($_.TaskName)" }
     }
 }

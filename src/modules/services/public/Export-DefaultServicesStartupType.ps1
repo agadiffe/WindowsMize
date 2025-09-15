@@ -21,10 +21,7 @@ function Export-DefaultServicesStartupType
             }
             WinMize = @{
                 LogFilePath = "$(Get-LogPath)\windows_default_services_winmize.json"
-                GetData     = '$ServicesList.Values |
-                    ForEach-Object -Process {
-                        Get-Service -Name $_.ServiceName -ErrorAction SilentlyContinue
-                    }'
+                GetData     = 'Get-Service -Name $ServicesList.Values.ServiceName -ErrorAction SilentlyContinue'
             }
         }
 
