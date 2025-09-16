@@ -4,17 +4,17 @@
 
 <#
 .SYNTAX
-    Set-WinPermissionsShowTipsInSettingsApp
+    Set-WinPermissionsShowAdsInSettingsApp
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-WinPermissionsShowTipsInSettingsApp
+function Set-WinPermissionsShowAdsInSettingsApp
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsShowTipsInSettingsApp -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-WinPermissionsShowAdsInSettingsApp -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]

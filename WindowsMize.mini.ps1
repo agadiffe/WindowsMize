@@ -133,13 +133,13 @@ Set-FileExplorerSetting @FileExplorerSettings
 
 # --- User Data (aka: General / Recommendations & offers)
 $PrivacyWinPermUserData = @{
-    FindMyDevice            = 'Disabled' ; FindMyDeviceGPO          = 'NotConfigured'
-    AdvertisingID           = 'Disabled' ; AdvertisingIDGPO         = 'NotConfigured'
+    FindMyDevice            = 'Disabled' ; FindMyDeviceGPO         = 'NotConfigured'
+    AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'NotConfigured'
     LanguageListAccess      = 'Disabled'
-    TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO      = 'NotConfigured'
-    ShowTipsInSettingsApp   = 'Disabled' ; ShowTipsInSettingsAppGPO = 'NotConfigured'
+    TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO     = 'NotConfigured'
+    ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'NotConfigured'
     ShowNotifsInSettingsApp = 'Disabled'
-    ActivityHistory         = 'Disabled' ; ActivityHistoryGPO       = 'NotConfigured'
+    ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured'
 }
 Set-WinPermissionsSetting @PrivacyWinPermUserData
 

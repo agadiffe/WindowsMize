@@ -14,8 +14,8 @@
         [-LanguageListAccess {Disabled | Enabled}]
         [-TrackAppLaunches {Disabled | Enabled}]
         [-TrackAppLaunchesGPO {Disabled | NotConfigured}]
-        [-ShowTipsInSettingsApp {Disabled | Enabled}]
-        [-ShowTipsInSettingsAppGPO {Disabled | NotConfigured}]
+        [-ShowAdsInSettingsApp {Disabled | Enabled}]
+        [-ShowAdsInSettingsAppGPO {Disabled | NotConfigured}]
         [-ShowNotifsInSettingsApp {Disabled | Enabled}]
         [-ActivityHistory {Disabled | Enabled}]
         [-ActivityHistoryGPO {Disabled | NotConfigured}]
@@ -77,8 +77,8 @@ function Set-WinPermissionsSetting
         [state] $LanguageListAccess,
         [state] $TrackAppLaunches,
         [GpoStateWithoutEnabled] $TrackAppLaunchesGPO,
-        [state] $ShowTipsInSettingsApp,
-        [GpoStateWithoutEnabled] $ShowTipsInSettingsAppGPO,
+        [state] $ShowAdsInSettingsApp,
+        [GpoStateWithoutEnabled] $ShowAdsInSettingsAppGPO,
         [state] $ShowNotifsInSettingsApp,
 
         [state] $ActivityHistory,
@@ -144,8 +144,8 @@ function Set-WinPermissionsSetting
             'LanguageListAccess'             { Set-WinPermissionsLanguageListAccess -State $LanguageListAccess }
             'TrackAppLaunches'               { Set-WinPermissionsTrackAppLaunches -State $TrackAppLaunches }
             'TrackAppLaunchesGPO'            { Set-WinPermissionsTrackAppLaunches -GPO $TrackAppLaunchesGPO }
-            'ShowTipsInSettingsApp'          { Set-WinPermissionsShowTipsInSettingsApp -State $ShowTipsInSettingsApp }
-            'ShowTipsInSettingsAppGPO'       { Set-WinPermissionsShowTipsInSettingsApp -GPO $ShowTipsInSettingsAppGPO }
+            'ShowAdsInSettingsApp'           { Set-WinPermissionsShowAdsInSettingsApp -State $ShowAdsInSettingsApp }
+            'ShowAdsInSettingsAppGPO'        { Set-WinPermissionsShowAdsInSettingsApp -GPO $ShowAdsInSettingsAppGPO }
             'ShowNotifsInSettingsApp'        { Set-WinPermissionsShowNotifsInSettingsApp -State $ShowNotifsInSettingsApp }
 
             'ActivityHistory'                { Set-WinPermissionsActivityHistory -State $ActivityHistory }

@@ -71,7 +71,7 @@ Set-WinPermissionsSetting -LanguageListAccess 'Disabled'
 Set-WinPermissionsSetting -TrackAppLaunches 'Disabled' -TrackAppLaunchesGPO 'NotConfigured'
 
 # --- Show me suggested content in the Settings app (default: Enabled)
-Set-WinPermissionsSetting -ShowTipsInSettingsApp 'Disabled' -ShowTipsInSettingsAppGPO 'NotConfigured'
+Set-WinPermissionsSetting -ShowAdsInSettingsApp 'Disabled' -ShowAdsInSettingsAppGPO 'NotConfigured'
 
 # --- Show me notifications in the Settings app (default: Enabled)
 Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'

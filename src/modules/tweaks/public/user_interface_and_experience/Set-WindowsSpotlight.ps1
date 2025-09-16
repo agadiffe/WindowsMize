@@ -43,6 +43,8 @@ function Set-WindowsSpotlight
             {
                 $IsNotConfigured = $GPO -eq 'NotConfigured'
 
+                # "turn off all Windows spotlight features" is probably enought, but whatever.
+
                 # gpo\ user config > administrative tpl > windows components > cloud content
                 #
                 #   configure Windows spotlight on lock screen (only available for Enterprise SKUs)
@@ -62,6 +64,9 @@ function Set-WindowsSpotlight
                 #
                 #   turn off spotlight collection on Desktop
                 #     personalization > background > windows spotlight
+                # not configured: delete (default) | on: 1
+                #
+                #   turn off Windows spotlight on Settings
                 # not configured: delete (default) | on: 1
                 #
                 #   turn off Windows spotlight on Action Center
@@ -99,6 +104,12 @@ function Set-WindowsSpotlight
                             @{
                                 RemoveEntry = $IsNotConfigured
                                 Name  = 'DisableSpotlightCollectionOnDesktop'
+                                Value = '1'
+                                Type  = 'DWord'
+                            }
+                            @{
+                                RemoveEntry = $IsNotConfigured
+                                Name  = 'DisableWindowsSpotlightOnSettings'
                                 Value = '1'
                                 Type  = 'DWord'
                             }
