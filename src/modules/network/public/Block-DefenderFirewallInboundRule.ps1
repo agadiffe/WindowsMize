@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                      Network - Block Firewall Inbound Rule
+#                                 Network - Block Defender Firewall Inbound Rule
 #=================================================================================================================
 
 # Firewall rules are defined in 'private\NetFirewallRules.ps1'
@@ -7,13 +7,13 @@
 
 <#
 .SYNTAX
-    Block-NetFirewallInboundRule
+    Block-DefenderFirewallInboundRule
         [-Name] {CDP | DCOM | NetBiosTcpIP | SMB | MiscProgSrv}
         [-Reset]
         [<CommonParameters>]
 #>
 
-function Block-NetFirewallInboundRule
+function Block-DefenderFirewallInboundRule
 {
     <#
     .DESCRIPTION
@@ -24,7 +24,7 @@ function Block-NetFirewallInboundRule
         Use Set-NetFirewallRule to modify these properties.
 
     .EXAMPLE
-        PS> Block-NetFirewallInboundRule -Name 'CDP', 'NetBiosTcpIP'
+        PS> Block-DefenderFirewallInboundRule -Name 'CDP', 'NetBiosTcpIP'
     #>
 
     [CmdletBinding()]

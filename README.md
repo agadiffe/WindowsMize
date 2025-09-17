@@ -41,12 +41,18 @@ Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectiv
 
 ### 🌐 Network
 <details>
-  <summary>Improve security by disabling various network protocols (click to expand).</summary>
+  <summary>Improve security by disabling various network protocols and firewall rules (click to expand).</summary>
 
-- Firewall: block some ports/programs shown as listening (locally) in Netstat or TCP View.
+- Firewall:
+  - block some ports/programs shown as listening (locally):  
+    CDP, DCOM, NetBiosTcpIP, SMB, MiscProgSrv (lsass.exe, wininit.exe, Schedule, EventLog, services.exe)
+  - default Defender rules:  
+    AllJoynRouter, CastToDevice, ConnectedDevicesPlatform, DeliveryOptimization, DIALProtocol,  
+    MicrosoftMediaFoundation, ProximitySharing, WifiDirectDiscovery, WirelessDisplay,  
+    WiFiDirectCoordinationProtocol, WiFiDirectKernelModeDriver
 - IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP).
 - Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit)).
-- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, LMHOSTS, SMHNR, WPAD).
+- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, LMHOSTS, mDNS, SMHNR, WPAD).
 </details>
 
 ### 📊 Telemetry
@@ -68,33 +74,25 @@ For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
 <details>
   <summary>Various tweaks to improve and customize Windows. (click to expand).</summary>
 
-<details>
-  <summary>Security, privacy and networking (click to expand).</summary>
-
+- Security, privacy and networking:  
   Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage,  
   PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
-</details>
-<details>
-  <summary>System and performance (click to expand).</summary>
 
+- System and performance:  
   FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting,  
   Short8Dot3FileName, StartupShutdownVerboseStatusMessages.
-</details>
-<details>
-  <summary>User interface and experience (click to expand).</summary>
 
-  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix,  
-  StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation,  
-  WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
-</details>
-<details>
-  <summary>Windows features and settings (click to expand).</summary>
+- User interface and experience:  
+  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips,  
+  ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent,  
+  WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience,  
+  WindowsSharedExperience, WindowsSpotlight.
 
+- Windows features and settings:  
   MoveCharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
   FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission,  
-  OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport (F1Key, Feedback),  
+  OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport,  
   WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
-</details>
 
 </details>
 
@@ -107,12 +105,9 @@ For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
 
 - Install applications via Winget.
 
-  <details>
-    <summary>Predefined apps with short names (aliases for Winget package names) (click to expand).</summary>
-
+  Predefined apps with short names (aliases for Winget package names):  
   Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent,  
   Brave, Firefox, MullvadBrowser, VCRedist, DirectXEndUserRuntime, DotNetDesktopRuntime.
-  </details>
 
   You can also install any apps with their Winget app name (e.g. 'Valve.Steam').
 

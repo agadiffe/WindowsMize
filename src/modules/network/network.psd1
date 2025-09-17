@@ -13,8 +13,9 @@
     )
 
     FunctionsToExport = @(
-        'Block-NetFirewallInboundRule'
+        'Block-DefenderFirewallInboundRule'
         'Export-DefaultNetAdapterProtocolsState'
+        'Set-DefenderFirewallRule'
         'Set-AllJoynRouterNetFirewallRule'
         'Set-DiagTrackNetFirewallRule'
         'Set-NetAdapterProtocol'

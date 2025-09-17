@@ -362,8 +362,20 @@ Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured'
 #region network
 
 # --- Firewall
-Set-AllJoynRouterNetFirewallRule -State 'Disabled'
-Set-DiagTrackNetFirewallRule -State 'Disabled'
+$FirewallRules = @(
+    'AllJoynRouter'
+    'CastToDevice'
+    'ConnectedDevicesPlatform'
+    'DeliveryOptimization'
+    'DIALProtocol'
+    'MicrosoftMediaFoundation'
+    'ProximitySharing'
+    'WifiDirectDiscovery'
+    'WirelessDisplay'
+    'WiFiDirectCoordinationProtocol'
+    'WiFiDirectKernelModeDriver'
+)
+Set-DefenderFirewallRule -Name $FirewallRules -State 'Disabled'
 
 $FirewallInboundRules = @(
     'CDP'
@@ -372,8 +384,8 @@ $FirewallInboundRules = @(
     'SMB'
     'MiscProgSrv' # lsass.exe, wininit.exe, Schedule, EventLog, services.exe
 )
-Block-NetFirewallInboundRule -Name $FirewallInboundRules
-#Block-NetFirewallInboundRule -Name $FirewallInboundRules -Reset
+Block-DefenderFirewallInboundRule -Name $FirewallInboundRules
+#Block-DefenderFirewallInboundRule -Name $FirewallInboundRules -Reset
 
 # --- IPv6 transition technologies
 $IPv6TransitionTech = @(
