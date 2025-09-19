@@ -72,7 +72,7 @@ function New-BraveBrowserConfigData
                 "show_on_all_tabs": true
             },
             "brave": {
-                "always_show_bookmark_bar_on_ntp": false
+                "always_show_bookmark_bar_on_ntp": true
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -645,7 +645,7 @@ function New-BraveBrowserConfigData
 
         Merge-Hashtable $BraveLocalState ('{
             "brave": {
-                "widevine_opted_in": true // needed for some online stream content
+                "widevine_opted_in": false // needed for some online stream content
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -671,7 +671,7 @@ function New-BraveBrowserConfigData
             "autofill": {
                 "credit_card_enabled": false, // save and fill payment methods
                 "payment_methods_mandatory_reauth": false, // verify it is you (always use fingerprint, face, or other screen lock)
-                "payment_cvc_storage": true // save security codes
+                "payment_cvc_storage": false // save security codes
             },
             "payments": {
                 "can_make_payment_enabled": false // allow sites to check if you have payment methods saved

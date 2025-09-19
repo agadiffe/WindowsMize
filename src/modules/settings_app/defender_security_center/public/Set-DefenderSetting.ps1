@@ -10,6 +10,7 @@
         [-AutoSampleSubmission {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples}]
         [-AutoSampleSubmissionGPO {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured}]
         [-AdminProtection {Disabled | Enabled}]
+        [-SmartAppControl {Disabled | Enabled}]
         [-CheckAppsAndFiles {Disabled | Enabled}]
         [-CheckAppsAndFilesGPO {Disabled | Warn | Block | NotConfigured}]
         [-PhishingProtectionGPO {Disabled | Enabled | NotConfigured}]
@@ -45,6 +46,8 @@ function Set-DefenderSetting
         [state] $AdminProtection,
 
         # app & browser control
+        [state] $SmartAppControl,
+
         [state] $CheckAppsAndFiles,
 
         [GpoCheckAppsAndFilesMode] $CheckAppsAndFilesGPO,
@@ -82,6 +85,7 @@ function Set-DefenderSetting
 
             'AdminProtection'             { Set-DefenderAdminProtection -State $AdminProtection }
 
+            'SmartAppControl'             { Set-DefenderSmartAppControl -State $SmartAppControl }
             'CheckAppsAndFiles'           { Set-DefenderCheckAppsAndFiles -State $CheckAppsAndFiles }
             'CheckAppsAndFilesGPO'        { Set-DefenderCheckAppsAndFiles -GPO $CheckAppsAndFilesGPO }
             'PhishingProtectionGPO'       { Set-DefenderPhishingProtection -GPO $PhishingProtectionGPO }

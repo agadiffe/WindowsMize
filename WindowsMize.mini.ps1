@@ -1525,6 +1525,7 @@ $DefenderSettings = @{
     CloudDeliveredProtection = 'Disabled'  ; CloudDeliveredProtectionGPO = 'NotConfigured'
     AutoSampleSubmission     = 'NeverSend' ; AutoSampleSubmissionGPO     = 'NotConfigured'
     AdminProtection          = 'Disabled'
+    #SmartAppControl          = 'Disabled'
     CheckAppsAndFiles        = 'Disabled'  ; CheckAppsAndFilesGPO        = 'NotConfigured'
     SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured'
     PhishingProtectionGPO    = 'Disabled'
