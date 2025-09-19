@@ -6,6 +6,7 @@
 
     RequiredModules = @(
         "$PSScriptRoot\..\..\helper_functions\general"
+        "$PSScriptRoot\..\..\settings_app\optional_features"
     )
 
     NestedModules = @(
@@ -13,10 +14,10 @@
     )
 
     FunctionsToExport = @(
-        'Remove-LanguageFeatures'
         'Set-DateAndTimeSetting'
-        'Set-TypingSetting'
         'Set-LanguageAndRegionSetting'
+        'Set-LanguageFeatures'
+        'Set-TypingSetting'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

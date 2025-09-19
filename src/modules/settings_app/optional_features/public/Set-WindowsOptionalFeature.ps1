@@ -24,8 +24,7 @@ function Set-WindowsOptionalFeature
         [string] $Name,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Disabled', 'Enabled')]
-        [string] $State
+        [state] $State
     )
 
     process

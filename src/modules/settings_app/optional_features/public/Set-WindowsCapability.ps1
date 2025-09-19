@@ -27,8 +27,7 @@ function Set-WindowsCapability
         [string] $Name,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Disabled', 'Enabled')]
-        [string] $State
+        [state] $State
     )
 
     process

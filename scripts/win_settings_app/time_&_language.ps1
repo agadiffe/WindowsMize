@@ -78,10 +78,11 @@ Write-Section -Name 'Language & region' -SubSection
 #          Preferred Languages
 #=======================================
 
-# --- Language Options
+# --- Language Options (default: Enabled)
 # Windows 11 only.
-# Basic typing, Handwriting, OCR, Text-To-Speech, Speech recognition
-#Remove-LanguageFeatures
+# Install or remove: Basic typing, Handwriting, OCR, Speech recognition, Text-To-Speech.
+# The installation process may take a moment.
+#Set-LanguageFeatures -State 'Disabled'
 
 #            Regional format
 #=======================================

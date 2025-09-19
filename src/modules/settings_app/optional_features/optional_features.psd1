@@ -4,9 +4,13 @@
     GUID              = '7c11b638-3172-42d9-8bb4-a6fbaf42023f'
     PowerShellVersion = '7.5'
 
-    RequiredModules = @()
+    RequiredModules = @(
+        "$PSScriptRoot\..\..\helper_functions\general"
+    )
 
-    NestedModules = @()
+    NestedModules = @(
+        "$PSScriptRoot\..\..\helper_functions\classes\State_enums.ps1"
+    )
 
     FunctionsToExport = @(
         'Export-EnabledWindowsOptionalFeaturesNames'

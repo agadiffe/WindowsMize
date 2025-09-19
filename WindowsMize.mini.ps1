@@ -1451,7 +1451,7 @@ $DateTimeSettings = @{
 Set-DateAndTimeSetting @DateTimeSettings
 
 # --- Language & region
-#Remove-LanguageFeatures # W11
+#Set-LanguageFeatures -State 'Disabled' # W11
 
 $LanguageAndRegionSettings = @{
     FirstDayOfWeek            = 'Monday'
