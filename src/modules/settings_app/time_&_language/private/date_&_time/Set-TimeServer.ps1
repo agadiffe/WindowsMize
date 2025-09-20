@@ -52,9 +52,10 @@ function Set-TimeServer
         if ($RetryCount -eq $MaxRetries)
         {
             Write-Error -Message "    Cannot start W32Time service. Settings not applied."
-            return
         }
-
-        w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$TimeServer" /update | Out-Null
+        else
+        {
+            w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$TimeServer" /update | Out-Null
+        }
     }
 }

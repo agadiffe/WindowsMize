@@ -70,11 +70,12 @@ function Set-UwpAppSetting
             if ($RetryCount -eq $MaxRetries)
             {
                 Write-Error -Message "$Name settings.dat file is still locked after the maximum retries."
-                return
             }
-
-            Write-Verbose -Message "Setting $Name settings ..."
-            $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
+            else
+            {
+                Write-Verbose -Message "Setting $Name settings ..."
+                $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
+            }
         }
         else
         {
@@ -136,10 +137,11 @@ function Set-UwpAppRegistryEntry
         }
 
         $Value = $Value -replace '\s+', ','
+        $Timestamp = ((Get-Date).ToFileTime() | Format-Hex).HexBytes.Replace(' ', ',')
         $RegKey = $InputObject.Path ? $InputObject.Path : 'LocalState'
 
         $RegContent += "`n[$AppSettingsRegPath\$RegKey]
-            ""$($InputObject.Name)""=hex($($InputObject.Type)):$Value,00,00,00,00,00,00,00,00`n" -replace '(?m)^ *'
+            ""$($InputObject.Name)""=hex($($InputObject.Type)):$Value,$Timestamp`n" -replace '(?m)^ *'
     }
 
     end
@@ -168,7 +170,7 @@ function Set-UwpAppRegistryEntry
 
   This file is a registry Hive and can be loaded in regedit. The settings have non-standard type.
   The first bytes are the setting (the number of bytes depends of the type and data).
-  The last 8 bytes are some kind of timestamp (they can all be zeroed, the setting will still be applied).
+  The last 8 bytes are a timestamp (they can all be zeroed, the setting will still be applied).
 
   Most of the types use little-endian (left-aligned) for the value.
 
