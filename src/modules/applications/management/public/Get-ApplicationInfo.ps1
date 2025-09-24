@@ -34,11 +34,11 @@ function Get-ApplicationInfo
 
     process
     {
-        $UserSID = Get-LoggedOnUserSID
+        $UserSid = (Get-LoggedOnUserInfo).Sid
         $UninstallRegPath = 'Microsoft\Windows\CurrentVersion\Uninstall'
         $RegistryUninstallPath = @(
-            "Registry::HKEY_USERS\$UserSID\Software\$UninstallRegPath"
-            "Registry::HKEY_USERS\$UserSID\Software\Wow6432Node\$UninstallRegPath"
+            "Registry::HKEY_USERS\$UserSid\Software\$UninstallRegPath"
+            "Registry::HKEY_USERS\$UserSid\Software\Wow6432Node\$UninstallRegPath"
             "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\$UninstallRegPath"
             "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\$UninstallRegPath"
         )

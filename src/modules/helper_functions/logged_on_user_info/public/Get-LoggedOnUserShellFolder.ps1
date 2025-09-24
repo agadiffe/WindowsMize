@@ -16,8 +16,8 @@ function Get-LoggedOnUserShellFolder
 
     process
     {
-        $UserSID = Get-LoggedOnUserSID
-        $ShellFoldersRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $ShellFoldersRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
         $ShellFoldersRegData = Get-Item -Path "Registry::$ShellFoldersRegPath"
         $ShellFoldersValuesNames = $ShellFoldersRegData.Property
 

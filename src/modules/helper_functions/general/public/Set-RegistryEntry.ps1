@@ -92,7 +92,7 @@ function Set-RegistryEntry
 
     begin
     {
-        $UserSID = Get-LoggedOnUserSID
+        $UserSid = (Get-LoggedOnUserInfo).Sid
     }
 
     process
@@ -107,7 +107,7 @@ function Set-RegistryEntry
 
         if ($RegistryPath -match '^(?:HKCU|HKEY_CURRENT_USER)')
         {
-            $RegistryPath = $RegistryPath -ireplace '^(?:HKCU|HKEY_CURRENT_USER)', "HKEY_USERS\$UserSID"
+            $RegistryPath = $RegistryPath -ireplace '^(?:HKCU|HKEY_CURRENT_USER)', "HKEY_USERS\$UserSid"
         }
 
         $RegistryPath = "Registry::$RegistryPath"

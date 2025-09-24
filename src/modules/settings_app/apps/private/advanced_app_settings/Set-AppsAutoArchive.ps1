@@ -34,7 +34,7 @@ function Set-AppsAutoArchive
         {
             'State'
             {
-                $UserSid = Get-LoggedOnUserSID
+                $UserSid = (Get-LoggedOnUserInfo).Sid
 
                 # on: 1 (default) | off: 0
                 $ArchiveApps = @{

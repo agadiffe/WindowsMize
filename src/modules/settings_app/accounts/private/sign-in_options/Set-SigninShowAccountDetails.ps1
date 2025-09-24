@@ -36,7 +36,7 @@ function Set-SigninShowAccountDetails
                 # owner: SYSTEM | full control: SYSTEM
                 # Requested registry access is not allowed.
 
-                $UserSid = Get-LoggedOnUserSID
+                $UserSid = (Get-LoggedOnUserInfo).Sid
 
                 # on: 1 | off: 0 (default)
                 $SigninShowAccountDetails = @{

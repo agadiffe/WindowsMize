@@ -34,7 +34,7 @@ function Set-SigninAutoFinishSettingUpAfterUpdate
         {
             'State'
             {
-                $UserSid = Get-LoggedOnUserSID
+                $UserSid = (Get-LoggedOnUserInfo).Sid
 
                 # on: 0 (default) | off: 1
                 $SigninAutoSettingAfterUpdate = @{

@@ -34,8 +34,8 @@ function Test-GpoScript
 
     process
     {
-        $UserSid = Get-LoggedOnUserSID
-        $GPOScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $GPOScriptRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
         $RegItems = Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue'
 
         $Result = $false

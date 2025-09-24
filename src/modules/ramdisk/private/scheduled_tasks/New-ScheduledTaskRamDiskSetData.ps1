@@ -27,7 +27,7 @@ function New-ScheduledTaskRamDiskSetData
     {
         Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Scheduled Task ...'
 
-        $UserName = Get-LoggedOnUserUsername
+        $UserName = (Get-LoggedOnUserInfo).UserName
         $TaskName = "RamDisk - Set Data for '$UserName'"
         $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
         New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger

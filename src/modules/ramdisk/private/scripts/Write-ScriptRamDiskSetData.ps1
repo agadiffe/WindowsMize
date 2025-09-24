@@ -36,8 +36,7 @@ function Write-ScriptRamDiskSetData
         $RamDiskSetDataScriptContent = Get-Content -Path "$PSScriptRoot\..\..\classes\Enums.ps1" |
             Where-Object -FilterScript { $_ -notlike '#*' }
         $FunctionsToWrite = @(
-            'Get-LoggedOnUserUsername'
-            'Get-LoggedOnUserSID'
+            'Get-LoggedOnUserInfo'
             'Get-LoggedOnUserEnvVariable'
             'Get-BraveBrowserPathInfo'
             'Get-ProfilePathCombinations'

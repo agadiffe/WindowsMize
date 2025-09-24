@@ -15,8 +15,7 @@ function Write-ScriptBackupBravePersistentData
     process
     {
         $FunctionsToWrite = @(
-            'Get-LoggedOnUserUsername'
-            'Get-LoggedOnUserSID'
+            'Get-LoggedOnUserInfo'
             'Get-LoggedOnUserEnvVariable'
             'Get-BraveBrowserPathInfo'
             'Get-ProfilePathCombinations'

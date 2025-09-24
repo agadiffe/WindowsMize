@@ -30,7 +30,7 @@ function Set-DataToRamDisk
     process
     {
         $RamDiskPath = Get-DrivePath -Name $RamDiskName | Select-Object -First 1
-        $RamDiskUserProfilePath = "$RamDiskPath\$(Get-LoggedOnUserUsername)"
+        $RamDiskUserProfilePath = "$RamDiskPath\$((Get-LoggedOnUserInfo).UserName)"
         $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $AppToRamDisk
         $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
 

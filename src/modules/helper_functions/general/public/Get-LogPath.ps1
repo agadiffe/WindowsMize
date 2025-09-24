@@ -22,7 +22,7 @@ function Get-LogPath
         $LogPath = "$PSScriptRoot\..\..\..\..\..\log"
         if ($User)
         {
-            $LogPath += "\$(Get-LoggedOnUserUsername)"
+            $LogPath += "\$((Get-LoggedOnUserInfo).UserName)"
         }
         $LogPath
     }

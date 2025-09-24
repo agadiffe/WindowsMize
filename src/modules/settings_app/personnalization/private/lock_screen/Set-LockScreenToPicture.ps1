@@ -19,7 +19,7 @@ function Set-LockScreenToPicture
 
     process
     {
-        $UserSid = Get-LoggedOnUserSID
+        $UserSid = (Get-LoggedOnUserInfo).Sid
 
         $LockScreenSetToPicture = @(
             @{

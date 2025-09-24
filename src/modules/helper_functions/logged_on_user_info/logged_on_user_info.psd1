@@ -10,10 +10,9 @@
 
     FunctionsToExport = @(
         'Get-LoggedOnUserEnvVariable'
+        'Get-LoggedOnUserInfo'
         'Get-LoggedOnUserItemPropertyValue'
         'Get-LoggedOnUserShellFolder'
-        'Get-LoggedOnUserSID'
-        'Get-LoggedOnUserUsername'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

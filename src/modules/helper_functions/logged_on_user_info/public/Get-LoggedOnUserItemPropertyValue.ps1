@@ -29,8 +29,8 @@ function Get-LoggedOnUserItemPropertyValue
 
     process
     {
-        $UserSID = Get-LoggedOnUserSID
-        $ItemRegPath = "Registry::HKEY_USERS\$UserSID\$Path"
+        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $ItemRegPath = "Registry::HKEY_USERS\$UserSid\$Path"
         $ItemValue = (Get-ItemProperty -Path $ItemRegPath -ErrorAction 'SilentlyContinue').$Name
         $ItemValue
     }

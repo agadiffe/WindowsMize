@@ -30,8 +30,8 @@ function New-GpoScript
 
     process
     {
-        $UserSid = Get-LoggedOnUserSID
-        $GpoScriptRegPath = "HKEY_USERS\$UserSID\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $GpoScriptRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
         $ScriptNumber = (Get-ChildItem -Path "Registry::$GpoScriptRegPath" -ErrorAction 'SilentlyContinue').Count
 
         $GpoScript = @(
