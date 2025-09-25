@@ -26,7 +26,6 @@
         'Set-ErrorReporting'
         'Set-GroupPolicySettingsLogging'
         'Set-HandwritingPersonalization'
-        'Set-InventoryCollector'
         'Set-KmsClientActivationDataSharing'
         'Set-MsrtDiagnosticReport'
         'Set-OneSettingsDownloads'

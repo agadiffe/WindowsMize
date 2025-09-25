@@ -31,6 +31,8 @@ function Set-Ceip
     process
     {
         $IsNotConfigured = $GPO -eq 'NotConfigured'
+        $IsEnabled = $GPO -eq 'Enabled'
+
         $CeipMessenger, $Ceip, $CeipAppV = switch ($GPO)
         {
             'Enabled'  { '1', '1', '1' }
@@ -40,11 +42,16 @@ function Set-Ceip
         # gpo\ computer config > administrative tpl > system > internet communication management > internet communication settings
         #   turn off the Windows Messenger customer experience improvement program
         #   turn off Windows customer experience improvement program
-        # not configured: delete (default) | off: 1 1 | on: 2 0
+        # not configured: delete (default) | on: 2 0 | off: 1 1
         #
         # gpo\ computer config > administrative tpl > system > appv > ceip
         #   Microsoft customer experience improvement program (CEIP)
-        # not configured: delete (default) | off: 0 | on: 1
+        # not configured: delete (default) | on: 1 | off: 0
+        #
+        # gpo\ computer config > administrative tpl > windows components > application compatibility
+        #   turn off application telemetry
+        #   turn off inventory collector
+        # not configured: delete (default) | on: 0 1
         $CeipGpo = @(
             @{
                 Hive    = 'HKEY_LOCAL_MACHINE'
@@ -78,6 +85,24 @@ function Set-Ceip
                         RemoveEntry = $IsNotConfigured
                         Name  = 'CEIPEnable'
                         Value = $CeipAppV
+                        Type  = 'DWord'
+                    }
+                )
+            }
+            @{
+                Hive    = 'HKEY_LOCAL_MACHINE'
+                Path    = 'SOFTWARE\Policies\Microsoft\Windows\AppCompat'
+                Entries = @(
+                    @{
+                        RemoveEntry = $IsNotConfigured -or $IsEnabled
+                        Name  = 'AITEnable'
+                        Value = '0'
+                        Type  = 'DWord'
+                    }
+                    @{
+                        RemoveEntry = $IsNotConfigured -or $IsEnabled
+                        Name  = 'DisableInventory'
+                        Value = '1'
                         Type  = 'DWord'
                     }
                 )

@@ -82,9 +82,6 @@ Set-GroupPolicySettingsLogging -GPO 'Disabled'
 # --- Handwriting personalization
 Set-HandwritingPersonalization -GPO 'Disabled'
 
-# --- Inventory collector
-Set-InventoryCollector -GPO 'Disabled'
-
 # --- KMS client activation data
 Set-KmsClientActivationDataSharing -GPO 'Disabled'
 

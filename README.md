@@ -61,7 +61,7 @@ Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectiv
 
   DotNetTelemetry, NvidiaTelemetry, PowerShellTelemetry, AppAndDeviceInventory, ApplicationCompatibility, Ceip,  
   CloudContent, ConsumerExperience, DiagnosticLogAndDumpCollectionLimit, DiagnosticsAutoLogger,  
-  DiagnosticTracing, ErrorReporting, GroupPolicySettingsLogging, HandwritingPersonalization, InventoryCollector,  
+  DiagnosticTracing, ErrorReporting, GroupPolicySettingsLogging, HandwritingPersonalization,  
   KmsClientActivationDataSharing, MsrtDiagnosticReport, OneSettingsDownloads, UserInfoSharing.
 </details>
 
