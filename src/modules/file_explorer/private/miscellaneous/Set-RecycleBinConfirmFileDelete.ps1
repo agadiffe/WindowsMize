@@ -40,7 +40,7 @@ function Set-RecycleBinConfirmFileDelete
                 $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'ShellState'
                 Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 3 -State ($State -eq 'Enabled' ? $false : $true)
 
-                $ConfirmFileDelete = [HkcuExplorerAdvanced]::new('ShellState', $SettingBytes, 'Binary')
+                $ConfirmFileDelete = [HkcuExplorer]::new('ShellState', $SettingBytes, 'Binary')
                 $ConfirmFileDelete.WriteVerboseMsg($ConfirmFileDeleteMsg, $State)
                 $ConfirmFileDelete.SetRegistryEntry()
             }
