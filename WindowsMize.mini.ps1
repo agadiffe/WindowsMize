@@ -274,13 +274,16 @@ Set-UserInfoSharing -GPO 'Disabled'
 #region tweaks
 
 # --- Security, privacy and networking
+Set-HomeGroup -GPO 'Disabled'
 Set-Hotspot2 -State 'Disabled'
+#Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
 Set-LockScreenCameraAccess -GPO 'Disabled'
 Set-MessagingCloudSync -GPO 'Disabled'
 Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 Set-PasswordExpiration -State 'Disabled'
 Set-PasswordRevealButton -GPO 'Disabled'
 Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
+Set-PrintingOverHttp -GPO 'Disabled'
 Set-WifiSense -GPO 'Disabled'
 Set-Wpbt -State 'Disabled'
 

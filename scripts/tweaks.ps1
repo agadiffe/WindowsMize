@@ -39,8 +39,14 @@ Write-Section -Name 'Tweaks'
 
 Write-Section -Name 'Security, privacy and networking' -SubSection
 
+# --- HomeGroup
+Set-HomeGroup -GPO 'Disabled'
+
 # --- Hotspot 2.0 (default: Enabled)
 Set-Hotspot2 -State 'Disabled'
+
+# --- Local Accounts Security Questions
+#Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
 
 # --- Lock screen camera access
 Set-LockScreenCameraAccess -GPO 'Disabled'
@@ -60,6 +66,9 @@ Set-PasswordRevealButton -GPO 'Disabled'
 
 # --- Printer drivers : Download over HTTP
 Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
+
+# --- Printing Over HTTP
+Set-PrintingOverHttp -GPO 'Disabled'
 
 # --- Wifi sense
 Set-WifiSense -GPO 'Disabled'
