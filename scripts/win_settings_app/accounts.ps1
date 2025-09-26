@@ -90,5 +90,18 @@ Set-SigninOptionsSetting -AutoFinishSettingUpAfterUpdate 'Disabled' -AutoFinishS
 
 #endregion sign-in options
 
+#==========================================================
+#                      Window Backup
+#==========================================================
+#region window backup
+
+Write-Section -Name 'Window Backup' -SubSection
+
+# --- Remember my Apps/Preferences
+# GPO: DefaultOff | Disabled | NotConfigured
+Set-WinBackupSetting -RememberAppsAndPrefsGPO 'DefaultOff'
+
+#endregion window backup
+
 
 Stop-Transcript

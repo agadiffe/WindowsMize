@@ -44,7 +44,7 @@ function Set-YourInfoBlockMicrosoftAccounts
             )
         }
 
-        Write-Verbose -Message "Setting 'Your Info - Block Microsoft Accounts' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'Your Info - Block Microsoft Accounts (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $BlockMicrosoftAccountsGpo
     }
 }

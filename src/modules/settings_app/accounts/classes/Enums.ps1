@@ -27,3 +27,12 @@ enum SigninRequiredS3
     Never
     OnWakesUpFromSleep
 }
+
+
+# windows backup
+enum RememberAppsAndPrefsMode
+{
+    DefaultOff
+    Disabled
+    NotConfigured
+}

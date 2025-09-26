@@ -43,7 +43,7 @@ function Set-SigninBiometrics
             )
         }
 
-        Write-Verbose -Message "Setting 'Sign-In Options - Facial/Fingerprint Recognition (Windows Hello)' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'Sign-In Options - Facial/Fingerprint Recognition (Windows Hello) (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $SigninBiometricsGpo
     }
 }

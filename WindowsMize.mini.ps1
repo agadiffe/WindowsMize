@@ -1422,6 +1422,7 @@ Set-OfflineMapsSetting @OfflineMapsSettings
 #region accounts
 
 Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured'
+Set-WinBackupSetting -RememberAppsAndPrefsGPO 'DefaultOff'
 
 $AccountsSettings = @{
     BiometricsGPO                  = 'NotConfigured'

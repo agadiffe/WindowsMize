@@ -14,6 +14,7 @@
 
     FunctionsToExport = @(
         'Set-SigninOptionsSetting'
+        'Set-WinBackupSetting'
         'Set-YourInfoSetting'
     )
     CmdletsToExport   = @()
