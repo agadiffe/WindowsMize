@@ -13,6 +13,7 @@
         [-ShowMostUsedAppsGPO {Disabled | Enabled | NotConfigured}]
         [-ShowRecentlyOpenedItems {Disabled | Enabled}]
         [-ShowRecentlyOpenedItemsGPO {Disabled | NotConfigured}]
+        [-ShowWebsitesFromHistoryGPO {Disabled | NotConfigured}]
         [-ShowRecommendations {Disabled | Enabled}]
         [-ShowAccountNotifications {Disabled | Enabled}]
         [-ShowMobileDevice {Disabled | Enabled}]
@@ -29,6 +30,7 @@
         [-ShowMostUsedAppsGPO {Disabled | Enabled | NotConfigured}]
         [-ShowRecentlyOpenedItems {Disabled | Enabled}]
         [-ShowRecentlyOpenedItemsGPO {Disabled | NotConfigured}]
+        [-ShowWebsitesFromHistoryGPO {Disabled | NotConfigured}]
         [-ShowRecommendations {Disabled | Enabled}]
         [-ShowAccountNotifications {Disabled | Enabled}]
         [-ShowMobileDevice {Disabled | Enabled}]
@@ -65,6 +67,8 @@ function Set-StartSetting
 
         [GpoStateWithoutEnabled] $ShowRecentlyOpenedItemsGPO,
 
+        [GpoStateWithoutEnabled] $ShowWebsitesFromHistoryGPO,
+
         [state] $ShowRecommendations,
 
         [state] $ShowAccountNotifications,
@@ -96,6 +100,7 @@ function Set-StartSetting
             'ShowRecentlyAddedAppsGPO'        { Set-StartShowRecentlyAddedApps -GPO $ShowRecentlyAddedAppsGPO }
             'ShowRecentlyOpenedItems'         { Set-StartShowRecentlyOpenedItems -State $ShowRecentlyOpenedItems }
             'ShowRecentlyOpenedItemsGPO'      { Set-StartShowRecentlyOpenedItems -GPO $ShowRecentlyOpenedItemsGPO }
+            'ShowWebsitesFromHistoryGPO'      { Set-StartShowWebsitesFromHistory -GPO $ShowWebsitesFromHistoryGPO }
             'ShowRecommendations'             { Set-StartShowRecommendations -State $ShowRecommendations }
             'ShowAccountNotifications'        { Set-StartShowAccountNotifications -State $ShowAccountNotifications }
             'FoldersNextToPowerButton'        { Set-StartFoldersNextToPowerButton -Value $FoldersNextToPowerButton }

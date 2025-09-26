@@ -179,6 +179,9 @@ Set-StartSetting -ShowMostUsedApps 'Disabled' -ShowMostUsedAppsGPO 'NotConfigure
 # GPO: Disabled | Enabled | NotConfigured
 Set-StartSetting -ShowRecentlyOpenedItems 'Enabled' -ShowRecentlyOpenedItemsGPO 'NotConfigured'
 
+# --- Show Websites From Your Browsing History
+Set-StartSetting -ShowWebsitesFromHistoryGPO 'Disabled'
+
 # --- Show recommendations for tips, shortcuts, new apps, and more (default: Enabled)
 Set-StartSetting -ShowRecommendations 'Disabled'
 

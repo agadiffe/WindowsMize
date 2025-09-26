@@ -1331,6 +1331,7 @@ $StartSettings = @{
     ShowRecentlyAddedApps    = 'Disabled' ; ShowRecentlyAddedAppsGPO   = 'NotConfigured'
     ShowMostUsedApps         = 'Disabled' ; ShowMostUsedAppsGPO        = 'NotConfigured'
     ShowRecentlyOpenedItems  = 'Enabled'  ; ShowRecentlyOpenedItemsGPO = 'NotConfigured'
+    ShowWebsitesFromHistoryGPO = 'Disabled'
     ShowRecommendations      = 'Disabled'
     ShowAccountNotifications = 'Disabled'
     ShowMobileDevice         = 'Disabled'
