@@ -37,48 +37,32 @@ function Set-WinUpdateOtherMicrosoftProducts
         {
             'State'
             {
-                $IsEnabled = $State -eq 'Enabled'
+                # Ensure that the "Microsoft Update" service is registered (as it is on default install).
+                # Related registry entries:
+                #   [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services]
+                #   "DefaultService"="7971f918-a847-4430-9279-4a52d1efe18d"
+                #   [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\7971f918-a847-4430-9279-4a52d1efe18d]
+                #   "RegisteredWithAU"=dword:00000001
+                $ServiceManager = New-Object -ComObject 'Microsoft.Update.ServiceManager'
+                $ServiceId = '7971f918-a847-4430-9279-4a52d1efe18d'
+                $ServiceManager.AddService2($ServiceId, 7, '') | Out-Null
 
-                # on: 1 not-delete 1 (default) | off: 0 delete 0
-                $WinUpdateOtherMicrosoftProducts = @(
-                    @{
-                        Hive    = 'HKEY_LOCAL_MACHINE'
-                        Path    = 'SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
-                        Entries = @(
-                            @{
-                                Name  = 'AllowMUUpdateService'
-                                Value = $IsEnabled ? '1' : '0'
-                                Type  = 'DWord'
-                            }
-                        )
-                    }
-                    @{
-                        Hive    = 'HKEY_LOCAL_MACHINE'
-                        Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services'
-                        Entries = @(
-                            @{
-                                RemoveEntry = $State -eq 'Disabled'
-                                Name  = 'DefaultService'
-                                Value = '7971f918-a847-4430-9279-4a52d1efe18d'
-                                Type  = 'String'
-                            }
-                        )
-                    }
-                    @{
-                        Hive    = 'HKEY_LOCAL_MACHINE'
-                        Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\7971f918-a847-4430-9279-4a52d1efe18d'
-                        Entries = @(
-                            @{
-                                Name  = 'RegisteredWithAU'
-                                Value = $IsEnabled ? '1' : '0'
-                                Type  = 'DWord'
-                            }
-                        )
-                    }
-                )
+                # on: 1 (default) | off: 0
+                $WinUpdateOtherMicrosoftProducts = @{
+                    Hive    = 'HKEY_LOCAL_MACHINE'
+                    Path    = 'SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+                    Entries = @(
+                        @{
+                            Name  = 'AllowMUUpdateService'
+                            Value = $State -eq 'Enabled' ? '1' : '0'
+                            Type  = 'DWord'
+                        }
+                    )
+                }
 
                 Write-Verbose -Message "Setting '$WinUpdateOtherMicrosoftProductsMsg' to '$State' ..."
-                $WinUpdateOtherMicrosoftProducts | Set-RegistryEntry
+                Write-Verbose -Message "  Register 'Microsoft.Update.ServiceManager': 'Microsoft Update ($ServiceId)' service"
+                Set-RegistryEntry -InputObject $WinUpdateOtherMicrosoftProducts
             }
             'GPO'
             {
