@@ -227,6 +227,9 @@ Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 # --- Task view (default: Enabled)
 Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
 
+# --- Resume (default: Enabled)
+Set-TaskbarSetting -ResumeAppNotif 'Disabled'
+
 #           System tray icons
 #=======================================
 

@@ -1359,6 +1359,7 @@ Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 $TaskbarSettings = @{
     SearchBox                       = 'Hide'     ; SearchBoxGPO = 'NotConfigured'
     TaskView                        = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
+    ResumeAppNotif                  = 'Disabled'
     EmojiAndMore                    = 'Never'
     PenMenu                         = 'Disabled'
     TouchKeyboard                   = 'Never'

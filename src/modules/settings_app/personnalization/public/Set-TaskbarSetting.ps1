@@ -9,6 +9,7 @@
         [-SearchBoxGPO {Hide | IconOnly | Box | IconAndLabel | NotConfigured}]
         [-TaskView {Disabled | Enabled}]
         [-TaskViewGPO {Disabled | NotConfigured}]
+        [-ResumeAppNotif {Disabled | Enabled}]
         [-EmojiAndMore {Never | WhileTyping | Always}]
         [-PenMenu {Disabled | Enabled}]
         [-TouchKeyboard {Never | Always | WhenNoKeyboard}]
@@ -48,6 +49,7 @@ function Set-TaskbarSetting
         [GpoSearchBoxMode] $SearchBoxGPO,
         [state] $TaskView,
         [GpoStateWithoutEnabled] $TaskViewGPO,
+        [state] $ResumeAppNotif,
 
         # system tray icons
         [EmojiMode] $EmojiAndMore,
@@ -90,6 +92,7 @@ function Set-TaskbarSetting
             'SearchBoxGPO'                    { Set-TaskbarSearchBox -GPO $SearchBoxGPO }
             'TaskView'                        { Set-TaskbarTaskView -State $TaskView }
             'TaskViewGPO'                     { Set-TaskbarTaskView -GPO $TaskViewGPO }
+            'ResumeAppNotif'                  { Set-TaskbarResumeAppNotif -State $ResumeAppNotif }
 
             'EmojiAndMore'                    { Set-TaskbarEmojiAndMore -Value $EmojiAndMore }
             'PenMenu'                         { Set-TaskbarPenMenu -State $PenMenu }
