@@ -44,6 +44,7 @@
         'Set-PrintingOverHttp'
         'Set-SensorsPermission'
         'Set-ServiceHostSplitting'
+        'Set-ShareShowDragTrayOnTopScreen'
         'Set-Short8Dot3FileName'
         'Set-ShortcutNameSuffix'
         'Set-StartMenuAllAppsViewMode'
