@@ -42,21 +42,21 @@ function New-BraveBrowserConfigData
                     "show-ntp-search": false // search widgets
                 },
                 "new_tab_page": {
-                    "hide_all_widgets": true, // cards
+                    "clock_format": "", // automatic: empty string | 12-hour-clock: h12 | 24-hour-clock: h24
                     "show_background_image": true,
-                    "show_branded_background_image": false,
+                    "show_branded_background_image": false, // ads
                     "show_brave_news": false,
                     "show_brave_vpn": false,
                     "show_clock": false,
                     "show_rewards": false,
                     "show_stats": false,
-                    "show_together": false, // talk card
+                    "show_together": false, // Brave talk
                     "shows_options": 0 // new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
                 }
             },
             "ntp": {
                 "shortcust_visible": false, // top sites
-                "use_most_visited_tiles": false
+                "shortcuts_type": 1 // Favorites: 1 | Frequently Visited: 0
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -112,7 +112,8 @@ function New-BraveBrowserConfigData
         #### Navigation
         Merge-Hashtable $BravePreferences ('{
             "browser": {
-                "show_forward_button": true
+                "show_forward_button": true,
+                "pin_split_tab_button": false // split view
             },
             "brave": {
                 "show_bookmarks_button": true,
@@ -777,6 +778,9 @@ function New-BraveBrowserConfigData
                 "has_seen_welcome_page": true
             },
             "brave": {
+                "brave_search_conversion": {
+                    "dismissed": true // search widget in new tabs popup: Enable search suggestions
+                },
                 "shields": {
                     "advanced_view_enabled": true
                 },
