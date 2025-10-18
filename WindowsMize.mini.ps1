@@ -341,6 +341,7 @@ Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
 
 # --- Windows features and settings
 Move-CharacterMapShortcutToWindowsTools
+Set-DisplayModeChangeAnimation -State 'Enabled'
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
 #Set-EventLogLocation -Default
 Set-EaseOfAccessReadScanSection -State 'Disabled'

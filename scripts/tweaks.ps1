@@ -219,7 +219,10 @@ Write-Section -Name 'Windows features and settings' -SubSection
 # --- Move character map shorcut
 Move-CharacterMapShortcutToWindowsTools
 
-# --- Set event log location
+# --- Display Mode Change Animation (default: Enabled)
+Set-DisplayModeChangeAnimation -State 'Enabled'
+
+# --- Event log location
 # Path: path where to save the windows event logs.
 # Default: restore to the default location ("$env:SystemRoot\system32\winevt\Logs").
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'

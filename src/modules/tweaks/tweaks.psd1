@@ -16,6 +16,7 @@
         'Move-CharacterMapShortcutToWindowsTools'
         'Set-ActionCenterLayout'
         'Set-CopyPasteDialogShowMoreDetails'
+        'Set-DisplayModeChangeAnimation'
         'Set-EaseOfAccessReadScanSection'
         'Set-EventLogLocation'
         'Set-FileHistory'

@@ -89,10 +89,10 @@ For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
   WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
-  MoveCharacterMapShortcutToWindowsTools, EventLogLocation, EaseOfAccessReadScanSection, FileHistory,  
-  FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission,  
-  OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen, TaskbarLastActiveClick,  
-  WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  MoveCharacterMapShortcutToWindowsTools, DisplayModeChangeAnimation, EventLogLocation,  
+  EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission,  
+  LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen,  
+  TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 
 </details>
 
