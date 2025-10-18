@@ -17,57 +17,12 @@ if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
     exit
 }
 
-<#
-- These 2 below steps are automated if you use Run_WindowsMize.cmd.
-  - PowerShell 7 (aka PowerShell Core).
-    Open a terminal and run:
-      winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
-  - Before running the script, sets the PowerShell execution policies:
-      Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
-
-- Update
-  Make sure your Windows is fully updated:
-    settings > windows update > check for updates
-    microsoft store > library (or downloads) > get updates
-
-- Backup
-  Make sure to backup all of your data.
-  e.g. browser bookmarks, apps settings, personal files, passwords database
-#>
-
-#==============================================================================
-#                                    Usage
-#==============================================================================
-
-<#
-  The scripts are located in the 'scripts' folder.
-  Configure their settings according to your preferences.
-#>
-<#
-  To don't run a function, comment it (i.e. Add the "#" character before it).
-  e.g. #Disable-PowerShellTelemetry
-  To run a function, uncomment it (i.e. Remove the "#" character before it).
-  e.g. Disable-PowerShellTelemetry
-
-  Mostly all functions have a '-State' and/or '-GPO' parameters.
-  Example:
-  # --- Bing Search in Start Menu (default: Enabled)
-  # State: Disabled | Enabled
-  # GPO: Disabled | NotConfigured
-  Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
-
-  The 2 comments below the title are the accepted values for the parameters.
-  Change the parameters value according to your preferences.
-  e.g.
-  Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
-#>
-
 
 #=================================================================================================================
 #                                                     Scripts
 #=================================================================================================================
 
-# Comment or uncomment the script you want to execute.
+# Uncomment or comment the script you want to execute or not.
 $ScriptsToExecute = @(
     'tweaks'
     'telemetry'

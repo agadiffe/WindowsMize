@@ -31,15 +31,15 @@ function Remove-ApplicationPackage
 
     process
     {
-        $AppxPackagesName = ($AllAppxPackages | Where-Object -Property 'Name' -EQ -Value $Name).PackageFullName
+        $AppxPackageNames = ($AllAppxPackages | Where-Object -Property 'Name' -EQ -Value $Name).PackageFullName
 
-        if ($AppxPackagesName)
+        if ($AppxPackageNames)
         {
             Write-Verbose -Message "Removing $Name ..."
 
             # The progress bar of Remove-AppxPackage mess up the terminal rendering.
             # Use a PowerShell child process as workaround.
-            powershell.exe -args $AppxPackagesName -NoProfile -Command {
+            powershell.exe -args $AppxPackageNames -NoProfile -Command {
                 $args | Remove-AppxPackage -ErrorAction 'SilentlyContinue'
                 $args | Remove-AppxPackage -AllUsers -ErrorAction 'SilentlyContinue'
             }

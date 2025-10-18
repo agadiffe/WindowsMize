@@ -19,11 +19,11 @@ function Get-LoggedOnUserShellFolder
         $UserSid = (Get-LoggedOnUserInfo).Sid
         $ShellFoldersRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
         $ShellFoldersRegData = Get-Item -Path "Registry::$ShellFoldersRegPath"
-        $ShellFoldersValuesNames = $ShellFoldersRegData.Property
+        $ShellFoldersValueNames = $ShellFoldersRegData.Property
 
         $UserProfilePath = (Get-LoggedOnUserEnvVariable).USERPROFILE
         $ShellFolders = @{}
-        foreach ($ValueName in $ShellFoldersValuesNames)
+        foreach ($ValueName in $ShellFoldersValueNames)
         {
             $ShellFolders.$ValueName = $ShellFoldersRegData.
                 GetValue($ValueName, $null, 'DoNotExpandEnvironmentNames').

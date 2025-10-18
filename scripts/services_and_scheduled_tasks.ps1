@@ -19,11 +19,11 @@ $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Services and Scheduled_tasks'' Modules ...'
-$WindowsMizeModulesNames = @(
+$WindowsMizeModuleNames = @(
     'services'
     'scheduled_tasks'
 )
-Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
 
 
 #=================================================================================================================
@@ -82,11 +82,11 @@ $ServicesToConfig = @(
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
     'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' (and maybe 'PrintNotify') services.
     'RemoteDesktop'
-    #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in)
+    #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'
     'Telemetry'
     'VirtualReality'
-    #'Vpn'
+    'Vpn' # only needed if using the built-in Windows VPN feature (i.e. not needed if using 3rd party VPN client).
     #'Webcam'
     'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'. Update ps1 file if desired.
     'WindowsSearch'

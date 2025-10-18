@@ -19,11 +19,11 @@ $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Network'' Module ...'
-$WindowsMizeModulesNames = @(
+$WindowsMizeModuleNames = @(
     'network'
     'services'
 )
-Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
 
 
 # Parameters values (if not specified):

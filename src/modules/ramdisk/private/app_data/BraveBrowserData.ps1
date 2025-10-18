@@ -11,7 +11,7 @@
 <#
 .SYNTAX
     Get-ProfilePathCombinations
-        [-ProfilesNames] <string[]>
+        [-ProfileNames] <string[]>
         [-Path] <string[]>
         [<CommonParameters>]
 #>
@@ -20,7 +20,7 @@ function Get-ProfilePathCombinations
 {
     <#
     .EXAMPLE
-        PS> Get-ProfilePathCombinations -ProfilesNames 'Default', 'Profile 1' -Path 'Bookmarks', 'Favicons'
+        PS> Get-ProfilePathCombinations -ProfileNames 'Default', 'Profile 1' -Path 'Bookmarks', 'Favicons'
         Default\Bookmarks
         Default\Favicons
         Profile 1\Bookmarks
@@ -31,7 +31,7 @@ function Get-ProfilePathCombinations
     param
     (
         [Parameter(Mandatory)]
-        [string[]] $ProfilesNames,
+        [string[]] $ProfileNames,
 
         [Parameter(Mandatory)]
         [string[]] $Path
@@ -40,7 +40,7 @@ function Get-ProfilePathCombinations
     process
     {
         $Data = @(
-            foreach ($ProfileName in $ProfilesNames)
+            foreach ($ProfileName in $ProfileNames)
             {
                 foreach ($Item in $Path)
                 {
@@ -65,10 +65,10 @@ function Get-BraveDataException
 
     process
     {
-        $ProfilesNames = (Get-BraveBrowserPathInfo).ProfilesNames
+        $ProfileNames = (Get-BraveBrowserPathInfo).ProfileNames
         $SymlinkFolders = @{
             UserData = @()
-            ProfileData = Get-ProfilePathCombinations -ProfilesNames $ProfilesNames -Path @(
+            ProfileData = Get-ProfilePathCombinations -ProfileNames $ProfileNames -Path @(
                 'DNR Extension Rules' # e.g. uBOL
                 'Extensions'
                 'Local Extension Settings'
@@ -79,7 +79,7 @@ function Get-BraveDataException
                 'First Run'
                 'Local State'
             )
-            ProfileData = Get-ProfilePathCombinations -ProfilesNames $ProfilesNames -Path @(
+            ProfileData = Get-ProfilePathCombinations -ProfileNames $ProfileNames -Path @(
                 'FilterListSubscriptionCache\' # custom filter lists
                 #'Network\Cookies'
                 'Bookmarks'

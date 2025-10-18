@@ -18,7 +18,7 @@ Debloat, minimize telemetry, apps installation, general settings, and more.
 ## 📝 Characteristics
 - Fully non-interactive script: make sure to review everything before running it.
 - Designed for Windows 11 (most tweaks/settings also work on Windows 10).
-- Works on both Administrator and Standard account.
+- Works on both Administrator and Standard account (including domain account).
 
 
 ## 💫 Features
@@ -138,8 +138,55 @@ Make sure to review them to know which one to disable according to your usages.
 
 
 ## 📚 Usage
-This script requires 'PowerShell 7 (aka PowerShell Core)' and must be run as Administrator.  
-It's recommended to use Notepad++ or VSCode to have the code highlighted.
+It's recommended to use Notepad++, VSCode or else to have the code highlighted.
+
+### Main script
+"WindowsMize.ps1" is the main script that will execute the other script files.  
+These script files are located in the "scripts" folder.
+
+You can uncomment or comment the script names to execute or not the corresponding script.  
+Example:  
+To execute only the "file_explorer" settings, comment everything except 'file_explorer'.
+
+```powershell
+$ScriptsToExecute = @(
+    #'tweaks'
+    'file_explorer'
+    [...]
+    #'win_settings_app\windows_update'
+    #'services_and_scheduled_tasks'
+)
+```
+
+### Setting parameters
+Mostly every functions have a "-State" and/or "-GPO" parameters.  
+The accepted values for these parameters are below the setting title.
+
+```powershell
+# --- Bing Search in Start Menu (default: Enabled)
+# State: Disabled | Enabled
+# GPO: Disabled | NotConfigured
+Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
+```
+
+```powershell
+Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
+```
+
+### Function execution
+To don't run a function, comment it (i.e. add the "#" character before the function name).
+```powershell
+#Disable-PowerShellTelemetry
+```
+
+To run a function, uncomment it (i.e. remove the "#" character before the function name).
+```powershell
+Disable-PowerShellTelemetry
+```
+
+
+## 📥 Download & Execution
+This script requires 'PowerShell 7 (aka PowerShell (Core))' and must be run as Administrator.  
 
 ### Automated
 1. Open a PowerShell prompt (Administrator privileges are not required).  
@@ -175,7 +222,7 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
    Right-click on `Start Menu` > `Terminal (Admin)`.  
    At the top of the Terminal window:  
    Click on the down arrow and choose 'PowerShell'.
-5. Navigate to the directory where you extracted 'WindowsMize' (replace '\<User\>' with your username).  
+5. Navigate to the directory where you extracted 'WindowsMize' (replace <User\> with your username).  
    Example:
     ```powershell
     cd 'C:\Users\<User>\Downloads\WindowsMize-main\WindowsMize-main'
@@ -184,9 +231,10 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
     ```powershell
     Get-ChildItem -File -Recurse | Unblock-File
     ```
-7. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).
+7. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).  
+   (This is not required for 'Powershell 7', but it might change in future Windows release)
     ```powershell
-    Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process'
+    Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
     ```
 8. Run the script.
     ```powershell
@@ -198,8 +246,14 @@ It's recommended to use Notepad++ or VSCode to have the code highlighted.
 
 
 ## 📍 Remarks
-Read some comments in the source code files about why you should disable some features.
+- Make sure to backup all of your data.  
+  e.g. browser bookmarks, apps settings, personal files, passwords database
 
+- Make sure your Windows is fully updated.  
+  Settings > Windows Update > Check for updates  
+  Microsoft Store > Library (or Downloads) > Check for updates
+
+- Read some comments about why you should disable some features.
   - src > modules > 
     - network > private > NetFirewallRules.ps1
     - network > public

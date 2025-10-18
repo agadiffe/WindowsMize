@@ -19,11 +19,11 @@ $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
 
 Write-Output -InputObject 'Loading ''Win_settings_app\System'' Module ...'
-$WindowsMizeModulesNames = @(
+$WindowsMizeModuleNames = @(
     'optional_features'
     'system'
 )
-Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\..\..\src\modules\settings_app\$_" })
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\settings_app\$_" })
 
 
 # Parameters values (if not specified):
@@ -125,7 +125,7 @@ Set-NotificationsSetting -ShowBellIcon 'Disabled'
 #  Notifs from apps and other senders
 #=======================================
 
-$SendersNotifs = @(
+$SenderNotifs = @(
     'Apps'
     'Autoplay'
     'BatterySaver'
@@ -137,7 +137,7 @@ $SendersNotifs = @(
     'Suggested'
     'WindowsBackup'
 )
-Set-NotificationsSetting -AppsAndOtherSenders $SendersNotifs -State 'Disabled'
+Set-NotificationsSetting -AppsAndOtherSenders $SenderNotifs -State 'Disabled'
 
 #          Additional settings
 #=======================================

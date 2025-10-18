@@ -29,7 +29,7 @@ Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
-$WindowsMizeModulesNames = @(
+$WindowsMizeModuleNames = @(
     'tweaks'
     'telemetry'
     'network'
@@ -56,7 +56,7 @@ $WindowsMizeModulesNames = @(
     'scheduled_tasks'
 )
 Write-Output -InputObject 'Loading WindowsMize Modules ...'
-Import-Module -Name $WindowsMizeModulesNames.ForEach({ "$PSScriptRoot\src\modules\$_" })
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\src\modules\$_" })
 
 
 #=================================================================================================================
@@ -907,7 +907,7 @@ $ServicesToConfig = @(
     'SmartCard'
     'Telemetry'
     'VirtualReality'
-    #'Vpn'
+    'Vpn'
     #'Webcam'
     'WindowsBackupAndSystemRestore'
     'WindowsSearch'
