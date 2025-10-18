@@ -38,6 +38,9 @@ Write-Section -Name 'Windows Settings App - Gaming'
 # --- Allow your controller to open Game Bar (default: Disabled)
 Set-GamingSetting -OpenGameBarWithController 'Disabled'
 
+# --- Use Guide Button In Apps (default: Enabled)
+Set-GamingSetting -GuideButtonInApps 'Disabled'
+
 # --- Captures: Record what happened (default: Disabled)
 # GPO: Disabled | NotConfigured
 Set-GamingSetting -GameRecording 'Disabled' -GameRecordingGPO 'NotConfigured'

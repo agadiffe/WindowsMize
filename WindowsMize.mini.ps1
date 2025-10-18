@@ -1489,8 +1489,9 @@ Set-TypingSetting @TypingSettings
 
 $NetworkSettings = @{
     OpenGameBarWithController = 'Disabled'
-    GameRecording = 'Disabled' ; GameRecordingGPO = 'NotConfigured'
-    GameMode      = 'Disabled'
+    GuideButtonInApps         = 'Disabled'
+    GameRecording             = 'Disabled' ; GameRecordingGPO = 'NotConfigured'
+    GameMode                  = 'Disabled'
 }
 Set-GamingSetting @NetworkSettings
 
