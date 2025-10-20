@@ -37,23 +37,6 @@ $DnsProvidersList = [ordered]@{
             IPv6 = '2606:4700:4700::1113', '2606:4700:4700::1003'
         }
     }
-    Dns0 = @{
-        Default = @{ # Malware
-            Doh  = 'https://dns0.eu/'
-            IPv4 = '193.110.81.0', '185.253.5.0'
-            IPv6 = '2a0f:fc80::', '2a0f:fc81::'
-        }
-        Zero = @{ # Malware (hardened)
-            Doh  = 'https://zero.dns0.eu/'
-            IPv4 = '193.110.81.9', '185.253.5.9'
-            IPv6 = '2a0f:fc80::9', '2a0f:fc81::9'
-        }
-        Kids = @{ # Malware, Ads, Adult, Piracy
-            Doh  = 'https://kids.dns0.eu/'
-            IPv4 = '193.110.81.1', '185.253.5.1'
-            IPv6 = '2a0f:fc80::1', '2a0f:fc81::1'
-        }
-    }
     Mullvad = @{ # does not support unencrypted DNS
         Default = @{ # Unfiltered
             Doh  = 'https://dns.mullvad.net/dns-query'

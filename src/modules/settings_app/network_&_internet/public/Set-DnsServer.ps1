@@ -29,12 +29,6 @@ class DnsProvidersNames : System.Management.Automation.IValidateSetValuesGenerat
         [<CommonParameters>]
 
     Set-DnsServer
-        -Provider 'Dns0'
-        -Server {Default | Zero | Kids}
-        [-FallbackToPlaintext]
-        [<CommonParameters>]
-
-    Set-DnsServer
         -Provider 'Mullvad'
         -Server {Default | Adblock | Base | Extended | Family | All}
         [-FallbackToPlaintext]
@@ -58,7 +52,6 @@ function Set-DnsServer
             -Server: available values depend on the selected Provider.
                 Adguard    : -Server {Default | Unfiltered | Family}
                 Cloudflare : -Server {Default | Security | Family}
-                Dns0       : -Server {Default | Zero | Kids}
                 Mullvad    : -Server {Default | Adblock | Base | Extended | Family | All}
                 Quad9      : -Server {Default | Unfiltered}
 
@@ -85,20 +78,23 @@ function Set-DnsServer
 
     dynamicparam
     {
-        $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
+        if ($Provider)
+        {
+            $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
 
-        $DynamicParamProperties = @{
-            Dictionary = $ParamDictionary
-            Name       = 'Server'
-            Type       = [string]
-            Attribute  = @{
-                Parameter = @{ Mandatory = $true; ParameterSetName = 'Setting' }
-                ValidateSet = $DnsProvidersList.$Provider.Keys
+            $DynamicParamProperties = @{
+                Dictionary = $ParamDictionary
+                Name       = 'Server'
+                Type       = [string]
+                Attribute  = @{
+                    Parameter = @{ Mandatory = $true; ParameterSetName = 'Setting' }
+                    ValidateSet = $DnsProvidersList.$Provider.Keys
+                }
             }
-        }
-        Add-DynamicParameter @DynamicParamProperties
+            Add-DynamicParameter @DynamicParamProperties
 
-        $ParamDictionary
+            $ParamDictionary
+        }
     }
 
     process
