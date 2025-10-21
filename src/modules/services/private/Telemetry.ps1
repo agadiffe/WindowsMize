@@ -36,6 +36,12 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'Microsoft Usage and Quality Insights'
+            ServiceName = 'wuqisvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'Problem Reports Control Panel Support'
             ServiceName = 'wercplsupport'
             StartupType = 'Disabled'

@@ -436,6 +436,12 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'Windows MIDI Service'
+            ServiceName = 'midisrv'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'Windows Modules Installer'
             ServiceName = 'TrustedInstaller'
             StartupType = 'Manual'
