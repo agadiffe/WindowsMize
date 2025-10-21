@@ -6,7 +6,7 @@
 .SYNTAX
     Set-GamingSetting
         [-OpenGameBarWithController {Disabled | Enabled}]
-        [-GuideButtonInApps {Disabled | Enabled}]
+        [-UseViewMenuAsGuideButtonInApps {Disabled | Enabled}]
         [-GameRecording {Disabled | Enabled}]
         [-GameRecordingGPO {Disabled | NotConfigured}]
         [-GameMode {Disabled | Enabled}]
@@ -25,7 +25,7 @@ function Set-GamingSetting
     (
         [state] $OpenGameBarWithController,
 
-        [state] $GuideButtonInApps,
+        [state] $UseViewMenuAsGuideButtonInApps,
 
         [state] $GameRecording,
 
@@ -44,11 +44,11 @@ function Set-GamingSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'OpenGameBarWithController' { Set-GameBarOpenWithController -State $OpenGameBarWithController }
-            'GuideButtonInApps'         { Set-GameBarGuideButtonInApps -State $GuideButtonInApps }
-            'GameRecording'             { Set-GameRecording -State $GameRecording }
-            'GameRecordingGPO'          { Set-GameRecording -GPO $GameRecordingGPO }
-            'GameMode'                  { Set-GameMode -State $GameMode }
+            'OpenGameBarWithController'      { Set-GameBarOpenWithController -State $OpenGameBarWithController }
+            'UseViewMenuAsGuideButtonInApps' { Set-GameBarUseViewMenuAsGuideButtonInApps -State $UseViewMenuAsGuideButtonInApps }
+            'GameRecording'                  { Set-GameRecording -State $GameRecording }
+            'GameRecordingGPO'               { Set-GameRecording -GPO $GameRecordingGPO }
+            'GameMode'                       { Set-GameMode -State $GameMode }
         }
     }
 }

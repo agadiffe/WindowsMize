@@ -25,7 +25,7 @@ function Set-GameBarOpenWithController
 
     process
     {
-        # on: 1 | off: 0 (default)
+        # on: 1 (default) | off: 0
         $GameBarOpenWithController = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\GameBar'

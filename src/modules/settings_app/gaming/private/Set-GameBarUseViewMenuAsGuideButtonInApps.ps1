@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                  Gaming > Game Bar > Use Guide Button In Apps
+#                           Gaming > Game Bar > Use View + Menu as Guide Button In Apps
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-GameBarGuideButtonInApps
+    Set-GameBarUseViewMenuAsGuideButtonInApps
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-GameBarGuideButtonInApps
+function Set-GameBarUseViewMenuAsGuideButtonInApps
 {
     <#
     .EXAMPLE
-        PS> Set-GameBarGuideButtonInApps -State 'Disabled'
+        PS> Set-GameBarUseViewMenuAsGuideButtonInApps -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,7 +26,7 @@ function Set-GameBarGuideButtonInApps
     process
     {
         # on: 1 (default) | off: 0
-        $GameBarGuideButtonInApps = @{
+        $GameBarUseViewMenuAsGuideButtonInApps = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\GameBar'
             Entries = @(
@@ -38,7 +38,7 @@ function Set-GameBarGuideButtonInApps
             )
         }
 
-        Write-Verbose -Message "Setting 'Game Bar - Use Guide Button In Apps' to '$State' ..."
-        Set-RegistryEntry -InputObject $GameBarGuideButtonInApps
+        Write-Verbose -Message "Setting 'Game Bar - Use View + Menu as Guide Button In Apps' to '$State' ..."
+        Set-RegistryEntry -InputObject $GameBarUseViewMenuAsGuideButtonInApps
     }
 }

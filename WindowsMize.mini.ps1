@@ -166,7 +166,7 @@ $PrivacyWinPermTelemetry = @{
 Set-WinPermissionsSetting @PrivacyWinPermTelemetry
 
 # --- Search
-$PrivacyWinPermTelemetry = @{
+$PrivacyWinPermSearch = @{
     SafeSearch             = 'Disabled'
     SearchHistory          = 'Disabled'
     SearchHighlights       = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
@@ -178,7 +178,7 @@ $PrivacyWinPermTelemetry = @{
     FindMyFiles            = 'Classic'
     IndexEncryptedFilesGPO = 'Disabled'
 }
-Set-WinPermissionsSetting @PrivacyWinPermTelemetry
+Set-WinPermissionsSetting @PrivacyWinPermSearch
 
 #endregion Win Permissions
 
@@ -949,7 +949,7 @@ $AppToRamDisk = @(
     'Brave'
     #'VSCode'
 )
-#Set-RamDisk -Size '1G' -AppToRamDisk $AppToRamDisk
+#Set-RamDisk -Size '2G' -AppToRamDisk $AppToRamDisk
 
 #endregion Ramdisk
 
@@ -996,7 +996,7 @@ $NotificationsSettings = @{
 }
 Set-NotificationsSetting @NotificationsSettings
 
-$SendersNotifs = @(
+$SenderNotifs = @(
     'Apps'
     'Autoplay'
     'BatterySaver'
@@ -1008,7 +1008,7 @@ $SendersNotifs = @(
     'Suggested'
     'WindowsBackup'
 )
-Set-NotificationsSetting -AppsAndOtherSenders $SendersNotifs -State 'Disabled'
+Set-NotificationsSetting -AppsAndOtherSenders $SenderNotifs -State 'Disabled'
 
 # --- Notifications - Ads
 $NotificationsAdsSettings = @{
@@ -1488,13 +1488,13 @@ Set-TypingSetting @TypingSettings
 #=======================================
 #region gaming
 
-$NetworkSettings = @{
-    OpenGameBarWithController = 'Disabled'
-    GuideButtonInApps         = 'Disabled'
-    GameRecording             = 'Disabled' ; GameRecordingGPO = 'NotConfigured'
-    GameMode                  = 'Disabled'
+$GamingSettings = @{
+    OpenGameBarWithController      = 'Disabled'
+    UseViewMenuAsGuideButtonInApps = 'Disabled'
+    GameRecording                  = 'Disabled' ; GameRecordingGPO = 'NotConfigured'
+    GameMode                       = 'Disabled'
 }
-Set-GamingSetting @NetworkSettings
+Set-GamingSetting @GamingSettings
 
 #endregion gaming
 
