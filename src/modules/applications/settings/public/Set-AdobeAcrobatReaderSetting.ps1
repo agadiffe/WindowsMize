@@ -90,6 +90,7 @@ class AdobeAcrobatAppNames : System.Management.Automation.IValidateSetValuesGene
 
         ## Others
         [-AcceptEulaGPO {Enabled | NotConfigured}]
+        [-ChromeExtensionGPO {Disabled | Enabled | NotConfigured}]
         [-CrashReporterDialogGPO {Disabled | NotConfigured}]
         [-HomeTopBannerGPO {Disabled | Expanded | Collapsed}]
         [-OnlineServicesGPO {Disabled | NotConfigured}]
@@ -185,6 +186,7 @@ function Set-AdobeAcrobatReaderSetting
 
         ## Others
         [GpoStateWithoutDisabled] $AcceptEulaGPO,
+        [GpoState] $ChromeExtensionGPO,
         [GpoStateWithoutEnabled] $CrashReporterDialogGPO,
         [AdobeHomeTopBannerMode] $HomeTopBannerGPO,
         [GpoStateWithoutEnabled] $OnlineServicesGPO,
@@ -279,6 +281,7 @@ function Set-AdobeAcrobatReaderSetting
 
             ## Others
             'AcceptEulaGPO'                      { Set-AcrobatReaderAcceptEULA -GPO $AcceptEulaGPO }
+            'ChromeExtensionGPO'                 { Set-AcrobatReaderChromeExtension -GPO $ChromeExtensionGPO }
             'CrashReporterDialogGPO'             { Set-AcrobatReaderCrashReporterDialog -GPO $CrashReporterDialogGPO }
             'ShareFileGPO'                       { Set-AcrobatReaderShareFile -GPO $ShareFileGPO }
             'HomeTopBannerGPO'                   { Set-AcrobatReaderHomeTopBanner -GPO $HomeTopBannerGPO }

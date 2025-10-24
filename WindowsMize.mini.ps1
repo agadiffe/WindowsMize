@@ -720,6 +720,7 @@ $AdobeReaderSettings = @{
 
     ## Others
     AcceptEulaGPO                   = 'Enabled'
+    ChromeExtensionGPO              = 'Disabled'
     CrashReporterDialogGPO          = 'Disabled'
     HomeTopBannerGPO                = 'Disabled'
     OnlineServicesGPO               = 'Disabled'

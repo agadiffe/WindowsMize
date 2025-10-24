@@ -256,6 +256,11 @@ Set-AdobeAcrobatReaderSetting -PopupTipsGPO 'Disabled'
 # GPO: Enabled | NotConfigured
 Set-AdobeAcrobatReaderSetting -AcceptEulaGPO 'Enabled'
 
+# --- Chrome extension
+# The extension is automatically installed if not disabled.
+# GPO: Disabled | Enabled | NotConfigured
+Set-AdobeAcrobatReaderSetting -ChromeExtensionGPO 'Disabled'
+
 # --- Crash reporter dialog
 Set-AdobeAcrobatReaderSetting -CrashReporterDialogGPO 'Disabled'
 
