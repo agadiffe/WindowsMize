@@ -2,6 +2,8 @@
 #                         Time & Language > Date & Time > Show Abbreviated Time And Date
 #=================================================================================================================
 
+# old
+
 <#
 .SYNTAX
     Set-DateAndTimeShowAbbreviatedValue

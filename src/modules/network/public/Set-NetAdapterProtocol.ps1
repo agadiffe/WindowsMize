@@ -35,7 +35,7 @@ function Set-NetAdapterProtocol
             'Lldp',
             'LltdIo',
             'LltdResponder',
-            'BridgeDriver',
+            'BridgeDriver', #  old ?
             'QosPacketScheduler',
             'HyperVExtensibleVirtualSwitch',
             'IPv4',

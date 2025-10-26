@@ -2,7 +2,9 @@
 #                        Privacy & Security > Activity History > Store My Activity History
 #=================================================================================================================
 
-# Activity History | old
+# old
+
+# Activity History
 #   Store my activity history on this device
 #   Store my activity history to Microsoft
 

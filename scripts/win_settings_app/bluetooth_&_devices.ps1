@@ -57,7 +57,7 @@ Set-BluetoothSetting -LowEnergyAudio 'Enabled'
 
 # --- Bluetooth devices discovery | old
 # State: Default (default) | Advanced
-Set-BluetoothSetting -DiscoveryMode 'Default'
+#Set-BluetoothSetting -DiscoveryMode 'Default'
 
 #endregion devices
 

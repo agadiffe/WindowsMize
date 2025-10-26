@@ -142,7 +142,7 @@ Set-WinPermissionsSetting -FeedbackFrequency 'Never' -FeedbackFrequencyGPO 'Disa
 
 # --- SafeSearch | old
 # State: Disabled | Moderate (default) | Strict
-Set-WinPermissionsSetting -SafeSearch 'Disabled'
+#Set-WinPermissionsSetting -SafeSearch 'Disabled'
 
 # --- Search history (default: Enabled)
 Set-WinPermissionsSetting -SearchHistory 'Disabled'

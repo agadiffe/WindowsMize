@@ -2,7 +2,7 @@
 #                           Bluetooth & Devices > Devices > Bluetooth Devices Discovery
 #=================================================================================================================
 
-# This feature is deprecated.
+# old
 
 <#
 .SYNTAX

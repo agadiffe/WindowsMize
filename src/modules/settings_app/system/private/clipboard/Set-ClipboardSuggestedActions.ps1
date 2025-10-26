@@ -2,7 +2,7 @@
 #                                     System > Clipboard > Suggested Actions
 #=================================================================================================================
 
-# This feature is deprecated.
+# old
 
 <#
 .SYNTAX

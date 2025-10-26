@@ -2,6 +2,8 @@
 #                                                     Copilot
 #=================================================================================================================
 
+# old
+
 # This policy is deprecated and may be removed in a future release.
 # The 'TurnOffWindowsCopilot' policy isn't for the new Copilot experience.
 

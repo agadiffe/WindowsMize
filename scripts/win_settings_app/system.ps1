@@ -416,7 +416,7 @@ Set-ClipboardSetting -History 'Disabled' -HistoryGPO 'NotConfigured'
 Set-ClipboardSetting -SyncAcrossDevices 'Disabled' -SyncAcrossDevicesGPO 'NotConfigured'
 
 # --- Suggested actions (default: Enabled) | old
-Set-ClipboardSetting -SuggestedActions 'Disabled'
+#Set-ClipboardSetting -SuggestedActions 'Disabled'
 
 #endregion clipboard
 

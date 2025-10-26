@@ -163,7 +163,7 @@ Write-Section -Name 'Start' -SubSection
 
 # --- Layout | old
 # State: Default (default) | MorePins | MoreRecommendations
-Set-StartSetting -LayoutMode 'Default'
+#Set-StartSetting -LayoutMode 'Default'
 
 # --- Show All Pins By Default (default: Disabled)
 # This setting has moved directly into the Start Menu with "Show more"/"Show less" options.

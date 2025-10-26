@@ -2,6 +2,8 @@
 #                                                     Cortana
 #=================================================================================================================
 
+# old
+
 # Cortana has been deprecated and is no more installed by default.
 
 <#

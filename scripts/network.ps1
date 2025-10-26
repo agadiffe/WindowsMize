@@ -167,7 +167,7 @@ Set-NetAdapterProtocol -Name 'FileSharingClient' -State 'Disabled'
 # --- File and Printer Sharing for Microsoft Networks (be accessible by other computers) (default: Enabled)
 Set-NetAdapterProtocol -Name 'FileSharingServer' -State 'Disabled'
 
-# --- Bridge Driver |  old ? (default: Enabled)
+# --- Bridge Driver (default: Enabled) |  old ?
 Set-NetAdapterProtocol -Name 'BridgeDriver' -State 'Disabled'
 
 # --- QoS Packet Scheduler (default: Enabled)
@@ -190,7 +190,7 @@ Export-DefaultSystemDriversStartupType
 # Comment the drivers you want to disable.
 $SystemDriversToConfig = @(
     'BridgeDriver' # old ?
-    'NetBiosDriver' # needed by: File and Printer Sharing
+    'NetBiosDriver' # needed by old pc/hardware: File and Printer Sharing
     'NetBiosOverTcpIpDriver' # legacy/old | needed by old pc/hardware: File and Printer Sharing
     'LldpDriver'
     'LltdIoDriver'

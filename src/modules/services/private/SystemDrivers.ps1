@@ -33,7 +33,7 @@ $SystemDriversList += @{
                            i.e. default web browser, PDF Viewer, image editor, DeviceRegion, ...'
         }
     )
-    BridgeDriver = @(
+    BridgeDriver = @( #  old ?
         @{
             DisplayName = "Bridge Driver"
             ServiceName = "l2bridge"
@@ -48,6 +48,8 @@ $SystemDriversList += @{
             ServiceName = "NetBIOS"
             StartupType = "Disabled"
             DefaultType = "System"
+            Comment     = "legacy/old.
+                           needed by old pc/hardware (e.g. File and Printer Sharing)"
         }
     )
     NetBiosOverTcpIpDriver = @(
@@ -56,7 +58,9 @@ $SystemDriversList += @{
             ServiceName = "NetBT"
             StartupType = "Disabled"
             DefaultType = "System"
-            Comment     = "NetBios over TCP/IP."
+            Comment     = "NetBios over TCP/IP.
+                           legacy/old.
+                           needed by old pc/hardware (e.g. File and Printer Sharing)"
         }
     )
     LldpDriver = @(

@@ -167,7 +167,7 @@ Set-WinPermissionsSetting @PrivacyWinPermTelemetry
 
 # --- Search
 $PrivacyWinPermSearch = @{
-    SafeSearch             = 'Disabled'
+    #SafeSearch             = 'Disabled'
     SearchHistory          = 'Disabled'
     SearchHighlights       = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
     CloudSearchGPO         = 'NotConfigured'
@@ -1115,7 +1115,7 @@ Set-RemoteDesktopSetting @RemoteDesktopSettings
 $ClipboardSettings = @{
     History           = 'Disabled' ; HistoryGPO           = 'NotConfigured'
     SyncAcrossDevices = 'Disabled' ; SyncAcrossDevicesGPO = 'NotConfigured'
-    SuggestedActions  = 'Disabled'
+    #SuggestedActions  = 'Disabled'
 }
 Set-ClipboardSetting @ClipboardSettings
 
@@ -1167,7 +1167,7 @@ $BluetoothSettings = @{
     BluetoothGPO                   = 'NotConfigured'
     ShowQuickPairConnectionNotif   = 'Enabled'  ; ShowQuickPairConnectionNotifGPO = 'NotConfigured'
     LowEnergyAudio                 = 'Enabled'
-    DiscoveryMode                  = 'Default'
+    #DiscoveryMode                  = 'Default'
 }
 Set-BluetoothSetting @BluetoothSettings
 
@@ -1332,7 +1332,7 @@ Set-LockScreenSetting @LockScreenSettings
 
 # --- Start
 $StartSettings = @{
-    LayoutMode               = 'Default'
+    #LayoutMode               = 'Default'
     ShowAllPins              = 'Disabled'
     ShowRecentlyAddedApps    = 'Disabled' ; ShowRecentlyAddedAppsGPO   = 'NotConfigured'
     ShowMostUsedApps         = 'Disabled' ; ShowMostUsedAppsGPO        = 'NotConfigured'
@@ -1451,7 +1451,7 @@ $DateTimeSettings = @{
     AutoTimeZone             = 'Disabled'
     AutoTime                 = 'Enabled'
     ShowInSystemTray         = 'Enabled'
-    ShowAbbreviatedValue     = 'Disabled' 
+    #ShowAbbreviatedValue     = 'Disabled' 
     ShowSecondsInSystemClock = 'Disabled'
     ShowTimeInNotifCenter    = 'Disabled'
     TimeServer               = 'Windows'
