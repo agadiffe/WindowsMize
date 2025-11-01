@@ -12,18 +12,12 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Network_&_internet'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\network_&_internet"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -82,7 +76,7 @@ Set-NetworkSetting -ProxyAutoDetectSettings 'Disabled'
 #==========================================================
 #                Advanced network settings
 #==========================================================
-#region advanced network settings
+#region advanced settings
 
 Write-Section -Name 'Advanced network settings' -SubSection
 
@@ -119,7 +113,4 @@ Set-NetworkSharingSetting -Name 'FileAndPrinterSharing' -NetProfile 'Private' -S
 Set-NetworkSharingSetting -Name 'FileAndPrinterSharing' -NetProfile 'Public'  -State 'Disabled'
 Set-NetworkSharingSetting -Name 'FileAndPrinterSharing' -NetProfile 'Domain'  -State 'Disabled'
 
-#endregion advanced network settings
-
-
-Stop-Transcript
+#endregion advanced settings

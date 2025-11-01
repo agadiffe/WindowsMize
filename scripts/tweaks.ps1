@@ -12,19 +12,13 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Tweaks'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\tweaks"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                                     Tweaks
@@ -55,7 +49,7 @@ Set-LockScreenCameraAccess -GPO 'Disabled'
 Set-MessagingCloudSync -GPO 'Disabled'
 
 # --- Notification network usage
-# Needed by Discord, Microsoft Teams, ... to get real-time notifs.
+# Needed by Discord, Microsoft Teams, ... to get real-time notifs (if installed from MS Store).
 Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 
 # --- Password expiration (default: Enabled)
@@ -274,6 +268,3 @@ Set-WindowsMediaDrmOnlineAccess -GPO 'Disabled'
 Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured'
 
 #endregion settings
-
-
-Stop-Transcript

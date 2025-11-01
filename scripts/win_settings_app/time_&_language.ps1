@@ -12,19 +12,13 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Time_&_language'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\time_&_language"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -60,11 +54,11 @@ Set-DateAndTimeSetting -ShowInSystemTray 'Enabled'
 Set-DateAndTimeSetting -ShowSecondsInSystemClock 'Disabled'
 
 # --- Show time in Notification Center (default: Disabled)
-Set-DateAndTimeSetting -ShowTimeInNotifCenter 'Disabled'
+Set-DateAndTimeSetting -ShowTimeInNotifCenter 'Enabled'
 
 # --- Internet time (NTP server)
 # State: Cloudflare | Windows (default) | NistGov | PoolNtpOrg
-Set-DateAndTimeSetting -TimeServer 'Windows'
+#Set-DateAndTimeSetting -TimeServer 'Windows'
 
 #endregion date & time
 
@@ -153,6 +147,3 @@ Set-TypingSetting -SwitchInputLanguageHotKey 'NotAssigned'
 Set-TypingSetting -SwitchKeyboardLayoutHotKey 'NotAssigned'
 
 #endregion typing
-
-
-Stop-Transcript

@@ -9,7 +9,7 @@
 # May cause some MDM processes to break.
 # e.g. remote wipe, unenroll, remote find, and mandatory app installation.
 
-# Any app that uses network-based notifications (e.g. Discord, Microsoft Teams, ...)
+# Any app that uses network-based notifications (e.g. Discord, Microsoft Teams, ... (if installed from MS Store))
 # will not be able to show real-time updates on their icons or in the Action Center.
 
 <#

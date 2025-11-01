@@ -12,18 +12,12 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''System_properties'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\system_properties"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                                System Properties
@@ -34,6 +28,8 @@ Write-Section -Name 'System Properties'
 #==============================================================================
 #                                   Hardware
 #==============================================================================
+#region hardware
+
 
 Write-Section -Name 'Hardware' -SubSection
 
@@ -42,6 +38,7 @@ Write-Section -Name 'Hardware' -SubSection
 # GPO: Disabled | NotConfigured
 Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 
+#endregion hardware
 
 #==============================================================================
 #                                   Advanced
@@ -87,7 +84,7 @@ Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
 # InitialSize/MaximumSize: size in MB
 
 #Set-PagingFileSize -AllDrivesAutoManaged 'Enabled'
-Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 512 -MaximumSize 2048
+Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 4096 -MaximumSize 4096
 #Set-PagingFileSize -Drive 'X:', 'Y:' -State 'SystemManaged'
 
 # --- Data execution prevention
@@ -138,7 +135,7 @@ Write-Section -Name 'System protection' -SubSection
 # State: Disabled | Enabled (default)
 # GPO: Disabled | NotConfigured
 
-#Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
 #Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
 
 #endregion sys protection
@@ -178,6 +175,3 @@ $RemoteAssistanceProperties = @{
 # See 'Windows Settings App > System > Remote Desktop'
 
 #endregion remote
-
-
-Stop-Transcript

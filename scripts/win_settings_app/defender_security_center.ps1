@@ -12,18 +12,12 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Defender_security_center'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\defender_security_center"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -38,7 +32,7 @@ Write-Section -Name 'Windows Settings App - Windows Security (aka Defender)'
 #==========================================================
 #                Virus & threat protection
 #==========================================================
-#region virus & threat protection
+#region virus & threat
 
 Write-Section -Name 'Virus & threat protection' -SubSection
 
@@ -55,24 +49,24 @@ Set-DefenderSetting -CloudDeliveredProtection 'Disabled' -CloudDeliveredProtecti
 # GPO: NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured
 Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO 'NotConfigured'
 
-#endregion virus & threat protection
+#endregion virus & threat
 
 #==========================================================
 #                    Account Protection
 #==========================================================
-#region account protection
+#region account
 
 Write-Section -Name 'Account Protection' -SubSection
 
 # --- Administrator Protection (default: Disabled)
 Set-DefenderSetting -AdminProtection 'Disabled'
 
-#endregion account protection
+#endregion account
 
 #==========================================================
 #                  App & browser control
 #==========================================================
-#region app & browser control
+#region app & browser
 
 Write-Section -Name 'App & browser control' -SubSection
 
@@ -106,7 +100,7 @@ Set-DefenderSetting -UnwantedAppBlocking 'Disabled' -UnwantedAppBlockingGPO 'Not
 # --- Smartscreen for Microsoft Store apps (default: Enabled)
 Set-DefenderSetting -SmartScreenForStoreApps 'Disabled'
 
-#endregion app & browser control
+#endregion app & browser
 
 #==========================================================
 #                      Notifications
@@ -156,6 +150,3 @@ Write-Section -Name 'Miscellaneous' -SubSection
 Set-DefenderSetting -WatsonEventsReportGPO 'Disabled'
 
 #endregion miscellaneous
-
-
-Stop-Transcript

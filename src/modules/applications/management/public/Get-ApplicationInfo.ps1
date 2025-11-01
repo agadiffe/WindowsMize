@@ -35,13 +35,12 @@ function Get-ApplicationInfo
     process
     {
         $UserSid = (Get-LoggedOnUserInfo).Sid
-        $UninstallRegPath = 'Microsoft\Windows\CurrentVersion\Uninstall'
         $RegistryUninstallPath = @(
-            "Registry::HKEY_USERS\$UserSid\Software\$UninstallRegPath"
-            "Registry::HKEY_USERS\$UserSid\Software\Wow6432Node\$UninstallRegPath"
-            "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\$UninstallRegPath"
-            "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\$UninstallRegPath"
-        )
+            "Registry::HKEY_USERS\$UserSid\Software"
+            "Registry::HKEY_USERS\$UserSid\Software\Wow6432Node"
+            "Registry::HKEY_LOCAL_MACHINE\SOFTWARE"
+            "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node"
+        ).ForEach({ "$_\Microsoft\Windows\CurrentVersion\Uninstall" })
 
         $AppInfo = $RegistryUninstallPath |
             Get-ChildItem -ErrorAction 'SilentlyContinue' |

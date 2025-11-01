@@ -12,28 +12,23 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Telemetry'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\telemetry"
 
 
-# The main telemetry configurations are in the Windows settings app.  
-# See 'scripts > win_settings_app > privacy_&_security.ps1'.
-
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                                    Telemetry
 #=================================================================================================================
 
 Write-Section -Name 'Telemetry'
+
+#==============================================================================
+#                                Miscellaneous
+#==============================================================================
 
 # --- .Net
 Disable-DotNetTelemetry
@@ -43,6 +38,17 @@ Disable-NvidiaTelemetry
 
 # --- PowerShell
 Disable-PowerShellTelemetry
+
+# --- Diagnostic auto-logger (system boot log) (default: Enabled)
+Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
+
+# --- Diagnostic tracing
+# Protected key. Need to be changed manually.
+# See 'Set-DiagnosticTracing.ps1' in 'src > modules > telemetry > private'.
+
+#==============================================================================
+#                                 Group Policy
+#==============================================================================
 
 # --- App and device inventory
 # Windows 11 24H2+ only.
@@ -66,13 +72,6 @@ Set-Ceip -GPO 'Disabled'
 # --- Diagnostic log and dump collection limit
 Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
 
-# --- Diagnostic auto-logger (system boot log) (default: Enabled)
-Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
-
-# --- Diagnostic tracing
-# Protected key. Need to be changed manually.
-# See 'Set-DiagnosticTracing.ps1' in 'src > modules > telemetry > private'.
-
 # --- Error reporting
 Set-ErrorReporting -GPO 'Disabled'
 
@@ -94,6 +93,3 @@ Set-OneSettingsDownloads -GPO 'Disabled'
 # --- User info sharing
 # GPO: Disabled | Enabled | NotConfigured
 Set-UserInfoSharing -GPO 'Disabled'
-
-
-Stop-Transcript

@@ -12,110 +12,19 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Network'' Module ...'
-$WindowsMizeModuleNames = @(
-    'network'
-    'services'
-)
-Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
+$WindowsMizeModuleNames = @( 'network', 'services' )
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                                     Network
 #=================================================================================================================
 
 Write-Section -Name 'Network'
-
-#==============================================================================
-#                                   Firewall
-#==============================================================================
-#region firewall
-
-Write-Section -Name 'Firewall' -SubSection
-
-#             Default rules
-#=======================================
-
-# By default, Defender Firewall outbound connections that do not match a rule are all allowed.
-# It means that disabling a feature will affect only inbound connections.
-# i.e. Disabling "CastToDevice" will not prevent casting to other devices.
-
-# --- AllJoyn Router (default: Enabled)
-# Internet of Things related.
-Set-DefenderFirewallRule -Name 'AllJoynRouter' -State 'Disabled'
-
-# --- Cast to Device functionality (default: Enabled)
-Set-DefenderFirewallRule -Name 'CastToDevice' -State 'Disabled'
-
-# --- Connected Devices Platform (default: Enabled)
-Set-DefenderFirewallRule -Name 'ConnectedDevicesPlatform' -State 'Disabled'
-
-# --- Delivery Optimization (default: Enabled)
-Set-DefenderFirewallRule -Name 'DeliveryOptimization' -State 'Disabled'
-
-# --- DIAL protocol server (default: Enabled)
-# Remote control of media Apps on this device.
-Set-DefenderFirewallRule -Name 'DIALProtocol' -State 'Disabled'
-
-# --- Microsoft Media Foundation Network Source (default: Enabled)
-# Hosting media services or sharing media from this device.
-Set-DefenderFirewallRule -Name 'MicrosoftMediaFoundation' -State 'Disabled'
-
-# --- Proximity Sharing over TCP (default: Enabled)
-# i.e. Nearby Sharing
-Set-DefenderFirewallRule -Name 'ProximitySharing' -State 'Disabled'
-
-# --- Wi-Fi Direct Network Discovery (default: Enabled)
-# Connect to devices without router (Peer-to-peer connections) (e.g. miracast, printer, file sharing).
-Set-DefenderFirewallRule -Name 'WifiDirectDiscovery' -State 'Disabled'
-
-# --- Wireless Display (default: Enabled)
-# Wi-Fi Direct related.
-Set-DefenderFirewallRule -Name 'WirelessDisplay' -State 'Disabled'
-
-# --- WLAN Service - WFD Application Services Platform Coordination Protocol (default: Enabled)
-# Wi-Fi Direct related.
-Set-DefenderFirewallRule -Name 'WiFiDirectCoordinationProtocol' -State 'Disabled'
-
-# --- WLAN Service - WFD Services Kernel Mode Driver Rules (default: Enabled)
-# Wi-Fi Direct related.
-Set-DefenderFirewallRule -Name 'WiFiDirectKernelModeDriver' -State 'Disabled'
-
-#             Custom rules
-#=======================================
-
-# --- Connected Devices Platform service (CDP)
-Block-DefenderFirewallInboundRule -Name 'CDP'
-#Block-DefenderFirewallInboundRule -Name 'CDP' -Reset
-
-# --- DCOM service control manager
-Block-DefenderFirewallInboundRule -Name 'DCOM'
-#Block-DefenderFirewallInboundRule -Name 'DCOM' -Reset
-
-# --- NetBIOS over TCP/IP
-Block-DefenderFirewallInboundRule -Name 'NetBiosTcpIP'
-#Block-DefenderFirewallInboundRule -Name 'NetBiosTcpIP' -Reset
-
-# --- Server Message Block (SMB) (e.g. File And Printer Sharing)
-Block-DefenderFirewallInboundRule -Name 'SMB'
-#Block-DefenderFirewallInboundRule -Name 'SMB' -Reset
-
-# --- Miscellaneous programs/services
-# lsass.exe, wininit.exe, Schedule, EventLog, services.exe
-Block-DefenderFirewallInboundRule -Name 'MiscProgSrv'
-#Block-DefenderFirewallInboundRule -Name 'MiscProgSrv' -Reset
-
-#endregion firewall
-
 
 #==============================================================================
 #                         IPv6 transition technologies
@@ -238,7 +147,7 @@ Set-NetLmhosts -State 'Disabled'
 #   e.g. File Explorer > Network > Computer_Name : error path not found.
 #   Workstations may not be able to find wireless screen mirroring devices.
 #   e.g. Chromecasts, Apple AirPlay, Printers and anything else that relies on MDNS.
-#Set-NetMulicastDns -State 'Enabled'
+#Set-NetMulicastDns -State 'Disabled'
 
 # --- Smart Multi-Homed Name Resolution
 # GPO: Disabled | NotConfigured
@@ -248,6 +157,3 @@ Set-NetSmhnr -GPO 'Disabled'
 #Set-NetProxyAutoDetect -State 'Disabled'
 
 #endregion miscellaneous
-
-
-Stop-Transcript

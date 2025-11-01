@@ -12,15 +12,14 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
+Write-Output -InputObject 'Loading ''Applications\Management'' & ''settings_app\optional_features'' Modules ...'
+$WindowsMizeModuleNames = @( 'applications\management', 'settings_app\optional_features' )
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
 
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
-Write-Output -InputObject 'Loading ''Applications\Management'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\src\modules\applications\management"
-
+# Parameters values (if not specified):
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                             Applications Management
@@ -29,90 +28,9 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\applications\management"
 Write-Section -Name 'Applications Management'
 
 #==============================================================================
-#                                Installation
-#==============================================================================
-#region installation
-
-Write-Section -Name 'Installation' -SubSection
-
-# --- Custom applications
-# Name: winget name of the app
-# Scope (optional): Machine | User
-# e.g. Install-ApplicationWithWinget -Name 'Valve.Steam' -Scope 'Machine'
-
-$CustomAppsToInstall = @(
-    'Valve.Steam'
-    'AppName2'
-    'AppName3'
-)
-#$CustomAppsToInstall | Install-ApplicationWithWinget -Scope 'Machine'
-
-# --- Predefined applications
-$AppsToInstall = @(
-    # --- Development
-    #'Git'
-    #'VSCode'
-
-    # --- Multimedia
-    'VLC'
-
-    # --- Password Manager
-    #'Bitwarden'
-    #'KeePassXC'
-    #'ProtonPass'
-
-    # --- PDF Viewer
-    #'AcrobatReader'
-    #'SumatraPDF'
-
-    # --- Utilities
-    #'7zip'
-    #'Notepad++'
-    #'qBittorrent'
-
-    # --- Web Browser
-    'Brave'
-    #'Firefox'
-    #'MullvadBrowser'
-
-    # --- Microsoft Visual C++ Redistributable
-    #'VCRedist2015+.ARM'
-    'VCRedist2015+'
-    #'VCRedist2013'
-    #'VCRedist2012'
-    #'VCRedist2010'
-    #'VCRedist2008'
-    #'VCRedist2005'
-
-    # --- Microsoft DirectX (might be needed for older games)
-    #'DirectXEndUserRuntime'
-
-    # --- Microsoft .NET Windows Desktop Runtime
-    #'DotNetDesktopRuntime5'
-    #'DotNetDesktopRuntime6'
-    #'DotNetDesktopRuntime7'
-    #'DotNetDesktopRuntime8'
-    #'DotNetDesktopRuntime9'
-)
-$AppsToInstall | Install-Application
-
-# --- Desktop shortcuts
-Remove-AllDesktopShortcuts
-
-# --- Windows Subsystem For Linux
-#Install-WindowsSubsystemForLinux
-#Install-WindowsSubsystemForLinux -Distribution 'Debian'
-
-#endregion installation
-
-#==============================================================================
 #                         Appx & provisioned packages
 #==============================================================================
 #region appx packages
-
-# Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
 
 Write-Section -Name 'Appx & provisioned packages' -SubSection
 
@@ -212,5 +130,47 @@ $PreinstalledAppsToRemove | Remove-PreinstalledAppPackage
 
 #endregion appx packages
 
+#==========================================================
+#                    Optional features
+#==========================================================
+#region optional features
 
-Stop-Transcript
+Write-Section -Name 'Optional features' -SubSection
+
+Export-InstalledWindowsCapabilitiesNames
+Export-EnabledWindowsOptionalFeaturesNames
+
+$OptionalFeatures = @(
+    # --- Features
+    'ExtendedThemeContent'
+    'FacialRecognitionWindowsHello'
+    'InternetExplorerMode'
+    'MathRecognizer'
+    'NotepadSystem'
+    'OneSync'
+    'OpenSSHClient'
+    'PrintManagement'
+    'StepsRecorder'
+    'WMIC'
+    'VBScript'
+    'WindowsFaxAndScan'
+    'WindowsMediaPlayerLegacy'
+    'WindowsPowerShellISE'
+    'WordPad'
+    'XpsViewer'
+
+    # --- More Windows features
+    'InternetPrintingClient'
+    'MediaFeatures'
+    'MicrosoftXpsDocumentWriter'
+    'NetFramework48TcpPortSharing'
+    'RemoteDesktopConnection'
+    'RemoteDiffCompressionApiSupport'
+    'SmbDirect'
+    'WindowsPowerShell2'
+    'WindowsRecall'
+    'WorkFoldersClient'
+)
+$OptionalFeatures | Remove-PreinstalledOptionalFeature
+
+#endregion optional features

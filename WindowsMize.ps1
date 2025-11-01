@@ -17,6 +17,10 @@ if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
     exit
 }
 
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
+$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
+
 
 #=================================================================================================================
 #                                                     Scripts
@@ -24,27 +28,43 @@ if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
 
 # Uncomment or comment the script you want to execute or not.
 $ScriptsToExecute = @(
+    'apps_management\debloat'
+    'apps_management\install'
+
+    #'apps_settings\Acrobat_Reader'
+    'apps_settings\Brave_VLC_Others'
+    #'apps_settings\MS_Office'
+    'apps_settings\MS_Store_&_Edge'
+    'apps_settings\Notepad_Photos_SnippingTool'
+    'apps_settings\Terminal'
+
+    'network\network_&_internet'
+    'network\firewall'
+    'network\protocol'
+
+    'file_explorer'
+    'power_&_battery'
+    'system_properties'
+    'services_and_scheduled_tasks'
+    #'ramdisk'
+
     'tweaks'
     'telemetry'
-    'network'
-    'power_options'
-    'system_properties'
-    'file_explorer'
-    'apps_management'
-    'apps_settings'
-    #'ramdisk'
+    'win_settings_app\defender_security_center'
+    'win_settings_app\privacy_&_security'
+    'win_settings_app\notifications'
+    'win_settings_app\start_&_taskbar'
+
     'win_settings_app\system'
     'win_settings_app\bluetooth_&_devices'
-    'win_settings_app\network_&_internet'
     'win_settings_app\personnalization'
     'win_settings_app\apps'
     'win_settings_app\accounts'
     'win_settings_app\time_&_language'
     'win_settings_app\gaming'
     'win_settings_app\accessibility'
-    'win_settings_app\privacy_&_security'
-    'win_settings_app\defender_security_center'
     'win_settings_app\windows_update'
-    'services_and_scheduled_tasks'
 )
 $ScriptsToExecute.ForEach({ & "$PSScriptRoot\scripts\$_.ps1" })
+
+Stop-Transcript

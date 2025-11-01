@@ -4,7 +4,9 @@
     GUID              = '76a0e508-26c9-46a1-966c-e08a8d73615c'
     PowerShellVersion = '7.5'
 
-    RequiredModules = @()
+    RequiredModules = @(
+        "$PSScriptRoot\..\helper_functions\general"
+    )
 
     NestedModules = @()
 

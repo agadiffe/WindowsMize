@@ -9,90 +9,88 @@ Debloat, minimize telemetry, apps installation, general settings, and more.
 
 
 ## 🎯 Purpose
-1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](tools/New-WindowsAnswerFile.ps1)) + updates.  
-   While installing the updates, install Office365 if desired (run [MsOffice365_Install.cmd](tools/MsOffice365_Install.cmd)).
-2. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the no comment version [WindowsMize.mini.ps1](WindowsMize.mini.ps1)).
-3. Finish some customization (see [todo_manually.md](todo_manually.md)).
+1. Install Windows (semi-unattended: see [New-WindowsAnswerFile.ps1](tools/New-WindowsAnswerFile.ps1)) + Updates.
+2. Install MS Office365 if desired (run [MsOffice365_Install.cmd](tools/MsOffice365_Install.cmd)).
+3. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the condensed version [WindowsMize.mini.ps1](WindowsMize.mini.ps1)).
+4. Finish some customization (see [todo_manually.md](todo_manually.md)).
 
+Long term: automate step 4.
 
 ## 📝 Characteristics
-- Fully non-interactive script: make sure to review everything before running it.
+- Fully non-interactive script : make sure to review everything before running it.
 - Designed for Windows 11 (most tweaks/settings also work on Windows 10).
 - Works on both Administrator and Standard account (including domain account).
+- 31 script files based on 26 Powershell modules.
+
+
+## 💙 Support
+If you find a bug, open an issue.  
+If you like the project, leave a ⭐.  
+Thanks.
 
 
 ## 💫 Features
 ### 🖥️ Windows settings
-Equivalent of the Windows GUI settings app (start > all apps > settings).  
-There are almost every settings, organized like the graphical counterpart.
+Equivalent of the Windows GUI settings app : Start > all apps > settings.  
+There are almost every settings, organized like the graphical's app.
 
 ### 📁 File Explorer
-Every settings + few extra.  
-Extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection,  
-MaxIconCacheSize, UndoRedo, RecycleBin, ConfirmFileDelete.
+Every settings (general, view, search) + extra.  
+Extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection, MaxIconCacheSize, UndoRedo, RecycleBin, ConfirmFileDelete.
 
 ### ⌛ System Properties
 Equivalent of the Windows GUI System Properties.  
 Visual Effects, Virtual Memory (paging file), System failure, System Restore, Remote Assistance.
 
-### ⚡ Power options
-Settings not present in the Windows GUI settings app.  
-Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectivity.
+### ⚡ Power & Battery
+Equivalent of the Windows GUI settings app "Power & Battery" + extra from Control Panel.  
+Extra: Fast startup, Hibernate, Battery settings, Modern standby (S0) Network connectivity.
 
-### 🌐 Network
+### 🌐 Network & Internet
 <details>
-  <summary>Improve security by disabling various network protocols and firewall rules (click to expand).</summary>
+  <summary>Configure the network settings. Improve security by disabling protocols and firewall rules (click to expand).</summary>
 
+- Network & Internet:
+  - equivvalent of the Windows GUI settings app (start > all apps > settings > Network & Internet):  
+    Network profile, auto proxy setting, DNS, Network discovery, File and Printer Sharing.
 - Firewall:
   - block some ports/programs shown as listening (locally):  
     CDP, DCOM, NetBiosTcpIP, SMB, MiscProgSrv (lsass.exe, wininit.exe, Schedule, EventLog, services.exe)
   - default Defender rules:  
-    AllJoynRouter, CastToDevice, ConnectedDevicesPlatform, DeliveryOptimization, DIALProtocol,  
-    MicrosoftMediaFoundation, ProximitySharing, WifiDirectDiscovery, WirelessDisplay,  
-    WiFiDirectCoordinationProtocol, WiFiDirectKernelModeDriver
-- IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP).
-- Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit)).
-- Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, LMHOSTS, mDNS, SMHNR, WPAD).
+    AllJoynRouter, CastToDevice, ConnectedDevicesPlatform, DeliveryOptimization, DIALProtocol, MicrosoftMediaFoundation, ProximitySharing, WifiDirectDiscovery, WirelessDisplay, WiFiDirectCoordinationProtocol, WiFiDirectKernelModeDriver
+- Protocol:
+  - IPv6 transition technologies (6to4, Teredo, IP-HTTPS, ISATAP).
+  - Network adapter protocol (Equivalent of the GUI properties (more adapter options > edit)).
+  - Miscellaneous (NetBiosOverTcpIP, IcmpRedirects, IPSourceRouting, LLMNR, LMHOSTS, mDNS, SMHNR, WPAD).
 </details>
 
 ### 📊 Telemetry
 <details>
-  <summary>Various Group Policies to minimize Windows telemetry (click to expand).</summary>
+<summary>Various Group Policies to minimize Windows telemetry (click to expand).</summary>
 
-  DotNetTelemetry, NvidiaTelemetry, PowerShellTelemetry, AppAndDeviceInventory, ApplicationCompatibility, Ceip,  
-  CloudContent, ConsumerExperience, DiagnosticLogAndDumpCollectionLimit, DiagnosticsAutoLogger,  
-  DiagnosticTracing, ErrorReporting, GroupPolicySettingsLogging, HandwritingPersonalization,  
-  KmsClientActivationDataSharing, MsrtDiagnosticReport, OneSettingsDownloads, UserInfoSharing.
+  DotNetTelemetry, NvidiaTelemetry, PowerShellTelemetry, AppAndDeviceInventory, ApplicationCompatibility, Ceip, CloudContent, ConsumerExperience, DiagnosticLogAndDumpCollectionLimit, DiagnosticsAutoLogger, DiagnosticTracing, ErrorReporting, GroupPolicySettingsLogging, HandwritingPersonalization, KmsClientActivationDataSharing, MsrtDiagnosticReport, OneSettingsDownloads, UserInfoSharing.
 </details>
 
 The main telemetry configurations are in the Windows settings app.  
-See 'Windows Settings App > Privacy & security > Windows permissions'.
+See "Windows Settings App > Privacy & security > Windows permissions".
 
-For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
+For Acrobat Reader & MS Office telemetry, see "Applications Settings".
 
 ### 🛠️ Tweaks
 <details>
   <summary>Various tweaks to improve and customize Windows. (click to expand).</summary>
 
 - Security, privacy and networking:  
-  Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage,  
-  PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
+  Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
-  FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting,  
-  Short8Dot3FileName, StartupShutdownVerboseStatusMessages.
+  FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
-  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips,  
-  ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent,  
-  WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience,  
-  WindowsSharedExperience, WindowsSpotlight.
+  ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
-  MoveCharacterMapShortcutToWindowsTools, DisplayModeChangeAnimation, EventLogLocation,  
-  EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission,  
-  LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen,  
-  TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  MoveCharacterMapShortcutToWindowsTools, DisplayModeChangeAnimation, EventLogLocation, EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen, TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 
 </details>
 
@@ -101,26 +99,25 @@ For Microsoft Office telemetry, see 'Applications Settings > Microsoft Office'.
   <summary>Removal | Installation | Configuration (click to expand)</summary>
 
 - Uninstall unwanted default apps (bloatware).  
-  e.g. Microsoft Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, ClipChamp, etc...
+  e.g. Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, ClipChamp, etc...
 
 - Install applications via Winget.
 
   Predefined apps with short names (aliases for Winget package names):  
-  Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent,  
-  Brave, Firefox, MullvadBrowser, VCRedist, DirectXEndUserRuntime, DotNetDesktopRuntime.
+  Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent, Brave, Firefox, MullvadBrowser, VCRedist, DirectXEndUserRuntime, DotNetDesktopRuntime.
 
-  You can also install any apps with their Winget app name (e.g. 'Valve.Steam').
+  You can also install any apps with their Winget app name (e.g. "Valve.Steam").
 
 - Configure application settings.
 
   Apps: Acrobat Reader, Brave Browser, Git, KeePassXC, MS Office, qBittorrent, VLC, VSCode.  
-  UWP apps: Microsoft Store, Notepad, Photos, Snipping Tool, Terminal.
+  UWP apps: MS Store, Notepad, Photos, Snipping Tool, Terminal.
 
 </details>
 
 ### 💾 RamDisk
 <details>
-  <summary>Configure a RamDisk for 'Brave Browser' and 'VSCode' (click to expand).</summary>
+  <summary>Configure a RamDisk for "Brave Browser" and "VSCode" (click to expand).</summary>
 
 For Brave, only few elements are either restored to or excluded from the RamDisk:
 - Extensions and their settings (excluded. i.e. symlinked).
@@ -133,7 +130,7 @@ i.e. By default, history and cookies are not restored across logoff/logon.
 ### ⚙️ Services & Scheduled Tasks
 Configure (e.g. disable) Windows Services & Scheduled Tasks (grouped by categories).
 
-There are a lot of comments about the services in 'src > modules > services > private'.  
+There are a lot of comments about the services in "src > modules > services > private".  
 Make sure to review them to know which one to disable according to your usages.
 
 
@@ -146,15 +143,16 @@ These script files are located in the "scripts" folder.
 
 You can uncomment or comment the script names to execute or not the corresponding script.  
 Example:  
-To execute only the "file_explorer" settings, comment everything except 'file_explorer'.
+To execute only the "file_explorer" settings, comment everything except "file_explorer".
 
 ```powershell
 $ScriptsToExecute = @(
-    #'tweaks'
+    #'apps_management\debloat'
+    #'apps_management\install'
+    [...]
     'file_explorer'
     [...]
     #'win_settings_app\windows_update'
-    #'services_and_scheduled_tasks'
 )
 ```
 
@@ -184,25 +182,37 @@ To run a function, uncomment it (i.e. remove the "#" character before the functi
 Disable-PowerShellTelemetry
 ```
 
+To comment an entire section : begin with "<#" and end with "#>".  
+Example:  
+In "scripts\win_settings_app\bluetooth_&_devices.ps1", "Touchpad" is commented by default.
+```powershell
+<#
+# --- Touchpad
+...
+settings
+...
+#>
+```
+
 
 ## 📥 Download & Execution
-This script requires 'PowerShell 7 (aka PowerShell (Core))' and must be run as Administrator.  
+This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as Administrator.  
 
 ### Automated
 1. Open a PowerShell prompt (Administrator privileges are not required).  
    Right-click on `Start Menu` > `Terminal`.
-2. Download and extract WindowsMize archive to the 'Downloads' folder.  
+2. Download and extract WindowsMize archive to the "Downloads" folder.  
    e.g. `C:\Users\<User>\Downloads\WindowsMize`.  
-   If the folder 'WindowsMize' exist, it will be deleted.  
+   If the folder "WindowsMize" exist, it will be deleted.  
    Save any data you want to keep (e.g. previous configuration and/or log files).
     ```powershell
     irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
     ```
-3. Navigate to the extracted 'WindowsMize' folder in your 'Downloads' folder.
+3. Navigate to the extracted "WindowsMize" folder in your "Downloads" folder.
 4. **Configure the script (WindowsMize.ps1) according to your preferences**.
 5. Double click on the `Run_WindowsMize.cmd` file to run the script.  
    Accept the Windows UAC prompt to run it as Administrator (required).  
-   If 'PowerShell 7' is not installed, it will be automatically installed.
+   If "PowerShell 7" is not installed, it will be automatically installed.
 6. Restart (Mandatory for a lot of tweaks/settings).
 
 ### Manually
@@ -214,15 +224,15 @@ This script requires 'PowerShell 7 (aka PowerShell (Core))' and must be run as A
 3. **Configure the script (WindowsMize.ps1) according to your preferences**.
 3. Open a PowerShell prompt (as Administrator or not).  
    Right-click on `Start Menu` > `Terminal`.
-3. Install 'PowerShell 7'.
+3. Install "PowerShell 7".
     ```powershell
     winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
     ```
 4. Open an elevated (i.e. Administrator) PowerShell prompt:  
    Right-click on `Start Menu` > `Terminal (Admin)`.  
    At the top of the Terminal window:  
-   Click on the down arrow and choose 'PowerShell'.
-5. Navigate to the directory where you extracted 'WindowsMize' (replace <User\> with your username).  
+   Click on the down arrow and choose "PowerShell".
+5. Navigate to the directory where you extracted "WindowsMize" (replace <User\> with your username).  
    Example:
     ```powershell
     cd 'C:\Users\<User>\Downloads\WindowsMize-main\WindowsMize-main'
@@ -232,7 +242,7 @@ This script requires 'PowerShell 7 (aka PowerShell (Core))' and must be run as A
     Get-ChildItem -File -Recurse | Unblock-File
     ```
 7. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).  
-   (This is not required for 'Powershell 7', but it might change in future Windows release)
+   (This is not required for "Powershell 7", but it might change in future Windows release)
     ```powershell
     Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
     ```
@@ -245,22 +255,24 @@ This script requires 'PowerShell 7 (aka PowerShell (Core))' and must be run as A
 </details>
 
 
-## 📍 Remarks
+## 📌 Remarks
+- The Powershell modules source code have been design to also serve as documention.  
+  It is easily organized to find the registry value of a specific setting .  
+  Example:  
+  Lot of settings have comments at the top of their ps1 file.  
+  Every GPO settings have their path, name and values in comments.
+  ```powershell
+  # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
+  #   do not show feedback notifications
+  # not configured: delete (default) | on: 1
+  ```
+
+- Read some comments about why you should disable some features.  
+  src\modules : network, telemetry, tweaks, ...
+
 - Make sure to backup all of your data.  
   e.g. browser bookmarks, apps settings, personal files, passwords database
 
 - Make sure your Windows is fully updated.  
   Settings > Windows Update > Check for updates  
-  Microsoft Store > Library (or Downloads) > Check for updates
-
-- Read some comments about why you should disable some features.
-  - src > modules > 
-    - network > private > NetFirewallRules.ps1
-    - network > public
-    - telemetry > public
-    - tweaks > public
-
-
-## 💙 Support
-If you find a bug, please open an issue.  
-If you like the project, leave a ⭐.
+  Microsoft Store > Library (or Downloads) > Check for updates (run it at least twice)
