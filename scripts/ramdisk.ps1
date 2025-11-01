@@ -12,12 +12,6 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Ramdisk'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\ramdisk"
 
@@ -74,7 +68,4 @@ $AppToRamDisk = @(
     'Brave'
     #'VSCode'
 )
-Set-RamDisk -Size '1G' -AppToRamDisk $AppToRamDisk
-
-
-Stop-Transcript
+Set-RamDisk -Size '2G' -AppToRamDisk $AppToRamDisk

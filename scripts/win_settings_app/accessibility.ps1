@@ -12,18 +12,12 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Accessibility'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\accessibility"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -145,6 +139,3 @@ Set-AccessibilitySetting -MouseKeys 'Disabled'
 Set-AccessibilitySetting -MouseKeysShorcut 'Disabled'
 
 #endregion mouse
-
-
-Stop-Transcript

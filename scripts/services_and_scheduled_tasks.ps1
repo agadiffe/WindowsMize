@@ -12,17 +12,8 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Services and Scheduled_tasks'' Modules ...'
-$WindowsMizeModuleNames = @(
-    'services'
-    'scheduled_tasks'
-)
+$WindowsMizeModuleNames = @( 'services', 'scheduled_tasks' )
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
 
 
@@ -42,7 +33,7 @@ Export-DefaultServicesStartupType
 Export-DefaultSystemDriversStartupType
 
 <#
-  You can review the services StartupType in: src > modules > services > private.
+  You can review the services StartupType in "src\modules\services\private".
 
   Make sure to review every services and configure them according to your usages.
   (especially Features.ps1 and Miscellaneous.ps1 which contains unrelated services in the same group)
@@ -57,6 +48,13 @@ Export-DefaultSystemDriversStartupType
   If disabled as part of this script, launch them manually with services.msc when needed.
 #>
 
+# Minimum recommended:
+#   'Deprecated'
+#   'RemoteDesktop'
+#   'Telemetry'
+#   'WindowsSearch'
+#   'Intel'
+
 $ServicesToConfig = @(
     # --- SystemDriver
     'UserChoiceProtectionDriver'
@@ -64,6 +62,9 @@ $ServicesToConfig = @(
     #'NetworkDataUsageDriver'
 
     # --- Windows
+    'Features'      # adjust to your needs: Features.ps1
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1
+
     #'Autoplay'
     #'Bluetooth'
     #'BluetoothAndCast'
@@ -71,16 +72,14 @@ $ServicesToConfig = @(
     'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
-    'Features' # adjust to your needs: src > modules > services > private > Features.ps1
     'FileAndPrinterSharing'
     'HyperV'
     'MicrosoftEdge' # do not disable if you use Edge.
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
-    'Miscellaneous' # adjust to your needs: src > modules > services > private > Miscellaneous.ps1
     'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
-    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
-    'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' (and maybe 'PrintNotify') services.
+    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing. For a Printer: SSD service.
+    'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' service.
     'RemoteDesktop'
     #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'
@@ -109,7 +108,7 @@ Write-Section -Name 'Scheduled Tasks' -SubSection
 Export-DefaultScheduledTasksState
 
 <#
-  You can review which tasks are disabled in: src > modules > scheduled_tasks > private.
+  You can review which tasks are disabled in "src\modules\scheduled_tasks\private".
 
   If you use a specific feature, do not disable the related task.
     Add 'SkipTask = $true' to use the default setting.
@@ -135,6 +134,3 @@ $TasksToConfig = @(
     'UserChoiceProtectionDriver'
 )
 $TasksToConfig | Set-ScheduledTaskStateGroup
-
-
-Stop-Transcript

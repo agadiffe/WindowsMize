@@ -12,19 +12,13 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Apps'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\apps"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -64,10 +58,10 @@ Set-GeneralAppsSetting -AutoArchiveApps 'Disabled' -AutoArchiveAppsGPO 'NotConfi
 
 Write-Section -Name 'Offline maps' -SubSection
 
-# --- Metered connection (default: Disabled)
+# --- Metered connection (default: Disabled) | old
 Set-OfflineMapsSetting -DownloadOverMeteredConnection 'Disabled'
 
-# --- Maps update (default: Enabled)
+# --- Maps update (default: Enabled) | old
 # GPO: Disabled | Enabled | NotConfigured
 Set-OfflineMapsSetting -AutoUpdateOnACAndWifi 'Disabled' -AutoUpdateOnACAndWifiGPO 'NotConfigured'
 
@@ -96,6 +90,3 @@ Write-Section -Name 'Resume' -SubSection
 Set-GeneralAppsSetting -AppsResume 'Disabled' -AppsResumeGPO 'NotConfigured'
 
 #endregion resume
-
-
-Stop-Transcript

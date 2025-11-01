@@ -12,19 +12,13 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Accounts'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\accounts"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -44,7 +38,7 @@ Write-Section -Name 'Windows Settings App - Accounts'
 Write-Section -Name 'Your info' -SubSection
 
 # --- Account setting
-# Enabled: also disable and gray out 'settings > bluetooth & devices > mobile devices'
+# Enabled: also disable and gray out "settings > bluetooth & devices > mobile devices".
 # GPO: CannotAddMicrosoftAccount | CannotAddOrLogonWithMicrosoftAccount | NotConfigured
 Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured'
 
@@ -102,6 +96,3 @@ Write-Section -Name 'Window Backup' -SubSection
 Set-WinBackupSetting -RememberAppsAndPrefsGPO 'DefaultOff'
 
 #endregion window backup
-
-
-Stop-Transcript

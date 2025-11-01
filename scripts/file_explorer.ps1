@@ -12,18 +12,12 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''File_explorer'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\src\modules\file_explorer"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                                  File Explorer
@@ -205,7 +199,7 @@ Set-FileExplorerSetting -ShowGallery 'Disabled'
 # --- Show removable drives only in 'This PC' (default: Disabled)
 Set-FileExplorerSetting -ShowRemovableDrivesOnlyInThisPC 'Enabled'
 
-# --- Max icon cache size (default: 512KB)
+# --- Max icon cache size (default: 512 KB)
 Set-FileExplorerSetting -MaxIconCacheSize 4096
 
 # --- Auto folder type detection (default: Enabled)
@@ -224,5 +218,3 @@ Set-FileExplorerSetting -AutoFolderTypeDetection 'Disabled'
 #Set-FileExplorerSetting -ConfirmFileDelete 'Disabled' -ConfirmFileDeleteGPO 'NotConfigured'
 
 #endregion miscellaneous
-
-Stop-Transcript

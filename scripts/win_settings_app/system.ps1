@@ -12,23 +12,13 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\System'' Module ...'
-$WindowsMizeModuleNames = @(
-    'optional_features'
-    'system'
-)
-Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\settings_app\$_" })
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\system"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -101,132 +91,14 @@ Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 #                      Notifications
 #==========================================================
 #region notifications
-
-Write-Section -Name 'Notifications' -SubSection
-
-#             Notifications
-#=======================================
-
-# --- Notifications (default: Enabled)
-Set-NotificationsSetting -Notifications 'Disabled' -NotificationsGPO 'NotConfigured'
-
-# --- Allow notifications to play sounds (default: Enabled)
-Set-NotificationsSetting -PlaySounds 'Disabled'
-
-# --- Show notifications on the lock screen (default: Enabled)
-Set-NotificationsSetting -ShowOnLockScreen 'Disabled' -ShowOnLockScreenGPO 'NotConfigured'
-
-# --- Show reminders and incoming VoIP calls on the lock screen (default: Enabled)
-Set-NotificationsSetting -ShowRemindersAndIncomingCallsOnLockScreen 'Disabled'
-
-# --- Show notifications bell icon (default: Enabled)
-Set-NotificationsSetting -ShowBellIcon 'Disabled'
-
-#  Notifs from apps and other senders
-#=======================================
-
-$SenderNotifs = @(
-    'Apps'
-    'Autoplay'
-    'BatterySaver'
-    'MicrosoftStore'
-    'NotificationSuggestions'
-    'PrintNotification'
-    'Settings'
-    'StartupAppNotification'
-    'Suggested'
-    'WindowsBackup'
-)
-Set-NotificationsSetting -AppsAndOtherSenders $SenderNotifs -State 'Disabled'
-
-#          Additional settings
-#=======================================
-
-# --- Show the Windows welcome experience after updates and when signed in to show what's new and suggested (default: Enabled)
-Set-NotificationsSetting -ShowWelcomeExperience 'Disabled' -ShowWelcomeExperienceGPO 'NotConfigured'
-
-# --- Suggest ways to get the most out of Windows and finish setting up this device (default: Enabled)
-Set-NotificationsSetting -SuggestWaysToFinishConfig 'Disabled'
-
-# --- Get tips and suggestions when using Windows (default: Enabled)
-Set-NotificationsSetting -TipsAndSuggestions 'Disabled' -TipsAndSuggestionsGPO 'NotConfigured'
-
-#   Indicators from keyboard actions
-#=======================================
-
-# --- Position of on-screen indicators (default: BottomCenter)
-Set-NotificationsSetting -ScreenIndicatorsPosition 'BottomCenter'
-
+# See "scripts > win_settings_app > notifications.ps1"
 #endregion notifications
 
 #==========================================================
 #                    Power (& battery)
 #==========================================================
 #region power (& battery)
-
-Write-Section -Name 'Power (& battery)' -SubSection
-
-# --- Power Mode
-# Available only when using the Balanced power plan.
-# Applies only to the active power state (e.g. Laptop: PluggedIn or OnBattery).
-# State: BestPowerEfficiency | Balanced (default) | BestPerformance
-Set-PowerSetting -PowerMode 'Balanced'
-
-# --- Battery percentage (default: Disabled)
-Set-PowerSetting -BatteryPercentage 'Disabled'
-
-# Screen, sleep, & hibernate timeouts
-#=======================================
-
-# --- Turn my screen off after
-# --- Make my device sleep after
-# --- Make my device hibernate after
-# PowerSource: PluggedIn | OnBattery
-# PowerState: Screen | Sleep | Hibernate
-# Timeout: value in minutes | never: 0
-
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Screen'    -Timeout 3
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Sleep'     -Timeout 10
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Hibernate' -Timeout 60
-
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Screen'    -Timeout 3
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Sleep'     -Timeout 5
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -Timeout 30
-
-#             Energy saver
-#=======================================
-
-# --- Always use energy saver (default: Disabled)
-Set-EnergySaverSetting -AlwaysOn 'Disabled'
-
-# --- Turn energy saver on automatically when battery level is at
-# default: 30 | never: 0 | always: 100
-Set-EnergySaverSetting -TurnOnAtBatteryLevel 30
-
-# --- Lower screen brightness when using energy saver
-# If you use a custom value and turn off the feature in the GUI,
-# when you turn it back on, the default value will be used.
-# Enabled: 70 (default) (range 0-99) | Disabled: 100
-Set-EnergySaverSetting -LowerBrightness 70
-
-#  Lid, power & sleep button controls
-#=======================================
-
-# --- Pressing the power button will make my PC
-# --- Pressing the sleep button will make my PC
-# --- Closing the lid will make my PC
-# PowerSource: PluggedIn | OnBattery
-# ButtonControls: PowerButton | SleepButton | LidClose
-# Action: DoNothing | Sleep (default) | Hibernate | ShutDown | DisplayOff
-
-Set-PowerSetting -PowerSource 'PluggedIn' -ButtonControls 'PowerButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'PluggedIn' -ButtonControls 'SleepButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'PluggedIn' -ButtonControls 'LidClose'    -Action 'Sleep'
-
-Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'PowerButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'SleepButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'LidClose'    -Action 'Sleep'
-
+# See "scripts > power_&_Battery.ps1"
 #endregion power (& battery)
 
 #==========================================================
@@ -357,7 +229,7 @@ Write-Section -Name 'Recovery' -SubSection
 # --- Quick Machine Recovery
 # default: Enabled on Home | Disabled on Pro/Enterprise
 # Disabled: Also disable AutoRemediation.
-Set-QuickMachineRecovery -State 'Disabled'
+Set-QuickMachineRecovery -State 'Enabled'
 
 # --- Continue searching if a solution isn't found (default: Disabled)
 #   Look for solutions every (RetryInterval)
@@ -419,51 +291,3 @@ Set-ClipboardSetting -SyncAcrossDevices 'Disabled' -SyncAcrossDevicesGPO 'NotCon
 #Set-ClipboardSetting -SuggestedActions 'Disabled'
 
 #endregion clipboard
-
-#==========================================================
-#                    Optional features
-#==========================================================
-#region optional features
-
-Write-Section -Name 'Optional features' -SubSection
-
-Export-InstalledWindowsCapabilitiesNames
-Export-EnabledWindowsOptionalFeaturesNames
-
-$OptionalFeatures = @(
-    # --- Features
-    'ExtendedThemeContent'
-    'FacialRecognitionWindowsHello'
-    'InternetExplorerMode'
-    'MathRecognizer'
-    'NotepadSystem'
-    'OneSync'
-    'OpenSSHClient'
-    'PrintManagement'
-    'StepsRecorder'
-    'WMIC'
-    'VBScript'
-    'WindowsFaxAndScan'
-    'WindowsMediaPlayerLegacy'
-    'WindowsPowerShellISE'
-    'WordPad'
-    'XpsViewer'
-
-    # --- More Windows features
-    'InternetPrintingClient'
-    'MediaFeatures'
-    'MicrosoftXpsDocumentWriter'
-    'NetFramework48TcpPortSharing'
-    'RemoteDesktopConnection'
-    'RemoteDiffCompressionApiSupport'
-    'SmbDirect'
-    'WindowsPowerShell2'
-    'WindowsRecall'
-    'WorkFoldersClient'
-)
-$OptionalFeatures | Remove-PreinstalledOptionalFeature
-
-#endregion optional features
-
-
-Stop-Transcript

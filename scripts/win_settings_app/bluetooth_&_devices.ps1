@@ -12,19 +12,13 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Bluetooth_&_devices'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\bluetooth_&_devices"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
-#   GPO:   Disabled | NotConfigured # GPO's default is always NotConfigured.
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -95,6 +89,47 @@ Set-MobileDevicesSetting -ShowUsageSuggestions 'Disabled'
 #endregion mobile devices
 
 #==========================================================
+#                         AutoPlay
+#==========================================================
+#region autoplay
+
+Write-Section -Name 'AutoPlay' -SubSection
+
+# --- Use AutoPlay for all media and devices (default: Enabled)
+Set-AutoPlaySetting -AutoPlay 'Enabled' -AutoPlayGPO 'NotConfigured'
+
+#       Choose AutoPlay defaults
+#=======================================
+
+# --- Removable Drive
+# State: Default (default) | NoAction | OpenFolder | AskEveryTime
+Set-AutoPlaySetting -RemovableDrive 'OpenFolder'
+
+# --- Memory card
+# State: Default (default) | NoAction | OpenFolder | AskEveryTime
+Set-AutoPlaySetting -MemoryCard 'OpenFolder'
+
+#endregion autoplay
+
+#==========================================================
+#                           USB
+#==========================================================
+#region usb
+
+Write-Section -Name 'USB' -SubSection
+
+# --- Connection notifications (if issues with USB) (default: Enabled)
+Set-UsbSetting -NotifOnErrors 'Enabled'
+
+# --- USB battery saver (default: Enabled)
+Set-UsbSetting -BatterySaver 'Enabled'
+
+# --- Show a notification if this PC is charging slowly over USB (default: Enabled)
+Set-UsbSetting -NotifOnWeakCharger 'Enabled'
+
+#endregion usb
+
+#==========================================================
 #                          Mouse
 #==========================================================
 #region mouse
@@ -129,6 +164,7 @@ Set-MouseSetting -ScrollingDirection 'DownMotionScrollsDown'
 
 #endregion mouse
 
+<#
 #==========================================================
 #                         Touchpad
 #==========================================================
@@ -222,47 +258,4 @@ $FourFingersSwipesCustom = @{
 #Set-TouchpadSetting -FourFingersSwipes 'Custom' @FourFingersSwipesCustom
 
 #endregion touchpad
-
-#==========================================================
-#                         AutoPlay
-#==========================================================
-#region autoplay
-
-Write-Section -Name 'AutoPlay' -SubSection
-
-# --- Use AutoPlay for all media and devices (default: Enabled)
-Set-AutoPlaySetting -AutoPlay 'Enabled' -AutoPlayGPO 'NotConfigured'
-
-#       Choose AutoPlay defaults
-#=======================================
-
-# --- Removable Drive
-# State: Default (default) | NoAction | OpenFolder | AskEveryTime
-Set-AutoPlaySetting -RemovableDrive 'OpenFolder'
-
-# --- Memory card
-# State: Default (default) | NoAction | OpenFolder | AskEveryTime
-Set-AutoPlaySetting -MemoryCard 'OpenFolder'
-
-#endregion autoplay
-
-#==========================================================
-#                           USB
-#==========================================================
-#region usb
-
-Write-Section -Name 'USB' -SubSection
-
-# --- Connection notifications (if issues with USB) (default: Enabled)
-Set-UsbSetting -NotifOnErrors 'Enabled'
-
-# --- USB battery saver (default: Enabled)
-Set-UsbSetting -BatterySaver 'Enabled'
-
-# --- Show a notification if this PC is charging slowly over USB (default: Enabled)
-Set-UsbSetting -NotifOnWeakCharger 'Enabled'
-
-#endregion usb
-
-
-Stop-Transcript
+#>

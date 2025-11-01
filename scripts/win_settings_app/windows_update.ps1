@@ -12,18 +12,12 @@
 #Requires -Version 7.5
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
-
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
-Start-Transcript -Path "$(Get-LogPath -User)\win_settings_app_$ScriptFileName.log"
-
 Write-Output -InputObject 'Loading ''Win_settings_app\Windows_update'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\windows_update"
 
 
 # Parameters values (if not specified):
-#   State: Disabled | Enabled # State's default is in parentheses next to the title.
+#   State: Disabled | Enabled
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -83,6 +77,3 @@ Set-WinUpdateSetting -DeliveryOptimization 'Disabled' -DeliveryOptimizationGPO '
 
 # --- Setting page visibility (default: Enabled)
 Set-WinUpdateSetting -InsiderProgramPageVisibility 'Disabled'
-
-
-Stop-Transcript
