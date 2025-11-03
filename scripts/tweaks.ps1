@@ -149,6 +149,10 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
+# --- Disable GameBar Links
+# Fix error if XBox GameBar is uninstalled.
+#Disable-GameBarLinks
+
 # --- Copy/Paste dialog : Show more details (default: Disabled)
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 

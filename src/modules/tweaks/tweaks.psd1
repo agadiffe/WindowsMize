@@ -38,6 +38,7 @@
         'Set-StartupShutdownVerboseStatusMessages'
 
         # --- user_interface_and_experience
+        'Disable-GameBarLinks'
         'Set-ActionCenterLayout'
         'Set-CopyPasteDialogShowMoreDetails'
         'Set-HelpTips'
