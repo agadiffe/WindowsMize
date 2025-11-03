@@ -282,6 +282,11 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
   Microsoft Store > Library (or Downloads) > Check for updates (run it at least twice)
 
 
+## ♾️ Links
+Special thanks to [Brink](https://www.elevenforum.com/members/brink.2/) and [ElevenForum](https://elevenforum.com/) team (make sure to allow them in Brave).  
+If you have suggestions or comments, I made a post there : [WindowsMize on ElevenForum](https://www.elevenforum.com/t/windowsmize-powershell-script-to-automate-and-customize-the-configuration-of-windows.32302/).
+
+
 ## 💙 Support
 If you find a bug, open an issue.  
 If you like the project, leave a ⭐.  
