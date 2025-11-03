@@ -7,6 +7,7 @@
     Set-TaskbarSetting
         [-SearchBox {Hide | IconOnly | Box | IconAndLabel}]
         [-SearchBoxGPO {Hide | IconOnly | Box | IconAndLabel | NotConfigured}]
+        [-AskCopilot {Disabled | Enabled}]
         [-TaskView {Disabled | Enabled}]
         [-TaskViewGPO {Disabled | NotConfigured}]
         [-ResumeAppNotif {Disabled | Enabled}]
@@ -47,6 +48,7 @@ function Set-TaskbarSetting
         # taskbar items
         [SearchBoxMode] $SearchBox,
         [GpoSearchBoxMode] $SearchBoxGPO,
+        [state] $AskCopilot,
         [state] $TaskView,
         [GpoStateWithoutEnabled] $TaskViewGPO,
         [state] $ResumeAppNotif,
@@ -90,6 +92,7 @@ function Set-TaskbarSetting
         {
             'SearchBox'                       { Set-TaskbarSearchBox -Value $SearchBox }
             'SearchBoxGPO'                    { Set-TaskbarSearchBox -GPO $SearchBoxGPO }
+            'AskCopilot'                      { Set-TaskbarAskCopilot -State $AskCopilot }
             'TaskView'                        { Set-TaskbarTaskView -State $TaskView }
             'TaskViewGPO'                     { Set-TaskbarTaskView -GPO $TaskViewGPO }
             'ResumeAppNotif'                  { Set-TaskbarResumeAppNotif -State $ResumeAppNotif }

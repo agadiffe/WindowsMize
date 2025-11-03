@@ -101,6 +101,9 @@ Write-Section -Name 'Taskbar' -SubSection
 # GPO: Hide | IconOnly | Box | IconAndLabel | NotConfigured
 Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 
+# --- Ask Copilot (default: Disabled)
+Set-TaskbarSetting -AskCopilot 'Disabled'
+
 # --- Task view (default: Enabled)
 Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
 
