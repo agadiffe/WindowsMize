@@ -18,6 +18,7 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\defender_secur
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -146,7 +147,6 @@ Set-DefenderNotificationsSetting -DynamicLockProblems 'Enabled'
 Write-Section -Name 'Miscellaneous' -SubSection
 
 # --- Watson events report
-# GPO: Disabled | NotConfigured
 Set-DefenderSetting -WatsonEventsReportGPO 'Disabled'
 
 #endregion miscellaneous

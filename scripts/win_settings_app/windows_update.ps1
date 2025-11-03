@@ -18,6 +18,7 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\windows_update
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -33,7 +34,6 @@ Write-Section -Name 'Windows Settings App - Windows Update'
 Set-WinUpdateSetting -GetLatestAsSoonAsAvailable 'Disabled' -GetLatestAsSoonAsAvailableGPO 'NotConfigured'
 
 # --- Pause updates
-# GPO: Disabled | NotConfigured
 Set-WinUpdateSetting -PauseUpdatesGPO 'NotConfigured'
 
 #           Advanced options
@@ -51,7 +51,7 @@ Set-WinUpdateSetting -GetMeUpToDate 'Disabled'
 Set-WinUpdateSetting -DownloadOverMeteredConnections 'Disabled' -DownloadOverMeteredConnectionsGPO 'NotConfigured'
 
 # --- Notify me when a restart is required to finish updating (default: Disabled)
-# GPO: Disabled (also disable 'Get me up to date') | NotConfigured
+# Disabled: also disable 'Get me up to date'
 Set-WinUpdateSetting -RestartNotification 'Enabled' -RestartNotificationGPO 'NotConfigured'
 
 # --- Active hours

@@ -18,6 +18,7 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\system_properties"
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                                System Properties
@@ -35,7 +36,6 @@ Write-Section -Name 'Hardware' -SubSection
 
 # --- Device installation settings (default: Enabled)
 #   Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
-# GPO: Disabled | NotConfigured
 Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 
 #endregion hardware
@@ -126,15 +126,12 @@ Set-SystemFailureSetting -AlwaysKeepMemoryDumpOnLowDiskSpace 'Disabled'
 
 Write-Section -Name 'System protection' -SubSection
 
-# --- Protection settings
+# --- Protection settings (default: Enabled)
 # Also controlled by the group 'Services & Scheduled Tasks > WindowsBackupAndSystemRestore' in the
 # file 'scripts\services_and_scheduled_tasks.ps1'. The services are left to default state 'Manual'.
 
 # AllDrivesDisabled: turn off System Restore
 # Drive: drive to config (e.g. 'C:')
-# State: Disabled | Enabled (default)
-# GPO: Disabled | NotConfigured
-
 Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
 #Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
 

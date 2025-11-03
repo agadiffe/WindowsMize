@@ -230,7 +230,7 @@ Set-DisplayModeChangeAnimation -State 'Enabled'
 Set-EaseOfAccessReadScanSection -State 'Disabled'
 
 # --- File History
-Set-FileHistory -GPO 'NotConfigured'
+Set-FileHistory -GPO 'Disabled'
 
 # --- Font providers
 # GPO: Disabled | Enabled | NotConfigured
@@ -256,7 +256,7 @@ Set-SensorsPermission -GPO 'NotConfigured'
 Set-ShareShowDragTrayOnTopScreen -State 'Disabled'
 
 # --- Taskbar : Last Active Click (default: Disabled)
-Set-TaskbarLastActiveClick -State 'Disabled'
+#Set-TaskbarLastActiveClick -State 'Disabled'
 
 # --- Windows help and support : F1Key (default: Enabled)
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'

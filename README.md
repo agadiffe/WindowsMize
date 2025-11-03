@@ -23,12 +23,6 @@ Long term: automate step 4.
 - 31 script files based on 26 Powershell modules.
 
 
-## 💙 Support
-If you find a bug, open an issue.  
-If you like the project, leave a ⭐.  
-Thanks.
-
-
 ## 💫 Features
 ### 🖥️ Windows settings
 Equivalent of the Windows GUI settings app : Start > all apps > settings.  
@@ -143,14 +137,28 @@ These script files are located in the "scripts" folder.
 
 You can uncomment or comment the script names to execute or not the corresponding script.  
 Example:  
-To execute only the "file_explorer" settings, comment everything except "file_explorer".
+To execute only "Telemetry & Annoyances", "file_explorer" and some others:  
+comment everything except the script files you want to run.
 
 ```powershell
 $ScriptsToExecute = @(
-    #'apps_management\debloat'
+    # --- Apps Management
+    'apps_management\debloat'
     #'apps_management\install'
     [...]
+    # --- System & Tweaks
     'file_explorer'
+    [...]
+    'tweaks'
+
+    # --- Telemetry & Annoyances
+    'telemetry'
+    'win_settings_app\defender_security_center'
+    'win_settings_app\privacy_&_security'
+    'win_settings_app\notifications'
+    'win_settings_app\start_&_taskbar'
+
+    # --- Win Settings App
     [...]
     #'win_settings_app\windows_update'
 )
@@ -165,10 +173,7 @@ The accepted values for these parameters are below the setting title.
 # State: Disabled | Enabled
 # GPO: Disabled | NotConfigured
 Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
-```
-
-```powershell
-Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
+#Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
 ```
 
 ### Function execution
@@ -184,7 +189,7 @@ Disable-PowerShellTelemetry
 
 To comment an entire section : begin with "<#" and end with "#>".  
 Example:  
-In "scripts\win_settings_app\bluetooth_&_devices.ps1", "Touchpad" is commented by default.
+In "Win Settings app > Bluetooth & Devices.ps1 : "Touchpad" is commented by default.
 ```powershell
 <#
 # --- Touchpad
@@ -256,11 +261,10 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
 
 
 ## 📌 Remarks
-- The Powershell modules source code have been design to also serve as documention.  
-  It is easily organized to find the registry value of a specific setting .  
-  Example:  
-  Lot of settings have comments at the top of their ps1 file.  
-  Every GPO settings have their path, name and values in comments.
+- The Powershell modules source code is designed to also serve as documention.  
+  PS1 file often includes header comments.  
+  The structure allows quick navigation to identify the registry values associated with any specific setting.  
+  All GPO settings include references to their corresponding paths, names, and registry values.
   ```powershell
   # gpo\ computer config > administrative tpl > windows components > data collection and preview builds
   #   do not show feedback notifications
@@ -276,3 +280,9 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
 - Make sure your Windows is fully updated.  
   Settings > Windows Update > Check for updates  
   Microsoft Store > Library (or Downloads) > Check for updates (run it at least twice)
+
+
+## 💙 Support
+If you find a bug, open an issue.  
+If you like the project, leave a ⭐.  
+Thanks.

@@ -18,6 +18,7 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\gaming"
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                              Windows Settings App
@@ -36,7 +37,6 @@ Set-GamingSetting -OpenGameBarWithController 'Disabled'
 Set-GamingSetting -UseViewMenuAsGuideButtonInApps 'Disabled'
 
 # --- Captures: Record what happened (default: Disabled)
-# GPO: Disabled | NotConfigured
 Set-GamingSetting -GameRecording 'Disabled' -GameRecordingGPO 'NotConfigured'
 
 # --- Game Mode (default: Enabled)

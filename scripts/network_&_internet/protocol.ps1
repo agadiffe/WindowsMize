@@ -19,6 +19,7 @@ Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\m
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                                     Network
@@ -133,7 +134,6 @@ Set-NetIcmpRedirects -State 'Disabled'
 Set-NetIPSourceRouting -State 'Disabled'
 
 # --- Link Local Multicast Name Resolution (LLMNR)
-# GPO: Disabled | NotConfigured
 # Disabled: Might fail to resolve hostname to IP address.
 #   e.g. File Explorer > Network > Computer_Name : error path not found.
 Set-NetLlmnr -GPO 'NotConfigured'
@@ -150,7 +150,6 @@ Set-NetLmhosts -State 'Disabled'
 #Set-NetMulicastDns -State 'Disabled'
 
 # --- Smart Multi-Homed Name Resolution
-# GPO: Disabled | NotConfigured
 Set-NetSmhnr -GPO 'Disabled'
 
 # --- Web Proxy Auto-Discovery protocol (WPAD) (default: Enabled)

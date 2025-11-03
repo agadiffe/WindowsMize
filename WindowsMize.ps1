@@ -28,9 +28,11 @@ Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 # Uncomment or comment the script you want to execute or not.
 $ScriptsToExecute = @(
+    # --- Apps Management
     'apps_management\debloat'
     'apps_management\install'
 
+    # --- Apps Settings
     #'apps_settings\Acrobat_Reader'
     'apps_settings\Brave_VLC_Others'
     #'apps_settings\MS_Office'
@@ -38,23 +40,27 @@ $ScriptsToExecute = @(
     'apps_settings\Notepad_Photos_SnippingTool'
     'apps_settings\Terminal'
 
+    # --- Network & Internet
     'network\network_&_internet'
     'network\firewall'
     'network\protocol'
 
+    # --- System & Tweaks
     'file_explorer'
     'power_&_battery'
     'system_properties'
     'services_and_scheduled_tasks'
     #'ramdisk'
-
     'tweaks'
+
+    # --- Telemetry & Annoyances
     'telemetry'
     'win_settings_app\defender_security_center'
     'win_settings_app\privacy_&_security'
     'win_settings_app\notifications'
     'win_settings_app\start_&_taskbar'
 
+    # --- Win Settings App
     'win_settings_app\system'
     'win_settings_app\bluetooth_&_devices'
     'win_settings_app\personnalization'

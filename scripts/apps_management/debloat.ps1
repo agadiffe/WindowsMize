@@ -73,7 +73,7 @@ Remove-OneDrive
 Set-OneDriveNewUserAutoInstall -State 'Disabled'
 
 # --- Microsoft Windows Malicious Software Removal Tool
-#Remove-MSMaliciousSoftwareRemovalTool
+Remove-MSMaliciousSoftwareRemovalTool
 
 $PreinstalledAppsToRemove = @(
     'BingSearch'
