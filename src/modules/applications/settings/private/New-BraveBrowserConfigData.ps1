@@ -183,6 +183,7 @@ function New-BraveBrowserConfigData
                 "tabs": {
                     "vertical_tabs_enabled": false,
                     "vertical_tabs_show_title_on_window": true,
+                    "vertical_tabs_hide_completely_when_collapsed": false,
                     "vertical_tabs_collapsed": false,
                     "vertical_tabs_floating_enabled": true, // expand on mouseover when collapsed
                     "vertical_tabs_expanded_state_per_window": true, // expand independently per window
@@ -486,6 +487,7 @@ function New-BraveBrowserConfigData
                     "images": 1,
                     "javascript_optimizer": 2, // v8 optimizer
                     "local_fonts": 2, // fonts
+                    "local_network_access": 2,
                     "media_stream_camera": 2,
                     "media_stream_mic": 2,
                     "midi_sysex": 2, // MIDI device control & reprogram
