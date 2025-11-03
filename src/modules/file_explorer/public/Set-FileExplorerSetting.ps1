@@ -14,6 +14,7 @@
         [-ShowRecentFiles {Disabled | Enabled}]
         [-ShowFrequentFolders {Disabled | Enabled}]
         [-ShowCloudFiles {Disabled | Enabled}]
+        [-ShowRecommendedSection {Disabled | Enabled}]
 
         # View
         [-ShowIconsOnly {Disabled | Enabled}]
@@ -51,6 +52,7 @@
         [-SearchFileNamesAndContents {Disabled | Enabled}]
 
         # Miscellaneous
+        [-ShowNavigationPane {Disabled | Enabled}]
         [-ShowHome {Disabled | Enabled}]
         [-ShowGallery {Disabled | Enabled}]
         [-ShowRemovableDrivesOnlyInThisPC {Disabled | Enabled}]
@@ -85,6 +87,7 @@ function Set-FileExplorerSetting
         [state] $ShowRecentFiles,
         [state] $ShowFrequentFolders,
         [state] $ShowCloudFiles,
+        [state] $ShowRecommendedSection,
 
         # View
         [state] $ShowIconsOnly,
@@ -123,6 +126,7 @@ function Set-FileExplorerSetting
         [state] $SearchFileNamesAndContents,
 
         # Miscellaneous
+        [state] $ShowNavigationPane,
         [state] $ShowHome,
         [state] $ShowGallery,
         [state] $ShowRemovableDrivesOnlyInThisPC,
@@ -153,6 +157,7 @@ function Set-FileExplorerSetting
             'ShowRecentFiles'                  { Set-FileExplorerShowRecentFiles -State $ShowRecentFiles }
             'ShowFrequentFolders'              { Set-FileExplorerShowFrequentFolders -State $ShowFrequentFolders }
             'ShowCloudFiles'                   { Set-FileExplorerShowCloudFiles -State $ShowCloudFiles }
+            'ShowRecommendedSection'           { Set-FileExplorerShowRecommendedSection -State $ShowRecommendedSection }
 
             # View
             'ShowIconsOnly'                    { Set-FileExplorerShowIconsOnly -State $ShowIconsOnly }
@@ -191,6 +196,7 @@ function Set-FileExplorerSetting
             'SearchFileNamesAndContents'       { Set-FileExplorerSearchFileNamesAndContents -State $SearchFileNamesAndContents }
 
             # Miscellaneous
+            'ShowNavigationPane'               { Set-FileExplorerNavigationPane -State $ShowNavigationPane }
             'ShowHome'                         { Set-FileExplorerShowHome -State $ShowHome }
             'ShowGallery'                      { Set-FileExplorerShowGallery -State $ShowGallery }
             'ShowRemovableDrivesOnlyInThisPC'  { Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State $ShowRemovableDrivesOnlyInThisPC }

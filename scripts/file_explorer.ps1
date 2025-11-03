@@ -18,6 +18,7 @@ Import-Module -Name "$PSScriptRoot\..\src\modules\file_explorer"
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                                  File Explorer
@@ -54,8 +55,13 @@ Set-FileExplorerSetting -ShowRecentFiles 'Enabled'
 # --- Show frequently used folders (default: Enabled)
 Set-FileExplorerSetting -ShowFrequentFolders 'Disabled'
 
-# --- Show files from Office.com (default: Enabled)
+# --- Include account-based insights, recent, favorite, and recommended files (default: Enabled)
+# (aka Show files from Office.com)
 Set-FileExplorerSetting -ShowCloudFiles 'Disabled'
+
+# --- Recommended Section (default: Enabled)
+# Requires "Show files from Office.com".
+Set-FileExplorerSetting -ShowRecommendedSection 'Disabled'
 
 #endregion general
 
@@ -190,6 +196,9 @@ Set-FileExplorerSetting -DontUseSearchIndex 'Enabled'
 
 Write-Section -Name 'Miscellaneous' -SubSection
 
+# --- Show Navigation Pane (default: Enabled)
+#Set-FileExplorerSetting -ShowNavigationPane 'Enabled'
+
 # --- Show Home (default: Enabled)
 Set-FileExplorerSetting -ShowHome 'Enabled'
 
@@ -210,11 +219,9 @@ Set-FileExplorerSetting -AutoFolderTypeDetection 'Disabled'
 
 # --- Recycle Bin (default: Enabled)
 # Disabled: don't move files to the Recycle Bin. Remove files immediately when deleted.
-# GPO: Disabled | NotConfigured
 #Set-FileExplorerSetting -RecycleBin 'Enabled' -RecycleBinGPO 'NotConfigured'
 
 # --- Display delete confirmation dialog (default: Disabled)
-# GPO: Disabled | NotConfigured
 #Set-FileExplorerSetting -ConfirmFileDelete 'Disabled' -ConfirmFileDeleteGPO 'NotConfigured'
 
 #endregion miscellaneous

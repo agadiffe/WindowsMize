@@ -2,6 +2,8 @@
 #                              File Explorer - General > Show Files From Office.com
 #=================================================================================================================
 
+# Setting renamed to : Include account-based insights, recent, favorite, and recommended files
+
 <#
 .SYNTAX
     Set-FileExplorerShowCloudFiles
