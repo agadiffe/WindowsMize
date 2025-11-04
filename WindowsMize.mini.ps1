@@ -97,8 +97,8 @@ Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 Set-Recall -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-Widgets -GPO 'Disabled'
 Set-MicrosoftStorePushToInstall -GPO 'Disabled'
-Set-Copilot -GPO 'Disabled'
-Set-Cortana -GPO 'Disabled'
+Set-Copilot -GPO 'Disabled' # old
+Set-Cortana -GPO 'Disabled' # old
 
 Export-DefaultAppxPackagesNames
 Remove-MicrosoftEdge
@@ -370,8 +370,8 @@ Set-BraveBrowserSettings
 
 # src\modules\applications\settings\config_files
 $AppsToConfig = @(
-    #'KeePassXC'
-    #'qBittorrent'
+    'KeePassXC'
+    'qBittorrent'
     'VLC'
     #'VSCode'
     #'Git'
@@ -602,8 +602,10 @@ Export-DefaultNetAdapterProtocolsState
 $AdapterProtocolsToDisable = @(
     'LltdIo'
     'LltdResponder'
-    'FileSharingClient'
-    'FileSharingServer'
+    #'IPv4'
+    #'IPv6'
+    #'FileSharingClient' # needed by NetworkDiscovery (File Explorer > Network)
+    #'FileSharingServer' # needed by NetworkDiscovery (File Explorer > Network)
     'BridgeDriver'
     'QosPacketScheduler'
     'HyperVExtensibleVirtualSwitch'
@@ -612,17 +614,11 @@ $AdapterProtocolsToDisable = @(
 )
 Set-NetAdapterProtocol -Name $AdapterProtocolsToDisable -State 'Disabled'
 
-$AdapterProtocolsToEnable = @(
-    'IPv4'
-    'IPv6'
-)
-#Set-NetAdapterProtocol -Name $AdapterProtocolsToEnable -State 'Enabled'
-
 # --- System Drivers (Services)
 $SystemDriversToConfig = @(
-    'BridgeDriver'
-    'NetBiosDriver'
-    'NetBiosOverTcpIpDriver'
+    'BridgeDriver' # old ?
+    'NetBiosDriver' # needed by old pc/hardware: File and Printer Sharing
+    'NetBiosOverTcpIpDriver' # legacy/old | needed by old pc/hardware: File and Printer Sharing
     'LldpDriver'
     'LltdIoDriver'
     'LltdResponderDriver'
@@ -637,7 +633,7 @@ $SystemDriversToConfig = @(
 Set-NetBiosOverTcpIP -State 'Disabled' # Disabled | Enabled | Default
 Set-NetIcmpRedirects -State 'Disabled'
 Set-NetIPSourceRouting -State 'Disabled'
-Set-NetLlmnr -GPO 'NotConfigured'
+#Set-NetLlmnr -GPO 'NotConfigured' # needed by NetworkDiscovery (File Explorer > Network)
 Set-NetLmhosts -State 'Disabled'
 #Set-NetMulicastDns -State 'Disabled'
 Set-NetSmhnr -GPO 'Disabled'
@@ -783,7 +779,7 @@ $ButtonControlsSettings | Set-PowerSetting
 #region system properties
 
 # --- Miscellaneous
-Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
+Set-ManufacturerAppsAutoDownload -State 'Enabled' -GPO 'NotConfigured'
 
 # CustomSize | SystemManaged | NoPagingFile
 Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 4096 -MaximumSize 4096 # MB
@@ -866,8 +862,8 @@ $ServicesToConfig = @(
     #'NetworkDataUsageDriver'
 
     # --- Windows
-    'Features'      # adjust to your needs: Features.ps1
-    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1
+    'Features'      # adjust to your needs: Features.ps1 (small file) (e.g. SysMain (disabled))
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 : everything should be ok (not small file).
 
     #'Autoplay'
     #'Bluetooth'
@@ -876,14 +872,14 @@ $ServicesToConfig = @(
     'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
-    'FileAndPrinterSharing'
+    #'FileAndPrinterSharing' # needed by NetworkDiscovery (File Explorer > Network)
     'HyperV'
     'MicrosoftEdge' # do not disable if you use Edge.
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
-    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing. For a Printer: SSD service.
-    'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' service.
+    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
+    'Printer' # Local Printer are left to default (Spooler & PrintNotify). Update ps1 file if desired.
     'RemoteDesktop'
     #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'
@@ -905,6 +901,8 @@ $ServicesToConfig | Set-ServiceStartupTypeGroup
 
 # --- Scheduled Tasks
 Export-DefaultScheduledTasksState
+
+# Everything should be ok/harmless.
 
 # src\modules\scheduled_tasks\private
 $TasksToConfig = @(
@@ -942,17 +940,17 @@ $AppToRamDisk = @(
 #region tweaks
 
 # --- Security, privacy and networking
-Set-HomeGroup -GPO 'Disabled'
+Set-HomeGroup -GPO 'Disabled' # old
 Set-Hotspot2 -State 'Disabled'
-#Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
+Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
 Set-LockScreenCameraAccess -GPO 'Disabled'
 Set-MessagingCloudSync -GPO 'Disabled'
-Set-NotificationsNetworkUsage -GPO 'NotConfigured'
+#Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 Set-PasswordExpiration -State 'Disabled'
 Set-PasswordRevealButton -GPO 'Disabled'
 Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
 Set-PrintingOverHttp -GPO 'Disabled'
-Set-WifiSense -GPO 'Disabled'
+Set-WifiSense -GPO 'Disabled' # old
 Set-Wpbt -State 'Disabled'
 
 # --- System and performance
@@ -964,7 +962,7 @@ Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
 Set-Short8Dot3FileName -State 'Disabled'
 #Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # read Set-Short8Dot3FileName.ps1
-Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured
+#Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured
 
 # --- User interface and experience
 $ActionCenterLayout = @(
@@ -991,14 +989,14 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-#Disable-GameBarLinks
+Disable-GameBarLinks # Fix error if XBox GameBar is uninstalled
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 Set-HelpTips -GPO 'Disabled'
 Set-MenuShowDelay -Value '200' # ms | range 50-1000
 Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
 Set-StartMenuAllAppsViewMode -Value 'Category' # Category | Grid | List
-Set-StartMenuRecommendedSection -GPO 'NotConfigured' # Enterprise/Edu only
+#Set-StartMenuRecommendedSection -GPO 'NotConfigured' # Enterprise/Edu only
 Set-SuggestedContent -State 'Disabled'
 Set-WindowsExperimentation -GPO 'Disabled'
 Set-WindowsInputExperience -State 'Disabled' # don't disable if touchscreen
@@ -1010,7 +1008,7 @@ Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
 
 # --- Windows features and settings
 Move-CharacterMapShortcutToWindowsTools
-Set-DisplayModeChangeAnimation -State 'Enabled'
+#Set-DisplayModeChangeAnimation -State 'Enabled'
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
 #Set-EventLogLocation -Default
 Set-EaseOfAccessReadScanSection -State 'Disabled'
@@ -1109,7 +1107,7 @@ $PrivacyWinPermUserData = @{
     TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO     = 'NotConfigured'
     ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'NotConfigured'
     ShowNotifsInSettingsApp = 'Disabled'
-    ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured'
+    ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured' # old
 }
 Set-WinPermissionsSetting @PrivacyWinPermUserData
 
@@ -1144,7 +1142,7 @@ $PrivacyWinPermSearch = @{
       CloudSearchMicrosoftAccount    = 'Disabled'
       CloudSearchWorkOrSchoolAccount = 'Disabled'
     CloudFileContentSearch = 'Disabled'
-    StartMenuWebSearch     = 'Disabled'
+    StartMenuWebSearch     = 'Disabled' # EEA
     FindMyFiles            = 'Classic' # Classic | Enhanced
     IndexEncryptedFilesGPO = 'Disabled' # Disabled | Enabled | NotConfigured
 }
@@ -1260,7 +1258,7 @@ Set-NotificationsSetting @NotificationsAdsSettings
 
 # --- Start
 $StartSettings = @{
-    #LayoutMode               = 'Default' # Default | MorePins | MoreRecommendations
+    #LayoutMode               = 'Default' # old / Default | MorePins | MoreRecommendations
     ShowAllPins              = 'Enabled'
     ShowRecentlyAddedApps    = 'Disabled' ; ShowRecentlyAddedAppsGPO   = 'NotConfigured'
     ShowMostUsedApps         = 'Disabled' ; ShowMostUsedAppsGPO        = 'NotConfigured' # Disabled | Enabled | NotConfigured
@@ -1367,7 +1365,7 @@ Set-NearbySharingSetting @NearbySharingSettings
 $MultitaskingSettingSettings = @{
     ShowAppsTabsOnSnapAndAltTab = 'ThreeMostRecent' ; ShowAppsTabsOnSnapAndAltTabGPO = 'NotConfigured' # TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled | NotConfigured
     TitleBarWindowShake         = 'Disabled'        ; TitleBarWindowShakeGPO         = 'NotConfigured'
-    ShowAllWindowsOnTaskbar     = 'CurrentDesktop'
+    ShowAllWindowsOnTaskbar     = 'CurrentDesktop' # AllDesktops | CurrentDesktop
     ShowAllWindowsOnAltTab      = 'CurrentDesktop' # AllDesktops | CurrentDesktop
 }
 Set-MultitaskingSetting @MultitaskingSettingSettings
@@ -1463,21 +1461,21 @@ Set-UsbSetting @UsbSettings
 # --- Mouse
 $MouseSettings = @{
     PrimaryButton                = 'Left' # Left | Right
-    PointerSpeed                 = 10
+    PointerSpeed                 = 10 # range: 1-20
     EnhancedPointerPrecision     = 'Enabled'
     ScrollInactiveWindowsOnHover = 'Enabled'
-    ScrollingDirection           = 'DownMotionScrollsDown'
+    ScrollingDirection           = 'DownMotionScrollsDown' # DownMotionScrollsDown | DownMotionScrollsUp
 }
 Set-MouseSetting @MouseSettings
 
 #Set-MouseSetting -WheelScroll 'OneScreen'
-Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3
+Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3 # range: 1-100
 
 # --- Touchpad
 $TouchpadSettings = @{
     Touchpad                     = 'Enabled'
     LeaveOnWithMouse             = 'Enabled'
-    CursorSpeed                  = 5
+    CursorSpeed                  = 5 # range: 1-10
     Sensitivity                  = 'Medium' # Max | High | Medium | Low
     TapToClick                   = 'Enabled'
     TwoFingersTapToRightClick    = 'Enabled'
@@ -1629,7 +1627,7 @@ $DateTimeSettings = @{
     AutoTimeZone             = 'Disabled'
     AutoTime                 = 'Enabled'
     ShowInSystemTray         = 'Enabled'
-    #ShowAbbreviatedValue     = 'Disabled' 
+    #ShowAbbreviatedValue     = 'Disabled' # old
     ShowSecondsInSystemClock = 'Disabled'
     ShowTimeInNotifCenter    = 'Enabled'
     #TimeServer               = 'Windows' # Cloudflare | Windows | NistGov | PoolNtpOrg
@@ -1637,18 +1635,19 @@ $DateTimeSettings = @{
 Set-DateAndTimeSetting @DateTimeSettings
 
 # --- Language & region
+# Install or remove: Basic typing, Handwriting, OCR, Speech recognition, Text-To-Speech.
 #Set-LanguageFeatures -State 'Disabled' # W11
 
 $LanguageAndRegionSettings = @{
     FirstDayOfWeek            = 'Monday'
-    ShortDateFormat           = 'dd-MMM-yy'
+    ShortDateFormat           = 'dd-MMM-yy' # 05-Apr-42
     Utf8ForNonUnicodePrograms = 'Enabled'
 }
 Set-LanguageAndRegionSetting @LanguageAndRegionSettings
 
 # --- Typing
 $TypingSettings = @{
-    ShowTextSuggestionsOnSoftwareKeyboard = 'Disabled'
+    ShowTextSuggestionsOnSoftwareKeyboard = 'Disabled' # old ?
     ShowTextSuggestionsOnPhysicalKeyboard = 'Disabled'
     MultilingualTextSuggestions           = 'Disabled'
     AutocorrectMisspelledWords            = 'Disabled'
@@ -1684,7 +1683,7 @@ Set-GamingSetting @GamingSettings
 $AccessibilitySettings = @{
     VisualEffectsAlwaysShowScrollbars       = 'Disabled'
     VisualEffectsAnimation                  = 'Enabled'
-    VisualEffectsNotificationsDuration      = 5
+    VisualEffectsNotificationsDuration      = 5 # s
     ContrastThemesKeyboardShorcut           = 'Disabled'
     NarratorKeyboardShorcut                 = 'Disabled'
     NarratorAutoSendTelemetry               = 'Disabled'
@@ -1713,12 +1712,13 @@ $WindowsUpdateSettings = @{
     UpdateOtherMicrosoftProducts   = 'Enabled'  ; UpdateOtherMicrosoftProductsGPO   = 'NotConfigured' # GPO: Enabled | NotConfigured
     GetMeUpToDate                  = 'Disabled'
     DownloadOverMeteredConnections = 'Disabled' ; DownloadOverMeteredConnectionsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    RestartNotification            = 'Disabled' ; RestartNotificationGPO            = 'NotConfigured'
+    RestartNotification            = 'Enabled' ; RestartNotificationGPO            = 'NotConfigured'
     DeliveryOptimization           = 'Disabled' ; DeliveryOptimizationGPO           = 'NotConfigured' # Disabled | LocalNetwork | InternetAndLocalNetwork | NotConfigured
     InsiderProgramPageVisibility   = 'Disabled'
 }
 Set-WinUpdateSetting @WindowsUpdateSettings
 
+# Values are in 24H clock format (range 0-23), Max range is 18 hours.
 #Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured' # State: Automatically | Manually
 Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHoursEnd 1
 #Set-WinUpdateSetting -ActiveHoursGPO 'Enabled' -ActiveHoursStart 7 -ActiveHoursEnd 1 # GPO: Enabled | NotConfigured

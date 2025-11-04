@@ -15,13 +15,13 @@ $ServicesList += @{
         @{
             DisplayName = 'Print Spooler'
             ServiceName = 'Spooler'
-            StartupType = 'Disabled'
+            StartupType = 'Automatic'
             DefaultType = 'Automatic'
         }
         @{
             DisplayName = 'Printer Extensions and Notifications'
             ServiceName = 'PrintNotify'
-            StartupType = 'Disabled'
+            StartupType = 'Manual'
             DefaultType = 'Manual'
         }
         @{

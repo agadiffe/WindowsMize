@@ -27,6 +27,14 @@ $ServicesList += @{
                            settings > apps > offline maps.'
         }
         @{
+            DisplayName = 'Encrypting File System (EFS)'
+            ServiceName = 'EFS'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'encrypt/access files or folders on NTFS file system volumes.
+                           files/folders > properties > advanced > encrypt contents to secure data.'
+        }
+        @{
             DisplayName = 'File History Service'
             ServiceName = 'fhsvc'
             StartupType = 'Disabled'
@@ -46,6 +54,13 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'settings > privacy & security > location.'
+        }
+        @{
+            DisplayName = 'Language Experience Service'
+            ServiceName = 'LxpSvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'needed to install additional Windows languages.'
         }
         @{
             DisplayName = 'Microsoft Passport'
@@ -99,6 +114,20 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'airplane mode.'
+        }
+        @{
+            DisplayName = 'Secondary Logon'
+            ServiceName = 'seclogon'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'Run as different user (option in the extended context menu).'
+        }
+        @{
+            DisplayName = 'SysMain'
+            ServiceName = 'SysMain'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
+            Comment     = 'Superfetch and memory compression.'
         }
         @{
             DisplayName = 'Windows Biometric Service'

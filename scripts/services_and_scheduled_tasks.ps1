@@ -62,8 +62,8 @@ $ServicesToConfig = @(
     #'NetworkDataUsageDriver'
 
     # --- Windows
-    'Features'      # adjust to your needs: Features.ps1
-    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1
+    'Features'      # adjust to your needs: Features.ps1 (small file) (e.g. SysMain (disabled))
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 : everything should be ok (not small file).
 
     #'Autoplay'
     #'Bluetooth'
@@ -72,14 +72,14 @@ $ServicesToConfig = @(
     'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
-    'FileAndPrinterSharing'
+    #'FileAndPrinterSharing'
     'HyperV'
     'MicrosoftEdge' # do not disable if you use Edge.
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
-    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing. For a Printer: SSD service.
-    'Printer' # To use a Printer, edit the .ps1 file and enable only: 'Spooler' service.
+    #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
+    'Printer' # Local Printer are left to default (Spooler & PrintNotify). Update ps1 file if desired.
     'RemoteDesktop'
     #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'
@@ -109,6 +109,7 @@ Export-DefaultScheduledTasksState
 
 <#
   You can review which tasks are disabled in "src\modules\scheduled_tasks\private".
+  Everything should be ok/harmless
 
   If you use a specific feature, do not disable the related task.
     Add 'SkipTask = $true' to use the default setting.

@@ -72,10 +72,12 @@ Set-NetAdapterProtocol -Name 'LltdResponder' -State 'Disabled'
 #Set-NetAdapterProtocol -Name 'IPv6' -State 'Enabled'
 
 # --- Client for Microsoft Networks (access other computers) (default: Enabled)
-Set-NetAdapterProtocol -Name 'FileSharingClient' -State 'Disabled'
+# Needed by NetworkDiscovery (File Explorer > Network)
+#Set-NetAdapterProtocol -Name 'FileSharingClient' -State 'Disabled'
 
 # --- File and Printer Sharing for Microsoft Networks (be accessible by other computers) (default: Enabled)
-Set-NetAdapterProtocol -Name 'FileSharingServer' -State 'Disabled'
+# Needed by NetworkDiscovery (File Explorer > Network)
+#Set-NetAdapterProtocol -Name 'FileSharingServer' -State 'Disabled'
 
 # --- Bridge Driver (default: Enabled) |  old ?
 Set-NetAdapterProtocol -Name 'BridgeDriver' -State 'Disabled'
@@ -136,7 +138,7 @@ Set-NetIPSourceRouting -State 'Disabled'
 # --- Link Local Multicast Name Resolution (LLMNR)
 # Disabled: Might fail to resolve hostname to IP address.
 #   e.g. File Explorer > Network > Computer_Name : error path not found.
-Set-NetLlmnr -GPO 'NotConfigured'
+#Set-NetLlmnr -GPO 'NotConfigured'
 
 # --- LAN Manager Hosts (LMHOSTS) (default: Enabled)
 Set-NetLmhosts -State 'Disabled'

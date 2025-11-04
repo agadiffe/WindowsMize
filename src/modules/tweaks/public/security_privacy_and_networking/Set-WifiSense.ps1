@@ -2,6 +2,8 @@
 #                                                   Wifi Sense
 #=================================================================================================================
 
+# old
+
 # Wifi Sense has been deprecated and removed from Windows 10 and 11.
 # Windows do not automatically connect to free public hotspots anymore.
 # This GPO is (probably) no longer functional. Doesn't hurt to disable it anyway.

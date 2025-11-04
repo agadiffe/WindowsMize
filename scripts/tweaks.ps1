@@ -33,14 +33,14 @@ Write-Section -Name 'Tweaks'
 
 Write-Section -Name 'Security, privacy and networking' -SubSection
 
-# --- HomeGroup
+# --- HomeGroup # old
 Set-HomeGroup -GPO 'Disabled'
 
 # --- Hotspot 2.0 (default: Enabled)
 Set-Hotspot2 -State 'Disabled'
 
 # --- Local Accounts Security Questions
-#Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
+Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
 
 # --- Lock screen camera access
 Set-LockScreenCameraAccess -GPO 'Disabled'
@@ -50,7 +50,7 @@ Set-MessagingCloudSync -GPO 'Disabled'
 
 # --- Notification network usage
 # Needed by Discord, Microsoft Teams, ... to get real-time notifs (if installed from MS Store).
-Set-NotificationsNetworkUsage -GPO 'NotConfigured'
+#Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 
 # --- Password expiration (default: Enabled)
 Set-PasswordExpiration -State 'Disabled'
@@ -64,7 +64,7 @@ Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
 # --- Printing Over HTTP
 Set-PrintingOverHttp -GPO 'Disabled'
 
-# --- Wifi sense
+# --- Wifi sense # old
 Set-WifiSense -GPO 'Disabled'
 
 # --- Windows Platform Binary Table (WPBT) (default: Enabled)
@@ -112,7 +112,7 @@ Set-Short8Dot3FileName -State 'Disabled'
 
 # --- Startup/Shutdown verbose status messages
 # GPO: Enabled | NotConfigured
-Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
+#Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'
 
 #endregion system
 
@@ -175,7 +175,7 @@ Set-StartMenuAllAppsViewMode -Value 'Category'
 
 # --- Start Menu - Recommended section
 # Enterprise and Education only.
-Set-StartMenuRecommendedSection -GPO 'NotConfigured'
+#Set-StartMenuRecommendedSection -GPO 'NotConfigured'
 
 # --- Suggested content (default: Enabled)
 Set-SuggestedContent -State 'Disabled'
@@ -218,7 +218,7 @@ Write-Section -Name 'Windows features and settings' -SubSection
 Move-CharacterMapShortcutToWindowsTools
 
 # --- Display Mode Change Animation (default: Enabled)
-Set-DisplayModeChangeAnimation -State 'Enabled'
+#Set-DisplayModeChangeAnimation -State 'Enabled'
 
 # --- Event log location
 # Path: path where to save the windows event logs.

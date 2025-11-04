@@ -36,7 +36,7 @@ Write-Section -Name 'Hardware' -SubSection
 
 # --- Device installation settings (default: Enabled)
 #   Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
-Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
+Set-ManufacturerAppsAutoDownload -State 'Enabled' -GPO 'NotConfigured'
 
 #endregion hardware
 
@@ -126,7 +126,7 @@ Set-SystemFailureSetting -AlwaysKeepMemoryDumpOnLowDiskSpace 'Disabled'
 
 Write-Section -Name 'System protection' -SubSection
 
-# --- Protection settings (default: Enabled)
+# --- Protection settings (default: Disabled)
 # Also controlled by the group 'Services & Scheduled Tasks > WindowsBackupAndSystemRestore' in the
 # file 'scripts\services_and_scheduled_tasks.ps1'. The services are left to default state 'Manual'.
 

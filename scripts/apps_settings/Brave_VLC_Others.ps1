@@ -58,8 +58,8 @@ Set-BraveBrowserSettings
 #>
 
 $AppsToConfig = @(
-    #'KeePassXC'
-    #'qBittorrent'
+    'KeePassXC'
+    'qBittorrent'
     'VLC'
     #'VSCode'
     #'Git'

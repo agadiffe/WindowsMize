@@ -25,6 +25,7 @@ Long term: automate step 4.
 
 ## 💫 Features
 ### 🖥️ Windows settings
+13 modules.  
 Equivalent of the Windows GUI settings app : Start > all apps > settings.  
 There are almost every settings, organized like the graphical's app.
 
@@ -89,8 +90,9 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
 </details>
 
 ### 💿 Applications
+2 modules.
 <details>
-  <summary>Removal | Installation | Configuration (click to expand)</summary>
+  <summary>Management (Removal | Installation ) & Configuration (click to expand)</summary>
 
 - Uninstall unwanted default apps (bloatware).  
   e.g. Edge, OneDrive, Start Menu sponsored apps, Widgets, BingSearch, ClipChamp, etc...
@@ -122,6 +124,7 @@ i.e. By default, history and cookies are not restored across logoff/logon.
 </details>
 
 ### ⚙️ Services & Scheduled Tasks
+2 modules.  
 Configure (e.g. disable) Windows Services & Scheduled Tasks (grouped by categories).
 
 There are a lot of comments about the services in "src > modules > services > private".  
@@ -283,7 +286,7 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
 
 
 ## ♾️ Links
-Special thanks to [Brink](https://www.elevenforum.com/members/brink.2/) and [ElevenForum](https://elevenforum.com/) team (make sure to allow them in Brave).  
+Special thanks to [ElevenForum](https://elevenforum.com/) (make sure to add it as exception in Brave).  
 If you have suggestions or comments, I made a post there : [WindowsMize on ElevenForum](https://www.elevenforum.com/t/windowsmize-powershell-script-to-automate-and-customize-the-configuration-of-windows.32302/).
 
 

@@ -106,7 +106,7 @@ Set-LanguageAndRegionSetting -Utf8ForNonUnicodePrograms 'Enabled'
 Write-Section -Name 'Typing' -SubSection
 
 # --- Show text suggestions when typing on the software keyboard (default: Disabled)
-# Only works on Windows 10 ? (setting not present on Windows 11)
+# Old ? Only works on Windows 10 (setting not present on Windows 11) ? 
 Set-TypingSetting -ShowTextSuggestionsOnSoftwareKeyboard 'Disabled'
 
 # --- Show text suggestions when typing on the physical keyboard (default: Disabled)

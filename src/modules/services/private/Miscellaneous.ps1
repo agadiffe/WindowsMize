@@ -154,14 +154,6 @@ $ServicesList += @{
                            activate background applications (IoT related).'
         }
         @{
-            DisplayName = 'Encrypting File System (EFS)'
-            ServiceName = 'EFS'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'encrypt/access files or folders on NTFS file system volumes.
-                           files/folders > properties > advanced > encrypt contents to secure data.'
-        }
-        @{
             DisplayName = 'Enterprise App Management Service'
             ServiceName = 'EntAppSvc'
             StartupType = 'Disabled'
@@ -209,13 +201,6 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'coordinates transactions between MSDTC and KTM.'
-        }
-        @{
-            DisplayName = 'Language Experience Service'
-            ServiceName = 'LxpSvc'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'needed to install additional Windows languages.'
         }
         @{
             DisplayName = 'MessagingService'
@@ -312,13 +297,6 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'Secondary Logon'
-            ServiceName = 'seclogon'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'Run as different user (option in the extended context menu).'
-        }
-        @{
             DisplayName = 'Still Image Acquisition Events'
             ServiceName = 'WiaRpc'
             StartupType = 'Disabled'
@@ -340,13 +318,6 @@ $ServicesList += @{
             ServiceName = 'TieringEngineService'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
-        }
-        @{
-            DisplayName = 'SysMain'
-            ServiceName = 'SysMain'
-            StartupType = 'Disabled'
-            DefaultType = 'Automatic'
-            Comment     = 'Superfetch and memory compression.'
         }
         @{
             DisplayName = 'Telephony'
