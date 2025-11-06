@@ -110,6 +110,11 @@ Set-ServiceHostSplitting -State 'Enabled'
 Set-Short8Dot3FileName -State 'Disabled'
 #Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
+# --- Startup Apps Delay (default: default)
+# Value: second (range 0-45)
+#Set-StartupAppsDelay -Value 2
+#Set-StartupAppsDelay -Default
+
 # --- Startup/Shutdown verbose status messages
 # GPO: Enabled | NotConfigured
 #Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured'

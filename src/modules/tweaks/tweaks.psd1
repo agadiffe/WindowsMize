@@ -35,6 +35,7 @@
         'Set-NumLockAtStartup'
         'Set-ServiceHostSplitting'
         'Set-Short8Dot3FileName'
+        'Set-StartupAppsDelay'
         'Set-StartupShutdownVerboseStatusMessages'
 
         # --- user_interface_and_experience

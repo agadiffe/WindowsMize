@@ -962,6 +962,8 @@ Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
 Set-Short8Dot3FileName -State 'Disabled'
 #Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # read Set-Short8Dot3FileName.ps1
+#Set-StartupAppsDelay -Value 2 # s / range: 0-45s
+#Set-StartupAppsDelay -Default
 #Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured
 
 # --- User interface and experience

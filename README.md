@@ -20,10 +20,10 @@ Long term: automate step 4.
 - Fully non-interactive script : make sure to review everything before running it.
 - Designed for Windows 11 (most tweaks/settings also work on Windows 10).
 - Works on both Administrator and Standard account (including domain account).
-- 31 script files based on 26 Powershell modules.
+- 6 categories: 31 script files based on 26 Powershell modules.
 
 
-## 💫 Features
+## 💫 Features (modules)
 ### 🖥️ Windows settings
 13 modules.  
 Equivalent of the Windows GUI settings app : Start > all apps > settings.  
@@ -79,7 +79,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
-  FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupShutdownVerboseStatusMessages.
+  FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
   DisableGameBarLinks, ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
@@ -148,6 +148,10 @@ $ScriptsToExecute = @(
     # --- Apps Management
     'apps_management\debloat'
     #'apps_management\install'
+
+    # --- Apps Settings
+    [...]
+    # --- Network & Internet
     [...]
     # --- System & Tweaks
     'file_explorer'
