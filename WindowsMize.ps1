@@ -41,24 +41,24 @@ $ScriptsToExecute = @(
     'apps_settings\Terminal'
 
     # --- Network & Internet
-    'network\network_&_internet'
-    'network\firewall'
-    'network\protocol'
+    'network_&_internet\network_&_internet'
+    'network_&_internet\firewall'
+    'network_&_internet\protocol'
 
     # --- System & Tweaks
-    'file_explorer'
-    'power_&_battery'
-    'system_properties'
-    'services_and_scheduled_tasks'
-    #'ramdisk'
-    'tweaks'
+    'system_&_tweaks\file_explorer'
+    'system_&_tweaks\power_&_battery'
+    'system_&_tweaks\system_properties'
+    'system_&_tweaks\services_and_scheduled_tasks'
+    'system_&_tweaks\ramdisk'
+    'system_&_tweaks\tweaks'
 
     # --- Telemetry & Annoyances
-    'telemetry'
-    'win_settings_app\defender_security_center'
-    'win_settings_app\privacy_&_security'
-    'win_settings_app\notifications'
-    'win_settings_app\start_&_taskbar'
+    'telemetry_&_annoyances\telemetry'
+    'telemetry_&_annoyances\defender_security_center'
+    'telemetry_&_annoyances\privacy_&_security'
+    'telemetry_&_annoyances\notifications'
+    'telemetry_&_annoyances\start_&_taskbar'
 
     # --- Win Settings App
     'win_settings_app\system'

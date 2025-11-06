@@ -28,52 +28,43 @@ Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 
 #=================================================================================================================
-#                                                     Scripts
+#                                                     Modules
 #=================================================================================================================
 
 $WindowsMizeModuleNames = @(
-    # --- Apps Management
-    'apps_management\debloat'
-    'apps_management\install'
-
-    # --- Apps Settings
-    'apps_settings\Acrobat_Reader'
-    'apps_settings\Brave_VLC_Others'
-    'apps_settings\MS_Office'
-    'apps_settings\MS_Store_&_Edge'
-    'apps_settings\Notepad_Photos_SnippingTool'
-    'apps_settings\Terminal'
+    # --- Application
+    'settings_app\optional_features'
+    'applications\management'
+    'applications\settings'
 
     # --- Network & Internet
-    'network\network_&_internet'
-    'network\firewall'
-    'network\protocol'
+    'settings_app\network_&_internet'
+    'network'
 
     # --- System & Tweaks
     'file_explorer'
-    'power_&_battery'
+    'power_options'
     'system_properties'
-    'services_and_scheduled_tasks'
+    'scheduled_tasks'
+    'services'
     'ramdisk'
     'tweaks'
 
     # --- Telemetry & Annoyances
     'telemetry'
-    'win_settings_app\defender_security_center'
-    'win_settings_app\privacy_&_security'
-    'win_settings_app\notifications'
-    'win_settings_app\start_&_taskbar'
+    'settings_app\defender_security_center'
+    'settings_app\privacy_&_security'
 
     # --- Win Settings App
-    'win_settings_app\system'
-    'win_settings_app\bluetooth_&_devices'
-    'win_settings_app\personnalization'
-    'win_settings_app\apps'
-    'win_settings_app\accounts'
-    'win_settings_app\time_&_language'
-    'win_settings_app\gaming'
-    'win_settings_app\accessibility'
-    'win_settings_app\windows_update'
+    'settings_app\system'
+    'settings_app\bluetooth_&_devices'
+    'settings_app\personnalization'
+    'settings_app\apps'
+    'settings_app\accounts'
+    'settings_app\time_&_language'
+    'settings_app\gaming'
+    'settings_app\accessibility'
+    'settings_app\windows_update'
 )
 Write-Output -InputObject 'Loading WindowsMize Modules ...'
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\src\modules\$_" })
