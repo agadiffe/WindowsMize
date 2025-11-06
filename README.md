@@ -20,10 +20,10 @@ Long term: automate step 4.
 - Fully non-interactive script : make sure to review everything before running it.
 - Designed for Windows 11 (most tweaks/settings also work on Windows 10).
 - Works on both Administrator and Standard account (including domain account).
-- 6 categories: 31 script files based on 26 Powershell modules.
+- 31 script files based on 26 Powershell modules.
 
 
-## 💫 Features (modules)
+## 💫 Features
 ### 🖥️ Windows settings
 13 modules.  
 Equivalent of the Windows GUI settings app : Start > all apps > settings.  
@@ -135,7 +135,8 @@ Make sure to review them to know which one to disable according to your usages.
 It's recommended to use Notepad++, VSCode or else to have the code highlighted.
 
 ### Main script
-"WindowsMize.ps1" is the main script that will execute the other script files.  
+"WindowsMize.ps1" is the main script that will execute the other scripts.  
+Settings are divided into 6 main categories with 31 script files.  
 These script files are located in the "scripts" folder.
 
 You can uncomment or comment the script names to execute or not the corresponding script.  

@@ -2,6 +2,10 @@
 #                                               Windows Answer File
 #=================================================================================================================
 
+# The autounattend.xml file in the "tools" folder is the resultt of this funtion.
+# Change the username line 44 & 55 if desired.
+# For the password, it's on line 47 & 59.
+
 <#
   Create a local account and disable Bitlocker auto device encryption.
   Disable password expiration as well (a force password reset is not recommended).

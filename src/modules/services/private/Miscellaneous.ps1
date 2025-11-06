@@ -41,37 +41,11 @@ $ServicesList += @{
             Comment     = 'Windows Update sharing (downloads from other PCs).'
         }
         @{
-            DisplayName = 'CaptureService'
-            ServiceName = 'CaptureService'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'needed by snipping tool.
-                           screen capture functionality for apps using Windows.Graphics.Capture API.'
-        }
-        @{
             DisplayName = 'Cellular Time'
             ServiceName = 'autotimesvc'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'set time from mobile network.'
-        }
-        @{
-            DisplayName = 'Connected Devices Platform Service'
-            ServiceName = 'CDPSvc'
-            StartupType = 'AutomaticDelayedStart'
-            DefaultType = 'AutomaticDelayedStart'
-            Comment     = 'needed by Night Light.
-                           needed by Nearby sharing.'
-        }
-        @{
-            DisplayName = 'Connected Devices Platform User Service'
-            ServiceName = 'CDPUserSvc'
-            StartupType = 'Automatic'
-            DefaultType = 'Automatic'
-            Comment     = 'needed to enable/disable Night Light.
-                           needed by Nearby sharing.
-                           connect, manage, and control connected devices.
-                           (mobile, Xbox, HoloLens, or smart/IoT devices).'
         }
         @{
             DisplayName = 'Contact Data'
@@ -86,23 +60,6 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'primary purposes: facilitate the sharing of diagnostic and usage data with Microsoft.'
-        }
-        @{
-            DisplayName = 'Delivery Optimization'
-            ServiceName = 'DoSvc'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'cannot be changed with services.msc.
-                           needed by windows update and microsoft store (not only delivery optimization).
-                           even if disabled, will be set to Manual by windows update or microsoft store.'
-        }
-        @{
-            DisplayName = 'Device Setup Manager'
-            ServiceName = 'DsmSvc'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'somehow similar to: prevent device metadata retrieval from the Internet.
-                           see tweaks > system properties > hardware.'
         }
         @{
             DisplayName = 'DevQuery Background Discovery Broker'
@@ -120,23 +77,6 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'access organization resources.'
-        }
-        @{
-            DisplayName = 'Display Enhancement Service'
-            ServiceName = 'DisplayEnhancementService'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'manages display enhancement (e.g. brightness control).'
-        }
-        @{
-            DisplayName = 'Display Policy Service'
-            ServiceName = 'DispBrokerDesktopSvc'
-            StartupType = 'Automatic'
-            DefaultType = 'Automatic'
-            Comment     = 'local and remote displays.
-                           required on 24H2+ for some things ?
-                           if disabled, on VirtualBox, the auto resize window on startup is broken.
-                           could probably broke some other things on bare metal install ?'
         }
         @{
             DisplayName = 'Distributed Transaction Coordinator'
@@ -219,16 +159,6 @@ $ServicesList += @{
                            used in corporate environnement.'
         }
         @{
-            DisplayName = 'Microsoft Storage Spaces SMP'
-            ServiceName = 'smphost'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'group drives together to helps protect from drive failure.
-                           settings > storage > advanced storage settings > storage spaces.
-                           needed by settings > about > storage.
-                           also needed by Powershell Get-Volume and Get-Disk (and possibly more cmdlet).'
-        }
-        @{
             DisplayName = 'Microsoft Windows SMS Router Service'
             ServiceName = 'SmsRouter'
             StartupType = 'Disabled'
@@ -267,13 +197,6 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'VoIP.'
-        }
-        @{
-            DisplayName = 'ReFS Dedup Service'
-            ServiceName = 'refsdedupsvc'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'ReFS data deduplication.'
         }
         @{
             DisplayName = 'Remote Access Auto Connection Manager'
@@ -353,14 +276,6 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'Web Account Manager'
-            ServiceName = 'TokenBroker'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'needed to load settings > account > sign-in options.
-                           needed by microsoft store (only by apps that need login).'
-        }
-        @{
             DisplayName = 'Windows Connect Now - Config Registrar'
             ServiceName = 'wcncsvc'
             StartupType = 'Disabled'
@@ -427,14 +342,6 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'Windows Push Notifications System Service'
-            ServiceName = 'WpnService'
-            StartupType = 'Automatic'
-            DefaultType = 'Automatic'
-            Comment     = 'needed by action center for network notifications.
-                           e.g. Microsoft Teams, Discord, ...'
-        }
-        @{
             DisplayName = 'Windows Remote Management (WS-Management)'
             ServiceName = 'WinRM'
             StartupType = 'Disabled'
@@ -460,6 +367,101 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Manual'
             Comment     = 'probably an Azure AI-related thing.'
+        }
+
+        # Untouched
+        @{
+            DisplayName = 'CaptureService'
+            ServiceName = 'CaptureService'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'needed by snipping tool.
+                           screen capture functionality for apps using Windows.Graphics.Capture API.'
+        }
+        @{
+            DisplayName = 'Connected Devices Platform Service'
+            ServiceName = 'CDPSvc'
+            StartupType = 'AutomaticDelayedStart'
+            DefaultType = 'AutomaticDelayedStart'
+            Comment     = 'needed by Night Light.
+                           needed by Nearby sharing.'
+        }
+        @{
+            DisplayName = 'Connected Devices Platform User Service'
+            ServiceName = 'CDPUserSvc'
+            StartupType = 'Automatic'
+            DefaultType = 'Automatic'
+            Comment     = 'needed to enable/disable Night Light.
+                           needed by Nearby sharing.
+                           connect, manage, and control connected devices.
+                           (mobile, Xbox, HoloLens, or smart/IoT devices).'
+        }
+        @{
+            DisplayName = 'Delivery Optimization'
+            ServiceName = 'DoSvc'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'cannot be changed with services.msc.
+                           needed by windows update and microsoft store (not only delivery optimization).
+                           even if disabled, will be set to Manual by windows update or microsoft store.'
+        }
+        @{
+            DisplayName = 'Device Setup Manager'
+            ServiceName = 'DsmSvc'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'somehow similar to: prevent device metadata retrieval from the Internet.
+                           see tweaks > system properties > hardware.'
+        }
+        @{
+            DisplayName = 'Display Enhancement Service'
+            ServiceName = 'DisplayEnhancementService'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'manages display enhancement (e.g. brightness control).'
+        }
+        @{
+            DisplayName = 'Display Policy Service'
+            ServiceName = 'DispBrokerDesktopSvc'
+            StartupType = 'Automatic'
+            DefaultType = 'Automatic'
+            Comment     = 'local and remote displays.
+                           required on 24H2+ for some things ?
+                           if disabled, on VirtualBox, the auto resize window on startup is broken.
+                           could probably broke some other things on bare metal install ?'
+        }
+        @{
+            DisplayName = 'Microsoft Storage Spaces SMP'
+            ServiceName = 'smphost'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'group drives together to helps protect from drive failure.
+                           settings > storage > advanced storage settings > storage spaces.
+                           needed by settings > about > storage.
+                           also needed by Powershell Get-Volume and Get-Disk (and possibly more cmdlet).'
+        }
+        @{
+            DisplayName = 'ReFS Dedup Service'
+            ServiceName = 'refsdedupsvc'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'ReFS data deduplication.'
+        }
+        @{
+            DisplayName = 'Web Account Manager'
+            ServiceName = 'TokenBroker'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'needed to load settings > account > sign-in options.
+                           needed by microsoft store (only by apps that need login).'
+        }
+        @{
+            DisplayName = 'Windows Push Notifications System Service'
+            ServiceName = 'WpnService'
+            StartupType = 'Automatic'
+            DefaultType = 'Automatic'
+            Comment     = 'needed by action center for network notifications.
+                           e.g. Microsoft Teams, Discord, ...'
         }
         @{
             DisplayName = 'ZTHELPER'
