@@ -17,10 +17,15 @@ if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
     exit
 }
 
+$Global:ModuleVerbosePreference = 'Continue'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
+
+# You can provide a UserName to apply the settings to. The user must have logged-in at least once.
+# Leave empty to apply to the current logged-on User.
+$Global:ProvidedUserName = '' # e.g. 'Groot' or 'Domain\Groot'
 
 #=================================================================================================================
 #                                                     Scripts

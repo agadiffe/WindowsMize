@@ -9,6 +9,10 @@
 # 'Environment variables' & 'Shell Folders paths' are the Admin's values.
 # etc ...
 
+# You can provide an UserName with the global variable: $Global:ProvidedUserName.
+# e.g. $Global:ProvidedUserName = 'Groot' or $Global:ProvidedUserName = 'Domain\Groot'
+# The user must have logged-in at least once.
+
 <#
 .SYNTAX
     Get-LoggedOnUserInfo [<CommonParameters>]
@@ -21,24 +25,40 @@ function Get-LoggedOnUserInfo
 
     process
     {
-        $SessionId = (Get-Process -Id $PID).SessionId
-        $Query = "SELECT * FROM Win32_Process WHERE SessionId='$SessionId' AND Name='explorer.exe'"
-        $ClassName = 'System.Management.ManagementObjectSearcher'
-        $ProcessInfo = (New-Object -TypeName $ClassName -ArgumentList $Query).Get() | Select-Object -First 1
-
-        if ($ProcessInfo)
+        $ProvidedUserName = $Global:ProvidedUserName
+        if ($ProvidedUserName)
         {
-            $OwnerData = $ProcessInfo.GetOwner()
-            @{
-                UserName = $OwnerData.User
-                Domain   = $OwnerData.Domain
-                Sid      = $ProcessInfo.GetOwnerSid().Sid
+            $UserInfo = Get-UserInfo -User $ProvidedUserName
+            if (-not $UserInfo)
+            {
+                Write-Error -Message "Error: User ""$ProvidedUserName"" not found."
+                exit
             }
         }
         else
         {
-            Write-Error -Message 'Error: explorer.exe process not found. Cannot retrieve logged-on user info.'
-            exit
+            $SessionId = (Get-Process -Id $PID).SessionId
+            $Query = "SELECT * FROM Win32_Process WHERE SessionId='$SessionId' AND Name='explorer.exe'"
+            $ClassName = 'System.Management.ManagementObjectSearcher'
+            $ProcessInfo = (New-Object -TypeName $ClassName -ArgumentList $Query).Get() | Select-Object -First 1
+
+            if ($ProcessInfo)
+            {
+                $OwnerData = $ProcessInfo.GetOwner()
+                $UserInfo = @{
+                    UserName = $OwnerData.User
+                    Domain   = $OwnerData.Domain
+                    Sid      = $ProcessInfo.GetOwnerSid().Sid
+                }
+            }
+            else
+            {
+                Write-Error -Message 'Error: explorer.exe process not found. Cannot retrieve logged-on user info.'
+                exit
+            }
         }
+
+        Invoke-RegLoadUserHive -Sid $UserInfo.Sid
+        $UserInfo
     }
 }

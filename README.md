@@ -139,6 +139,13 @@ It's recommended to use Notepad++, VSCode or else to have the code highlighted.
 Settings are divided into 6 main categories with 31 script files.  
 These script files are located in the "scripts" folder.
 
+You can provide a UserName to apply the settings to. The user must have logged-in at least once.  
+Leave empty to apply to the current logged-on user.
+
+```powershell
+$Global:ProvidedUserName = 'Groot' # e.g. 'Groot' or 'Domain\Groot'
+```
+
 You can uncomment or comment the script names to execute or not the corresponding script.  
 Example:  
 To execute only "Telemetry & Annoyances", "file_explorer" and some others:  
