@@ -12,13 +12,7 @@
 <#
   The command "fsutil.exe 8Dot3Name strip/ f /s C:" will display a scary Warning. That's not as bad as stated.
 
-  This command lists, but does not modify the registry keys that point to the files that had 8dot3 file names.
-
-  You might need to edit some affected registry entries.
-  On a fresh installation (or even on an existing one), you shouldn't have any.
-  Short 8.3 file names are used by very old/legacy programs.
-
-  Open the generated log file to find them:
+  Generated log file:
     At the top, you have a table of affected registry keys.
     The tool reports all keys with a tilde (~) character, but that doesn't mean they are 8.3 file names.
 
@@ -30,15 +24,12 @@
   key   : (Default)
   value : C:\PROGRA~1\COMMON~1\Adobe\Acrobat\ActiveX\AcroPDF.dll, 102
 
-  Open the regedit and replace the value data with the full path name:
-  i.e. "C:\Program Files\Common Files\Adobe\Acrobat\ActiveX\AcroPDF.dll"
-
   'PROGRA~1', 'COMMON~1', and others, will not be stripped because they are in used (access denied).
   To remove them:
     - Settings > System > Recovery > Advanced Startup: click on "Restart now".
     - On the recovery Menu, choose: Troubleshoot > Commmand Prompt.
     - On the Commmand Prompt, run: fsutil.exe 8Dot3Name strip /f /s /l C:\8dot3.log C:
-      /l C:\8dot3.log: save the log file into your C: drive instead of the recovery partition.
+      Note: "/l C:\8dot3.log" will save the log file into your C: drive instead of the recovery partition.
 
   If your are not sure about your system drive letter (C:), you can confirm it with Diskpart:
     - Run: Diskpart.exe
@@ -91,18 +82,16 @@ function Set-Short8Dot3FileName
         if ($RemoveExisting8dot3FileNames)
         {
             # It can take a moment on HDD (few minutes). It's really fast on SSD (few seconds).
-            Write-Verbose -Message ("   The following Warning is not as bad as stated.`n" +
-                "            Open the generated log file and replace any mention of 8dot3 names in the registry.`n" +
-                "            Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.`n")
+            Write-Verbose -Message ("   The following Warning is not as bad as stated.")
 
             $LogPath = Get-LogPath
-            $LogFileName = "8dot3_removal_@($(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssK')).log"
+            $LogFileName = "8dot3_removal_@($(Get-Date -Format 'yyyy-MM-ddTHH-mm-ssK')).log"
 
             New-ParentPath -Path "$LogPath\x"
             $LogPath = Resolve-Path -Path $LogPath
             $LogFilePath = "$LogPath\$LogFileName"
 
-            fsutil.exe 8Dot3Name strip /f /s /l $LogFilePath $env:SystemDrive
+            fsutil.exe 8Dot3Name strip /f /s /l "$LogFilePath" $env:SystemDrive
         }
     }
 }

@@ -76,7 +76,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   <summary>Various tweaks to improve and customize Windows. (click to expand).</summary>
 
 - Security, privacy and networking:  
-  Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
+  HomeGroup, Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
   FirstSigninAnimation, LongPaths, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupAppsDelay, StartupShutdownVerboseStatusMessages.

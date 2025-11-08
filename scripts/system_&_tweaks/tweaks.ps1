@@ -103,10 +103,15 @@ Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
 
 # --- Short 8.3 file names
+# 'PROGRA~1', 'COMMON~1', and others, will not be stripped because they are in used (access denied).
+# To remove them:
+#   - Settings > System > Recovery > Advanced Startup: click on "Restart now".
+#   - On the recovery Menu, choose: Troubleshoot > Commmand Prompt.
+#   - On the Commmand Prompt, run: fsutil.exe 8Dot3Name strip /f /s /l C:\8dot3.log C:
+#     Note: "/l C:\8dot3.log" will save the log file into your C: drive instead of the recovery partition.
+
 # State: Disabled | Enabled | PerVolumeBasis (default) | DisabledExceptSystemVolume
 # RemoveExisting8dot3FileNames (switch): Removes 8dot3 file names for all files in $env:SystemDrive (i.e. C:)
-#   Might require manual editing of some registry entries (should not on a fresh install (or even on a current system)).
-#   Read the comments in 'src > modules > tweaks > public > system_and_performance > Set-Short8Dot3FileName.ps1'.
 Set-Short8Dot3FileName -State 'Disabled'
 #Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 

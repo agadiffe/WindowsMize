@@ -951,11 +951,18 @@ Set-LongPaths -State 'Enabled'
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled' # Managed: User | System
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
-Set-Short8Dot3FileName -State 'Disabled'
-#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames # read Set-Short8Dot3FileName.ps1
 #Set-StartupAppsDelay -Value 2 # s / range: 0-45s
 #Set-StartupAppsDelay -Default
 #Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured
+
+# 'PROGRA~1', 'COMMON~1', and others, will not be stripped because they are in used (access denied).
+# To remove them:
+#   - Settings > System > Recovery > Advanced Startup: click on "Restart now".
+#   - On the recovery Menu, choose: Troubleshoot > Commmand Prompt.
+#   - On the Commmand Prompt, run: fsutil.exe 8Dot3Name strip /f /s /l C:\8dot3.log C:
+#     Note: "/l C:\8dot3.log" will save the log file into your C: drive instead of the recovery partition.
+Set-Short8Dot3FileName -State 'Disabled'
+#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
 # --- User interface and experience
 $ActionCenterLayout = @(

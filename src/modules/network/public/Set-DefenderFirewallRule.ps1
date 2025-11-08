@@ -60,13 +60,20 @@ function Set-DefenderFirewallRule
                 'MicrosoftMediaFoundation'       { '@FirewallAPI.dll,-54001', 'Microsoft Media Foundation Network Source' }
                 'ProximitySharing'               { '@FirewallAPI.dll,-36251', 'Proximity Sharing' }
                 'WifiDirectDiscovery'            { '@FirewallAPI.dll,-36851', 'Wi-Fi Direct Network Discovery' }
-                'WirelessDisplay'                { '@FirewallAPI.dll,-100', 'Wireless Display' }
+                'WirelessDisplay'                { '@wifidisplay.dll,-100', 'Wireless Display' }
                 'WiFiDirectCoordinationProtocol' { '@wlansvc.dll,-36864', 'WLAN Service - WFD Application Services Platform Coordination Protocol' }
                 'WiFiDirectKernelModeDriver'     { '@wlansvc.dll,-36865', 'WLAN Service - WFD Services Kernel Mode Driver Rules' }
             }
 
             Write-Verbose -Message "Setting 'Defender Firewall rule - $SettingMsg ($GroupID)' to '$State' ..."
-            Set-NetFirewallRule -Group $GroupID -Enabled ($State -eq 'Enabled' ? 'True' : 'False')
+            try
+            {
+                Set-NetFirewallRule -Group $GroupID -Enabled ($State -eq 'Enabled' ? 'True' : 'False') -ErrorAction 'Stop'
+            }
+            catch
+            {
+                Write-Verbose -Message "    Firewall rule not found"
+            }
         }
     }
 }

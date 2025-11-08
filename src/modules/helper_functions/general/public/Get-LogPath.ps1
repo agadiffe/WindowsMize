@@ -19,7 +19,8 @@ function Get-LogPath
 
     process
     {
-        $LogPath = "$PSScriptRoot\..\..\..\..\..\log"
+        $LogPath = Resolve-Path -Path "$PSScriptRoot\..\..\..\..\.."
+        $LogPath = $LogPath.ToString() + '\log'
         if ($User)
         {
             $LogPath += "\$((Get-LoggedOnUserInfo).UserName)"
