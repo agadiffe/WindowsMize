@@ -100,7 +100,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
 - Install applications via Winget.
 
   Predefined apps with short names (aliases for Winget package names):  
-  Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent, Brave, Firefox, MullvadBrowser, VCRedist, DirectXEndUserRuntime, DotNetDesktopRuntime.
+  Git, VSCode, VLC, Bitwarden, KeePassXC, ProtonPass, AcrobatReader, SumatraPDF, 7zip, Notepad++, qBittorrent, ProtonVPN, MullVadVPN, Brave, Firefox, MullvadBrowser, VCRedist, DirectXEndUserRuntime, DotNetDesktopRuntime.
 
   You can also install any apps with their Winget app name (e.g. "Valve.Steam").
 

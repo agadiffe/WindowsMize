@@ -63,6 +63,10 @@ $AppsToInstall = @(
     #'Notepad++'
     #'qBittorrent'
 
+    # --- VPN
+    #'ProtonVPN'
+    #'MullvadVPN'
+
     # --- Web Browser
     'Brave'
     #'Firefox'

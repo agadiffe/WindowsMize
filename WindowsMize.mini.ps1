@@ -217,6 +217,8 @@ $AppsToInstall = @(
     #'7zip'
     #'Notepad++'
     #'qBittorrent'
+    #'ProtonVPN'
+    #'MullvadVPN'
     'Brave'
     #'Firefox'
     #'MullvadBrowser'

@@ -24,6 +24,10 @@ $AppsList = [ordered]@{
     'Notepad++'    = 'Notepad++.Notepad++'
     qBittorrent    = 'qBittorrent.qBittorrent'
 
+    # VPN
+    $ProtonVPN     = 'Proton.ProtonVPN'
+    $MullvadVPN    = 'MullvadVPN.MullvadVPN'
+
     # Web Browser
     Brave          = @(
                      'Brave.Brave'
