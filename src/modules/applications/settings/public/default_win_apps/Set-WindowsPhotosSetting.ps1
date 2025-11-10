@@ -10,6 +10,7 @@
         [-LocationBasedFeatures {Disabled | Enabled}]
         [-ShowICloudPhotos {Disabled | Enabled}]
         [-DeleteConfirmationDialog {Disabled | Enabled}]
+        [-ImageCategorization {Disabled | Enabled}]
         [-MouseWheelBehavior {ZoomInOut | NextPreviousItems}]
         [-SmallMediaZoomPreference {FitWindow | ViewActualSize}]
         [-Theme {System | Light | Dark}]
@@ -33,6 +34,7 @@ function Set-WindowsPhotosSetting
         [state] $LocationBasedFeatures,
         [state] $ShowICloudPhotos,
         [state] $DeleteConfirmationDialog,
+        [state] $ImageCategorization,
 
         [ValidateSet('ZoomInOut', 'NextPreviousItems')]
         [string] $MouseWheelBehavior,
@@ -121,6 +123,16 @@ function Set-WindowsPhotosSetting
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$DeleteConfirmationDialogReg) | Out-Null
             }
+            'ImageCategorization'
+            {
+                # on: true | off: false (default)
+                $ImageCategorizationReg = @{
+                    Name  = 'ImageCategorizationConsent'
+                    Value = $ImageCategorization -eq 'Enabled' ? 'true' : 'false'
+                    Type  = '5f5e10c'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$ImageCategorizationReg) | Out-Null
+            }
             'MouseWheelBehavior'
             {
                 # zoom in or out: 0 (default) | view next or previous items: 1
@@ -167,6 +179,14 @@ function Set-WindowsPhotosSetting
                     Type  = '5f5e10c'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$FirstRunDialog) | Out-Null
+
+                # on: false (default) | off: true
+                $ImageCategorizationPopupReg = @{
+                    Name  = 'ImageCategorizationConsentDismissed'
+                    Value = $ImageCategorization -eq 'Enabled' ? 'false' : 'true'
+                    Type  = '5f5e10c'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$ImageCategorizationPopupReg) | Out-Null
 
                 # on: 0 (default) | off: 4294967295 (UINT_MAX)
                 # Should be a date (or timestamp?). Does work with the above values.

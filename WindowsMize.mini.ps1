@@ -469,6 +469,7 @@ $PhotosSettings = @{
     LocationBasedFeatures      = 'Disabled'
     ShowICloudPhotos           = 'Disabled'
     DeleteConfirmationDialog   = 'Enabled'
+    ImageCategorization        = 'Disabled'
     MouseWheelBehavior         = 'ZoomInOut' # ZoomInOut | NextPreviousItems
     SmallMediaZoomPreference   = 'ViewActualSize' # FitWindow | ViewActualSize
     RunAtStartup               = 'Disabled'

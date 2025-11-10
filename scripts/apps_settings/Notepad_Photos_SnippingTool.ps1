@@ -138,6 +138,9 @@ Set-WindowsPhotosSetting -MouseWheelBehavior 'ZoomInOut'
 # State: FitWindow | ViewActualSize (default)
 Set-WindowsPhotosSetting -SmallMediaZoomPreference 'ViewActualSize'
 
+# --- Allow image categorization (default: Disabled)
+Set-WindowsPhotosSetting -ImageCategorization 'Disabled'
+
 # --- Performance (run in the background at startup) (default: Enabled)
 Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
 
@@ -146,6 +149,7 @@ Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
 
 # --- First Run Experience (default: Enabled)
 #   First Run Experience Dialog
+#   Image categorization popup
 #   OneDrive Promo flyout
 #   Designer Editor flyout
 #   ClipChamp flyout

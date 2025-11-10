@@ -55,7 +55,7 @@ $ScriptsToExecute = @(
     'system_&_tweaks\power_&_battery'
     'system_&_tweaks\system_properties'
     'system_&_tweaks\services_and_scheduled_tasks'
-    'system_&_tweaks\ramdisk'
+    #'system_&_tweaks\ramdisk'
     'system_&_tweaks\tweaks'
 
     # --- Telemetry & Annoyances
