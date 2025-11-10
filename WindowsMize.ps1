@@ -11,21 +11,38 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
+<#
+.DESCRIPTION
+    Script to configure Windows setting.
+
+    You can provide an optional User name to apply the settings to.
+    The user must have logged-in at least once.
+
+.EXAMPLE
+    PS> .\WindowsMize.ps1 # logged-on User
+    PS> .\WindowsMize.ps1 -User 'Groot'
+    PS> .\WindowsMize.ps1 -User 'Domain\Groot'
+#>
+
+[CmdletBinding()]
+param
+(
+    [string] $User
+)
+
 if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
 {
     Write-Error 'The script cannot be run: LanguageMode is set to ConstrainedLanguage.'
     exit
 }
 
+$Global:ProvidedUserName = $User
 $Global:ModuleVerbosePreference = 'Continue'
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
+
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
 Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
-
-# You can provide a UserName to apply the settings to. The user must have logged-in at least once.
-# Leave empty to apply to the current logged-on User.
-$Global:ProvidedUserName = '' # e.g. 'Groot' or 'Domain\Groot'
 
 #=================================================================================================================
 #                                                     Scripts

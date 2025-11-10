@@ -139,11 +139,13 @@ It's recommended to use Notepad++, VSCode or else to have the code highlighted.
 Settings are divided into 6 main categories with 31 script files.  
 These script files are located in the "scripts" folder.
 
-You can provide a UserName to apply the settings to. The user must have logged-in at least once.  
-Leave empty to apply to the current logged-on user.
+You can provide an optional "User" parameter to the script to apply the settings to a specific user.  
+This user must have logged-in at least once.
 
 ```powershell
-$Global:ProvidedUserName = 'Groot' # e.g. 'Groot' or 'Domain\Groot'
+.\WindowsMize.ps1 # logged-on User
+.\WindowsMize.ps1 -User 'Groot'
+.\WindowsMize.ps1 -User 'Domain\Groot'
 ```
 
 You can uncomment or comment the script names to execute or not the corresponding script.  
