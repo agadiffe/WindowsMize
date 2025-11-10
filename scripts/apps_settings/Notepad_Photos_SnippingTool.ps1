@@ -195,6 +195,9 @@ Set-WindowsSnippingToolSetting -AutoCopyRecordingChangesToClipboard 'Enabled'
 # --- Automatically save original screen recordings (default: Enabled)
 Set-WindowsSnippingToolSetting -AutoSaveRecordings 'Enabled'
 
+# --- Ask to save edited screen recordings (default: Enabled)
+Set-WindowsSnippingToolSetting -AskToSaveEditedRecordings 'Disabled'
+
 # --- Include microphone input by default when a screen recording starts (default: Disabled)
 Set-WindowsSnippingToolSetting -IncludeMicrophoneInRecording 'Disabled'
 

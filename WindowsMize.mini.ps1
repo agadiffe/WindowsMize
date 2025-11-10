@@ -487,6 +487,7 @@ $SnippingToolSettings = @{
     HDRColorCorrector             = 'Disabled'
     AutoCopyRecordingChangesToClipboard  = 'Enabled'
     AutoSaveRecordings            = 'Enabled'
+    AskToSaveEditedRecordings     = 'Disabled'
     IncludeMicrophoneInRecording  = 'Disabled'
     IncludeSystemAudioInRecording = 'Enabled'
     Theme                         = 'System' # System | Light | Dark

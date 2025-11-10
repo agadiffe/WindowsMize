@@ -12,6 +12,7 @@
         [-ScreenshotBorder {Disabled | Enabled}]
         [-HDRColorCorrector {Disabled | Enabled}]
         [-AutoCopyRecordingChangesToClipboard {Disabled | Enabled}]
+        [-AskToSaveEditedRecordings {Disabled | Enabled}]
         [-AutoSaveRecordings {Disabled | Enabled}]
         [-IncludeMicrophoneInRecording {Disabled | Enabled}]
         [-IncludeSystemAudioInRecording {Disabled | Enabled}]
@@ -40,6 +41,7 @@ function Set-WindowsSnippingToolSetting
         # screen recording
         [state] $AutoCopyRecordingChangesToClipboard,
         [state] $AutoSaveRecordings,
+        [state] $AskToSaveEditedRecordings,
         [state] $IncludeMicrophoneInRecording,
         [state] $IncludeSystemAudioInRecording,
 
@@ -84,7 +86,7 @@ function Set-WindowsSnippingToolSetting
             {
                 # on: 1 | off: 0 (default)
                 $AskToSaveEditedScreenshotsReg = @{
-                    Name  = 'Setting_ShowUnsavedChangesConfirmations'
+                    Name  = 'Setting_ShowUnsavedScreenshotChangesConfirmations'
                     Value = $AskToSaveEditedScreenshots -eq 'Enabled' ? '1' : '0'
                     Type  = '5f5e10b'
                 }
@@ -139,6 +141,16 @@ function Set-WindowsSnippingToolSetting
                     Type  = '5f5e10b'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$AutoSaveRecordingsReg) | Out-Null
+            }
+            'AskToSaveEditedRecordings'
+            {
+                # on: 1 (default) | off: 0
+                $AskToSaveEditedRecordingsReg = @{
+                    Name  = 'Setting_ShowUnsavedRecordingChangesConfirmations'
+                    Value = $AskToSaveEditedRecordings -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $SnippingToolSettings.Add([PSCustomObject]$AskToSaveEditedRecordingsReg) | Out-Null
             }
             'IncludeMicrophoneInRecording'
             {
