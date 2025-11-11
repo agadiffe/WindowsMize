@@ -11,19 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-<#
-.DESCRIPTION
-    Script to configure Windows setting.
-
-    You can provide an optional User name to apply the settings to.
-    The user must have logged-in at least once.
-
-.EXAMPLE
-    PS> .\WindowsMize.ps1 # logged-on User
-    PS> .\WindowsMize.ps1 -User 'Groot'
-    PS> .\WindowsMize.ps1 -User 'Domain\Groot'
-#>
-
 [CmdletBinding()]
 param
 (
@@ -40,7 +27,7 @@ $Global:ProvidedUserName = $User
 $Global:ModuleVerbosePreference = 'Continue'
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\helper_functions\general"
+Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
 Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
 
 

@@ -79,7 +79,7 @@ $ServicesToConfig = @(
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
-    'Printer' # Local Printer are left to default (Spooler & PrintNotify). Update ps1 file if desired.
+    'Printer' # If you use a local printer: enable 'Spooler' & 'PrintNotify'. Update ps1 file if desired.
     'RemoteDesktop'
     #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'

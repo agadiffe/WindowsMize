@@ -15,19 +15,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-<#
-.DESCRIPTION
-    Script to configure Windows setting.
-
-    You can provide an optional User name to apply the settings to.
-    The user must have logged-in at least once.
-
-.EXAMPLE
-    PS> .\WindowsMize.mini.ps1 # logged-on User
-    PS> .\WindowsMize.mini.ps1 -User 'Groot'
-    PS> .\WindowsMize.mini.ps1 -User 'Domain\Groot'
-#>
-
 [CmdletBinding()]
 param
 (
@@ -895,7 +882,7 @@ $ServicesToConfig = @(
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
-    'Printer' # Local Printer are left to default (Spooler & PrintNotify). Update ps1 file if desired.
+    'Printer' # If you use a local printer: enable 'Spooler' & 'PrintNotify'. Update ps1 file if desired.
     'RemoteDesktop'
     #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'
@@ -1028,8 +1015,15 @@ Set-WindowsInputExperience -State 'Disabled' # don't disable if touchscreen
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
 Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
 Set-WindowsSharedExperience -GPO 'NotConfigured' # disable: "nearby sharing" and "share across devices"
-Set-WindowsSpotlight -GPO 'NotConfigured'
-Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
+
+$WindowsSpotlightSettings = @{
+    AllFeaturesGPO = 'NotConfigured'
+    DesktopGPO     = 'NotConfigured'
+    LockScreenGPO  = 'NotConfigured' # Enterprise only
+    AdsContentGPO  = 'Disabled'
+    LearnAboutPictureDesktopIcon = 'Disabled'
+}
+Set-WindowsSpotlight @WindowsSpotlightSettings
 
 # --- Windows features and settings
 Move-CharacterMapShortcutToWindowsTools

@@ -210,9 +210,18 @@ Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
 Set-WindowsSharedExperience -GPO 'NotConfigured'
 
 # --- Windows Spotlight
-Set-WindowsSpotlight -GPO 'NotConfigured'
+Set-WindowsSpotlight -AllFeaturesGPO 'NotConfigured'
 
-# --- Windows Spotlight : Learn about this picture (Desktop icon) (default: Enabled)
+# --- --- Desktop
+Set-WindowsSpotlight -DesktopGPO 'NotConfigured'
+
+# --- --- Lock Screen (Enterprise only)
+Set-WindowsSpotlight -LockScreenGPO 'NotConfigured'
+
+# --- --- Ads Content
+Set-WindowsSpotlight -AdsContentGPO 'Disabled'
+
+# --- --- Learn about this picture (Desktop icon) (default: Enabled)
 Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
 
 #endregion ui

@@ -5,7 +5,10 @@
 <#
 .SYNTAX
     Set-WindowsSpotlight
-        [[-GPO] {Disabled | NotConfigured}]
+        [-AllFeaturesGPO {Disabled | NotConfigured}]
+        [-DesktopGPO {Disabled | NotConfigured}]
+        [-LockScreenGPO {Disabled | NotConfigured}]
+        [-AdsContentGPO {Disabled | NotConfigured}]
         [-LearnAboutPictureDesktopIcon {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -23,9 +26,10 @@ function Set-WindowsSpotlight
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Position = 0)]
-        [GpoStateWithoutEnabled] $GPO,
-
+        [GpoStateWithoutEnabled] $AllFeaturesGPO,
+        [GpoStateWithoutEnabled] $DesktopGPO,
+        [GpoStateWithoutEnabled] $LockScreenGPO,
+        [GpoStateWithoutEnabled] $AdsContentGPO,
         [state] $LearnAboutPictureDesktopIcon
     )
 
@@ -39,20 +43,9 @@ function Set-WindowsSpotlight
 
         switch ($PSBoundParameters.Keys)
         {
-            'GPO'
+            'AllFeaturesGPO'
             {
-                $IsNotConfigured = $GPO -eq 'NotConfigured'
-
-                # "turn off all Windows spotlight features" is probably enought, but whatever.
-
                 # gpo\ user config > administrative tpl > windows components > cloud content
-                #
-                #   configure Windows spotlight on lock screen (only available for Enterprise SKUs)
-                # not configured: delete (default) | off: 2 0
-                #
-                #   do not suggest third-party content in Windows spotlight
-                # not configured: delete (default) | on: 1
-                #
                 #   turn off all Windows spotlight features
                 #     personalization > background > windows spotlight
                 #     personalization > lockscreen > windows spotlight
@@ -61,70 +54,101 @@ function Set-WindowsSpotlight
                 #     system > notifications > get tips and suggestions when using Windows
                 #     privacy & security > general > show me suggested content in the setting app
                 # not configured: delete (default) | on: 1
-                #
-                #   turn off spotlight collection on Desktop
-                #     personalization > background > windows spotlight
-                # not configured: delete (default) | on: 1
-                #
-                #   turn off Windows spotlight on Settings
-                # not configured: delete (default) | on: 1
-                #
-                #   turn off Windows spotlight on Action Center
-                #     do not display suggested content (apps or features) in Action Center
-                # not configured: delete (default) | on: 1
-                $WindowsSpotlightGpo = @(
-                    @{
-                        Hive    = 'HKEY_CURRENT_USER'
-                        Path    = 'Software\Policies\Microsoft\Windows\CloudContent'
-                        Entries = @(
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'ConfigureWindowsSpotlight'
-                                Value = '2'
-                                Type  = 'DWord'
-                            }
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'IncludeEnterpriseSpotlight'
-                                Value = '0'
-                                Type  = 'DWord'
-                            }
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'DisableThirdPartySuggestions'
-                                Value = '1'
-                                Type  = 'DWord'
-                            }
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'DisableWindowsSpotlightFeatures'
-                                Value = '1'
-                                Type  = 'DWord'
-                            }
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'DisableSpotlightCollectionOnDesktop'
-                                Value = '1'
-                                Type  = 'DWord'
-                            }
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'DisableWindowsSpotlightOnSettings'
-                                Value = '1'
-                                Type  = 'DWord'
-                            }
-                            @{
-                                RemoveEntry = $IsNotConfigured
-                                Name  = 'DisableWindowsSpotlightOnActionCenter'
-                                Value = '1'
-                                Type  = 'DWord'
-                            }
-                        )
-                    }
-                )
+                $WindowsSpotlightGpo = @{
+                    Hive    = 'HKEY_CURRENT_USER'
+                    Path    = 'Software\Policies\Microsoft\Windows\CloudContent'
+                    Entries = @(
+                        @{
+                            RemoveEntry = $AllFeaturesGPO -eq 'NotConfigured'
+                            Name  = 'DisableWindowsSpotlightFeatures'
+                            Value = '1'
+                            Type  = 'DWord'
+                        }
+                    )
+                }
 
-                Write-Verbose -Message "Setting 'Windows Spotlight (GPO)' to '$GPO' ..."
-                $WindowsSpotlightGpo | Set-RegistryEntry
+                Write-Verbose -Message "Setting 'Windows Spotlight (all features) (GPO)' to '$AllFeaturesGPO' ..."
+                Set-RegistryEntry -InputObject $WindowsSpotlightGpo
+            }
+            'DesktopGPO'
+            {
+                # gpo\ user config > administrative tpl > windows components > cloud content
+                #   turn off spotlight collection on Desktop
+                # not configured: delete (default) | on: 1
+                $DesktopRegGpo = @{
+                    Hive    = 'HKEY_CURRENT_USER'
+                    Path    = 'Software\Policies\Microsoft\Windows\CloudContent'
+                    Entries = @(
+                        @{
+                            RemoveEntry = $DesktopGPO -eq 'NotConfigured'
+                            Name  = 'DisableSpotlightCollectionOnDesktop'
+                            Value = '1'
+                            Type  = 'DWord'
+                        }
+                    )
+                }
+
+                Write-Verbose -Message "Setting 'Windows Spotlight - Desktop And Lock screen (GPO)' to '$DesktopGPO' ..."
+                Set-RegistryEntry -InputObject $DesktopRegGpo
+            }
+            'LockScreenGPO'
+            {
+                $IsNotConfigured = $LockScreenGPO -eq 'NotConfigured'
+
+                # gpo\ user config > administrative tpl > windows components > cloud content
+                #   configure Windows spotlight on lock screen (only available for Enterprise SKUs)
+                # not configured: delete (default) | off: 2 0
+                $LockScreenRegGpo = @{
+                    Hive    = 'HKEY_CURRENT_USER'
+                    Path    = 'Software\Policies\Microsoft\Windows\CloudContent'
+                    Entries = @(
+                        @{
+                            RemoveEntry = $IsNotConfigured
+                            Name  = 'ConfigureWindowsSpotlight'
+                            Value = '2'
+                            Type  = 'DWord'
+                        }
+                        @{
+                            RemoveEntry = $IsNotConfigured
+                            Name  = 'IncludeEnterpriseSpotlight'
+                            Value = '0'
+                            Type  = 'DWord'
+                        }
+                    )
+                }
+
+                Write-Verbose -Message "Setting 'Windows Spotlight - Lock Screen (GPO)' to '$LockScreenGPO' ..."
+                Set-RegistryEntry -InputObject $LockScreenRegGpo
+            }
+            'AdsContentGPO'
+            {
+                $IsNotConfigured = $AdsContentGPO -eq 'NotConfigured'
+
+                # gpo\ user config > administrative tpl > windows components > cloud content
+                #   turn off Windows spotlight on Action Center (do not display suggested content (apps or features))
+                #   do not suggest third-party content in Windows spotlight
+                # not configured: delete (default) | on: 1 1
+                $AdsContentRegGpo = @{
+                    Hive    = 'HKEY_CURRENT_USER'
+                    Path    = 'Software\Policies\Microsoft\Windows\CloudContent'
+                    Entries = @(
+                        @{
+                            RemoveEntry = $IsNotConfigured
+                            Name  = 'DisableWindowsSpotlightOnActionCenter'
+                            Value = '1'
+                            Type  = 'DWord'
+                        }
+                        @{
+                            RemoveEntry = $IsNotConfigured
+                            Name  = 'DisableThirdPartySuggestions'
+                            Value = '1'
+                            Type  = 'DWord'
+                        }
+                    )
+                }
+
+                Write-Verbose -Message "Setting 'Windows Spotlight - Ads Content (GPO)' to '$AdsContentGPO' ..."
+                Set-RegistryEntry -InputObject $AdsContentRegGpo
             }
             'LearnAboutPictureDesktopIcon'
             {
