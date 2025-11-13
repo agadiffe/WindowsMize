@@ -29,7 +29,7 @@ function Set-ThemesSetting
     param
     (
         [Parameter(ParameterSetName = 'DesktopIcons')]
-        [DesktopIcons[]] $ShowDesktopIcons,
+        [DesktopIcons[]] $DesktopIcons,
 
         [Parameter(ParameterSetName = 'HideAllDesktopIcons')]
         [switch] $HideAllDesktopIcons,
