@@ -23,6 +23,7 @@ $ScheduledTasksList += @{
             Comment  = 'DsSvcCleanup : maintenance for the Data Sharing Service.'
         }
         @{
+            SkipTask = $true
             TaskPath = '\Microsoft\Windows\DiskCleanup\'
             Task     = @{
                 SilentCleanup = 'Disabled' # default: Enabled

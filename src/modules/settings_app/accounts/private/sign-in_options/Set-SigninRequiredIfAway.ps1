@@ -82,6 +82,7 @@ function Set-SigninRequiredIfAway
     process
     {
         $SigninRequiredIfAwayMsg = 'Sign-In Options - When Should Windows Require You To Sign In Again'
+        $Value = $PSBoundParameters.Value
 
         if (Test-ModernStandbyAvailability)
         {
