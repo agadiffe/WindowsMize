@@ -113,12 +113,12 @@ function Set-RegistryEntry
         $RegistryPath = "Registry::$RegistryPath"
         if ($InputObject.RemoveKey)
         {
-            Write-Verbose -Message "  Removing key: $RegistryPathOriginal"
+            Write-Verbose -Message "  remove: $RegistryPathOriginal"
             Remove-Item -Recurse -Path $RegistryPath -ErrorAction 'SilentlyContinue'
         }
         else
         {
-            Write-Verbose -Message "  Setting key: $RegistryPathOriginal"
+            Write-Verbose -Message "      key: $RegistryPathOriginal"
 
             if (-not (Test-Path -Path $RegistryPath))
             {
@@ -129,7 +129,7 @@ function Set-RegistryEntry
             {
                 if ($Entry.RemoveEntry)
                 {
-                    Write-Verbose -Message "       remove: '$($Entry.Name)'"
+                    Write-Verbose -Message "   remove: '$($Entry.Name)'"
                     Remove-ItemProperty -Path $RegistryPath -Name $Entry.Name -ErrorAction 'SilentlyContinue'
                 }
                 else
@@ -144,7 +144,7 @@ function Set-RegistryEntry
                     {
                         $RegistryEntryData.Value = $Entry.Value -eq '' ? $null : $Entry.Value -split '\s+'
                     }
-                    Write-Verbose -Message "          set: '$($Entry.Name)' to '$($Entry.Value)' ($($Entry.Type))"
+                    Write-Verbose -Message "      set: '$($Entry.Name)' to '$($Entry.Value)' ($($Entry.Type))"
                     Set-ItemProperty @RegistryEntryData | Out-Null
                 }
             }

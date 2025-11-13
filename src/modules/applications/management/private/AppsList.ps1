@@ -25,8 +25,8 @@ $AppsList = [ordered]@{
     qBittorrent    = 'qBittorrent.qBittorrent'
 
     # VPN
-    $ProtonVPN     = 'Proton.ProtonVPN'
-    $MullvadVPN    = 'MullvadVPN.MullvadVPN'
+    ProtonVPN      = 'Proton.ProtonVPN'
+    MullvadVPN     = 'MullvadVPN.MullvadVPN'
 
     # Web Browser
     Brave          = @(

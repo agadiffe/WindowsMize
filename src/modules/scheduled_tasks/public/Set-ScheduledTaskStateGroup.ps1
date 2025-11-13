@@ -13,7 +13,7 @@ class ScheduledTasksGroupName : System.Management.Automation.IValidateSetValuesG
 <#
 .SYNTAX
     Set-ScheduledTaskStateGroup
-        [-Name] {AdobeAcrobat | Diagnostic | Features | MicrosoftEdge | MicrosoftOffice | Miscellaneous | Telemetry |
+        [-Name] {AdobeAcrobat | Diagnostic | Features | MicrosoftOffice | Miscellaneous | Telemetry |
                  UserChoiceProtectionDriver}
         [<CommonParameters>]
 #>

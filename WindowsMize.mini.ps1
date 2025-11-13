@@ -877,7 +877,6 @@ $ServicesToConfig = @(
     'DiagnosticAndUsage'
     #'FileAndPrinterSharing' # needed by NetworkDiscovery (File Explorer > Network)
     'HyperV'
-    'MicrosoftEdge' # do not disable if you use Edge.
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
     'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
@@ -912,7 +911,6 @@ $TasksToConfig = @(
     #'AdobeAcrobat'
     'Diagnostic'
     'Features'
-    'MicrosoftEdge' # do not disable if you didn't uninstalled Edge.
     #'MicrosoftOffice'
     'Miscellaneous'
     'Telemetry'
@@ -1184,7 +1182,7 @@ $PrivacyAppPermGeneral = @{
     Notifications          = 'Disabled' ; NotificationsGPO          = 'NotConfigured'
 
     TextAndImageGeneration = 'Disabled' ; TextAndImageGenerationGPO = 'NotConfigured'
-    BackgroundApps         = 'Disabled' ; BackgroundAppsGPO         = 'NotConfigured'
+    #BackgroundApps         = 'Disabled' ; BackgroundAppsGPO         = 'NotConfigured'
 }
 Set-AppPermissionsSetting @PrivacyAppPermGeneral
 

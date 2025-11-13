@@ -35,6 +35,7 @@ function Set-AdobeSynchronizer
         }
 
         $AdobeSynchronizerFilePath = "$($AdobeAcrobatInfo.InstallLocation)\Acrobat\AdobeCollabSync.exe"
+        $AdobeFullTrustNotifierFilePath = "$($AdobeAcrobatInfo.InstallLocation)\Acrobat\RDCNotificationClient\FullTrustNotifier.exe"
 
         switch ($PSBoundParameters.Keys)
         {
@@ -66,9 +67,11 @@ function Set-AdobeSynchronizer
             }
             'TaskManagerProcess'
             {
-                $AdobeFullTrustNotifierFilePath = "$($AdobeAcrobatInfo.InstallLocation)\Acrobat\RDCNotificationClient\FullTrustNotifier.exe"
-
                 Write-Verbose -Message "Setting 'Adobe Synchronizer Task Manager Process' to '$TaskManagerProcess' ..."
+
+                $ProcessNames = '*AdobeCollabSync*', '*FullTrustNotifier*'
+                Stop-Process -Name $ProcessNames -Force -ErrorAction 'SilentlyContinue'
+                Start-Sleep -Seconds 0.5
 
                 switch ($TaskManagerProcess)
                 {

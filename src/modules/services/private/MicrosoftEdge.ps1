@@ -2,7 +2,7 @@
 #                                            Services - Microsoft Edge
 #=================================================================================================================
 
-$ServicesList += @{
+$ServicesListNotConfigured += @{
     MicrosoftEdge = @(
         @{
             DisplayName = 'Microsoft Edge Elevation Service (MicrosoftEdgeElevationService)'

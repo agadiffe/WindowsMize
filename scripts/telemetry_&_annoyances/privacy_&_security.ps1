@@ -205,7 +205,7 @@ Set-AppPermissionsSetting -Notifications 'Disabled' -NotificationsGPO 'NotConfig
 Set-AppPermissionsSetting -TextAndImageGeneration 'Disabled' -TextAndImageGenerationGPO 'NotConfigured'
 
 # --- Background apps (default: Enabled)
-Set-AppPermissionsSetting -BackgroundApps 'Enabled' -BackgroundAppsGPO 'NotConfigured'
+#Set-AppPermissionsSetting -BackgroundApps 'Disabled' -BackgroundAppsGPO 'NotConfigured'
 
 #endregion general
 

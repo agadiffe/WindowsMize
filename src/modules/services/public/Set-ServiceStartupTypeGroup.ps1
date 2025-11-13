@@ -17,9 +17,8 @@ class ServicesGroupName : System.Management.Automation.IValidateSetValuesGenerat
                  LltdIoDriver | LltdResponderDriver | MicrosoftMultiplexorDriver | QosPacketSchedulerDriver |
                  OfflineFilesDriver | NetworkDataUsageDriver |
                  Autoplay | Bluetooth | BluetoothAndCast | BluetoothAudio | DefenderPhishingProtection | Deprecated |
-                 DiagnosticAndUsage | Features | FileAndPrinterSharing | HyperV | MicrosoftEdge | MicrosoftOffice |
-                 MicrosoftStore | Miscellaneous | Network | NetworkDiscovery | Printer | RemoteDesktop | Sensor |
-                 SmartCard | Telemetry | VirtualReality | Vpn | Webcam | WindowsBackupAndSystemRestore | WindowsSearch |
+                 DiagnosticAndUsage | Features | FileAndPrinterSharing | HyperV | MicrosoftOffice | MicrosoftStore |
+                 Miscellaneous | Network | NetworkDiscovery | Printer | RemoteDesktop | Sensor |
                  WindowsSubsystemForLinux | Xbox | AdobeAcrobat | Intel | Nvidia}
         [-RestoreDefault]
         [<CommonParameters>]
