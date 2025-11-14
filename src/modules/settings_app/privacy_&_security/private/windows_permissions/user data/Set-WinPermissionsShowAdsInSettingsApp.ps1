@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                  Privacy & Security > General > Show Me Suggested Content In The Settings App
+#            Privacy & Security > Recommendations And Offers > Recommendations And Offers In Settings
 #=================================================================================================================
 
 <#
@@ -28,7 +28,7 @@ function Set-WinPermissionsShowAdsInSettingsApp
 
     process
     {
-        $WinPermissionsTipsInSettingsAppMsg = 'Windows Permissions - Show Me Suggested Content In The Settings App'
+        $WinPermissionsTipsInSettingsAppMsg = 'Windows Permissions - Recommendations And Offers In Settings'
 
         switch ($PSBoundParameters.Keys)
         {

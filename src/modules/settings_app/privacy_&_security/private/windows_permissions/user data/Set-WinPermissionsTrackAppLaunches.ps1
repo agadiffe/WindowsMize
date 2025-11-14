@@ -1,5 +1,5 @@
 #=================================================================================================================
-#      Privacy & Security > General > Let Windows Improve Start And Search Results By Tracking App Launches
+#               Privacy & Security > Recommendations And Offers > Improve Start And Search Results
 #=================================================================================================================
 
 <#
@@ -28,7 +28,7 @@ function Set-WinPermissionsTrackAppLaunches
 
     process
     {
-        $WinPermissionsTrackAppLaunchesMsg = 'Windows Permissions - Let Windows Improve Start And Search Results By Tracking App Launches'
+        $WinPermissionsTrackAppLaunchesMsg = 'Windows Permissions - Improve Start And Search Results'
 
         switch ($PSBoundParameters.Keys)
         {

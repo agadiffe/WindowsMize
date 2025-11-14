@@ -1,5 +1,5 @@
 #=================================================================================================================
-#           Privacy & Security > General > Let Apps Show Me Personalized Ads By Using My Advertising ID
+#                        Privacy & Security > Recommendations And Offers > Advertising ID
 #=================================================================================================================
 
 <#
@@ -28,7 +28,7 @@ function Set-WinPermissionsAdvertisingID
 
     process
     {
-        $WinPermissionsAdvertisingIDMsg = 'Windows Permissions - Let Apps Show Me Personalized Ads By Using My Advertising ID'
+        $WinPermissionsAdvertisingIDMsg = 'Windows Permissions - Advertising ID'
 
         switch ($PSBoundParameters.Keys)
         {

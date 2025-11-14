@@ -1,5 +1,5 @@
 #=================================================================================================================
-#   Privacy & Security > General > Let Websites Show Me Locally Relevant Content By Accessing My Language List
+#           Privacy & Security > Recommendations And Offers > Allow Websites To Access My Language List
 #=================================================================================================================
 
 <#
@@ -38,9 +38,7 @@ function Set-WinPermissionsLanguageListAccess
             )
         }
 
-        $WinPermissionsLanguageListAccessMsg = 'Let Websites Show Me Locally Relevant Content By Accessing My Language List'
-
-        Write-Verbose -Message "Setting 'Windows Permissions - $WinPermissionsLanguageListAccessMsg' to '$State' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Allow Websites To Access My Language List' to '$State' ..."
         Set-RegistryEntry -InputObject $WinPermissionsLanguageListAccess
     }
 }

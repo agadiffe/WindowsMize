@@ -1120,10 +1120,11 @@ Set-DefenderNotificationsSetting @DefenderNotifs
 # --- User Data (aka: General / Recommendations & offers)
 $PrivacyWinPermUserData = @{
     FindMyDevice            = 'Disabled' ; FindMyDeviceGPO         = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'NotConfigured'
+    PersonalizedOffers      = 'Disabled' ; PersonalizedOffersGPO   = 'Disabled'
     LanguageListAccess      = 'Disabled'
     TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO     = 'NotConfigured'
     ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'NotConfigured'
+    AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'NotConfigured'
     ShowNotifsInSettingsApp = 'Disabled'
     ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured' # old
 }
@@ -1144,7 +1145,6 @@ Set-WinPermissionsSetting @PrivacyWinPermAI
 $PrivacyWinPermTelemetry = @{
     DiagnosticData          = 'Disabled' ; DiagnosticDataGPO         = 'Disabled' # Disabled | OnlyRequired | OptionalAndRequired | NotConfigured
     ImproveInkingAndTyping  = 'Disabled' ; ImproveInkingAndTypingGPO = 'Disabled'
-    TailoredExperiences     = 'Disabled' ; TailoredExperiencesGPO    = 'Disabled'
     DiagnosticDataViewer    = 'Disabled' ; DiagnosticDataViewerGPO   = 'Disabled'
     DeleteDiagnosticDataGPO = 'NotConfigured'
     FeedbackFrequency       = 'Never'    ; FeedbackFrequencyGPO      = 'Disabled' # State: Never | Automatically | Always | Daily | Weekly
@@ -1279,10 +1279,10 @@ $StartSettings = @{
     #LayoutMode               = 'Default' # old / Default | MorePins | MoreRecommendations
     ShowAllPins              = 'Enabled'
     ShowRecentlyAddedApps    = 'Disabled' ; ShowRecentlyAddedAppsGPO   = 'NotConfigured'
-    ShowMostUsedApps         = 'Disabled' ; ShowMostUsedAppsGPO        = 'NotConfigured' # Disabled | Enabled | NotConfigured
     ShowRecentlyOpenedItems  = 'Enabled'  ; ShowRecentlyOpenedItemsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    ShowWebsitesFromHistoryGPO = 'Disabled'
     ShowRecommendations      = 'Disabled'
+    ShowWebsitesFromHistoryGPO = 'Disabled'
+    ShowMostUsedApps         = 'Disabled' ; ShowMostUsedAppsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
     ShowAccountNotifications = 'Disabled'
     ShowMobileDevice         = 'Disabled'
 }

@@ -9,13 +9,15 @@
         # User Data
         [-FindMyDevice {Disabled | Enabled}]
         [-FindMyDeviceGPO {Disabled | Enabled | NotConfigured}]
-        [-AdvertisingID {Disabled | Enabled}]
-        [-AdvertisingIDGPO {Disabled | NotConfigured}]
+        [-PersonalizedOffers {Disabled | Enabled}]
+        [-PersonalizedOffersGPO {Disabled | NotConfigured}]
         [-LanguageListAccess {Disabled | Enabled}]
         [-TrackAppLaunches {Disabled | Enabled}]
         [-TrackAppLaunchesGPO {Disabled | NotConfigured}]
         [-ShowAdsInSettingsApp {Disabled | Enabled}]
         [-ShowAdsInSettingsAppGPO {Disabled | NotConfigured}]
+        [-AdvertisingID {Disabled | Enabled}]
+        [-AdvertisingIDGPO {Disabled | NotConfigured}]
         [-ShowNotifsInSettingsApp {Disabled | Enabled}]
         [-ActivityHistory {Disabled | Enabled}]
         [-ActivityHistoryGPO {Disabled | NotConfigured}]
@@ -38,8 +40,6 @@
         [-DeleteDiagnosticDataGPO {Disabled | NotConfigured}]
         [-ImproveInkingAndTyping {Disabled | Enabled}]
         [-ImproveInkingAndTypingGPO {Disabled | NotConfigured}]
-        [-TailoredExperiences {Disabled | Enabled}]
-        [-TailoredExperiencesGPO {Disabled | NotConfigured}]
         [-FeedbackFrequency {Never | Automatically | Always | Daily | Weekly}]
         [-FeedbackFrequencyGPO {Disabled | NotConfigured}]
 
@@ -72,15 +72,16 @@ function Set-WinPermissionsSetting
         [state] $FindMyDevice,
         [GpoState] $FindMyDeviceGPO,
 
-        [state] $AdvertisingID,
-        [GpoStateWithoutEnabled] $AdvertisingIDGPO,
+        [state] $PersonalizedOffers,
+        [GpoStateWithoutEnabled] $PersonalizedOffersGPO,
         [state] $LanguageListAccess,
         [state] $TrackAppLaunches,
         [GpoStateWithoutEnabled] $TrackAppLaunchesGPO,
         [state] $ShowAdsInSettingsApp,
         [GpoStateWithoutEnabled] $ShowAdsInSettingsAppGPO,
+        [state] $AdvertisingID,
+        [GpoStateWithoutEnabled] $AdvertisingIDGPO,
         [state] $ShowNotifsInSettingsApp,
-
         [state] $ActivityHistory,
         [GpoStateWithoutEnabled] $ActivityHistoryGPO,
 
@@ -105,8 +106,6 @@ function Set-WinPermissionsSetting
         [GpoStateWithoutEnabled] $DeleteDiagnosticDataGPO,
         [state] $ImproveInkingAndTyping,
         [GpoStateWithoutEnabled] $ImproveInkingAndTypingGPO,
-        [state] $TailoredExperiences,
-        [GpoStateWithoutEnabled] $TailoredExperiencesGPO,
         [FeedbackFrequencyMode] $FeedbackFrequency,
         [GpoStateWithoutEnabled] $FeedbackFrequencyGPO,
 
@@ -139,15 +138,16 @@ function Set-WinPermissionsSetting
             'FindMyDevice'                   { Set-SecurityFindMyDevice -State $FindMyDevice }
             'FindMyDeviceGPO'                { Set-SecurityFindMyDevice -GPO $FindMyDeviceGPO }
 
-            'AdvertisingID'                  { Set-WinPermissionsAdvertisingID -State $AdvertisingID }
-            'AdvertisingIDGPO'               { Set-WinPermissionsAdvertisingID -GPO $AdvertisingIDGPO }
+            'PersonalizedOffers'             { Set-WinPermissionsPersonalizedOffers -State $PersonalizedOffers }
+            'PersonalizedOffersGPO'          { Set-WinPermissionsPersonalizedOffers -GPO $PersonalizedOffersGPO }
             'LanguageListAccess'             { Set-WinPermissionsLanguageListAccess -State $LanguageListAccess }
             'TrackAppLaunches'               { Set-WinPermissionsTrackAppLaunches -State $TrackAppLaunches }
             'TrackAppLaunchesGPO'            { Set-WinPermissionsTrackAppLaunches -GPO $TrackAppLaunchesGPO }
             'ShowAdsInSettingsApp'           { Set-WinPermissionsShowAdsInSettingsApp -State $ShowAdsInSettingsApp }
             'ShowAdsInSettingsAppGPO'        { Set-WinPermissionsShowAdsInSettingsApp -GPO $ShowAdsInSettingsAppGPO }
+            'AdvertisingID'                  { Set-WinPermissionsAdvertisingID -State $AdvertisingID }
+            'AdvertisingIDGPO'               { Set-WinPermissionsAdvertisingID -GPO $AdvertisingIDGPO }
             'ShowNotifsInSettingsApp'        { Set-WinPermissionsShowNotifsInSettingsApp -State $ShowNotifsInSettingsApp }
-
             'ActivityHistory'                { Set-WinPermissionsActivityHistory -State $ActivityHistory }
             'ActivityHistoryGPO'             { Set-WinPermissionsActivityHistory -GPO $ActivityHistoryGPO }
 
@@ -172,8 +172,6 @@ function Set-WinPermissionsSetting
             'DeleteDiagnosticDataGPO'        { Set-WinPermissionsDeleteDiagnosticData -GPO $DeleteDiagnosticDataGPO }
             'ImproveInkingAndTyping'         { Set-WinPermissionsImproveInkingAndTyping -State $ImproveInkingAndTyping }
             'ImproveInkingAndTypingGPO'      { Set-WinPermissionsImproveInkingAndTyping -GPO $ImproveInkingAndTypingGPO }
-            'TailoredExperiences'            { Set-WinPermissionsTailoredExperiences -State $TailoredExperiences }
-            'TailoredExperiencesGPO'         { Set-WinPermissionsTailoredExperiences -GPO $TailoredExperiencesGPO }
             'FeedbackFrequency'              { Set-WinPermissionsFeedbackFrequency -State $FeedbackFrequency }
             'FeedbackFrequencyGPO'           { Set-WinPermissionsFeedbackFrequency -GPO $FeedbackFrequencyGPO }
 

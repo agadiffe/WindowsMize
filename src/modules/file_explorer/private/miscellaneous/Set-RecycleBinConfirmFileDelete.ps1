@@ -62,7 +62,7 @@ function Set-RecycleBinConfirmFileDelete
                     )
                 }
 
-                Write-Verbose -Message "Setting '$ConfirmFileDeleteMsg (GPO)' to '$State' ..."
+                Write-Verbose -Message "Setting '$ConfirmFileDeleteMsg (GPO)' to '$GPO' ..."
                 Set-RegistryEntry -InputObject $ConfirmFileDeleteGpo
             }
         }

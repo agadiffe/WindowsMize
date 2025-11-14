@@ -37,6 +37,9 @@ Write-Section -Name 'Windows Settings App - Personnalization'
 
 Write-Section -Name 'Start' -SubSection
 
+#             Miscellaneous
+#=======================================
+
 # --- Layout | old
 # State: Default (default) | MorePins | MoreRecommendations
 #Set-StartSetting -LayoutMode 'Default'
@@ -45,22 +48,31 @@ Write-Section -Name 'Start' -SubSection
 # This setting has moved directly into the Start Menu with "Show more"/"Show less" options.
 Set-StartSetting -ShowAllPins 'Enabled'
 
+#              Recommended
+#=======================================
+
 # --- Show recently added apps (default: Enabled)
 Set-StartSetting -ShowRecentlyAddedApps 'Disabled' -ShowRecentlyAddedAppsGPO 'NotConfigured'
-
-# --- Show most used apps (default: Enabled)
-# GPO: Disabled | Enabled | NotConfigured
-Set-StartSetting -ShowMostUsedApps 'Disabled' -ShowMostUsedAppsGPO 'NotConfigured'
 
 # --- Show recommended files in Start, recent files in File Explorer, and items in Jump Lists (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StartSetting -ShowRecentlyOpenedItems 'Enabled' -ShowRecentlyOpenedItemsGPO 'NotConfigured'
 
+# --- Show recommendations for tips, shortcuts, new apps, and more (default: Enabled)
+Set-StartSetting -ShowRecommendations 'Disabled'
+
 # --- Show Websites From Your Browsing History
 Set-StartSetting -ShowWebsitesFromHistoryGPO 'Disabled'
 
-# --- Show recommendations for tips, shortcuts, new apps, and more (default: Enabled)
-Set-StartSetting -ShowRecommendations 'Disabled'
+#                  All
+#=======================================
+
+# --- Show most used apps (default: Enabled)
+# GPO: Disabled | Enabled | NotConfigured
+Set-StartSetting -ShowMostUsedApps 'Disabled' -ShowMostUsedAppsGPO 'NotConfigured'
+
+#                 Other
+#=======================================
 
 # --- Show account-related notifications (default: Enabled)
 Set-StartSetting -ShowAccountNotifications 'Disabled'

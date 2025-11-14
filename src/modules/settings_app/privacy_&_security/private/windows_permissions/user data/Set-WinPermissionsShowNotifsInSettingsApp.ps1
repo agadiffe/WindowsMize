@@ -1,6 +1,8 @@
 #=================================================================================================================
-#                    Privacy & Security > General > Show Me Notifications In The Settings App
+#                   Privacy & Security > Recommendations And Offers > Notifications In Settings
 #=================================================================================================================
+
+# old
 
 <#
 .SYNTAX
@@ -38,7 +40,7 @@ function Set-WinPermissionsShowNotifsInSettingsApp
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Show Me Notifications In The Settings App' to '$State' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Notifications In Settings' to '$State' ..."
         Set-RegistryEntry -InputObject $WinPermissionsNotifsInSettingsApp
     }
 }

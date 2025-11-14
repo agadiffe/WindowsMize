@@ -55,19 +55,22 @@ Write-Section -Name 'Windows permissions' -SubSection
 # aka: General / Recommendations & offers
 #region user data
 
-# --- Let apps show me personalized ads by using my advertising ID (default: Enabled)
-Set-WinPermissionsSetting -AdvertisingID 'Disabled' -AdvertisingIDGPO 'NotConfigured'
+# --- Personalized offers (default: Enabled)
+Set-WinPermissionsSetting -PersonalizedOffers 'Disabled' -PersonalizedOffersGPO 'NotConfigured'
 
-# --- Let websites show me locally relevant content by accessing my language list (default: Enabled)
+# --- Allow websites to access my language list (default: Enabled)
 Set-WinPermissionsSetting -LanguageListAccess 'Disabled'
 
-# --- Let Windows improve Start and search results by tracking app launches (default: Enabled)
+# --- Improve Start and search results (default: Enabled)
 Set-WinPermissionsSetting -TrackAppLaunches 'Disabled' -TrackAppLaunchesGPO 'NotConfigured'
 
-# --- Show me suggested content in the Settings app (default: Enabled)
+# --- Recommendations and offers in Settings (default: Enabled)
 Set-WinPermissionsSetting -ShowAdsInSettingsApp 'Disabled' -ShowAdsInSettingsAppGPO 'NotConfigured'
 
-# --- Show me notifications in the Settings app (default: Enabled)
+# --- Advertising ID (default: Enabled)
+Set-WinPermissionsSetting -AdvertisingID 'Disabled' -AdvertisingIDGPO 'NotConfigured'
+
+# --- Notifications in Settings (default: Enabled) | old
 Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
 
 # --- Activity history (default: Enabled) | old
@@ -114,9 +117,6 @@ Set-WinPermissionsSetting -DiagnosticData 'Disabled' -DiagnosticDataGPO 'Disable
 
 # --- Improve inking and typing (default: Enabled)
 Set-WinPermissionsSetting -ImproveInkingAndTyping 'Disabled' -ImproveInkingAndTypingGPO 'Disabled'
-
-# --- Tailored experiences (default: Enabled)
-Set-WinPermissionsSetting -TailoredExperiences 'Disabled' -TailoredExperiencesGPO 'Disabled'
 
 # --- View diagnostic data (default: Disabled)
 Set-WinPermissionsSetting -DiagnosticDataViewer 'Disabled' -DiagnosticDataViewerGPO 'Disabled'

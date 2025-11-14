@@ -1,20 +1,22 @@
 #=================================================================================================================
-#                       Privacy & Security > Diagnostics & Feedback > Tailored Experiences
+#                      Privacy & Security > Recommendations And Offers > Personalized Offers
 #=================================================================================================================
+
+# aka / old naming : Diagnostics & Feedback > Tailored Experiences
 
 <#
 .SYNTAX
-    Set-WinPermissionsTailoredExperiences
+    Set-WinPermissionsPersonalizedOffers
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-WinPermissionsTailoredExperiences
+function Set-WinPermissionsPersonalizedOffers
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsTailoredExperiences -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-WinPermissionsPersonalizedOffers -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -28,14 +30,14 @@ function Set-WinPermissionsTailoredExperiences
 
     process
     {
-        $WinPermissionsTailoredExperiencesMsg = 'Windows Permissions - Diagnostics & Feedback: Tailored Experiences'
+        $WinPermissionsPersonalizedOffersMsg = 'Windows Permissions - Personalized Offers'
 
         switch ($PSBoundParameters.Keys)
         {
             'State'
             {
                 # on: 1 (default) | off: 0
-                $WinPermissionsTailoredExperiences = @{
+                $WinPermissionsPersonalizedOffers = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Privacy'
                     Entries = @(
@@ -47,15 +49,15 @@ function Set-WinPermissionsTailoredExperiences
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WinPermissionsTailoredExperiencesMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $WinPermissionsTailoredExperiences
+                Write-Verbose -Message "Setting '$WinPermissionsPersonalizedOffersMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $WinPermissionsPersonalizedOffers
             }
             'GPO'
             {
                 # gpo\ user config > administrative tpl > windows components > cloud content
                 #   do not use diagnostic data for tailored experiences
                 # not configured: delete (default) | on: 1
-                $WinPermissionsTailoredExperiencesGpo = @{
+                $WinPermissionsPersonalizedOffersGpo = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Policies\Microsoft\Windows\CloudContent'
                     Entries = @(
@@ -68,8 +70,8 @@ function Set-WinPermissionsTailoredExperiences
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WinPermissionsTailoredExperiencesMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $WinPermissionsTailoredExperiencesGpo
+                Write-Verbose -Message "Setting '$WinPermissionsPersonalizedOffersMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $WinPermissionsPersonalizedOffersGpo
             }
         }
     }
