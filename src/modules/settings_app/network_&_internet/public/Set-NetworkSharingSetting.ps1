@@ -43,7 +43,7 @@ function Set-NetworkSharingSetting
             'FileAndPrinterSharing' { '@FirewallAPI.dll,-28502' }
         }
 
-        Write-Verbose -Message "  Setting 'Firewall rules (group: $NetFirewallGroupID)' to '$State'"
+        Write-Verbose -Message "  set 'Firewall rules (group: $NetFirewallGroupID)' to '$State'"
         Get-NetFirewallRule -Group $NetFirewallGroupID |
             Where-Object -Property 'Profile' -Match -Value $NetProfile |
             Set-NetFirewallRule -Enabled ($State -eq 'Enabled' ? 'True' : 'False')

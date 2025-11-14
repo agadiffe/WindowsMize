@@ -2,8 +2,6 @@
 #                              Personnalization > Taskbar > Taskbar Items > Widgets
 #=================================================================================================================
 
-# Function not used.
-
 # To disable Widgets, see: applications > management > Set-Widgets
 
 # UCPD filter driver prevent the modification of this registry key.

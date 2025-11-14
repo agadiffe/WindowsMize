@@ -125,6 +125,7 @@ $PreinstalledAppsToRemove = @(
     'Maps'
     'MediaPlayer'
     'Microsoft365'
+    'Microsoft365Companions'
     'MicrosoftCopilot'
     #'MicrosoftStore' # do not remove
     'MicrosoftTeams'
@@ -1304,8 +1305,9 @@ Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 # --- Taskbar
 $TaskbarSettings = @{
     SearchBox       = 'Hide'     ; SearchBoxGPO = 'NotConfigured' # Hide | IconOnly | Box | IconAndLabel | NotConfigured
-    AskCopilot      = 'Disabled'
+    AskCopilot      = 'Disabled' # UCPD protected ?
     TaskView        = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
+    Widgets         = 'Disabled' # UCPD protected
     ResumeAppNotif  = 'Disabled'
     EmojiAndMore    = 'Never' # Never | WhileTyping | Always
     PenMenu         = 'Disabled'
@@ -1569,7 +1571,7 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 # --- Lock screen
 $LockScreenSettings = @{
     SetToPicture                 = $true
-    GetFunFactsTipsTricks        = 'Disabled'
+    GetFunFactsTipsTricks        = 'Disabled' # also unset: Windows Spotlight
     ShowPictureOnSigninScreenGPO = 'NotConfigured'
     YourWidgets                  = 'Disabled' ; YourWidgetsGPO = 'NotConfigured'
 }

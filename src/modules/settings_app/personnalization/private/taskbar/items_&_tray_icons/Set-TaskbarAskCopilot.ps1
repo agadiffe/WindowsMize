@@ -2,6 +2,9 @@
 #                            Personnalization > Taskbar > Taskbar Items > Ask Copilot
 #=================================================================================================================
 
+# UCPD filter driver prevent the modification of this registry key ?
+# BrandedKeyChoiceType: Requested registry access is not allowed.
+
 <#
 .SYNTAX
     Set-TaskbarAskCopilot

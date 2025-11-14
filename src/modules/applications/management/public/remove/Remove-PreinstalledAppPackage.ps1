@@ -18,10 +18,11 @@ class PreinstalledAppsList : System.Management.Automation.IValidateSetValuesGene
     Remove-PreinstalledAppPackage
         [-Name] {BingSearch | Calculator | Camera | Clipchamp | Clock | Compatibility | Cortana | CrossDevice |
                  DevHome | EdgeGameAssist | Extensions | Family | FeedbackHub | GetHelp | Journal | MailAndCalendar |
-                 Maps | MediaPlayer | Microsoft365 | MicrosoftCopilot | MicrosoftStore | MicrosoftTeams | MoviesAndTV |
-                 News | Notepad | Outlook | Paint | People | PhoneLink | Photos | PowerAutomate | QuickAssist |
-                 SnippingTool | Solitaire | SoundRecorder | StickyNotes | Terminal | Tips | Todo | Weather |
-                 Whiteboard | Widgets | Xbox | 3DViewer | MixedReality | OneNote | Paint3D | Skype | Wallet}
+                 Maps | MediaPlayer | Microsoft365 | Microsoft365Companions | MicrosoftCopilot | MicrosoftStore |
+                 MicrosoftTeams | MoviesAndTV | News | Notepad | Outlook | Paint | People | PhoneLink | Photos |
+                 PowerAutomate | QuickAssist | SnippingTool | Solitaire | SoundRecorder | StickyNotes | Terminal |
+                 Tips | Todo | Weather | Whiteboard | Widgets | Xbox | 3DViewer | MixedReality | OneNote | Paint3D |
+                 Skype | Wallet}
         [<CommonParameters>]
 #>
 

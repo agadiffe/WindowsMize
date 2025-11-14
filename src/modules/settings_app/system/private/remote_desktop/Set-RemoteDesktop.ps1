@@ -57,8 +57,16 @@ function Set-RemoteDesktop
                 Write-Verbose -Message "Setting '$RemoteDesktopMsg' to '$State' ..."
                 Set-RegistryEntry -InputObject $RemoteDesktop
 
-                Write-Verbose -Message "  Setting 'Firewall rules (group: @FirewallAPI.dll,-28752)' to '$State'"
-                Set-NetFirewallRule -Group '@FirewallAPI.dll,-28752' -Enabled ($IsEnabled ? 'True' : 'False')
+                Write-Verbose -Message "  set 'Firewall rules (group: @FirewallAPI.dll,-28752)' to '$State'"
+                $RemoteDesktopFwRule = Get-NetFirewallRule -Group '@FirewallAPI.dll,-28752' -ErrorAction 'SilentlyContinue'
+                if ($RemoteDesktopFwRule)
+                {
+                    $RemoteDesktopFwRule | Set-NetFirewallRule -Enabled ($IsEnabled ? 'True' : 'False')
+                }
+                else
+                {
+                    Write-Verbose -Message "    Firewall rule not found"
+                }
             }
             'GPO'
             {

@@ -54,7 +54,7 @@ function Set-NetMulicastDns
         Write-Verbose -Message "Setting 'Network - Multicast DNS (mDNS)' to '$State' ..."
         Set-RegistryEntry -InputObject $NetworkMulicastDnsGpo
 
-        Write-Verbose -Message "  Setting 'Firewall rules (group: @FirewallAPI.dll,-37302)' to '$State'"
+        Write-Verbose -Message "  set 'Firewall rules (group: @FirewallAPI.dll,-37302)' to '$State'"
         Set-NetFirewallRule -Group '@FirewallAPI.dll,-37302' -Enabled ($State -eq 'Enabled' ? 'True' : 'False')
     }
 }

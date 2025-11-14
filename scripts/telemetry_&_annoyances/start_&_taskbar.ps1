@@ -102,10 +102,15 @@ Write-Section -Name 'Taskbar' -SubSection
 Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 
 # --- Ask Copilot (default: Disabled)
+# UCPD protected ?
 Set-TaskbarSetting -AskCopilot 'Disabled'
 
 # --- Task view (default: Enabled)
 Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
+
+# ---  Widgets (default: Enabled)
+# UCPD protected
+Set-TaskbarSetting -Widgets 'Disabled'
 
 # --- Resume (default: Enabled)
 Set-TaskbarSetting -ResumeAppNotif 'Disabled'

@@ -66,11 +66,12 @@ function Set-DefenderFirewallRule
             }
 
             Write-Verbose -Message "Setting 'Defender Firewall rule - $SettingMsg ($GroupID)' to '$State' ..."
-            try
+            $FirewallRule = Get-NetFirewallRule -Group $GroupID -ErrorAction 'SilentlyContinue'
+            if ($FirewallRule)
             {
-                Set-NetFirewallRule -Group $GroupID -Enabled ($State -eq 'Enabled' ? 'True' : 'False') -ErrorAction 'Stop'
+                $FirewallRule | Set-NetFirewallRule -Enabled ($State -eq 'Enabled' ? 'True' : 'False')
             }
-            catch
+            else
             {
                 Write-Verbose -Message "    Firewall rule not found"
             }

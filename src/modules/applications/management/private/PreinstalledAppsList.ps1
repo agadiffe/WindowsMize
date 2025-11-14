@@ -32,6 +32,7 @@ $PreinstalledAppsList = [ordered]@{
     Maps             = 'Microsoft.WindowsMaps' # old
     MediaPlayer      = 'Microsoft.ZuneMusic'
     Microsoft365     = 'Microsoft.MicrosoftOfficeHub'
+    Microsoft365Companions = 'Microsoft.M365Companions'
     MicrosoftCopilot = @(
                        'Microsoft.Copilot'
                        'Microsoft.Windows.Ai.Copilot.Provider'

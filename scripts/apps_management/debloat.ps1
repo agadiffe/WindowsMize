@@ -95,6 +95,7 @@ $PreinstalledAppsToRemove = @(
     'Maps'
     'MediaPlayer'
     'Microsoft365'
+    'Microsoft365Companions'
     'MicrosoftCopilot'
     #'MicrosoftStore' # do not remove
     'MicrosoftTeams'

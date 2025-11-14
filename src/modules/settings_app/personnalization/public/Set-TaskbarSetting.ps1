@@ -10,6 +10,7 @@
         [-AskCopilot {Disabled | Enabled}]
         [-TaskView {Disabled | Enabled}]
         [-TaskViewGPO {Disabled | NotConfigured}]
+        [-Widgets {Disabled | Enabled}]
         [-ResumeAppNotif {Disabled | Enabled}]
         [-EmojiAndMore {Never | WhileTyping | Always}]
         [-PenMenu {Disabled | Enabled}]
@@ -51,6 +52,7 @@ function Set-TaskbarSetting
         [state] $AskCopilot,
         [state] $TaskView,
         [GpoStateWithoutEnabled] $TaskViewGPO,
+        [state] $Widgets,
         [state] $ResumeAppNotif,
 
         # system tray icons
@@ -95,6 +97,7 @@ function Set-TaskbarSetting
             'AskCopilot'                      { Set-TaskbarAskCopilot -State $AskCopilot }
             'TaskView'                        { Set-TaskbarTaskView -State $TaskView }
             'TaskViewGPO'                     { Set-TaskbarTaskView -GPO $TaskViewGPO }
+            'Widgets'                         { Set-TaskbarWidgets -State $Widgets }
             'ResumeAppNotif'                  { Set-TaskbarResumeAppNotif -State $ResumeAppNotif }
 
             'EmojiAndMore'                    { Set-TaskbarEmojiAndMore -Value $EmojiAndMore }
