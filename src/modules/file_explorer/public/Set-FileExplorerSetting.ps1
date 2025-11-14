@@ -205,8 +205,8 @@ function Set-FileExplorerSetting
             'UndoRedo'                         { Set-FileExplorerUndoRedo -State $UndoRedo }
             'ConfirmFileDelete'                { Set-RecycleBinConfirmFileDelete -State $ConfirmFileDelete }
             'ConfirmFileDeleteGPO'             { Set-RecycleBinConfirmFileDelete -GPO $ConfirmFileDeleteGPO }
-            'RecycleBin'                       { Set-RecycleBinRemoveFilesImmediately -State $RecycleBin }
-            'RecycleBinGPO'                    { Set-RecycleBinRemoveFilesImmediately -GPO $RecycleBinGPO }
+            'RecycleBin'                       { Set-RecycleBin -State $RecycleBin }
+            'RecycleBinGPO'                    { Set-RecycleBin -GPO $RecycleBinGPO }
         }
     }
 }

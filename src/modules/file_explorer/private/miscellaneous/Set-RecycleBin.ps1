@@ -1,18 +1,18 @@
 #=================================================================================================================
-#                                     Recycle Bin > Remove Files Immediately
+#                                                   Recycle Bin
 #=================================================================================================================
 
-# Don't move files to the Recycle Bin. Remove files immediately when deleted.
+# Disabled: Don't move files to the Recycle Bin. Remove files immediately when deleted.
 
 <#
 .SYNTAX
-    Set-RecycleBinRemoveFilesImmediately
+    Set-RecycleBin
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-RecycleBinRemoveFilesImmediately
+function Set-RecycleBin
 {
     <#
     .DESCRIPTION
@@ -20,7 +20,7 @@ function Set-RecycleBinRemoveFilesImmediately
         Use the group policy to apply the setting to existing and new drives.
 
     .EXAMPLE
-        PS> Set-RecycleBinRemoveFilesImmediately -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-RecycleBin -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -34,34 +34,34 @@ function Set-RecycleBinRemoveFilesImmediately
 
     process
     {
-        $RemoveFilesImmediatelyMsg = 'Recycle Bin - Remove Files Immediately When Deleted'
+        $RecycleBinMsg = 'Recycle Bin'
 
         switch ($PSBoundParameters.Keys)
         {
             'State'
             {
-                # on: 1 | off: 0 (default)
-                $RemoveFilesImmediately = @{
+                # on: 0 (default) | off: 1
+                $RecycleBin = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\Volume\*'
                     Entries = @(
                         @{
                             Name  = 'NukeOnDelete'
-                            Value = $State -eq 'Enabled' ? '1' : '0'
+                            Value = $State -eq 'Enabled' ? '0' : '1'
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$RemoveFilesImmediatelyMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $RemoveFilesImmediately
+                Write-Verbose -Message "Setting '$RecycleBinMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $RecycleBin
             }
             'GPO'
             {
                 # gpo\ user config > administrative tpl > windows components > file explorer
                 #   do not move deleted files to the Recycle Bin
                 # not configured: delete (default) | on: 1
-                $RemoveFilesImmediatelyGpo = @{
+                $RecycleBinGpo = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Policies\Explorer'
                     Entries = @(
@@ -74,8 +74,8 @@ function Set-RecycleBinRemoveFilesImmediately
                     )
                 }
 
-                Write-Verbose -Message "Setting '$RemoveFilesImmediatelyMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $RemoveFilesImmediatelyGpo
+                Write-Verbose -Message "Setting '$RecycleBinMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $RecycleBinGpo
             }
         }
     }
