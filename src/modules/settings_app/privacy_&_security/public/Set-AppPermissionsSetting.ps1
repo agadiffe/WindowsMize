@@ -61,6 +61,8 @@
         [-ScreenshotBordersGPO {Disabled | Enabled | NotConfigured}]
         [-ScreenshotsAndRecording {Disabled | Enabled}]
         [-ScreenshotsAndRecordingGPO {Disabled | Enabled | NotConfigured}]
+        [-Passkeys {Disabled | Enabled}]
+        [-PasskeysAutofill {Disabled | Enabled}]
 
         # Tablet
         [-EyeTracker {Disabled | Enabled}]
@@ -141,6 +143,8 @@ function Set-AppPermissionsSetting
         [GpoState] $ScreenshotBordersGPO,
         [state] $ScreenshotsAndRecording,
         [GpoState] $ScreenshotsAndRecordingGPO,
+        [state] $Passkeys,
+        [state] $PasskeysAutofill,
 
         # Tablet
         [state] $EyeTracker,
@@ -220,6 +224,8 @@ function Set-AppPermissionsSetting
             'ScreenshotBordersGPO'       { Set-AppPermissionsScreenshotBorders -GPO $ScreenshotBordersGPO }
             'ScreenshotsAndRecording'    { Set-AppPermissionsScreenshotsAndRecording -State $ScreenshotsAndRecording }
             'ScreenshotsAndRecordingGPO' { Set-AppPermissionsScreenshotsAndRecording -GPO $ScreenshotsAndRecordingGPO }
+            'Passkeys'                   { Set-AppPermissionsPasskeys -State $Passkeys }
+            'PasskeysAutofill'           { Set-AppPermissionsPasskeysAutofill -State $PasskeysAutofill }
 
             # Tablet
             'EyeTracker'                 { Set-AppPermissionsEyeTracker -State $EyeTracker }

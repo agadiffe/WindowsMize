@@ -1216,6 +1216,8 @@ $PrivacyAppPermUserFiles = @{
     FileSystem      = 'Disabled'
     ScreenshotBorders       = 'Disabled' ; ScreenshotBordersGPO       = 'NotConfigured'
     ScreenshotsAndRecording = 'Disabled' ; ScreenshotsAndRecordingGPO = 'NotConfigured'
+    Passkeys        = 'Disabled'
+      PasskeysAutofill = 'Disabled'
 }
 Set-AppPermissionsSetting @PrivacyAppPermUserFiles
 

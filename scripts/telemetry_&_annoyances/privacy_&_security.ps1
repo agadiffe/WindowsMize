@@ -279,6 +279,12 @@ Set-AppPermissionsSetting -ScreenshotBorders 'Disabled' -ScreenshotBordersGPO 'N
 # --- Screenshots and screen recording (default: Enabled)
 Set-AppPermissionsSetting -ScreenshotsAndRecording 'Disabled' -ScreenshotsAndRecordingGPO 'NotConfigured'
 
+# --- Passkeys (default: Enabled)
+Set-AppPermissionsSetting -Passkeys 'Disabled'
+
+# --- --- Passkeys autofill (default: Enabled)
+Set-AppPermissionsSetting -PasskeysAutofill 'Disabled'
+
 #endregion user files
 
 #                Tablet
