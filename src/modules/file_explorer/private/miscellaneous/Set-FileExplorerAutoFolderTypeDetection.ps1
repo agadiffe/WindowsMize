@@ -29,7 +29,7 @@ function Set-FileExplorerAutoFolderTypeDetection
     process
     {
         $IsDisabled = $State -eq 'Disabled'
-        $IsEnabled = $State -eq 'Disabled'
+        $IsEnabled = $State -eq 'Enabled'
 
         # Bags & BagMRU\ current saved folders type
         # FolderType\ on: delete (default) | off: NotSpecified
