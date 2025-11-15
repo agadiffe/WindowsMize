@@ -97,7 +97,6 @@ $PreinstalledAppsToRemove = @(
     'Microsoft365'
     'Microsoft365Companions'
     'MicrosoftCopilot'
-    #'MicrosoftStore' # do not remove
     'MicrosoftTeams'
     'MoviesAndTV'
     'News'
@@ -119,7 +118,9 @@ $PreinstalledAppsToRemove = @(
     'Weather'
     #'Whiteboard'
     'Widgets'
-    'Xbox'
+    #'Xbox' # might be required for some games
+
+    # Win 10
     '3DViewer'
     'MixedReality'
     'OneNote'

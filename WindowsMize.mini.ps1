@@ -127,7 +127,6 @@ $PreinstalledAppsToRemove = @(
     'Microsoft365'
     'Microsoft365Companions'
     'MicrosoftCopilot'
-    #'MicrosoftStore' # do not remove
     'MicrosoftTeams'
     'MoviesAndTV'
     'News'
@@ -149,7 +148,9 @@ $PreinstalledAppsToRemove = @(
     'Weather'
     #'Whiteboard'
     'Widgets'
-    'Xbox'
+    #'Xbox' # might be required for some games
+
+    # Win 10
     '3DViewer'
     'MixedReality'
     'OneNote'
@@ -372,8 +373,8 @@ Set-BraveBrowserSettings
 
 # src\modules\applications\settings\config_files
 $AppsToConfig = @(
-    'KeePassXC'
-    'qBittorrent'
+    #'KeePassXC'
+    #'qBittorrent'
     'VLC'
     #'VSCode'
     #'Git'
@@ -1000,7 +1001,7 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-Disable-GameBarLinks # Fix error if XBox GameBar is uninstalled
+#Disable-GameBarLinks # Fix error if XBox GameBar is uninstalled
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 Set-HelpTips -GPO 'Disabled'
 Set-MenuShowDelay -Value '200' # ms | range 50-1000
@@ -1020,13 +1021,13 @@ $WindowsSpotlightSettings = @{
     DesktopGPO     = 'NotConfigured'
     LockScreenGPO  = 'NotConfigured' # Enterprise only
     AdsContentGPO  = 'Disabled'
-    LearnAboutPictureDesktopIcon = 'Disabled'
+    #LearnAboutPictureDesktopIcon = 'Disabled'
 }
 Set-WindowsSpotlight @WindowsSpotlightSettings
 
 # --- Windows features and settings
 Move-CharacterMapShortcutToWindowsTools
-#Set-DisplayModeChangeAnimation -State 'Enabled'
+#Set-DisplayModeChangeAnimation -State 'Disabled'
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
 #Set-EventLogLocation -Default
 Set-EaseOfAccessReadScanSection -State 'Disabled'
@@ -1038,7 +1039,7 @@ Set-LocationScriptingPermission -GPO 'NotConfigured'
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
 Set-SensorsPermission -GPO 'NotConfigured'
 Set-ShareShowDragTrayOnTopScreen -State 'Disabled'
-#Set-TaskbarLastActiveClick -State 'Disabled'
+#Set-TaskbarLastActiveClick -State 'Enabled'
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
 Set-WindowsMediaDrmOnlineAccess -GPO 'Disabled'
@@ -1088,7 +1089,7 @@ Set-UserInfoSharing -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 $DefenderSettings = @{
     CloudDeliveredProtection = 'Disabled'  ; CloudDeliveredProtectionGPO = 'NotConfigured' # Disabled | Basic | Advanced | NotConfigured
     AutoSampleSubmission     = 'NeverSend' ; AutoSampleSubmissionGPO     = 'NotConfigured' # NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured
-    AdminProtection          = 'Disabled'
+    #AdminProtection          = 'Disabled'
     #SmartAppControl          = 'Disabled' # if Disabled, can't be turn on without reinstall.
     CheckAppsAndFiles        = 'Disabled'  ; CheckAppsAndFilesGPO        = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
     SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
@@ -1125,7 +1126,7 @@ $PrivacyWinPermUserData = @{
     TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO     = 'NotConfigured'
     ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'NotConfigured'
     AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'NotConfigured'
-    ShowNotifsInSettingsApp = 'Disabled'
+    ShowNotifsInSettingsApp = 'Disabled' # old
     ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured' # old
 }
 Set-WinPermissionsSetting @PrivacyWinPermUserData
@@ -1539,7 +1540,7 @@ $BackgroundSettings = @{
     Wallpaper      = "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
     WallpaperStyle = 'Fill' # Fill | Fit | Stretch | Span | Tile | Center
 }
-Set-BackgroundSetting @BackgroundSettings
+#Set-BackgroundSetting @BackgroundSettings
 
 # --- Colors
 $ColorsSettings = @{
@@ -1555,12 +1556,12 @@ Set-ColorsSetting @ColorsSettings
 $DesktopIcons = @(
     'ThisPC'
     #'UserFiles'
-    'Network'
+    #'Network'
     'RecycleBin'
     #'ControlPanel'
 )
-#Set-ThemesSetting -DesktopIcons $DesktopIcons
-Set-ThemesSetting -HideAllDesktopIcons
+Set-ThemesSetting -DesktopIcons $DesktopIcons
+#Set-ThemesSetting -HideAllDesktopIcons
 Set-ThemesSetting -ThemesCanChangeDesktopIcons 'Disabled'
 
 # --- Dynamic Lighting
@@ -1572,8 +1573,8 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 
 # --- Lock screen
 $LockScreenSettings = @{
-    SetToPicture                 = $true
-    GetFunFactsTipsTricks        = 'Disabled' # also unset: Windows Spotlight
+    #SetToPicture                 = $true
+    #GetFunFactsTipsTricks        = 'Disabled' # also unset: Windows Spotlight
     ShowPictureOnSigninScreenGPO = 'NotConfigured'
     YourWidgets                  = 'Disabled' ; YourWidgetsGPO = 'NotConfigured'
 }
@@ -1607,10 +1608,9 @@ $AppsSettings = @{
 }
 Set-GeneralAppsSetting @AppsSettings
 
-# old | Deprecated app
 $OfflineMapsSettings = @{
-    DownloadOverMeteredConnection = 'Disabled'
-    AutoUpdateOnACAndWifi         = 'Disabled' ; AutoUpdateOnACAndWifiGPO = 'NotConfigured'
+    DownloadOverMeteredConnection = 'Disabled' # old
+    AutoUpdateOnACAndWifi         = 'Disabled' ; AutoUpdateOnACAndWifiGPO = 'NotConfigured' # old
 }
 Set-OfflineMapsSetting @OfflineMapsSettings
 

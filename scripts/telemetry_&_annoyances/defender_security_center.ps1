@@ -60,7 +60,7 @@ Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO '
 Write-Section -Name 'Account Protection' -SubSection
 
 # --- Administrator Protection (default: Disabled)
-Set-DefenderSetting -AdminProtection 'Disabled'
+#Set-DefenderSetting -AdminProtection 'Disabled'
 
 #endregion account
 

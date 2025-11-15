@@ -222,7 +222,7 @@ Set-WindowsSpotlight -LockScreenGPO 'NotConfigured'
 Set-WindowsSpotlight -AdsContentGPO 'Disabled'
 
 # --- --- Learn about this picture (Desktop icon) (default: Enabled)
-Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
+#Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'
 
 #endregion ui
 
@@ -237,7 +237,7 @@ Write-Section -Name 'Windows features and settings' -SubSection
 Move-CharacterMapShortcutToWindowsTools
 
 # --- Display Mode Change Animation (default: Enabled)
-#Set-DisplayModeChangeAnimation -State 'Enabled'
+#Set-DisplayModeChangeAnimation -State 'Disabled'
 
 # --- Event log location
 # Path: path where to save the windows event logs.
@@ -275,7 +275,7 @@ Set-SensorsPermission -GPO 'NotConfigured'
 Set-ShareShowDragTrayOnTopScreen -State 'Disabled'
 
 # --- Taskbar : Last Active Click (default: Disabled)
-#Set-TaskbarLastActiveClick -State 'Disabled'
+#Set-TaskbarLastActiveClick -State 'Enabled'
 
 # --- Windows help and support : F1Key (default: Enabled)
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'

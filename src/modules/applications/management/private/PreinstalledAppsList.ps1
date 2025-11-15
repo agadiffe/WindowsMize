@@ -84,7 +84,7 @@ $PreinstalledAppsList = [ordered]@{
                      )
     Xbox             = @( # might be required for some games
                        'Microsoft.GamingApp'
-                       'Microsoft.XboxApp' # Win10
+                       'Microsoft.XboxApp' # old & Win10
                        'Microsoft.Xbox.TCUI'
                        'Microsoft.XboxGameOverlay'
                        'Microsoft.XboxGamingOverlay'
@@ -97,6 +97,6 @@ $PreinstalledAppsList = [ordered]@{
     MixedReality     = 'Microsoft.MixedReality.Portal' # old
     OneNote          = 'Microsoft.Office.OneNote'
     Paint3D          = 'Microsoft.MSPaint' # old
-    Skype            = 'Microsoft.SkypeApp'
-    Wallet           = 'Microsoft.Wallet'
+    Skype            = 'Microsoft.SkypeApp' # old
+    Wallet           = 'Microsoft.Wallet' # old
 }

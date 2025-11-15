@@ -45,11 +45,11 @@ Write-Section -Name 'Background' -SubSection
 
 # --- Choose a photo
 # default: "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
-Set-BackgroundSetting -Wallpaper "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
+#Set-BackgroundSetting -Wallpaper "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
 
 # --- Choose a fit for your desktop image
 # State: Fill (default) | Fit | Stretch | Span | Tile | Center
-Set-BackgroundSetting -WallpaperStyle 'Fill'
+#Set-BackgroundSetting -WallpaperStyle 'Fill'
 
 #endregion background
 
@@ -96,12 +96,12 @@ Write-Section -Name 'Themes' -SubSection
 $DesktopIcons = @(
     'ThisPC'
     #'UserFiles'
-    'Network'
+    #'Network'
     'RecycleBin'
     #'ControlPanel'
 )
-#Set-ThemesSetting -DesktopIcons $DesktopIcons
-Set-ThemesSetting -HideAllDesktopIcons
+Set-ThemesSetting -DesktopIcons $DesktopIcons
+#Set-ThemesSetting -HideAllDesktopIcons
 
 # --- Allow themes to change desktop icons (default: Enabled)
 Set-ThemesSetting -ThemesCanChangeDesktopIcons 'Disabled'
@@ -133,11 +133,11 @@ Write-Section -Name 'Lock screen' -SubSection
 # --- Personalize your lock screen (default: Windows spotlight)
 # Picture choice is not handled.
 # Default images location: C:\Windows\Web\Screen
-Set-LockScreenSetting -SetToPicture
+#Set-LockScreenSetting -SetToPicture
 
 # --- Get fun facts, tips, tricks, and more on your lock screen (default: Enabled)
 # If disabled, Windows spotlight will be unset.
-Set-LockScreenSetting -GetFunFactsTipsTricks 'Disabled'
+#Set-LockScreenSetting -GetFunFactsTipsTricks 'Disabled'
 
 # --- Show the lock screen background picture on the sign-in screen
 Set-LockScreenSetting -ShowPictureOnSigninScreenGPO 'NotConfigured'
