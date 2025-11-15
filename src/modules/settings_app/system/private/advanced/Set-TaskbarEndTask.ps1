@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                       System > For Developers > End Task
+#                                          System > Advanced > End Task
 #=================================================================================================================
 
 <#
@@ -38,7 +38,7 @@ function Set-TaskbarEndTask
             )
         }
 
-        Write-Verbose -Message "Setting 'For Developers - End Task' to '$State' ..."
+        Write-Verbose -Message "Setting 'System Advanced - End Task' to '$State' ..."
         Set-RegistryEntry -InputObject $EndTask
     }
 }

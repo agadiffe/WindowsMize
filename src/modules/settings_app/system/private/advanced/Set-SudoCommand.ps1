@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                         System > For Developers > Sudo
+#                                         System > Advanced > Enable Sudo
 #=================================================================================================================
 
 <#
@@ -34,7 +34,7 @@ function Set-SudoCommand
             'Disabled'      { 'disable' }
         }
 
-        Write-Verbose -Message "Setting 'For Developers - Sudo Command' to '$Value' ..."
+        Write-Verbose -Message "Setting 'System Advanced - Sudo Command' to '$Value' ..."
         sudo config --enable $SettingValue | Out-Null
     }
 }

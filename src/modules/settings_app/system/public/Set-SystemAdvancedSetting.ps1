@@ -1,20 +1,20 @@
 #=================================================================================================================
-#                                       System > For Developers - Settings
+#                                          System > Advanced - Settings
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-ForDevelopersSetting
+    Set-SystemAdvancedSetting
         [-EndTask {Disabled | Enabled}]
         [-Sudo {Disabled | NewWindow | InputDisabled | Inline}]
         [<CommonParameters>]
 #>
 
-function Set-ForDevelopersSetting
+function Set-SystemAdvancedSetting
 {
     <#
     .EXAMPLE
-        PS> Set-ForDevelopersSetting -EndTask 'Disabled' -Sudo 'Disabled'
+        PS> Set-SystemAdvancedSetting -EndTask 'Disabled' -Sudo 'Disabled'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]

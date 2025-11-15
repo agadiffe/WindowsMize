@@ -188,20 +188,20 @@ Set-MultitaskingSetting -ShowAllWindowsOnAltTab 'CurrentDesktop'
 #endregion multitasking
 
 #==========================================================
-#                      For developers
+#                         Advanced
 #==========================================================
-#region for developers
+#region advanced
 
 Write-Section -Name 'For developers' -SubSection
 
 # --- End task (default: Disabled)
-Set-ForDevelopersSetting -EndTask 'Disabled'
+Set-SystemAdvancedSetting -EndTask 'Disabled'
 
 # --- Enable sudo
 # State: Disabled (default) | NewWindow | InputDisabled | Inline
-Set-ForDevelopersSetting -Sudo 'Disabled'
+Set-SystemAdvancedSetting -Sudo 'Disabled'
 
-#endregion for developers
+#endregion advanced
 
 #==========================================================
 #                       Troubleshoot

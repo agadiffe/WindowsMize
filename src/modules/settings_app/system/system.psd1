@@ -17,7 +17,6 @@
         'Set-DisplayBrightnessSetting'
         'Set-DisplayGraphicsSetting'
         'Set-EnergySaverSetting'
-        'Set-ForDevelopersSetting'
         'Set-MultitaskingSetting'
         'Set-NearbySharingSetting'
         'Set-NotificationsSetting'
@@ -28,6 +27,7 @@
         'Set-SnapWindowsSetting'
         'Set-SoundSetting'
         'Set-StorageSenseSetting'
+        'Set-SystemAdvancedSetting'
         'Set-TroubleshooterPreference'
     )
     CmdletsToExport   = @()

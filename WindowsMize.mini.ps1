@@ -1399,12 +1399,12 @@ $SnapWindowsSettings = @{
 }
 Set-SnapWindowsSetting @SnapWindowsSettings
 
-# --- For developers
+# --- Advanced
 $AdvancedSettings = @{
     EndTask = 'Disabled'
     Sudo    = 'Disabled' # Disabled | NewWindow | InputDisabled | Inline
 }
-Set-ForDevelopersSetting @AdvancedSettings
+Set-SystemAdvancedSetting @AdvancedSettings
 
 # --- Troubleshoot
 Set-TroubleshooterPreference -Value 'Disabled' # Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently
