@@ -31,7 +31,7 @@ function Set-WinUpdateInsiderProgramPageVisibility
             Path    = 'SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility'
             Entries = @(
                 @{
-                    RemoveEntry = $State -eq 'Disabled'
+                    RemoveEntry = $State -eq 'Enabled'
                     Name  = 'HideInsiderPage'
                     Value = '1'
                     Type  = 'DWord'
