@@ -128,6 +128,9 @@ Set-StorageSenseSetting -CleanupTempFiles 'Enabled' -CleanupTempFilesGPO 'NotCon
 
 Write-Section -Name 'Nearby sharing' -SubSection
 
+# --- Drag Tray (default: Enabled)
+Set-NearbySharingSetting -DragTray 'Disabled'
+
 # --- Nearby sharing
 # State: Disabled (default) | DevicesOnly | EveryoneNearby
 Set-NearbySharingSetting -NearbySharing 'Disabled'

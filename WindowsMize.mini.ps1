@@ -1038,7 +1038,6 @@ Set-LocationPermission -GPO 'NotConfigured'
 Set-LocationScriptingPermission -GPO 'NotConfigured'
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
 Set-SensorsPermission -GPO 'NotConfigured'
-Set-ShareShowDragTrayOnTopScreen -State 'Disabled'
 #Set-TaskbarLastActiveClick -State 'Enabled'
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
@@ -1378,6 +1377,7 @@ Set-StorageSenseSetting @StorageSenseSettings
 
 # --- Nearby sharing
 $NearbySharingSettings = @{
+    DragTray          = 'Disabled'
     NearbySharing     = 'Disabled' # Disabled | DevicesOnly | EveryoneNearby
     #FileSaveLocation = 'X:\MySharedFiles'
 }

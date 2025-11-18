@@ -7,6 +7,7 @@
 <#
 .SYNTAX
     Set-NearbySharingSetting
+        [-DragTray {Disabled | Enabled}]
         [-NearbySharing {Disabled | DevicesOnly | EveryoneNearby}]
         [-FileSaveLocation <string>]
         [<CommonParameters>]
@@ -22,6 +23,7 @@ function Set-NearbySharingSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        [state] $DragTray,
         [NearShareMode] $NearbySharing,
 
         [ValidateScript(
@@ -43,6 +45,7 @@ function Set-NearbySharingSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            'DragTray'         { Set-NearbySharingDragTray -State $DragTray }
             'NearbySharing'    { Set-NearbySharing -State $NearbySharing }
             'FileSaveLocation' { Set-NearbySharingFileSaveLocation -Path $FileSaveLocation }
         }

@@ -68,7 +68,6 @@
         'Set-LocationScriptingPermission'
         'Set-OpenWithDialogStoreAccess'
         'Set-SensorsPermission'
-        'Set-ShareShowDragTrayOnTopScreen'
         'Set-TaskbarLastActiveClick'
         'Set-WindowsHelpSupportSetting'
         'Set-WindowsMediaDrmOnlineAccess'

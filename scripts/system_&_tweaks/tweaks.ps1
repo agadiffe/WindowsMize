@@ -271,9 +271,6 @@ Set-OpenWithDialogStoreAccess -GPO 'Disabled'
 # e.g. screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in)
 Set-SensorsPermission -GPO 'NotConfigured'
 
-# --- Share : Show Drag Tray On TopS creen (default: Disabled)
-Set-ShareShowDragTrayOnTopScreen -State 'Disabled'
-
 # --- Taskbar : Last Active Click (default: Disabled)
 #Set-TaskbarLastActiveClick -State 'Enabled'
 

@@ -52,7 +52,7 @@ function Set-WindowsSpotlight
                 #     personalization > lockscreen > get fun facts, tips, tricks, and more
                 #     system > notifications > show the Windows welcome experience [...]
                 #     system > notifications > get tips and suggestions when using Windows
-                #     privacy & security > general > show me suggested content in the setting app
+                #     privacy & security > recommendations & offers > recommendations and offers in Settings
                 # not configured: delete (default) | on: 1
                 $WindowsSpotlightGpo = @{
                     Hive    = 'HKEY_CURRENT_USER'
