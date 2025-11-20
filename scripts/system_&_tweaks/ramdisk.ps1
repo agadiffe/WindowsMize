@@ -13,7 +13,7 @@
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 Write-Output -InputObject 'Loading ''Ramdisk'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\src\modules\ramdisk"
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\ramdisk"
 
 
 # Advanced topic (a bit).

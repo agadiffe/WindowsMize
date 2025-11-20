@@ -13,7 +13,7 @@
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 Write-Output -InputObject 'Loading ''System_properties'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\src\modules\system_properties"
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\system_properties"
 
 
 # Parameters values (if not specified):

@@ -13,7 +13,7 @@
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 Write-Output -InputObject 'Loading ''Telemetry'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\src\modules\telemetry"
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\telemetry"
 
 
 # Parameters values (if not specified):

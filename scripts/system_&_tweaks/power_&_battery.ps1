@@ -13,7 +13,7 @@
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 Write-Output -InputObject 'Loading ''Power_options'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\src\modules\power_options"
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\power_options"
 
 
 # Parameters values (if not specified):

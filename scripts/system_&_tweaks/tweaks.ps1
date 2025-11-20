@@ -13,7 +13,7 @@
 
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 Write-Output -InputObject 'Loading ''Tweaks'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\src\modules\tweaks"
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\tweaks"
 
 
 # Parameters values (if not specified):

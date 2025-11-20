@@ -14,7 +14,7 @@
 $Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
 Write-Output -InputObject 'Loading ''Services and Scheduled_tasks'' Modules ...'
 $WindowsMizeModuleNames = @( 'services', 'scheduled_tasks' )
-Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\src\modules\$_" })
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 
 #=================================================================================================================
