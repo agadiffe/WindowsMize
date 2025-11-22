@@ -37,15 +37,22 @@ class AppPermissionAccess : AppPermissionSetting
     # 'HKEY_CURRENT_USER' is for the application toggle. e.g. Let apps access your camera
 
 
+    # Properties
+    #-------------
+    [string[]] $NoHkcuToggle = 'passkeys', 'passkeysEnumeration'
+
+
     # Constructors
     #-------------
     AppPermissionAccess([string]$KeyName, [string]$State)
     {
         $this.State = $State
         $Value = $State -eq 'Enabled' ? 'Allow' : 'Deny'
+        $CurrentTime = (Get-Date).ToFileTime()
 
         $this.Settings = @(
             @{
+                SkipKey = $KeyName -in $this.NoHkcuToggle
                 Hive    = 'HKEY_CURRENT_USER'
                 Path    = "Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\$KeyName"
                 Entries = @(
@@ -53,6 +60,11 @@ class AppPermissionAccess : AppPermissionSetting
                         Name  = 'Value'
                         Value = $Value
                         Type  = 'String'
+                    }
+                    @{
+                        Name  = 'LastSetTime'
+                        Value = $CurrentTime
+                        Type  = 'QWord'
                     }
                 )
             }
@@ -64,6 +76,11 @@ class AppPermissionAccess : AppPermissionSetting
                         Name  = 'Value'
                         Value = $Value
                         Type  = 'String'
+                    }
+                    @{
+                        Name  = 'LastSetTime'
+                        Value = $CurrentTime
+                        Type  = 'QWord'
                     }
                 )
             }
