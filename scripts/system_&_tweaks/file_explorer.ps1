@@ -90,6 +90,9 @@ Set-FileExplorerSetting -CompactView 'Enabled'
 # --- Display the full path in the title bar (default: Disabled)
 #Set-FileExplorerSetting -ShowFullPathInTitleBar 'Disabled'
 
+# --- Enable window preloading for faster launch times (default: Enabled)
+#Set-FileExplorerSetting -Prelaunch 'Enabled'
+
 # --- Hidden files, folders, and drives (default: Disabled)
 Set-FileExplorerSetting -ShowHiddenItems 'Enabled'
 

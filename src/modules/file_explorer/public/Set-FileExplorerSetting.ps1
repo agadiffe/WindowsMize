@@ -22,6 +22,7 @@
         [-ShowFileIconOnThumbnails {Disabled | Enabled}]
         [-ShowFileSizeInFolderTips {Disabled | Enabled}]
         [-ShowFullPathInTitleBar {Disabled | Enabled}]
+        [-Prelaunch {Disabled | Enabled}]
         [-ShowHiddenItems {Disabled | Enabled}]
         [-HideEmptyDrives {Disabled | Enabled}]
         [-HideFileExtensions {Disabled | Enabled}]
@@ -95,6 +96,7 @@ function Set-FileExplorerSetting
         [state] $ShowFileIconOnThumbnails,
         [state] $ShowFileSizeInFolderTips,
         [state] $ShowFullPathInTitleBar,
+        [state] $Prelaunch,
         [state] $ShowHiddenItems,
         [state] $HideEmptyDrives,
         [state] $HideFileExtensions,
@@ -165,6 +167,7 @@ function Set-FileExplorerSetting
             'ShowFileIconOnThumbnails'         { Set-FileExplorerShowFileIconOnThumbnails -State $ShowFileIconOnThumbnails }
             'ShowFileSizeInFolderTips'         { Set-FileExplorerShowFileSizeInFolderTips -State $ShowFileSizeInFolderTips }
             'ShowFullPathInTitleBar'           { Set-FileExplorerShowFullPathInTitleBar -State $ShowFullPathInTitleBar }
+            'Prelaunch'                        { Set-FileExplorerPrelaunch -State $Prelaunch }
             'ShowHiddenItems'                  { Set-FileExplorerShowHiddenItems -State $ShowHiddenItems }
             'HideEmptyDrives'                  { Set-FileExplorerHideEmptyDrives -State $HideEmptyDrives }
             'HideFileExtensions'               { Set-FileExplorerHideFileExtensions -State $HideFileExtensions }

@@ -675,6 +675,7 @@ $FileExplorerSettings = @{
     #ShowFileIconOnThumbnails         = 'Enabled'
     #ShowFileSizeInFolderTips         = 'Enabled'
     #ShowFullPathInTitleBar           = 'Disabled'
+    #Prelaunch                        = 'Enabled'
     ShowHiddenItems                  = 'Enabled'
     #HideEmptyDrives                  = 'Enabled'
     HideFileExtensions               = 'Disabled'
