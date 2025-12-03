@@ -36,7 +36,7 @@ Write-Section -Name 'Windows Notepad' -SubSection
 #              Appearance
 #=======================================
 
-# App theme
+# --- App theme
 # State: System (default) | Light | Dark
 Set-WindowsNotepadSetting -Theme 'System'
 

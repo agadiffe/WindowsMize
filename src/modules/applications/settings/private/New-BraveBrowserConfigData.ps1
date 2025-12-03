@@ -83,7 +83,7 @@ function New-BraveBrowserConfigData
             "auto_pin_new_tab_groups": false,
             "brave": {
                 "autocomplete_enabled": true,
-                "top_site_suggestions_enabled": false,
+                "top_site_suggestions_enabled": false, // on-device suggestions
                 "omnibox": {
                     "history_suggestions_enabled": true,
                     "bookmark_suggestions_enabled": true,
@@ -95,7 +95,8 @@ function New-BraveBrowserConfigData
                 "location_bar_is_wide": false,
                 "omnibox": {
                     "prevent_url_elisions": false // show full URLs
-                }
+                },
+                "web_view_rounded_corners": false
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -183,9 +184,9 @@ function New-BraveBrowserConfigData
                 "tabs": {
                     "vertical_tabs_enabled": false,
                     "vertical_tabs_show_title_on_window": true,
-                    "vertical_tabs_hide_completely_when_collapsed": false,
                     "vertical_tabs_collapsed": false,
-                    "vertical_tabs_floating_enabled": true, // expand on mouseover when collapsed
+                    "vertical_tabs_hide_completely_when_collapsed": false,
+                    "vertical_tabs_floating_enabled": true, // expand on hover when minimized
                     "vertical_tabs_expanded_state_per_window": true, // expand independently per window
                     "vertical_tabs_show_scrollbar": false,
                     "vertical_tabs_on_right": false,
@@ -500,6 +501,7 @@ function New-BraveBrowserConfigData
                     "sound": 1,
                     "usb_guard": 2, // USB devices
                     "vr": 2, // virtual reality
+                    "web_app_installation": 2,
                     "window_placement": 2 // window management
                 }
             },
@@ -604,8 +606,7 @@ function New-BraveBrowserConfigData
                     "auto_generate_questions": false, // suggested prompts
                     "context_menu_enabled": false,
                     "storage_enabled": false, // history
-                    "tab_organization_enabled": false, // tab Focus Mode
-                    "user_dismissed_premium_prompt": true
+                    "tab_organization_enabled": false // tab Focus Mode
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
@@ -674,7 +675,8 @@ function New-BraveBrowserConfigData
             "autofill": {
                 "credit_card_enabled": false, // save and fill payment methods
                 "payment_methods_mandatory_reauth": false, // verify it is you (always use fingerprint, face, or other screen lock)
-                "payment_cvc_storage": false // save security codes
+                "payment_cvc_storage": false, // save security codes
+                "payment_card_benefits": false
             },
             "payments": {
                 "can_make_payment_enabled": false // allow sites to check if you have payment methods saved
@@ -798,6 +800,11 @@ function New-BraveBrowserConfigData
                 },
                 "tabs": {
                     "vertical_tabs_expanded_width": 220 // default: 220 | min: 114 | max: 482
+                },
+                "ai_chat": {
+                    "user_dismissed_premium_prompt": true,
+                    "user_dismissed_storage_notice": true, // privacy/storage notice popup
+                    "toolbar_button_opens_full_page": false
                 }
             },
             "in_product_help": { // disable overlay tip: Inactive tabs get a new look (and probably more)
