@@ -110,6 +110,14 @@ enum TaskbarSmallerButtonsMode
     WhenFull = 2
 }
 
+enum TaskbarShareAnyWindowMode
+{
+    None              = 0
+    AllApps           = 1
+    CommunicationApps = 2
+    ChatAgentApps     = 3
+}
+
 
 # themes
 enum DesktopIcons

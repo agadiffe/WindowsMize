@@ -1325,7 +1325,7 @@ $TaskbarSettings = @{
     #ShowAppsFlashing                = 'Enabled'
     #ShowOnAllDisplays               = 'Disabled' ; ShowOnAllDisplaysGPO = 'NotConfigured'
     #ShowAppsOnMultipleDisplays      = 'AllTaskbars' # AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen
-    #ShareAnyWindow                  = 'Enabled'
+    ShareAnyWindowWith              = 'None' # None | AllApps | CommunicationApps | ChatAgentApps
     FarCornerToShowDesktop          = 'Enabled'
     GroupAndHideLabelsMainTaskbar   = 'Always' ; GroupAndHideLabelsGPO = 'NotConfigured'
     #GroupAndHideLabelsOtherTaskbars = 'Always' # # State (main + other): Always | WhenTaskbarIsFull | Never
