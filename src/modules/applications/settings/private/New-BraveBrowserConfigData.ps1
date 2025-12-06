@@ -23,7 +23,8 @@ function New-BraveBrowserConfigData
         Merge-Hashtable $BraveLocalState ('{
             "browser": {
                 "enabled_labs_experiments": [
-                    //"brave-adblock-show-hidden-components@1" // show hidden adblock filter list
+                    //"brave-adblock-show-hidden-components@1", // show hidden adblock filter list
+                    "brave-v8-jitless-mode@1", // enable V8 jitless mode when optimizations are disabled
                     //"enable-force-dark@1", // auto dark mode for web content
                     "enable-gpu-rasterization@1",
                     "enable-parallel-downloading@1"

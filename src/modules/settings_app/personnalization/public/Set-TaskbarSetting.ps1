@@ -25,7 +25,7 @@
         [-ShowOnAllDisplays {Disabled | Enabled}]
         [-ShowOnAllDisplaysGPO {Disabled | NotConfigured}]
         [-ShowAppsOnMultipleDisplays {AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen}]
-        [-ShareAnyWindowWith {{None | AllApps | CommunicationApps | ChatAgentApps}}]
+        [-ShareAnyWindowWith {None | AllApps | CommunicationApps | ChatAgentApps}]
         [-FarCornerToShowDesktop {Disabled | Enabled}]
         [-GroupAndHideLabelsMainTaskbar {Always | WhenTaskbarIsFull | Never}]
         [-GroupAndHideLabelsOtherTaskbars {Always | WhenTaskbarIsFull | Never}]
