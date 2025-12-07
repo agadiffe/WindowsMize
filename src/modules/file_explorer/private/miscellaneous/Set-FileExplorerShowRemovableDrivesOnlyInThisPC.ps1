@@ -27,7 +27,7 @@ function Set-FileExplorerShowRemovableDrivesOnlyInThisPC
     {
         # on: delete key | off: key present (default)
         $DuplicateRemovableDrives = @{
-            RemoveKey = $State -eq 'Disabled'
+            RemoveKey = $State -eq 'Enabled'
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{f5fb2c77-0e2f-4a16-a381-3e560c68bc83}'
             Entries = @(
