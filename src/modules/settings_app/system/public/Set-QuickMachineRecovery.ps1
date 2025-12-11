@@ -6,24 +6,15 @@
 # Do not edit these files to configure the QMR settings, use "reagentc.exe".
 
 <#
-  "reagentc.exe /setrecoverysettings /path .\qrm.xml"
-  "reagentc.exe /getrecoverysettings" shows empty wifi ssid and password ...
-  bug ?
-
-  <WifiCredential>
-    <Wifi ssid="" password=""/>
-  </WifiCredential>
-#>
-
-<#
 .SYNTAX
     Set-QuickMachineRecovery
-        [[-State] {Disabled | Enabled}]
+        [-State] {Disabled | Enabled}
         [-WifiSsid <string>]
         [-WifiPassword <string>]
+        [-ResetWifiCredential]
         [-AutoRemediation {Disabled | Enabled}]
-        [-RetryInterval {10min | 30min | 1hour | 2hours | 3hours | 6hours | 12hours}]
-        [-RestartInterval {12hours | 24hours | 36hours | 48hours | 60hours | 72hours}]
+        [-RetryInterval <int>]
+        [-RestartInterval <int>]
         [-Headless {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -33,12 +24,13 @@ function Set-QuickMachineRecovery
     <#
     .DESCRIPTION
         Disabling Quick Machine Recovery will disable AutoRemediation.
+        'ResetWifiCredential' parameter takes precendence over 'WifiSsid/WifiPassword' parameters.
 
         Dynamic parameters:
             available when 'State' is defined to 'Enabled':
                 [-AutoRemediation {Disabled | Enabled}]
-                [-RetryInterval {10min | 30min | 1hour | 2hours | 3hours | 6hours | 12hours}]
-                [-RestartInterval {12hours | 24hours | 36hours | 48hours | 60hours | 72hours}]
+                [-RetryInterval <int>]
+                [-RestartInterval <int>]
             
             available when 'WifiSsid' is defined:
                 [-WifiPassword <string>]
@@ -49,7 +41,7 @@ function Set-QuickMachineRecovery
         PS> Set-QuickMachineRecovery -State 'Disabled'
 
     .EXAMPLE
-        PS> Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval '30min' -RestartInterval '72hours'
+        PS> Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 30 -RestartInterval 180
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -61,7 +53,9 @@ function Set-QuickMachineRecovery
         [ValidateNotNullOrWhiteSpace()]
         [string] $WifiSsid,
 
-        [state] $Headless
+        [state] $Headless,
+
+        [switch] $ResetWifiCredential
     )
 
     dynamicparam
@@ -74,24 +68,21 @@ function Set-QuickMachineRecovery
             {
                 $DynamicParamProperties = @(
                     [PSCustomObject]@{
-                        Dictionary = $ParamDictionary
-                        Name       = 'AutoRemediation'
-                        Type       = [state]
+                        Name = 'AutoRemediation'
+                        Type = [state]
                     }
                     [PSCustomObject]@{
-                        Dictionary = $ParamDictionary
-                        Name       = 'RetryInterval'
-                        Type       = [string]
-                        Attribute  = @{ ValidateSet = '10min', '30min', '1hour', '2hours', '3hours', '6hours', '12hours' }
+                        Name      = 'RetryInterval'
+                        Type      = [int]
+                        Attribute = @{ ValidateRange = 0, 720 }
                     }
                     [PSCustomObject]@{
-                        Dictionary = $ParamDictionary
-                        Name       = 'RestartInterval'
-                        Type       = [string]
-                        Attribute  = @{ ValidateSet = '12hours', '24hours', '36hours', '48hours', '60hours', '72hours' }
+                        Name      = 'RestartInterval'
+                        Type      = [int]
+                        Attribute = @{ ValidateRange = 0, 4320 }
                     }
                 )
-                $DynamicParamProperties | Add-DynamicParameter
+                $DynamicParamProperties | Add-DynamicParameter -Dictionary $ParamDictionary
             }
 
             if ($WifiSsid)
@@ -111,14 +102,15 @@ function Set-QuickMachineRecovery
 
     process
     {
-        # State\ on: 1 (default on Home) | off: 0 (default on Pro/Enterprise)
-        # AutoRemediation\ on: 1 | off: 0 (default)
-        # RetryInterval\ 10min | 30min (default) | 1hour | 2hours | 3hours | 6hours | 12hours
-        # RestartInterval\ 12hours | 24hours | 36hours | 48hours | 60hours | 72hours (default)
-        # Headless\ on: 1 | off: 0 (default)
+        # State (QuickMachineRecovery)\ on: 1 (default on Home) | off: 0 (default on Pro/Enterprise)
+        # AutoRemediation (Automatically check for solutions)\ on: 1 | off: 0 (default)
+        # RetryInterval (Look for solutions)\ value are in minutes, default: 0
+        #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
+        # RestartInterval (Restart every) (no GUI toggle)\ value are in minutes, default: 180
+        #   (old) GUI values: 12 hours (720) | 24 hours (1440) | 36 hours (2160) | 48 hours (2880) | 60 hours (3600) | 72 hours (4320)
+        # Headless (no GUI toggle)\ on: 1 | off: 0 (default)
 
         $QmrSetting = Get-QuickMachineRecoverySetting
-
         $QmrSetting.CloudRemediation = $State -eq 'Enabled' ? '1' : '0'
 
         switch ($true)
@@ -129,7 +121,7 @@ function Set-QuickMachineRecovery
             }
             { $PSBoundParameters.ContainsKey('Headless') }
             {
-                $QmrSetting.Headless = $Headless
+                $QmrSetting.Headless = $Headless -eq 'Enabled' ? '1' : '0'
             }
             { $WifiSsid }
             {
@@ -142,29 +134,17 @@ function Set-QuickMachineRecovery
             }
             { $PSBoundParameters.ContainsKey('RetryInterval') }
             {
-                $QmrSetting.RetryInterval = switch ($PSBoundParameters.RetryInterval)
-                {
-                    '10min'   { '10' }
-                    '30min'   { '30' }
-                    '1hour'   { '60' }
-                    '2hours'  { '120' }
-                    '3hours'  { '180' }
-                    '6hours'  { '360' }
-                    '12hours' { '720' }
-                }
+                $QmrSetting.RetryInterval = $PSBoundParameters.RetryInterval
             }
             { $PSBoundParameters.ContainsKey('RestartInterval') }
             {
-                $QmrSetting.RestartInterval = switch ($PSBoundParameters.RestartInterval)
-                {
-                    '12hours' { '720' }
-                    '24hours' { '1440' }
-                    '36hours' { '2160' }
-                    '48hours' { '2880' }
-                    '60hours' { '3600' }
-                    '72hours' { '4320' }
-                }
+                $QmrSetting.RestartInterval = $PSBoundParameters.RestartInterval
             }
+        }
+
+        if (-not $ResetWifiCredential -and $QmrSetting.WifiSsid)
+        {
+            $WifiCredential = "<Wifi ssid=""$($QmrSetting.WifiSsid)"" password=""$($QmrSetting.WifiPassword)""/>"
         }
 
         $SettingContent = @"
@@ -172,11 +152,11 @@ function Set-QuickMachineRecovery
 
             <WindowsRE>
                 <WifiCredential>
-                    $($QmrSetting.WifiSsid ? "<Wifi ssid=""$($QmrSetting.WifiSsid)"" password=""$($QmrSetting.WifiPassword)""/>" : '')
+                    $WifiCredential
                 </WifiCredential>
                 <CloudRemediation state="$($QmrSetting.CloudRemediation)"/>
                 <AutoRemediation state="$($QmrSetting.AutoRemediation)" totalwaittime="$($QmrSetting.RestartInterval)" waitinterval="$($QmrSetting.RetryInterval)"/>
-                $($QmrSetting.Headless ? "<Headless state=""$($QmrSetting.Headless)""/>" : '')
+                <Headless state="$($QmrSetting.Headless)"/>"
             </WindowsRE>
 "@
 
@@ -184,10 +164,24 @@ function Set-QuickMachineRecovery
         New-Item -Path $SettingFilePath -Value $SettingContent -Force | Out-Null
 
         Write-Verbose -Message "Setting 'Recovery - Quick Machine Recovery' to '$State' ..."
-        Write-Verbose -Message "Setting 'Recovery - Continue searching if a solution isn't found' to '$($PSBoundParameters.AutoRemediation)' ..."
-        if ($PSBoundParameters.AutoRemediation -eq 'Enabled')
+        $AutoRemediationMsg = $QmrSetting.AutoRemediation -eq '1' ? 'Enabled' : 'Disabled'
+        Write-Verbose -Message "Setting 'Recovery QMR - Automatically check for solutions' to '$AutoRemediationMsg' ..."
+
+        if ($QmrSetting.AutoRemediation -eq '1')
         {
-            Write-Verbose -Message "                    Look for solutions every '$($PSBoundParameters.RetryInterval)' / Restart every '$($PSBoundParameters.RestartInterval)'"
+            $RetryIntervalMsg = $QmrSetting.RetryInterval -ne '0' ? "Every $($QmrSetting.RetryInterval) mins" : 'Once'
+            Write-Verbose -Message "    Set 'Look for solutions' to '$RetryIntervalMsg'"
+            Write-Verbose -Message "    Set 'Restart every' to '$($QmrSetting.RestartInterval) mins' (if RetryInterval != Once)"
+        }
+
+        if ($ResetWifiCredential)
+        {
+            Write-Verbose -Message 'Resetting ''Recovery QMR - WifiSsid & WifiPassword'' ...'
+        }
+
+        if ($WifiCredential)
+        {
+            Write-Verbose -Message "Setting 'Recovery QMR - WifiSsid' to '$($QmrSetting.WifiSsid)' ..."
         }
 
         $Result = reagentc.exe /SetRecoverySettings /Path $SettingFilePath 2>&1

@@ -17,7 +17,9 @@ $ServicesList += @{
             ServiceName = 'AarSvc'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'used by Cortana (audio driver-related process).'
+            Comment     = 'conversational agent applications.
+                           AI related. copilot ? AI agents ?
+                           was used by Cortana.'
         }
         @{
             DisplayName = 'Application Management'

@@ -1412,10 +1412,10 @@ Set-SystemAdvancedSetting @AdvancedSettings
 Set-TroubleshooterPreference -Value 'Disabled' # Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently
 
 # --- Recovery
-# RetryInterval: 10min | 30min | 1hour | 2hours | 3hours | 6hours | 12hours
-# RestartInterval: 12hours | 24hours | 36hours | 48hours | 60hours | 72hours
-Set-QuickMachineRecovery -State 'Enabled'
-#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval '30min' -RestartInterval '72hours'
+# RetryInterval: value are in minutes, default: 0, range: 0-720
+#   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
+Set-QuickMachineRecovery -State 'Disabled'
+#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 0
 
 # --- Projecting to this PC
 Set-ProjectingToThisPC -GPO 'Disabled'
