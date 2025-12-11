@@ -36,7 +36,7 @@ function Set-NumLockAtStartup
                     @{
                         Name  = 'InitialKeyboardIndicators'
                         Value = $Value
-                        Type  = 'DWord'
+                        Type  = 'String'
                     }
                 )
             }
@@ -47,7 +47,7 @@ function Set-NumLockAtStartup
                     @{
                         Name  = 'InitialKeyboardIndicators'
                         Value = $Value
-                        Type  = 'DWord'
+                        Type  = 'String'
                     }
                 )
             }
