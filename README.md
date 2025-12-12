@@ -82,7 +82,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
-  DisableGameBarLinks, ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
+  DisableGameBarLinks, ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
   MoveCharacterMapShortcutToWindowsTools, DisplayModeChangeAnimation, EventLogLocation, EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen, TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.

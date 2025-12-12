@@ -14,17 +14,21 @@
     )
 
     FunctionsToExport = @(
-        'Set-AdobeAcrobatReaderSetting'
-        'Set-BraveBrowserSettings'
-        'Set-KeePassXCRunAtStartup'
+        # default win apps
         'Set-MicrosoftEdgePolicy'
-        'Set-MicrosoftOfficeSetting'
         'Set-MicrosoftStoreSetting'
-        'Set-MyAppsSetting'
         'Set-WindowsNotepadSetting'
         'Set-WindowsPhotosSetting'
         'Set-WindowsSnippingToolSetting'
         'Set-WindowsTerminalSetting'
+
+        # others
+        'Set-AdobeAcrobatReaderSetting'
+        'Set-BraveBrowserSettings'
+        'Set-KeePassXCRunAtStartup'
+        'Set-MicrosoftOfficeSetting'
+        'Set-MyAppsSetting'
+        'Set-UwpAppSetting'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

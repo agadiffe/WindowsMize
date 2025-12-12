@@ -190,6 +190,10 @@ Set-StartMenuAllAppsViewMode -Value 'Category'
 # --- Suggested content (default: Enabled)
 Set-SuggestedContent -State 'Disabled'
 
+# --- Taskbar calendar state
+# State: Collapsed (default) | Expanded
+Set-TaskbarCalendarState -Value 'Expanded'
+
 # --- Windows experimentation
 Set-WindowsExperimentation -GPO 'Disabled'
 

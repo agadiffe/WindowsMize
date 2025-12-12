@@ -6,6 +6,7 @@
 
     RequiredModules = @(
         "$PSScriptRoot\..\helper_functions\general"
+        "$PSScriptRoot\..\applications\settings"
     )
 
     NestedModules = @(
@@ -48,6 +49,7 @@
         'Set-StartMenuAllAppsViewMode'
         'Set-StartMenuRecommendedSection'
         'Set-SuggestedContent'
+        'Set-TaskbarCalendarState'
         'Set-WindowsExperimentation'
         'Set-WindowsInputExperience'
         'Set-WindowsPrivacySettingsExperience'

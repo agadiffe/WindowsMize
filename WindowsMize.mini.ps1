@@ -1010,6 +1010,7 @@ Set-ShortcutNameSuffix -State 'Disabled'
 Set-StartMenuAllAppsViewMode -Value 'Category' # Category | Grid | List
 #Set-StartMenuRecommendedSection -GPO 'NotConfigured' # Enterprise/Edu only
 Set-SuggestedContent -State 'Disabled'
+Set-TaskbarCalendarState -Value 'Expanded' # Collapsed | Expanded
 Set-WindowsExperimentation -GPO 'Disabled'
 Set-WindowsInputExperience -State 'Disabled' # don't disable if touchscreen
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
