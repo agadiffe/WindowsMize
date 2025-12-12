@@ -200,6 +200,9 @@ Write-Section -Name 'For developers' -SubSection
 # --- End task (default: Disabled)
 Set-SystemAdvancedSetting -EndTask 'Disabled'
 
+# --- Enable long paths (default: Disabled)
+Set-SystemAdvancedSetting -LongPaths 'Enabled'
+
 # --- Enable sudo
 # State: Disabled (default) | NewWindow | InputDisabled | Inline
 Set-SystemAdvancedSetting -Sudo 'Disabled'

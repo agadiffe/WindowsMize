@@ -6,6 +6,7 @@
 .SYNTAX
     Set-SystemAdvancedSetting
         [-EndTask {Disabled | Enabled}]
+        [-LongPaths {Disabled | Enabled}]
         [-Sudo {Disabled | NewWindow | InputDisabled | Inline}]
         [<CommonParameters>]
 #>
@@ -22,6 +23,8 @@ function Set-SystemAdvancedSetting
     (
         [state] $EndTask,
 
+        [state] $LongPaths,
+
         [SudoMode] $Sudo
     )
 
@@ -35,8 +38,9 @@ function Set-SystemAdvancedSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'EndTask' { Set-TaskbarEndTask -State $EndTask }
-            'Sudo'    { Set-SudoCommand -Value $Sudo }
+            'EndTask'   { Set-TaskbarEndTask -State $EndTask }
+            'LongPaths' { Set-LongPaths -State $LongPaths }
+            'Sudo'      { Set-SudoCommand -Value $Sudo }
         }
     }
 }

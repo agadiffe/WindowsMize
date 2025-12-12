@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                                   Long Paths
+#                                      System > Advanced > Enable Long Paths
 #=================================================================================================================
 
 # default MAX_PATH = 260 characters
@@ -40,7 +40,7 @@ function Set-LongPaths
             )
         }
 
-        Write-Verbose -Message "Setting 'Long Paths' to '$State' ..."
+        Write-Verbose -Message "Setting 'System Advanced - Long Paths' to '$State' ..."
         Set-RegistryEntry -InputObject $LongPaths
     }
 }

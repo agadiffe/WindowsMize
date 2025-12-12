@@ -124,8 +124,8 @@ $PreinstalledAppsToRemove = @(
     'MailAndCalendar'
     'Maps'
     'MediaPlayer'
-    'Microsoft365'
-    'Microsoft365Companions'
+    'M365Copilot'
+    'M365Companions'
     'MicrosoftCopilot'
     'MicrosoftTeams'
     'MoviesAndTV'
@@ -960,7 +960,6 @@ Set-Wpbt -State 'Disabled'
 # --- System and performance
 Set-FirstSigninAnimation -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 #Set-FullscreenOptimizations -State 'Disabled' # Disabled | Enabled | Default
-Set-LongPaths -State 'Enabled'
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled' # Managed: User | System
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
@@ -1403,8 +1402,9 @@ Set-SnapWindowsSetting @SnapWindowsSettings
 
 # --- Advanced
 $AdvancedSettings = @{
-    EndTask = 'Disabled'
-    Sudo    = 'Disabled' # Disabled | NewWindow | InputDisabled | Inline
+    EndTask   = 'Disabled'
+    LongPaths = 'Enabled'
+    Sudo      = 'Disabled' # Disabled | NewWindow | InputDisabled | Inline
 }
 Set-SystemAdvancedSetting @AdvancedSettings
 
