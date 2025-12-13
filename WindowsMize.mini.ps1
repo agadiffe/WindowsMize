@@ -1610,6 +1610,15 @@ $AppsSettings = @{
 }
 Set-GeneralAppsSetting @AppsSettings
 
+$AppActionsSettings = @{
+    M365Copilot = 'Disabled'
+    MSOffice    = 'Disabled'
+    MSTeams     = 'Disabled'
+    Paint       = 'Disabled'
+    Photos      = 'Disabled'
+}
+#Set-AppActions -Setting $AppActionsSettings
+
 $OfflineMapsSettings = @{
     DownloadOverMeteredConnection = 'Disabled' # old
     AutoUpdateOnACAndWifi         = 'Disabled' ; AutoUpdateOnACAndWifiGPO = 'NotConfigured' # old
