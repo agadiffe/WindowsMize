@@ -16,7 +16,7 @@ class UwpRegistryKeyEntry
 <#
 .SYNTAX
     Set-UwpAppSetting
-        [-Name] {MicrosoftStore | WindowsNotepad | WindowsPhotos | WindowsSnippingTool | TaskbarCalendar}
+        [-Name] {MicrosoftStore | WindowsNotepad | WindowsPhotos | WindowsSnippingTool | AppActions | TaskbarCalendar}
         [-Setting] <UwpRegistryKeyEntry[]>
         [<CommonParameters>]
 #>
@@ -32,7 +32,7 @@ function Set-UwpAppSetting
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('MicrosoftStore', 'WindowsNotepad', 'WindowsPhotos', 'WindowsSnippingTool', 'TaskbarCalendar')]
+        [ValidateSet('MicrosoftStore', 'WindowsNotepad', 'WindowsPhotos', 'WindowsSnippingTool', 'AppActions', 'TaskbarCalendar')]
         [string] $Name,
 
         [Parameter(Mandatory)]
@@ -48,6 +48,7 @@ function Set-UwpAppSetting
             'WindowsPhotos'       { 'Microsoft.Windows.Photos_8wekyb3d8bbwe', 'Photos' }
             'WindowsSnippingTool' { 'Microsoft.ScreenSketch_8wekyb3d8bbwe',   'SnippingTool' }
 
+            'AppActions'      { 'MicrosoftWindows.Client.CBS_cw5n1h2txyewy', @('SearchHost', 'AppActions') }
             'TaskbarCalendar' { 'Microsoft.Windows.ShellExperienceHost_cw5n1h2txyewy', 'ShellExperienceHost' }
         }
 

@@ -52,6 +52,23 @@ Set-GeneralAppsSetting -AutoArchiveApps 'Disabled' -AutoArchiveAppsGPO 'NotConfi
 #endregion advanced app settings
 
 #==========================================================
+#                         Actions
+#==========================================================
+#region actions
+
+# --- App actions (default: Enabled)
+$AppActionsSettings = @{
+    M365Copilot = 'Disabled'
+    MSOffice    = 'Disabled'
+    MSTeams     = 'Disabled'
+    Paint       = 'Disabled'
+    Photos      = 'Disabled'
+}
+#Set-AppActions -Setting $AppActionsSettings
+
+#endregion actions
+
+#==========================================================
 #                       Offline maps
 #==========================================================
 #region offline maps

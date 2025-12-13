@@ -6,13 +6,16 @@
 
     RequiredModules = @(
         "$PSScriptRoot\..\..\helper_functions\general"
+        "$PSScriptRoot\..\..\applications\settings"
     )
 
     NestedModules = @(
         "$PSScriptRoot\..\..\helper_functions\classes\State_enums.ps1"
+        "$PSScriptRoot\..\..\helper_functions\classes\ValidateHashtableSettings.ps1"
     )
 
     FunctionsToExport = @(
+        'Set-AppActions'
         'Set-GeneralAppsSetting'
         'Set-OfflineMapsSetting'
     )

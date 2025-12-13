@@ -2,7 +2,7 @@
 #                           System Properties - Advanced > Performance > Visual Effects
 #=================================================================================================================
 
-class VisualEffectsCustomSetting : Hashtable
+class VisualEffectsCustomSetting : ValidateHashtableSettings
 {
     static $VisualEffects = @{
         ByteBitFlag = @(
@@ -30,26 +30,9 @@ class VisualEffectsCustomSetting : Hashtable
 
     VisualEffectsCustomSetting([hashtable]$Settings) : base($Settings)
     {
-        $this.ValidateSettings($Settings)
-    }
-
-    hidden [void] ValidateSettings([hashtable]$Settings)
-    {
-        $AllVisualEffects = [VisualEffectsCustomSetting]::VisualEffects.Values.ForEach({ $_ })
-        $AllowedKeyValue = 'Disabled', 'Enabled'
-
-        foreach ($Key in $Settings.Keys)
-        {
-            if ($AllVisualEffects -notcontains $Key)
-            {
-                throw "Invalid key: $Key. Specify one of the following value: $($AllVisualEffects -join ', ')"
-            }
-            if ($AllowedKeyValue -notcontains $Settings.$Key)
-            {
-                throw "Invalid value '$($Settings.$Key)' for the key '$Key'." +
-                      "Specify one of the following value: $($AllowedKeyValue -join ', ')"
-            }
-        }
+        $KeyNames = [VisualEffectsCustomSetting]::VisualEffects.Values.ForEach({ $_ })
+        $KeyValues = 'Disabled', 'Enabled'
+        $this.ValidateSettings($Settings, $KeyNames, $KeyValues)
     }
 }
 
