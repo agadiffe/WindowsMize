@@ -124,7 +124,7 @@ function Get-BraveDataToSymlink
 
     process
     {
-        $BraveDataToSymlink = @{
+        $BraveDataToSymlink = [ordered]@{
             Brave = @{
                 LinkPath = (Get-BraveBrowserPathInfo).LocalAppData
                 TargetPath = "$RamDiskPath\Brave-Browser"

@@ -58,6 +58,9 @@ function Copy-BraveDataForSymlink
             Path        = (Get-BraveBrowserPathInfo).$Path
             Destination = (Get-BraveBrowserPathInfo).$Destination
         }
-        Copy-Data @BraveDataForSymlink
+        if ($ItemToCopy)
+        {
+            Copy-Data @BraveDataForSymlink
+        }
     }
 }
