@@ -1439,6 +1439,9 @@ $ClipboardSettings = @{
 }
 Set-ClipboardSetting @ClipboardSettings
 
+# --- AI Components
+Set-AIComponentsSetting -AgenticFeatures 'Disabled'
+
 #endregion system
 
 #          Bluetooth & devices

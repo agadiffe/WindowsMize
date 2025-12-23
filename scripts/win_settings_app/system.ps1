@@ -302,3 +302,15 @@ Set-ClipboardSetting -SyncAcrossDevices 'Disabled' -SyncAcrossDevicesGPO 'NotCon
 #Set-ClipboardSetting -SuggestedActions 'Disabled'
 
 #endregion clipboard
+
+#==========================================================
+#                      AI Components
+#==========================================================
+#region ai components
+
+Write-Section -Name 'AI Components' -SubSection
+
+# --- Experimental Agentic Features (default: Disabled)
+Set-AIComponentsSetting -AgenticFeatures 'Disabled'
+
+#endregion ai components

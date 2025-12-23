@@ -13,6 +13,7 @@
     )
 
     FunctionsToExport = @(
+        'Set-AIComponentsSetting'
         'Set-ClipboardSetting'
         'Set-DisplayBrightnessSetting'
         'Set-DisplayGraphicsSetting'
