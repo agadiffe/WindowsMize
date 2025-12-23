@@ -1403,9 +1403,10 @@ Set-SnapWindowsSetting @SnapWindowsSettings
 
 # --- Advanced
 $AdvancedSettings = @{
-    EndTask   = 'Disabled'
-    LongPaths = 'Enabled'
-    Sudo      = 'Disabled' # Disabled | NewWindow | InputDisabled | Inline
+    EndTask         = 'Disabled'
+    ModernRunDialog = 'Disabled'
+    LongPaths       = 'Enabled'
+    Sudo            = 'Disabled' # Disabled | NewWindow | InputDisabled | Inline
 }
 Set-SystemAdvancedSetting @AdvancedSettings
 

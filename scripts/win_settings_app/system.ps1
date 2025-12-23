@@ -200,6 +200,9 @@ Write-Section -Name 'For developers' -SubSection
 # --- End task (default: Disabled)
 Set-SystemAdvancedSetting -EndTask 'Disabled'
 
+# --- Modern Run Dialog (default: Disabled)
+Set-SystemAdvancedSetting -ModernRunDialog 'Disabled'
+
 # --- Enable long paths (default: Disabled)
 Set-SystemAdvancedSetting -LongPaths 'Enabled'
 
