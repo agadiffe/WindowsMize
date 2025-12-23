@@ -184,12 +184,11 @@ function Set-QuickMachineRecovery
             Write-Verbose -Message "Setting 'Recovery QMR - WifiSsid' to '$($QmrSetting.WifiSsid)' ..."
         }
 
-        $Result = reagentc.exe /SetRecoverySettings /Path $SettingFilePath 2>&1
-        Remove-Item -Path $SettingFilePath
-
-        if ($Result -match 'An error has occurred')
+        reagentc.exe /SetRecoverySettings /Path $SettingFilePath 2>&1 | Out-Null
+        if ($Global:LASTEXITCODE -ne 0)
         {
             Write-Error -Message 'Setting ''Recovery - Quick Machine Recovery'': An error has occurred.'
         }
+        Remove-Item -Path $SettingFilePath
     }
 }
