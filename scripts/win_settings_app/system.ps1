@@ -210,6 +210,9 @@ Set-SystemAdvancedSetting -LongPaths 'Enabled'
 # State: Disabled (default) | NewWindow | InputDisabled | Inline
 Set-SystemAdvancedSetting -Sudo 'Disabled'
 
+# --- Enable more agent connectors by reducing protections (default: Disabled)
+Set-SystemAdvancedSetting -MoreAgentConnectors 'Disabled'
+
 #endregion advanced
 
 #==========================================================
