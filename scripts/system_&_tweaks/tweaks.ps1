@@ -238,7 +238,7 @@ Set-WindowsSpotlight -AdsContentGPO 'Disabled'
 Write-Section -Name 'Windows features and settings' -SubSection
 
 # --- Move character map shorcut
-Move-CharacterMapShortcutToWindowsTools
+#Move-CharacterMapShortcutToWindowsTools
 
 # --- Display Mode Change Animation (default: Enabled)
 #Set-DisplayModeChangeAnimation -State 'Disabled'

@@ -20,7 +20,7 @@ function Remove-StartMenuPromotedApps
 
     process
     {
-        Write-Verbose -Message 'Removing Start Menu Promoted Apps (e.g. Spotify, LinkedIn) ...'
+        Write-Verbose -Message 'Removing ''Start Menu Promoted Apps (e.g. Spotify, LinkedIn)'' ...'
 
         $StartMenuPromotedApps = @{
             RemoveKey = $true
@@ -29,7 +29,7 @@ function Remove-StartMenuPromotedApps
             Entries = @()
         }
 
-        Set-RegistryEntry -InputObject $StartMenuPromotedApps -Verbose:$false
+        Set-RegistryEntry -InputObject $StartMenuPromotedApps
         Stop-Process -Name 'StartMenuExperienceHost' -Force
         Start-Sleep -Seconds 0.5
     }

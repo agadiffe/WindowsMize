@@ -8,7 +8,7 @@
 <#
 .SYNTAX
     Block-DefenderFirewallInboundRule
-        [-Name] {CDP | DCOM | NetBiosTcpIP | SMB | MiscProgSrv}
+        [-Name] {CDP | DCOM_RPC | NetBiosTcpIP | SMB | MiscProgSrv}
         [-Reset]
         [<CommonParameters>]
 #>
@@ -31,7 +31,7 @@ function Block-DefenderFirewallInboundRule
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('CDP', 'DCOM', 'NetBiosTcpIP', 'SMB', 'MiscProgSrv')]
+        [ValidateSet('CDP', 'DCOM_RPC', 'NetBiosTcpIP', 'SMB', 'MiscProgSrv')]
         [string[]] $Name,
 
         [switch] $Reset

@@ -29,23 +29,27 @@ $NetFirewallRules += @{
 
 #==============================================================================
 # Distributed Component Object Model (DCOM) Service Control Manager
+# Remote Procedure Call (RPC) services
 #==============================================================================
 
 # Port 135 exposes where DCOM services can be found on a machine.
 # Port 135 should not be exposed to the internet.
-# Needed by remote assistance. And more ?
+
+# required by several Windows remote‑management and directory services.
+# e.g. WMI, Remote Assistance, Active Directory/Group Policy and other RPC/DCOM‑based tools.
+# e.g. Used by 'file and printer sharing' to be contacted by other computer.
 
 $NetFirewallRules += @{
-    DCOM = @{
-        Group = '!Custom block inbound port (DCOM)'
+    DCOM_RPC = @{
+        Group = '!Custom block inbound port (DCOM/RPC)'
         Rules = @(
             @{
-                DisplayName = 'Block Inbound Port 135 TCP (DCOM)'
+                DisplayName = 'Block Inbound Port 135 TCP (DCOM/RPC)'
                 LocalPort   = '135'
                 Protocol    = 'TCP'
             }
             @{
-                DisplayName = 'Block Inbound Port 135 UDP (DCOM)'
+                DisplayName = 'Block Inbound Port 135 UDP (DCOM/RPC)'
                 LocalPort   = '135'
                 Protocol    = 'UDP'
             }

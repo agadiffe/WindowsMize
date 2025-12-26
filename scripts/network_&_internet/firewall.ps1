@@ -82,13 +82,17 @@ Set-DefenderFirewallRule -Name 'WiFiDirectKernelModeDriver' -State 'Disabled'
 #             Custom rules
 #=======================================
 
+# You should still be able to connect to other computers and their replies will be allowed back.
+# What might fail is when another computer tries to connect to you (they cannot initiate new SMB/NetBIOS connections).
+
 # --- Connected Devices Platform service (CDP)
 Block-DefenderFirewallInboundRule -Name 'CDP'
 #Block-DefenderFirewallInboundRule -Name 'CDP' -Reset
 
-# --- DCOM service control manager
-Block-DefenderFirewallInboundRule -Name 'DCOM'
-#Block-DefenderFirewallInboundRule -Name 'DCOM' -Reset
+# --- DCOM service control manager & Remote Procedure Call (RPC) services
+# Might be needed by SMB (e.g. File And Printer Sharing) to be contacted by other computers.
+Block-DefenderFirewallInboundRule -Name 'DCOM_RPC'
+#Block-DefenderFirewallInboundRule -Name 'DCOM_RPC' -Reset
 
 # --- NetBIOS over TCP/IP
 Block-DefenderFirewallInboundRule -Name 'NetBiosTcpIP'

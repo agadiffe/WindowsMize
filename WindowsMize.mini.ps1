@@ -578,7 +578,7 @@ Set-DefenderFirewallRule -Name $FirewallRules -State 'Disabled'
 
 $FirewallInboundRules = @(
     'CDP'
-    'DCOM'
+    'DCOM_RPC'
     'NetBiosTcpIP'
     'SMB'
     'MiscProgSrv' # lsass.exe, wininit.exe, Schedule, EventLog, services.exe
@@ -1027,7 +1027,7 @@ $WindowsSpotlightSettings = @{
 Set-WindowsSpotlight @WindowsSpotlightSettings
 
 # --- Windows features and settings
-Move-CharacterMapShortcutToWindowsTools
+#Move-CharacterMapShortcutToWindowsTools
 #Set-DisplayModeChangeAnimation -State 'Disabled'
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
 #Set-EventLogLocation -Default

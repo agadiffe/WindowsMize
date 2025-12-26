@@ -72,7 +72,7 @@ $ServicesToConfig = @(
     'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
-    #'FileAndPrinterSharing'
+    #'FileAndPrinterSharing' # needed by NetworkDiscovery (File Explorer > Network)
     'HyperV'
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
