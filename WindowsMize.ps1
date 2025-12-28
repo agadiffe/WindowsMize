@@ -28,7 +28,7 @@ $Global:ModuleVerbosePreference = 'Continue'
 $ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 
 Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName.log"
+Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName-$(Get-Date -Format 'yyyy-MM-ddTHH-mm-ss').log"
 
 
 #=================================================================================================================
