@@ -1,4 +1,4 @@
-$VerbosePreference = $Global:ModuleVerbosePreference
+$VerbosePreference = $Global:ModuleVerbosePreference ? $Global:ModuleVerbosePreference : 'Continue'
 
 $FunctionsPath = @(
     "$PSScriptRoot\classes"

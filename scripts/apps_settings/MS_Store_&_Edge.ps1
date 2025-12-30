@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Applications\Settings'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\applications\settings"
 
 
@@ -36,7 +34,7 @@ Write-Section -Name 'Microsoft Edge' -SubSection
 # Basic settings if you don't use Edge and didn't removed it.
 # Prevent Edge to run all the time in the background.
 
-# GPO: Disabled | Enabled | NotConfigured
+# GPO: Disabled | Enabled | NotConfigured (default)
 
 # --- Prelaunch at startup
 Set-MicrosoftEdgePolicy -Prelaunch 'Disabled'

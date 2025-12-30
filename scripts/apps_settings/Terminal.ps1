@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Applications\Settings'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\applications\settings"
 
 
@@ -28,6 +26,7 @@ Write-Section -Name 'Applications Settings'
 #==============================================================================
 #                               Windows Terminal
 #==============================================================================
+
 Write-Section -Name 'Windows Terminal' -SubSection
 
 #==========================================================

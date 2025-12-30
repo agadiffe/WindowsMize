@@ -23,6 +23,7 @@ class AppActionsSetting : ValidateHashtableSettings
 
 function Set-AppActions
 {
+    <#
     .EXAMPLE
         PS> $AppActionsSettings = @{
                 MSOffice = 'Disabled'

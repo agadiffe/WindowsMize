@@ -19,6 +19,9 @@
         'Set-FileSystemAdminsFullControl'
         'Set-KeyboardHotkey'
         'Set-RegistryEntry'
+        'Start-Logging'
+        'Test-NewerWindowsMizeVersion'
+        'Test-PowerShellLanguageMode'
         'Write-InsufficientParameterCount'
         'Write-Section'
     )

@@ -21,18 +21,12 @@ param
     [string] $User
 )
 
-if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
-{
-    Write-Error 'The script cannot be run: LanguageMode is set to ConstrainedLanguage.'
-    exit
-}
-
 $Global:ProvidedUserName = $User
-$Global:ModuleVerbosePreference = 'Continue'
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 
 Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName-$(Get-Date -Format 'yyyy-MM-ddTHH-mm-ss').log"
+Test-PowerShellLanguageMode
+Test-NewerWindowsMizeVersion
+Start-Logging -FileName 'WindowsMize.mini'
 
 
 #=================================================================================================================
@@ -74,7 +68,6 @@ $WindowsMizeModuleNames = @(
     'settings_app\accessibility'
     'settings_app\windows_update'
 )
-Write-Output -InputObject 'Loading WindowsMize Modules ...'
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\src\modules\$_" })
 
 
@@ -86,6 +79,8 @@ Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\src\modules
 #                                                 Apps Management
 #=================================================================================================================
 #region Apps Management
+
+Write-Section -Name 'Applications Management'
 
 #      Appx & provisioned packages
 #=======================================
@@ -257,6 +252,8 @@ $AppsToInstall | Install-Application
 #                                                  Apps Settings
 #=================================================================================================================
 #region Apps Settings
+
+Write-Section -Name 'Applications Settings'
 
 #            Acrobat Reader
 #=======================================
@@ -520,6 +517,8 @@ Set-WindowsTerminalSetting @TerminalSettings
 #=================================================================================================================
 #region Network & Internet
 
+Write-Section -Name 'Network & Internet'
+
 #          Network & internet
 #=======================================
 #region Network
@@ -653,6 +652,8 @@ Set-NetSmhnr -GPO 'Disabled'
 #                                                 System & Tweaks
 #=================================================================================================================
 #region System & Tweaks
+
+Write-Section -Name 'System & Tweaks'
 
 #             File Explorer
 #=======================================
@@ -891,7 +892,7 @@ $ServicesToConfig = @(
     'Telemetry'
     'VirtualReality'
     'Vpn' # only needed if using the built-in Windows VPN feature (i.e. not needed if using 3rd party VPN client).
-    #'Webcam'
+    #'Webcam' # only needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.
     'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'. Update ps1 file if desired.
     'WindowsSearch'
     #'WindowsSubsystemForLinux'
@@ -1054,6 +1055,8 @@ Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured' # Disabled | Enabled | NotCo
 #                                             Telemetry & Annoyances
 #=================================================================================================================
 #region Telemetry & Annoyances
+
+Write-Section -Name 'Telemetry & Annoyances'
 
 #               Telemetry
 #=======================================
@@ -1308,9 +1311,9 @@ Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 # --- Taskbar
 $TaskbarSettings = @{
     SearchBox       = 'Hide'     ; SearchBoxGPO = 'NotConfigured' # Hide | IconOnly | Box | IconAndLabel | NotConfigured
-    AskCopilot      = 'Disabled' # UCPD protected ?
+    AskCopilot      = 'Disabled'
     TaskView        = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
-    Widgets         = 'Disabled' # UCPD protected
+    #Widgets         = 'Disabled' # UCPD protected
     ResumeAppNotif  = 'Disabled'
     EmojiAndMore    = 'Never' # Never | WhileTyping | Always
     PenMenu         = 'Disabled'
@@ -1343,6 +1346,8 @@ Set-TaskbarSetting @TaskbarSettings
 #                                                Win Settings App
 #=================================================================================================================
 #region Win Settings App
+
+Write-Section -Name 'Windows Settings App'
 
 #                System
 #=======================================
@@ -1765,4 +1770,4 @@ Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHour
 #endregion Win Settings App
 
 
-Stop-Transcript
+Stop-Transcript # Stop Logging

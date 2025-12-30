@@ -17,18 +17,12 @@ param
     [string] $User
 )
 
-if ($ExecutionContext.SessionState.LanguageMode -ne "FullLanguage")
-{
-    Write-Error 'The script cannot be run: LanguageMode is set to ConstrainedLanguage.'
-    exit
-}
-
 $Global:ProvidedUserName = $User
-$Global:ModuleVerbosePreference = 'Continue'
-$ScriptFileName = (Get-Item -Path $PSCommandPath).Basename
 
 Import-Module -Name "$PSScriptRoot\src\modules\helper_functions\general"
-Start-Transcript -Path "$(Get-LogPath -User)\$ScriptFileName-$(Get-Date -Format 'yyyy-MM-ddTHH-mm-ss').log"
+Test-PowerShellLanguageMode
+Test-NewerWindowsMizeVersion
+Start-Logging -FileName 'WindowsMize'
 
 
 #=================================================================================================================
@@ -82,4 +76,4 @@ $ScriptsToExecute = @(
 )
 $ScriptsToExecute.ForEach({ & "$PSScriptRoot\scripts\$_.ps1" })
 
-Stop-Transcript
+Stop-Transcript # Stop Logging

@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Network'' Module ...'
 $WindowsMizeModuleNames = @( 'network', 'services' )
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
@@ -22,10 +20,10 @@ Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\m
 #   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
-#                                                     Network
+#                                               Network & Internet
 #=================================================================================================================
 
-Write-Section -Name 'Network'
+Write-Section -Name 'Network & Internet'
 
 #==============================================================================
 #                         IPv6 transition technologies

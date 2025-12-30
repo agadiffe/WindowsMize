@@ -11,9 +11,8 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Power_options'' Module ...'
-Import-Module -Name "$PSScriptRoot\..\..\src\modules\power_options"
+$WindowsMizeModuleNames = @( 'power_options', 'settings_app\system' )
+Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 
 # Parameters values (if not specified):

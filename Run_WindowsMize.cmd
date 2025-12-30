@@ -1,9 +1,9 @@
 ::================================================================================================================
-::                               WindowsMize - Install PowerShell 7 and Run script
+::                                WindowsMize - Install PowerShell and Run script
 ::================================================================================================================
 @echo off
 
-echo Installing PowerShell 7 ...
+echo Installing PowerShell ...
 
 winget.exe install --exact --id Microsoft.PowerShell --accept-source-agreements --accept-package-agreements
 

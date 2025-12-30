@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Applications\Settings'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\applications\settings"
 
 
@@ -24,9 +22,12 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\applications\settings"
 #                                              Applications Settings
 #=================================================================================================================
 
+Write-Section -Name 'Applications Settings'
+
 #==============================================================================
 #                             Adobe Acrobat Reader
 #==============================================================================
+
 Write-Section -Name 'Acrobat Reader' -SubSection
 
 #==========================================================

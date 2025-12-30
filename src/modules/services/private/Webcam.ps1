@@ -9,14 +9,14 @@ $ServicesList += @{
             ServiceName = 'FrameServer'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'e.g. Microsoft Teams, Skype, or Camera app.'
+            Comment     = 'needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.'
         }
         @{
             DisplayName = 'Windows Camera Frame Server Monitor'
             ServiceName = 'FrameServerMonitor'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'e.g. Microsoft Teams, Skype, or Camera app.'
+            Comment     = 'needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.'
         }
     )
 }

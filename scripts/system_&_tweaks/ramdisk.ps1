@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Ramdisk'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\ramdisk"
 
 

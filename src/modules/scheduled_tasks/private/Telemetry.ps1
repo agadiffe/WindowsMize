@@ -69,14 +69,16 @@ $ScheduledTasksList += @{
                 UsageDataReceiver              = 'Disabled' # default: Enabled
                 UsageDataReporting             = 'Disabled' # default: Enabled
             }
-            Comment  = 'Windows Insider related (features usage telemetry).'
+            Comment  = 'FeatureConfig tasks (reconciles feature flags, processes/collects feature usage telemetry).
+                        Disabling prevents feature overrides from being reverted and reduces telemetry.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Flighting\OneSettings\'
             Task     = @{
                 RefreshCache = 'Disabled' # default: Enabled
             }
-            Comment  = 'Windows Insider related.'
+            Comment  = 'Config/experiments refresh (feature rollouts and configuration updates).
+                        Also collects and reports telemetry data back to Microsoft.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Maintenance\'

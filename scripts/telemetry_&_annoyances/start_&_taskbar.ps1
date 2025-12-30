@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Win_settings_app\Personnalization'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\personnalization"
 
 
@@ -114,7 +112,6 @@ Write-Section -Name 'Taskbar' -SubSection
 Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 
 # --- Ask Copilot (default: Disabled)
-# UCPD protected ?
 Set-TaskbarSetting -AskCopilot 'Disabled'
 
 # --- Task view (default: Enabled)
@@ -122,7 +119,7 @@ Set-TaskbarSetting -TaskView 'Disabled' -TaskViewGPO 'NotConfigured'
 
 # ---  Widgets (default: Enabled)
 # UCPD protected
-Set-TaskbarSetting -Widgets 'Disabled'
+#Set-TaskbarSetting -Widgets 'Disabled'
 
 # --- Resume (default: Enabled)
 Set-TaskbarSetting -ResumeAppNotif 'Disabled'

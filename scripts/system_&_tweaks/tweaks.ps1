@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Tweaks'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\tweaks"
 
 
@@ -86,9 +84,6 @@ Set-FirstSigninAnimation -GPO 'NotConfigured'
 # --- Fullscreen optimizations
 # State: Disabled | Enabled | Default (default)
 #Set-FullscreenOptimizations -State 'Disabled'
-
-# --- Long paths (default: Disabled)
-Set-LongPaths -State 'Enabled'
 
 # --- NTFS Last Access Time
 # default: System Enabled

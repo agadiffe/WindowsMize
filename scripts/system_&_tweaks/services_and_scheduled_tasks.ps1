@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Services and Scheduled_tasks'' Modules ...'
 $WindowsMizeModuleNames = @( 'services', 'scheduled_tasks' )
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
@@ -85,7 +83,7 @@ $ServicesToConfig = @(
     'Telemetry'
     'VirtualReality'
     'Vpn' # only needed if using the built-in Windows VPN feature (i.e. not needed if using 3rd party VPN client).
-    #'Webcam'
+    #'Webcam' # only needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.
     'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'. Update ps1 file if desired.
     'WindowsSearch'
     #'WindowsSubsystemForLinux'

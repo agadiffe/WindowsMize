@@ -11,8 +11,6 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Applications\Settings'' Module ...'
 Import-Module -Name "$PSScriptRoot\..\..\src\modules\applications\settings"
 
 
@@ -65,6 +63,3 @@ $AppsToConfig = @(
     #'Git'
 )
 $AppsToConfig.ForEach({ Write-Section -Name $_ -SubSection ; Set-MyAppsSetting -Name $_ })
-
-
-Stop-Transcript

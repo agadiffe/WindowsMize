@@ -11,24 +11,22 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$Global:ModuleVerbosePreference = 'Continue' # Do not disable (log file will be empty)
-Write-Output -InputObject 'Loading ''Network'' Module ...'
-$WindowsMizeModuleNames = @( 'network', 'services' )
-Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
+Import-Module -Name "$PSScriptRoot\..\..\src\modules\network"
 
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
 
 #=================================================================================================================
-#                                                     Network
+#                                               Network & Internet
 #=================================================================================================================
 
-Write-Section -Name 'Network'
+Write-Section -Name 'Network & Internet'
 
 #==============================================================================
 #                                   Firewall
 #==============================================================================
+
 Write-Section -Name 'Firewall' -SubSection
 
 #             Default rules
@@ -82,7 +80,7 @@ Set-DefenderFirewallRule -Name 'WiFiDirectKernelModeDriver' -State 'Disabled'
 #             Custom rules
 #=======================================
 
-# You should still be able to connect to other computers and their replies will be allowed back.
+# You will still be able to connect to other computers and their replies will be allowed back.
 # What might fail is when another computer tries to connect to you (they cannot initiate new SMB/NetBIOS connections).
 
 # --- Connected Devices Platform service (CDP)
