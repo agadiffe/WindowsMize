@@ -139,15 +139,6 @@ It's recommended to use Notepad++, VSCode or else to have the code highlighted.
 Settings are divided into 6 main categories with 31 script files.  
 These script files are located in the "scripts" folder.
 
-You can provide an optional "User" parameter to the script to apply the settings to a specific user.  
-This user must have logged-in at least once.
-
-```powershell
-.\WindowsMize.ps1 # logged-on User
-.\WindowsMize.ps1 -User 'Groot'
-.\WindowsMize.ps1 -User 'Domain\Groot'
-```
-
 You can uncomment or comment the script names to execute or not the corresponding script.  
 Example:  
 To execute only "Telemetry & Annoyances", "file_explorer" and some others:  
@@ -181,16 +172,48 @@ $ScriptsToExecute = @(
 )
 ```
 
-### Setting parameters
-Mostly every functions have a "-State" and/or "-GPO" parameters.  
-The accepted values for these parameters are below the setting title.
+You can provide an optional "User" parameter to the script to apply the settings to a specific user.  
+This user must have logged-in at least once.
 
 ```powershell
+.\WindowsMize.ps1 # logged-on User
+.\WindowsMize.ps1 -User 'Groot'
+.\WindowsMize.ps1 -User 'Domain\Groot'
+```
+
+### Setting parameters
+Mostly every functions have a "-State" and/or "-GPO" parameters.
+
+The accepted values for these parameters are always the same if not specified.  
+There is a remember at the top of each script file:
+```powershell
+# Parameters values (if not specified):
+#   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
+```
+
+If the parameter accept more values than the above default, they will be specified under the desccription.
+```powershell
+# --- Recall
+# GPO: Disabled | Enabled | NotConfigured
+Set-Recall -GPO 'Disabled'
+```
+
+If there is a "-State" parameter, its default value is specified.
+```powershell
 # --- Bing Search in Start Menu (default: Enabled)
-# State: Disabled | Enabled
-# GPO: Disabled | NotConfigured
 Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 #Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
+```
+
+If the parameter ends with "GPO", it is a "-GPO" parameter.  
+If it doesn't, it is the "-State" parameter.  
+i.e. If not specified, the default accepted values apply.
+```powershell
+# --- Search
+# State: Hide | IconOnly | Box (default) | IconAndLabel
+# GPO: Hide | IconOnly | Box | IconAndLabel | NotConfigured
+Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 ```
 
 ### Function execution
@@ -218,7 +241,7 @@ settings
 
 
 ## 📥 Download & Execution
-This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as Administrator.  
+This script requires "PowerShell (aka PowerShell Core)" and must be run as Administrator.  
 
 ### Automated
 1. Open a PowerShell prompt (Administrator privileges are not required).  
@@ -234,7 +257,7 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
 4. **Configure the script (WindowsMize.ps1) according to your preferences**.
 5. Double click on the `Run_WindowsMize.cmd` file to run the script.  
    Accept the Windows UAC prompt to run it as Administrator (required).  
-   If "PowerShell 7" is not installed, it will be automatically installed.
+   If "PowerShell" is not installed, it will be automatically installed.
 6. Restart (Mandatory for a lot of tweaks/settings).
 
 ### Manually
@@ -246,7 +269,7 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
 3. **Configure the script (WindowsMize.ps1) according to your preferences**.
 3. Open a PowerShell prompt (as Administrator or not).  
    Right-click on `Start Menu` > `Terminal`.
-3. Install "PowerShell 7".
+3. Install "PowerShell".
     ```powershell
     winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
     ```
@@ -264,7 +287,7 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
     Get-ChildItem -File -Recurse | Unblock-File
     ```
 7. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).  
-   (This is not required for "Powershell 7", but it might change in future Windows release)
+   (This is not required for "Powershell", but it might change in future Windows release)
     ```powershell
     Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
     ```
@@ -287,9 +310,6 @@ This script requires "PowerShell 7 (aka PowerShell (Core))" and must be run as A
   #   do not show feedback notifications
   # not configured: delete (default) | on: 1
   ```
-
-- Read some comments about why you should disable some features.  
-  src\modules : network, telemetry, tweaks, ...
 
 - Make sure to backup all of your data.  
   e.g. browser bookmarks, apps settings, personal files, passwords database
