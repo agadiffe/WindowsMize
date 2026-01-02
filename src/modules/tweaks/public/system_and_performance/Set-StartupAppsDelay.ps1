@@ -17,14 +17,17 @@ function Set-StartupAppsDelay
 {
     <#
     .EXAMPLE
-        PS> Set-StartupAppsDelay -Value 'Disabled'
+        PS> Set-StartupAppsDelay -Value 2
+
+    .EXAMPLE
+        PS> Set-StartupAppsDelay -Default
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'Custom')]
     param
     (
         [Parameter(Mandatory, ParameterSetName = 'Custom')]
-        [ValidateRange(0-45)]
+        [ValidateRange(0, 45)]
         [int] $Value,
 
         [Parameter(Mandatory, ParameterSetName = 'Default')]
