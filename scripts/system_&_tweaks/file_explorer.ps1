@@ -197,9 +197,6 @@ Set-FileExplorerSetting -DontUseSearchIndex 'Enabled'
 
 Write-Section -Name 'Miscellaneous' -SubSection
 
-# --- Show Navigation Pane (default: Enabled)
-#Set-FileExplorerSetting -ShowNavigationPane 'Enabled'
-
 # --- Show Home (default: Enabled)
 Set-FileExplorerSetting -ShowHome 'Enabled'
 
