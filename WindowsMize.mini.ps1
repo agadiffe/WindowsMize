@@ -707,7 +707,6 @@ $FileExplorerSettings = @{
     #SearchFileNamesAndContents = 'Disabled'
 
     # --- Miscellaneous
-    #ShowNavigationPane              = 'Enabled'
     ShowHome                        = 'Enabled'
     ShowGallery                     = 'Disabled'
     ShowRemovableDrivesOnlyInThisPC = 'Enabled'

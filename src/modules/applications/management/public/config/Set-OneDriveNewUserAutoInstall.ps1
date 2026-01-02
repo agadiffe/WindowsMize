@@ -44,6 +44,7 @@ function Set-OneDriveNewUserAutoInstall
         $NTUserRegPath = "HKEY_USERS\$NTUserRegKeyName"
         $NTUserFilePath = "$env:SystemDrive\Users\Default\NTUSER.DAT"
 
+        reg.exe UNLOAD $NTUserRegPath 2>&1 | Out-Null
         reg.exe LOAD $NTUserRegPath $NTUserFilePath | Out-Null
         Set-RegistryEntry -InputObject $OneDriveSetup -Verbose:$false
         reg.exe UNLOAD $NTUserRegPath | Out-Null

@@ -181,12 +181,12 @@ function Set-WindowsPhotosSetting
                 $WindowsPhotosSettings.Add([PSCustomObject]$FirstRunDialog) | Out-Null
 
                 # on: false (default) | off: true
-                $ImageCategorizationPopupReg = @{
+                $ImageCategorizationPopup = @{
                     Name  = 'ImageCategorizationConsentDismissed'
-                    Value = $ImageCategorization -eq 'Enabled' ? 'false' : 'true'
+                    Value = $FirstRunExperience -eq 'Enabled' ? 'false' : 'true'
                     Type  = '5f5e10c'
                 }
-                $WindowsPhotosSettings.Add([PSCustomObject]$ImageCategorizationPopupReg) | Out-Null
+                $WindowsPhotosSettings.Add([PSCustomObject]$ImageCategorizationPopup) | Out-Null
 
                 # on: 0 (default) | off: 4294967295 (UINT_MAX)
                 # Should be a date (or timestamp?). Does work with the above values.

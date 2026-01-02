@@ -53,7 +53,6 @@
         [-SearchFileNamesAndContents {Disabled | Enabled}]
 
         # Miscellaneous
-        [-ShowNavigationPane {Disabled | Enabled}]
         [-ShowHome {Disabled | Enabled}]
         [-ShowGallery {Disabled | Enabled}]
         [-ShowRemovableDrivesOnlyInThisPC {Disabled | Enabled}]
@@ -128,7 +127,6 @@ function Set-FileExplorerSetting
         [state] $SearchFileNamesAndContents,
 
         # Miscellaneous
-        [state] $ShowNavigationPane,
         [state] $ShowHome,
         [state] $ShowGallery,
         [state] $ShowRemovableDrivesOnlyInThisPC,
@@ -199,7 +197,6 @@ function Set-FileExplorerSetting
             'SearchFileNamesAndContents'       { Set-FileExplorerSearchFileNamesAndContents -State $SearchFileNamesAndContents }
 
             # Miscellaneous
-            'ShowNavigationPane'               { Set-FileExplorerNavigationPane -State $ShowNavigationPane }
             'ShowHome'                         { Set-FileExplorerShowHome -State $ShowHome }
             'ShowGallery'                      { Set-FileExplorerShowGallery -State $ShowGallery }
             'ShowRemovableDrivesOnlyInThisPC'  { Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State $ShowRemovableDrivesOnlyInThisPC }

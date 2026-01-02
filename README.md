@@ -31,7 +31,7 @@ There are almost every settings, organized like the graphical's app.
 
 ### 📁 File Explorer
 Every settings (general, view, search) + extra.  
-Extra: ShowNavigationPane, Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection, MaxIconCacheSize, UndoRedo, RecycleBin, ConfirmFileDelete.
+Extra: Show/Hide Home/Gallery, ShowRemovableDrivesOnlyInThisPC, AutoFolderTypeDetection, MaxIconCacheSize, UndoRedo, RecycleBin, ConfirmFileDelete.
 
 ### ⌛ System Properties
 Equivalent of the Windows GUI System Properties.  

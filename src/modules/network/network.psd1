@@ -26,7 +26,7 @@
         'Set-NetLlmnr'
         'Set-NetLmhosts'
         'Set-NetMulicastDns'
-        'Set-NetProxyAutoDetectprotocol'
+        'Set-NetProxyAutoDetect'
         'Set-NetSmhnr'
     )
     CmdletsToExport   = @()

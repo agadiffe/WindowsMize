@@ -154,6 +154,7 @@ function Set-UwpAppRegistryEntry
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath
 
+        reg.exe UNLOAD $AppSettingsRegPath 2>&1 | Out-Null
         reg.exe LOAD $AppSettingsRegPath $FilePath | Out-Null
         # 'reg.exe import' writes its output on success to stderr ...
         reg.exe IMPORT $SettingRegFilePath 2>&1 | Out-Null

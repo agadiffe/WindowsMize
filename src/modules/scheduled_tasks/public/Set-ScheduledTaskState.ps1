@@ -64,6 +64,7 @@ function Set-ScheduledTaskState
         $ScheduledTasks = Get-ScheduledTask
         $AllowedTaskToBeDeleted = @(
             'SdbinstMergeDbTask'
+            'UsageAndQualityInsights-MaintenanceTask'
         )
     }
 

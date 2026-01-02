@@ -120,6 +120,12 @@ $ScheduledTasksList += @{
             Comment  = 'keylogger and typing for Store apps ?'
         }
         @{
+            TaskPath = '\Microsoft\Windows\UsageAndQualityInsights\'
+            Task     = @{
+                'UsageAndQualityInsights-MaintenanceTask' = 'Disabled' # default: Enabled
+            }
+        }
+        @{
             TaskPath = '\Microsoft\Windows\Windows Error Reporting\'
             Task     = @{
                 QueueReporting = 'Disabled' # default: Enabled

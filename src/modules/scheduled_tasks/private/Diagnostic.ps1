@@ -43,7 +43,6 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            SkipTask = $true
             TaskPath = '\Microsoft\Windows\MemoryDiagnostic\'
             Task     = @{
                 AutomaticOfflineMemoryDiagnostic = 'Disabled' # default: Disabled
