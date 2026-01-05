@@ -93,21 +93,19 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            SkipTask = $true
             TaskPath = '\Microsoft\Windows\WindowsAI\Recall\'
             Task     = @{
                 'InitialConfiguration' = 'Disabled' # default: Disabled
                 'PolicyConfiguration'  = 'Disabled' # default: Enabled
             }
-            Comment  = 'cannot be disabled. should be deleted ?'
+            Comment  = 'system protected task.'
         }
         @{
-            SkipTask = $true
             TaskPath = '\Microsoft\Windows\WindowsAI\Settings\'
             Task     = @{
                 'InitialConfiguration' = 'Disabled' # default: Enabled
             }
-            Comment  = 'cannot be disabled. should be deleted ?'
+            Comment  = 'system protected task.'
         }
         @{
             TaskPath = '\Microsoft\XblGameSave\'

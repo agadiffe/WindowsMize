@@ -8,7 +8,9 @@
         "$PSScriptRoot\..\helper_functions\general"
     )
 
-    NestedModules = @()
+    NestedModules = @(
+        "$PSScriptRoot\..\helper_functions\classes\State_enums.ps1"
+    )
 
     FunctionsToExport = @(
         'Export-DefaultScheduledTasksState'

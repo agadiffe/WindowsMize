@@ -15,6 +15,7 @@
         'Get-HashtableSubset'
         'Get-LogPath'
         'New-ParentPath'
+        'New-ScheduledTaskScript'
         'Set-ByteBitFlag'
         'Set-FileSystemAdminsFullControl'
         'Set-KeyboardHotkey'

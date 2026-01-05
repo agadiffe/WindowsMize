@@ -40,8 +40,8 @@ function New-ScheduledTaskScript
             Argument = "-NoProfile -ExecutionPolicy Bypass -File ""$FilePath"""
         }
         $TaskAction = New-ScheduledTaskAction @TaskActionParam
-        $SystemSID = 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
-        $TaskPrincipal = New-ScheduledTaskPrincipal -UserID $SystemSID
+        $SystemSid = 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
+        $TaskPrincipal = New-ScheduledTaskPrincipal -UserID $SystemSid
         $TaskSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries
 
         $ScheduledTaskParam = @{

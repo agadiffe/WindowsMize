@@ -52,8 +52,8 @@ function Set-ScheduledTaskState
         [Parameter(Mandatory, ValueFromPipeline)]
         [ValidateScript(
             {
-                $AllowedKeyValue = 'Disabled', 'Enabled'
-                $_.Task.Values | Where-Object -FilterScript { $AllowedKeyValue -contains $_ }
+                $AllowedKeyValues = 'Disabled', 'Enabled'
+                $_.Task.Values | Where-Object -FilterScript { $AllowedKeyValues -contains $_ }
             },
             ErrorMessage = "Invalid value(s) in the 'Task' hashtable. All values must be either 'Disabled' or 'Enabled'.")]
         [WinScheduledTask] $InputObject
@@ -62,9 +62,12 @@ function Set-ScheduledTaskState
     begin
     {
         $ScheduledTasks = Get-ScheduledTask
-        $AllowedTaskToBeDeleted = @(
-            'SdbinstMergeDbTask'
-            'UsageAndQualityInsights-MaintenanceTask'
+        $AllowedProtectedTaskToBeChanged = @(
+            '\Microsoft\Windows\Application Experience\SdbinstMergeDbTask'
+            '\Microsoft\Windows\UsageAndQualityInsights\UsageAndQualityInsights-MaintenanceTask'
+            '\Microsoft\Windows\WindowsAI\Recall\InitialConfiguration'
+            '\Microsoft\Windows\WindowsAI\Recall\PolicyConfiguration'
+            '\Microsoft\Windows\WindowsAI\Settings\InitialConfiguration'
         )
     }
 
@@ -102,30 +105,30 @@ function Set-ScheduledTaskState
             {
                 Write-Verbose -Message "Setting '$($InputObject.TaskPath)$($Task.Key)' to '$($Task.Value)' ..."
 
-                switch ($Task.Value)
+                try
                 {
-                    'Enabled'
+                    switch ($Task.Value)
                     {
-                        $CurrentTask | Enable-ScheduledTask | Out-Null
+                        'Enabled'  { $CurrentTask | Enable-ScheduledTask -ErrorAction 'Stop' | Out-Null }
+                        'Disabled' { $CurrentTask | Disable-ScheduledTask -ErrorAction 'Stop' | Out-Null }
+                    }  
+                }
+                catch
+                {
+                    if ($AllowedProtectedTaskToBeChanged -contains "$($CurrentTask.TaskPath)$($CurrentTask.TaskName)")
+                    {
+                        Write-Verbose -Message '    system protected task: editing with SYSTEM privileges ...'
+                        $TaskParam = @{
+                            State    = $Task.Value
+                            TaskPath = $CurrentTask.TaskPath
+                            TaskName = $CurrentTask.TaskName
+                            Verbose  = $false
+                        }
+                        Set-ScheduledTaskSystemProtected @TaskParam
                     }
-                    'Disabled'
+                    else
                     {
-                        try
-                        {
-                            $CurrentTask | Disable-ScheduledTask -ErrorAction 'Stop' | Out-Null
-                        }
-                        catch
-                        {
-                            if ($AllowedTaskToBeDeleted -contains $CurrentTask.TaskName)
-                            {
-                                Write-Verbose -Message '    cannot be disabled: deleting task ...'
-                                $CurrentTask | Unregister-ScheduledTask -Confirm:$false | Out-Null
-                            }
-                            else
-                            {
-                                Write-Verbose -Message '    cannot be disabled.'
-                            }
-                        }
+                        Write-Verbose -Message "    cannot be $($Task.Value)."
                     }
                 }
             }

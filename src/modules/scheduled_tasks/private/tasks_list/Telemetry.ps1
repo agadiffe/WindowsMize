@@ -16,7 +16,7 @@ $ScheduledTasksList += @{
                 SdbinstMergeDbTask                      = 'Disabled' # default: Enabled
                 StartupAppTask                          = 'Disabled' # default: Enabled
             }
-            Comment  = 'SdbinstMergeDbTask cannot be disabled.'
+            Comment  = 'system protected task: SdbinstMergeDbTask.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Autochk\'
@@ -124,6 +124,7 @@ $ScheduledTasksList += @{
             Task     = @{
                 'UsageAndQualityInsights-MaintenanceTask' = 'Disabled' # default: Enabled
             }
+            Comment  = 'system protected task.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Windows Error Reporting\'
