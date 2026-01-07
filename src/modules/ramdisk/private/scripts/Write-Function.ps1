@@ -29,8 +29,6 @@ function Write-Function
 
     process
     {
-        "function $Name"
-        "{$((Get-Command -Name $Name -ErrorAction 'SilentlyContinue').Definition)}"
-        ''
+        "function $Name`n{$((Get-Command -Name $Name -ErrorAction 'SilentlyContinue').Definition)}"
     }
 }

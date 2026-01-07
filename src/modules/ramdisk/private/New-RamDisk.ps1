@@ -55,7 +55,7 @@ function New-RamDisk
     process
     {
         $OSFMountProcess = @{
-            FilePath     = "$((Get-ApplicationInfo -Name 'OSFMount').InstallLocation)\OSFMount.com"
+            FilePath     = "$((Get-ApplicationInfo -System -Name 'OSFMount').InstallLocation)\OSFMount.com"
             ArgumentList = "-a -t vm -m $DriveLetter -o rw,format:ntfs:""$Name"" -s $Size"
         }
         Start-Process -Wait -NoNewWindow @OSFMountProcess

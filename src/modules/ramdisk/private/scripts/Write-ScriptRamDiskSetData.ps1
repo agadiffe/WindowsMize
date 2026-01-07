@@ -33,17 +33,18 @@ function Write-ScriptRamDiskSetData
 
     process
     {
-        $RamDiskSetDataScriptContent = Get-Content -Path "$PSScriptRoot\..\..\classes\Enums.ps1" |
-            Where-Object -FilterScript { $_ -notlike '#*' }
+        $RamDiskSetDataScriptContent = ,(Get-Content -Path "$PSScriptRoot\..\..\classes\Enums.ps1" |
+            Where-Object -FilterScript { $_ -notlike '#*' })
         $FunctionsToWrite = @(
+            'Get-UserInfo'
+            'Get-UserSid'
+            'Invoke-RegLoadUserHive'
             'Get-LoggedOnUserInfo'
             'Get-LoggedOnUserEnvVariable'
             'Get-BraveBrowserPathInfo'
             'Get-ProfilePathCombinations'
             'Get-BraveDataException'
             'Get-BraveDataToSymlink'
-            'Get-VSCodeUserDataPath'
-            'Get-VSCodeDataToRamDisk'
             'Get-VSCodeDataToSymlink'
             'Get-DataToSymlink'
             'New-ParentPath'
@@ -60,6 +61,8 @@ function Write-ScriptRamDiskSetData
         $RamDiskSetDataScriptContent += $FunctionsToWrite | Write-Function
 
         $RamDiskSetDataScriptContent += "
+            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
+
             while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName') -eq 'Running')
             {
                 Start-Sleep -Seconds 0.25

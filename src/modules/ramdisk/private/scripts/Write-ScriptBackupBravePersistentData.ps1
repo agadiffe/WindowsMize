@@ -15,6 +15,9 @@ function Write-ScriptBackupBravePersistentData
     process
     {
         $FunctionsToWrite = @(
+            'Get-UserInfo'
+            'Get-UserSid'
+            'Invoke-RegLoadUserHive'
             'Get-LoggedOnUserInfo'
             'Get-LoggedOnUserEnvVariable'
             'Get-BraveBrowserPathInfo'
@@ -25,9 +28,11 @@ function Write-ScriptBackupBravePersistentData
         )
 
         $RamDiskLogoffScriptContent = $FunctionsToWrite | Write-Function
-        $RamDiskLogoffScriptContent += '
-            Copy-BravePersistentData -Action ''Backup''
-        ' -replace '(?m)^ *'
+        $RamDiskLogoffScriptContent += "
+            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
+
+            Copy-BravePersistentData -Action 'Backup'
+        " -replace '(?m)^ *'
         $RamDiskLogoffScriptContent
     }
 }

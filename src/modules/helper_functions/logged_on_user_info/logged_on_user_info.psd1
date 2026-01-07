@@ -13,6 +13,9 @@
         'Get-LoggedOnUserInfo'
         'Get-LoggedOnUserItemPropertyValue'
         'Get-LoggedOnUserShellFolder'
+        'Get-UserInfo'
+        'Get-UserSid'
+        'Invoke-RegLoadUserHive'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

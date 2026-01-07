@@ -33,7 +33,6 @@ function Write-ScriptRamDiskCreation
     process
     {
         $FunctionsToWrite = @(
-            'Get-LoggedOnUserInfo'
             'Get-ApplicationInfo'
             'New-RamDisk'
             'Get-DrivePath'
