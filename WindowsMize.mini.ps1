@@ -741,11 +741,13 @@ Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 12
 Set-AdvancedBatterySetting -Battery 'Critical' -Level 9  -Action 'Sleep'
 
 # --- Win settings app
-$PowerSettings = @{
-    PowerMode         = 'Balanced' # BestPowerEfficiency | Balanced | BestPerformance
-    BatteryPercentage = 'Disabled'
-}
-Set-PowerSetting @PowerSettings
+# PowerMode: BestPowerEfficiency | Balanced | BestPerformance
+# PowerSource: PluggedIn | OnBattery
+Set-PowerSetting -PowerMode 'Balanced'
+#Set-PowerSetting -PowerMode 'Balanced' -PowerSource 'PluggedIn'
+#Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
+
+Set-PowerSetting -BatteryPercentage 'Disabled'
 
 # Timeout: value in minutes | never: 0
 $DeviceTimeouts = @(
@@ -1061,11 +1063,13 @@ Write-Section -Name 'Telemetry & Annoyances'
 #=======================================
 #region telemetry
 
+# DiagnosticTracing: TrustedInstaller protected key. Need to be changed manually.
+# See src\modules\telemetry\private\Set-DiagnosticTracing.ps1
+
 Disable-DotNetTelemetry
 Disable-NvidiaTelemetry
 Disable-PowerShellTelemetry
 Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
-#Set-DiagnosticTracing -State 'Disabled' # Protected key. src\modules\telemetry\private\Set-DiagnosticTracing.ps1
 
 Set-AppAndDeviceInventory -GPO 'Disabled'
 Set-ApplicationCompatibility -GPO 'Disabled'
@@ -1586,8 +1590,8 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 $LockScreenSettings = @{
     #SetToPicture                 = $true
     #GetFunFactsTipsTricks        = 'Disabled' # also unset: Windows Spotlight
-    ShowPictureOnSigninScreenGPO = 'NotConfigured'
-    YourWidgets                  = 'Disabled' ; YourWidgetsGPO = 'NotConfigured'
+    ShowPictureOnSigninScreen    = 'Enabled'  ; ShowPictureOnSigninScreenGPO = 'NotConfigured'
+    YourWidgets                  = 'Disabled' ; YourWidgetsGPO               = 'NotConfigured'
 }
 Set-LockScreenSetting @LockScreenSettings
 
@@ -1650,9 +1654,9 @@ $AccountsSettings = @{
     # Standard Standby (S3) : Never | OnWakesUpFromSleep
     # Modern Standby (S0)   : Never | Always | OneMin | ThreeMins | FiveMins | FifteenMins
     SigninRequiredIfAway           = 'Never'
-    DynamicLock                    = 'Disabled' ; DynamicLockGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    DynamicLock                    = 'Disabled' ; DynamicLockGPO        = 'NotConfigured' # Disabled | Enabled | NotConfigured
     AutoRestartApps                = 'Disabled'
-    ShowAccountDetailsGPO          = 'NotConfigured'
+    ShowAccountDetails             = 'Disabled' ; ShowAccountDetailsGPO = 'NotConfigured'
     AutoFinishSettingUpAfterUpdate = 'Disabled' ; AutoFinishSettingUpAfterUpdateGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
 }
 Set-SigninOptionsSetting @AccountsSettings

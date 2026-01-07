@@ -41,9 +41,8 @@ Disable-PowerShellTelemetry
 Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
 
 # --- Diagnostic tracing
-# Protected key. Need to be changed manually.
+# TrustedInstaller protected key. Need to be changed manually.
 # See "src\modules\telemetry\private\Set-DiagnosticTracing.ps1".
-#Set-DiagnosticTracing -State 'Disabled'
 
 #==============================================================================
 #                                 Group Policy

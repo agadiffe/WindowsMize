@@ -75,10 +75,12 @@ Write-Section -Name 'Windows Settings App - System'
 Write-Section -Name 'Power (& battery)' -SubSection
 
 # --- Power Mode
-# Available only when using the Balanced power plan.
-# Applies only to the active power state (e.g. Laptop: PluggedIn or OnBattery).
-# State: BestPowerEfficiency | Balanced (default) | BestPerformance
+# Available only when using the default Balanced power plan.
+# PowerMode: BestPowerEfficiency | Balanced | BestPerformance
+# PowerSource: PluggedIn | OnBattery
 Set-PowerSetting -PowerMode 'Balanced'
+#Set-PowerSetting -PowerMode 'Balanced' -PowerSource 'PluggedIn'
+#Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
 
 # --- Battery percentage (default: Disabled)
 Set-PowerSetting -BatteryPercentage 'Disabled'

@@ -73,8 +73,8 @@ Set-SigninOptionsSetting -DynamicLock 'Disabled' -DynamicLockGPO 'NotConfigured'
 # --- Automatically save my restartable apps and restart them when I sign back in (default: Enabled)
 Set-SigninOptionsSetting -AutoRestartApps 'Disabled'
 
-# --- Show account details such as my email address on the sign-in screen
-Set-SigninOptionsSetting -ShowAccountDetailsGPO 'NotConfigured'
+# --- Show account details such as my email address on the sign-in screen (default: Disabled)
+Set-SigninOptionsSetting -ShowAccountDetails 'Disabled' -ShowAccountDetailsGPO 'NotConfigured'
 
 # --- Use my sign-in info to automatically finish setting up after an update (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured

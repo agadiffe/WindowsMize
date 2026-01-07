@@ -5,6 +5,7 @@
 <#
 .SYNTAX
     Set-LockScreenShowPictureOnSigninScreen
+        [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -13,13 +14,15 @@ function Set-LockScreenShowPictureOnSigninScreen
 {
     <#
     .EXAMPLE
-        PS> Set-LockScreenShowPictureOnSigninScreen -GPO 'Disabled'
+        PS> Set-LockScreenShowPictureOnSigninScreen -State 'Enabled' -GPO 'NotConfigured'
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Position = 0)]
+        [state] $State,
+
         [GpoStateWithoutEnabled] $GPO
     )
 
@@ -31,8 +34,6 @@ function Set-LockScreenShowPictureOnSigninScreen
         {
             'State'
             {
-                # not used.
-
                 # owner: SYSTEM | full control: SYSTEM
                 # Requested registry access is not allowed.
 
@@ -52,7 +53,7 @@ function Set-LockScreenShowPictureOnSigninScreen
                 }
 
                 Write-Verbose -Message "Setting '$BackgroundPictureMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $LockScreenBackgroundPictureOnSigninScreen
+                Set-RegistryEntrySystemProtected -InputObject $LockScreenBackgroundPictureOnSigninScreen
             }
             'GPO'
             {

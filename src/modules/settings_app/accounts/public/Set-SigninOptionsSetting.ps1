@@ -13,6 +13,7 @@
         [-DynamicLock {Disabled | Enabled}]
         [-DynamicLockGPO {Disabled | Enabled | NotConfigured}]
         [-AutoRestartApps {Disabled | Enabled}]
+        [-ShowAccountDetails {Disabled | Enabled}]
         [-ShowAccountDetailsGPO {Disabled | NotConfigured}]
         [-AutoFinishSettingUpAfterUpdate {Disabled | Enabled}]
         [-AutoFinishSettingUpAfterUpdateGPO {Disabled | Enabled | NotConfigured}]
@@ -48,6 +49,8 @@ function Set-SigninOptionsSetting
         [GpoState] $DynamicLockGPO,
 
         [state] $AutoRestartApps,
+
+        [state] $ShowAccountDetails,
 
         [GpoStateWithoutEnabled] $ShowAccountDetailsGPO,
 
@@ -95,6 +98,7 @@ function Set-SigninOptionsSetting
             'DynamicLock'                       { Set-SigninDynamicLock -State $DynamicLock }
             'DynamicLockGPO'                    { Set-SigninDynamicLock -GPO $DynamicLockGPO }
             'AutoRestartApps'                   { Set-SigninAutoRestartApps -State $AutoRestartApps }
+            'ShowAccountDetails'                { Set-SigninShowAccountDetails -State $ShowAccountDetails }
             'ShowAccountDetailsGPO'             { Set-SigninShowAccountDetails -GPO $ShowAccountDetailsGPO }
             'AutoFinishSettingUpAfterUpdate'    { Set-SigninAutoFinishSettingUpAfterUpdate -State $AutoFinishSettingUpAfterUpdate }
             'AutoFinishSettingUpAfterUpdateGPO' { Set-SigninAutoFinishSettingUpAfterUpdate -GPO $AutoFinishSettingUpAfterUpdateGPO }

@@ -20,6 +20,7 @@
         'Set-FileSystemAdminsFullControl'
         'Set-KeyboardHotkey'
         'Set-RegistryEntry'
+        'Set-RegistryEntrySystemProtected'
         'Start-Logging'
         'Test-NewerWindowsMizeVersion'
         'Test-PowerShellLanguageMode'

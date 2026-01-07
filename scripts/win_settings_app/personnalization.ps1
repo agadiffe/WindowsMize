@@ -137,8 +137,8 @@ Write-Section -Name 'Lock screen' -SubSection
 # If disabled, Windows spotlight will be unset.
 #Set-LockScreenSetting -GetFunFactsTipsTricks 'Disabled'
 
-# --- Show the lock screen background picture on the sign-in screen
-Set-LockScreenSetting -ShowPictureOnSigninScreenGPO 'NotConfigured'
+# --- Show the lock screen background picture on the sign-in screen (default: Enabled)
+Set-LockScreenSetting -ShowPictureOnSigninScreen 'Enabled' -ShowPictureOnSigninScreenGPO 'NotConfigured'
 
 # --- Your widgets (default: Enabled)
 # Windows 11 24H2+ only.

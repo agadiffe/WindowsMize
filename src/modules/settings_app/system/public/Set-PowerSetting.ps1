@@ -5,8 +5,12 @@
 <#
 .SYNTAX
     Set-PowerSetting
-        [-PowerMode {BestPowerEfficiency | Balanced | BestPerformance}]
         [-BatteryPercentage {Disabled | Enabled}]
+        [<CommonParameters>]
+
+    Set-PowerSetting
+        -PowerMode {BestPowerEfficiency | Balanced | BestPerformance}
+        [-PowerSource {PluggedIn | OnBattery}]
         [<CommonParameters>]
 
     Set-PowerSetting
@@ -26,7 +30,10 @@ function Set-PowerSetting
 {
     <#
     .EXAMPLE
-        PS> Set-PowerSetting -PowerMode 'BestPowerEfficiency' -BatteryPercentage 'Disabled'
+        PS> Set-PowerSetting -BatteryPercentage 'Disabled'
+
+    .EXAMPLE
+        PS> Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
 
     .EXAMPLE
         PS> Set-PowerSetting -PowerState 'Sleep' -Timeout 10 -PowerSource 'PluggedIn'
@@ -39,10 +46,10 @@ function Set-PowerSetting
     param
     (
         [Parameter(ParameterSetName = 'GeneralSettings')]
-        [PowerMode] $PowerMode,
-
-        [Parameter(ParameterSetName = 'GeneralSettings')]
         [state] $BatteryPercentage,
+
+        [Parameter(Mandatory, ParameterSetName = 'PowerMode')]
+        [PowerMode] $PowerMode,
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
         [PowerState] $PowerState,
@@ -57,6 +64,7 @@ function Set-PowerSetting
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'ButtonControls')]
         [PowerAction] $Action,
 
+        [Parameter(ValueFromPipelineByPropertyName, ParameterSetName = 'PowerMode')]
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'ButtonControls')]
         [PowerSource] $PowerSource
@@ -76,8 +84,18 @@ function Set-PowerSetting
 
                 switch ($PSBoundParameters.Keys)
                 {
-                    'PowerMode'         { Set-PowerMode -Value $PowerMode }
                     'BatteryPercentage' { Set-PowerBatteryPercentage -State $BatteryPercentage }
+                }
+            }
+            'PowerMode'
+            {
+                if ($PSBoundParameters.ContainsKey('PowerSource'))
+                {
+                    Set-PowerMode -Value $PowerMode -PowerSource $PowerSource
+                }
+                else
+                {
+                    Set-PowerMode -Value $PowerMode
                 }
             }
             'PowerStateTimeout' { Set-PowerStateTimeout -Name $PowerState -Timeout $Timeout -PowerSource $PowerSource }

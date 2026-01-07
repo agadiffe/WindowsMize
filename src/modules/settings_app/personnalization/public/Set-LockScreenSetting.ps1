@@ -7,6 +7,7 @@
     Set-LockScreenSetting
         [-SetToPicture]
         [-GetFunFactsTipsTricks {Disabled | Enabled}]
+        [-ShowPictureOnSigninScreen {Disabled | Enabled}]
         [-ShowPictureOnSigninScreenGPO {Disabled | NotConfigured}]
         [-YourWidgets {Disabled | Enabled}]
         [-YourWidgetsGPO {Disabled | NotConfigured}]
@@ -27,6 +28,8 @@ function Set-LockScreenSetting
 
         [state] $GetFunFactsTipsTricks,
 
+        [state] $ShowPictureOnSigninScreen,
+
         [GpoStateWithoutEnabled] $ShowPictureOnSigninScreenGPO,
 
         [state] $YourWidgets,
@@ -46,6 +49,7 @@ function Set-LockScreenSetting
         {
             'SetToPicture'                 { if ($SetToPicture) { Set-LockScreenToPicture } }
             'GetFunFactsTipsTricks'        { Set-LockScreenGetFunFactsTipsTricks -State $GetFunFactsTipsTricks }
+            'ShowPictureOnSigninScreen'    { Set-LockScreenShowPictureOnSigninScreen -State $ShowPictureOnSigninScreen }
             'ShowPictureOnSigninScreenGPO' { Set-LockScreenShowPictureOnSigninScreen -GPO $ShowPictureOnSigninScreenGPO }
             'YourWidgets'                  { Set-LockScreenYourWidgets -State $YourWidgets }
             'YourWidgetsGPO'               { Set-LockScreenYourWidgets -GPO $YourWidgetsGPO }

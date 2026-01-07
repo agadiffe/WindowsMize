@@ -5,6 +5,7 @@
 <#
 .SYNTAX
     Set-SigninShowAccountDetails
+        [[-State] {Disabled | Enabled}]
         [-GPO] {Disabled | NotConfigured}
         [<CommonParameters>]
 #>
@@ -13,13 +14,15 @@ function Set-SigninShowAccountDetails
 {
     <#
     .EXAMPLE
-        PS> Set-SigninShowAccountDetails -GPO 'NotConfigured'
+        PS> Set-SigninShowAccountDetails -State 'Disabled' -GPO 'NotConfigured'
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Position = 0)]
+        [state] $State,
+
         [GpoStateWithoutEnabled] $GPO
     )
 
@@ -31,8 +34,6 @@ function Set-SigninShowAccountDetails
         {
             'State'
             {
-                # not used.
-
                 # owner: SYSTEM | full control: SYSTEM
                 # Requested registry access is not allowed.
 
@@ -52,7 +53,7 @@ function Set-SigninShowAccountDetails
                 }
 
                 Write-Verbose -Message "Setting '$ShowAccountDetailsMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $SigninShowAccountDetails
+                Set-RegistryEntrySystemProtected -InputObject $SigninShowAccountDetails
             }
             'GPO'
             {

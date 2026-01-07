@@ -151,3 +151,75 @@ function Set-RegistryEntry
         }
     }
 }
+
+
+<#
+.SYNTAX
+    Set-RegistryEntrySystemProtected
+        [-InputObject] <RegistryEntry>
+        [<CommonParameters>]
+#>
+
+function Set-RegistryEntrySystemProtected
+{
+    <#
+    .EXAMPLE
+        PS> $Foo = @{
+                Hive    = 'HKEY_LOCAL_MACHINE'
+                Path    = 'SOFTWARE\FooApp\Config'
+                Entries = @(
+                    @{
+                        Name  = 'Enabled'
+                        Value = '1'
+                        Type  = 'DWord'
+                    }
+                )
+            }
+        PS> Set-RegistryEntrySystemProtected -InputObject $Foo
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [RegistryEntry] $InputObject
+    )
+
+    process
+    {
+        $ScriptContentFilePath = "$env:TEMP\TempScriptContent.ps1"
+        $TempJsonFilePath = "$env:TEMP\TempJsonDataFile.json"
+        $VerboseLogPath = "$env:TEMP\Set-RegistryEntrySystemProtected_verbose.log"
+        $ErrorLogPath = "$env:TEMP\Set-RegistryEntrySystemProtected_error.log"
+
+        # Get-LoggedOnUserInfo fails if executed as SYSTEM. Use $Global:ProvidedUserName as workaround.
+        $ScriptContent = "
+            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
+            Import-Module -Name '$(Split-Path -Path $PSScriptRoot)'
+            `$InputRegistryData = Get-Content -Raw -Path '$TempJsonFilePath' | ConvertFrom-Json -AsHashtable
+            `$InputRegistryData | Set-RegistryEntry 4> '$VerboseLogPath' 2> '$ErrorLogPath'
+        "
+
+        $InputObject | ConvertTo-Json -Depth 100 | Out-File -FilePath $TempJsonFilePath
+        $ScriptContent | Out-File -FilePath $ScriptContentFilePath
+
+        $TempTaskName = "TempScript46-$(New-Guid)"
+        # at task creation/modification
+        $TaskTrigger = Get-CimClass -ClassName 'MSFT_TaskRegistrationTrigger' -Namespace 'Root/Microsoft/Windows/TaskScheduler' -Verbose:$false
+        New-ScheduledTaskScript -FilePath $ScriptContentFilePath -TaskName $TempTaskName -Trigger $TaskTrigger -Verbose:$false | Out-Null
+
+        while ((Get-ScheduledTask -TaskPath '\' -TaskName $TempTaskName) -eq 'Running')
+        {
+            Start-Sleep -Seconds 0.25
+        }
+
+        # let log files the time to be generated
+        Start-Sleep -Seconds 0.25
+        # display output to the interactive Terminal
+        (Get-Content -Path $VerboseLogPath).ForEach({ Write-Verbose -Message $_ })
+        (Get-Content -Path $ErrorLogPath).ForEach({ Write-Error -Message $_ })
+
+        Unregister-ScheduledTask -TaskPath '\' -TaskName $TempTaskName -Confirm:$false
+        Remove-Item -Path $ScriptContentFilePath, $TempJsonFilePath, $VerboseLogPath, $ErrorLogPath
+    }
+}
