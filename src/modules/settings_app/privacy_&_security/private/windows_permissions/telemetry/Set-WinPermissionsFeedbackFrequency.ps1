@@ -38,32 +38,31 @@ function Set-WinPermissionsFeedbackFrequency
             {
                 $NumberOfSIUF, $NanoSeconds = switch ($State)
                 {
-                    'Never'         { '0', '0' }
-                    'Always'        { '100000000', '' }
+                    'Never'         { '0', '' }
+                    'Always'        { '', '100000000' }
                     'Daily'         { '1', '864000000000' }
                     'Weekly'        { '1', '6048000000000' }
                 }
 
                 $IsAuto = $State -eq 'Automatically'
-                $IsAlways = $State -eq 'Always'
 
-                # automatically: delete delete (default) | always: 100000000 delete
-                # once a day: 1 864000000000 | once a week: 1 6048000000000 | never: 0 0
+                # automatically: delete delete (default) | always: delete 100000000
+                # once a day: 1 864000000000 | once a week: 1 6048000000000 | never: 0 delete
                 $WinPermissionsFeedbackFrequency = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Siuf\Rules'
                     Entries = @(
                         @{
-                            RemoveEntry = $IsAuto
+                            RemoveEntry = $IsAuto -or $State -eq 'Always'
                             Name  = 'NumberOfSIUFInPeriod'
                             Value = $NumberOfSIUF
-                            Type  = $IsAlways ? 'QWord' : 'DWord'
+                            Type  = 'DWord'
                         }
                         @{
-                            RemoveEntry = $IsAuto -or $IsAlways
+                            RemoveEntry = $IsAuto -or $State -eq 'Never'
                             Name  = 'PeriodInNanoSeconds'
                             Value = $NanoSeconds
-                            Type  = $State -eq 'Never' ? 'DWord' : 'QWord'
+                            Type  = 'QWord'
                         }
                     )
                 }
