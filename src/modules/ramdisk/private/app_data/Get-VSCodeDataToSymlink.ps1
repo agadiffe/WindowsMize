@@ -47,6 +47,7 @@ function Get-VSCodeDataToSymlink
                         'Network'
                         'Session Storage'
                         'Shared Dictionary'
+                        'WebStorage'
                     )
                 }
             }

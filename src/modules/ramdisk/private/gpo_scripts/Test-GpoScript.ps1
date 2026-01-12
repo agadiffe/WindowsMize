@@ -28,15 +28,13 @@ function Test-GpoScript
         [string] $Name,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Logon', 'Logoff')]
-        [string] $Type
+        [GpoScriptType] $Type
     )
 
     process
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
-        $GPOScriptRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
-        $RegItems = Get-ChildItem -Path "Registry::$GPOScriptRegPath" -ErrorAction 'SilentlyContinue'
+        $GpoScriptRegPath = Get-GpoScriptRegPath -Type $Type
+        $RegItems = Get-ChildItem -Path "Registry::$GpoScriptRegPath" -ErrorAction 'SilentlyContinue'
 
         $Result = $false
         foreach ($Item in $RegItems)

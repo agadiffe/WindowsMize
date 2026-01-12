@@ -8,7 +8,7 @@ $ServicesList += @{
             DisplayName = 'AppX Deployment Service (AppXSVC)'
             ServiceName = 'AppXSvc'
             StartupType = 'Manual'
-            DefaultType = 'Manual'
+            DefaultType = 'Automatic'
             Comment     = 'cannot be changed with services.msc.
                            infrastructure support for deploying Store applications.'
         }

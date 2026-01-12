@@ -1,20 +1,20 @@
 #=================================================================================================================
-#                                       New Scheduled Task RamDisk Creation
+#                                          New Scheduled Task User Logon
 #=================================================================================================================
 
 <#
 .SYNTAX
-    New-ScheduledTaskRamDiskCreation
+    New-ScheduledTaskUserLogon
         [-FilePath] <string>
         [-TaskName] <string>
         [<CommonParameters>]
 #>
 
-function New-ScheduledTaskRamDiskCreation
+function New-ScheduledTaskUserLogon
 {
     <#
     .EXAMPLE
-        PS> New-ScheduledTaskRamDiskCreation -FilePath 'C:\MyScript.ps1' -TaskName 'MyTaskName'
+        PS> New-ScheduledTaskUserLogon -FilePath 'C:\MyScript.ps1' -TaskName 'RamDisk - Set Data'
     #>
 
     [CmdletBinding()]
@@ -29,9 +29,11 @@ function New-ScheduledTaskRamDiskCreation
 
     process
     {
-        Write-Verbose -Message "Setting '$TaskName' Scheduled Task ..."
+        Write-Verbose -Message "Setting '$TaskName' User Logon Scheduled Task ..."
 
-        $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
+        $UserName = (Get-LoggedOnUserInfo).UserName
+        $TaskName = "$TaskName ($UserName)"
+        $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
         New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
     }
 }

@@ -48,7 +48,7 @@ function New-ScriptRamDiskSetData
         New-ParentPath -Path $FilePath
         $ScriptSetDataParam = @{
             RamDiskName     = $RamDiskName
-            RamDiskTaskName = $RamDiskCreationTaskName
+            RamDiskTaskName = $RamDiskTaskName
             AppToRamDisk    = $AppToRamDisk
         }
         Write-ScriptRamDiskSetData @ScriptSetDataParam | Out-File -FilePath $FilePath

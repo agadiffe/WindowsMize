@@ -49,8 +49,8 @@ Write-Section -Name 'RamDisk'
 #     src > modules > ramdisk > private > Get-BraveBrowserPathInfo.ps1
 
 # You can configure which folders/files are exclude from the RamDisk in:
-#   src > modules > ramdisk > private > app_data > BraveBrowserData.ps1
-#   src > modules > ramdisk > private > app_data > VSCodeData.ps1
+#   src > modules > ramdisk > private > app_data > Get-BraveDataToSymlink.ps1
+#   src > modules > ramdisk > private > app_data > Get-VSCodeDataToSymlink.ps1
 
 # The RamDisk will be created on the next computer restart.
 

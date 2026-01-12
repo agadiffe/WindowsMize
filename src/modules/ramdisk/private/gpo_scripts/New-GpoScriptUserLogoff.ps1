@@ -1,31 +1,34 @@
 #=================================================================================================================
-#                                  New GPO Script : Backup Brave Persistent Data
+#                                           New GPO Script User Logoff
 #=================================================================================================================
 
 <#
 .SYNTAX
-    New-GpoScriptBackupBravePersistentData
+    New-GpoScriptUserLogoff
         [-FilePath] <string>
+        [[-VerboseMsg] <string>]
         [<CommonParameters>]
 #>
 
-function New-GpoScriptBackupBravePersistentData
+function New-GpoScriptUserLogoff
 {
     <#
     .EXAMPLE
-        PS> New-GpoScriptBackupBravePersistentData -FilePath 'C:\MyScript.ps1'
+        PS> New-GpoScriptUserLogoff -FilePath 'C:\MyScript.ps1' -VerboseMsg 'Backup Brave Persistent Data'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [string] $FilePath
+        [string] $FilePath,
+
+        [string] $VerboseMsg
     )
 
     process
     {
-        Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' GPO Script ...'
+        Write-Verbose -Message "Setting '$VerboseMsg' User Logoff GPO Script ..."
         if (-not (Test-GpoScript -Name $FilePath -Type 'Logoff'))
         {
             New-GpoScript -FilePath $FilePath -Type 'Logoff'

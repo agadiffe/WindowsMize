@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                          Set RamDisk Scripts And Tasks
+#                                         Set RamDisk : Scripts And Tasks
 #=================================================================================================================
 
 <#
@@ -33,14 +33,15 @@ function Set-RamDisk
     process
     {
         $RamDiskName = 'RamDisk'
-        $RamDiskCreationTaskName = 'RamDisk - Creation'
+        $RamDiskCreationTaskName = "$RamDiskName - Creation"
+        $RamDiskSetDataTaskName = "$RamDiskName - Set Data"
 
         $StartupScriptFilePath = "$env:SystemDrive\RamDisk script\create_ramdisk.ps1"
         $LogonScriptFilePath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\set_data_to_ramdisk.ps1"
         $LogoffScriptFilePath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\save_brave_files_to_persistent_path.ps1"
 
         New-ScriptRamDiskCreation -FilePath $StartupScriptFilePath -Name $RamDiskName -Size $Size
-        New-ScheduledTaskRamDiskCreation -FilePath $StartupScriptFilePath -TaskName $RamDiskCreationTaskName
+        New-ScheduledTaskStartup -FilePath $StartupScriptFilePath -TaskName $RamDiskCreationTaskName
 
         $ScriptSetDataParam = @{
             FilePath        = $LogonScriptFilePath
@@ -49,12 +50,12 @@ function Set-RamDisk
             AppToRamDisk    = $AppToRamDisk
         }
         New-ScriptRamDiskSetData @ScriptSetDataParam
-        New-ScheduledTaskRamDiskSetData -FilePath $LogonScriptFilePath
+        New-ScheduledTaskUserLogon -FilePath $LogonScriptFilePath -TaskName $RamDiskSetDataTaskName
 
         if ($AppToRamDisk.Contains([AppName]::Brave))
         {
             New-ScriptBackupBravePersistentData -FilePath $LogoffScriptFilePath
-            New-GPOScriptBackupBravePersistentData -FilePath $LogoffScriptFilePath
+            New-GpoScriptUserLogoff -FilePath $LogoffScriptFilePath -VerboseMsg 'Backup Brave Persistent Data'
         }
     }
 }

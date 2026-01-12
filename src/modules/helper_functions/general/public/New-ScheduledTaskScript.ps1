@@ -26,6 +26,9 @@ function New-ScheduledTaskScript
         [string] $FilePath,
 
         [Parameter(Mandatory)]
+        [ValidatePattern(
+            '^[^/\\:\|<>\?\*"]+$',
+            ErrorMessage = 'The TaskName can''t contain these characters: / \ : | < > ? * "')]
         [string] $TaskName,
 
         [Parameter(Mandatory)]

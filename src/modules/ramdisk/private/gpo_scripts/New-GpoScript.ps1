@@ -24,14 +24,12 @@ function New-GpoScript
         [string] $FilePath,
 
         [Parameter(Mandatory)]
-        [ValidateSet('Logon', 'Logoff')]
-        [string] $Type
+        [GpoScriptType] $Type
     )
 
     process
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
-        $GpoScriptRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\$Type\0"
+        $GpoScriptRegPath = Get-GpoScriptRegPath -Type $Type
         $ScriptNumber = (Get-ChildItem -Path "Registry::$GpoScriptRegPath" -ErrorAction 'SilentlyContinue').Count
 
         $GpoScript = @(

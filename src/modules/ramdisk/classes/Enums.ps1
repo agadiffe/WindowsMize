@@ -7,3 +7,9 @@ enum AppName
     Brave
     VSCode
 }
+
+enum GpoScriptType
+{
+    Logon
+    Logoff
+}

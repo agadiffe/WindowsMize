@@ -1,35 +1,37 @@
 #=================================================================================================================
-#                                       New Scheduled Task RamDisk Set Data
+#                                           New Scheduled Task Startup
 #=================================================================================================================
 
 <#
 .SYNTAX
-    New-ScheduledTaskRamDiskSetData
+    New-ScheduledTaskStartup
         [-FilePath] <string>
+        [-TaskName] <string>
         [<CommonParameters>]
 #>
 
-function New-ScheduledTaskRamDiskSetData
+function New-ScheduledTaskStartup
 {
     <#
     .EXAMPLE
-        PS> New-ScheduledTaskRamDiskSetData -FilePath 'C:\MyScript.ps1'
+        PS> New-ScheduledTaskStartup -FilePath 'C:\MyScript.ps1' -TaskName 'MyTaskName'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [string] $FilePath
+        [string] $FilePath,
+
+        [Parameter(Mandatory)]
+        [string] $TaskName
     )
 
     process
     {
-        Write-Verbose -Message 'Setting ''RamDisk - Set Data'' Scheduled Task ...'
+        Write-Verbose -Message "Setting '$TaskName' Startup Scheduled Task ..."
 
-        $UserName = (Get-LoggedOnUserInfo).UserName
-        $TaskName = "RamDisk - Set Data for '$UserName'"
-        $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $UserName
+        $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
         New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
     }
 }
