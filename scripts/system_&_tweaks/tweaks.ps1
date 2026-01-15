@@ -95,6 +95,7 @@ Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled'
 Set-NumLockAtStartup -State 'Enabled'
 
 # --- Service host splitting (default: Enabled)
+# Recommended to keep Enabled.
 Set-ServiceHostSplitting -State 'Enabled'
 
 # --- Short 8.3 file names

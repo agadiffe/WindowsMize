@@ -36,13 +36,6 @@ $ServicesList += @{
             Comment     = 'Kiosk mode.'
         }
         @{
-            DisplayName = 'BranchCache'
-            ServiceName = 'PeerDistSvc'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'Windows Update sharing (downloads from other PCs).'
-        }
-        @{
             DisplayName = 'Cellular Time'
             ServiceName = 'autotimesvc'
             StartupType = 'Disabled'
@@ -405,7 +398,7 @@ $ServicesList += @{
             DefaultType = 'Manual'
             Comment     = 'cannot be changed with services.msc.
                            needed by windows update and microsoft store (not only delivery optimization).
-                           even if disabled, will be set to Manual by windows update or microsoft store.'
+                           even if disabled, it may be reset to Manual by windows Update or Microsoft Store.'
         }
         @{
             DisplayName = 'Device Setup Manager'

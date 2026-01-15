@@ -133,9 +133,9 @@ $ServicesList += @{
             DisplayName = 'Windows Biometric Service'
             ServiceName = 'WbioSrvc'
             StartupType = 'Manual'
-            DefaultType = 'Automatic'
+            DefaultType = 'Manual'
             Comment     = 'if disabled with device present, break/freeze settings > account > sign-in options.
-                           default is Manual if no biometric device.'
+                           default is Automatic if biometric device.'
         }
         @{
             DisplayName = 'Windows Mobile Hotspot Service'

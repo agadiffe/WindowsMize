@@ -5,6 +5,14 @@
 $ServicesList += @{
     Network = @(
         @{
+            DisplayName = 'BranchCache'
+            ServiceName = 'PeerDistSvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'caches network content from peers on the local subnet.
+                           usually used in managed enterprise setups.'
+        }
+        @{
             DisplayName = 'Distributed Link Tracking Client'
             ServiceName = 'TrkWks'
             StartupType = 'Disabled'

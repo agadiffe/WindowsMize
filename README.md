@@ -14,7 +14,6 @@ Debloat, minimize telemetry, apps installation, general settings, and more.
 3. Run the script ([WindowsMize.ps1](WindowsMize.ps1) or the condensed version [WindowsMize.mini.ps1](WindowsMize.mini.ps1)).
 4. Finish some customization (see [todo_manually.md](todo_manually.md)).
 
-Long term: automate step 4.
 
 ## 📝 Characteristics
 - Fully non-interactive script : make sure to review everything before running it.
@@ -172,7 +171,7 @@ $ScriptsToExecute = @(
 )
 ```
 
-You can provide an optional "User" parameter to the script to apply the settings to a specific user.  
+You can provide an optional "User" parameter to apply the settings for a specific user.  
 This user must have logged-in at least once.
 
 ```powershell
@@ -192,7 +191,7 @@ There is a remember at the top of each script file:
 #   GPO:   Disabled | NotConfigured (default)
 ```
 
-If the parameter accept more values than the above default, they will be specified under the desccription.
+If the parameter accept more or different values than the above default, they are specified under the desccription.
 ```powershell
 # --- Recall
 # GPO: Disabled | Enabled | NotConfigured
@@ -208,7 +207,7 @@ Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 
 If the parameter ends with "GPO", it is a "-GPO" parameter.  
 If it doesn't, it is the "-State" parameter.  
-i.e. If not specified, the default accepted values apply.
+If not specified, the default accepted values apply.
 ```powershell
 # --- Search
 # State: Hide | IconOnly | Box (default) | IconAndLabel
@@ -311,6 +310,8 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
   # not configured: delete (default) | on: 1
   ```
 
+- Some few settings may still be in the dev/beta channels.
+
 - Make sure to backup all of your data.  
   e.g. browser bookmarks, apps settings, personal files, passwords database
 
@@ -320,9 +321,9 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
 
 
 ## ♾️ Links
-Special thanks to [ElevenForum](https://elevenforum.com/) (make sure to add it as exception in Brave).  
-If you have suggestions or comments, I made a post there : [WindowsMize on ElevenForum](https://www.elevenforum.com/t/windowsmize-powershell-script-to-automate-and-customize-the-configuration-of-windows.32302/).
-
+- Special thanks to [ElevenForum](https://elevenforum.com/). I made a post there : [WindowsMize on ElevenForum](https://www.elevenforum.com/t/windowsmize-powershell-script-to-automate-and-customize-the-configuration-of-windows.32302/).
+- STIGs: https://www.stigviewer.com/stigs/microsoft-windows-11-security-technical-implementation-guide
+- CIS: https://www.tenable.com/audits/search?q=%22windows+11%22
 
 ## 💙 Support
 If you find a bug, open an issue.  
