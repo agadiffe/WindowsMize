@@ -192,6 +192,7 @@ function New-BraveBrowserConfigData
                     "vertical_tabs_show_scrollbar": false,
                     "vertical_tabs_on_right": false,
                     "mute_indicator_not_clickable": false,
+                    "always_hide_tab_close_button": false,
                     "hover_mode": 0 // tooltip: 0 | card: 1 | card with preview: 2
                 }
             }
