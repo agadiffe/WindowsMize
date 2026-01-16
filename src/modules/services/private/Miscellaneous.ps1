@@ -374,24 +374,6 @@ $ServicesList += @{
                            screen capture functionality for apps using Windows.Graphics.Capture API.'
         }
         @{
-            DisplayName = 'Connected Devices Platform Service'
-            ServiceName = 'CDPSvc'
-            StartupType = 'AutomaticDelayedStart'
-            DefaultType = 'AutomaticDelayedStart'
-            Comment     = 'needed by Night Light.
-                           needed by Nearby sharing.'
-        }
-        @{
-            DisplayName = 'Connected Devices Platform User Service'
-            ServiceName = 'CDPUserSvc'
-            StartupType = 'Automatic'
-            DefaultType = 'Automatic'
-            Comment     = 'needed to enable/disable Night Light.
-                           needed by Nearby sharing.
-                           connect, manage, and control connected devices.
-                           (mobile, Xbox, HoloLens, or smart/IoT devices).'
-        }
-        @{
             DisplayName = 'Delivery Optimization'
             ServiceName = 'DoSvc'
             StartupType = 'Manual'

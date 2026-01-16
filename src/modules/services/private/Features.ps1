@@ -19,6 +19,27 @@ $ServicesList += @{
                            settings > system > clipboard.'
         }
         @{
+            DisplayName = 'Connected Devices Platform Service'
+            ServiceName = 'CDPSvc'
+            StartupType = 'Disabled'
+            DefaultType = 'AutomaticDelayedStart'
+            Comment     = 'needed by Nearby sharing.
+                           also telemetry related.
+                           in previous version: was needed by Night Light.'
+        }
+        @{
+            DisplayName = 'Connected Devices Platform User Service'
+            ServiceName = 'CDPUserSvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
+            Comment     = 'needed by Nearby sharing.
+                           connect, manage, and control connected devices.
+                           (e.g. mobile, Xbox, HoloLens, or smart/IoT devices).
+                           i.e. manage Windows experiences across devices.
+                           also telemetry related.
+                           in previous version: was needed to enable/disable Night Light.'
+        }
+        @{
             DisplayName = 'Downloaded Maps Manager'
             ServiceName = 'MapsBroker'
             StartupType = 'Disabled'
