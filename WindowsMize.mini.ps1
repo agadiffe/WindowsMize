@@ -946,6 +946,7 @@ $AppToRamDisk = @(
 #region tweaks
 
 # --- Security, privacy and networking
+Set-DisplayLastSignedinUserName -GPO 'Enabled' # Disabled | Enabled
 Set-HomeGroup -GPO 'Disabled' # old
 Set-Hotspot2 -State 'Disabled'
 Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
@@ -1030,6 +1031,7 @@ Set-WindowsSpotlight @WindowsSpotlightSettings
 
 # --- Windows features and settings
 #Move-CharacterMapShortcutToWindowsTools
+Set-DisplayLockScreen -GPO 'NotConfigured'
 #Set-DisplayModeChangeAnimation -State 'Disabled'
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
 #Set-EventLogLocation -Default

@@ -75,7 +75,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   <summary>Various tweaks to improve and customize Windows. (click to expand).</summary>
 
 - Security, privacy and networking:  
-  HomeGroup, Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
+  DisplayLastSignedinUserName, HomeGroup, Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
   FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
@@ -84,7 +84,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   DisableGameBarLinks, ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
-  MoveCharacterMapShortcutToWindowsTools, DisplayModeChangeAnimation, EventLogLocation, EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen, TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  MoveCharacterMapShortcutToWindowsTools, DisplayLockScreen, DisplayModeChangeAnimation, EventLogLocation, EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen, TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 
 </details>
 

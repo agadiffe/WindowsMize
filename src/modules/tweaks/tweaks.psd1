@@ -15,6 +15,7 @@
 
     FunctionsToExport = @(
         # --- security_privacy_and_networking
+        'Set-DisplayLastSignedinUserName'
         'Set-HomeGroup'
         'Set-Hotspot2'
         'Set-LocalAccountsSecurityQuestions'
@@ -59,6 +60,7 @@
 
         # --- windows_features_and_settings
         'Move-CharacterMapShortcutToWindowsTools'
+        'Set-DisplayLockScreen'
         'Set-DisplayModeChangeAnimation'
         'Set-EaseOfAccessReadScanSection'
         'Set-EventLogLocation'

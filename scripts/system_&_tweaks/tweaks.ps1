@@ -31,6 +31,10 @@ Write-Section -Name 'Tweaks'
 
 Write-Section -Name 'Security, privacy and networking' -SubSection
 
+# --- Display last signed-in username
+# GPO: Disabled | Enabled (Default)
+Set-DisplayLastSignedinUserName -GPO 'Enabled'
+
 # --- HomeGroup # old
 Set-HomeGroup -GPO 'Disabled'
 
@@ -235,7 +239,11 @@ Set-WindowsSpotlight -AdsContentGPO 'Disabled'
 Write-Section -Name 'Windows features and settings' -SubSection
 
 # --- Move character map shorcut
+# 'sfc /scannow' will show an error and restore the shorcut. 
 #Move-CharacterMapShortcutToWindowsTools
+
+# --- Display the lock screen
+Set-DisplayLockScreen -GPO 'NotConfigured'
 
 # --- Display Mode Change Animation (default: Enabled)
 #Set-DisplayModeChangeAnimation -State 'Disabled'
