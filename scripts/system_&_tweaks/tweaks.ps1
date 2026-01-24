@@ -107,6 +107,7 @@ Set-ServiceHostSplitting -State 'Enabled'
 # To remove them:
 #   - Settings > System > Recovery > Advanced Startup: click on "Restart now".
 #   - On the recovery Menu, choose: Troubleshoot > Commmand Prompt.
+#   - Check the Windows drive letter with DISKPART: list disk, select disk 0, list volume
 #   - On the Commmand Prompt, run: fsutil.exe 8Dot3Name strip /f /s /l C:\8dot3.log C:
 #     Note: "/l C:\8dot3.log" will save the log file into your C: drive instead of the recovery partition.
 

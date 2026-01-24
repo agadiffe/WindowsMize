@@ -55,32 +55,16 @@ function Set-RegistryEntry
                     "SkipKey" : true,
                     "Hive"    : "HKEY_LOCAL_MACHINE",
                     "Path"    : "SOFTWARE\\BarApp\\Config",
-                    "Entries" : [
-                        {
-                            "Name"  : "Enabled",
-                            "Value" : "1",
-                            "Type"  : "DWord"
-                        }
-                    ]
+                    "Entries" : []
                 },
                 {
                     "RemoveKey" : true,
                     "Hive"    : "HKEY_LOCAL_MACHINE",
                     "Path"    : "SOFTWARE\\BarApp\\Config",
-                    "Entries" : [
-                        {
-                            "Name"  : "Autostart",
-                            "Value" : "1",
-                            "Type"  : "DWord"
-                        }
-                    ]
+                    "Entries" : []
                 }
             ]' | ConvertFrom-Json
-        PS> $FooBar = @(
-                $Foo
-                $Bar
-            )
-        PS> $FooBar | Set-RegistryEntry
+        PS> $Bar | Set-RegistryEntry
     #>
 
     [CmdletBinding()]
@@ -208,18 +192,31 @@ function Set-RegistryEntrySystemProtected
         $TaskTrigger = Get-CimClass -ClassName 'MSFT_TaskRegistrationTrigger' -Namespace 'Root/Microsoft/Windows/TaskScheduler' -Verbose:$false
         New-ScheduledTaskScript -FilePath $ScriptContentFilePath -TaskName $TempTaskName -Trigger $TaskTrigger -Verbose:$false | Out-Null
 
-        while ((Get-ScheduledTask -TaskPath '\' -TaskName $TempTaskName) -eq 'Running')
+        while ((Get-ScheduledTask -TaskPath '\' -TaskName $TempTaskName).State -eq 'Running')
         {
             Start-Sleep -Seconds 0.25
         }
 
-        # let log files the time to be generated
+        # let the task fully terminate
         Start-Sleep -Seconds 0.25
-        # display output to the interactive Terminal
-        (Get-Content -Path $VerboseLogPath).ForEach({ Write-Verbose -Message $_ })
-        (Get-Content -Path $ErrorLogPath).ForEach({ Write-Error -Message $_ })
+
+        # let log files the time to be generated
+        $MaxRetries = 10
+        $RetryCount = 0
+        while ((-not (Test-Path -Path $VerboseLogPath) -or -not (Test-Path -Path $ErrorLogPath)) -and $RetryCount -lt $MaxRetries)
+        {
+            Start-Sleep -Seconds 0.25
+            $RetryCount++
+        }
+
+        if ($RetryCount -ne $MaxRetries)
+        {
+            # display output to the interactive Terminal
+            (Get-Content -Path $VerboseLogPath).ForEach({ Write-Verbose -Message $_ })
+            (Get-Content -Path $ErrorLogPath).ForEach({ Write-Error -Message $_ })
+        }
 
         Unregister-ScheduledTask -TaskPath '\' -TaskName $TempTaskName -Confirm:$false
-        Remove-Item -Path $ScriptContentFilePath, $TempJsonFilePath, $VerboseLogPath, $ErrorLogPath
+        Remove-Item -Path $ScriptContentFilePath, $TempJsonFilePath, $VerboseLogPath, $ErrorLogPath -ErrorAction 'SilentlyContinue'
     }
 }

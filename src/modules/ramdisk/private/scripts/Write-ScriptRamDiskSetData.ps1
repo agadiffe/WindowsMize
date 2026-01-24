@@ -63,7 +63,7 @@ function Write-ScriptRamDiskSetData
         $RamDiskSetDataScriptContent += "
             `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
 
-            while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName') -eq 'Running')
+            while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName').State -eq 'Running')
             {
                 Start-Sleep -Seconds 0.25
             }

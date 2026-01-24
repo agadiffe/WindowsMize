@@ -361,7 +361,7 @@ function New-BraveBrowserConfigData
                             "enabled": false // Fanboy Mobile Notifications (included in Fanboy Annoyances)
                         },
                         "1ED1870B-997C-4BFE-AEBC-B67D679BAF3B": {
-                            "enabled": true // Fanboy Anti-chat Apps
+                            "enabled": false // Fanboy Anti-chat Apps
                         },
                         "BD308B90-D3BB-4041-9114-22E096B0BA77": {
                             "enabled": false // YouTube Mobile Distractions
