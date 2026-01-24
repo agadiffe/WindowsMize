@@ -111,6 +111,11 @@ function Set-QuickMachineRecovery
         # Headless (no GUI toggle)\ on: 1 | off: 0 (default)
 
         $QmrSetting = Get-QuickMachineRecoverySetting
+        if (-not $QmrSetting)
+        {
+            Write-Verbose "Setting 'Recovery - Quick Machine Recovery': not available on this system."
+            return
+        }
         $QmrSetting.CloudRemediation = $State -eq 'Enabled' ? '1' : '0'
 
         switch ($true)

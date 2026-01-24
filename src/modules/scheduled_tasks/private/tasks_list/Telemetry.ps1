@@ -113,13 +113,6 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            TaskPath = '\Microsoft\Windows\TextServicesFramework\'
-            Task     = @{
-                MsCtfMonitor = 'Disabled' # default: Enabled
-            }
-            Comment  = 'keylogger and typing for Store apps ?'
-        }
-        @{
             TaskPath = '\Microsoft\Windows\UsageAndQualityInsights\'
             Task     = @{
                 'UsageAndQualityInsights-MaintenanceTask' = 'Disabled' # default: Enabled

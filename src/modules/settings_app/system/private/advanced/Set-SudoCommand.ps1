@@ -35,6 +35,14 @@ function Set-SudoCommand
         }
 
         Write-Verbose -Message "Setting 'System Advanced - Sudo Command' to '$Value' ..."
-        sudo config --enable $SettingValue | Out-Null
+
+        if (-not (Get-Command 'sudo' -ErrorAction 'SilentlyContinue'))
+        {
+            Write-Verbose "  the 'sudo' command is not available on this system"
+        }
+        else
+        {
+            sudo config --enable $SettingValue | Out-Null
+        }
     }
 }

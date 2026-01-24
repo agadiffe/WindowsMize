@@ -41,11 +41,15 @@ function Set-DefenderSmartAppControl
         }
 
         $SACRegPath = "Registry::$($DefenderSmartAppControl.Hive)\$($DefenderSmartAppControl.Path)"
-        $SACCurrentStatus = Get-ItemPropertyValue -Path $SACRegPath -Name $DefenderSmartAppControl.Entries[0].Name
+        $SACCurrentStatus = (Get-ItemProperty -Path $SACRegPath).$($DefenderSmartAppControl.Entries[0].Name)
 
         Write-Verbose -Message "Setting 'Defender - Smart App Control' to '$State' ..."
 
-        if ($SACCurrentStatus -eq 0)
+        if ($null -eq $SACCurrentStatus)
+        {
+            Write-Verbose -Message "  Smart App Control not available on this computer (or registry entry is missing)."
+        }
+        elseif ($SACCurrentStatus -eq 0)
         {
             Write-Verbose -Message "  Smart App Control is off: it can't be turned on without reinstalling or resetting Windows."
         }

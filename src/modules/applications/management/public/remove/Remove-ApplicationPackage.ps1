@@ -25,8 +25,18 @@ function Remove-ApplicationPackage
 
     begin
     {
-        # "-PackageTypeFilter 'All'" also retrieves Provisionned packages
-        $AllAppxPackages = Get-AppxPackage -AllUsers -PackageTypeFilter 'All' -Verbose:$false
+        try
+        {
+            # "-PackageTypeFilter 'All'" also retrieves Provisionned packages
+            $AllAppxPackages = Get-AppxPackage -AllUsers -PackageTypeFilter 'All' -Verbose:$false
+        }
+        catch
+        {
+            # PowerShell on Windows 10: Get-AppxPackage not found
+            # https://github.com/PowerShell/PowerShell/issues/19031
+            Import-Module -Name 'Appx' -UseWindowsPowerShell -Verbose:$false
+            $AllAppxPackages = Get-AppxPackage -AllUsers -PackageTypeFilter 'All' -Verbose:$false
+        }
     }
 
     process

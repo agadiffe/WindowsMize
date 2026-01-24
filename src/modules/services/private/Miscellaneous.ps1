@@ -54,7 +54,8 @@ $ServicesList += @{
             ServiceName = 'DsSvc'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'primary purposes: facilitate the sharing of diagnostic and usage data with Microsoft.'
+            Comment     = 'on Win10, needed by Snipping Tool.
+                           also facilitate the sharing of diagnostic and usage data with Microsoft ?'
         }
         @{
             DisplayName = 'DevQuery Background Discovery Broker'

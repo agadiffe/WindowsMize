@@ -21,8 +21,20 @@ function Export-DefaultAppxPackagesNames
 
             New-ParentPath -Path $LogFilePath
 
+            try
+            {
+                $AppxPackages = (Get-AppxPackage -AllUsers).Name
+            }
+            catch
+            {
+                # PowerShell on Windows 10: Get-AppxPackage not found
+                # https://github.com/PowerShell/PowerShell/issues/19031
+                Import-Module -Name 'Appx' -UseWindowsPowerShell -Verbose:$false
+                $AppxPackages = (Get-AppxPackage -AllUsers).Name
+            }
+
             $DefaultAppxPackages = "# AppxPackage`n "
-            $DefaultAppxPackages += ((Get-AppxPackage -AllUsers).Name).ForEach{ "$_`n" }
+            $DefaultAppxPackages += $AppxPackages.ForEach{ "$_`n" }
             $DefaultAppxPackages += "`n# ProvisionedAppxPackage`n "
             $DefaultAppxPackages += ((Get-ProvisionedAppxPackage -Online -Verbose:$false).DisplayName).ForEach{ "$_`n" }
 

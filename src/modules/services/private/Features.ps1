@@ -25,7 +25,7 @@ $ServicesList += @{
             DefaultType = 'AutomaticDelayedStart'
             Comment     = 'needed by Nearby sharing.
                            also telemetry related.
-                           in previous version: was needed by Night Light.'
+                           in previous version: was needed by Night Light (needed on Win10).'
         }
         @{
             DisplayName = 'Connected Devices Platform User Service'
@@ -37,7 +37,7 @@ $ServicesList += @{
                            (e.g. mobile, Xbox, HoloLens, or smart/IoT devices).
                            i.e. manage Windows experiences across devices.
                            also telemetry related.
-                           in previous version: was needed to enable/disable Night Light.'
+                           in previous version: was needed to enable/disable Night Light (needed on Win10).'
         }
         @{
             DisplayName = 'Downloaded Maps Manager'
