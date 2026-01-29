@@ -39,7 +39,7 @@ Write-Section -Name 'Ethernet / Wi-Fi' -SubSection
 
 # --- Network profile
 # Change all currently connected network.
-# State: Public (default) | Private | DomainAuthenticated
+# State: Public (default) | Private
 Set-NetworkSetting -ConnectedNetworkProfile 'Private'
 
 #endregion ethernet / wi-fi

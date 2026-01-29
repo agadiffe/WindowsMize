@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-NetworkSetting
-        [-ConnectedNetworkProfile {Public | Private | DomainAuthenticated}]
+        [-ConnectedNetworkProfile {Public | Private}]
         [-VpnOverMeteredNetworks {Disabled | Enabled}]
         [-VpnWhileRoaming {Disabled | Enabled}]
         [-ProxyAutoDetectSettings {Disabled | Enabled}]
@@ -24,7 +24,7 @@ function Set-NetworkSetting
     param
     (
         # Wi-Fi / Ethernet
-        [ValidateSet('Public', 'Private', 'DomainAuthenticated')]
+        [ValidateSet('Public', 'Private')]
         [string] $ConnectedNetworkProfile,
 
         # VPN
@@ -50,7 +50,7 @@ function Set-NetworkSetting
         {
             'ConnectedNetworkProfile'
             {
-                # Public (default) | Private | DomainAuthenticated
+                # Public (default) | Private
                 Write-Verbose -Message "Setting 'Connected Network' To '$ConnectedNetworkProfile' ..."
                 Set-NetConnectionProfile -NetworkCategory $ConnectedNetworkProfile
             }

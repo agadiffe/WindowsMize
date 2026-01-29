@@ -54,6 +54,7 @@ Write-Section -Name 'Windows permissions' -SubSection
 #region user data
 
 # --- Personalized offers (default: Enabled)
+# aka Telemetry > Tailored Experiences
 Set-WinPermissionsSetting -PersonalizedOffers 'Disabled' -PersonalizedOffersGPO 'NotConfigured'
 
 # --- Allow websites to access my language list (default: Enabled)

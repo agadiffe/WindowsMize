@@ -535,7 +535,7 @@ Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 #Set-DnsServer -ResetServerAddresses
 
 $NetworkSettings = @{
-    ConnectedNetworkProfile   = 'Private' # Public | Private | DomainAuthenticated
+    ConnectedNetworkProfile   = 'Private' # Public | Private
     VpnOverMeteredNetworks    = 'Enabled'
     VpnWhileRoaming           = 'Enabled'
     ProxyAutoDetectSettings   = 'Disabled'
