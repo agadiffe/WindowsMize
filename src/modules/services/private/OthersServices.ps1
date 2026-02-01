@@ -236,6 +236,12 @@ $ServicesListNotConfigured += @{
             DefaultType = 'AutomaticDelayedStart'
         }
         @{
+            DisplayName = 'Mobile Connectivity Management Service'
+            ServiceName = 'McmSvc'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'Net.Tcp Port Sharing Service'
             ServiceName = 'NetTcpPortSharing'
             StartupType = 'Disabled'
@@ -403,12 +409,6 @@ $ServicesListNotConfigured += @{
             DefaultType = 'Automatic'
             Comment     = 'cannot be changed with services.msc.
                            DO NOT DISABLE (system will fail to boot).'
-        }
-        @{
-            DisplayName = 'This service provides profile management for mobile connectivity modules'
-            ServiceName = 'McmSvc'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
         }
         @{
             DisplayName = 'Time Broker'

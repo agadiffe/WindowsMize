@@ -73,8 +73,7 @@ Write-Section -Name 'App & browser control' -SubSection
 #=======================================
 
 # --- Smart App Control (default: Evaluation)
-# If Smart App Control is off it can't be turned on without reinstalling or resetting Windows.
-#Set-DefenderSetting -SmartAppControl 'Disabled'
+Set-DefenderSetting -SmartAppControl 'Disabled'
 
 #      Reputation-based protection
 #=======================================

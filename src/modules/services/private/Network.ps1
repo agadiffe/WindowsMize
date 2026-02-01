@@ -56,12 +56,6 @@ $ServicesList += @{
             Comment     = 'authentication for domain network.'
         }
         @{
-            DisplayName = 'Network Connected Devices Auto-Setup'
-            ServiceName = 'NcdAutoSetup'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-        }
-        @{
             DisplayName = 'Network Connectivity Assistant'
             ServiceName = 'NcaSvc'
             StartupType = 'Disabled'

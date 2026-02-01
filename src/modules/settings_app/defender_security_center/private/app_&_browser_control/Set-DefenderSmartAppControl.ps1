@@ -2,8 +2,6 @@
 #                              Defender > App & Browser Control > Smart App Control
 #=================================================================================================================
 
-# If Smart App Control is off it can't be turned on without reinstalling or resetting Windows.
-
 <#
 .SYNTAX
     Set-DefenderSmartAppControl

@@ -35,88 +35,88 @@ $SystemDriversList += @{
     )
     BridgeDriver = @( #  old ?
         @{
-            DisplayName = "Bridge Driver"
-            ServiceName = "l2bridge"
-            StartupType = "Disabled"
-            DefaultType = "Manual"
-            Comment     = "old ?"
+            DisplayName = 'Bridge Driver'
+            ServiceName = 'l2bridge'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'old ?'
         }
     )
     NetBiosDriver = @(
         @{
-            DisplayName = "NetBIOS Interface"
-            ServiceName = "NetBIOS"
-            StartupType = "Disabled"
-            DefaultType = "System"
-            Comment     = "legacy/old.
-                           needed by old pc/hardware (e.g. File and Printer Sharing)"
+            DisplayName = 'NetBIOS Interface'
+            ServiceName = 'NetBIOS'
+            StartupType = 'Disabled'
+            DefaultType = 'System'
+            Comment     = 'legacy/old.
+                           needed by old pc/hardware (e.g. File and Printer Sharing)'
         }
     )
     NetBiosOverTcpIpDriver = @(
         @{
-            DisplayName = "netbt"
-            ServiceName = "NetBT"
-            StartupType = "Disabled"
-            DefaultType = "System"
-            Comment     = "NetBios over TCP/IP.
+            DisplayName = 'netbt'
+            ServiceName = 'NetBT'
+            StartupType = 'Disabled'
+            DefaultType = 'System'
+            Comment     = 'NetBios over TCP/IP.
                            legacy/old.
-                           needed by old pc/hardware (e.g. File and Printer Sharing)"
+                           needed by old pc/hardware (e.g. File and Printer Sharing)'
         }
     )
     LldpDriver = @(
         @{
-            DisplayName = "Microsoft Link-Layer Discovery Protocol"
-            ServiceName = "MsLldp"
-            StartupType = "Disabled"
-            DefaultType = "Automatic"
+            DisplayName = 'Microsoft Link-Layer Discovery Protocol'
+            ServiceName = 'MsLldp'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
         }
     )
     LltdIoDriver = @(
         @{
-            DisplayName = "Link-Layer Topology Discovery Mapper I/O Driver"
-            ServiceName = "lltdio"
-            StartupType = "Disabled"
-            DefaultType = "Automatic"
+            DisplayName = 'Link-Layer Topology Discovery Mapper I/O Driver'
+            ServiceName = 'lltdio'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
         }
     )
     LltdResponderDriver = @(
         @{
-            DisplayName = "Link-Layer Topology Discovery Responder"
-            ServiceName = "rspndr"
-            StartupType = "Disabled"
-            DefaultType = "Automatic"
+            DisplayName = 'Link-Layer Topology Discovery Responder'
+            ServiceName = 'rspndr'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
         }
     )
     MicrosoftMultiplexorDriver = @(
         @{
-            DisplayName = "Microsoft Network Adapter Multiplexor Protocol"
-            ServiceName = "NdisImPlatform"
-            StartupType = "Disabled"
-            DefaultType = "Manual"
+            DisplayName = 'Microsoft Network Adapter Multiplexor Protocol'
+            ServiceName = 'NdisImPlatform'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
         }
     )
     QosPacketSchedulerDriver = @(
         @{
-            DisplayName = "QoS Packet Scheduler"
-            ServiceName = "Psched"
-            StartupType = "Disabled"
-            DefaultType = "System"
+            DisplayName = 'QoS Packet Scheduler'
+            ServiceName = 'Psched'
+            StartupType = 'Disabled'
+            DefaultType = 'System'
         }
     )
     OfflineFilesDriver = @(
         @{
-            DisplayName = "Offline Files Driver"
-            ServiceName = "CSC"
-            StartupType = "Disabled"
-            DefaultType = "System"
+            DisplayName = 'Offline Files Driver'
+            ServiceName = 'CSC'
+            StartupType = 'Disabled'
+            DefaultType = 'System'
         }
     )
     NetworkDataUsageDriver = @(
         @{
-            DisplayName = "Windows Network Data Usage Monitoring Driver"
-            ServiceName = "Ndu"
-            StartupType = "Disabled"
-            DefaultType = "Automatic"
+            DisplayName = 'Windows Network Data Usage Monitoring Driver'
+            ServiceName = 'Ndu'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
         }
     )
 }

@@ -19,6 +19,12 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'Network Connected Devices Auto-Setup'
+            ServiceName = 'NcdAutoSetup'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'SSDP Discovery'
             ServiceName = 'SSDPSRV'
             StartupType = 'Disabled'
@@ -29,6 +35,8 @@ $ServicesList += @{
             ServiceName = 'upnphost'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
+            Comment     = 'if disabled, remove "Set Up Network Connected Devices Automatically" from
+                           the GUI of "Advanced Sharing Settings" Network settings.'
         }
     )
 }

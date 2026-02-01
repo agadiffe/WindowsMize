@@ -327,9 +327,8 @@ $ServicesList += @{
             DisplayName = 'Windows Modules Installer'
             ServiceName = 'TrustedInstaller'
             StartupType = 'Manual'
-            DefaultType = 'Automatic'
-            Comment     = 'cannot be changed with registry editing.
-                           default is Manual ?'
+            DefaultType = 'Manual'
+            Comment     = 'cannot be changed with registry editing.'
         }
         @{
             DisplayName = 'Windows Presentation Foundation Font Cache 3.0.0.0'
@@ -380,7 +379,7 @@ $ServicesList += @{
             StartupType = 'Manual'
             DefaultType = 'Manual'
             Comment     = 'cannot be changed with services.msc.
-                           needed by windows update and microsoft store (not only delivery optimization).
+                           needed by windows update and microsoft store (not only delivery optimization from other PCs).
                            even if disabled, it may be reset to Manual by windows Update or Microsoft Store.'
         }
         @{
@@ -439,7 +438,8 @@ $ServicesList += @{
             StartupType = 'Automatic'
             DefaultType = 'Automatic'
             Comment     = 'needed by action center for network notifications.
-                           e.g. Microsoft Teams, Discord, ...'
+                           e.g. Microsoft Teams, Discord, ...
+                           mainly needed by MS Store apps (and some desktop apps that use WNS)'
         }
         @{
             DisplayName = 'ZTHELPER'

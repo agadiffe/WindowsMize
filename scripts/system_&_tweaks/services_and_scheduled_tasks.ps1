@@ -60,8 +60,8 @@ $ServicesToConfig = @(
     #'NetworkDataUsageDriver'
 
     # --- Windows
-    'Features'      # adjust to your needs: Features.ps1 (small file) (e.g. SysMain (disabled))
-    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 : everything should be ok (not small file).
+    'Features'      # adjust to your needs: Features.ps1 (21 Svcs) (e.g. SysMain (disabled)).
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 : everything should be ok (61 Svcs).
 
     #'Autoplay'
     #'Bluetooth'
@@ -70,13 +70,13 @@ $ServicesToConfig = @(
     'DefenderPhishingProtection' # do not disable if you use Edge with 'Phishing Protection' enabled.
     'Deprecated'
     'DiagnosticAndUsage'
-    #'FileAndPrinterSharing' # needed by NetworkDiscovery (File Explorer > Network)
+    #'FileAndPrinterSharing' # needed by NetworkDiscovery (File Explorer > Network).
     'HyperV'
     #'MicrosoftOffice'
     'MicrosoftStore' # only 'PushToInstall service' is disabled. all others are left to default state 'Manual'.
-    'Network' # all disabled by default. Including 'Internet Connection Sharing (ICS)' needed by Mobile hotspot.
+    'Network'
     #'NetworkDiscovery' # needed by printer and FileAndPrinterSharing.
-    'Printer' # If you use a local printer: enable 'Spooler' & 'PrintNotify'. Update ps1 file if desired.
+    'Printer'
     'RemoteDesktop'
     #'Sensor' # screen auto-rotation, adaptive brightness, location, Windows Hello (face/fingerprint sign-in).
     'SmartCard'
@@ -84,7 +84,7 @@ $ServicesToConfig = @(
     'VirtualReality'
     'Vpn' # only needed if using the built-in Windows VPN feature (i.e. not needed if using 3rd party VPN client).
     #'Webcam' # only needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.
-    'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'. Update ps1 file if desired.
+    'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'.
     'WindowsSearch'
     #'WindowsSubsystemForLinux'
     'Xbox'

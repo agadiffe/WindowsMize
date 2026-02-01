@@ -44,7 +44,7 @@ $ServicesList += @{
             ServiceName = 'MapsBroker'
             StartupType = 'Disabled'
             DefaultType = 'AutomaticDelayedStart'
-            Comment     = 'windows/bing maps.
+            Comment     = 'windows/bing maps (old).
                            settings > apps > offline maps.'
         }
         @{
