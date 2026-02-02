@@ -27,9 +27,9 @@ function Set-ServiceStartupType
 {
     <#
     .EXAMPLE
-        PS> $ServicesBackupFile = "X:\Backup\windows_services_default.txt"
+        PS> $ServicesBackupFile = 'X:\Backup\windows_services_default.json'
         PS> $ServicesBackup = Get-Content -Raw -Path $ServicesBackupFile | ConvertFrom-Json
-        PS> $ServicesBackup | Set-ServiceStartupType -RestoreDefault
+        PS> $ServicesBackup | Set-ServiceStartupType
 
     .EXAMPLE
         PS> $Xbox = '[
@@ -107,7 +107,7 @@ function Set-ServiceStartupType
             #   with registry editing (Access is denied).
             #   with neither services.msc or registry editing (Access is denied).
             #
-            # "Access is denied" means that SYSTEM and/or TrustedInstaller privileges are required.
+            # "Access is denied" means that SYSTEM or TrustedInstaller privileges are required.
             try
             {
                 Set-Service -Name $Name -StartType $StartupType -ErrorAction 'Stop'

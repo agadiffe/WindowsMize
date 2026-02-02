@@ -21,7 +21,7 @@ function Set-ScheduledTaskState
 {
     <#
     .EXAMPLE
-        PS> $ScheduledTaskBackupFile = "X:\Backup\windows_default_scheduled_tasks_winmize.txt"
+        PS> $ScheduledTaskBackupFile = 'X:\Backup\windows_default_scheduled_tasks_winmize.json'
         PS> $ScheduledTaskBackup = Get-Content -Raw -Path $ScheduledTaskBackupFile | ConvertFrom-Json -AsHashtable
         PS> $ScheduledTaskBackup | Set-ScheduledTaskState
 
@@ -38,7 +38,7 @@ function Set-ScheduledTaskState
                 "SkipTask": true,
                 "TaskPath": "\\",
                 "Task": {
-                  "Bar Update Task: "Disabled""
+                  "Bar Update Task": "Disabled"
                 },
                 "Comment": "some comment"
               }

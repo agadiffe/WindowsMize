@@ -859,8 +859,6 @@ Export-DefaultSystemDriversStartupType
 #   'Deprecated'
 #   'RemoteDesktop'
 #   'Telemetry'
-#   'WindowsSearch'
-#   'Intel'
 
 # src\modules\services\private
 $ServicesToConfig = @(
@@ -906,6 +904,10 @@ $ServicesToConfig = @(
 )
 $ServicesToConfig | Set-ServiceStartupTypeGroup
 
+# The script must have been executed at least once.
+#Restore-ServiceStartupTypeFromBackup
+#Restore-ServiceStartupTypeFromBackup -FilePath 'X:\Backup\windows_services_default.json'
+
 # --- Scheduled Tasks
 Export-DefaultScheduledTasksState
 
@@ -922,6 +924,10 @@ $TasksToConfig = @(
     'UserChoiceProtectionDriver'
 )
 $TasksToConfig | Set-ScheduledTaskStateGroup
+
+# The script must have been executed at least once.
+#Restore-ScheduledTaskStateFromBackup
+#Restore-ScheduledTaskStateFromBackup -FilePath 'X:\Backup\windows_scheduled_tasks_default.json'
 
 #endregion services & tasks
 

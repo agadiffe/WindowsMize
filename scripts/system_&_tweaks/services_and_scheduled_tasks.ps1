@@ -50,8 +50,6 @@ Export-DefaultSystemDriversStartupType
 #   'Deprecated'
 #   'RemoteDesktop'
 #   'Telemetry'
-#   'WindowsSearch'
-#   'Intel'
 
 $ServicesToConfig = @(
     # --- SystemDriver
@@ -96,6 +94,12 @@ $ServicesToConfig = @(
 )
 $ServicesToConfig | Set-ServiceStartupTypeGroup
 
+# The backup file used in this function is: log\windows_default_services_winmize.json
+# The script must have been executed at least once.
+# FilePath: use another compatible file.
+#Restore-ServiceStartupTypeFromBackup
+#Restore-ServiceStartupTypeFromBackup -FilePath 'X:\Backup\windows_services_default.json'
+
 #==============================================================================
 #                               Scheduled Tasks
 #==============================================================================
@@ -131,3 +135,9 @@ $TasksToConfig = @(
     'UserChoiceProtectionDriver'
 )
 $TasksToConfig | Set-ScheduledTaskStateGroup
+
+# The backup file used in this function is: log\windows_default_scheduled_tasks_winmize.json
+# The script must have been executed at least once.
+# FilePath: use another compatible file.
+#Restore-ScheduledTaskStateFromBackup
+#Restore-ScheduledTaskStateFromBackup -FilePath 'X:\Backup\windows_scheduled_tasks_default.json'

@@ -14,6 +14,7 @@
 
     FunctionsToExport = @(
         'Export-DefaultScheduledTasksState'
+        'Restore-ScheduledTaskStateFromBackup'
         'Set-ScheduledTaskState'
         'Set-ScheduledTaskStateGroup'
     )

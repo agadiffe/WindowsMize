@@ -14,6 +14,7 @@
         'Export-DefaultServicesStartupType'
         'Export-DefaultSystemDriversStartupType'
         'Get-ServiceNotHandledInModule'
+        'Restore-ServiceStartupTypeFromBackup'
         'Set-ServiceStartupType'
         'Set-ServiceStartupTypeGroup'
     )

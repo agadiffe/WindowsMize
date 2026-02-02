@@ -22,6 +22,7 @@ function Export-DefaultScheduledTasksState
         if ((Test-Path -Path @($LogFilePath.Values)) -contains $false)
         {
             $AllTasks = Get-ScheduledTask
+            $WinMizeScheduledTasks = Get-WinMizeScheduledTask -AllTasks $AllTasks
             foreach ($Key in $LogFilePath.Keys)
             {
                 if (-not (Test-Path -Path $LogFilePath.$Key))
@@ -30,7 +31,7 @@ function Export-DefaultScheduledTasksState
 
                     New-ParentPath -Path $LogFilePath.$Key
 
-                    $ScheduledTasks = $Key -eq 'WinMize' ? (Get-WinMizeScheduledTask -AllTasks $AllTasks) : $AllTasks
+                    $ScheduledTasks = $Key -eq 'WinMize' ? $WinMizeScheduledTasks : $AllTasks
 
                     $ScheduledTasks |
                         Group-Object -Property 'TaskPath' |
