@@ -55,10 +55,14 @@ Set-MicrosoftEdgePolicy -BackgroundMode 'Disabled'
 Write-Section -Name 'Microsoft Store' -SubSection
 
 # --- App updates (default: Enabled)
+# GPO: Disabled | Enabled | NotConfigured
 Set-MicrosoftStoreSetting -AutoAppUpdates 'Enabled' -AutoAppUpdatesGPO 'NotConfigured'
 
 # --- Notifications for app installations (default: Enabled)
 Set-MicrosoftStoreSetting -AppInstallNotifications 'Enabled'
+
+# --- Desktop shorcuts (default: Disabled)
+Set-MicrosoftStoreSetting -AutoCreateAppDesktopShorcut 'Disabled'
 
 # --- Video autoplay (default: Enabled)
 Set-MicrosoftStoreSetting -VideoAutoplay 'Disabled'

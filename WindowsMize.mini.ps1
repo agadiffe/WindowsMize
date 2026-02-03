@@ -432,10 +432,11 @@ Set-MicrosoftEdgePolicy @MicrosoftEdgePolicy
 
 # --- MS Store
 $MsStoreSettings = @{
-    AutoAppUpdates          = 'Enabled' ; AutoAppUpdatesGPO = 'NotConfigured'
-    AppInstallNotifications = 'Enabled'
-    VideoAutoplay           = 'Disabled'
-    PersonalizedExperiences = 'Disabled'
+    AutoAppUpdates              = 'Enabled' ; AutoAppUpdatesGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    AppInstallNotifications     = 'Enabled'
+    AutoCreateAppDesktopShorcut = 'Disabled'
+    VideoAutoplay               = 'Disabled'
+    PersonalizedExperiences     = 'Disabled'
 }
 Set-MicrosoftStoreSetting @MsStoreSettings
 

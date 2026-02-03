@@ -8,6 +8,7 @@
         [-AutoAppUpdates {Disabled | Enabled}]
         [-AutoAppUpdatesGPO {Disabled | Enabled | NotConfigured}]
         [-AppInstallNotifications {Disabled | Enabled}]
+        [-AutoCreateAppDesktopShorcut {Disabled | Enabled}]
         [-VideoAutoplay {Disabled | Enabled}]
         [-PersonalizedExperiences {Disabled | Enabled}]
         [<CommonParameters>]
@@ -26,6 +27,7 @@ function Set-MicrosoftStoreSetting
         [state] $AutoAppUpdates,
         [GpoState] $AutoAppUpdatesGPO,
         [state] $AppInstallNotifications,
+        [state] $AutoCreateAppDesktopShorcut,
         [state] $VideoAutoplay,
         [state] $PersonalizedExperiences
     )
@@ -47,6 +49,8 @@ function Set-MicrosoftStoreSetting
                 # settings.dat registry key: UpdateAppsAutomatically (5f5e10b).
                 # Applied only when Microsoft Store is launched.
 
+                $IsEnabled = $AutoAppUpdates -eq 'Enabled'
+
                 # on: 4 (default) | off: 2
                 $AutoAppUpdatesReg = @(
                     @{
@@ -55,12 +59,13 @@ function Set-MicrosoftStoreSetting
                         Entries = @(
                             @{
                                 Name  = 'AutoDownload'
-                                Value = $AutoAppUpdates -eq 'Enabled' ? '4' : '2'
+                                Value = $IsEnabled ? '4' : '2'
                                 Type  = 'DWord'
                             }
                         )
                     }
                     @{
+                        SkipKey = $IsEnabled
                         Hive    = 'HKEY_LOCAL_MACHINE'
                         Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\InstallService\State'
                         Entries = @(
@@ -79,7 +84,7 @@ function Set-MicrosoftStoreSetting
             {
                 # gpo\ computer config > administrative tpl > windows components > store
                 #   turn off automatic download and install of updates
-                # not configured: delete (default) | on: 4 | off: 2
+                # not configured: delete (default) | on: 2 | off: 4
                 $AutoAppUpdatesRegGPO = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\WindowsStore'
@@ -105,6 +110,16 @@ function Set-MicrosoftStoreSetting
                     Type  = '5f5e10b'
                 }
                 $MicrosoftStoreSettings.Add([PSCustomObject]$AppInstallNotificationsReg) | Out-Null
+            }
+            'AutoCreateAppDesktopShorcut'
+            {
+                # on: 1 | off: 0 (default)
+                $AppDesktopShorcutReg = @{
+                    Name  = 'EnableAppShortutKey'
+                    Value = $AutoCreateAppDesktopShorcut -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $MicrosoftStoreSettings.Add([PSCustomObject]$AppDesktopShorcutReg) | Out-Null
             }
             'VideoAutoplay'
             {
