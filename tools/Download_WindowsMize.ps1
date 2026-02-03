@@ -16,7 +16,7 @@ Write-Output -InputObject "Downloading WindowsMize ..."
 
 $WindowsMizeParam = @{
     Uri     = 'https://github.com/agadiffe/WindowsMize/archive/main.zip'
-    OutFile = "$env:TEMP\WindowsMize-main.zip"
+    OutFile = "$([System.IO.Path]::GetTempPath())\WindowsMize-main.zip"
 }
 Invoke-RestMethod @WindowsMizeParam
 

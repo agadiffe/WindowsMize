@@ -165,7 +165,7 @@ function Set-QuickMachineRecovery
             </WindowsRE>
 "@
 
-        $SettingFilePath = "$env:TEMP\QMR_settings.xml"
+        $SettingFilePath = "$([System.IO.Path]::GetTempPath())\QMR_settings.xml"
         New-Item -Path $SettingFilePath -Value $SettingContent -Force | Out-Null
 
         Write-Verbose -Message "Setting 'Recovery - Quick Machine Recovery' to '$State' ..."

@@ -149,7 +149,7 @@ function Set-UwpAppRegistryEntry
 
     end
     {
-        $SettingRegFilePath = "$env:TEMP\uwp_app_settings.reg"
+        $SettingRegFilePath = "$([System.IO.Path]::GetTempPath())\uwp_app_settings.reg"
 
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath

@@ -171,10 +171,11 @@ function Set-RegistryEntrySystemProtected
 
     process
     {
-        $ScriptContentFilePath = "$env:TEMP\TempScriptContent.ps1"
-        $TempJsonFilePath = "$env:TEMP\TempJsonDataFile.json"
-        $VerboseLogPath = "$env:TEMP\Set-RegistryEntrySystemProtected_verbose.log"
-        $ErrorLogPath = "$env:TEMP\Set-RegistryEntrySystemProtected_error.log"
+        $EnvTemp = [System.IO.Path]::GetTempPath()
+        $ScriptContentFilePath = "$EnvTemp\TempScriptContent.ps1"
+        $TempJsonFilePath = "$EnvTemp\TempJsonDataFile.json"
+        $VerboseLogPath = "$EnvTemp\Set-RegistryEntrySystemProtected_verbose.log"
+        $ErrorLogPath = "$EnvTemp\Set-RegistryEntrySystemProtected_error.log"
 
         # Get-LoggedOnUserInfo fails if executed as SYSTEM. Use $Global:ProvidedUserName as workaround.
         $ScriptContent = "

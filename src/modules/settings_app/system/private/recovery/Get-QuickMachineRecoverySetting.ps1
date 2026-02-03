@@ -15,15 +15,16 @@ function Get-QuickMachineRecoverySetting
     process
     {
         # "$CurrentSetting = reagentc.exe /getrecoverysettings" produce "REAGENTC.EXE: Operation failed: 57"
-        $CurrentSettingFilePath = "$env:TEMP\reagentc_getrecoverysettings.txt"
-        $ReagentcError = "$env:TEMP\reagentc_getrecoverysettings_error.txt"
+        $EnvTemp = [System.IO.Path]::GetTempPath()
+        $CurrentSettingFilePath = "$EnvTemp\reagentc_getrecoverysettings.txt"
+        $ReagentcError = "$EnvTemp\reagentc_getrecoverysettings_error.txt"
         $StartProcessParameter = @{
             Wait         = $true
             NoNewWindow  = $true
             FilePath     = 'reagentc.exe'
             ArgumentList = '/getrecoverysettings'
             RedirectStandardOutput = $CurrentSettingFilePath
-            RedirectStandardError = "$env:TEMP\reagentc_getrecoverysettings_error.txt"
+            RedirectStandardError = "$EnvTemp\reagentc_getrecoverysettings_error.txt"
         }
         Start-Process @StartProcessParameter
         $CurrentSettingContent = Get-Content -Raw -Path $CurrentSettingFilePath

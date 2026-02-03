@@ -33,7 +33,7 @@ function Set-ScheduledTaskSystemProtected
 
     process
     {
-        $OutFile = "$env:TEMP\TempScriptContent.ps1"
+        $OutFile = "$([System.IO.Path]::GetTempPath())\TempScriptContent.ps1"
         $TempTaskName = "TempScript42-$(New-Guid)"
         $TaskCommand = $State -eq 'Enabled' ? 'Enable-ScheduledTask' : 'Disable-ScheduledTask'
         $ScriptContent = "$TaskCommand -TaskPath '$TaskPath' -TaskName '$TaskName' | Out-Null"
