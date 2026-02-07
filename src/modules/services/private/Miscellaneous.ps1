@@ -360,8 +360,8 @@ $ServicesList += @{
             DisplayName = 'WSAIFabricSvc'
             ServiceName = 'WSAIFabricSvc'
             StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'probably an Azure AI-related thing.'
+            DefaultType = 'Automatic'
+            Comment     = 'AI-related thing. Azure only ? (probably not)'
         }
 
         # Untouched
