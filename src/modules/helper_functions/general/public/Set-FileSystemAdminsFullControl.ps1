@@ -13,6 +13,10 @@
 function Set-FileSystemAdminsFullControl
 {
     <#
+    .DESCRIPTION
+        Does not work if 'BUILTIN\Administrators' have an inherited ACE.
+        Very basic implementation tailored to WindowsMize needs.
+
     .EXAMPLE
         PS> Set-FileSystemAdminsFullControl -Action 'Grant' -Path 'C:\FooBar\'
     #>
@@ -30,17 +34,14 @@ function Set-FileSystemAdminsFullControl
 
     process
     {
-        # 'BUILTIN\Administrators'
-        $AdminsIdentityReference = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')
-        $AdminsSystemAccessRule = [System.Security.AccessControl.FileSystemAccessRule]::new(
-            $AdminsIdentityReference, 'FullControl', 'Allow'
-        )
+        $AdminsSid = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-32-544') # 'BUILTIN\Administrators'
+        $AdminsAce = [System.Security.AccessControl.FileSystemAccessRule]::new($AdminsSid, 'FullControl', 'Allow')
 
         $Acl = Get-Acl -Path $Path
         switch ($Action)
         {
-            'Grant'  { $Acl.SetAccessRule($AdminsSystemAccessRule) | Out-Null }
-            'Remove' { $Acl.RemoveAccessRule($AdminsSystemAccessRule) | Out-Null }
+            'Grant'  { $Acl.SetAccessRule($AdminsAce) | Out-Null }
+            'Remove' { $Acl.RemoveAccessRuleAll($AdminsAce) | Out-Null }
         }
         Set-Acl -Path $Path -AclObject $Acl | Out-Null
     }

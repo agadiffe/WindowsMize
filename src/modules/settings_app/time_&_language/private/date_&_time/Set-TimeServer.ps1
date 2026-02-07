@@ -42,7 +42,6 @@ function Set-TimeServer
 
         $MaxRetries = 10
         $RetryCount = 0
-
         while ((Get-Service -Name 'W32Time').Status -ne 'Running' -and $RetryCount -lt $MaxRetries)
         {
             Start-Sleep -Seconds 0.25

@@ -59,14 +59,14 @@ function Set-UwpAppSetting
         {
             # The app could be open or running in background.
             Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
-            Start-Sleep -Seconds 0.25
+            Start-Sleep -Seconds 0.15
 
-            $MaxRetries = 10
+            # Settings.dat file is not instantly unlocked after process termination.
+            $MaxRetries = 25
             $RetryCount = 0
-
             while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and $RetryCount -lt $MaxRetries)
             {
-                Start-Sleep -Seconds 0.25
+                Start-Sleep -Seconds 0.1
                 $RetryCount++
             }
 
@@ -123,8 +123,12 @@ function Set-UwpAppRegistryEntry
 
     begin
     {
-        $AppSettingsRegPath = 'HKEY_USERS\APP_SETTINGS'
+        $AppSettingsRegPath = 'HKEY_USERS\UWP_APP_SETTINGS_4242'
         $RegContent = "Windows Registry Editor Version 5.00`n"
+
+        # load Settings.dat asap to prevent file lock by other processes.
+        reg.exe UNLOAD $AppSettingsRegPath 2>&1 | Out-Null
+        reg.exe LOAD $AppSettingsRegPath $FilePath | Out-Null
     }
 
     process
@@ -154,8 +158,6 @@ function Set-UwpAppRegistryEntry
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath
 
-        reg.exe UNLOAD $AppSettingsRegPath 2>&1 | Out-Null
-        reg.exe LOAD $AppSettingsRegPath $FilePath | Out-Null
         # 'reg.exe import' writes its output on success to stderr ...
         reg.exe IMPORT $SettingRegFilePath 2>&1 | Out-Null
         reg.exe UNLOAD $AppSettingsRegPath | Out-Null
