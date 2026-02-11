@@ -14,6 +14,7 @@
         'Add-DynamicParameter'
         'Get-HashtableSubset'
         'Get-LogPath'
+        'Invoke-CommandAsSystem'
         'New-ParentPath'
         'New-ScheduledTaskScript'
         'Set-ByteBitFlag'

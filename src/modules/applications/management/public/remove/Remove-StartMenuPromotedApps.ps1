@@ -31,6 +31,6 @@ function Remove-StartMenuPromotedApps
 
         Set-RegistryEntry -InputObject $StartMenuPromotedApps
         Stop-Process -Name 'StartMenuExperienceHost' -Force
-        Start-Sleep -Seconds 0.5
+        Start-Sleep -Seconds 0.2 # delay to let the process respawn
     }
 }

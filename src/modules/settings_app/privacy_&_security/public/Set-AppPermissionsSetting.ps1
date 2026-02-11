@@ -167,6 +167,10 @@ function Set-AppPermissionsSetting
             return
         }
 
+        # needed starting with version 26200.7623
+        # https://github.com/agadiffe/WindowsMize/issues/3
+        Remove-CapabilityConsentStorageDatabase -Verbose:$false
+
         switch ($PSBoundParameters.Keys)
         {
             # General

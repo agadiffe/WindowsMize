@@ -66,7 +66,7 @@ function Remove-MicrosoftEdge
 
         # Uninstall Microsoft Edge.
         Remove-ApplicationPackage -Name 'Microsoft.MicrosoftEdge.Stable'
-        Start-Sleep -Seconds 0.5
+        Start-Sleep -Seconds 0.2
 
         Write-Verbose -Message 'Removing Microsoft Edge ...'
         $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall".Replace('"', '\"')

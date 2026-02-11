@@ -172,13 +172,12 @@ function Set-RegistryEntrySystemProtected
     process
     {
         $EnvTemp = [System.IO.Path]::GetTempPath()
-        $ScriptContentFilePath = "$EnvTemp\TempScriptContent.ps1"
         $TempJsonFilePath = "$EnvTemp\TempJsonDataFile.json"
         $VerboseLogPath = "$EnvTemp\Set-RegistryEntrySystemProtected_verbose.log"
         $ErrorLogPath = "$EnvTemp\Set-RegistryEntrySystemProtected_error.log"
 
         # Get-LoggedOnUserInfo fails if executed as SYSTEM. Use $Global:ProvidedUserName as workaround.
-        $ScriptContent = "
+        $Command = "
             `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
             Import-Module -Name '$(Split-Path -Path $PSScriptRoot)'
             `$InputRegistryData = Get-Content -Raw -Path '$TempJsonFilePath' | ConvertFrom-Json -AsHashtable
@@ -186,27 +185,15 @@ function Set-RegistryEntrySystemProtected
         "
 
         $InputObject | ConvertTo-Json -Depth 100 | Out-File -FilePath $TempJsonFilePath
-        $ScriptContent | Out-File -FilePath $ScriptContentFilePath
 
-        $TempTaskName = "TempScript46-$(New-Guid)"
-        # at task creation/modification
-        $TaskTrigger = Get-CimClass -ClassName 'MSFT_TaskRegistrationTrigger' -Namespace 'Root/Microsoft/Windows/TaskScheduler' -Verbose:$false
-        New-ScheduledTaskScript -FilePath $ScriptContentFilePath -TaskName $TempTaskName -Trigger $TaskTrigger -Verbose:$false | Out-Null
+        Invoke-CommandAsSystem -Command $Command -Verbose:$false
 
-        while ((Get-ScheduledTask -TaskPath '\' -TaskName $TempTaskName).State -eq 'Running')
-        {
-            Start-Sleep -Seconds 0.25
-        }
-
-        # let the task fully terminate
-        Start-Sleep -Seconds 0.25
-
-        # let log files the time to be generated
-        $MaxRetries = 10
+        # let log files the time to be generated (e.g. slow drive)
+        $MaxRetries = 20
         $RetryCount = 0
         while ((-not (Test-Path -Path $VerboseLogPath) -or -not (Test-Path -Path $ErrorLogPath)) -and $RetryCount -lt $MaxRetries)
         {
-            Start-Sleep -Seconds 0.25
+            Start-Sleep -Seconds 0.1
             $RetryCount++
         }
 
@@ -217,7 +204,6 @@ function Set-RegistryEntrySystemProtected
             (Get-Content -Path $ErrorLogPath).ForEach({ Write-Error -Message $_ })
         }
 
-        Unregister-ScheduledTask -TaskPath '\' -TaskName $TempTaskName -Confirm:$false
-        Remove-Item -Path $ScriptContentFilePath, $TempJsonFilePath, $VerboseLogPath, $ErrorLogPath -ErrorAction 'SilentlyContinue'
+        Remove-Item -Path $TempJsonFilePath, $VerboseLogPath, $ErrorLogPath -ErrorAction 'SilentlyContinue'
     }
 }

@@ -38,13 +38,12 @@ function Set-TimeServer
         Write-Verbose -Message "Setting 'Internet Time Server' to '$TimeServer' ..."
 
         Start-Service -Name 'W32Time'
-        Start-Sleep -Seconds 0.25
 
-        $MaxRetries = 10
+        $MaxRetries = 20
         $RetryCount = 0
         while ((Get-Service -Name 'W32Time').Status -ne 'Running' -and $RetryCount -lt $MaxRetries)
         {
-            Start-Sleep -Seconds 0.25
+            Start-Sleep -Seconds 0.1
             $RetryCount++
         }
 

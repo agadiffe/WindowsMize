@@ -118,13 +118,10 @@ function Set-ScheduledTaskState
                     if ($AllowedProtectedTaskToBeChanged -contains "$($CurrentTask.TaskPath)$($CurrentTask.TaskName)")
                     {
                         Write-Verbose -Message '    system protected task: editing with SYSTEM privileges ...'
-                        $TaskParam = @{
-                            State    = $Task.Value
-                            TaskPath = $CurrentTask.TaskPath
-                            TaskName = $CurrentTask.TaskName
-                            Verbose  = $false
-                        }
-                        Set-ScheduledTaskSystemProtected @TaskParam
+
+                        $TaskCommand = $Task.Value -eq 'Enabled' ? 'Enable-ScheduledTask' : 'Disable-ScheduledTask'
+                        $Command = "$TaskCommand -TaskPath '$($CurrentTask.TaskPath)' -TaskName '$($CurrentTask.TaskName)' | Out-Null"
+                        Invoke-CommandAsSystem -Command $Command -Verbose:$false
                     }
                     else
                     {

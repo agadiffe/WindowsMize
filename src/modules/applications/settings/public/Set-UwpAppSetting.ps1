@@ -59,10 +59,9 @@ function Set-UwpAppSetting
         {
             # The app could be open or running in background.
             Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
-            Start-Sleep -Seconds 0.15
 
             # Settings.dat file is not instantly unlocked after process termination.
-            $MaxRetries = 25
+            $MaxRetries = 20
             $RetryCount = 0
             while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and $RetryCount -lt $MaxRetries)
             {
