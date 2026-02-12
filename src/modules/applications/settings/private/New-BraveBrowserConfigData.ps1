@@ -20,6 +20,8 @@ function New-BraveBrowserConfigData
         #------------------------------------
         ## brave://flags
         #------------------------------------
+        #region flags
+
         Merge-Hashtable $BraveLocalState ('{
             "browser": {
                 "enabled_labs_experiments": [
@@ -32,9 +34,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion flags
+
         #------------------------------------
         ## Get started
         #------------------------------------
+        #region get started
+
         ### New Tab Page
         #---------------
         Merge-Hashtable $BravePreferences ('{
@@ -61,9 +67,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion get started
+
         #------------------------------------
         ## Appearance
         #------------------------------------
+        #region appearance
+
         Merge-Hashtable $BravePreferences ('{
             // show bookmarks:
             //   always\ show_on_all_tabs: true, always_show_bookmark_bar_on_ntp: true or false (ignored)
@@ -193,6 +203,7 @@ function New-BraveBrowserConfigData
                     "vertical_tabs_on_right": false,
                     "mute_indicator_not_clickable": false,
                     "always_hide_tab_close_button": false,
+                    "middle_click_close_tab_enabled": true,
                     "hover_mode": 0 // tooltip: 0 | card: 1 | card with preview: 2
                 }
             }
@@ -224,9 +235,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion appearance
+
         #------------------------------------
         ## Content
         #------------------------------------
+        #region content
+
         Merge-Hashtable $BravePreferences ('{
             "brave": {
                 "mru_cycling_enabled": false, // cycle through the most recently used tabs
@@ -238,9 +253,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion content
+
         #------------------------------------
         ## Shields
         #------------------------------------
+        #region shields
+
         Merge-Hashtable $BravePreferences ('{
             "brave": {
                 "shields": {
@@ -309,6 +328,7 @@ function New-BraveBrowserConfigData
 
         Merge-Hashtable $BraveLocalState ('{
             "brave": {
+                "allow_element_blocker_in_private_mode": false,
                 "ad_block": {
                     "cookie_list_opt_in_shown": true,
                     "custom_filters": "$BraveCustomFilters",
@@ -318,18 +338,18 @@ function New-BraveBrowserConfigData
                             "last_successful_update_attempt": "1",
                             "last_update_attempt": "1"
                         },
-                        "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareAdGuard.txt": {
-                            "enabled": false, // Dandelion Sprout Anti-Malware List
-                            "last_successful_update_attempt": "1",
-                            "last_update_attempt": "1"
-                        },
-                        "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/LegitimateURLShortener.txt": {
+                        "https://gitlab.com/DandelionSprout/adfilt/-/raw/master/LegitimateURLShortener.txt": {
                             "enabled": false, // Actually Legitimate URL Shortener Tool (not fully compatible with Brave)
                             "last_successful_update_attempt": "1",
                             "last_update_attempt": "1"
                         },
-                        "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.mini.txt": {
+                        "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.mini.txt": {
                             "enabled": false, // HaGeZi DNS Blocklist (light, multi, pro, pro.plus, ultimate) (.mini)
+                            "last_successful_update_attempt": "1",
+                            "last_update_attempt": "1"
+                        },
+                        "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/tif.medium.txt": {
+                            "enabled": false, // HaGeZi Threat Intelligence Feeds DNS Blocklist (tif) (.medium, .mini)
                             "last_successful_update_attempt": "1",
                             "last_update_attempt": "1"
                         },
@@ -405,9 +425,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion shields
+
         #------------------------------------
         ## Privacy and security
         #------------------------------------
+        #region privacy
+
         Merge-Hashtable $BravePreferences ('{
             "webrtc": {
                 // default | default_public_and_private_interfaces | default_public_interface_only | disable_non_proxied_udp
@@ -559,9 +583,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion privacy
+
         #------------------------------------
         ## Web3
         #------------------------------------
+        #region web3
+
         ### Wallet
         #---------------
         Merge-Hashtable $BravePreferences ('{
@@ -592,9 +620,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion web3
+
         #------------------------------------
         ## Leo
         #------------------------------------
+        #region leo
+
         Merge-Hashtable $BravePreferences ('{
             "brave": {
                 "sidebar": {
@@ -624,22 +656,29 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion leo
+
         #------------------------------------
         ## Search engine
         #------------------------------------
+        #region search
+
         Merge-Hashtable $BravePreferences ('{
             "search": {
                 "suggest_enabled": false // show search suggestions
             },
             "brave": {
-                "other_search_engines_enabled": false, // index other search engines
                 "web_discovery_enabled": false
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion search
+
         #------------------------------------
         ## Extensions
         #------------------------------------
+        #region extensions
+
         Merge-Hashtable $BravePreferences ('{
             "signin": {
                 "allowed": false // google login
@@ -655,9 +694,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion extensions
+
         #------------------------------------
         ## Autofill and passwords
         #------------------------------------
+        #region autofill
+
         Merge-Hashtable $BravePreferences ('{
             "brave": {
                 "autofill_private_windows": false
@@ -693,9 +736,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion autofill
+
         #------------------------------------
         ## Languages
         #------------------------------------
+        #region languages
+
         Merge-Hashtable $BravePreferences ('{
             "translate": {
                 "enabled": false // use Brave Translate (if disabled, translate still available with right click)
@@ -705,9 +752,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion languages
+
         #------------------------------------
         ## Downloads
         #------------------------------------
+        #region downloads
+
         Merge-Hashtable $BravePreferences ('{
             "download": {
                 "prompt_for_download": true // ask where to save each file before downloading
@@ -717,9 +768,13 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion downloads
+
         #------------------------------------
         ## Accessibility
         #------------------------------------
+        #region accessibility
+
         Merge-Hashtable $BravePreferences ('{
             "settings": {
                 "a11y": {
@@ -742,29 +797,19 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion accessibility
+
         #------------------------------------
         ## System
         #------------------------------------
+        #region system
+
         Merge-Hashtable $BraveLocalState ('{
             "background_mode": {
                 "enabled": false
             },
             "hardware_acceleration_mode": {
                 "enabled": true
-            },
-            "performance_tuning": {
-                "battery_saver_mode": { // energy saver
-                    "state": 0 // on (battery is at 20% or lower): 1 | on (computer is unplugged): 2 | off: 0
-                },
-                "high_efficiency_mode": { // memory saver
-                    "aggressiveness": 1, // moderate: 0 | balanced: 1 | maximum: 2
-                    "state": 0 // on: 2 | off: 0
-                }
-            },
-            "brave": {
-                "brave_vpn": {
-                    "wireguard_enabled": false
-                }
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -776,9 +821,57 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        ### Memory & Power
+        #---------------
+        Merge-Hashtable $BraveLocalState ('{
+            "performance_tuning": {
+                "battery_saver_mode": { // energy saver
+                    "state": 0 // on (battery is at 20% or lower): 1 | on (computer is unplugged): 2 | off: 0
+                },
+                "high_efficiency_mode": { // memory saver
+                    "aggressiveness": 1, // moderate: 0 | balanced: 1 | maximum: 2
+                    "state": 0 // on: 2 | off: 0
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        ### VPN
+        #---------------
+        $WireGuardActive = 'true'
+
+        Merge-Hashtable $BraveLocalState ("{
+            ""brave"": {
+                ""brave_vpn"": {
+                    ""wireguard_enabled"": $WireGuardActive
+                }
+            }
+        }" | ConvertFrom-Json -AsHashtable)
+
+        $BraveVpnReg = @{
+            Hive    = 'HKEY_CURRENT_USER'
+            Path    = 'Software\BraveSoftware\Vpn\BraveVpnWireguardService'
+            Entries = @(
+                @{
+                    Name  = 'EnableTrayIcon'
+                    Value = '1'
+                    Type  = 'DWord'
+                }
+                @{
+                    Name  = 'WireGuardActive'
+                    Value = $WireGuardActive -eq 'true' ? '1' : '0'
+                    Type  = 'DWord'
+                }
+            )
+        }
+        Set-RegistryEntry -InputObject $BraveVpnReg -Verbose:$false
+
+        #endregion system
+
         #------------------------------------
         ## Miscellaneous
         #------------------------------------
+        #region misc
+
         Merge-Hashtable $BravePreferences ('{
             "browser": {
                 "has_seen_welcome_page": true
@@ -829,6 +922,7 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        #endregion misc
 
         $BraveLocalState
         $BravePreferences
