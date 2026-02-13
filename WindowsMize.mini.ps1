@@ -484,7 +484,7 @@ Set-WindowsPhotosSetting @PhotosSettings
 # --- Windows Snipping Tool
 $SnippingToolSettings = @{
     AutoCopyScreenshotChangesToClipboard = 'Enabled'
-    AutoSaveScreenshoots          = 'Enabled'
+    AutoSaveScreenshots           = 'Enabled'
     AskToSaveEditedScreenshots    = 'Disabled'
     MultipleWindows               = 'Disabled'
     ScreenshotBorder              = 'Disabled'
@@ -495,6 +495,7 @@ $SnippingToolSettings = @{
     IncludeMicrophoneInRecording  = 'Disabled'
     IncludeSystemAudioInRecording = 'Enabled'
     Theme                         = 'System' # System | Light | Dark
+    TeachingTips                  = 'Disabled'
 }
 Set-WindowsSnippingToolSetting @SnippingToolSettings
 

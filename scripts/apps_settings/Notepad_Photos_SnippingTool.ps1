@@ -146,7 +146,7 @@ Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
 #=======================================
 
 # --- First Run Experience (default: Enabled)
-#   First Run Experience Dialog
+#   First Run Experience dialog
 #   Image categorization popup
 #   OneDrive Promo flyout
 #   Designer Editor flyout
@@ -169,8 +169,8 @@ Write-Section -Name 'Windows Snipping Tool' -SubSection
 # --- Automatically copy changes (default: Enabled)
 Set-WindowsSnippingToolSetting -AutoCopyScreenshotChangesToClipboard 'Enabled'
 
-# --- Automatically save original screenshoots (default: Enabled)
-Set-WindowsSnippingToolSetting -AutoSaveScreenshoots 'Enabled'
+# --- Automatically save original screenshots (default: Enabled)
+Set-WindowsSnippingToolSetting -AutoSaveScreenshots 'Enabled'
 
 # --- Ask to save edited screenshots (default: Disabled)
 Set-WindowsSnippingToolSetting -AskToSaveEditedScreenshots 'Disabled'
@@ -208,5 +208,15 @@ Set-WindowsSnippingToolSetting -IncludeSystemAudioInRecording 'Enabled'
 # --- App theme
 # State: System (default) | Light | Dark
 Set-WindowsSnippingToolSetting -Theme 'System'
+
+#             Miscellaneous
+#=======================================
+
+# --- Teaching tips (default: Enabled)
+#   Auto save banner (Recordings & Sceenshots)
+#   Color Picker beacon (blue dot)
+#   Text Extractor beacon (blue dot)
+#   Live Annotation Mode tip
+Set-WindowsPhotosSetting -TeachingTips 'Disabled'
 
 #endregion snipping tool
