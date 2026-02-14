@@ -48,8 +48,12 @@ function Set-UwpAppSetting
             'WindowsPhotos'       { 'Microsoft.Windows.Photos_8wekyb3d8bbwe', 'Photos' }
             'WindowsSnippingTool' { 'Microsoft.ScreenSketch_8wekyb3d8bbwe',   'SnippingTool' }
 
-            'AppActions'      { 'MicrosoftWindows.Client.CBS_cw5n1h2txyewy', @('SearchHost', 'AppActions') }
             'TaskbarCalendar' { 'Microsoft.Windows.ShellExperienceHost_cw5n1h2txyewy', 'ShellExperienceHost' }
+            'AppActions'
+            {
+                'MicrosoftWindows.Client.CBS_cw5n1h2txyewy',
+                @('AppActions', 'SearchHost', 'FESearchHost', 'msedgewebview2', 'TextInputHost', 'VisualAssistExe', 'WebExperienceHostApp')
+            }
         }
 
         $AppxPath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\Packages\$AppxPathName"
@@ -77,6 +81,13 @@ function Set-UwpAppSetting
             {
                 Write-Verbose -Message "Setting $Name settings ..."
                 $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
+
+                if ($Name -eq 'AppActions')
+                {
+                    # Ensure SearchHost will respawn properly once the settings.dat file has been unlocked.
+                    # It seems that sometimes the process is stuck in an unstable state.
+                    Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
+                }
             }
         }
         else
