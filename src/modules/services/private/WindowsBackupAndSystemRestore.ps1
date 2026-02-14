@@ -20,16 +20,16 @@ $ServicesList += @{
         @{
             DisplayName = 'Microsoft Software Shadow Copy Provider'
             ServiceName = 'swprv'
-            StartupType = 'Manual'
+            StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'needed by Windows Backup and System Restore.'
+            Comment     = 'needed by Windows Backup, System Restore and PITR.'
         }
         @{
             DisplayName = 'Volume Shadow Copy'
             ServiceName = 'VSS'
-            StartupType = 'Manual'
+            StartupType = 'Disabled'
             DefaultType = 'Manual'
-            Comment     = 'needed by Windows Backup and System Restore.'
+            Comment     = 'needed by Windows Backup, System Restore and PITR.'
         }
         @{
             DisplayName = 'Windows Backup'

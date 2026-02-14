@@ -894,7 +894,7 @@ $ServicesToConfig = @(
     'VirtualReality'
     'Vpn' # only needed if using the built-in Windows VPN feature (i.e. not needed if using 3rd party VPN client).
     #'Webcam' # only needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.
-    'WindowsBackupAndSystemRestore' # System Restore is left to default state 'Manual'.
+    'WindowsBackupAndSystemRestore' # also used by new PITR feature.
     'WindowsSearch'
     #'WindowsSubsystemForLinux'
     'Xbox'

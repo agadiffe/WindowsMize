@@ -56,6 +56,13 @@ $ScheduledTasksList += @{
             }
         }
         @{
+            TaskPath = '\Microsoft\Windows\Setup\'
+            Task     = @{
+                PITRTask = 'Disabled' # default: Enabled
+            }
+            Comment  = 'create Point-In-Time-Restore snapshots at startup.'
+        }
+        @{
             TaskPath = '\Microsoft\Windows\Shell\'
             Task     = @{
                 FamilySafetyMonitor         = 'Disabled' # default: Enabled
@@ -79,7 +86,6 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            SkipTask = $true
             TaskPath = '\Microsoft\Windows\SystemRestore\'
             Task     = @{
                 SR = 'Disabled' # default: Enabled
