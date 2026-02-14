@@ -63,6 +63,7 @@ function Set-UwpAppSetting
         {
             # The app could be open or running in background.
             Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
+            Wait-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
 
             # Settings.dat file is not instantly unlocked after process termination.
             $MaxRetries = 20
@@ -87,6 +88,7 @@ function Set-UwpAppSetting
                     # Ensure SearchHost will respawn properly once the settings.dat file has been unlocked.
                     # It seems that sometimes the process is stuck in an unstable state.
                     Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
+                    Wait-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
                 }
             }
         }
