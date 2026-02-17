@@ -1,0 +1,123 @@
+###############################################################################
+# Block Microsoft Solitaire Ads - DNS list
+###############################################################################
+# Add this list to your Hosts file: C:\System32\drivers\etc\hosts
+# Source: Internet / Reddit
+# You can use tools like Wireshark/Fiddler to get more DNS requests.
+
+0.0.0.0 ads-inmobi-comtm.trafficmanager.net
+0.0.0.0 aerserv-ads.trafficmanager.net
+0.0.0.0 mcg-msmonplat.trafficmanager.net
+0.0.0.0 msmonplat.trafficmanager.net
+
+0.0.0.0 adbroker.mp.dse.microsoft.com
+0.0.0.0 oneocsp.microsoft.com
+
+0.0.0.0 ads.aerserv.com
+0.0.0.0 prod-ads.aerserv.com
+
+0.0.0.0 ads.api.vungle.com
+0.0.0.0 ads.vungle.com
+0.0.0.0 adx.ads.vungle.com
+0.0.0.0 api.vungle.com
+0.0.0.0 cdn-lb.vungle.com
+0.0.0.0 events.ads.vungle.com
+0.0.0.0 kourier-tpat.eks-prod-1c.vungle.com
+0.0.0.0 kourier-tpat-us-east-1c.prod.vungle.com
+0.0.0.0 prod.vungle.com
+0.0.0.0 report.ads.vungle.com
+0.0.0.0 tpat.api.vungle.com
+0.0.0.0 tpat-weight.ads.vungle.com
+
+0.0.0.0 ads.inmobi.com
+0.0.0.0 www.mcg-ads.inmobi.com
+0.0.0.0 www.i.l.inmobicdn.net
+0.0.0.0 www.supply.inmobicdn.net
+
+0.0.0.0 outbrain.com
+0.0.0.0 www.outbrain.com
+0.0.0.0 amplify.outbrain.com
+0.0.0.0 amplifypixel.outbrain.com
+0.0.0.0 images.outbrain.com
+0.0.0.0 log.outbrain.com
+0.0.0.0 odb.outbrain.com
+0.0.0.0 paid.outbrain.com
+0.0.0.0 sync.outbrain.com
+0.0.0.0 tr.outbrain.com
+0.0.0.0 traffic.outbrain.com
+0.0.0.0 vra.outbrain.com
+0.0.0.0 vrp.outbrain.com
+0.0.0.0 vrt.outbrain.com
+0.0.0.0 widgets.outbrain.com
+
+0.0.0.0 oooutbrain.com
+0.0.0.0 www.oooutbrain.com
+
+0.0.0.0 taboola.com
+0.0.0.0 www.taboola.com
+0.0.0.0 api.taboola.com
+0.0.0.0 www.api.taboola.com
+0.0.0.0 c2.taboola.com
+0.0.0.0 www.c2.taboola.com
+0.0.0.0 cdn.taboola.com
+0.0.0.0 www.cdn.taboola.com
+0.0.0.0 images.taboola.com
+0.0.0.0 www.images.taboola.com
+0.0.0.0 imprammp.taboola.com
+0.0.0.0 www.imprammp.taboola.com
+0.0.0.0 nr.taboola.com
+0.0.0.0 www.nr.taboola.com
+0.0.0.0 pips.taboola.com
+0.0.0.0 www.pips.taboola.com
+0.0.0.0 popup.taboola.com
+0.0.0.0 www.popup.taboola.com
+0.0.0.0 trc.taboola.com
+0.0.0.0 www.trc.taboola.com
+0.0.0.0 vidstat.taboola.com
+0.0.0.0 vidstatb.taboola.com
+
+0.0.0.0 taboolasyndication.com
+0.0.0.0 www.taboolasyndication.com
+0.0.0.0 cdn.taboolasyndication.com
+0.0.0.0 www.cdn.taboolasyndication.com
+0.0.0.0 trc.taboolasyndication.com
+0.0.0.0 www.trc.taboolasyndication.com
+0.0.0.0 urc.taboolasyndication.com
+0.0.0.0 www.urc.taboolasyndication.com
+
+0.0.0.0 esd-secure.taboola.com.edgekey.net
+0.0.0.0 www.esd-secure.taboola.com.edgekey.net
+0.0.0.0 taboola.com.edgekey.net
+0.0.0.0 www.taboola.com.edgekey.net
+
+0.0.0.0 assets.msn.com
+0.0.0.0 mobileads.msn.com
+0.0.0.0 srtb.msn.com
+
+0.0.0.0 cdn.adnxs.com
+0.0.0.0 ib.adnxs.com
+
+0.0.0.0 ecs4.engageya.com
+0.0.0.0 engageya.com
+0.0.0.0 images9.engageya.com
+
+0.0.0.0 adserver.adtechus.com
+0.0.0.0 www.adserver.adtechus.com
+
+0.0.0.0 us-u.openx.net
+0.0.0.0 www.us-u.openx.net
+
+0.0.0.0 casalemedia.com
+0.0.0.0 www.casalemedia.com
+
+0.0.0.0 a1831.dscg2.akamai.net
+0.0.0.0 cdn.spotxcdn.com
+0.0.0.0 domainreferrer.microsoftcasualgames.com
+0.0.0.0 fp.msedge.net
+0.0.0.0 ns-652.awsdns-17.net
+0.0.0.0 ns-923.awsdns-51.net
+0.0.0.0 tls.vungle.edgesuite.net
+0.0.0.0 userpresence.xboxlive.com
+0.0.0.0 view.adjust.com
+
+# Microsoft Solitaire Ads - End ###############################################
