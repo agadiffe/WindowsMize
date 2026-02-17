@@ -59,7 +59,7 @@ $ServicesToConfig = @(
 
     # --- Windows
     'Features'      # adjust to your needs: Features.ps1 (21 Svcs) (e.g. SysMain (disabled)).
-    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 : everything should be ok (61 Svcs).
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 (59 Svcs).
 
     #'Autoplay'
     #'Bluetooth'

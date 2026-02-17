@@ -21,17 +21,17 @@ function Remove-CapabilityConsentStorageDatabase
     {
         $CamDatabaseFilePath = "$env:ProgramData\Microsoft\Windows\CapabilityAccessManager\CapabilityConsentStorage.db*"
         $Command = "
+            `$ServicesToStop = @(
+                'lfsvc'  # Geolocation Service
+                'camsvc' # Capability Access Manager Service
+            )
+            Stop-Service -Name `$ServicesToStop -Force -ErrorAction 'SilentlyContinue'
+
             `$MaxRetries = 30
             `$RetryCount = 0
             while ((Test-Path -Path '$CamDatabaseFilePath') -and `$RetryCount -lt `$MaxRetries)
             {
-                `$ServicesToStop = @(
-                    'lfsvc'  # Geolocation Service
-                    'camsvc' # Capability Access Manager Service
-                )
-                Stop-Service -Name `$ServicesToStop -Force -ErrorAction 'SilentlyContinue'
                 Remove-Item -Path '$CamDatabaseFilePath' -ErrorAction 'SilentlyContinue'
-
                 Start-Sleep -Seconds 0.1
                 `$RetryCount++
             }

@@ -20,6 +20,23 @@ $ServicesList += @{
             Comment     = 'cannot be changed with registry editing.'
         }
         @{
+            DisplayName = 'IP Helper'
+            ServiceName = 'iphlpsvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Automatic'
+            Comment     = 'deprecated.
+                           can produce "Windows failed to apply the TCPIP settings." error when using gpudate /force.
+                           even if no tcp/ip gpo are applied.
+                           requires NcaSvc service.'
+        }
+        @{
+            DisplayName = 'IP Translation Configuration Service'
+            ServiceName = 'IpxlatCfgSvc'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'translation from v4 to v6 and vice versa.'
+        }
+        @{
             DisplayName = 'Internet Connection Sharing (ICS)'
             ServiceName = 'SharedAccess'
             StartupType = 'Disabled'
@@ -60,6 +77,7 @@ $ServicesList += @{
             ServiceName = 'NcaSvc'
             StartupType = 'Disabled'
             DefaultType = 'Manual'
+            Comment     = 'UI status notification for DirectAccess.'
         }
         @{
             DisplayName = 'Offline Files'

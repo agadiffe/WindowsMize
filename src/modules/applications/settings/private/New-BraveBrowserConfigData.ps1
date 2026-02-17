@@ -383,29 +383,17 @@ function New-BraveBrowserConfigData
                         "1ED1870B-997C-4BFE-AEBC-B67D679BAF3B": {
                             "enabled": false // Fanboy Anti-chat Apps
                         },
-                        "BD308B90-D3BB-4041-9114-22E096B0BA77": {
-                            "enabled": false // YouTube Mobile Distractions
-                        },
-                        "2D57ADED-3531-419A-9DED-7F8868BC1561": {
-                            "enabled": false // YouTube Mobile Recommendations
-                        },
-                        "9E8EC586-4E17-4E5E-99D7-35172C4CEA74": {
-                            "enabled": false // YouTube Anti-Shorts
+                        "E2FA7D98-0BD5-493E-8AF4-950604ADE9CB": {
+                            "enabled": true // AdGuard URL Tracking Protection
                         },
                         "78672887-A098-4D2C-B0CB-A3DEC4834DA7": {
                             "enabled": false // Bypass Paywalls Clean Filters
                         },
-                        "E2FA7D98-0BD5-493E-8AF4-950604ADE9CB": {
-                            "enabled": true // AdGuard URL Tracking Protection
-                        },
                         "6B91E355-1421-4C03-9A30-911B4D0FB277": {
-                            "enabled": false // Anti-AI Search Filters
+                            "enabled": false // Anti-AI suggestions Filters
                         },
                         "F61D6B7B-4110-4EA4-9C81-38FB4CE90AEC": {
                             "enabled": false // Blocklists Anti-Porn
-                        },
-                        "529A3F3B-7EBA-4351-B986-D176A82E7F5A": {
-                            "enabled": false // Brave Twitch Adblock Rules
                         },
                         "564C3B75-8731-404C-AD7C-5683258BA0B0": {
                             "enabled": false // Brave Experimental Adblock Rules
@@ -463,14 +451,14 @@ function New-BraveBrowserConfigData
         Merge-Hashtable $BravePreferences ('{
             "browser": {
                 "clear_data": {
-                    "brave_leo_on_exit": true,
+                    "brave_leo_on_exit": false,
                     "browsing_history_on_exit": false,
                     "cache_on_exit": false,
                     "cookies_on_exit": false,
-                    "download_history_on_exit": true,
-                    "form_data_on_exit": true,
-                    "hosted_apps_data_on_exit": true,
-                    "passwords_on_exit": true,
+                    "download_history_on_exit": false,
+                    "form_data_on_exit": false,
+                    "hosted_apps_data_on_exit": false,
+                    "passwords_on_exit": false,
                     "site_settings_on_exit": false
                 }
             }
@@ -826,7 +814,7 @@ function New-BraveBrowserConfigData
         Merge-Hashtable $BraveLocalState ('{
             "performance_tuning": {
                 "battery_saver_mode": { // energy saver
-                    "state": 0 // on (battery is at 20% or lower): 1 | on (computer is unplugged): 2 | off: 0
+                    "state": 3 // on: 1 (battery is at 20% or lower), 2 (computer is unplugged), 3 (always) (no GUI toggle) | off: 0
                 },
                 "high_efficiency_mode": { // memory saver
                     "aggressiveness": 1, // moderate: 0 | balanced: 1 | maximum: 2

@@ -65,6 +65,7 @@ Export-DefaultAppxPackagesNames
 Remove-MicrosoftEdge
 
 # --- OneDrive
+# Make sure to backup your synced files first.
 Remove-OneDrive
 
 # --- OneDrive : Auto install for new user (default: Enabled)

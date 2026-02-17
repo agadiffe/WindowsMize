@@ -453,7 +453,7 @@ $NotepadSettings = @{
     FontStyle      = 'Regular' # Regular | Italic | Bold | Bold Italic
     FontSize       = '11' # range 1-99
     WordWrap       = 'Enabled'
-    Formatting     = 'Enabled'
+    Formatting     = 'Disabled'
     FormattingTips = 'Disabled'
     OpenFile       = 'NewTab' # NewTab | NewWindow
     RecentFiles    = 'Enabled'
@@ -871,7 +871,7 @@ $ServicesToConfig = @(
 
     # --- Windows
     'Features'      # adjust to your needs: Features.ps1 (21 Svcs) (e.g. SysMain (disabled)).
-    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 : everything should be ok (61 Svcs).
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 (59 Svcs).
 
     #'Autoplay'
     #'Bluetooth'
@@ -1089,7 +1089,7 @@ Set-ConsumerExperience -GPO 'NotConfigured' # also disable: 'settings > bluetoot
 Set-Ceip -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
 Set-ErrorReporting -GPO 'Disabled'
-Set-GroupPolicySettingsLogging -GPO 'Disabled'
+Set-GroupPolicySettingsLogging -GPO 'NotConfigured'
 Set-HandwritingPersonalization -GPO 'Disabled'
 Set-KmsClientActivationDataSharing -GPO 'Disabled'
 Set-MsrtDiagnosticReport -GPO 'Disabled'

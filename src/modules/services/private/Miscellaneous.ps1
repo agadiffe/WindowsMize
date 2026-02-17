@@ -110,20 +110,6 @@ $ServicesList += @{
             Comment     = 'enable if some (rare?) peripherals does not function correctly.'
         }
         @{
-            DisplayName = 'IP Helper'
-            ServiceName = 'iphlpsvc'
-            StartupType = 'Disabled'
-            DefaultType = 'Automatic'
-            Comment     = 'deprecated.'
-        }
-        @{
-            DisplayName = 'IP Translation Configuration Service'
-            ServiceName = 'IpxlatCfgSvc'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'translation from v4 to v6 and vice versa.'
-        }
-        @{
             DisplayName = 'IPsec Policy Agent'
             ServiceName = 'PolicyAgent'
             StartupType = 'Disabled'

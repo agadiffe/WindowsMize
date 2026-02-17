@@ -74,7 +74,7 @@ Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
 Set-ErrorReporting -GPO 'Disabled'
 
 # --- Group policy settings logging
-Set-GroupPolicySettingsLogging -GPO 'Disabled'
+Set-GroupPolicySettingsLogging -GPO 'NotConfigured'
 
 # --- Handwriting personalization
 Set-HandwritingPersonalization -GPO 'Disabled'

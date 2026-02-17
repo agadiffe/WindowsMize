@@ -58,7 +58,7 @@ Set-WindowsNotepadSetting -FontSize 11
 Set-WindowsNotepadSetting -WordWrap 'Enabled'
 
 # --- Formatting (default: Enabled)
-Set-WindowsNotepadSetting -Formatting 'Enabled'
+Set-WindowsNotepadSetting -Formatting 'Disabled'
 
 #            Opening Notepad
 #=======================================

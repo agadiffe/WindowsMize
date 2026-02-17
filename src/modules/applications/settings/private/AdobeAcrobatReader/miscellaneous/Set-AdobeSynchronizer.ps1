@@ -69,9 +69,10 @@ function Set-AdobeSynchronizer
             {
                 Write-Verbose -Message "Setting 'Adobe Synchronizer Task Manager Process' to '$TaskManagerProcess' ..."
 
-                $ProcessNames = '*AdobeCollabSync*', '*FullTrustNotifier*'
+                $ProcessNames = 'AdobeCollabSync', 'FullTrustNotifier'
                 Stop-Process -Name $ProcessNames -Force -ErrorAction 'SilentlyContinue'
-                Start-Sleep -Seconds 0.5
+                Wait-Process -Name $ProcessNames -ErrorAction 'SilentlyContinue'
+                Start-Sleep -Seconds 0.3
 
                 switch ($TaskManagerProcess)
                 {
