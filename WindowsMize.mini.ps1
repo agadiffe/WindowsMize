@@ -1013,7 +1013,9 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-#Disable-GameBarLinks # Fix error if XBox GameBar is uninstalled
+#Disable-GameBarLinks # Fix popup errors if XBox GameBar is uninstalled
+Disable-StoreAppResultsFromStartMenuSearch
+#Disable-StoreAppResultsFromStartMenuSearch -Reset
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 Set-HelpTips -GPO 'Disabled'
 Set-MenuShowDelay -Value '200' # ms | range 50-1000

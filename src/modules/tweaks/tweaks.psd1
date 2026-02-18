@@ -41,6 +41,7 @@
 
         # --- user_interface_and_experience
         'Disable-GameBarLinks'
+        'Disable-StoreAppResultsFromStartMenuSearch'
         'Set-ActionCenterLayout'
         'Set-CopyPasteDialogShowMoreDetails'
         'Set-HelpTips'

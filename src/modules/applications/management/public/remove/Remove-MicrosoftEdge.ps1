@@ -49,11 +49,18 @@ function Remove-MicrosoftEdge
 
         if ($IsRegionPolicyFileChanged)
         {
+            $AccessRuleParam = @{
+                Path       = $RegionPolicyFilePath
+                Sid        = 'S-1-5-32-544' # 'BUILTIN\Administrators'
+                Permission = 'Allow'
+                Access     = 'FullControl'
+            }
+
             # Save the original file permissions.
             $OriginalRegionPolicyAcl = Get-Acl -Path $RegionPolicyFilePath
 
             # Backup the original file.
-            Set-FileSystemAdminsFullControl -Action 'Grant' -Path $RegionPolicyFilePath
+            Set-FileSystemAccessRule @AccessRuleParam
             $RegionPolicyFileName = (Get-Item -Path $RegionPolicyFilePath).Name
             Rename-Item -Path $RegionPolicyFilePath -NewName "$RegionPolicyFileName.bak"
 
@@ -75,7 +82,7 @@ function Remove-MicrosoftEdge
         if ($IsRegionPolicyFileChanged)
         {
             # Remove the modified file.
-            Set-FileSystemAdminsFullControl -Action 'Grant' -Path $RegionPolicyFilePath
+            Set-FileSystemAccessRule @AccessRuleParam
             Remove-Item -Path $RegionPolicyFilePath
 
             # Restore the original file.

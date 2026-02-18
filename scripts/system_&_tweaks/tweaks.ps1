@@ -162,8 +162,12 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Reset
 
 # --- Disable GameBar Links
-# Fix error if XBox GameBar is uninstalled.
+# Fix popup errors if XBox GameBar is uninstalled.
 #Disable-GameBarLinks
+
+# --- Disable Store App results from Start Menu Search
+Disable-StoreAppResultsFromStartMenuSearch
+#Disable-StoreAppResultsFromStartMenuSearch -Reset
 
 # --- Copy/Paste dialog : Show more details (default: Disabled)
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'

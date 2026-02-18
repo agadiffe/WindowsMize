@@ -27,11 +27,17 @@ function Disable-NvidiaGameSessionTelemetry
 
             if (Test-Path -Path $GSTPluginFilePath)
             {
-                Set-FileSystemAdminsFullControl -Action 'Grant' -Path $NvidiaPluginsSessionPath
-                Set-FileSystemAdminsFullControl -Action 'Grant' -Path $GSTPluginFilePath
+                $AccessRuleParam = @{
+                    Sid        = 'S-1-5-32-544' # 'BUILTIN\Administrators'
+                    Permission = 'Allow'
+                    Access     = 'FullControl'
+                }
+
+                Set-FileSystemAccessRule -Path $NvidiaPluginsSessionPath @AccessRuleParam
+                Set-FileSystemAccessRule -Path $GSTPluginFilePath @AccessRuleParam
                 Remove-Item -Path "$GSTPluginFilePath.bak" -ErrorAction 'SilentlyContinue'
                 Rename-Item -Path $GSTPluginFilePath -NewName "$GameSessionTelemetryPluginName.bak"
-                Set-FileSystemAdminsFullControl -Action 'Remove' -Path $NvidiaPluginsSessionPath
+                Set-FileSystemAccessRule -Path $NvidiaPluginsSessionPath -Sid $AccessRuleParam.Sid -RemoveAll
 
                 Write-Verbose -Message "    '$GSTPluginFilePath' disabled"
             }

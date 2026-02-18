@@ -18,7 +18,7 @@
         'New-ParentPath'
         'New-ScheduledTaskScript'
         'Set-ByteBitFlag'
-        'Set-FileSystemAdminsFullControl'
+        'Set-FileSystemAccessRule'
         'Set-KeyboardHotkey'
         'Set-RegistryEntry'
         'Set-RegistryEntrySystemProtected'
