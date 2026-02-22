@@ -947,6 +947,8 @@ $AppToRamDisk = @(
 # Size: number + M or G (e.g. 512M or 4G)
 #Set-RamDisk -Size '2G' -AppToRamDisk $AppToRamDisk
 
+#Set-RamDisk -RemoveCreationScript -RemoveUserScript
+
 #endregion ramdisk
 
 #                Tweaks

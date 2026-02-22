@@ -27,18 +27,17 @@ Write-Section -Name 'Applications Config Files'
 Write-Section -Name 'Brave Browser' -SubSection
 
 <#
-  For now, to customize the settings, open the file:
-    src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
-  The settings are organized in the same way as in the GUI.
-
   Meant to be used on a fresh Brave installation.
 
-  If used on current install, it will override the current settings.
-  Including your profiles if you have more than one (the data folder will not be deleted).
-  It means that you will have only 1 profile after applying this function.
+  If used on current install, it will delete everything before applying the new settings.
+  /!\ Backup the data you want to keep (e.g. passwords and bookmarks).
 
   By default, everything is disabled: AI, Web3, Vpn, etc ...
   This is not done via policy, so you can customize everything afterward with the Brave GUI.
+
+  For now, to customize the settings, open the file:
+    src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
+  The settings are organized the same way as in the GUI.
 #>
 
 Set-BraveBrowserSettings

@@ -25,6 +25,8 @@ function Remove-SymbolicLink
 
     process
     {
-        Get-Item -Path $Path | Where-Object -Property 'LinkType' -EQ -Value 'SymbolicLink' | Remove-Item
+        Get-Item -Path $Path -ErrorAction 'SilentlyContinue' |
+            Where-Object -Property 'LinkType' -EQ -Value 'SymbolicLink' |
+            Remove-Item
     }
 }

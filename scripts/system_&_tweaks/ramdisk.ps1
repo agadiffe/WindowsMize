@@ -38,7 +38,7 @@ Write-Section -Name 'RamDisk'
   This should also make Brave (a bit) faster (will probably not be noticeable).
 
   SSD lifespan is pretty high nowday, so it should be fine even without a RamDisk.
-  If you watch stream videos all day long, a RamDisk might be usefull.
+  If you watch stream videos all day long, a RamDisk might be usefull for your SSD longevity.
 
   Let's do the same for VSCode (as it's somehow a web browser too).
 #>
@@ -67,3 +67,7 @@ $AppToRamDisk = @(
     #'VSCode'
 )
 Set-RamDisk -Size '2G' -AppToRamDisk $AppToRamDisk
+
+# RemoveCreationScript: delete script/task that create the RamDisk at startup.
+# RemoveUserScript: delete script/task (for the current user) that setup the RamDisk.
+#Set-RamDisk -RemoveCreationScript -RemoveUserScript

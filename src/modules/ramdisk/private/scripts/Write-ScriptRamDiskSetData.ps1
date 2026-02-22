@@ -65,7 +65,7 @@ function Write-ScriptRamDiskSetData
 
             while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName').State -eq 'Running')
             {
-                Start-Sleep -Seconds 0.25
+                Start-Sleep -Seconds 0.1
             }
 
             Set-DataToRamDisk -RamDiskName '$RamDiskName' -AppToRamDisk $($AppToRamDisk.ForEach({ "'$_'" }) -join ', ')

@@ -37,16 +37,17 @@ function Copy-BraveDataForSymlink
         $IsBackupAction = $Action -eq 'Backup'
         $Path = $IsBackupAction ? 'UserData' : 'PersistentData'
         $Destination = $IsBackupAction ? 'PersistentData' : 'UserData'
+        $BraveBrowserPathInfo = Get-BraveBrowserPathInfo
 
         $ItemToCopy = @(
             foreach ($Item in $Name)
             {
                 $GetItemParam = @{
-                    Path        = "$((Get-BraveBrowserPathInfo).$Path)\$Item"
+                    Path        = "$($BraveBrowserPathInfo.$Path)\$Item"
                     ErrorAction = 'SilentlyContinue'
                 }
                 $LinkTarget = (Get-Item @GetItemParam).LinkTarget # null if not a Link
-                if (-not $LinkTarget -and -not (Test-Path -Path "$((Get-BraveBrowserPathInfo).$Destination)\$Item"))
+                if (-not $LinkTarget -and -not (Test-Path -Path "$($BraveBrowserPathInfo.$Destination)\$Item"))
                 {
                     $Item
                 }
@@ -55,8 +56,8 @@ function Copy-BraveDataForSymlink
 
         $BraveDataForSymlink = @{
             Name        = $ItemToCopy
-            Path        = (Get-BraveBrowserPathInfo).$Path
-            Destination = (Get-BraveBrowserPathInfo).$Destination
+            Path        = $BraveBrowserPathInfo.$Path
+            Destination = $BraveBrowserPathInfo.$Destination
         }
         if ($ItemToCopy)
         {

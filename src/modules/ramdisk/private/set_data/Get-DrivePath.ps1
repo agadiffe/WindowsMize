@@ -13,7 +13,7 @@ function Get-DrivePath
 {
     <#
     .EXAMPLE
-        PS> Get-DrivePath -Name 'RamdDisk'
+        PS> Get-DrivePath -Name 'RamDisk'
         X:\
     #>
 

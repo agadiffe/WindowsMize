@@ -31,7 +31,11 @@ function Get-LoggedOnUserItemPropertyValue
     {
         $UserSid = (Get-LoggedOnUserInfo).Sid
         $ItemRegPath = "Registry::HKEY_USERS\$UserSid\$Path"
-        $ItemValue = (Get-ItemProperty -Path $ItemRegPath -ErrorAction 'SilentlyContinue').$Name
+
+        # https://github.com/PowerShell/PowerShell/issues/9552
+        # Get-ItemProperty: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+        #$ItemValue = (Get-ItemProperty -Path $ItemRegPath -ErrorAction 'SilentlyContinue').$Name
+        $ItemValue = (Get-Item -Path $ItemRegPath -ErrorAction 'SilentlyContinue').ForEach({ $_.GetValue($Name) })
         $ItemValue
     }
 }

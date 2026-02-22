@@ -34,13 +34,16 @@ function Set-DataToRamDisk
         $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $AppToRamDisk
         $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
 
-        if (Test-Path -Path $RamDiskPath)
+        if ($RamDiskPath)
         {
             if (-not (Test-Path -Path $RamDiskUserProfilePath))
             {
-                # Copy the items if not a symlink and not in persistent folder.
-                # i.e. Save installed extensions if used on current installation.
-                Copy-BraveDataForSymlink -Name $DataToSymlink.BraveException.Data.Directory -Action 'Backup'
+                if ($AppToRamDisk.Contains([AppName]::Brave))
+                {
+                    # Copy the items if not a symlink and not in persistent folder.
+                    # i.e. Save installed extensions if used on existing installation.
+                    Copy-BraveDataForSymlink -Name $DataToSymlink.BraveException.Data.Directory -Action 'Backup'
+                }
 
                 New-RamDiskUserProfile -Path $RamDiskUserProfilePath
                 $SymbolicLinksPair | New-SymbolicLink

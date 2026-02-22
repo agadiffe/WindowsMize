@@ -27,11 +27,12 @@ function Copy-BravePersistentData
     process
     {
         $Path, $Destination = if ($Action -eq 'Backup') { 'UserData', 'PersistentData' } else { 'PersistentData', 'UserData' }
+        $BraveBrowserPathInfo = Get-BraveBrowserPathInfo
 
         $BravePersistentData = @{
             Name        = (Get-BraveDataException).Persistent
-            Path        = (Get-BraveBrowserPathInfo).$Path
-            Destination = (Get-BraveBrowserPathInfo).$Destination
+            Path        = $BraveBrowserPathInfo.$Path
+            Destination = $BraveBrowserPathInfo.$Destination
         }
         Copy-Data @BravePersistentData
     }

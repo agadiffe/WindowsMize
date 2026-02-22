@@ -25,7 +25,7 @@ function Get-BraveBrowserPathInfo
             LocalAppData   = $BraveAppDataPath
             UserData       = "$BraveAppDataPath\User Data"
             PersistentData = "$BraveAppDataPath\User Data Persistent"
-            ProfileNames  = $ProfileNames
+            ProfileNames   = $ProfileNames
         }
         $BravePathInfo
     }

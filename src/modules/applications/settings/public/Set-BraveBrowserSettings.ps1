@@ -16,32 +16,24 @@ function Set-BraveBrowserSettings
     {
         Write-Verbose -Message 'Setting Brave Browser Settings ...'
 
-        $BraveLocalState, $BravePreferences = New-BraveBrowserConfigData
-
-        $BraveInstallLocation = (Get-ApplicationInfo -Name 'Brave').InstallLocation
-        $BraveAppDataPath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\BraveSoftware\Brave-Browser"
-        $BraveUserDataPath = "$BraveAppDataPath\User Data"
-        $BraveProfilePath = "$BraveAppDataPath\User Data\Default"
-
-        if (-not (Test-Path -Path $BraveUserDataPath))
-        {
-            New-Item -ItemType 'Directory' -Path $BraveUserDataPath | Out-Null
-        }
-        if (-not (Test-Path -Path $BraveProfilePath))
-        {
-            New-Item -ItemType 'Directory' -Path $BraveProfilePath | Out-Null
-        }
-
-        # Remove welcome splash screen on first launch (also need '"has_seen_welcome_page": true' in prefs file).
-        New-Item -ItemType 'File' -Path "$BraveUserDataPath\First Run" -ErrorAction 'SilentlyContinue' | Out-Null
-
         $BraveProcessName = 'Brave'
         Stop-Process -Name $BraveProcessName -Force -ErrorAction 'SilentlyContinue'
         Wait-Process -Name $BraveProcessName -ErrorAction 'SilentlyContinue'
         Start-Sleep -Seconds 0.3
 
+        $BraveLocalState, $BravePreferences = New-BraveBrowserConfigData
+
+        $BraveAppDataPath = "$((Get-LoggedOnUserEnvVariable).LOCALAPPDATA)\BraveSoftware\Brave-Browser"
+        $BraveUserDataPath = "$BraveAppDataPath\User Data"
+        $BraveProfilePath = "$BraveAppDataPath\User Data\Default"
+
+        Remove-Item -Recurse -Path $BraveUserDataPath -ErrorAction 'SilentlyContinue'
+        New-Item -ItemType 'Directory' -Path $BraveUserDataPath, $BraveProfilePath -ErrorAction 'SilentlyContinue' | Out-Null
+
+        # Remove welcome splash screen on first launch (also need '"has_seen_welcome_page": true' in prefs file).
+        New-Item -ItemType 'File' -Path "$BraveUserDataPath\First Run" -ErrorAction 'SilentlyContinue' | Out-Null
+
         $BraveLocalState | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveUserDataPath\Local State"
         $BravePreferences | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveProfilePath\Preferences"
-        $BravePreferences | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveInstallLocation\initial_preferences"
     }
 }

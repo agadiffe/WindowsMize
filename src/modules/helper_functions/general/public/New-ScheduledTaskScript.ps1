@@ -32,7 +32,7 @@ function New-ScheduledTaskScript
         [string] $TaskName,
 
         [Parameter(Mandatory)]
-        [CimInstance] $Trigger
+        [CimInstance[]] $Trigger
     )
 
     process
