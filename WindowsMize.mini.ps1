@@ -236,6 +236,7 @@ $AppsToInstall = @(
     #'DotNetDesktopRuntime7'
     #'DotNetDesktopRuntime8'
     #'DotNetDesktopRuntime9'
+    #'DotNetDesktopRuntime10'
 )
 $AppsToInstall | Install-Application
 #Remove-AllDesktopShortcuts
@@ -476,7 +477,9 @@ $PhotosSettings = @{
     ImageCategorization        = 'Disabled'
     MouseWheelBehavior         = 'ZoomInOut' # ZoomInOut | NextPreviousItems
     SmallMediaZoomPreference   = 'ViewActualSize' # FitWindow | ViewActualSize
-    RunAtStartup               = 'Disabled'
+    #RunAtStartup               = 'Disabled' # old
+    GalleryType                = 'River' # River | Square
+    GallerySize                = 'Medium' # Small | Medium | Large
     FirstRunExperience         = 'Disabled'
 }
 Set-WindowsPhotosSetting @PhotosSettings

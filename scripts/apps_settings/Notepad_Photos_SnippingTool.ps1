@@ -139,11 +139,19 @@ Set-WindowsPhotosSetting -SmallMediaZoomPreference 'ViewActualSize'
 # --- Allow image categorization (default: Disabled)
 Set-WindowsPhotosSetting -ImageCategorization 'Disabled'
 
-# --- Performance (run in the background at startup) (default: Enabled)
-Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
+# --- Performance (run in the background at startup) (default: Enabled) | old
+#Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
 
 #             Miscellaneous
 #=======================================
+
+# --- Gallery type
+# State: River (default) | Square
+Set-WindowsPhotosSetting -GalleryType 'River'
+
+# --- Gallery size
+# State: Small | Medium (default) | Large
+Set-WindowsPhotosSetting -GallerySize 'Medium'
 
 # --- First Run Experience (default: Enabled)
 #   First Run Experience dialog

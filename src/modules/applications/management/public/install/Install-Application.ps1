@@ -17,7 +17,7 @@ class AppsList : System.Management.Automation.IValidateSetValuesGenerator
                  Notepad++ | qBittorrent | ProtonVPN | MullvadVPN | Brave | Firefox | MullvadBrowser |
                  DirectXEndUserRuntime | VCRedist2015+.ARM | VCRedist2015+ | VCRedist2013 | VCRedist2012 |
                  VCRedist2010 | VCRedist2008 | VCRedist2005 | DotNetDesktopRuntime5 | DotNetDesktopRuntime6 |
-                 DotNetDesktopRuntime7 | DotNetDesktopRuntime8 | DotNetDesktopRuntime9}
+                 DotNetDesktopRuntime7 | DotNetDesktopRuntime8 | DotNetDesktopRuntime9 | DotNetDesktopRuntime10}
         [<CommonParameters>]
 #>
 

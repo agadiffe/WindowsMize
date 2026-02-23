@@ -14,6 +14,8 @@
         [-MouseWheelBehavior {ZoomInOut | NextPreviousItems}]
         [-SmallMediaZoomPreference {FitWindow | ViewActualSize}]
         [-Theme {System | Light | Dark}]
+        [-GalleryType {River | Square}]
+        [-GallerySize {Small | Medium | Large}]
         [-FirstRunExperience {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -46,6 +48,12 @@ function Set-WindowsPhotosSetting
         [string] $Theme,
 
         # miscellaneous
+        [ValidateSet('River', 'Square')]
+        [string] $GalleryType,
+
+        [ValidateSet('Small', 'Medium', 'Large')]
+        [string] $GallerySize,
+
         [state] $FirstRunExperience
     )
 
@@ -61,7 +69,7 @@ function Set-WindowsPhotosSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'RunAtStartup'
+            'RunAtStartup' # old
             {
                 # Run in the background at startup
                 #   settings.dat registry key: IsBackgroundProcessEnabled (5f5e10b).
@@ -88,7 +96,7 @@ function Set-WindowsPhotosSetting
                 # on: true (default) | off: false
                 $GalleryTilesAttributesReg = @{
                     Name  = 'GalleryAttributionDisplayStatus'
-                    Value = $GalleryTilesAttributes -eq 'Enabled' ? 'true' : 'false'
+                    Value = $ShowGalleryTilesAttributes -eq 'Enabled' ? 'true' : 'false'
                     Type  = '5f5e10c'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$GalleryTilesAttributesReg) | Out-Null
@@ -169,6 +177,33 @@ function Set-WindowsPhotosSetting
                     Type  = '5f5e104'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$ThemeReg) | Out-Null
+            }
+            'GalleryType'
+            {
+                # river: 2 (default) | square: 0
+                $GalleryTypeReg = @{
+                    Name  = 'GalleryLayout'
+                    Value = $GalleryType -eq 'River' ? '2' : '0'
+                    Type  = '5f5e10c'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$GalleryTypeReg) | Out-Null
+            }
+            'GallerySize'
+            {
+                $GallerySizeValue = switch ($GallerySize)
+                {
+                    'small'  { '0' }
+                    'medium' { '1' }
+                    'large'  { '2' }
+                }
+
+                # small: 0 | medium: 1 (default) | large: 2
+                $GallerySizeReg = @{
+                    Name  = 'GalleryThumbnailSize'
+                    Value = $GallerySizeValue
+                    Type  = '5f5e10c'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$GallerySizeReg) | Out-Null
             }
             'FirstRunExperience'
             {

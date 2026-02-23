@@ -88,6 +88,7 @@ $AppsToInstall = @(
     #'DotNetDesktopRuntime7'
     #'DotNetDesktopRuntime8'
     #'DotNetDesktopRuntime9'
+    #'DotNetDesktopRuntime10'
 )
 $AppsToInstall | Install-Application
 
