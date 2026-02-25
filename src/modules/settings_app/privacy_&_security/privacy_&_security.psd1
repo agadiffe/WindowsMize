@@ -15,6 +15,7 @@
 
     FunctionsToExport = @(
         'Set-AppPermissionsSetting'
+        'Set-BackgroundAppPermissionsSetting'
         'Set-WinPermissionsSetting'
     )
     CmdletsToExport   = @()

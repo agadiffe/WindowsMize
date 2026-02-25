@@ -89,14 +89,14 @@ Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 #                      Notifications
 #==========================================================
 #region notifications
-# See "scripts > win_settings_app > notifications.ps1"
+# See 'scripts > telemetry_&_annoyances > notifications.ps1'
 #endregion notifications
 
 #==========================================================
 #                    Power (& battery)
 #==========================================================
 #region power (& battery)
-# See "scripts > power_&_Battery.ps1"
+# See 'scripts > system_&_tweaks > power_&_Battery.ps1'
 #endregion power (& battery)
 
 #==========================================================

@@ -203,10 +203,6 @@ Set-AppPermissionsSetting -Notifications 'Disabled' -NotificationsGPO 'NotConfig
 # --- Text And Image Generation (default: Enabled)
 Set-AppPermissionsSetting -TextAndImageGeneration 'Disabled' -TextAndImageGenerationGPO 'NotConfigured'
 
-# --- Background apps (default: Enabled)
-# e.g. needed by Windows Spotlight
-#Set-AppPermissionsSetting -BackgroundApps 'Disabled' -BackgroundAppsGPO 'NotConfigured'
-
 #endregion general
 
 #               User Data
@@ -309,3 +305,56 @@ Set-AppPermissionsSetting -PasskeysAutofill 'Disabled'
 #endregion tablet
 
 #endregion app permissions
+
+#==========================================================
+#                  Background permissions
+#==========================================================
+#region background
+
+Write-Section -Name 'Background permissions' -SubSection
+
+# --- Background apps (global) (default: Enabled)
+# Applies only to MsStore/UWP apps (e.g. MS Teams, Outlook, ICloud, Photos, etc ...).
+# Needed by Windows Spotlight (and other UWP apps).
+#Set-AppPermissionsSetting -BackgroundApps 'Disabled' -BackgroundAppsGPO 'NotConfigured'
+
+# --- Background apps (per-app)
+# State: Always | Optimized (default) | Never
+$BackgroundAppPerm = @{
+    BingSearch       = 'Never'
+    Calculator       = 'Never'
+    Camera           = 'Never'
+    Clipchamp        = 'Never'
+    Clock            = 'Never'
+    Compatibility    = 'Optimized'
+    CrossDevice      = 'Optimized'
+    DevHome          = 'Never'
+    FeedbackHub      = 'Never'
+    GetHelp          = 'Never'
+    M365Copilot      = 'Never'
+    MediaPlayer      = 'Never'
+    MicrosoftCopilot = 'Never'
+    MicrosoftStore   = 'Optimized'
+    MicrosoftTeams   = 'Optimized'
+    News             = 'Optimized'
+    Notepad          = 'Never'
+    Outlook          = 'Optimized'
+    Paint            = 'Never'
+    PhoneLink        = 'Optimized'
+    Photos           = 'Never'
+    PowerAutomate    = 'Never'
+    QuickAssist      = 'Never'
+    SnippingTool     = 'Never'
+    Solitaire        = 'Never'
+    SoundRecorder    = 'Never'
+    StickyNotes      = 'Never'
+    Terminal         = 'Never'
+    Todo             = 'Never'
+    Weather          = 'Optimized'
+    Xbox             = 'Optimized'
+    XboxLive         = 'Optimized'
+    XboxGameBar      = 'Optimized'
+}
+Set-BackgroundAppPermissionsSetting @BackgroundAppPerm
+
+#endregion background

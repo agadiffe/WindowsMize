@@ -28,7 +28,7 @@ enum FeedbackFrequencyMode
 }
 
 
-# search Permissions
+# search
 enum SafeSearchMode
 {
     Disabled = 0
@@ -36,10 +36,17 @@ enum SafeSearchMode
     Strict   = 2
 }
 
-
-# searching windows
 enum FindMyFilesMode
 {
     Classic
     Enhanced
+}
+
+
+# app permissions
+enum BackgroundAppMode
+{
+    Always
+    Optimized
+    Never
 }

@@ -150,14 +150,14 @@ Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
 #                          Start
 #==========================================================
 #region start
-# See "scripts > win_settings_app > start_&_taskbar.ps1"
+# See 'scripts > telemetry_&_annoyances > start_&_taskbar.ps1'
 #endregion start
 
 #==========================================================
 #                         Taskbar
 #==========================================================
 #region taskbar
-# See "scripts > win_settings_app > start_&_taskbar.ps1"
+# See 'scripts > telemetry_&_annoyances > start_&_taskbar.ps1'
 #endregion taskbar
 
 #==========================================================

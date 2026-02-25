@@ -16,7 +16,7 @@ function Install-WindowsSubsystemForLinux
         Install WSL and the default Ubuntu distribution of Linux.
         You can also use the '-Distribution' parameter to change the installed Linux distribution.
 
-        Run 'wsl.exe --list --online' to see a list of available distros.
+        Run 'wsl.exe --list --online' to see the list of available distros.
 
     .EXAMPLE
         PS> Install-WindowsSubsystemForLinux -Distribution 'Debian'

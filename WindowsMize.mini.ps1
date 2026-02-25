@@ -1082,7 +1082,7 @@ Write-Section -Name 'Telemetry & Annoyances'
 #region telemetry
 
 # DiagnosticTracing: TrustedInstaller protected key. Need to be changed manually.
-# See src\modules\telemetry\private\Set-DiagnosticTracing.ps1
+# See 'src\modules\telemetry\private\Set-DiagnosticTracing.ps1'
 
 Disable-DotNetTelemetry
 Disable-NvidiaTelemetry
@@ -1208,7 +1208,6 @@ $PrivacyAppPermGeneral = @{
     Notifications          = 'Disabled' ; NotificationsGPO          = 'NotConfigured'
 
     TextAndImageGeneration = 'Disabled' ; TextAndImageGenerationGPO = 'NotConfigured'
-    #BackgroundApps         = 'Disabled' ; BackgroundAppsGPO         = 'NotConfigured' # e.g. needed by Windows Spotlight
 }
 Set-AppPermissionsSetting @PrivacyAppPermGeneral
 
@@ -1257,6 +1256,55 @@ $PrivacyAppPermTablet = @{
 #Set-AppPermissionsSetting @PrivacyAppPermTablet
 
 #endregion app Permissions
+
+#        Background Permissions
+#=======================================
+#region background Permissions
+
+# Global setting
+# Needed by Windows Spotlight (and other UWP apps).
+#Set-AppPermissionsSetting -BackgroundApps 'Disabled' -BackgroundAppsGPO 'NotConfigured'
+
+# Per-app setting
+# Always | Optimized | Never
+$BackgroundAppPerm = @{
+    BingSearch       = 'Never'
+    Calculator       = 'Never'
+    Camera           = 'Never'
+    Clipchamp        = 'Never'
+    Clock            = 'Never'
+    Compatibility    = 'Optimized'
+    CrossDevice      = 'Optimized'
+    DevHome          = 'Never'
+    FeedbackHub      = 'Never'
+    GetHelp          = 'Never'
+    M365Copilot      = 'Never'
+    MediaPlayer      = 'Never'
+    MicrosoftCopilot = 'Never'
+    MicrosoftStore   = 'Optimized'
+    MicrosoftTeams   = 'Optimized'
+    News             = 'Optimized'
+    Notepad          = 'Never'
+    Outlook          = 'Optimized'
+    Paint            = 'Never'
+    PhoneLink        = 'Optimized'
+    Photos           = 'Never'
+    PowerAutomate    = 'Never'
+    QuickAssist      = 'Never'
+    SnippingTool     = 'Never'
+    Solitaire        = 'Never'
+    SoundRecorder    = 'Never'
+    StickyNotes      = 'Never'
+    Terminal         = 'Never'
+    Todo             = 'Never'
+    Weather          = 'Optimized'
+    Xbox             = 'Optimized'
+    XboxLive         = 'Optimized'
+    XboxGameBar      = 'Optimized'
+}
+Set-BackgroundAppPermissionsSetting @BackgroundAppPerm
+
+#endregion background Permissions
 
 #             Notifications
 #=======================================
@@ -1648,7 +1696,7 @@ $AppActionsSettings = @{
     Paint       = 'Disabled'
     Photos      = 'Disabled'
 }
-#Set-AppActions -Setting $AppActionsSettings
+Set-AppActionsSetting @AppActionsSettings
 
 $OfflineMapsSettings = @{
     DownloadOverMeteredConnection = 'Disabled' # old

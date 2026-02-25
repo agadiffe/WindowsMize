@@ -62,7 +62,7 @@ $AppActionsSettings = @{
     Paint       = 'Disabled'
     Photos      = 'Disabled'
 }
-#Set-AppActions -Setting $AppActionsSettings
+Set-AppActionsSetting @AppActionsSettings
 
 #endregion actions
 

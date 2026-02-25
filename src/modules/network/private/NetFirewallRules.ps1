@@ -69,7 +69,7 @@ $NetFirewallRules += @{
 
 # Even if 'file and printer sharing' is disabled, these ports are still listening.
 # To close them, you need to disable 'NetBios over TCP/IP' kernel driver service (NetBT).
-# See 'services & scheduled tasks > services > system driver'.
+# See 'src\modules\services\private\SystemDrivers.ps1'
 
 $NetFirewallRules += @{
     NetBiosTcpIP = @{

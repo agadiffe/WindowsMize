@@ -42,7 +42,7 @@ Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
 
 # --- Diagnostic tracing
 # TrustedInstaller protected key. Need to be changed manually.
-# See "src\modules\telemetry\private\Set-DiagnosticTracing.ps1".
+# See 'src\modules\telemetry\private\Set-DiagnosticTracing.ps1'
 
 #==============================================================================
 #                                 Group Policy

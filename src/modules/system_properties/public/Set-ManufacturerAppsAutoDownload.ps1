@@ -3,7 +3,6 @@
 #=================================================================================================================
 
 # settings > system > about > device specifications > related links (sysdm.cpl)
-# See also: tweaks_misc > drivers
 
 # Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
 

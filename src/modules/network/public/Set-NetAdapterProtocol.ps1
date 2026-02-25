@@ -5,7 +5,7 @@
 # settings > network & internet > advanced network settings > Ethernet and/or Wi-FI:
 #   more adapter options > edit
 
-# See also 'services & scheduled tasks > services > system driver' to unload the related system driver.
+# See 'src\modules\services\private\SystemDrivers.ps1'
 
 # STIG recommendation:
 #   LLDP: Disabled on external facing interfaces (e.g. router)

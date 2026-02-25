@@ -1,8 +1,8 @@
 #=================================================================================================================
-#                             Privacy & Security > App Permissions > Background Apps
+#                            Privacy & Security > Background App Permissions (Global)
 #=================================================================================================================
 
-# Applies only to the apps installed from Microsoft Store (e.g. Calculator, Photos, Notepad, ...).
+# Applies only to MsStore/UWP apps (e.g. Calculator, Notepad, Photos, ...).
 
 # If disabled, it will also disable Windows Spotlight.
 # May also disable/break other apps features ?
@@ -10,17 +10,17 @@
 
 <#
 .SYNTAX
-    Set-AppPermissionsBackgroundApps
+    Set-BackgroundAppPermissionsGlobal
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-AppPermissionsBackgroundApps
+function Set-BackgroundAppPermissionsGlobal
 {
     <#
     .EXAMPLE
-        PS> Set-AppPermissionsBackgroundApps -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-BackgroundAppPermissionsGlobal -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -34,7 +34,7 @@ function Set-AppPermissionsBackgroundApps
 
     process
     {
-        $BackgroundAppsMsg = 'Background Apps'
+        $BackgroundAppsMsg = 'Background Activity (Global)'
 
         switch ($PSBoundParameters.Keys)
         {

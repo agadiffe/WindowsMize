@@ -15,7 +15,7 @@
     )
 
     FunctionsToExport = @(
-        'Set-AppActions'
+        'Set-AppActionsSetting'
         'Set-GeneralAppsSetting'
         'Set-OfflineMapsSetting'
     )

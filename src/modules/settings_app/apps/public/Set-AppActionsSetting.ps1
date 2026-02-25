@@ -2,47 +2,37 @@
 #                                                 Apps > Actions
 #=================================================================================================================
 
-class AppActionsSetting : ValidateHashtableSettings
-{
-    # Constructors
-    #-------------
-    AppActionsSetting([hashtable]$Settings) : base($Settings)
-    {
-        $KeyNames = 'M365Copilot', 'MSOffice', 'MSTeams', 'Paint', 'Photos'
-        $KeyValues = 'Disabled', 'Enabled'
-        $this.ValidateSettings($Settings, $KeyNames, $KeyValues)
-    }
-}
-
 <#
 .SYNTAX
-    Set-AppActions
-        [-Setting] <AppActionsSetting>
+    Set-AppActionsSetting
+        [-M365Copilot {Disabled | Enabled}]
+        [-MSOffice {Disabled | Enabled}]
+        [-MSTeams {Disabled | Enabled}]
+        [-Paint {Disabled | Enabled}]
+        [-Photos {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
-function Set-AppActions
+function Set-AppActionsSetting
 {
     <#
     .EXAMPLE
-        PS> $AppActionsSettings = @{
-                MSOffice = 'Disabled'
-                Paint    = 'Disabled'
-                Photos   = 'Enabled'
-            }
-        PS> Set-AppActions -Setting $AppActionsSettings
+        PS> Set-AppActionsSetting -MSOffice 'Disabled' -Photos 'Disabled'
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Mandatory)]
-        [AppActionsSetting] $Setting
+        [state] $M365Copilot,
+        [state] $MSOffice,
+        [state] $MSTeams,
+        [state] $Paint,
+        [state] $Photos
     )
 
     process
     {
-        if (-not $Setting.Keys.Count)
+        if (-not $PSBoundParameters.Keys.Count)
         {
             Write-Error -Message (Write-InsufficientParameterCount)
             return
@@ -50,7 +40,7 @@ function Set-AppActions
 
         $AppActionsSettings = [System.Collections.ArrayList]::new()
 
-        foreach ($AppName in $Setting.Keys)
+        foreach ($AppName in $PSBoundParameters.Keys)
         {
             $AppInternalName = switch ($AppName)
             {
@@ -65,7 +55,7 @@ function Set-AppActions
             $AppActionsReg = @{
                 Path  = 'LocalState\DisabledApps'
                 Name  = $AppInternalName
-                Value = $Setting.$AppName -eq 'Enabled' ? '0' : '1'
+                Value = $PSBoundParameters.$AppName -eq 'Enabled' ? '0' : '1'
                 Type  = '5f5e10b'
             }
             $AppActionsSettings.Add([PSCustomObject]$AppActionsReg) | Out-Null

@@ -189,8 +189,8 @@ function Set-AppPermissionsSetting
 
             'TextAndImageGeneration'     { Set-AppPermissionsTextAndImageGeneration -State $TextAndImageGeneration }
             'TextAndImageGenerationGPO'  { Set-AppPermissionsTextAndImageGeneration -GPO $TextAndImageGenerationGPO }
-            'BackgroundApps'             { Set-AppPermissionsBackgroundApps -State $BackgroundApps }
-            'BackgroundAppsGPO'          { Set-AppPermissionsBackgroundApps -GPO $BackgroundAppsGPO }
+            'BackgroundApps'             { Set-BackgroundAppPermissionsGlobal -State $BackgroundApps }
+            'BackgroundAppsGPO'          { Set-BackgroundAppPermissionsGlobal -GPO $BackgroundAppsGPO }
 
             # User Data
             'AccountInfo'                { Set-AppPermissionsAccountInfo -State $AccountInfo }

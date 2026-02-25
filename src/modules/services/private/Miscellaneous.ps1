@@ -374,7 +374,7 @@ $ServicesList += @{
             StartupType = 'Manual'
             DefaultType = 'Manual'
             Comment     = 'somehow similar to: prevent device metadata retrieval from the Internet.
-                           see tweaks > system properties > hardware.'
+                           system_&_tweaks > system_properties > hardware.'
         }
         @{
             DisplayName = 'Display Enhancement Service'

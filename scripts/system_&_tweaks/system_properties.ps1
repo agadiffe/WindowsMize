@@ -167,6 +167,6 @@ $RemoteAssistanceProperties = @{
 #Set-RemoteAssistance @RemoteAssistanceProperties
 
 # --- Remote Desktop
-# See 'Windows Settings App > System > Remote Desktop'
+# See 'scripts > win_settings_app > system.ps1'
 
 #endregion remote
