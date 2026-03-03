@@ -2,6 +2,14 @@
 #                                               Brave Browser Data
 #=================================================================================================================
 
+<#
+  Brave write a lot of temp files in the 'User Data' directory.
+  It seems that everything is written to these temp files and then written to the cache ?
+  e.g.
+  "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data\random-file-name.tmp"
+  "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data\Default\random-file-name.tmp"
+#>
+
 # Add the related directories/files if you are using a specific feature (e.g. history, cookies, top sites, ...).
 # Persistent data will be saved on user logout and restored on user logon.
 
@@ -65,7 +73,24 @@ function Get-BraveDataException
 
     process
     {
-        $ProfileNames = (Get-BraveBrowserPathInfo).ProfileNames
+        $ProfileNames = (Get-BraveBrowserPathInfo)['ProfileNames']
+        $CacheFolders = @{
+            UserData = @(
+                'component_crx_cache'
+                'extensions_crx_cache'
+                'GraphiteDawnCache'
+                'GrShaderCache'
+                'Safe Browsing'
+                'ShaderCache'
+            )
+            ProfileData = Get-ProfilePathCombinations -ProfileNames $ProfileNames -Path @(
+                'Cache'
+                'Code Cache'
+                'DawnGraphiteCache'
+                'DawnWebGPUCache'
+                'GPUCache'
+            )
+        }
         $SymlinkFolders = @{
             UserData = @()
             ProfileData = Get-ProfilePathCombinations -ProfileNames $ProfileNames -Path @(
@@ -91,12 +116,53 @@ function Get-BraveDataException
         }
 
         $BraveDataException = @{
+            Cache = @{
+                Directory = $CacheFolders.Values.ForEach({ $_ })
+            }
             Symlink = @{
                 Directory = $SymlinkFolders.Values.ForEach({ $_ })
             }
             Persistent = $PersistentData.Values.ForEach({ $_ })
         }
         $BraveDataException
+    }
+}
+
+
+<#
+.SYNTAX
+    Get-BraveCacheFoldersToSymlink
+        [-RamDiskPath] <string>
+        [<CommonParameters>]
+#>
+
+function Get-BraveCacheFoldersToSymlink
+{
+    <#
+    .EXAMPLE
+        PS> Get-BraveCacheFoldersToSymlink -RamDiskPath 'X:'
+    #>
+
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [string] $RamDiskPath
+    )
+
+    process
+    {
+        $BravePathInfo = Get-BraveBrowserPathInfo
+        $BraveDataToSymlink = @{
+            BraveCache = @{
+                LinkPath = "$($BravePathInfo['LocalAppData'])\User Data"
+                TargetPath = "$RamDiskPath\Brave-Browser\User Data"
+                Data = @{
+                    Directory = (Get-BraveDataException)['Cache']['Directory']
+                }
+            }
+        }
+        $BraveDataToSymlink
     }
 }
 
@@ -124,9 +190,10 @@ function Get-BraveDataToSymlink
 
     process
     {
+        $BravePathInfo = Get-BraveBrowserPathInfo
         $BraveDataToSymlink = [ordered]@{
             Brave = @{
-                LinkPath = (Get-BraveBrowserPathInfo).LocalAppData
+                LinkPath = $BravePathInfo['LocalAppData']
                 TargetPath = "$RamDiskPath\Brave-Browser"
                 Data = @{
                     Directory = @(
@@ -136,9 +203,9 @@ function Get-BraveDataToSymlink
             }
             BraveException = @{
                 LinkPath = "$RamDiskPath\Brave-Browser\User Data"
-                TargetPath = (Get-BraveBrowserPathInfo).PersistentData
+                TargetPath = $BravePathInfo['PersistentData']
                 Data = @{
-                    Directory = (Get-BraveDataException).Symlink.Directory
+                    Directory = (Get-BraveDataException)['Symlink']['Directory']
                 }
             }
         }

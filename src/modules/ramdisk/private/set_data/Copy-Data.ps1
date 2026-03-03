@@ -49,12 +49,9 @@ function Copy-Data
                 Recurse     = $true
                 Force       = $true
             }
-            if (Test-Path -Path $ItemParameter.Path)
+            if (Test-Path -Path $ItemParameter['Path'])
             {
-                if (-not (Test-Path -Path $ItemParameter.Destination))
-                {
-                    New-Item -ItemType 'Directory' -Path $ItemParameter.Destination -Force | Out-Null
-                }
+                New-Item -ItemType 'Directory' -Path $ItemParameter['Destination'] -Force -ErrorAction 'SilentlyContinue'| Out-Null
                 Copy-Item @ItemParameter
             }
         }

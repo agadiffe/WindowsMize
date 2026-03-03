@@ -6,7 +6,7 @@
 .SYNTAX
     Get-DataToSymlink
         [-RamDiskPath] <string>
-        [-Data] {Brave | VSCode}
+        [-Data] {Brave | BraveCache | VSCode}
         [<CommonParameters>]
 #>
 
@@ -32,8 +32,9 @@ function Get-DataToSymlink
         $DataToSymlink = @{}
         switch ($Data)
         {
-            'Brave'  { $DataToSymlink += Get-BraveDataToSymlink -RamDiskPath $RamDiskPath }
-            'VSCode' { $DataToSymlink += Get-VSCodeDataToSymlink -RamDiskPath $RamDiskPath }
+            'Brave'      { $DataToSymlink += Get-BraveDataToSymlink -RamDiskPath $RamDiskPath }
+            'BraveCache' { $DataToSymlink += Get-BraveCacheFoldersToSymlink -RamDiskPath $RamDiskPath }
+            'VSCode'     { $DataToSymlink += Get-VSCodeDataToSymlink -RamDiskPath $RamDiskPath }
         }
         $DataToSymlink
     }

@@ -114,12 +114,17 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
 <details>
   <summary>Configure a RamDisk for "Brave Browser" and "VSCode" (click to expand).</summary>
 
-For Brave, only few elements are either restored to or excluded from the RamDisk:
+Brave Browser:  
+You can choose between 2 methods.  
+Moving the entire "User Data" folder or just the cache folders.
+
+For the entire "User Data" folder (Windows Pro+ only):  
+Only few elements are either restored to or excluded from the RamDisk:
 - Extensions and their settings (excluded. i.e. symlinked).
 - Bookmarks and their favicons (saved and restored upon logoff/logon).
 - Settings preferences (saved and restored upon logoff/logon).
 
-i.e. By default, history and cookies are not restored across logoff/logon.
+e.g. By default, history and cookies are not restored across logoff/logon.
 </details>
 
 ### ⚙️ Services & Scheduled Tasks

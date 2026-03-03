@@ -5,6 +5,7 @@
 enum AppName
 {
     Brave
+    BraveCache
     VSCode
 }
 

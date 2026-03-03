@@ -43,11 +43,11 @@ function Copy-BraveDataForSymlink
             foreach ($Item in $Name)
             {
                 $GetItemParam = @{
-                    Path        = "$($BraveBrowserPathInfo.$Path)\$Item"
+                    Path        = "$($BraveBrowserPathInfo[$Path])\$Item"
                     ErrorAction = 'SilentlyContinue'
                 }
                 $LinkTarget = (Get-Item @GetItemParam).LinkTarget # null if not a Link
-                if (-not $LinkTarget -and -not (Test-Path -Path "$($BraveBrowserPathInfo.$Destination)\$Item"))
+                if (-not $LinkTarget -and -not (Test-Path -Path "$($BraveBrowserPathInfo[$Destination])\$Item"))
                 {
                     $Item
                 }
@@ -56,8 +56,8 @@ function Copy-BraveDataForSymlink
 
         $BraveDataForSymlink = @{
             Name        = $ItemToCopy
-            Path        = $BraveBrowserPathInfo.$Path
-            Destination = $BraveBrowserPathInfo.$Destination
+            Path        = $BraveBrowserPathInfo[$Path]
+            Destination = $BraveBrowserPathInfo[$Destination]
         }
         if ($ItemToCopy)
         {

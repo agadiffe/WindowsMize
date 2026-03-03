@@ -943,8 +943,14 @@ $TasksToConfig | Set-ScheduledTaskStateGroup
 #Install-OSFMount
 
 # src\modules\ramdisk\private\app_data
+# Brave and BraveCache cannot be used together.
+# Brave: Move the entire 'User Data' folder to the RamDisk.
+#        Only extensions, bookmarks and preferences are restored across logoff/logon.
+#        You need to edit the ps1 file to change this behavior.
+# BraveCache: Move only the cache folders to the RamDisk (Recommended for non-tech savy users).
 $AppToRamDisk = @(
-    'Brave'
+    #'Brave'
+    'BraveCache'
     #'VSCode'
 )
 # Size: number + M or G (e.g. 512M or 4G)

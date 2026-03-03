@@ -6,7 +6,7 @@
 .SYNTAX
     Set-RamDisk
         -Size <string>
-        -AppToRamDisk {Brave | VSCode}
+        -AppToRamDisk {Brave | BraveCache | VSCode}
         [<CommonParameters>]
 
     Set-RamDisk
@@ -19,7 +19,7 @@ function Set-RamDisk
 {
     <#
     .EXAMPLE
-        PS> Set-RamDisk -Size '1G' -AppToRamDisk 'Brave', 'VSCode'
+        PS> Set-RamDisk -Size '1G' -AppToRamDisk 'BraveCache', 'VSCode'
 
     .EXAMPLE
         PS> Set-RamDisk -RemoveCreationScript -RemoveUserScript
@@ -46,7 +46,19 @@ function Set-RamDisk
 
     process
     {
-        $Username = (Get-LoggedOnUserInfo).UserName
+        if ($AppToRamDisk -contains [AppName]::Brave -and $AppToRamDisk -contains [AppName]::BraveCache)
+        {
+            Write-Error -Message 'Brave and BraveCache cannot be used together.'
+            return
+        }
+
+        if ($AppToRamDisk -contains [AppName]::Brave -and -not (Get-Command -Name 'gpedit.msc' -ErrorAction 'SilentlyContinue'))
+        {
+            Write-Error -Message 'Brave option requires Group Policy feature (gpedit.msc). Use BraveCache instead.'
+            return
+        }
+
+        $Username = (Get-LoggedOnUserInfo)['UserName']
         $RamDiskName = 'RamDisk'
         $RamDiskCreationTaskName = "$RamDiskName - Creation"
         $RamDiskSetDataTaskName = "$RamDiskName - Set Data ($Username)"
@@ -74,7 +86,21 @@ function Set-RamDisk
             if ($AppToRamDisk.Contains([AppName]::Brave))
             {
                 New-ScriptBackupBravePersistentData -FilePath $LogoffScriptFilePath
-                New-ScheduledTaskUserLogoff -User $Username -FilePath $LogoffScriptFilePath -TaskName $RamDiskBackupBraveDataTaskName
+                New-UserGpoScriptLogoff -FilePath $LogoffScriptFilePath -VerboseMsg $RamDiskBackupBraveDataTaskName
+            }
+            else
+            {
+                Remove-Item -Path $LogoffScriptFilePath -ErrorAction 'SilentlyContinue'
+                Remove-UserGpoScript -FilePath $LogoffScriptFilePath -Type 'Logoff'
+                Set-DataToRamDisk -AppToRamDisk 'Brave' -Remove
+                Remove-Item -Recurse -Path ((Get-BraveBrowserPathInfo)['PersistentData']) -ErrorAction 'SilentlyContinue'
+            }
+
+            'VSCode', 'BraveCache' | ForEach-Object -Process {
+                if (-not $AppToRamDisk.Contains([AppName]::$_))
+                {
+                    Set-DataToRamDisk -AppToRamDisk $_ -Remove
+                }
             }
         }
         else
@@ -92,16 +118,12 @@ function Set-RamDisk
                 Write-Verbose -Message 'Removing ''RamDisk User'' Script & Scheduled Task ...'
 
                 Remove-Item -Path $LogonScriptFilePath, $LogoffScriptFilePath -ErrorAction 'SilentlyContinue'
-                $UnregisterScheduledTask = @(
-                    $RamDiskSetDataTaskName
-                    $RamDiskBackupBraveDataTaskName
-                )
-                Unregister-ScheduledTask -TaskPath '\' -TaskName $UnregisterScheduledTask -Confirm:$false -ErrorAction 'SilentlyContinue'
+                Unregister-ScheduledTask -TaskPath '\' -TaskName $RamDiskSetDataTaskName -Confirm:$false -ErrorAction 'SilentlyContinue'
+                Remove-UserGpoScript -FilePath $LogoffScriptFilePath -Type 'Logoff'
 
                 # Delete all symlink & restore Brave symlinked folders + persistent data.
-                # Use dummy RamDiskName to trigger these behaviors.
-                Set-DataToRamDisk -RamDiskName (New-Guid) -AppToRamDisk 'Brave', 'VSCode'
-                Remove-Item -Recurse -Path ((Get-BraveBrowserPathInfo).PersistentData) -ErrorAction 'SilentlyContinue'
+                Set-DataToRamDisk -AppToRamDisk 'Brave', 'BraveCache', 'VSCode' -Remove
+                Remove-Item -Recurse -Path ((Get-BraveBrowserPathInfo)['PersistentData']) -ErrorAction 'SilentlyContinue'
             }
         }
     }

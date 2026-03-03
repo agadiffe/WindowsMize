@@ -8,7 +8,7 @@
         [-FilePath] <string>
         [-RamDiskName] <string>
         [-RamDiskTaskName] <string>
-        [-AppToRamDisk] {Brave | VSCode}
+        [-AppToRamDisk] {Brave | BraveCache | VSCode}
         [<CommonParameters>]
 #>
 

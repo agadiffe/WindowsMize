@@ -31,7 +31,7 @@ function New-RamDisk
                 'G'    gigabytes
                 [...]
         -m mountpoint
-            Specifies a drive letter (eg. "-m F:" for F:)
+            Specifies a drive letter (e.g. "-m F:" for F:)
     #>
 
     [CmdletBinding()]

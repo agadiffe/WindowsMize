@@ -5,8 +5,13 @@
 <#
 .SYNTAX
     Set-DataToRamDisk
-        [-RamDiskName] <string>
-        [-AppToRamDisk] {Brave | VSCode}
+        -RamDiskName <string>
+        -AppToRamDisk {Brave | BraveCache | VSCode}
+        [<CommonParameters>]
+
+    Set-DataToRamDisk
+        -AppToRamDisk {Brave | BraveCache | VSCode}
+        -Remove
         [<CommonParameters>]
 #>
 
@@ -17,32 +22,45 @@ function Set-DataToRamDisk
         PS> Set-DataToRamDisk -RamDiskName 'RamDisk' -AppToRamDisk 'Brave', 'VSCode'
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Set')]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'Set')]
         [string] $RamDiskName,
 
         [Parameter(Mandatory)]
-        [AppName[]] $AppToRamDisk
+        [AppName[]] $AppToRamDisk,
+
+        [Parameter(Mandatory, ParameterSetName = 'Remove')]
+        [switch] $Remove
     )
 
     process
     {
-        $RamDiskPath = Get-DrivePath -Name $RamDiskName | Select-Object -First 1
-        $RamDiskUserProfilePath = "$RamDiskPath\$((Get-LoggedOnUserInfo).UserName)"
+        if ($PSCmdlet.ParameterSetName -eq 'Remove' -and -not $Remove)
+        {
+            return
+        }
+
+        $RamDiskPath = $Remove ? $null : (Get-DrivePath -Name $RamDiskName | Select-Object -First 1)
+        $RamDiskUserProfilePath = "$RamDiskPath\$((Get-LoggedOnUserInfo)['UserName'])"
         $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $AppToRamDisk
         $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
+
+        if ($IsBraveAppToRamDisk = $AppToRamDisk.Contains([AppName]::Brave))
+        {
+            $BraveExceptionFolders = $DataToSymlink['BraveException']['Data']['Directory']
+        }
 
         if ($RamDiskPath)
         {
             if (-not (Test-Path -Path $RamDiskUserProfilePath))
             {
-                if ($AppToRamDisk.Contains([AppName]::Brave))
+                if ($IsBraveAppToRamDisk)
                 {
                     # Copy the items if not a symlink and not in persistent folder.
                     # i.e. Save installed extensions if used on existing installation.
-                    Copy-BraveDataForSymlink -Name $DataToSymlink.BraveException.Data.Directory -Action 'Backup'
+                    Copy-BraveDataForSymlink -Name $BraveExceptionFolders -Action 'Backup'
                 }
 
                 New-RamDiskUserProfile -Path $RamDiskUserProfilePath
@@ -53,11 +71,14 @@ function Set-DataToRamDisk
         {
             # Brave/VSCode will fail to launch if the RamDisk creation failed.
             Remove-SymbolicLink -Path $SymbolicLinksPair.Path
-            Copy-BraveDataForSymlink -Name $DataToSymlink.BraveException.Data.Directory -Action 'Restore'
+            if ($IsBraveAppToRamDisk)
+            {
+                Copy-BraveDataForSymlink -Name $BraveExceptionFolders -Action 'Restore'
+            }
 
         }
 
-        if ($AppToRamDisk.Contains([AppName]::Brave))
+        if ($IsBraveAppToRamDisk)
         {
             Copy-BravePersistentData -Action 'Restore'
         }

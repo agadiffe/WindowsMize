@@ -40,7 +40,7 @@ function New-ScriptBackupBravePersistentData
 
     process
     {
-        Write-Verbose -Message 'Setting ''Backup Brave Persistent Data'' Script ...'
+        Write-Verbose -Message 'Setting ''RamDisk - Backup Brave Persistent Data'' Script ...'
 
         New-ParentPath -Path $FilePath
         Write-ScriptBackupBravePersistentData | Out-File -FilePath $FilePath

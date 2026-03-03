@@ -7,7 +7,7 @@
     Write-ScriptRamDiskSetData
         [-RamDiskName] <string>
         [-RamDiskTaskName] <string>
-        [-AppToRamDisk] {Brave | VSCode}
+        [-AppToRamDisk] {Brave | BraveCache | VSCode}
         [<CommonParameters>]
 #>
 
@@ -44,6 +44,7 @@ function Write-ScriptRamDiskSetData
             'Get-BraveBrowserPathInfo'
             'Get-ProfilePathCombinations'
             'Get-BraveDataException'
+            'Get-BraveCacheFoldersToSymlink'
             'Get-BraveDataToSymlink'
             'Get-VSCodeDataToSymlink'
             'Get-DataToSymlink'
@@ -61,7 +62,7 @@ function Write-ScriptRamDiskSetData
         $RamDiskSetDataScriptContent += $FunctionsToWrite | Write-Function
 
         $RamDiskSetDataScriptContent += "
-            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
+            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo)['UserName'])'
 
             while ((Get-ScheduledTask -TaskPath '\' -TaskName '$RamDiskTaskName').State -eq 'Running')
             {

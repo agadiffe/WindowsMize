@@ -29,7 +29,7 @@ function Write-ScriptBackupBravePersistentData
 
         $RamDiskLogoffScriptContent = $FunctionsToWrite | Write-Function
         $RamDiskLogoffScriptContent += "
-            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
+            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo)['UserName'])'
 
             Copy-BravePersistentData -Action 'Backup'
         " -replace '(?m)^ *'

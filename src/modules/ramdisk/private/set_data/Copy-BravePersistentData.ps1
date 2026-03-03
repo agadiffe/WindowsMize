@@ -30,9 +30,9 @@ function Copy-BravePersistentData
         $BraveBrowserPathInfo = Get-BraveBrowserPathInfo
 
         $BravePersistentData = @{
-            Name        = (Get-BraveDataException).Persistent
-            Path        = $BraveBrowserPathInfo.$Path
-            Destination = $BraveBrowserPathInfo.$Destination
+            Name        = (Get-BraveDataException)['Persistent']
+            Path        = $BraveBrowserPathInfo[$Path]
+            Destination = $BraveBrowserPathInfo[$Destination]
         }
         Copy-Data @BravePersistentData
     }

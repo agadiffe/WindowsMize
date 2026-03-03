@@ -27,13 +27,13 @@ function New-SymbolicLinksPair
     {
         $SymbolicLinksPair = foreach ($Value in $Data.Values)
         {
-            foreach ($Key in $Value.Data.Keys)
+            foreach ($Key in $Value['Data'].Keys)
             {
-                foreach ($Name in $Value.Data[$Key])
+                foreach ($Name in $Value['Data'][$Key])
                 {
                     [PSCustomObject]@{
-                        Path       = "$($Value.LinkPath)\$Name"
-                        Target     = "$($Value.TargetPath)\$Name"
+                        Path       = "$($Value['LinkPath'])\$Name"
+                        Target     = "$($Value['TargetPath'])\$Name"
                         TargetType = $Key
                     }
                 }
