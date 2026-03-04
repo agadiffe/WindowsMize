@@ -74,42 +74,18 @@ function Set-AdobeSynchronizer
                 Wait-Process -Name $ProcessNames -ErrorAction 'SilentlyContinue'
                 Start-Sleep -Seconds 0.3
 
-                switch ($TaskManagerProcess)
-                {
-                    'Disabled'
+                $Sid = 'S-1-1-0' # 'EVERYONE' group
+                $AdobeSynchronizerFilePath, $AdobeFullTrustNotifierFilePath | ForEach-Object -Process {
+                    if (Test-Path -Path $_)
                     {
-                        $AdobeSynchronizerFilePath, $AdobeFullTrustNotifierFilePath |
-                            ForEach-Object -Process {
-                                if (Test-Path $_)
-                                {
-                                    Write-Verbose -Message "    Rename '$_' to '$_.bak'"
-                                    Move-Item -Force -Path $_ -Destination "$_.bak"
-                                }
-                                else
-                                {
-                                    Write-Verbose -Message "    Already disabled: '$_' not found"
-                                }
-                            }
-                    }
-                    'Enabled'
-                    {
-                        $AdobeSynchronizerFilePath, $AdobeFullTrustNotifierFilePath |
-                            ForEach-Object -Process {
-                                if (Test-Path $_)
-                                {
-                                    Write-Verbose -Message "    Already enabled: '$_' found"
-                                }
-                                elseif (Test-Path "$_.bak")
-                                {
-                                    Write-Verbose -Message "    Rename '$_.bak' to '$_'"
-                                    Move-Item -Path "$_.bak" -Destination $_
-                                }
-                                else
-                                {
-                                    Write-Error -Message ("    Error occured: '$_' and its backup file not found.`n" +
-                                        "                 Repair or reinstall Adobe Acrobat.")
-                                }
-                            }
+                        if ($TaskManagerProcess -eq 'Enabled')
+                        {
+                            Set-FileSystemAccessRule -Path $_ -Sid $Sid -RemoveAll
+                        }
+                        else
+                        {
+                            Set-FileSystemAccessRule -Path $_ -Sid $Sid -Permission 'Deny' -Access 'ExecuteFile'
+                        }
                     }
                 }
             }

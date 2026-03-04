@@ -2,6 +2,8 @@
 #                               Helper Function - Set FileSystem Admins FullControl
 #=================================================================================================================
 
+# https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemrights
+
 <#
 .SYNTAX
     Set-FileSystemAccessRule
@@ -46,7 +48,7 @@ function Set-FileSystemAccessRule
         [string] $Permission,
 
         [Parameter(Mandatory, ParameterSetName = 'AllowDeny')]
-        [ValidateSet('FullControl', 'Modify', 'ReadAndExecute', 'Read', 'Write')]
+        [ValidateSet('FullControl', 'Modify', 'ReadAndExecute', 'Read', 'Write', 'ExecuteFile')]
         [string[]] $Access,
         
         [Parameter(Mandatory, ParameterSetName = 'RemoveAll')]

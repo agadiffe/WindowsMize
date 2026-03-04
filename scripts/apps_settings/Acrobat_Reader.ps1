@@ -230,10 +230,7 @@ Set-AdobeAcrobatReaderSetting -TelemetryGPO 'Disabled'
 Set-AdobeAcrobatReaderSetting -SynchronizerRunAtStartup 'Disabled'
 
 # --- Synchronizer: Task Manager Process (default: Enabled)
-# Disabled:
-#   Add a ".bak" extension to "AdobeCollabSync.exe" and "FullTrustNotifier.exe" files.
-#   Need to be reapplied after each update (or create a scheduled task).
-#Set-AdobeAcrobatReaderSetting -SynchronizerTaskManagerProcess 'Disabled'
+Set-AdobeAcrobatReaderSetting -SynchronizerTaskManagerProcess 'Disabled'
 
 # --- Remove tool from the Tools tab
 # RemoveToolFromToolsTab: list of tools to remove.

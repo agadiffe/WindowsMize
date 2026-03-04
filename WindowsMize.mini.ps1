@@ -327,7 +327,7 @@ $AdobeReaderSettings = @{
     TelemetryGPO           = 'Disabled'
 
     SynchronizerRunAtStartup       = 'Disabled'
-    #SynchronizerTaskManagerProcess = 'Disabled'
+    SynchronizerTaskManagerProcess = 'Disabled'
 }
 Set-AdobeAcrobatReaderSetting @AdobeReaderSettings
 
