@@ -89,14 +89,14 @@ function Set-VisualEffectsCustomSetting
             {
                 $VisualEffectsCustomSettingByteBitFlag.Add([PSCustomObject]@{
                     Name  = $_
-                    State = $Setting.$_
+                    State = $Setting[$_]
                 }) | Out-Null
             }
             { [VisualEffectsCustomSetting]::VisualEffects.RegEntry -contains $_ }
             {
                 $VisualEffectsCustomSettingRegEntry.Add([PSCustomObject]@{
                     Name  = $_
-                    State = $Setting.$_
+                    State = $Setting[$_]
                 }) | Out-Null
             }
         }

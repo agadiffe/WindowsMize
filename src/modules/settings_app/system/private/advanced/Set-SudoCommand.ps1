@@ -36,7 +36,7 @@ function Set-SudoCommand
 
         Write-Verbose -Message "Setting 'System Advanced - Sudo Command' to '$Value' ..."
 
-        if (-not (Get-Command 'sudo' -ErrorAction 'SilentlyContinue'))
+        if (-not (Get-Command 'sudo.exe' -ErrorAction 'SilentlyContinue'))
         {
             Write-Verbose "  the 'sudo' command is not available on this system"
         }

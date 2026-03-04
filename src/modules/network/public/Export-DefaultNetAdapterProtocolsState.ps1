@@ -29,7 +29,7 @@ function Export-DefaultNetAdapterProtocolsState
                         Sort-Object -Property 'DisplayName' |
                         ForEach-Object -Process {
                             $ProtocolState = $_.Enabled ? 'Enabled' : 'Disabled'
-                            $ProtocolsDictionary.$($_.DisplayName) = $ProtocolState
+                            $ProtocolsDictionary[$_.DisplayName] = $ProtocolState
                         }
 
                     [ordered]@{

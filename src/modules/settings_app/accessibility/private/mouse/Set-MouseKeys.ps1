@@ -38,8 +38,8 @@ function Set-MouseKeys
                 }
             )
         }
-        $SettingRegPath = $MouseKeysFlags.Path
-        $SettingRegEntry = $MouseKeysFlags.Entries[0].Name
+        $SettingRegPath = $MouseKeysFlags['Path']
+        $SettingRegEntry = $MouseKeysFlags['Entries'][0]['Name']
         $MouseKeysMsg = 'Mouse Keys'
 
         switch ($PSBoundParameters.Keys)
@@ -52,7 +52,7 @@ function Set-MouseKeys
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $MKF_MOUSEKEYSON -State ($State -eq 'Enabled')
 
-                $MouseKeysFlags.Entries[0].Value = $NewFlags
+                $MouseKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$MouseKeysMsg' to '$State' ..."
                 Set-RegistryEntry -InputObject $MouseKeysFlags
@@ -65,7 +65,7 @@ function Set-MouseKeys
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $MKF_HOTKEYACTIVE -State ($KeyboardShorcut -eq 'Enabled')
 
-                $MouseKeysFlags.Entries[0].Value = $NewFlags
+                $MouseKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$MouseKeysMsg - Keyboard Shorcut' to '$KeyboardShorcut' ..."
                 Set-RegistryEntry -InputObject $MouseKeysFlags

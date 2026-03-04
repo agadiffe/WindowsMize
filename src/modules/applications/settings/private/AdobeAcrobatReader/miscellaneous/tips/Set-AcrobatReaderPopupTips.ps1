@@ -56,13 +56,13 @@ function Set-AcrobatReaderPopupTips
                 Path    = 'SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown'
                 Entries = @(
                     @{
-                        RemoveEntry = $GPO -eq 'NotConfigured'
+                        RemoveEntry = $IsNotConfigured
                         Name  = 'bEnableContextualTips'
                         Value = '0'
                         Type  = 'DWord'
                     }
                     @{
-                        RemoveEntry = $GPO -eq 'NotConfigured'
+                        RemoveEntry = $IsNotConfigured
                         Name  = 'bEnableReviewPromote'
                         Value = '0'
                         Type  = 'DWord'

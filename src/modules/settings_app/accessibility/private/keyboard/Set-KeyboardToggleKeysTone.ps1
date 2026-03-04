@@ -38,8 +38,8 @@ function Set-KeyboardToggleKeysTone
                 }
             )
         }
-        $SettingRegPath = $ToggleKeysFlags.Path
-        $SettingRegEntry = $ToggleKeysFlags.Entries[0].Name
+        $SettingRegPath = $ToggleKeysFlags['Path']
+        $SettingRegEntry = $ToggleKeysFlags['Entries'][0]['Name']
         $ToggleKeysMsg = 'Keyboard Toggle Keys Tone'
 
         switch ($PSBoundParameters.Keys)
@@ -52,7 +52,7 @@ function Set-KeyboardToggleKeysTone
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $TKF_TOGGLEKEYSON -State ($State -eq 'Enabled')
 
-                $ToggleKeysFlags.Entries[0].Value = $NewFlags
+                $ToggleKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$ToggleKeysMsg' to '$State' ..."
                 Set-RegistryEntry -InputObject $ToggleKeysFlags
@@ -65,7 +65,7 @@ function Set-KeyboardToggleKeysTone
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $TKF_HOTKEYACTIVE -State ($KeyboardShorcut -eq 'Enabled')
 
-                $ToggleKeysFlags.Entries[0].Value = $NewFlags
+                $ToggleKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$ToggleKeysMsg - Keyboard Shorcut' to '$KeyboardShorcut' ..."
                 Set-RegistryEntry -InputObject $ToggleKeysFlags

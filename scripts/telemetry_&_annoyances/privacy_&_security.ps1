@@ -63,14 +63,14 @@ Set-WinPermissionsSetting -LanguageListAccess 'Disabled'
 # --- Improve Start and search results (default: Enabled)
 Set-WinPermissionsSetting -TrackAppLaunches 'Disabled' -TrackAppLaunchesGPO 'NotConfigured'
 
+# --- Show notifications in Settings (default: Enabled)
+Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
+
 # --- Recommendations and offers in Settings (default: Enabled)
 Set-WinPermissionsSetting -ShowAdsInSettingsApp 'Disabled' -ShowAdsInSettingsAppGPO 'NotConfigured'
 
 # --- Advertising ID (default: Enabled)
 Set-WinPermissionsSetting -AdvertisingID 'Disabled' -AdvertisingIDGPO 'NotConfigured'
-
-# --- Notifications in Settings (default: Enabled) | old
-Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
 
 # --- Activity history (default: Enabled) | old
 #   Store my activity history on this device
@@ -313,12 +313,13 @@ Set-AppPermissionsSetting -PasskeysAutofill 'Disabled'
 
 Write-Section -Name 'Background permissions' -SubSection
 
-# --- Background apps (global) (default: Enabled)
+# --- Background app permissions (global) (default: Enabled)
+# Not recommended. Prefer per-app settings.
 # Applies only to MsStore/UWP apps (e.g. MS Teams, Outlook, ICloud, Photos, etc ...).
 # Needed by Windows Spotlight (and other UWP apps).
 #Set-AppPermissionsSetting -BackgroundApps 'Disabled' -BackgroundAppsGPO 'NotConfigured'
 
-# --- Background apps (per-app)
+# --- Background app permissions (per-app)
 # State: Always | Optimized (default) | Never
 $BackgroundAppPerm = @{
     BingSearch       = 'Never'

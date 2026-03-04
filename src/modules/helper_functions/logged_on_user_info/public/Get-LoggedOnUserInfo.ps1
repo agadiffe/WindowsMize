@@ -58,7 +58,7 @@ function Get-LoggedOnUserInfo
             }
         }
 
-        Invoke-RegLoadUserHive -Sid $UserInfo.Sid
+        Invoke-RegLoadUserHive -Sid $UserInfo['Sid']
         $UserInfo
     }
 }

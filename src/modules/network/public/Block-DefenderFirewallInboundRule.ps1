@@ -41,12 +41,12 @@ function Block-DefenderFirewallInboundRule
     {
         foreach ($Item in $Name)
         {
-            $ItemData = $NetFirewallRules.$Item
-            Remove-NetFirewallRule -Group $ItemData.Group -ErrorAction 'SilentlyContinue'
+            $ItemData = $NetFirewallRules[$Item]
+            Remove-NetFirewallRule -Group $ItemData['Group'] -ErrorAction 'SilentlyContinue'
 
             if (-not $Reset)
             {
-                $RulesDisplayName = $ItemData.Rules.DisplayName -join "`n             "
+                $RulesDisplayName = $ItemData['Rules'].DisplayName -join "`n             "
 
                 Write-Verbose -Message 'Adding Firewall rules:'
                 Write-Verbose -Message "    $RulesDisplayName"
@@ -54,9 +54,9 @@ function Block-DefenderFirewallInboundRule
                 $RuleProperties = @{
                     Action    = 'Block'
                     Direction = 'Inbound'
-                    Group     = $ItemData.Group
+                    Group     = $ItemData['Group']
                 }
-                foreach ($Rule in $ItemData.Rules)
+                foreach ($Rule in $ItemData['Rules'])
                 {
                     New-NetFirewallRule @RuleProperties @Rule | Out-Null
                 }

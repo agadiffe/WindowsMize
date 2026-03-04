@@ -14,7 +14,7 @@ function Get-LoggedOnUserEnvVariable
 
     process
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $UserSid = (Get-LoggedOnUserInfo)['Sid']
         $LoggedUserEnvRegPath = "Registry::HKEY_USERS\$UserSid\Volatile Environment"
         $EnvVariable = Get-ItemProperty -Path $LoggedUserEnvRegPath | Select-Object -Property '*' -Exclude 'PS*'
         $EnvVariable

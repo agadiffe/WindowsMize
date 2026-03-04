@@ -38,8 +38,8 @@ function Set-DefenderSmartAppControl
             )
         }
 
-        $SACRegPath = "Registry::$($DefenderSmartAppControl.Hive)\$($DefenderSmartAppControl.Path)"
-        $SACCurrentStatus = (Get-ItemProperty -Path $SACRegPath).$($DefenderSmartAppControl.Entries[0].Name)
+        $SACRegPath = "Registry::$($DefenderSmartAppControl['Hive'])\$($DefenderSmartAppControl['Path'])"
+        $SACCurrentStatus = (Get-ItemProperty -Path $SACRegPath).$($DefenderSmartAppControl['Entries'][0]['Name'])
 
         Write-Verbose -Message "Setting 'Defender - Smart App Control' to '$State' ..."
 

@@ -76,7 +76,7 @@ function Set-RegistryEntry
 
     begin
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $UserSid = (Get-LoggedOnUserInfo)['Sid']
     }
 
     process
@@ -126,7 +126,7 @@ function Set-RegistryEntry
                     }
                     if ($Entry.Type -eq 'Binary')
                     {
-                        $RegistryEntryData.Value = $Entry.Value -eq '' ? $null : $Entry.Value -split '\s+'
+                        $RegistryEntryData['Value'] = $Entry.Value -eq '' ? $null : $Entry.Value -split '\s+'
                     }
                     Write-Verbose -Message "      set: '$($Entry.Name)' to '$($Entry.Value)' ($($Entry.Type))"
                     Set-ItemProperty @RegistryEntryData | Out-Null
@@ -178,7 +178,7 @@ function Set-RegistryEntrySystemProtected
 
         # Get-LoggedOnUserInfo fails if executed as SYSTEM. Use $Global:ProvidedUserName as workaround.
         $Command = "
-            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo).UserName)'
+            `$Global:ProvidedUserName = '$((Get-LoggedOnUserInfo)['UserName'])'
             Import-Module -Name '$(Split-Path -Path $PSScriptRoot)'
             `$InputRegistryData = Get-Content -Raw -Path '$TempJsonFilePath' | ConvertFrom-Json -AsHashtable
             `$InputRegistryData | Set-RegistryEntry 4> '$VerboseLogPath' 2> '$ErrorLogPath'

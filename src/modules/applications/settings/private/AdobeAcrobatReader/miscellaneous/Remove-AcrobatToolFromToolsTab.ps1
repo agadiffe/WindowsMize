@@ -97,7 +97,7 @@ function Remove-AcrobatToolFromToolsTab
             $Index = 0
             $RemovedTools = foreach ($Tool in $Name)
             {
-                foreach ($Id in $AdobeAcrobatAppID.$Tool)
+                foreach ($Id in $AdobeAcrobatAppID[$Tool])
                 {
                     @{
                         Name  = "a$Index"

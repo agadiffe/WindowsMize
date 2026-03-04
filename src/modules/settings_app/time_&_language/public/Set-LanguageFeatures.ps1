@@ -35,8 +35,8 @@ function Set-LanguageFeatures
             'Language.Basic'
             'Language.Handwriting'
             'Language.OCR'
-            'Language.Speech'
             'Language.TextToSpeech'
+            'Language.Speech'
         )
 
         $LanguageFeatures = [System.Collections.ArrayList]::new()

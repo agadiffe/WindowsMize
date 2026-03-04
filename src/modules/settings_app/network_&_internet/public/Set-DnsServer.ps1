@@ -88,7 +88,7 @@ function Set-DnsServer
                 Type       = [string]
                 Attribute  = @{
                     Parameter = @{ Mandatory = $true; ParameterSetName = 'Setting' }
-                    ValidateSet = $DnsProvidersList.$Provider.Keys
+                    ValidateSet = $DnsProvidersList[$Provider].Keys
                 }
             }
             Add-DynamicParameter @DynamicParamProperties
@@ -105,10 +105,10 @@ function Set-DnsServer
             $RegDohIPv4 = 'DohInterfaceSettings\Doh'
             $RegDohIPv6 = 'DohInterfaceSettings\Doh6'
 
-            $Server = $PSBoundParameters.Server
-            $DohTpl = $DnsProvidersList.$Provider.$Server.Doh
-            $IPv4 = $DnsProvidersList.$Provider.$Server.IPv4
-            $IPv6 = $DnsProvidersList.$Provider.$Server.IPv6
+            $Server = $PSBoundParameters['Server']
+            $DohTpl = $DnsProvidersList[$Provider][$Server]['Doh']
+            $IPv4 = $DnsProvidersList[$Provider][$Server]['IPv4']
+            $IPv6 = $DnsProvidersList[$Provider][$Server]['IPv6']
         }
 
         $NetAdapters = Get-NetAdapter -Physical | Where-Object -Property 'Status' -NE -Value 'Disabled'

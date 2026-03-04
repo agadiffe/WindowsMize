@@ -27,6 +27,8 @@ function Set-AcrobatReaderAcceptEULA
 
     process
     {
+        $IsNotConfigured = $GPO -eq 'NotConfigured'
+
         # gpo\ AdobeViewer (PDF Viewer Settings) > EULA acceptance
         #   for Reader, indicates whether the EULA has been accepted
         #   for Acrobat's browser plugin, caches whether the browser-based EULA has been accepted
@@ -36,13 +38,13 @@ function Set-AcrobatReaderAcceptEULA
             Path    = 'Software\Adobe\Adobe Acrobat\DC\AdobeViewer'
             Entries = @(
                 @{
-                    RemoveEntry = $GPO -eq 'NotConfigured'
+                    RemoveEntry = $IsNotConfigured
                     Name  = 'EULA'
                     Value = '1'
                     Type  = 'DWord'
                 }
                 @{
-                    RemoveEntry = $GPO -eq 'NotConfigured'
+                    RemoveEntry = $IsNotConfigured
                     Name  = 'EULAAcceptedForBrowser'
                     Value = '1'
                     Type  = 'DWord'

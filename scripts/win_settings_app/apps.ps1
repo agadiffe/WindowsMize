@@ -73,10 +73,10 @@ Set-AppActionsSetting @AppActionsSettings
 
 Write-Section -Name 'Offline maps' -SubSection
 
-# --- Metered connection (default: Disabled) | old
+# --- Metered connection (default: Disabled)
 Set-OfflineMapsSetting -DownloadOverMeteredConnection 'Disabled'
 
-# --- Maps update (default: Enabled) | old
+# --- Maps update (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-OfflineMapsSetting -AutoUpdateOnACAndWifi 'Disabled' -AutoUpdateOnACAndWifiGPO 'NotConfigured'
 

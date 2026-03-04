@@ -32,17 +32,17 @@ function Remove-MicrosoftEdge
         # Enable edge uninstallation in 'IntegratedServicesRegionPolicySet.json'.
         # The 'guid' correspond to 'Edge is uninstallable'.
         $IsRegionPolicyFileChanged = $false
-        $RegionPolicy.policies |
+        $RegionPolicy['policies'] |
             Where-Object -Property 'guid' -EQ -Value '{1bca278a-5d11-4acf-ad2f-f9ab6d7f93a6}' |
             ForEach-Object -Process {
-                if ($_.defaultState -eq 'disabled')
+                if ($_['defaultState'] -eq 'disabled')
                 {
-                    $_.defaultState = 'enabled'
+                    $_['defaultState'] = 'enabled'
                     $IsRegionPolicyFileChanged = $true
                 }
-                if ($_.conditions.region.enabled -notcontains $UserRegion)
+                if ($_['conditions']['region']['enabled'] -notcontains $UserRegion)
                 {
-                    $_.conditions.region.enabled += $UserRegion
+                    $_['conditions']['region']['enabled'] += $UserRegion
                     $IsRegionPolicyFileChanged = $true
                 }
             }
@@ -76,7 +76,7 @@ function Remove-MicrosoftEdge
         Start-Sleep -Seconds 0.3
 
         Write-Verbose -Message 'Removing Microsoft Edge ...'
-        $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall".Replace('"', '\"')
+        $EdgeUninstallCmd = "& $($MicrosoftEdgeInfo.UninstallString) --force-uninstall --delete-profile".Replace('"', '\"')
         Start-Process -Wait -NoNewWindow -FilePath 'powershell.exe' -ArgumentList "-Command Invoke-Expression '$EdgeUninstallCmd'"
 
         if ($IsRegionPolicyFileChanged)

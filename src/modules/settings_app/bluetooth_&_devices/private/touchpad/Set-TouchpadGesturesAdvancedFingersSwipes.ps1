@@ -58,13 +58,13 @@ function Set-TouchpadGesturesAdvancedFingersSwipes
                 Entries = @(
                     @{
                         Name  = "$FingerMode$Key"
-                        Value = [int]$PSBoundParameters.$Key
+                        Value = [int]$PSBoundParameters[$Key]
                         Type  = 'DWord'
                     }
                 )
             }
 
-            Write-Verbose -Message "Setting 'Touchpad - $FingerMode Gestures Swipes: $Key' to '$($PSBoundParameters.$Key)' ..."
+            Write-Verbose -Message "Setting 'Touchpad - $FingerMode Gestures Swipes: $Key' to '$($PSBoundParameters[$Key])' ..."
             Set-RegistryEntry -InputObject $TouchpadThreeFingersSwipesCustom
         }
     }

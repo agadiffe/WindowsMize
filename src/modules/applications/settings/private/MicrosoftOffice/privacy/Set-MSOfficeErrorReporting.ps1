@@ -25,6 +25,8 @@ function Set-MSOfficeErrorReporting
 
     process
     {
+        $IsNotConfigured = $GPO -eq 'NotConfigured'
+
         # gpo\ user config > administrative tpl > microsoft office > improve error reporting
         #   stop reporting error messages
         # not configured: delete (default) | on: 1
@@ -38,7 +40,7 @@ function Set-MSOfficeErrorReporting
                 Path    = 'Software\Policies\Microsoft\Office\16.0\Common\Alerts'
                 Entries = @(
                     @{
-                        RemoveEntry = $GPO -eq 'NotConfigured'
+                        RemoveEntry = $IsNotConfigured
                         Name  = 'NoAlertReporting'
                         Value = '1'
                         Type  = 'DWord'
@@ -50,7 +52,7 @@ function Set-MSOfficeErrorReporting
                 Path    = 'Software\Policies\Microsoft\Office\16.0\Common\ShipAsserts'
                 Entries = @(
                     @{
-                        RemoveEntry = $GPO -eq 'NotConfigured'
+                        RemoveEntry = $IsNotConfigured
                         Name  = 'DisableShipAsserts'
                         Value = '1'
                         Type  = 'DWord'

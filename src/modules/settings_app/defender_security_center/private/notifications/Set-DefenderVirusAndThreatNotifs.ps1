@@ -42,16 +42,16 @@ function Set-DefenderVirusAndThreatNotifs
     {
         if ($PSCmdlet.ParameterSetName -eq 'All')
         {
-            $PSBoundParameters.RecentActivityAndScanResults = $AllNotifs
-            $PSBoundParameters.ThreatsFoundNoActionNeeded = $AllNotifs
-            $PSBoundParameters.FilesOrActivitiesBlocked = $AllNotifs
+            $PSBoundParameters['RecentActivityAndScanResults'] = $AllNotifs
+            $PSBoundParameters['ThreatsFoundNoActionNeeded'] = $AllNotifs
+            $PSBoundParameters['FilesOrActivitiesBlocked'] = $AllNotifs
         }
 
         switch ($PSBoundParameters.Keys)
         {
-            'RecentActivityAndScanResults' { Set-DefenderNotifsRecentActivityAndScanResults -State $PSBoundParameters.RecentActivityAndScanResults }
-            'ThreatsFoundNoActionNeeded'   { Set-DefenderNotifsThreatsFoundNoActionNeeded -State $PSBoundParameters.ThreatsFoundNoActionNeeded }
-            'FilesOrActivitiesBlocked'     { Set-DefenderNotifsFilesOrActivitiesBlocked -State $PSBoundParameters.FilesOrActivitiesBlocked }
+            'RecentActivityAndScanResults' { Set-DefenderNotifsRecentActivityAndScanResults -State $PSBoundParameters['RecentActivityAndScanResults'] }
+            'ThreatsFoundNoActionNeeded'   { Set-DefenderNotifsThreatsFoundNoActionNeeded -State $PSBoundParameters['ThreatsFoundNoActionNeeded'] }
+            'FilesOrActivitiesBlocked'     { Set-DefenderNotifsFilesOrActivitiesBlocked -State $PSBoundParameters['FilesOrActivitiesBlocked'] }
         }
 
         # on: 0 (default) | off: 1

@@ -117,12 +117,12 @@ function Set-ServiceStartupType
                 Write-Verbose -Message "    cannot be changed with 'Set-Service': using registry editing ..."
 
                 $ServiceProperties = @{
-                    Hive    = $ServiceTemplate.Hive
-                    Path    = "$($ServiceTemplate.Path)\$Name"
-                    Entries = $ServiceTemplate.Entries
+                    Hive    = $ServiceTemplate['Hive']
+                    Path    = "$($ServiceTemplate['Path'])\$Name"
+                    Entries = $ServiceTemplate['Entries']
                 }
-                $ServiceProperties.Entries[0].Value = $RegistryStartValue.$StartupType
-                $ServiceProperties.Entries[1].Value = $StartupType -eq 'AutomaticDelayedStart' ? 1 : 0
+                $ServiceProperties['Entries'][0]['Value'] = $RegistryStartValue[$StartupType]
+                $ServiceProperties['Entries'][1]['Value'] = $StartupType -eq 'AutomaticDelayedStart' ? 1 : 0
                 Set-RegistryEntry -InputObject $ServiceProperties -Verbose:$false
             }
         }

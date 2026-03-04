@@ -61,8 +61,8 @@ function Set-PowerMode
 
         switch ($PowerSource)
         {
-            'PluggedIn' { $PowerMode.Entries.RemoveAt(1) }
-            'OnBattery' { $PowerMode.Entries.RemoveAt(0) }
+            'PluggedIn' { $PowerMode['Entries'].RemoveAt(1) }
+            'OnBattery' { $PowerMode['Entries'].RemoveAt(0) }
         }
 
         $PowerSourceMsg = $PSBoundParameters.ContainsKey('PowerSource') ? "$PowerSource" : 'PluggedIn & OnBattery'

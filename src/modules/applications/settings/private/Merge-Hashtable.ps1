@@ -27,22 +27,22 @@ function Merge-Hashtable
             }' | ConvertFrom-Json -AsHashtable
         PS> Merge-Hashtable -Hashtable $foo -Data $bar
         PS> $foo | ConvertTo-Json
-        {
-          "data": {
-            "name": "answer",
-            "value": 42
-          }
-        }
+            {
+                "data": {
+                  "name": "answer",
+                  "value": 42
+                }
+            }
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [hashtable] $Hashtable,
+        [System.Collections.IDictionary] $Hashtable,
 
         [Parameter(Mandatory)]
-        [hashtable] $Data,
+        [System.Collections.IDictionary] $Data,
 
         [switch] $OverrideValue
     )
@@ -51,13 +51,13 @@ function Merge-Hashtable
     {
         foreach ($Key in $Data.Keys)
         {
-            if ($Hashtable.$Key -is [hashtable] -and $Data.$Key -is [hashtable])
+            if ($Hashtable[$Key] -is [System.Collections.IDictionary] -and $Data[$Key] -is [System.Collections.IDictionary])
             {
-                Merge-Hashtable -Hashtable $Hashtable.$Key -Data $Data.$Key -OverrideValue:$OverrideValue
+                Merge-Hashtable -Hashtable $Hashtable[$Key] -Data $Data[$Key] -OverrideValue:$OverrideValue
             }
             else
             {
-                $Hashtable.$Key = $OverrideValue ? $Data.$Key : $Hashtable.$Key + $Data.$Key
+                $Hashtable[$Key] = $OverrideValue ? $Data[$Key] : $Hashtable[$Key] + $Data[$Key]
             }
         }
     }

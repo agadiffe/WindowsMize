@@ -94,8 +94,8 @@ function Set-PagingFileSize
     {
         if ($State -eq 'CustomSize')
         {
-            $InitialSize = $PSBoundParameters.InitialSize
-            $MaximumSize = $PSBoundParameters.MaximumSize
+            $InitialSize = $PSBoundParameters['InitialSize']
+            $MaximumSize = $PSBoundParameters['MaximumSize']
 
             # [ValidateScript({ $_ -ge $InitialSize })] does not work if $InitialSize is defined after $MaximumSize
             if ($MaximumSize -lt $InitialSize)

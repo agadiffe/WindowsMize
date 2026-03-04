@@ -68,11 +68,11 @@ function Set-SigninRequiredIfAway
 
         if (Test-ModernStandbyAvailability)
         {
-            $DynamicParamProperties.Type = [SigninRequiredS0]
+            $DynamicParamProperties['Type'] = [SigninRequiredS0]
         }
         else
         {
-            $DynamicParamProperties.Type = [SigninRequiredS3]
+            $DynamicParamProperties['Type'] = [SigninRequiredS3]
         }
 
         Add-DynamicParameter @DynamicParamProperties
@@ -82,7 +82,7 @@ function Set-SigninRequiredIfAway
     process
     {
         $SigninRequiredIfAwayMsg = 'Sign-In Options - When Should Windows Require You To Sign In Again'
-        $Value = $PSBoundParameters.Value
+        $Value = $PSBoundParameters['Value']
 
         if (Test-ModernStandbyAvailability)
         {

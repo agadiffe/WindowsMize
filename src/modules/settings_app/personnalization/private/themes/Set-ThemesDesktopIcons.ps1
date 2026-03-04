@@ -65,13 +65,13 @@ function Set-ThemesDesktopIcons
         foreach ($Key in $DesktopIconGuid.Keys)
         {
             $DesktopIcon = @{
-                Name  = $DesktopIconGuid.$Key
+                Name  = $DesktopIconGuid[$Key]
                 Value = $Value -contains $Key ? '0' : '1'
                 Type  = 'DWord'
             }
-            $ThemesDesktopIcons[0].Entries.Add($DesktopIcon) | Out-Null
+            $ThemesDesktopIcons[0]['Entries'].Add($DesktopIcon) | Out-Null
         }
-        $ThemesDesktopIcons[1].Entries = $ThemesDesktopIcons[0].Entries
+        $ThemesDesktopIcons[1]['Entries'] = $ThemesDesktopIcons[0]['Entries']
 
         $DesktopIconsShown = $Value ? ($Value | Join-String -Separator ', ') : 'HideAll'
 

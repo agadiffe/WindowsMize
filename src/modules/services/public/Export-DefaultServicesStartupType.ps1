@@ -27,14 +27,14 @@ function Export-DefaultServicesStartupType
 
         foreach ($Key in $Services.Keys)
         {
-            if (-not (Test-Path -Path $Services.$Key.LogFilePath))
+            if (-not (Test-Path -Path $Services[$Key]['LogFilePath']))
             {
                 Write-Verbose -Message "Exporting Default Services StartupType ($Key) ..."
 
-                New-ParentPath -Path $Services.$Key.LogFilePath
+                New-ParentPath -Path $Services[$Key]['LogFilePath']
 
                 $CurrentLUID = (Get-Service -Name 'WpnUserService_*').Name.Replace('WpnUserService', '')
-                ((Invoke-Expression -Command $Services.$Key.GetData) |
+                ((Invoke-Expression -Command $Services[$Key]['GetData']) |
                     ForEach-Object -Process {
                         $NewProperty = @{
                             InputObject       = $_
@@ -46,7 +46,7 @@ function Export-DefaultServicesStartupType
                     Sort-Object -Property 'DisplayName' |
                     Select-Object -Property 'DisplayName', 'ServiceName', 'StartupType', 'DefaultType' |
                     ConvertTo-Json -EnumsAsStrings).Replace($CurrentLUID, '') |
-                    Out-File -FilePath $Services.$Key.LogFilePath
+                    Out-File -FilePath $Services[$Key]['LogFilePath']
             }
         }
     }

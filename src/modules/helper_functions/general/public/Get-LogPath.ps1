@@ -23,7 +23,7 @@ function Get-LogPath
         $LogPath = $LogPath.ToString() + '\log'
         if ($User)
         {
-            $LogPath += "\$((Get-LoggedOnUserInfo).UserName)"
+            $LogPath += "\$((Get-LoggedOnUserInfo)['UserName'])"
         }
         $LogPath
     }

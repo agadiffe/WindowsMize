@@ -16,7 +16,7 @@ function Get-LoggedOnUserShellFolder
 
     process
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $UserSid = (Get-LoggedOnUserInfo)['Sid']
         $ShellFoldersRegPath = "HKEY_USERS\$UserSid\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
         $ShellFoldersRegData = Get-Item -Path "Registry::$ShellFoldersRegPath"
         $ShellFoldersValueNames = $ShellFoldersRegData.Property
@@ -25,14 +25,14 @@ function Get-LoggedOnUserShellFolder
         $ShellFolders = @{}
         foreach ($ValueName in $ShellFoldersValueNames)
         {
-            $ShellFolders.$ValueName = $ShellFoldersRegData.
+            $ShellFolders[$ValueName] = $ShellFoldersRegData.
                 GetValue($ValueName, $null, 'DoNotExpandEnvironmentNames').
                 Replace('%USERPROFILE%', $UserProfilePath)
         }
 
         if (-not $ShellFolders.ContainsKey('Downloads'))
         {
-            $ShellFolders.Downloads = $ShellFolders.'{374de290-123f-4565-9164-39c4925e467b}'
+            $ShellFolders['Downloads'] = $ShellFolders['{374de290-123f-4565-9164-39c4925e467b}']
         }
 
         $ShellFolders

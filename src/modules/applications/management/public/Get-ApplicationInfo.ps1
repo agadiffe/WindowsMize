@@ -45,7 +45,7 @@ function Get-ApplicationInfo
 
         if (-not $System)
         {
-            $UserSid = (Get-LoggedOnUserInfo).Sid
+            $UserSid = (Get-LoggedOnUserInfo)['Sid']
             $RegistryUninstallPath += @(
                 "Registry::HKEY_USERS\$UserSid\Software"
                 "Registry::HKEY_USERS\$UserSid\Software\Wow6432Node"

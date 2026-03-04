@@ -25,7 +25,7 @@ function Set-AcrobatReaderFirstLaunchExperience
 
     process
     {
-        $IsNotConfigured = $GPO -eq 'Enabled'
+        $IsNotConfigured = $GPO -eq 'NotConfigured'
 
         # user\ IsFirstLaunch & bAppFirstLaunchForNotifications
         # not configured: delete (default) | off: 0

@@ -40,7 +40,7 @@ function Get-HashtableSubset
         $FilteredHashtable  = @{}
         $Source.GetEnumerator() |
             Where-Object -FilterScript { $DesiredKeys -contains $_.Key } |
-            ForEach-Object -Process { $FilteredHashtable.$($_.Key.replace($SubStringToRemove, '')) = $_.Value }
+            ForEach-Object -Process { $FilteredHashtable[$_.Key.Replace($SubStringToRemove, '')] = $_.Value }
 
         $FilteredHashtable
     }

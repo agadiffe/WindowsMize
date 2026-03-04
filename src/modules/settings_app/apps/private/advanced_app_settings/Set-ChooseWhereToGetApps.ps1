@@ -53,7 +53,7 @@ function Set-ChooseWhereToGetApps
                     Entries = @(
                         @{
                             Name  = 'AicEnabled'
-                            Value = $RegValue.$Value
+                            Value = $RegValue[$Value]
                             Type  = 'String'
                         }
                     )
@@ -82,7 +82,7 @@ function Set-ChooseWhereToGetApps
                         @{
                             RemoveEntry = $IsNotConfigured
                             Name  = 'ConfigureAppInstallControl'
-                            Value = $RegValue.$GPO
+                            Value = $RegValue[$GPO]
                             Type  = 'String'
                         }
                     )

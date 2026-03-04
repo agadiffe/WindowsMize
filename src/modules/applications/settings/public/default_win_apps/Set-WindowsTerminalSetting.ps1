@@ -66,7 +66,7 @@ function Set-WindowsTerminalSetting
 
         if (-not (Test-Path -Path $TerminalSettingsFilePath))
         {
-            Write-Verbose -Message 'Windows Terminal is not installed'
+            Write-Verbose -Message 'Windows Terminal is not installed (settings.json not found)'
         }
         else
         {
@@ -89,10 +89,10 @@ function Set-WindowsTerminalSetting
                     }
 
                     # default: Windows PowerShell
-                    $ProfileData = $TerminalSettings.profiles.list | Where-Object -Property 'name' -EQ -Value $ProfileName
+                    $ProfileData = $TerminalSettings['profiles']['list'] | Where-Object -Property 'name' -EQ -Value $ProfileName
                     if ($ProfileData)
                     {
-                        $TerminalSettings.defaultProfile = $ProfileData.guid
+                        $TerminalSettings['defaultProfile'] = $ProfileData['guid']
                     }
                 }
                 'DefaultCommandTerminalApp'
@@ -132,21 +132,21 @@ function Set-WindowsTerminalSetting
                     Write-Verbose -Message "Setting '$TerminalMsg - DefaultColorScheme' to '$DefaultColorScheme' ..."
 
                     # default: Campbell
-                    $TerminalSettings.profiles.defaults.colorScheme = $DefaultColorScheme
+                    $TerminalSettings['profiles']['defaults']['colorScheme'] = $DefaultColorScheme
                 }
                 'DefaultHistorySize'
                 {
                     Write-Verbose -Message "Setting '$TerminalMsg - DefaultHistorySize' to '$DefaultHistorySize' ..."
 
                     # default: 9001 | max: 32767 (even if higher value provided)
-                    $TerminalSettings.profiles.defaults.historySize = $DefaultHistorySize
+                    $TerminalSettings['profiles']['defaults']['historySize'] = $DefaultHistorySize
                 }
                 'RunAtStartup'
                 {
                     Write-Verbose -Message "Setting '$TerminalMsg - RunAtStartup' to '$RunAtStartup' ..."
 
                     # default: disabled
-                    $TerminalSettings.startOnUserLogin = $RunAtStartup -eq 'Enabled'
+                    $TerminalSettings['startOnUserLogin'] = $RunAtStartup -eq 'Enabled'
                 }
             }
 

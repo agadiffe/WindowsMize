@@ -717,7 +717,7 @@ $FileExplorerSettings = @{
     ShowRemovableDrivesOnlyInThisPC = 'Enabled'
     MaxIconCacheSize                = 4096 # KB
     AutoFolderTypeDetection         = 'Disabled'
-    #UndoRedo                        = 'Enabled'
+    #UndoRedo                        = 'Disabled'
     #RecycleBin                      = 'Enabled'  ; RecycleBinGPO        = 'NotConfigured'
     #ConfirmFileDelete               = 'Disabled' ; ConfirmFileDeleteGPO = 'NotConfigured'
 }
@@ -749,8 +749,8 @@ Set-AdvancedBatterySetting -Battery 'Critical' -Level 9  -Action 'Sleep'
 # PowerMode: BestPowerEfficiency | Balanced | BestPerformance
 # PowerSource: PluggedIn | OnBattery
 Set-PowerSetting -PowerMode 'Balanced'
-#Set-PowerSetting -PowerMode 'Balanced' -PowerSource 'PluggedIn'
-#Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
+#Set-PowerSetting -PowerSource 'PluggedIn' -PowerMode 'Balanced'
+#Set-PowerSetting -PowerSource 'OnBattery' -PowerMode 'BestPowerEfficiency'
 
 Set-PowerSetting -BatteryPercentage 'Disabled'
 
@@ -996,8 +996,8 @@ Set-ServiceHostSplitting -State 'Enabled'
 #   - Check the Windows drive letter with DISKPART: list disk, select disk 0, list volume
 #   - On the Commmand Prompt, run: fsutil.exe 8Dot3Name strip /f /s /l C:\8dot3.log C:
 #     Note: "/l C:\8dot3.log" will save the log file into your C: drive instead of the recovery partition.
-Set-Short8Dot3FileName -State 'Disabled'
-#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
+#Set-Short8Dot3FileName -State 'Disabled'
+Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
 # --- User interface and experience
 $ActionCenterLayout = @(
@@ -1154,9 +1154,9 @@ $PrivacyWinPermUserData = @{
     PersonalizedOffers      = 'Disabled' ; PersonalizedOffersGPO   = 'Disabled'
     LanguageListAccess      = 'Disabled'
     TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO     = 'NotConfigured'
+    ShowNotifsInSettingsApp = 'Disabled'
     ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'NotConfigured'
     AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'NotConfigured'
-    ShowNotifsInSettingsApp = 'Disabled' # old
     ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured' # old
 }
 Set-WinPermissionsSetting @PrivacyWinPermUserData
@@ -1705,8 +1705,8 @@ $AppActionsSettings = @{
 Set-AppActionsSetting @AppActionsSettings
 
 $OfflineMapsSettings = @{
-    DownloadOverMeteredConnection = 'Disabled' # old
-    AutoUpdateOnACAndWifi         = 'Disabled' ; AutoUpdateOnACAndWifiGPO = 'NotConfigured' # old
+    DownloadOverMeteredConnection = 'Disabled'
+    AutoUpdateOnACAndWifi         = 'Disabled' ; AutoUpdateOnACAndWifiGPO = 'NotConfigured'
 }
 Set-OfflineMapsSetting @OfflineMapsSettings
 

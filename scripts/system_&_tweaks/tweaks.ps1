@@ -113,8 +113,8 @@ Set-ServiceHostSplitting -State 'Enabled'
 
 # State: Disabled | Enabled | PerVolumeBasis (default) | DisabledExceptSystemVolume
 # RemoveExisting8dot3FileNames (switch): Removes 8dot3 file names for all files in $env:SystemDrive (i.e. C:)
-Set-Short8Dot3FileName -State 'Disabled'
-#Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
+#Set-Short8Dot3FileName -State 'Disabled'
+Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
 # --- Startup Apps Delay (default: default)
 # Default: about 10s and/or idle state defined by Windows.

@@ -61,7 +61,7 @@ function Set-WinUpdateActiveHours
     {
         if ($Mode -eq 'Manually' -or $GPO -eq 'Enabled')
         {
-            $Diff = ($PSBoundParameters.End - $PSBoundParameters.Start + 24) % 24
+            $Diff = ($PSBoundParameters['End'] - $PSBoundParameters['Start'] + 24) % 24
             if ($Diff -notin 1..18)
             {
                 Write-Error -Message 'Choose an end time that''s no more than 18 hours from the start time.'
@@ -100,18 +100,18 @@ function Set-WinUpdateActiveHours
                         Entries = @(
                             @{
                                 Name  = 'ActiveHoursStart'
-                                Value = $PSBoundParameters.Start
+                                Value = $PSBoundParameters['Start']
                                 Type  = 'DWord'
                             }
                             @{
                                 Name  = 'ActiveHoursEnd'
-                                Value = $PSBoundParameters.End
+                                Value = $PSBoundParameters['End']
                                 Type  = 'DWord'
                             }
                         )
                     }
 
-                    $ActiveHoursState = "Start: $($PSBoundParameters.Start), End: $($PSBoundParameters.End)"
+                    $ActiveHoursState = "Start: $($PSBoundParameters['Start']), End: $($PSBoundParameters['End'])"
 
                     Write-Verbose -Message "Setting '$WinUpdateActiveHoursMsg' to '$ActiveHoursState' ..."
                     Set-RegistryEntry -InputObject $WinUpdateActiveHours
@@ -137,19 +137,19 @@ function Set-WinUpdateActiveHours
                         @{
                             RemoveEntry = $IsNotConfigured
                             Name  = 'ActiveHoursStart'
-                            Value = $PSBoundParameters.Start
+                            Value = $PSBoundParameters['Start']
                             Type  = 'DWord'
                         }
                         @{
                             RemoveEntry = $IsNotConfigured
                             Name  = 'ActiveHoursEnd'
-                            Value = $PSBoundParameters.End
+                            Value = $PSBoundParameters['End']
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                $ActiveHoursState = if ($GPO -eq 'Enabled') { ", Start: $($PSBoundParameters.Start), End: $($PSBoundParameters.End)" }
+                $ActiveHoursState = if ($GPO -eq 'Enabled') { ", Start: $($PSBoundParameters['Start']), End: $($PSBoundParameters['End'])" }
 
                 Write-Verbose -Message "Setting '$WinUpdateActiveHoursMsg (GPO)' to '$GPO$ActiveHoursState' ..."
                 Set-RegistryEntry -InputObject $WinUpdateActiveHoursGpo

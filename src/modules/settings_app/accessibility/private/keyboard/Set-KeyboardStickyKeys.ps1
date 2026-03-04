@@ -38,8 +38,8 @@ function Set-KeyboardStickyKeys
                 }
             )
         }
-        $SettingRegPath = $StickyKeysFlags.Path
-        $SettingRegEntry = $StickyKeysFlags.Entries[0].Name
+        $SettingRegPath = $StickyKeysFlags['Path']
+        $SettingRegEntry = $StickyKeysFlags['Entries'][0]['Name']
         $StickyKeysMsg = 'Keyboard Sticky Keys'
 
         switch ($PSBoundParameters.Keys)
@@ -52,7 +52,7 @@ function Set-KeyboardStickyKeys
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $SKF_STICKYKEYSON -State ($State -eq 'Enabled')
 
-                $StickyKeysFlags.Entries[0].Value = $NewFlags
+                $StickyKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$StickyKeysMsg' to '$State' ..."
                 Set-RegistryEntry -InputObject $StickyKeysFlags
@@ -65,7 +65,7 @@ function Set-KeyboardStickyKeys
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $SKF_HOTKEYACTIVE -State ($KeyboardShorcut -eq 'Enabled')
 
-                $StickyKeysFlags.Entries[0].Value = $NewFlags
+                $StickyKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$StickyKeysMsg - Keyboard Shorcut' to '$KeyboardShorcut' ..."
                 Set-RegistryEntry -InputObject $StickyKeysFlags

@@ -38,8 +38,8 @@ function Set-KeyboardFilterKeys
                 }
             )
         }
-        $SettingRegPath = $FilterKeysFlags.Path
-        $SettingRegEntry = $FilterKeysFlags.Entries[0].Name
+        $SettingRegPath = $FilterKeysFlags['Path']
+        $SettingRegEntry = $FilterKeysFlags['Entries'][0]['Name']
         $FilterKeysMsg = 'Keyboard Filter Keys'
 
         switch ($PSBoundParameters.Keys)
@@ -52,7 +52,7 @@ function Set-KeyboardFilterKeys
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $FKF_FILTERKEYSON -State ($State -eq 'Enabled')
 
-                $FilterKeysFlags.Entries[0].Value = $NewFlags
+                $FilterKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$FilterKeysMsg' to '$State' ..."
                 Set-RegistryEntry -InputObject $FilterKeysFlags
@@ -65,7 +65,7 @@ function Set-KeyboardFilterKeys
                 $CurrentFlags = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name $SettingRegEntry
                 $NewFlags = Get-UpdatedIntegerBitFlag -Flags $CurrentFlags -BitFlag $FKF_HOTKEYACTIVE -State ($KeyboardShorcut -eq 'Enabled')
 
-                $FilterKeysFlags.Entries[0].Value = $NewFlags
+                $FilterKeysFlags['Entries'][0]['Value'] = $NewFlags
 
                 Write-Verbose -Message "Setting '$FilterKeysMsg - Keyboard Shorcut' to '$KeyboardShorcut' ..."
                 Set-RegistryEntry -InputObject $FilterKeysFlags

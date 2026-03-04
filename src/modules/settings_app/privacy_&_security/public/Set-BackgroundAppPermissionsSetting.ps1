@@ -135,7 +135,7 @@ function Set-BackgroundAppPermissionsSetting
                 'XboxGameBar'      { 'Microsoft.XboxGamingOverlay_8wekyb3d8bbwe' }
             }
 
-            $SettingValue = $PSBoundParameters.$AppName
+            $SettingValue = $PSBoundParameters[$AppName]
             $DisabledByUser, $Disabled, $IgnoreBatterySaver, $SleepDisabled = switch ($SettingValue)
             {
                 'Always'    { '0', '0', '1', '0' }

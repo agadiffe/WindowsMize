@@ -70,11 +70,11 @@ function Set-SigninOptionsSetting
 
         if (Test-ModernStandbyAvailability)
         {
-            $DynamicParamProperties.Type = [SigninRequiredS0]
+            $DynamicParamProperties['Type'] = [SigninRequiredS0]
         }
         else
         {
-            $DynamicParamProperties.Type = [SigninRequiredS3]
+            $DynamicParamProperties['Type'] = [SigninRequiredS3]
         }
 
         Add-DynamicParameter @DynamicParamProperties
@@ -94,7 +94,7 @@ function Set-SigninOptionsSetting
             'BiometricsGPO'                     { Set-SigninBiometrics -GPO $BiometricsGPO }
             'SigninWithExternalDevice'          { Set-SigninWithExternalDevice -State $SigninWithExternalDevice }
             'OnlyWindowsHelloForMSAccount'      { Set-SigninOnlyWindowsHelloForMSAccount -State $OnlyWindowsHelloForMSAccount }
-            'SigninRequiredIfAway'              { Set-SigninRequiredIfAway -Value $PSBoundParameters.SigninRequiredIfAway }
+            'SigninRequiredIfAway'              { Set-SigninRequiredIfAway -Value $PSBoundParameters['SigninRequiredIfAway'] }
             'DynamicLock'                       { Set-SigninDynamicLock -State $DynamicLock }
             'DynamicLockGPO'                    { Set-SigninDynamicLock -GPO $DynamicLockGPO }
             'AutoRestartApps'                   { Set-SigninAutoRestartApps -State $AutoRestartApps }

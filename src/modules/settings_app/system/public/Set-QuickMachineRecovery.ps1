@@ -116,40 +116,40 @@ function Set-QuickMachineRecovery
             Write-Verbose "Setting 'Recovery - Quick Machine Recovery': not available on this system."
             return
         }
-        $QmrSetting.CloudRemediation = $State -eq 'Enabled' ? '1' : '0'
+        $QmrSetting['CloudRemediation'] = $State -eq 'Enabled' ? '1' : '0'
 
         switch ($true)
         {
             { $State -eq 'Disabled' }
             {
-                $QmrSetting.AutoRemediation = '0'
+                $QmrSetting['AutoRemediation'] = '0'
             }
             { $PSBoundParameters.ContainsKey('Headless') }
             {
-                $QmrSetting.Headless = $Headless -eq 'Enabled' ? '1' : '0'
+                $QmrSetting['Headless'] = $Headless -eq 'Enabled' ? '1' : '0'
             }
             { $WifiSsid }
             {
-                $QmrSetting.WifiSsid = $WifiSsid
-                $QmrSetting.WifiPassword = $PSBoundParameters.WifiPassword
+                $QmrSetting['WifiSsid'] = $WifiSsid
+                $QmrSetting['WifiPassword'] = $PSBoundParameters['WifiPassword']
             }
             { $PSBoundParameters.ContainsKey('AutoRemediation') }
             {
-                $QmrSetting.AutoRemediation = $PSBoundParameters.AutoRemediation -eq 'Enabled' ? '1' : '0'
+                $QmrSetting['AutoRemediation'] = $PSBoundParameters['AutoRemediation'] -eq 'Enabled' ? '1' : '0'
             }
             { $PSBoundParameters.ContainsKey('RetryInterval') }
             {
-                $QmrSetting.RetryInterval = $PSBoundParameters.RetryInterval
+                $QmrSetting['RetryInterval'] = $PSBoundParameters['RetryInterval']
             }
             { $PSBoundParameters.ContainsKey('RestartInterval') }
             {
-                $QmrSetting.RestartInterval = $PSBoundParameters.RestartInterval
+                $QmrSetting['RestartInterval'] = $PSBoundParameters['RestartInterval']
             }
         }
 
-        if (-not $ResetWifiCredential -and $QmrSetting.WifiSsid)
+        if (-not $ResetWifiCredential -and $QmrSetting['WifiSsid'])
         {
-            $WifiCredential = "<Wifi ssid=""$($QmrSetting.WifiSsid)"" password=""$($QmrSetting.WifiPassword)""/>"
+            $WifiCredential = "<Wifi ssid=""$($QmrSetting['WifiSsid'])"" password=""$($QmrSetting['WifiPassword'])""/>"
         }
 
         $SettingContent = @"
@@ -159,9 +159,9 @@ function Set-QuickMachineRecovery
                 <WifiCredential>
                     $WifiCredential
                 </WifiCredential>
-                <CloudRemediation state="$($QmrSetting.CloudRemediation)"/>
-                <AutoRemediation state="$($QmrSetting.AutoRemediation)" totalwaittime="$($QmrSetting.RestartInterval)" waitinterval="$($QmrSetting.RetryInterval)"/>
-                <Headless state="$($QmrSetting.Headless)"/>"
+                <CloudRemediation state="$($QmrSetting['CloudRemediation'])"/>
+                <AutoRemediation state="$($QmrSetting['AutoRemediation'])" totalwaittime="$($QmrSetting['RestartInterval'])" waitinterval="$($QmrSetting['RetryInterval'])"/>
+                <Headless state="$($QmrSetting['Headless'])"/>"
             </WindowsRE>
 "@
 
@@ -169,14 +169,14 @@ function Set-QuickMachineRecovery
         New-Item -Path $SettingFilePath -Value $SettingContent -Force | Out-Null
 
         Write-Verbose -Message "Setting 'Recovery - Quick Machine Recovery' to '$State' ..."
-        $AutoRemediationMsg = $QmrSetting.AutoRemediation -eq '1' ? 'Enabled' : 'Disabled'
+        $AutoRemediationMsg = $QmrSetting['AutoRemediation'] -eq '1' ? 'Enabled' : 'Disabled'
         Write-Verbose -Message "Setting 'Recovery QMR - Automatically check for solutions' to '$AutoRemediationMsg' ..."
 
-        if ($QmrSetting.AutoRemediation -eq '1')
+        if ($QmrSetting['AutoRemediation'] -eq '1')
         {
-            $RetryIntervalMsg = $QmrSetting.RetryInterval -ne '0' ? "Every $($QmrSetting.RetryInterval) mins" : 'Once'
+            $RetryIntervalMsg = $QmrSetting['RetryInterval'] -ne '0' ? "Every $($QmrSetting['RetryInterval']) mins" : 'Once'
             Write-Verbose -Message "    Set 'Look for solutions' to '$RetryIntervalMsg'"
-            Write-Verbose -Message "    Set 'Restart every' to '$($QmrSetting.RestartInterval) mins' (if RetryInterval != Once)"
+            Write-Verbose -Message "    Set 'Restart every' to '$($QmrSetting['RestartInterval']) mins' (if RetryInterval != Once)"
         }
 
         if ($ResetWifiCredential)
@@ -186,7 +186,7 @@ function Set-QuickMachineRecovery
 
         if ($WifiCredential)
         {
-            Write-Verbose -Message "Setting 'Recovery QMR - WifiSsid' to '$($QmrSetting.WifiSsid)' ..."
+            Write-Verbose -Message "Setting 'Recovery QMR - WifiSsid' to '$($QmrSetting['WifiSsid'])' ..."
         }
 
         reagentc.exe /SetRecoverySettings /Path $SettingFilePath 2>&1 | Out-Null

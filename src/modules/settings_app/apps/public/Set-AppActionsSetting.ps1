@@ -55,7 +55,7 @@ function Set-AppActionsSetting
             $AppActionsReg = @{
                 Path  = 'LocalState\DisabledApps'
                 Name  = $AppInternalName
-                Value = $PSBoundParameters.$AppName -eq 'Enabled' ? '0' : '1'
+                Value = $PSBoundParameters[$AppName] -eq 'Enabled' ? '0' : '1'
                 Type  = '5f5e10b'
             }
             $AppActionsSettings.Add([PSCustomObject]$AppActionsReg) | Out-Null

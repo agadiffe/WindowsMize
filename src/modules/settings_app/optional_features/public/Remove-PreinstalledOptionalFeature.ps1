@@ -53,11 +53,11 @@ function Remove-PreinstalledOptionalFeature
         {
             { $WindowsCapabilitiesList.Contains($_) }
             {
-                $WindowsCapabilitiesList.$_ | Set-WindowsCapability -State 'Disabled'
+                $WindowsCapabilitiesList[$_] | Set-WindowsCapability -State 'Disabled'
             }
             { $WindowsOptionalFeaturesList.Contains($_) }
             {
-                $WindowsOptionalFeaturesList.$_ | Set-WindowsOptionalFeature -State 'Disabled'
+                $WindowsOptionalFeaturesList[$_] | Set-WindowsOptionalFeature -State 'Disabled'
             }
         }
     }

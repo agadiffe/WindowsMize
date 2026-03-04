@@ -77,7 +77,7 @@ function Set-MouseSetting
 
             'WheelScroll'
             {
-                $LinesToScrollValue = $PSBoundParameters.ContainsKey('LinesToScroll') ? $PSBoundParameters.LinesToScroll : 3
+                $LinesToScrollValue = $PSBoundParameters.ContainsKey('LinesToScroll') ? $PSBoundParameters['LinesToScroll'] : 3
                 Set-MouseWheelScroll -Value $WheelScroll -LinesToScroll $LinesToScrollValue
             }
         }

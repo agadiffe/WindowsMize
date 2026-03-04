@@ -71,7 +71,7 @@ function Set-VisualEffects
                         Name = 'State'
                         Type = [state]
                     }
-                    $DynamicParamProperties.Attribute.Parameter += @{ Mandatory = $true }
+                    $DynamicParamProperties['Attribute']['Parameter'] += @{ Mandatory = $true }
                 }
             }
 
@@ -84,7 +84,7 @@ function Set-VisualEffects
     {
         if ($Value -eq 'Animation')
         {
-            $State = $PSBoundParameters.State
+            $State = $PSBoundParameters['State']
 
             # default: on | off: disable the following effects.
             # (The GUI toggle will be 'on' if at least one of these effects is enabled)
@@ -129,7 +129,7 @@ function Set-VisualEffects
 
             if ($PSBoundParameters.ContainsKey('Setting'))
             {
-                Set-VisualEffectsCustomSetting -Setting $PSBoundParameters.Setting
+                Set-VisualEffectsCustomSetting -Setting $PSBoundParameters['Setting']
             }
         }
     }

@@ -90,7 +90,7 @@ function Set-ActionCenterLayout
         # It will be automatically added by Windows if the value is missing.
         foreach ($QuickAction in $Value)
         {
-            $LayoutValue[0].QuickActions.Add([PSCustomObject]@{
+            $LayoutValue[0]['QuickActions'].Add([PSCustomObject]@{
                 FriendlyName = "Microsoft.QuickAction.$QuickAction"
             }) | Out-Null
         }

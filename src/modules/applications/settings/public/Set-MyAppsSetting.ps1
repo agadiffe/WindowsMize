@@ -31,22 +31,23 @@ function Set-MyAppsSetting
     begin
     {
         $EnvVariable = Get-LoggedOnUserEnvVariable
+        $EnvAppData = $EnvVariable.APPDATA
         $AppsListData = @{
             KeePassXC = @{
                 ConfigFileName  = 'KeePassXC.ini'
-                SettingFilePath = "$($EnvVariable.APPDATA)\KeePassXC\keepassxc.ini"
+                SettingFilePath = "$EnvAppData\KeePassXC\keepassxc.ini"
             }
             qBittorrent = @{
                 ConfigFileName  = 'qBittorrent.ini'
-                SettingFilePath = "$($EnvVariable.APPDATA)\qBittorrent\qBittorrent.ini"
+                SettingFilePath = "$EnvAppData\qBittorrent\qBittorrent.ini"
             }
             VLC = @{
                 ConfigFileName  = 'VLC.ini'
-                SettingFilePath = "$($EnvVariable.APPDATA)\vlc\vlcrc"
+                SettingFilePath = "$EnvAppData\vlc\vlcrc"
             }
             VSCode = @{
                 ConfigFileName  = 'VSCode.json'
-                SettingFilePath = "$($EnvVariable.APPDATA)\Code\User\settings.json"
+                SettingFilePath = "$EnvAppData\Code\User\settings.json"
             }
             Git = @{
                 ConfigFileName  = 'Git.ini'
@@ -59,8 +60,8 @@ function Set-MyAppsSetting
     {
         Write-Verbose -Message "Setting $Name Settings ..."
 
-        $TargetFilePath = $AppsListData.$Name.SettingFilePath
-        $SourceFileName = $AppsListData.$Name.ConfigFileName
+        $TargetFilePath = $AppsListData[$Name]['SettingFilePath']
+        $SourceFileName = $AppsListData[$Name]['ConfigFileName']
         $SourceFilePath = "$PSScriptRoot\..\config_files\$SourceFileName"
 
         if ((Test-Path -Path $TargetFilePath) -and -not (Test-Path -Path "$TargetFilePath.bak"))

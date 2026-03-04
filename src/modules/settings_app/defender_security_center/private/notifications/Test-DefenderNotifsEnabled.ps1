@@ -26,7 +26,7 @@ function Test-DefenderNotifsEnabled
 
     process
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $UserSid = (Get-LoggedOnUserInfo)['Sid']
 
         $NotifsRegPath, $NotifsRegEntries = switch ($Name)
         {

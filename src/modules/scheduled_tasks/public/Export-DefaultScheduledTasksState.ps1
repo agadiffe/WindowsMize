@@ -25,11 +25,11 @@ function Export-DefaultScheduledTasksState
             $WinMizeScheduledTasks = Get-WinMizeScheduledTask -AllTasks $AllTasks
             foreach ($Key in $LogFilePath.Keys)
             {
-                if (-not (Test-Path -Path $LogFilePath.$Key))
+                if (-not (Test-Path -Path $LogFilePath[$Key]))
                 {
                     Write-Verbose -Message "Exporting Default Scheduled Tasks State ($Key) ..."
 
-                    New-ParentPath -Path $LogFilePath.$Key
+                    New-ParentPath -Path $LogFilePath[$Key]
 
                     $ScheduledTasks = $Key -eq 'WinMize' ? $WinMizeScheduledTasks : $AllTasks
 
@@ -40,7 +40,7 @@ function Export-DefaultScheduledTasksState
                             $_.Group |
                                 ForEach-Object -Process {
                                     $TaskState = $_.State -eq 'Disabled' ? 'Disabled' : 'Enabled'
-                                    $TaskDictionary.$($_.TaskName) = $TaskState
+                                    $TaskDictionary[$_.TaskName] = $TaskState
                                 }
 
                             [ordered]@{
@@ -49,7 +49,7 @@ function Export-DefaultScheduledTasksState
                             }
                         } |
                         ConvertTo-Json -EnumsAsStrings |
-                        Out-File -FilePath $LogFilePath.$Key
+                        Out-File -FilePath $LogFilePath[$Key]
                 }
             }
         }
@@ -87,9 +87,9 @@ function Get-WinMizeScheduledTask
         {
             foreach ($Entry in $Category)
             {
-                foreach ($TaskName in $Entry.Task.Keys)
+                foreach ($TaskName in $Entry['Task'].Keys)
                 {
-                    "$($Entry.TaskPath)$TaskName"
+                    "$($Entry['TaskPath'])$TaskName"
                 }
             }
         }

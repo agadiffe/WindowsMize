@@ -42,6 +42,6 @@ function Set-ScheduledTaskStateGroup
 
     process
     {
-        $ScheduledTasksList.$Name | Set-ScheduledTaskState
+        $ScheduledTasksList[$Name] | Set-ScheduledTaskState
     }
 }

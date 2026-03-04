@@ -79,8 +79,8 @@ Write-Section -Name 'Power (& battery)' -SubSection
 # PowerMode: BestPowerEfficiency | Balanced | BestPerformance
 # PowerSource: PluggedIn | OnBattery
 Set-PowerSetting -PowerMode 'Balanced'
-#Set-PowerSetting -PowerMode 'Balanced' -PowerSource 'PluggedIn'
-#Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
+#Set-PowerSetting -PowerSource 'PluggedIn' -PowerMode 'Balanced'
+#Set-PowerSetting -PowerSource 'OnBattery' -PowerMode 'BestPowerEfficiency'
 
 # --- Battery percentage (default: Disabled)
 Set-PowerSetting -BatteryPercentage 'Disabled'

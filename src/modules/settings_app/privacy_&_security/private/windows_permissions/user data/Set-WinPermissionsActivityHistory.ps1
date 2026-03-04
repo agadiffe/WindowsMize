@@ -49,8 +49,8 @@ function Set-WinPermissionsActivityHistory
 
                     # on: 0 (default) | off: 1
                     $Value = $State -eq 'Enabled' ? 0 : 1
-                    $CDPUserSettings.AfcPrivacySettings.PublishUserActivity = $Value
-                    $CDPUserSettings.AfcPrivacySettings.UploadUserActivity = $Value
+                    $CDPUserSettings['AfcPrivacySettings']['PublishUserActivity'] = $Value
+                    $CDPUserSettings['AfcPrivacySettings']['UploadUserActivity'] = $Value
 
                     Write-Verbose -Message "Setting '$WinPermissionsActivityHistoryMsg' to '$State' ..."
                     $CDPUserSettings | ConvertTo-Json -Depth 100 | Out-File -FilePath $CDPUserSettingsFile

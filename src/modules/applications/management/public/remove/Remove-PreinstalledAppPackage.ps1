@@ -49,6 +49,6 @@ function Remove-PreinstalledAppPackage
 
     process
     {
-        $PreinstalledAppsList.$Name | Remove-ApplicationPackage
+        $PreinstalledAppsList[$Name] | Remove-ApplicationPackage
     }
 }

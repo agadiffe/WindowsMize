@@ -19,9 +19,9 @@ class ValidateHashtableSettings : Hashtable
             {
                 throw "Invalid key: $Key. Specify one of the following value: $($KeyNames -join ', ')"
             }
-            if ($KeyValues -notcontains $Settings.$Key)
+            if ($KeyValues -notcontains $Settings[$Key])
             {
-                throw "Invalid value '$($Settings.$Key)' for the key '$Key'. " +
+                throw "Invalid value '$($Settings[$Key])' for the key '$Key'. " +
                       "Specify one of the following value: $($KeyValues -join ', ')"
             }
         }

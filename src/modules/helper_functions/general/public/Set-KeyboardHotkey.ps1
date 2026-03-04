@@ -48,8 +48,8 @@ function Set-KeyboardHotkey
         }
 
         $DisabledHotkeysParam = @{
-            Path = $DisabledHotkeys.Path
-            Name = $DisabledHotkeys.Entries[0].Name
+            Path = $DisabledHotkeys['Path']
+            Name = $DisabledHotkeys['Entries'][0]['Name']
         }
         $DisabledHotkeysValue = Get-LoggedOnUserItemPropertyValue @DisabledHotkeysParam
         $DisabledHotkeysValue = $null -eq $DisabledHotkeysValue ? '' : $DisabledHotkeysValue.ToUpper()
@@ -63,7 +63,7 @@ function Set-KeyboardHotkey
         {
             'Disabled'
             {
-                $DisabledHotkeysValue = $DisabledHotkeysValue.replace("$Value", '')
+                $DisabledHotkeysValue = $DisabledHotkeysValue.Replace("$Value", '')
             }
             'Enabled'
             {
@@ -77,7 +77,7 @@ function Set-KeyboardHotkey
 
     end
     {
-        $DisabledHotkeys.Entries[0].Value = $DisabledHotkeysValue
+        $DisabledHotkeys['Entries'][0]['Value'] = $DisabledHotkeysValue
         Set-RegistryEntry -InputObject $DisabledHotkeys
     }
 }

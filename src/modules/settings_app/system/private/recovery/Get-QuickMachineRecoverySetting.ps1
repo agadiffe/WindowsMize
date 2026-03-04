@@ -42,7 +42,7 @@ function Get-QuickMachineRecoverySetting
             }
             'CloudRemediation state="(\d)"'
             {
-                $CurrentSetting.CloudRemediation = $Matches[1]
+                $CurrentSetting['CloudRemediation'] = $Matches[1]
             }
             'AutoRemediation state="(\d)" totalwaittime="(\d+)" waitinterval="(\d+)"'
             {
@@ -54,7 +54,7 @@ function Get-QuickMachineRecoverySetting
             }
             'Headless state="(\d)"'
             {
-                $CurrentSetting.Headless = $Matches[1]
+                $CurrentSetting['Headless'] = $Matches[1]
             }
         }
         $CurrentSetting.Count -eq 0 ? $null : $CurrentSetting

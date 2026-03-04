@@ -60,9 +60,9 @@ function Install-Application
         switch ($Name)
         {
             'Brave'                     { Install-BraveBrowser }
-            { $NoScope -contains $_ }   { $AppsList.$_ | Install-ApplicationWithWinget }
-            { $UserScope -contains $_ } { $AppsList.$_ | Install-ApplicationWithWinget -Scope 'User' }
-            Default                     { $AppsList.$_ | Install-ApplicationWithWinget -Scope 'Machine' }
+            { $NoScope -contains $_ }   { $AppsList[$_] | Install-ApplicationWithWinget }
+            { $UserScope -contains $_ } { $AppsList[$_] | Install-ApplicationWithWinget -Scope 'User' }
+            Default                     { $AppsList[$_] | Install-ApplicationWithWinget -Scope 'Machine' }
         }
     }
 }

@@ -37,7 +37,7 @@ function Set-LockScreenShowPictureOnSigninScreen
                 # owner: SYSTEM | full control: SYSTEM
                 # Requested registry access is not allowed.
 
-                $UserSid = (Get-LoggedOnUserInfo).Sid
+                $UserSid = (Get-LoggedOnUserInfo)['Sid']
 
                 # on: 0 (default) | off: 1
                 $LockScreenBackgroundPictureOnSigninScreen = @{
