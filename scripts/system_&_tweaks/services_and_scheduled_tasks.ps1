@@ -58,8 +58,8 @@ $ServicesToConfig = @(
     #'NetworkDataUsageDriver'
 
     # --- Windows
-    'Features'      # adjust to your needs: Features.ps1 (21 Svcs) (e.g. SysMain (disabled)).
-    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1 (59 Svcs).
+    'Features'      # adjust to your needs: Features.ps1 (e.g. SysMain (disabled)).
+    'Miscellaneous' # adjust to your needs: Miscellaneous.ps1.
 
     #'Autoplay'
     #'Bluetooth'

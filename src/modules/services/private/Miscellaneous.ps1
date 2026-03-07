@@ -103,13 +103,6 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'Human Interface Device Service'
-            ServiceName = 'hidserv'
-            StartupType = 'Disabled'
-            DefaultType = 'Manual'
-            Comment     = 'enable if some (rare?) peripherals does not function correctly.'
-        }
-        @{
             DisplayName = 'IPsec Policy Agent'
             ServiceName = 'PolicyAgent'
             StartupType = 'Disabled'
@@ -310,13 +303,6 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
-            DisplayName = 'Windows Modules Installer'
-            ServiceName = 'TrustedInstaller'
-            StartupType = 'Manual'
-            DefaultType = 'Manual'
-            Comment     = 'cannot be changed with registry editing.'
-        }
-        @{
             DisplayName = 'Windows Presentation Foundation Font Cache 3.0.0.0'
             ServiceName = 'FontCache3.0.0.0'
             StartupType = 'Disabled'
@@ -392,6 +378,16 @@ $ServicesList += @{
                            required on 24H2+ for some things ?
                            if disabled, on VirtualBox, the auto resize window on startup is broken.
                            could probably broke some other things on bare metal install ?'
+        }
+        @{
+            DisplayName = 'Human Interface Device Service'
+            ServiceName = 'hidserv'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'can be disabled on most system.
+                           might cause issues with some peripherals capabilities.
+                           e.g. keyboard FN + F{1-12} (volume, search, brightness, ...) stop working.
+                           do your own testing to see if you can disable this service or not.'
         }
         @{
             DisplayName = 'Microsoft Storage Spaces SMP'

@@ -530,6 +530,13 @@ $ServicesListNotConfigured += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'Windows Modules Installer'
+            ServiceName = 'TrustedInstaller'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+            Comment     = 'cannot be changed with registry editing.'
+        }
+        @{
             DisplayName = 'Windows Push Notifications User Service'
             ServiceName = 'WpnUserService'
             StartupType = 'Automatic'
