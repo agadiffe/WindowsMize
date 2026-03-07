@@ -32,7 +32,7 @@ function Set-TaskbarSearchBox
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Value'
             {
                 # hide: 0 | search icon only: 1 | search box: 2 (default) | search icon and label: 3
                 $TaskbarSearchBox = @{
