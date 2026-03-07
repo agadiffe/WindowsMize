@@ -23,17 +23,18 @@
     // applications
     "telemetry.feedback.enabled": false,
     "telemetry.telemetryLevel": "off",
+    "update.enableWindowsBackgroundUpdates": false,
     "update.mode": "start",
     "update.showReleaseNotes": false,
 
     // extensions
     "git.allowForcePush": true,
     "json.schemaDownload.enable": false,
+    "js/ts.tsserver.automaticTypeAcquisition.enabled": false,
     "npm.fetchOnlinePackageInfo": false,
     "powershell.integratedConsole.showOnStartup": false,
     "powershell.developer.editorServicesLogLevel": "None",
     "powershell.promptToUpdatePowerShell": false,
-    "typescript.disableAutomaticTypeAcquisition": true,
 
     // others (not preconfigured or edited via the GUI)
     "": ""
