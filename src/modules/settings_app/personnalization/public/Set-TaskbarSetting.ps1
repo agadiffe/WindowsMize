@@ -25,7 +25,7 @@
         [-ShowOnAllDisplays {Disabled | Enabled}]
         [-ShowOnAllDisplaysGPO {Disabled | NotConfigured}]
         [-ShowAppsOnMultipleDisplays {AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen}]
-        [-ShareAnyWindowWith {None | AllApps | CommunicationApps | ChatAgentApps}]
+        [-ShareAnyWindow {Disabled | Enabled}]
         [-FarCornerToShowDesktop {Disabled | Enabled}]
         [-GroupAndHideLabelsMainTaskbar {Always | WhenTaskbarIsFull | Never}]
         [-GroupAndHideLabelsOtherTaskbars {Always | WhenTaskbarIsFull | Never}]
@@ -73,7 +73,7 @@ function Set-TaskbarSetting
         [state] $ShowOnAllDisplays,
         [GpoStateWithoutEnabled] $ShowOnAllDisplaysGPO,
         [TaskbarAppsVisibility] $ShowAppsOnMultipleDisplays,
-        [TaskbarShareAnyWindowMode] $ShareAnyWindowWith,
+        [state] $ShareAnyWindow,
         [state] $FarCornerToShowDesktop,
         [TaskbarGroupingMode] $GroupAndHideLabelsMainTaskbar,
         [TaskbarGroupingMode] $GroupAndHideLabelsOtherTaskbars,
@@ -115,7 +115,7 @@ function Set-TaskbarSetting
             'ShowOnAllDisplays'               { Set-TaskbarShowOnAllDisplays -State $ShowOnAllDisplays }
             'ShowOnAllDisplaysGPO'            { Set-TaskbarShowOnAllDisplays -GPO $ShowOnAllDisplaysGPO }
             'ShowAppsOnMultipleDisplays'      { Set-TaskbarShowAppsOnMultipleDisplays -Value $ShowAppsOnMultipleDisplays }
-            'ShareAnyWindowWith'              { Set-TaskbarShareAnyWindowWith -Value $ShareAnyWindowWith }
+            'ShareAnyWindow'                  { Set-TaskbarShareAnyWindow -State $ShareAnyWindow }
             'FarCornerToShowDesktop'          { Set-TaskbarFarCornerToShowDesktop -State $FarCornerToShowDesktop }
             'GroupAndHideLabelsMainTaskbar'   { Set-TaskbarCombineButtonsAndHideLabels -MainTaskbar $GroupAndHideLabelsMainTaskbar }
             'GroupAndHideLabelsOtherTaskbars' { Set-TaskbarCombineButtonsAndHideLabels -OtherTaskbars $GroupAndHideLabelsOtherTaskbars }

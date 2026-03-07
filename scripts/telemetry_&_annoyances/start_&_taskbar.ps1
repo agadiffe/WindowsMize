@@ -174,9 +174,8 @@ Set-TaskbarSetting -AutoHide 'Disabled'
 # State: AllTaskbars (default) | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen
 #Set-TaskbarSetting -ShowAppsOnMultipleDisplays 'AllTaskbars'
 
-# --- Share any window from my taskbar with
-# State: None | AllApps (default) | CommunicationApps | ChatAgentApps
-Set-TaskbarSetting -ShareAnyWindowWith 'None'
+# --- Share any window from my taskbar (default: Enabled)
+Set-TaskbarSetting -ShareAnyWindow 'Disabled'
 
 # --- Select the far corner of the taskbar to show the desktop (default: Enabled)
 Set-TaskbarSetting -FarCornerToShowDesktop 'Enabled'

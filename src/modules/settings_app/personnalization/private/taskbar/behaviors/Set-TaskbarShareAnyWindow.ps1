@@ -1,28 +1,28 @@
 #=================================================================================================================
-#                  Personnalization > Taskbar Behaviors > Share Any Window From My Taskbar With
+#                     Personnalization > Taskbar Behaviors > Share Any Window From My Taskbar
 #=================================================================================================================
 
-# Quickly share the content from open app windows directly from your taskbar to your meeting calls.
+# Quickly share the content from open app windows directly from your taskbar.
 
 <#
 .SYNTAX
-    Set-TaskbarShareAnyWindowWith
-        [-Value] {None | AllApps | CommunicationApps | ChatAgentApps}
+    Set-TaskbarShareAnyWindow
+        [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-TaskbarShareAnyWindowWith
+function Set-TaskbarShareAnyWindow
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarShareAnyWindowWith -Value 'None'
+        PS> Set-TaskbarShareAnyWindow -Value 'None'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TaskbarShareAnyWindowMode] $Value
+        [state] $State
     )
 
     process
@@ -34,13 +34,13 @@ function Set-TaskbarShareAnyWindowWith
             Entries = @(
                 @{
                     Name  = 'TaskbarSn'
-                    Value = [int]$Value
+                    Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar - Share Any Window From My Taskbar With' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Taskbar - Share Any Window From My Taskbar' to '$State' ..."
         Set-RegistryEntry -InputObject $TaskbarShareWindow
     }
 }
