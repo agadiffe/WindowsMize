@@ -91,9 +91,6 @@ Set-AccessibilitySetting -VoiceTypingKeyboardShorcut 'Disabled'
 
 Write-Section -Name 'Keyboard' -SubSection
 
-# --- Use the Print screen key to open screen capture (default: Enabled)
-Set-AccessibilitySetting -KeyboardPrintScreenKeyOpenScreenCapture 'Disabled'
-
 #              Sticky keys
 #=======================================
 

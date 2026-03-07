@@ -128,6 +128,18 @@ Set-UsbSetting -NotifOnWeakCharger 'Enabled'
 #endregion usb
 
 #==========================================================
+#                         Keyboard
+#==========================================================
+#region keyboard
+
+Write-Section -Name 'Keyboard' -SubSection
+
+# --- Use the Print screen key to open screen capture (default: Enabled)
+Set-KeyboardSetting -PrintScreenKeyOpenScreenCapture 'Enabled'
+
+#endregion keyboard
+
+#==========================================================
 #                          Mouse
 #==========================================================
 #region mouse

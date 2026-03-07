@@ -1567,6 +1567,9 @@ $UsbSettings = @{
 }
 Set-UsbSetting @UsbSettings
 
+# --- Keyboard
+Set-KeyboardSetting -PrintScreenKeyOpenScreenCapture 'Enabled'
+
 # --- Mouse
 $MouseSettings = @{
     PrimaryButton                = 'Left' # Left | Right
@@ -1813,7 +1816,6 @@ $AccessibilitySettings = @{
     KeyboardFilterKeysShorcut               = 'Disabled'
     KeyboardToggleKeysTone                  = 'Disabled'
     KeyboardToggleKeysToneShorcut           = 'Disabled'
-    KeyboardPrintScreenKeyOpenScreenCapture = 'Disabled'
 }
 Set-AccessibilitySetting @AccessibilitySettings
 

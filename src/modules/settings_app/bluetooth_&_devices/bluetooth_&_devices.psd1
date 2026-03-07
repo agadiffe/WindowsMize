@@ -16,6 +16,7 @@
         'Set-AutoPlaySetting'
         'Set-BluetoothSetting'
         'Set-DevicesSetting'
+        'Set-KeyboardSetting'
         'Set-MobileDevicesSetting'
         'Set-MouseSetting'
         'Set-TouchpadSetting'

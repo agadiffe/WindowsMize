@@ -18,7 +18,6 @@
         [-KeyboardFilterKeysShorcut {Disabled | Enabled}]
         [-KeyboardToggleKeysTone {Disabled | Enabled}]
         [-KeyboardToggleKeysToneShorcut {Disabled | Enabled}]
-        [-KeyboardPrintScreenKeyOpenScreenCapture {Disabled | Enabled}]
         [-MouseKeys {Disabled | Enabled}]
         [-MouseKeysShorcut {Disabled | Enabled}]
         [<CommonParameters>]
@@ -66,8 +65,6 @@ function Set-AccessibilitySetting
 
         [state] $KeyboardToggleKeysToneShorcut,
 
-        [state] $KeyboardPrintScreenKeyOpenScreenCapture,
-
         # mouse
         [state] $MouseKeys,
 
@@ -101,7 +98,6 @@ function Set-AccessibilitySetting
             'KeyboardFilterKeysShorcut'               { Set-KeyboardFilterKeys -KeyboardShorcut $KeyboardFilterKeysShorcut }
             'KeyboardToggleKeysTone'                  { Set-KeyboardToggleKeysTone -State $KeyboardToggleKeysTone }
             'KeyboardToggleKeysToneShorcut'           { Set-KeyboardToggleKeysTone -KeyboardShorcut $KeyboardToggleKeysToneShorcut }
-            'KeyboardPrintScreenKeyOpenScreenCapture' { Set-KeyboardPrintScreenKeyOpenScreenCapture -State $KeyboardPrintScreenKeyOpenScreenCapture }
 
             'MouseKeys'                               { Set-MouseKeys -State $MouseKeys }
             'MouseKeysShorcut'                        { Set-MouseKeys -KeyboardShorcut $MouseKeysShorcut }
