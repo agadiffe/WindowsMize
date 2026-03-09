@@ -86,6 +86,8 @@ Write-Section -Name 'Applications Management'
 #=======================================
 #region Debloat
 
+Write-Section -Name 'Appx & provisioned packages' -SubSection
+
 Remove-StartMenuPromotedApps # W11
 Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 Set-Recall -GPO 'Disabled' # Disabled | Enabled | NotConfigured
@@ -198,6 +200,8 @@ $OptionalFeatures | Remove-PreinstalledOptionalFeature
 #=======================================
 #region Install
 
+Write-Section -Name 'Installation' -SubSection
+
 $CustomAppsToInstall = @(
     'Valve.Steam'
     'AppName2'
@@ -259,6 +263,8 @@ Write-Section -Name 'Applications Settings'
 #            Acrobat Reader
 #=======================================
 #region acrobat reader
+
+Write-Section -Name 'Acrobat Reader' -SubSection
 
 $AdobeReaderSettings = @{
     # --- Preferences
@@ -366,6 +372,8 @@ Set-AdobeAcrobatReaderSetting -RemoveToolFromToolsTab $RemovedTools
 #=======================================
 #region Brave, VLC, Others
 
+Write-Section -Name 'Brave, VLC, Others' -SubSection
+
 # src\modules\applications\settings\private\New-BraveBrowserConfigData.ps1
 Set-BraveBrowserSettings
 
@@ -384,6 +392,8 @@ $AppsToConfig | Set-MyAppsSetting
 #               MS Office
 #=======================================
 #region MS Office
+
+Write-Section -Name 'MS Office' -SubSection
 
 # --- Microsoft Office
 $MsOfficeSettings = @{
@@ -423,6 +433,8 @@ Set-MicrosoftOfficeSetting @MsOfficeSettings
 #=======================================
 #region MS Store & Edge
 
+Write-Section -Name 'MS Store & Edge' -SubSection
+
 # --- MS Edge
 $MicrosoftEdgePolicy = @{
     Prelaunch      = 'Disabled' # Disabled | Enabled | NotConfigured
@@ -446,6 +458,8 @@ Set-MicrosoftStoreSetting @MsStoreSettings
 #               UWP Apps
 #=======================================
 #region UWP Apps
+
+Write-Section -Name 'UWP Apps' -SubSection
 
 # --- Windows Notepad
 $NotepadSettings = @{
@@ -528,6 +542,8 @@ Write-Section -Name 'Network & Internet'
 #=======================================
 #region Network
 
+Write-Section -Name 'Network & internet' -SubSection
+
 # ResetServerAddresses
 # FallbackToPlaintext (does not work for Mullvad)
 # Provider: Adguard | Cloudflare | Mullvad | Quad9
@@ -565,6 +581,8 @@ $NetworkSharingSettings | Set-NetworkSharingSetting
 #=======================================
 #region Firewall
 
+Write-Section -Name 'Firewall' -SubSection
+
 $FirewallRules = @(
     'AllJoynRouter'
     'CastToDevice'
@@ -595,6 +613,8 @@ Block-DefenderFirewallInboundRule -Name $FirewallInboundRules
 #               Protocol
 #=======================================
 #region Protocol
+
+Write-Section -Name 'Protocol' -SubSection
 
 # --- IPv6 transition technologies
 $IPv6TransitionTech = @(
@@ -664,6 +684,8 @@ Write-Section -Name 'System & Tweaks'
 #=======================================
 #region file Explorer
 
+Write-Section -Name 'File Explorer' -SubSection
+
 $FileExplorerSettings = @{
     # --- General
     LaunchTo               = 'Home' # ThisPC | Home | Downloads | OneDrive
@@ -729,6 +751,8 @@ Set-FileExplorerSetting @FileExplorerSettings
 #=======================================
 #region power & battery
 
+Write-Section -Name 'Power & battery' -SubSection
+
 # --- Control Panel
 Set-FastStartup -State 'Disabled'
 Set-Hibernate -State 'Disabled'
@@ -790,6 +814,8 @@ $ButtonControlsSettings | Set-PowerSetting
 #           System properties
 #=======================================
 #region system properties
+
+Write-Section -Name 'System properties' -SubSection
 
 # --- Miscellaneous
 Set-ManufacturerAppsAutoDownload -State 'Enabled' -GPO 'NotConfigured'
@@ -855,6 +881,8 @@ Set-SystemFailureSetting @SystemFailureSettings
 #      Services & Scheduled Tasks
 #=======================================
 #region services & tasks
+
+Write-Section -Name 'Services & Scheduled Tasks' -SubSection
 
 # --- Services
 Export-DefaultServicesStartupType
@@ -940,6 +968,8 @@ $TasksToConfig | Set-ScheduledTaskStateGroup
 #=======================================
 #region ramdisk
 
+Write-Section -Name 'Ramdisk' -SubSection
+
 #Install-OSFMount
 
 # src\modules\ramdisk\private\app_data
@@ -963,6 +993,8 @@ $AppToRamDisk = @(
 #                Tweaks
 #=======================================
 #region tweaks
+
+Write-Section -Name 'Tweaks' -SubSection
 
 # --- Security, privacy and networking
 Set-DisplayLastSignedinUserName -GPO 'Enabled' # Disabled | Enabled
@@ -1087,6 +1119,8 @@ Write-Section -Name 'Telemetry & Annoyances'
 #=======================================
 #region telemetry
 
+Write-Section -Name 'Telemetry' -SubSection
+
 # DiagnosticTracing: TrustedInstaller protected key. Need to be changed manually.
 # See 'src\modules\telemetry\private\Set-DiagnosticTracing.ps1'
 
@@ -1114,6 +1148,8 @@ Set-UserInfoSharing -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 #    Windows Security (aka Defender)
 #=======================================
 #region Windows security
+
+Write-Section -Name 'Windows Security (aka Defender)' -SubSection
 
 # --- Settings
 $DefenderSettings = @{
@@ -1147,6 +1183,8 @@ Set-DefenderNotificationsSetting @DefenderNotifs
 #          Windows Permissions
 #=======================================
 #region Win Permissions
+
+Write-Section -Name 'Windows Permissions' -SubSection
 
 # --- User Data (aka: General / Recommendations & offers)
 $PrivacyWinPermUserData = @{
@@ -1202,6 +1240,8 @@ Set-WinPermissionsSetting @PrivacyWinPermSearch
 #            App Permissions
 #=======================================
 #region app Permissions
+
+Write-Section -Name 'App Permissions' -SubSection
 
 # --- General
 $PrivacyAppPermGeneral = @{
@@ -1267,6 +1307,8 @@ $PrivacyAppPermTablet = @{
 #=======================================
 #region background Permissions
 
+Write-Section -Name 'Background Permissions' -SubSection
+
 # Global setting
 # Needed by Windows Spotlight (and other UWP apps).
 #Set-AppPermissionsSetting -BackgroundApps 'Disabled' -BackgroundAppsGPO 'NotConfigured'
@@ -1316,6 +1358,8 @@ Set-BackgroundAppPermissionsSetting @BackgroundAppPerm
 #=======================================
 #region Notifications
 
+Write-Section -Name 'Notifications' -SubSection
+
 # --- Notifications
 $NotificationsSettings = @{
     Notifications            = 'Disabled' ; NotificationsGPO    = 'NotConfigured'
@@ -1354,6 +1398,8 @@ Set-NotificationsSetting @NotificationsAdsSettings
 #            Start & Taskbar
 #=======================================
 #region Start & Taskbar
+
+Write-Section -Name 'Start & Taskbar' -SubSection
 
 # --- Start
 $StartSettings = @{
@@ -1427,6 +1473,8 @@ Write-Section -Name 'Windows Settings App'
 #                System
 #=======================================
 #region system
+
+Write-Section -Name 'System' -SubSection
 
 # --- Display
 $DisplayBrightnessSettings = @{
@@ -1528,6 +1576,8 @@ Set-AIComponentsSetting -AgenticFeatures 'Disabled'
 #=======================================
 #region bluetooth & devices
 
+Write-Section -Name 'Bluetooth & devices' -SubSection
+
 # --- Devices
 $BluetoothSettings = @{
     BluetoothGPO                 = 'NotConfigured'
@@ -1625,6 +1675,8 @@ $FourFingersSwipesCustom = @{
 #=======================================
 #region personnalization
 
+Write-Section -Name 'Personnalization' -SubSection
+
 # --- Background
 $BackgroundSettings = @{
     Wallpaper      = "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
@@ -1689,6 +1741,8 @@ Set-DeviceUsageSetting -DisableAll
 #=======================================
 #region apps
 
+Write-Section -Name 'Apps' -SubSection
+
 $AppsSettings = @{
     ChooseWhereToGetApps = 'Anywhere' ; ChooseWhereToGetAppsGPO = 'NotConfigured' # Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly | NotConfigured
     ShareAcrossDevices   = 'Disabled' # Disabled | DevicesOnly | EveryoneNearby
@@ -1719,6 +1773,8 @@ Set-OfflineMapsSetting @OfflineMapsSettings
 #=======================================
 #region accounts
 
+Write-Section -Name 'Accounts' -SubSection
+
 Set-YourInfoSetting -BlockMicrosoftAccountsGPO 'NotConfigured' # CannotAddMicrosoftAccount | CannotAddOrLogonWithMicrosoftAccount | NotConfigured
 Set-WinBackupSetting -RememberAppsAndPrefsGPO 'DefaultOff' # DefaultOff | Disabled | NotConfigured
 
@@ -1741,6 +1797,8 @@ Set-SigninOptionsSetting @AccountsSettings
 #            Time & language
 #=======================================
 #region time & language
+
+Write-Section -Name 'Time & language' -SubSection
 
 # --- Date & time
 $DateTimeSettings = @{
@@ -1786,6 +1844,8 @@ Set-TypingSetting @TypingSettings
 #=======================================
 #region gaming
 
+Write-Section -Name 'Gaming' -SubSection
+
 $GamingSettings = @{
     OpenGameBarWithController      = 'Disabled'
     UseViewMenuAsGuideButtonInApps = 'Disabled'
@@ -1799,6 +1859,8 @@ Set-GamingSetting @GamingSettings
 #                 Accessibility
 #=======================================
 #region accessibility
+
+Write-Section -Name 'Accessibility' -SubSection
 
 $AccessibilitySettings = @{
     VisualEffectsAlwaysShowScrollbars       = 'Disabled'
@@ -1824,6 +1886,8 @@ Set-AccessibilitySetting @AccessibilitySettings
 #            Windows Update
 #=======================================
 #region Windows Update
+
+Write-Section -Name 'Windows Update' -SubSection
 
 $WindowsUpdateSettings = @{
     GetLatestAsSoonAsAvailable     = 'Disabled' ; GetLatestAsSoonAsAvailableGPO     = 'NotConfigured'

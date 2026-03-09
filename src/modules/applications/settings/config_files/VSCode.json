@@ -23,9 +23,9 @@
     // applications
     "telemetry.feedback.enabled": false,
     "telemetry.telemetryLevel": "off",
-    "update.enableWindowsBackgroundUpdates": false,
     "update.mode": "start",
     "update.showReleaseNotes": false,
+    "network.meteredConnection": "on",
 
     // extensions
     "git.allowForcePush": true,
