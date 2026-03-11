@@ -16,6 +16,9 @@
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.welcomePage.walkthroughs.openOnInstall": false,
 
+    // chat
+    "chat.disableAIFeatures": true,
+
     // features
     "extensions.ignoreRecommendations": true,
     "terminal.integrated.useWslProfiles": false,

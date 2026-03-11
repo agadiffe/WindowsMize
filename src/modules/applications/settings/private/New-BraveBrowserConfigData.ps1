@@ -119,6 +119,12 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        Merge-Hashtable $BravePreferences ('{
+            "brave": {
+                "darker_mode": false // ultra dark theme
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
         ### Customize your toolbar
         #---------------
         #### Navigation
@@ -183,8 +189,12 @@ function New-BraveBrowserConfigData
                     "show_brave_rewards_button_in_location_bar": false
                 },
                 "today": {
-                    "should_show_toolbar_button": false // Brave News
-                }
+                    "should_show_toolbar_button": false // RSS feed
+                },
+                "pin_share_menu_button": false
+            },
+            "browser": {
+                "pin_pwa_install_button": false // install app
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -489,6 +499,7 @@ function New-BraveBrowserConfigData
                     "auto_picture_in_picture": 2,
                     "automatic_downloads": 1,
                     "autoplay": 1,
+                    "brave_cardano": 2,
                     "brave_ethereum": 2,
                     "brave_google_sign_in": 2,
                     "brave_open_ai_chat": 2,
@@ -503,6 +514,7 @@ function New-BraveBrowserConfigData
                     "javascript_optimizer": 2, // v8 optimizer
                     "local_fonts": 2, // fonts
                     "local_network_access": 2,
+                    "loopback_network": 2, // apps on device
                     "media_stream_camera": 2,
                     "media_stream_mic": 2,
                     "midi_sysex": 2, // MIDI device control & reprogram
@@ -584,6 +596,7 @@ function New-BraveBrowserConfigData
             "brave": {
                 "wallet": {
                     // default wallet\ extensions (Brave Wallet fallback): 3 | Brave Wallet: 4 | extensions (no fallback): 1
+                    "default_cardano_wallet": 1,
                     "default_solana_wallet": 1,
                     "default_wallet2": 1, // Ethereum
                     "nft_discovery_enabled": false,
