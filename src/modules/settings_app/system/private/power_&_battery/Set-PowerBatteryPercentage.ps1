@@ -32,7 +32,7 @@ function Set-PowerBatteryPercentage
             Entries = @(
                 @{
                     Name  = 'IsBatteryPercentageEnabled'
-                    Value = $State -eq 'Enabled' ? '1' : '2'
+                    Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
