@@ -59,28 +59,6 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            TaskPath = '\Microsoft\Windows\Flighting\FeatureConfig\'
-            Task     = @{
-                BootstrapUsageDataReporting    = 'Disabled' # default: Disabled
-                GovernedFeatureUsageProcessing = 'Disabled' # default: Enabled
-                ReconcileConfigs               = 'Disabled' # default: Enabled
-                ReconcileFeatures              = 'Disabled' # default: Enabled
-                UsageDataFlushing              = 'Disabled' # default: Enabled
-                UsageDataReceiver              = 'Disabled' # default: Enabled
-                UsageDataReporting             = 'Disabled' # default: Enabled
-            }
-            Comment  = 'FeatureConfig tasks (reconciles feature flags, processes/collects feature usage telemetry).
-                        Disabling prevents feature overrides from being reverted and reduces telemetry.'
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\Flighting\OneSettings\'
-            Task     = @{
-                RefreshCache = 'Disabled' # default: Enabled
-            }
-            Comment  = 'Config/experiments refresh (feature rollouts and configuration updates).
-                        Also collects and reports telemetry data back to Microsoft.'
-        }
-        @{
             TaskPath = '\Microsoft\Windows\Maintenance\'
             Task     = @{
                 WinSAT = 'Disabled' # default: Enabled

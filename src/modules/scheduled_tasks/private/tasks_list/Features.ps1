@@ -27,6 +27,34 @@ $ScheduledTasksList += @{
             }
         }
         @{
+            TaskPath = '\Microsoft\Windows\Flighting\FeatureConfig\'
+            Task     = @{
+                BootstrapUsageDataReporting    = 'Disabled' # default: Disabled
+                GovernedFeatureUsageProcessing = 'Disabled' # default: Enabled
+                ReconcileConfigs               = 'Enabled'  # default: Enabled
+                ReconcileFeatures              = 'Enabled'  # default: Enabled
+                UsageDataFlushing              = 'Disabled' # default: Enabled
+                UsageDataReceiver              = 'Disabled' # default: Enabled
+                UsageDataReporting             = 'Disabled' # default: Enabled
+            }
+            Comment  = 'used for gradual feature rollouts and A/B testing of UI changes.
+                        reconciles feature flags, processes/collects feature usage telemetry.
+                        Disabling prevents feature overrides from being reverted and reduces telemetry.
+                        ReconcileConfigs: updates feature configuration definitions.
+                        ReconcileFeatures: applies the feature flag states (might (or not) revert changes made by ViVeTool).'
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\Flighting\OneSettings\'
+            Task     = @{
+                RefreshCache = 'Disabled' # default: Enabled
+            }
+            Comment  = 'downloads remote feature flags and experiment configuration (A/B testing / staged rollouts).
+                        if disabled:
+                          most new features will arrive with Windows updates.
+                          feature rollouts occur less frequently between updates.
+                          prevents most remote A/B testing delivered through Windows flighting.'
+        }
+        @{
             TaskPath = '\Microsoft\Windows\Maps\'
             Task     = @{
                 MapsToastTask  = 'Disabled' # default: Enabled
