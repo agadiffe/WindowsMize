@@ -21,16 +21,13 @@ function Remove-MicrosoftEdge
             return
         }
 
-        # Get the user region.
-        $UserRegionRegPath = 'Control Panel\International\Geo'
-        $UserRegion = Get-LoggedOnUserItemPropertyValue -Path $UserRegionRegPath -Name 'Name'
-
         # Get the 'RegionPolicy' config file content.
         $RegionPolicyFilePath = "$env:SystemRoot\System32\IntegratedServicesRegionPolicySet.json"
         $RegionPolicy = Get-Content -Raw -Path $RegionPolicyFilePath | ConvertFrom-Json -AsHashtable
 
         # Enable edge uninstallation in 'IntegratedServicesRegionPolicySet.json'.
         # The 'guid' correspond to 'Edge is uninstallable'.
+        $DeviceGeoIso = Get-DeviceRegionISO2
         $IsRegionPolicyFileChanged = $false
         $RegionPolicy['policies'] |
             Where-Object -Property 'guid' -EQ -Value '{1bca278a-5d11-4acf-ad2f-f9ab6d7f93a6}' |
@@ -40,9 +37,9 @@ function Remove-MicrosoftEdge
                     $_['defaultState'] = 'enabled'
                     $IsRegionPolicyFileChanged = $true
                 }
-                if ($_['conditions']['region']['enabled'] -notcontains $UserRegion)
+                if ($_['conditions']['region']['enabled'] -notcontains $DeviceGeoIso)
                 {
-                    $_['conditions']['region']['enabled'] += $UserRegion
+                    $_['conditions']['region']['enabled'] += $DeviceGeoIso
                     $IsRegionPolicyFileChanged = $true
                 }
             }
@@ -89,5 +86,68 @@ function Remove-MicrosoftEdge
             Rename-Item -Path "$RegionPolicyFilePath.bak" -NewName $RegionPolicyFileName
             Set-Acl -Path $RegionPolicyFilePath -AclObject $OriginalRegionPolicyAcl
         }
+    }
+}
+
+
+<#
+.SYNTAX
+    Get-DeviceRegionISO2 [<CommonParameters>]
+#>
+
+function Get-DeviceRegionISO2
+{
+    [CmdletBinding()]
+    param ()
+
+    process
+    {
+        if (-not ('Win32.Geo' -as [type]))
+        {
+            Add-Type @'
+                using System.Runtime.InteropServices;
+                using System.Text;
+                
+                namespace Win32 {
+                    public class Geo {
+                        [DllImport("kernel32.dll")]
+                        public static extern int GetGeoInfo (
+                            int location,
+                            int geoType,
+                            StringBuilder geoData,
+                            int geoDataSize,
+                            int langId
+                        );
+                    
+                        public const int GEO_ISO2 = 0x4;
+                    }
+                }
+'@
+        }
+
+        function Convert-GeoIdToISO2
+        {
+            [CmdletBinding()]
+            param
+            (
+                [Parameter(Mandatory)]
+                [string] $GeoId
+
+            )
+
+            process
+            {
+                if ($GeoId -le 0) { return $null }
+
+                $StringBuilder = New-Object -TypeName 'System.Text.StringBuilder' -ArgumentList '3'
+                [Win32.Geo]::GetGeoInfo($GeoId, [Win32.Geo]::GEO_ISO2, $StringBuilder, $StringBuilder.Capacity, 0) | Out-Null
+                $StringBuilder.ToString()
+            }
+        }
+
+        $DeviceRegionRegPath = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Panel\DeviceRegion'
+        $DeviceGeoId = (Get-ItemProperty -Path "Registry::$DeviceRegionRegPath").DeviceRegion
+        $DeviceGeoIso = Convert-GeoIdToISO2 -GeoId $DeviceGeoId
+        $DeviceGeoIso
     }
 }
