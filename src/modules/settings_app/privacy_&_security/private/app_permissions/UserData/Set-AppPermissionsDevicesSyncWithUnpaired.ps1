@@ -34,31 +34,11 @@ function Set-AppPermissionsDevicesSyncWithUnpaired
         {
             'State'
             {
-                # Win 11
-                #---------
-                # on: 1 (default) | off: 0
-                $SyncWithDevices = [AppPermissionSetting]::new(@{
-                    Hive    = 'HKEY_CURRENT_USER'
-                    Path    = 'Software\Microsoft\Windows\CurrentVersion\Privacy'
-                    Entries = @(
-                        @{
-                            Name  = 'TailoredExperiencesWithDiagnosticDataEnabled'
-                            Value = $State -eq 'Enabled' ? '1' : '0'
-                            Type  = 'DWord'
-                        }
-                    )
-                })
-
-                $SyncWithDevices.WriteVerboseMsg($SyncWithDevicesMsg, $State)
-                $SyncWithDevices.SetRegistryEntry()
-
-                # Win 10
-                #---------
                 # on: Allow (default) | off: Deny
 
-                $SyncWithDevicesWin10 = [AppPermissionAccess]::new('bluetoothSync', $State)
-                $SyncWithDevicesWin10.WriteVerboseMsg("$SyncWithDevicesMsg (Win10)")
-                $SyncWithDevicesWin10.SetRegistryEntry()
+                $SyncWithDevices = [AppPermissionAccess]::new('bluetoothSync', $State)
+                $SyncWithDevices.WriteVerboseMsg($SyncWithDevicesMsg)
+                $SyncWithDevices.SetRegistryEntry()
             }
             'GPO'
             {
