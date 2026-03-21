@@ -97,10 +97,19 @@ Set-Copilot -GPO 'Disabled' # old
 Set-Cortana -GPO 'Disabled' # old
 
 Export-DefaultAppxPackagesNames
+
+Remove-MSMaliciousSoftwareRemovalTool
 Remove-MicrosoftEdge
 Remove-OneDrive
-Set-OneDriveNewUserAutoInstall -State 'Disabled'
-Remove-MSMaliciousSoftwareRemovalTool
+
+$OneDriveConfig = @{
+    NewUserAutoInstall                 = 'Disabled'
+    #RunAtStartup                       = 'Disabled'
+    #BackupNotifExplorer                = 'Disabled'
+    #BackupNotifToast                   = 'Disabled'
+    #BackupNotifStartMenuAndSettingsApp = 'Disabled'
+}
+Set-OneDrive @OneDriveConfig
 
 $PreinstalledAppsToRemove = @(
     'BingSearch'
@@ -1377,6 +1386,7 @@ $SenderNotifs = @(
     'BatterySaver'
     'MicrosoftStore'
     'NotificationSuggestions'
+    #'OneDrive'
     'PrintNotification'
     'Settings'
     'StartupAppNotification'

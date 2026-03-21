@@ -120,6 +120,7 @@ enum NotifsAppsAndOtherSenders
     BatterySaver
     MicrosoftStore
     NotificationSuggestions
+    OneDrive
     PrintNotification
     Settings
     StartupAppNotification

@@ -21,7 +21,7 @@
         [<CommonParameters>]
 
     Set-NotificationsSetting
-        -AppsAndOtherSenders {Apps | Autoplay | BatterySaver | MicrosoftStore | NotificationSuggestions |
+        -AppsAndOtherSenders {Apps | Autoplay | BatterySaver | MicrosoftStore | NotificationSuggestions | OneDrive |
                               PrintNotification | Settings | StartupAppNotification | Suggested | WindowsBackup}
         -State {Disabled | Enabled}
         [<CommonParameters>]

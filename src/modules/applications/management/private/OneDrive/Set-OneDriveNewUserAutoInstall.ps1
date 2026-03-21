@@ -25,7 +25,7 @@ function Set-OneDriveNewUserAutoInstall
 
     process
     {
-        Write-Verbose -Message "Setting 'OneDrive New User Auto Install' to '$State' ..."
+        # on: key present (default) | off: delete key
 
         $NTUserRegKeyName = 'NTUSER_DEFAULT'
         $OneDriveSetup = @{
@@ -43,6 +43,8 @@ function Set-OneDriveNewUserAutoInstall
 
         $NTUserRegPath = "HKEY_USERS\$NTUserRegKeyName"
         $NTUserFilePath = "$env:SystemDrive\Users\Default\NTUSER.DAT"
+
+        Write-Verbose -Message "Setting 'OneDrive - New User Auto Install' to '$State' ..."
 
         reg.exe UNLOAD $NTUserRegPath 2>&1 | Out-Null
         reg.exe LOAD $NTUserRegPath $NTUserFilePath | Out-Null

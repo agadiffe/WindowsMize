@@ -61,6 +61,7 @@ $SenderNotifs = @(
     'BatterySaver'
     'MicrosoftStore'
     'NotificationSuggestions'
+    #'OneDrive'
     'PrintNotification'
     'Settings'
     'StartupAppNotification'

@@ -8,7 +8,7 @@
 <#
 .SYNTAX
     Set-NotificationsAppsAndOtherSenders
-        [-Name] {Apps | Autoplay | BatterySaver | MicrosoftStore | NotificationSuggestions | PrintNotification |
+        [-Name] {Apps | Autoplay | BatterySaver | MicrosoftStore | NotificationSuggestions | OneDrive | PrintNotification |
                  Settings | StartupAppNotification | Suggested | WindowsBackup}
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
@@ -46,6 +46,7 @@ function Set-NotificationsAppsAndOtherSenders
             'BatterySaver'            { 'Windows.SystemToast.BackgroundAccess' }
             'MicrosoftStore'          { 'Microsoft.WindowsStore_8wekyb3d8bbwe!App' }
             'NotificationSuggestions' { 'Windows.ActionCenter.SmartOptOut' }
+            'OneDrive'                { 'Microsoft.SkyDrive.Desktop' }
             'PrintNotification'       { 'Windows.SystemToast.Print.Notification' }
             'Settings'                { 'windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel' }
             'StartupAppNotification'  { 'Windows.SystemToast.StartupApp' }

@@ -65,8 +65,7 @@ function Set-StartFoldersNextToPowerButton
                 'PersonalFolder' { $StartFolders.Add('4a,b0,bd,74,4a,f9,68,4f,8b,d6,43,98,07,1d,a8,bc') | Out-Null }
             }
 
-            $StartFoldersValue = $StartFolders -join ','
-            $StartFoldersBytes = $StartFoldersValue.Split(',') | ForEach-Object -Process { [byte]"0x$_" }
+            $StartFoldersBytes = [Convert]::FromHexString("$StartFolders" -replace ',| ')
         }
 
         # only Power button: empty value (default)

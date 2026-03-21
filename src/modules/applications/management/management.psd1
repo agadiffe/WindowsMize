@@ -28,7 +28,7 @@
         'Set-Copilot'
         'Set-Cortana'
         'Set-MicrosoftStorePushToInstall'
-        'Set-OneDriveNewUserAutoInstall'
+        'Set-OneDrive'
         'Set-Recall'
         'Set-StartMenuBingSearch'
         'Set-Widgets'
