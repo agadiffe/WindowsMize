@@ -112,8 +112,9 @@ Set-FileExplorerSetting -HideFolderMergeConflicts 'Disabled'
 # --- Restore previous folder windows at logon (default: Disabled)
 #Set-FileExplorerSetting -RestorePreviousFoldersAtLogon 'Disabled'
 
-# --- Show drive letters (default: Enabled)
-#Set-FileExplorerSetting -ShowDriveLetters 'Enabled'
+# --- Show drive letters
+# State: Disabled | AfterDriveName (default) | BeforeDriveName
+#Set-FileExplorerSetting -ShowDriveLetters 'AfterDriveName'
 
 # --- Show encrypted or compressed NTFS files in color (default: Disabled)
 #Set-FileExplorerSetting -ColorEncryptedAndCompressedFiles 'Disabled'

@@ -30,7 +30,7 @@
         [-HideProtectedSystemFiles {Disabled | Enabled}]
         [-LaunchFolderInSeparateProcess {Disabled | Enabled}]
         [-RestorePreviousFoldersAtLogon {Disabled | Enabled}]
-        [-ShowDriveLetters {Disabled | Enabled}]
+        [-ShowDriveLetters {Disabled | AfterDriveName | BeforeDriveName}]
         [-ShowPreviewHandlers {Disabled | Enabled}]
         [-ShowStatusBar {Disabled | Enabled}]
         [-ColorEncryptedAndCompressedFiles {Disabled | Enabled}]
@@ -103,7 +103,7 @@ function Set-FileExplorerSetting
         [state] $HideProtectedSystemFiles,
         [state] $LaunchFolderInSeparateProcess,
         [state] $RestorePreviousFoldersAtLogon,
-        [state] $ShowDriveLetters,
+        [DriveLettersMode] $ShowDriveLetters,
         [state] $ShowPreviewHandlers,
         [state] $ShowStatusBar,
         [state] $ColorEncryptedAndCompressedFiles,

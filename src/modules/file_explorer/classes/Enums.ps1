@@ -27,3 +27,10 @@ enum TypingIntoListViewMode
     SelectItemInView    = 0
     AutoTypeInSearchBox = 1
 }
+
+enum DriveLettersMode
+{
+    Disabled        = 2
+    AfterDriveName  = 0
+    BeforeDriveName = 4
+}
