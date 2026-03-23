@@ -513,7 +513,7 @@ function New-BraveBrowserConfigData
                     "images": 1,
                     "javascript_optimizer": 2, // v8 optimizer
                     "local_fonts": 2, // fonts
-                    "local_network_access": 2,
+                    "local_network": 2,
                     "loopback_network": 2, // apps on device
                     "media_stream_camera": 2,
                     "media_stream_mic": 2,

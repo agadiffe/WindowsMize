@@ -36,6 +36,7 @@
         'Set-NumLockAtStartup'
         'Set-ServiceHostSplitting'
         'Set-Short8Dot3FileName'
+        'Set-StartMenuWebview2Version'
         'Set-StartupAppsDelay'
         'Set-StartupShutdownVerboseStatusMessages'
 

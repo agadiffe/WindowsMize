@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Get-LogPath
-        -User
+        [-User]
         [<CommonParameters>]
 #>
 

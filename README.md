@@ -45,7 +45,7 @@ Extra: Fast startup, Hibernate, Battery settings, Modern standby (S0) Network co
   <summary>Configure the network settings. Improve security by disabling protocols and firewall rules (click to expand).</summary>
 
 - Network & Internet:
-  - equivvalent of the Windows GUI settings app (start > all apps > settings > Network & Internet):  
+  - equivalent of the Windows GUI settings app (start > all apps > settings > Network & Internet):  
     Network profile, auto proxy setting, DNS, Network discovery, File and Printer Sharing.
 - Firewall:
   - block some ports/programs shown as listening (locally):  
@@ -78,7 +78,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   DisplayLastSignedinUserName, HomeGroup, Hotspot2, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
-  FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
+  FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartMenuWebview2Version, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
   DisableGameBarLinks, DisableStoreAppResultsFromStartMenuSearch, ActionCenterLayout, CopyPasteDialogShowMoreDetails, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, StartMenuAllAppsViewMode, StartMenuRecommendedSection, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.

@@ -1026,6 +1026,7 @@ Set-FirstSigninAnimation -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled' # Managed: User | System
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
+#Set-StartMenuWebview2Version -State 'Disabled'
 #Set-StartupAppsDelay -Value 2 # s / range: 0-45s
 #Set-StartupAppsDelay -Default
 #Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured

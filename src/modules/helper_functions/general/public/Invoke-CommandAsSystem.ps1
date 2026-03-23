@@ -5,8 +5,8 @@
 <#
 .SYNTAX
     Invoke-CommandAsSystem
-    [-Command] <string>
-    [<CommonParameters>]
+        [-Command] <string>
+        [<CommonParameters>]
 #>
 
 function Invoke-CommandAsSystem

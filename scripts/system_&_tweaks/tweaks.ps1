@@ -116,6 +116,12 @@ Set-ServiceHostSplitting -State 'Enabled'
 #Set-Short8Dot3FileName -State 'Disabled'
 Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 
+# --- Start Menu Webview2 version (default: Enabled)
+# Disabled: Use the previous Start Menu version.
+#   no msedgewebview2.exe processes in Task Manager.
+#   SearchHost.exe will be suspended when not in use.
+#Set-StartMenuWebview2Version -State 'Disabled'
+
 # --- Startup Apps Delay (default: default)
 # Default: about 10s and/or idle state defined by Windows.
 # Value: second (range 0-45)

@@ -6,7 +6,7 @@
 .SYNTAX
     Get-ApplicationInfo
         [-Name] <string>
-        [-System] <switch>
+        [-System]
         [<CommonParameters>]
 #>
 
