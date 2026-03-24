@@ -167,11 +167,16 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-# --- Disable GameBar Links
+# --- Disable 'Backup your PC' Start Menu and Settings Home page banners (default: Enabled)
+Disable-BackupYourPCStartMenuAndSettingsAppBanners
+#Disable-BackupYourPCStartMenuAndSettingsAppBanners -Reset
+
+# --- Disable GameBar Links (default: Enabled)
 # Fix popup errors if XBox GameBar is uninstalled.
 #Disable-GameBarLinks
+#Disable-GameBarLinks -Reset
 
-# --- Disable Store App results from Start Menu Search
+# --- Disable Store App results from Start Menu Search (default: Enabled)
 Disable-StoreAppResultsFromStartMenuSearch
 #Disable-StoreAppResultsFromStartMenuSearch -Reset
 

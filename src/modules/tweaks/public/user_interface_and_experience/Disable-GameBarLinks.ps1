@@ -6,7 +6,9 @@
 
 <#
 .SYNTAX
-    Disable-GameBarLinks [<CommonParameters>]
+    Disable-GameBarLinks
+        [-Reset]
+        [<CommonParameters>]
 #>
 
 function Disable-GameBarLinks
@@ -17,7 +19,10 @@ function Disable-GameBarLinks
     #>
 
     [CmdletBinding()]
-    param ()
+    param
+    (
+        [switch] $Reset
+    )
 
     process
     {
@@ -37,6 +42,7 @@ function Disable-GameBarLinks
                         Type  = 'String'
                     }
                     @{
+                        RemoveEntry = $Reset
                         Name  = 'NoOpenWith'
                         Value = ''
                         Type  = 'String'
@@ -44,6 +50,7 @@ function Disable-GameBarLinks
                 )
             }
             @{
+                RemoveKey = $Reset
                 Hive    = 'HKEY_CLASSES_ROOT'
                 Path    = 'ms-gamebar\shell\open\command'
                 Entries = @(
@@ -69,6 +76,7 @@ function Disable-GameBarLinks
                         Type  = 'String'
                     }
                     @{
+                        RemoveEntry = $Reset
                         Name  = 'NoOpenWith'
                         Value = ''
                         Type  = 'String'
@@ -76,6 +84,7 @@ function Disable-GameBarLinks
                 )
             }
             @{
+                RemoveKey = $Reset
                 Hive    = 'HKEY_CLASSES_ROOT'
                 Path    = 'ms-gamebarservices\shell\open\command'
                 Entries = @(
@@ -88,7 +97,8 @@ function Disable-GameBarLinks
             }
         )
 
-        Write-Verbose -Message "Disabling GameBar Links (fix error if XBox GameBar is uninstalled)' ..."
+        $GamebarLinksState = $Reset ? 'Resetting' : 'Disabling'
+        Write-Verbose -Message "$GamebarLinksState 'GameBar Links (fix error if XBox GameBar is uninstalled)' ..."
         $GamebarLinks | Set-RegistryEntry
     }
 }

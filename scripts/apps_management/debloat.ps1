@@ -86,9 +86,6 @@ Set-OneDrive -NewUserAutoInstall 'Disabled'
 # To disable all notifs: See 'scripts > telemetry_&_annoyances > notifications.ps1'
 #Set-OneDrive -BackupNotifToast 'Disabled'
 
-# --- --- OneDrive : 'Backup your PC' Start Menu and Settings Home page notifications (default: Enabled)
-#Set-OneDrive -BackupNotifStartMenuAndSettingsApp 'Disabled'
-
 $PreinstalledAppsToRemove = @(
     'BingSearch'
     #'Calculator'

@@ -103,11 +103,10 @@ Remove-MicrosoftEdge
 Remove-OneDrive
 
 $OneDriveConfig = @{
-    NewUserAutoInstall                 = 'Disabled'
-    #RunAtStartup                       = 'Disabled'
-    #BackupNotifExplorer                = 'Disabled'
-    #BackupNotifToast                   = 'Disabled'
-    #BackupNotifStartMenuAndSettingsApp = 'Disabled'
+    NewUserAutoInstall  = 'Disabled'
+    #RunAtStartup        = 'Disabled'
+    #BackupNotifExplorer = 'Disabled'
+    #BackupNotifToast    = 'Disabled'
 }
 Set-OneDrive @OneDriveConfig
 
@@ -1066,7 +1065,10 @@ $ActionCenterLayout = @(
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
+Disable-BackupYourPCStartMenuAndSettingsAppBanners
+#Disable-BackupYourPCStartMenuAndSettingsAppBanners -Reset
 #Disable-GameBarLinks # Fix popup errors if XBox GameBar is uninstalled
+#Disable-GameBarLinks -Reset
 Disable-StoreAppResultsFromStartMenuSearch
 #Disable-StoreAppResultsFromStartMenuSearch -Reset
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'

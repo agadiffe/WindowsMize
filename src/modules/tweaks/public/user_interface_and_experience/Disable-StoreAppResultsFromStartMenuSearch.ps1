@@ -38,15 +38,15 @@ function Disable-StoreAppResultsFromStartMenuSearch
                 Sid  = 'S-1-1-0' # 'EVERYONE' group
             }
 
-            $StoreAppsSuggestionsMsg = 'Store Apps Suggestions In Start Menu Search'
+            $StoreAppsSuggestionsState = $Reset ? 'Resetting' : 'Disabling'
+            Write-Verbose -Message "$StoreAppsSuggestionsState 'Store Apps Suggestions In Start Menu Search' ..."
+
             if ($Reset)
             {
-                Write-Verbose -Message "Resetting '$StoreAppsSuggestionsMsg' ..."
                 Set-FileSystemAccessRule @AccessRuleParam -RemoveAll
             }
             else
             {
-                Write-Verbose -Message "Disabling '$StoreAppsSuggestionsMsg' ..."
                 Set-FileSystemAccessRule @AccessRuleParam -Permission 'Deny' -Access 'FullControl'
             }
         }

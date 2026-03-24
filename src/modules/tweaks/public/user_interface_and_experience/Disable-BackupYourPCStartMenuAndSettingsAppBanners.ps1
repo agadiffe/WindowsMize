@@ -1,37 +1,36 @@
 #=================================================================================================================
-#                              Set OneDrive Backup Notif Start Menu And Settings App
+#                           Disable Backup Your Pc Start Menu And Settings App Banners
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-OneDriveBackupNotifStartMenuAndSettingsApp
-        [-State] {Disabled | Enabled}
+    Disable-BackupYourPCStartMenuAndSettingsAppBanners
+        [-Reset]
         [<CommonParameters>]
 #>
 
-function Set-OneDriveBackupNotifStartMenuAndSettingsApp
+function Disable-BackupYourPCStartMenuAndSettingsAppBanners
 {
     <#
     .EXAMPLE
-        PS> Set-OneDriveBackupNotifStartMenuAndSettingsApp -State 'Disabled'
+        PS> Disable-BackupYourPCStartMenuAndSettingsAppBanners
     #>
 
     [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory)]
-        [state] $State
+        [switch] $Reset
     )
 
     process
     {
         # on: delete key (default) | off: json value
-        $OneDriveBackupNotifStartMenuAndSettingsApp = @{
+        $BackupYourPcBanners = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\RulesEngine\StateManager'
             Entries = @(
                 @{
-                    RemoveEntry = $State -eq 'Enabled'
+                    RemoveEntry = $Reset
                     Name  = 'LastSuppressionTimes'
                     Value = '{"settingshomealertbanner":"2099-01-01T00:00:00Z","startmenu":"2099-01-01T00:00:00Z"}'
                     Type  = 'String'
@@ -45,7 +44,8 @@ function Set-OneDriveBackupNotifStartMenuAndSettingsApp
             )
         }
 
-        Write-Verbose -Message "Setting 'OneDrive Backup Notif - Start Menu And Settings App' to '$State' ..."
-        Set-RegistryEntry -InputObject $OneDriveBackupNotifStartMenuAndSettingsApp
+        $BackupYourPcBannersState = $Reset ? 'Resetting' : 'Disabling'
+        Write-Verbose -Message "$BackupYourPcBannersState 'Backup Your PC - Start Menu And Settings App Banners' ..."
+        Set-RegistryEntry -InputObject $BackupYourPcBanners
     }
 }

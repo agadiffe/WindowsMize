@@ -7,7 +7,6 @@
     Set-OneDrive
         [-BackupNotifExplorer {Disabled | Enabled}]
         [-BackupNotifToast {Disabled | Enabled}]
-        [-BackupNotifStartMenuAndSettingsApp {Disabled | Enabled}]
         [-NewUserAutoInstall {Disabled | Enabled}]
         [-RunAtStartup {Disabled | Enabled}]
         [<CommonParameters>]
@@ -25,7 +24,6 @@ function Set-OneDrive
     (
         [state] $BackupNotifExplorer,
         [state] $BackupNotifToast,
-        [state] $BackupNotifStartMenuAndSettingsApp,
         [state] $NewUserAutoInstall,
         [state] $RunAtStartup
     )
@@ -40,11 +38,10 @@ function Set-OneDrive
 
         switch ($PSBoundParameters.Keys)
         {
-            'BackupNotifExplorer'                { Set-OneDriveBackupNotifExplorer -State $BackupNotifExplorer }
-            'BackupNotifToast'                   { Set-OneDriveBackupNotifToast -State $BackupNotifToast }
-            'BackupNotifStartMenuAndSettingsApp' { Set-OneDriveBackupNotifStartMenuAndSettingsApp -State $BackupNotifStartMenuAndSettingsApp }
-            'NewUserAutoInstall'                 { Set-OneDriveNewUserAutoInstall -State $NewUserAutoInstall }
-            'RunAtStartup'                       { Set-OneDriveRunAtStartup -State $RunAtStartup }
+            'BackupNotifExplorer' { Set-OneDriveBackupNotifExplorer -State $BackupNotifExplorer }
+            'BackupNotifToast'    { Set-OneDriveBackupNotifToast -State $BackupNotifToast }
+            'NewUserAutoInstall'  { Set-OneDriveNewUserAutoInstall -State $NewUserAutoInstall }
+            'RunAtStartup'        { Set-OneDriveRunAtStartup -State $RunAtStartup }
         }
     }
 }

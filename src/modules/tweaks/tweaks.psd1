@@ -41,6 +41,7 @@
         'Set-StartupShutdownVerboseStatusMessages'
 
         # --- user_interface_and_experience
+        'Disable-BackupYourPCStartMenuAndSettingsAppBanners'
         'Disable-GameBarLinks'
         'Disable-StoreAppResultsFromStartMenuSearch'
         'Set-ActionCenterLayout'
