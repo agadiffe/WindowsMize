@@ -210,13 +210,25 @@ $OptionalFeatures | Remove-PreinstalledOptionalFeature
 
 Write-Section -Name 'Installation' -SubSection
 
-$CustomAppsToInstall = @(
-    'Valve.Steam'
-    'AppName2'
-    'AppName3'
-)
+$CustomAppsToInstall = @{
+    Machine = @(
+        'Valve.Steam'
+        'AppName2'
+        'AppName3'
+    )
+    User = @(
+        'AppName1'
+        'AppName2'
+    )
+    NoScope = @(
+        'AppName1'
+        'AppName2'
+    )
+}
 # Scope (optional): Machine | User
-#$CustomAppsToInstall | Install-ApplicationWithWinget -Scope 'Machine'
+#$CustomAppsToInstall['Machine'] | Install-ApplicationWithWinget -Scope 'Machine'
+#$CustomAppsToInstall['User'] | Install-ApplicationWithWinget -Scope 'User'
+#$CustomAppsToInstall['NoScope'] | Install-ApplicationWithWinget
 
 $AppsToInstall = @(
     #'Git'
@@ -242,13 +254,13 @@ $AppsToInstall = @(
     #'VCRedist2010'
     #'VCRedist2008'
     #'VCRedist2005'
-    #'DirectXEndUserRuntime' # DX9
-    #'DotNetDesktopRuntime5'
-    #'DotNetDesktopRuntime6'
-    #'DotNetDesktopRuntime7'
-    #'DotNetDesktopRuntime8'
-    #'DotNetDesktopRuntime9'
+    #'DirectX9EndUserRuntime'
     #'DotNetDesktopRuntime10'
+    #'DotNetDesktopRuntime9'
+    #'DotNetDesktopRuntime8'
+    #'DotNetDesktopRuntime7'
+    #'DotNetDesktopRuntime6'
+    #'DotNetDesktopRuntime5'
 )
 $AppsToInstall | Install-Application
 #Remove-AllDesktopShortcuts

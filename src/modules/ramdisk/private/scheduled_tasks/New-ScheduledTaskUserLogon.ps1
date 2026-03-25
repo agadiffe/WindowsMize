@@ -36,6 +36,6 @@ function New-ScheduledTaskUserLogon
         Write-Verbose -Message "Setting '$TaskName' User Logon Scheduled Task ..."
 
         $TaskTrigger = New-ScheduledTaskTrigger -AtLogOn -User $User
-        New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+        New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger | Out-Null
     }
 }

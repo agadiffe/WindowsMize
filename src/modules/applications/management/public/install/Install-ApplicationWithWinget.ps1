@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Install-ApplicationWithWinget
-        [-Name] <string>
+        [-Id] <string>
         [[-Scope] {Machine | User}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Install-ApplicationWithWinget
 {
     <#
     .EXAMPLE
-        PS> Install-ApplicationWithWinget -Name 'VideoLAN.VLC' -Scope 'Machine'
+        PS> Install-ApplicationWithWinget -Id 'VideoLAN.VLC' -Scope 'Machine'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory, ValueFromPipeline)]
-        [string] $Name,
+        [string] $Id,
 
         [ValidateSet('Machine', 'User')]
         [string] $Scope
@@ -29,7 +29,7 @@ function Install-ApplicationWithWinget
 
     process
     {
-        Write-Verbose -Message "Installing $Name ..."
+        Write-Verbose -Message "Installing $Id ..."
 
         $InstallOptions = @(
             '--exact'
@@ -44,6 +44,15 @@ function Install-ApplicationWithWinget
         {
             $InstallOptions += "--scope=$Scope"
         }
-        winget.exe install --id $Name @InstallOptions
+
+        if ($Scope -eq 'User')
+        {
+            $UserName = (Get-LoggedOnUserInfo)['UserName']
+            Install-AppWithWingetUserScheduledTask -Id $Id -RunAsUser $UserName -Argument $InstallOptions
+        }
+        else
+        {
+            winget.exe install --id $Id @InstallOptions
+        }
     }
 }

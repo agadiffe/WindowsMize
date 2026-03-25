@@ -32,6 +32,6 @@ function New-ScheduledTaskStartup
         Write-Verbose -Message "Setting '$TaskName' Startup Scheduled Task ..."
 
         $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
-        New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger
+        New-ScheduledTaskScript -FilePath $FilePath -TaskName $TaskName -Trigger $TaskTrigger | Out-Null
     }
 }

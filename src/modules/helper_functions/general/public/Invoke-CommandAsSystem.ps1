@@ -26,9 +26,11 @@ function Invoke-CommandAsSystem
     process
     {
         $OutFile = "$([System.IO.Path]::GetTempPath())\TempScriptContent.ps1"
-        $TempTaskName = "TempScript42-$(New-Guid)"
-        # at task creation/modification
-        $TaskTrigger = Get-CimClass -ClassName 'MSFT_TaskRegistrationTrigger' -Namespace 'Root/Microsoft/Windows/TaskScheduler' -Verbose:$false
+        $TaskTriggerParam = @{
+            ClassName = 'MSFT_TaskRegistrationTrigger' # at task creation/modification
+            Namespace = 'Root/Microsoft/Windows/TaskScheduler'
+        }
+        $TaskTrigger = Get-CimClass @TaskTriggerParam -Verbose:$false
 
         Write-Verbose -Message "Invoking command as SYSTEM ..."
         Write-Verbose -Message "    SYSTEM command begin:"
@@ -36,14 +38,14 @@ function Invoke-CommandAsSystem
         Write-Verbose -Message "    SYSTEM command end."
 
         $Command | Out-File -FilePath $OutFile
-        New-ScheduledTaskScript -FilePath $OutFile -TaskName $TempTaskName -Trigger $TaskTrigger -Verbose:$false | Out-Null
+        $TaskData = New-ScheduledTaskScript -FilePath $OutFile -Trigger $TaskTrigger -Verbose:$false
 
-        while ((Get-ScheduledTask -TaskPath '\' -TaskName $TempTaskName).State -eq 'Running')
+        while ((Get-ScheduledTask -TaskPath $TaskData.TaskPath -TaskName $TaskData.TaskName).State -eq 'Running')
         {
             Start-Sleep -Seconds 0.1
         }
 
-        Unregister-ScheduledTask -TaskPath '\' -TaskName $TempTaskName -Confirm:$false
+        Unregister-ScheduledTask -TaskPath $TaskData.TaskPath -TaskName $TaskData.TaskName -Confirm:$false
         Remove-Item -Path $OutFile -ErrorAction 'SilentlyContinue'
     }
 }

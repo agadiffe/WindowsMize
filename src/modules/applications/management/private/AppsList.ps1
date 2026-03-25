@@ -65,14 +65,14 @@ $AppsList = [ordered]@{
         'Microsoft.VCRedist.2005.x86'
     )
 
-    # Microsoft DirectX End-User Runtime (required for older games)
-    DirectXEndUserRuntime = 'Microsoft.DirectX'
+    # Microsoft DirectX 9 End-User Runtime (required for older games)
+    DirectX9EndUserRuntime = 'Microsoft.DirectX'
 
     # Microsoft .NET Windows Desktop Runtime
-    DotNetDesktopRuntime5  = 'Microsoft.DotNet.DesktopRuntime.5'
-    DotNetDesktopRuntime6  = 'Microsoft.DotNet.DesktopRuntime.6'
-    DotNetDesktopRuntime7  = 'Microsoft.DotNet.DesktopRuntime.7'
-    DotNetDesktopRuntime8  = 'Microsoft.DotNet.DesktopRuntime.8'
-    DotNetDesktopRuntime9  = 'Microsoft.DotNet.DesktopRuntime.9'
     DotNetDesktopRuntime10 = 'Microsoft.DotNet.DesktopRuntime.10'
+    DotNetDesktopRuntime9  = 'Microsoft.DotNet.DesktopRuntime.9'
+    DotNetDesktopRuntime8  = 'Microsoft.DotNet.DesktopRuntime.8'
+    DotNetDesktopRuntime7  = 'Microsoft.DotNet.DesktopRuntime.7'
+    DotNetDesktopRuntime6  = 'Microsoft.DotNet.DesktopRuntime.6'
+    DotNetDesktopRuntime5  = 'Microsoft.DotNet.DesktopRuntime.5'
 }

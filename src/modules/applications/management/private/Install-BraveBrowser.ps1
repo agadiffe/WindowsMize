@@ -19,10 +19,10 @@ function Install-BraveBrowser
         Write-Verbose -Message 'Installing Brave Browser ...'
 
         $Url = 'https://laptop-updates.brave.com/latest/winx64'
-        $OutPath = "$([System.IO.Path]::GetTempPath())\BraveBrowserSetup.exe"
+        $OutFilePath = "$([System.IO.Path]::GetTempPath())\BraveBrowserSetup.exe"
 
-        Invoke-RestMethod -Uri $Url -OutFile $OutPath -Verbose:$false
-        Start-Process -Wait -FilePath $OutPath -ArgumentList '/silent /install'
-        Remove-Item -Path $OutPath
+        Invoke-RestMethod -Uri $Url -OutFile $OutFilePath -Verbose:$false
+        Start-Process -Wait -FilePath $OutFilePath -ArgumentList '/silent /install'
+        Remove-Item -Path $OutFilePath
     }
 }

@@ -6,8 +6,9 @@
 .SYNTAX
     New-ScheduledTaskScript
         [-FilePath] <string>
-        [-TaskName] <string>
-        [-Trigger] <ciminstance>
+        [-Trigger] <ciminstance[]>
+        [[-TaskName] <string>]
+        [[-RunAsUser] <string>]
         [<CommonParameters>]
 #>
 
@@ -16,7 +17,15 @@ function New-ScheduledTaskScript
     <#
     .EXAMPLE
         PS> $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
-        PS> New-ScheduledTaskScript -FilePath 'C:\MyScript.ps1' -TaskName 'MyTaskName' -Trigger $TaskTrigger
+        PS> New-ScheduledTaskScript -FilePath 'C:\MyScript.ps1' -Trigger $TaskTrigger
+
+    .EXAMPLE
+        PS> $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
+        PS> New-ScheduledTaskScript -FilePath 'C:\MyScript.ps1' -Trigger $TaskTrigger -TaskName 'MyTaskName' -RunAsUser 'Groot'
+
+    .EXAMPLE
+        PS> $TaskTrigger = New-ScheduledTaskTrigger -AtStartup
+        PS> New-ScheduledTaskScript -FilePath 'C:\MyScript.ps1' -Trigger $TaskTrigger -RunAsUser 'S-1-5-18'
     #>
 
     [CmdletBinding()]
@@ -26,13 +35,14 @@ function New-ScheduledTaskScript
         [string] $FilePath,
 
         [Parameter(Mandatory)]
+        [CimInstance[]] $Trigger,
+
         [ValidatePattern(
             '^[^/\\:\|<>\?\*"]+$',
             ErrorMessage = 'The TaskName can''t contain these characters: / \ : | < > ? * "')]
-        [string] $TaskName,
+        [string] $TaskName = "TempTaskName-$(New-Guid)",
 
-        [Parameter(Mandatory)]
-        [CimInstance[]] $Trigger
+        [string] $RunAsUser = 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
     )
 
     process
@@ -43,8 +53,7 @@ function New-ScheduledTaskScript
             Argument = "-NoProfile -ExecutionPolicy Bypass -File ""$FilePath"""
         }
         $TaskAction = New-ScheduledTaskAction @TaskActionParam
-        $SystemSid = 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
-        $TaskPrincipal = New-ScheduledTaskPrincipal -UserID $SystemSid
+        $TaskPrincipal = New-ScheduledTaskPrincipal -UserId $RunAsUser
         $TaskSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries
 
         $ScheduledTaskParam = @{
@@ -57,6 +66,6 @@ function New-ScheduledTaskScript
         }
 
         Unregister-ScheduledTask -TaskPath $TaskPath -TaskName $TaskName -Confirm:$false -ErrorAction 'SilentlyContinue'
-        Register-ScheduledTask @ScheduledTaskParam -Verbose:$false | Out-Null
+        Register-ScheduledTask @ScheduledTaskParam -Verbose:$false
     }
 }

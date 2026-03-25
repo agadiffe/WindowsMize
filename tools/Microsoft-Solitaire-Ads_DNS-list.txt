@@ -1,5 +1,5 @@
 ###############################################################################
-# Block Microsoft Solitaire Ads - DNS list
+# Microsoft Solitaire Ads - DNS list
 ###############################################################################
 # Add this list to your Hosts file: C:\System32\drivers\etc\hosts
 # Source: Internet / Reddit

@@ -27,16 +27,29 @@ Write-Section -Name 'Applications Management'
 Write-Section -Name 'Installation' -SubSection
 
 # --- Custom applications
-# Name: winget name of the app
+# Id: winget app Id
 # Scope (optional): Machine | User
-# e.g. Install-ApplicationWithWinget -Name 'Valve.Steam' -Scope 'Machine'
+# Some apps doesn't have Machine and/or User scope (e.g. Valve.Steam only have Machine scope).
+# e.g. Install-ApplicationWithWinget -Id 'Valve.Steam'
 
-$CustomAppsToInstall = @(
-    'Valve.Steam'
-    'AppName2'
-    'AppName3'
-)
-#$CustomAppsToInstall | Install-ApplicationWithWinget -Scope 'Machine'
+$CustomAppsToInstall = @{
+    Machine = @(
+        'Valve.Steam'
+        'AppId_2'
+        'AppId_3'
+    )
+    User = @(
+        'AppId_1'
+        'AppId_2'
+    )
+    NoScope = @(
+        'AppId_1'
+        'AppId_2'
+    )
+}
+#$CustomAppsToInstall['Machine'] | Install-ApplicationWithWinget -Scope 'Machine'
+#$CustomAppsToInstall['User'] | Install-ApplicationWithWinget -Scope 'User'
+#$CustomAppsToInstall['NoScope'] | Install-ApplicationWithWinget
 
 # --- Predefined applications
 $AppsToInstall = @(
@@ -79,16 +92,16 @@ $AppsToInstall = @(
     #'VCRedist2008'
     #'VCRedist2005'
 
-    # --- Microsoft DirectX (DX9) (might be needed for older games)
-    #'DirectXEndUserRuntime'
+    # --- Microsoft DirectX 9 (might be needed for older games)
+    #'DirectX9EndUserRuntime'
 
     # --- Microsoft .NET Windows Desktop Runtime
-    #'DotNetDesktopRuntime5'
-    #'DotNetDesktopRuntime6'
-    #'DotNetDesktopRuntime7'
-    #'DotNetDesktopRuntime8'
-    #'DotNetDesktopRuntime9'
     #'DotNetDesktopRuntime10'
+    #'DotNetDesktopRuntime9'
+    #'DotNetDesktopRuntime8'
+    #'DotNetDesktopRuntime7'
+    #'DotNetDesktopRuntime6'
+    #'DotNetDesktopRuntime5'
 )
 $AppsToInstall | Install-Application
 

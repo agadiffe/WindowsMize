@@ -28,7 +28,7 @@
     "telemetry.telemetryLevel": "off",
     "update.mode": "start",
     "update.showReleaseNotes": false,
-    "network.meteredConnection": "on",
+    //"network.meteredConnection": "on",
 
     // extensions
     "git.allowForcePush": true,

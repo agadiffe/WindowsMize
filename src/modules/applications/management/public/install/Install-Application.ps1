@@ -15,7 +15,7 @@ class AppsList : System.Management.Automation.IValidateSetValuesGenerator
     Install-Application
         [-Name] {Git | VSCode | VLC | Bitwarden | KeePassXC | ProtonPass | AcrobatReader | SumatraPDF | 7zip |
                  Notepad++ | qBittorrent | ProtonVPN | MullvadVPN | Brave | Firefox | MullvadBrowser |
-                 DirectXEndUserRuntime | VCRedist2015+.ARM | VCRedist2015+ | VCRedist2013 | VCRedist2012 |
+                 DirectX9EndUserRuntime | VCRedist2015+.ARM | VCRedist2015+ | VCRedist2013 | VCRedist2012 |
                  VCRedist2010 | VCRedist2008 | VCRedist2005 | DotNetDesktopRuntime5 | DotNetDesktopRuntime6 |
                  DotNetDesktopRuntime7 | DotNetDesktopRuntime8 | DotNetDesktopRuntime9 | DotNetDesktopRuntime10}
         [<CommonParameters>]
@@ -46,12 +46,13 @@ function Install-Application
 
         # Manifest doesn't have 'User' or 'Machine' scope.
         $NoScope = @(
-            'DirectXEndUserRuntime'
+            #'DirectXEndUserRuntime'
             'DotNetDesktopRuntime5'
             'DotNetDesktopRuntime6'
             'DotNetDesktopRuntime7'
             'DotNetDesktopRuntime8'
             'DotNetDesktopRuntime9'
+            'DotNetDesktopRuntime10'
         )
     }
 
@@ -60,6 +61,7 @@ function Install-Application
         switch ($Name)
         {
             'Brave'                     { Install-BraveBrowser }
+            'DirectX9EndUserRuntime'    { Install-DirectX9EndUserRuntime }
             { $NoScope -contains $_ }   { $AppsList[$_] | Install-ApplicationWithWinget }
             { $UserScope -contains $_ } { $AppsList[$_] | Install-ApplicationWithWinget -Scope 'User' }
             Default                     { $AppsList[$_] | Install-ApplicationWithWinget -Scope 'Machine' }
