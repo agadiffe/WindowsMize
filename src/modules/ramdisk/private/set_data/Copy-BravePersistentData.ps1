@@ -34,6 +34,15 @@ function Copy-BravePersistentData
             Path        = $BraveBrowserPathInfo[$Path]
             Destination = $BraveBrowserPathInfo[$Destination]
         }
+
+        if ($Action -eq 'Backup')
+        {
+            # When a "custom filter lists" is removed from Brave, its associated file is removed.
+            # Clean up the "Filter List Path" of the persistent folder before backing up the new data.
+            $FilterListPath = $BravePersistentData['Name'] | Where-Object -FilterScript { $_ -like '*\FilterListSubscriptionCache*' }
+            Remove-Item -Recurse -Path $FilterListPath.ForEach{( "$($BravePersistentData['Destination'])\$_" )} -ErrorAction 'SilentlyContinue'
+        }
+
         Copy-Data @BravePersistentData
     }
 }
