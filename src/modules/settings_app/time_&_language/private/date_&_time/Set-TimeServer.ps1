@@ -32,8 +32,9 @@ function Set-TimeServer
             'Cloudflare' { 'time.cloudflare.com' }
             'Windows'    { 'time.windows.com' }
             'NistGov'    { 'time.nist.gov' }
-            'PoolNtpOrg' { '0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org' }
+            'PoolNtpOrg' { @('0.pool.ntp.org', '1.pool.ntp.org', '2.pool.ntp.org', '3.pool.ntp.org') }
         }
+        $TimeServer = $TimeServer.ForEach{( "$_,0x9" )} -join ' '
 
         Write-Verbose -Message "Setting 'Internet Time Server' to '$TimeServer' ..."
 
