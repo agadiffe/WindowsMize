@@ -145,7 +145,7 @@ These script files are located in the "scripts" folder.
 
 You can uncomment or comment the script names to execute or not the corresponding script.  
 Example:  
-To execute only "Telemetry & Annoyances", "file_explorer" and some others:  
+To execute only "Telemetry & Annoyances", "File Explorer settings" and some others:  
 comment everything except the script files you want to run.
 
 ```powershell
@@ -248,21 +248,19 @@ settings
 This script requires "PowerShell (aka PowerShell Core)" and must be run as Administrator.  
 
 ### Automated
-1. Open a PowerShell prompt (Administrator privileges are not required).  
+1. Open a Windows PowerShell or PowerShell prompt.  
    Right-click on `Start Menu` > `Terminal`.
 2. Download and extract WindowsMize archive to the "Downloads" folder.  
-   e.g. `C:\Users\<User>\Downloads\WindowsMize`.  
-   If the folder "WindowsMize" exist, it will be deleted.  
-   Save any data you want to keep (e.g. previous configuration and/or log files).
+   e.g. `C:\Users\<User>\Downloads\WindowsMize_<current-Date>`. 
     ```powershell
     irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
     ```
 3. Navigate to the extracted "WindowsMize" folder in your "Downloads" folder.
-4. **Configure the script (WindowsMize.ps1) according to your preferences**.
+4. **Configure the script (WindowsMize.ps1) according to your preferences.**
 5. Double click on the `Run_WindowsMize.cmd` file to run the script.  
    Accept the Windows UAC prompt to run it as Administrator (required).  
    If "PowerShell" is not installed, it will be automatically installed.
-6. Restart (Mandatory for a lot of tweaks/settings).
+6. Restart your computer (Mandatory for a lot of tweaks/settings).
 
 ### Manually
 <details>
@@ -270,36 +268,36 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
 
 1. [Download WindowsMize](https://github.com/agadiffe/WindowsMize/archive/main.zip).
 2. Navigate to the directory where you downloaded the archive and extract it.
-3. **Configure the script (WindowsMize.ps1) according to your preferences**.
-3. Open a PowerShell prompt (as Administrator or not).  
+3. **Configure the script (WindowsMize.ps1) according to your preferences.**
+4. Open a Windows PowerShell or PowerShell prompt (as Administrator or not).  
    Right-click on `Start Menu` > `Terminal`.
-3. Install "PowerShell".
+5. Install "PowerShell" if not already installed.
     ```powershell
     winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
     ```
-4. Open an elevated (i.e. Administrator) PowerShell prompt:  
+6. Open an elevated (i.e. Administrator) PowerShell prompt:  
    Right-click on `Start Menu` > `Terminal (Admin)`.  
    At the top of the Terminal window:  
    Click on the down arrow and choose "PowerShell".
-5. Navigate to the directory where you extracted "WindowsMize" (replace <User\> with your username).  
+7. Navigate to the directory where you extracted "WindowsMize" (replace <User\> with your username).  
    Example:
     ```powershell
     cd 'C:\Users\<User>\Downloads\WindowsMize-main\WindowsMize-main'
     ```
-6. Unblock the script files (might not be necessary).
+8. Unblock the script files (might not be necessary).
     ```powershell
     Get-ChildItem -File -Recurse | Unblock-File
     ```
-7. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).  
+9. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).  
    (This is not required for "Powershell", but it might change in future Windows release)
     ```powershell
     Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
     ```
-8. Run the script.
+10. Run the script.
     ```powershell
     .\WindowsMize.ps1
     ```
-9. Restart (Mandatory for a lot of tweaks/settings).
+11. Restart your computer (Mandatory for a lot of tweaks/settings).
 
 </details>
 
@@ -315,7 +313,7 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
   # not configured: delete (default) | on: 1
   ```
 
-- Some few settings may still be in the dev/beta channels.
+- Some (very) few settings may still be in the dev/beta channels.
 
 - Make sure to backup all of your data.  
   e.g. browser bookmarks, apps settings, personal files, passwords database
