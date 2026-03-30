@@ -40,7 +40,7 @@ function Set-StartMenuWebview2Version
             # on: delete (default) | off: 1 0
             $StartMenuWebview2Version = @{
                 Hive    = 'HKEY_LOCAL_MACHINE'
-                Path    = "SYSTEM\CurrentControlSet\Control\FeatureManagement\Overrides\8\$FeatureOverrideFlag"
+                Path    = "SYSTEM\CurrentControlSet\Control\FeatureManagement\Overrides\8\$FeatureOverrideId"
                 Entries = @(
                     @{
                         Name  = 'EnabledState'
