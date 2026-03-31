@@ -185,11 +185,21 @@ Write-Section -Name 'Touchpad' -SubSection
 # --- Touchpad (default: Enabled)
 Set-TouchpadSetting -Touchpad 'Enabled'
 
-# --- Leave touchpad on when a mouse is connected (default: Enabled)
+# --- --- Leave touchpad on when a mouse is connected (default: Enabled)
 Set-TouchpadSetting -LeaveOnWithMouse 'Enabled'
 
 # --- Cursor speed (default: 5 (range 1-10))
 Set-TouchpadSetting -CursorSpeed 5
+
+# --- Click sensitivity
+# State: Light | Medium (default) | Heavy
+Set-TouchpadSetting -ClickSensitivity 'Medium'
+
+# --- Haptic click (default: Enabled)
+Set-TouchpadSetting -HapticClick 'Enabled'
+
+# --- --- Haptic click Intensity (default: 3 (range 1-5))
+Set-TouchpadSetting -HapticClickIntensity 3
 
 #                 Taps
 #=======================================

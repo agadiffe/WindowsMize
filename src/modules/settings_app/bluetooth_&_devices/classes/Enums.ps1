@@ -39,6 +39,13 @@ enum TouchpadSensitivityMode
     Low    = 3
 }
 
+enum TouchpadClickSensitivityMode
+{
+    Light  = 0
+    Medium = 50
+    Heavy  = 100
+}
+
 enum TouchpadTapMode
 {
     Nothing            = 0
