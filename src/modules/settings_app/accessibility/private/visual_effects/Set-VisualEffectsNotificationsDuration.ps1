@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-VisualEffectsNotificationsDuration
-        [-Value] <int>
+        [-Value] {5 | 7 | 15 | 30 | 60 | 300}
         [<CommonParameters>]
 #>
 

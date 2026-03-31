@@ -80,11 +80,11 @@ Set-OneDrive -NewUserAutoInstall 'Disabled'
 #Set-OneDrive -RunAtStartup 'Disabled'
 
 # --- --- OneDrive : 'Start Backup' Explorer notification (default: Enabled)
-#Set-OneDrive -BackupNotifExplorer 'Disabled'
+Set-OneDrive -BackupNotifExplorer 'Disabled'
 
 # --- --- OneDrive : 'Start Backup' toast notification (default: Enabled)
 # To disable all notifs: See 'scripts > telemetry_&_annoyances > notifications.ps1'
-#Set-OneDrive -BackupNotifToast 'Disabled'
+Set-OneDrive -BackupNotifToast 'Disabled'
 
 $PreinstalledAppsToRemove = @(
     'BingSearch'

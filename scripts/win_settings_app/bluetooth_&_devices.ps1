@@ -134,6 +134,12 @@ Set-UsbSetting -NotifOnWeakCharger 'Enabled'
 
 Write-Section -Name 'Keyboard' -SubSection
 
+# --- Keyboard character repeat delay (default: 1 (range 0-3))
+Set-KeyboardSetting -CharacterRepeatDelay 1
+
+# --- Keyboard character repeat rate (default: 31 (range 0-31))
+Set-KeyboardSetting -CharacterRepeatRate 31
+
 # --- Use the Print screen key to open screen capture (default: Enabled)
 Set-KeyboardSetting -PrintScreenKeyOpenScreenCapture 'Enabled'
 

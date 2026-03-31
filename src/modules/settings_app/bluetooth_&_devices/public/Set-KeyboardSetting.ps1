@@ -5,6 +5,8 @@
 <#
 .SYNTAX
     Set-KeyboardSetting
+        [-CharacterRepeatDelay <int>]
+        [-CharacterRepeatRate <int>]
         [-PrintScreenKeyOpenScreenCapture {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -19,6 +21,12 @@ function Set-KeyboardSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        [ValidateRange(0, 3)]
+        [int] $CharacterRepeatDelay,
+
+        [ValidateRange(0, 31)]
+        [int] $CharacterRepeatRate,
+
         [state] $PrintScreenKeyOpenScreenCapture
     )
 
@@ -32,6 +40,8 @@ function Set-KeyboardSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            'CharacterRepeatDelay'            { Set-KeyboardCharacterRepeatDelay -Value $CharacterRepeatDelay }
+            'CharacterRepeatRate'             { Set-KeyboardCharacterRepeatRate -Value $CharacterRepeatRate }
             'PrintScreenKeyOpenScreenCapture' { Set-KeyboardPrintScreenKeyOpenScreenCapture -State $PrintScreenKeyOpenScreenCapture }
         }
     }

@@ -7,7 +7,7 @@
     Set-AccessibilitySetting
         [-VisualEffectsAlwaysShowScrollbars {Disabled | Enabled}]
         [-VisualEffectsAnimation {Disabled | Enabled}]
-        [-VisualEffectsNotificationsDuration <int>]
+        [-VisualEffectsNotificationsDuration {5 | 7 | 15 | 30 | 60 | 300}]
         [-ContrastThemesKeyboardShorcut {Disabled | Enabled}]
         [-NarratorKeyboardShorcut {Disabled | Enabled}]
         [-NarratorAutoSendTelemetry {Disabled | Enabled}]

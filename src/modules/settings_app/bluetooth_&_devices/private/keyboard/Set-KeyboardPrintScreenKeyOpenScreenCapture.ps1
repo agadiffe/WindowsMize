@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                   Accessibility > Keyboard > Use The Print Screen Key To Open Screen Capture
+#                Bluetooth & Devices > Keyboard > Use The Print Screen Key To Open Screen Capture
 #=================================================================================================================
 
 <#

@@ -40,7 +40,8 @@ Set-AccessibilitySetting -VisualEffectsAlwaysShowScrollbars 'Disabled'
 # --- Animation effects (default: Enabled)
 Set-AccessibilitySetting -VisualEffectsAnimation 'Enabled'
 
-# --- Dismiss notifications after this amount of time (default (and minimum): 5 seconds)
+# --- Dismiss notifications after this amount of time
+# Value (second): 5 (default) | 7 | 15 | 30 | 60 | 300
 Set-AccessibilitySetting -VisualEffectsNotificationsDuration 5
 
 #endregion visual effects

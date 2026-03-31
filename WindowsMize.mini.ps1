@@ -105,8 +105,8 @@ Remove-OneDrive
 $OneDriveConfig = @{
     NewUserAutoInstall  = 'Disabled'
     #RunAtStartup        = 'Disabled'
-    #BackupNotifExplorer = 'Disabled'
-    #BackupNotifToast    = 'Disabled'
+    BackupNotifExplorer = 'Disabled'
+    BackupNotifToast    = 'Disabled'
 }
 Set-OneDrive @OneDriveConfig
 
@@ -655,7 +655,7 @@ $AdapterProtocolsToDisable = @(
     #'IPv6'
     #'FileSharingClient' # needed by NetworkDiscovery (File Explorer > Network)
     #'FileSharingServer' # needed by NetworkDiscovery (File Explorer > Network)
-    'BridgeDriver'
+    'BridgeDriver' # old ?
     'QosPacketScheduler'
     'HyperVExtensibleVirtualSwitch'
     'Lldp'
@@ -812,7 +812,7 @@ $DeviceTimeouts | Set-PowerSetting
 
 $EnergySaverSettings = @{
     AlwaysOn             = 'Disabled'
-    TurnOnAtBatteryLevel = 30 # never: 0 | always: 100
+    TurnOnAtBatteryLevel = 30 # range: 0-100 / never: 0 | always: 100
     LowerBrightness      = 70 # range: 0-99 | Disabled: 100
 }
 Set-EnergySaverSetting @EnergySaverSettings
@@ -1269,15 +1269,15 @@ Write-Section -Name 'App Permissions' -SubSection
 
 # --- General
 $PrivacyAppPermGeneral = @{
-    Location               = 'Disabled' ; LocationGPO               = 'NotConfigured'
-      LocationAllowOverride    = 'Disabled'
-      LocationAppsRequestNotif = 'Disabled'
-    Camera                 = 'Disabled' ; CameraGPO                 = 'NotConfigured'
-    Microphone             = 'Disabled' ; MicrophoneGPO             = 'NotConfigured'
-    VoiceActivation        = 'Disabled' ; VoiceActivationGPO        = 'NotConfigured'
-    Notifications          = 'Disabled' ; NotificationsGPO          = 'NotConfigured'
+    Location                 = 'Disabled' ; LocationGPO        = 'NotConfigured'
+    LocationAllowOverride    = 'Disabled'
+    LocationAppsRequestNotif = 'Disabled'
+    Camera                   = 'Disabled' ; CameraGPO          = 'NotConfigured'
+    Microphone               = 'Disabled' ; MicrophoneGPO      = 'NotConfigured'
+    VoiceActivation          = 'Disabled' ; VoiceActivationGPO = 'NotConfigured'
+    Notifications            = 'Disabled' ; NotificationsGPO   = 'NotConfigured'
 
-    TextAndImageGeneration = 'Disabled' ; TextAndImageGenerationGPO = 'NotConfigured'
+    TextAndImageGeneration   = 'Disabled' ; TextAndImageGenerationGPO = 'NotConfigured'
 }
 Set-AppPermissionsSetting @PrivacyAppPermGeneral
 
@@ -1310,8 +1310,8 @@ $PrivacyAppPermUserFiles = @{
     FileSystem      = 'Disabled'
     ScreenshotBorders       = 'Disabled' ; ScreenshotBordersGPO       = 'NotConfigured'
     ScreenshotsAndRecording = 'Disabled' ; ScreenshotsAndRecordingGPO = 'NotConfigured'
-    Passkeys        = 'Disabled'
-      PasskeysAutofill = 'Disabled'
+    Passkeys         = 'Disabled'
+    PasskeysAutofill = 'Disabled'
 }
 Set-AppPermissionsSetting @PrivacyAppPermUserFiles
 
@@ -1643,7 +1643,12 @@ $UsbSettings = @{
 Set-UsbSetting @UsbSettings
 
 # --- Keyboard
-Set-KeyboardSetting -PrintScreenKeyOpenScreenCapture 'Enabled'
+$KeyboardSettings = @{
+    CharacterRepeatDelay            = 1 # range: 0-3
+    CharacterRepeatRate             = 31 # range: 0-31
+    PrintScreenKeyOpenScreenCapture = 'Enabled'
+}
+Set-KeyboardSetting @KeyboardSettings
 
 # --- Mouse
 $MouseSettings = @{
@@ -1891,21 +1896,21 @@ Set-GamingSetting @GamingSettings
 Write-Section -Name 'Accessibility' -SubSection
 
 $AccessibilitySettings = @{
-    VisualEffectsAlwaysShowScrollbars       = 'Disabled'
-    VisualEffectsAnimation                  = 'Enabled'
-    VisualEffectsNotificationsDuration      = 5 # s
-    ContrastThemesKeyboardShorcut           = 'Disabled'
-    NarratorKeyboardShorcut                 = 'Disabled'
-    NarratorAutoSendTelemetry               = 'Disabled'
-    VoiceTypingKeyboardShorcut              = 'Disabled'
-    MouseKeys                               = 'Disabled'
-    MouseKeysShorcut                        = 'Disabled'
-    KeyboardStickyKeys                      = 'Disabled'
-    KeyboardStickyKeysShorcut               = 'Disabled'
-    KeyboardFilterKeys                      = 'Disabled'
-    KeyboardFilterKeysShorcut               = 'Disabled'
-    KeyboardToggleKeysTone                  = 'Disabled'
-    KeyboardToggleKeysToneShorcut           = 'Disabled'
+    VisualEffectsAlwaysShowScrollbars  = 'Disabled'
+    VisualEffectsAnimation             = 'Enabled'
+    VisualEffectsNotificationsDuration = 5 # s / value: 5 | 7 | 15 | 30 | 60 | 300
+    ContrastThemesKeyboardShorcut      = 'Disabled'
+    NarratorKeyboardShorcut            = 'Disabled'
+    NarratorAutoSendTelemetry          = 'Disabled'
+    VoiceTypingKeyboardShorcut         = 'Disabled'
+    MouseKeys                          = 'Disabled'
+    MouseKeysShorcut                   = 'Disabled'
+    KeyboardStickyKeys                 = 'Disabled'
+    KeyboardStickyKeysShorcut          = 'Disabled'
+    KeyboardFilterKeys                 = 'Disabled'
+    KeyboardFilterKeysShorcut          = 'Disabled'
+    KeyboardToggleKeysTone             = 'Disabled'
+    KeyboardToggleKeysToneShorcut      = 'Disabled'
 }
 Set-AccessibilitySetting @AccessibilitySettings
 
@@ -1923,7 +1928,7 @@ $WindowsUpdateSettings = @{
     UpdateOtherMicrosoftProducts   = 'Enabled'  ; UpdateOtherMicrosoftProductsGPO   = 'NotConfigured' # GPO: Enabled | NotConfigured
     GetMeUpToDate                  = 'Disabled'
     DownloadOverMeteredConnections = 'Disabled' ; DownloadOverMeteredConnectionsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    RestartNotification            = 'Enabled' ; RestartNotificationGPO            = 'NotConfigured'
+    RestartNotification            = 'Enabled'  ; RestartNotificationGPO            = 'NotConfigured'
     DeliveryOptimization           = 'Disabled' ; DeliveryOptimizationGPO           = 'NotConfigured' # Disabled | LocalNetwork | InternetAndLocalNetwork | NotConfigured
     InsiderProgramPageVisibility   = 'Disabled'
 }
