@@ -58,7 +58,7 @@ Set-DefenderSetting -AutoSampleSubmission 'NeverSend' -AutoSampleSubmissionGPO '
 Write-Section -Name 'Account Protection' -SubSection
 
 # --- Administrator Protection (default: Disabled)
-#Set-DefenderSetting -AdminProtection 'Disabled'
+#Set-DefenderSetting -AdminProtection 'Enabled'
 
 #endregion account
 
@@ -88,7 +88,7 @@ Set-DefenderSetting -SmartScreenForEdge 'Disabled' -SmartScreenForEdgeGPO 'NotCo
 
 # --- Phishing protection
 # GPO: Disabled | Warn | Block | NotConfigured
-Set-DefenderSetting -PhishingProtectionGPO 'Disabled'
+Set-DefenderSetting -PhishingProtectionGPO 'NotConfigured'
 
 # --- Potentially unwanted app blocking
 # State: Disabled | Enabled (default) | AuditMode

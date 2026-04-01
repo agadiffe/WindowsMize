@@ -1179,11 +1179,11 @@ Write-Section -Name 'Windows Security (aka Defender)' -SubSection
 $DefenderSettings = @{
     CloudDeliveredProtection = 'Disabled'  ; CloudDeliveredProtectionGPO = 'NotConfigured' # Disabled | Basic | Advanced | NotConfigured
     AutoSampleSubmission     = 'NeverSend' ; AutoSampleSubmissionGPO     = 'NotConfigured' # NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured
-    #AdminProtection          = 'Disabled'
+    #AdminProtection          = 'Enabled'
     SmartAppControl          = 'Disabled'
     CheckAppsAndFiles        = 'Disabled'  ; CheckAppsAndFilesGPO        = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
     SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
-    PhishingProtectionGPO    = 'Disabled' # Disabled | Warn | Block | NotConfigured
+    PhishingProtectionGPO    = 'NotConfigured' # Disabled | Warn | Block | NotConfigured
     UnwantedAppBlocking      = 'Disabled'  ; UnwantedAppBlockingGPO      = 'NotConfigured' # Disabled | Enabled | AuditMode | NotConfigured
     SmartScreenForStoreApps  = 'Disabled'
     WatsonEventsReportGPO    = 'Disabled'
@@ -1646,6 +1646,7 @@ Set-UsbSetting @UsbSettings
 $KeyboardSettings = @{
     CharacterRepeatDelay            = 1 # range: 0-3
     CharacterRepeatRate             = 31 # range: 0-31
+    #CopilotAndWinCKeys              = 'Calculator' # Search | Calculator | Copilot | M365Copilot | Notepad | Photos | SnippingTool | Terminal
     PrintScreenKeyOpenScreenCapture = 'Enabled'
 }
 Set-KeyboardSetting @KeyboardSettings

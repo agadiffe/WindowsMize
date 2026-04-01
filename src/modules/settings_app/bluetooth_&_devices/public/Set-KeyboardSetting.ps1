@@ -7,6 +7,7 @@
     Set-KeyboardSetting
         [-CharacterRepeatDelay <int>]
         [-CharacterRepeatRate <int>]
+        [-CopilotAndWinCKeys <string>]
         [-PrintScreenKeyOpenScreenCapture {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -27,6 +28,8 @@ function Set-KeyboardSetting
         [ValidateRange(0, 31)]
         [int] $CharacterRepeatRate,
 
+        [string] $CopilotAndWinCKeys,
+
         [state] $PrintScreenKeyOpenScreenCapture
     )
 
@@ -42,6 +45,7 @@ function Set-KeyboardSetting
         {
             'CharacterRepeatDelay'            { Set-KeyboardCharacterRepeatDelay -Value $CharacterRepeatDelay }
             'CharacterRepeatRate'             { Set-KeyboardCharacterRepeatRate -Value $CharacterRepeatRate }
+            'CopilotAndWinCKeys'              { Set-KeyboardCopilotAndWinCKeys -Name $CopilotAndWinCKeys }
             'PrintScreenKeyOpenScreenCapture' { Set-KeyboardPrintScreenKeyOpenScreenCapture -State $PrintScreenKeyOpenScreenCapture }
         }
     }

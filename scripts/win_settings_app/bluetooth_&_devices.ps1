@@ -140,6 +140,11 @@ Set-KeyboardSetting -CharacterRepeatDelay 1
 # --- Keyboard character repeat rate (default: 31 (range 0-31))
 Set-KeyboardSetting -CharacterRepeatRate 31
 
+# --- Customize Copilot key on keyboard (and Win + C) (default: M365Copilot)
+# Value: Search | Calculator | Copilot | M365Copilot | Notepad | Photos | SnippingTool | Terminal
+# You can also use any AppId from Get-StartApps instead of the above short names (e.g. Microsoft.Paint_8wekyb3d8bbwe!App).
+#Set-KeyboardSetting -CopilotAndWinCKeys 'Calculator'
+
 # --- Use the Print screen key to open screen capture (default: Enabled)
 Set-KeyboardSetting -PrintScreenKeyOpenScreenCapture 'Enabled'
 
