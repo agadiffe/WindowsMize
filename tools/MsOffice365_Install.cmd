@@ -3,8 +3,8 @@
 ::================================================================================================================
 @echo off
 
-set OfficeSetupFilePath=%TEMP%\setup.exe
-set ConfigFilePath=%TEMP%\MsOfficeConfiguration.xml
+set "OfficeSetupFilePath=%TEMP%\setup.exe"
+set "ConfigFilePath=%TEMP%\MsOfficeConfiguration.xml"
 
 
 echo Downloading Office Deployment Tool ...
@@ -47,6 +47,6 @@ echo Creating the configuration file ...
 
 
 echo Running Office setup ...
-set ArgumentList=/configure ""%ConfigFilePath%""
+set "ArgumentList=/configure ""%ConfigFilePath%"""
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
 "Start-Process -WindowStyle 'Hidden' -Verb 'RunAs' -FilePath '%OfficeSetupFilePath%' -ArgumentList '%ArgumentList%'"

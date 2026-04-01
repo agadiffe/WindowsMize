@@ -45,11 +45,7 @@ function Set-DefenderSmartAppControl
 
         if ($null -eq $SACCurrentStatus)
         {
-            Write-Verbose -Message "  Smart App Control not available on this computer (or registry entry is missing)."
-        }
-        elseif ($SACCurrentStatus -eq 0)
-        {
-            Write-Verbose -Message "  Smart App Control is off: it can't be turned on without reinstalling or resetting Windows."
+            Write-Verbose -Message "  Smart App Control not available on this computer (registry entry not found)."
         }
         else
         {

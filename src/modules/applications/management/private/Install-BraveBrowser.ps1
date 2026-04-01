@@ -18,11 +18,24 @@ function Install-BraveBrowser
     {
         Write-Verbose -Message 'Installing Brave Browser ...'
 
-        $Url = 'https://laptop-updates.brave.com/latest/winx64'
-        $OutFilePath = "$([System.IO.Path]::GetTempPath())\BraveBrowserSetup.exe"
+        $LatestRelease = (Invoke-RestMethod -Uri 'https://api.github.com/repos/brave/brave-browser/releases/latest').assets |
+            Where-Object -Property 'Name' -EQ -Value 'BraveBrowserSetup.exe'
+        $Url = $LatestRelease.browser_download_url
+        $ExpectedFileHash = $LatestRelease.digest -replace 'sha256:'
 
+        $OutFilePath = "$([System.IO.Path]::GetTempPath())\BraveBrowserSetup.exe"
         Invoke-RestMethod -Uri $Url -OutFile $OutFilePath -Verbose:$false
-        Start-Process -Wait -FilePath $OutFilePath -ArgumentList '/silent /install'
+        $DowloadedFileHash = (Get-FileHash -Path $OutFilePath -Algorithm 'SHA256').Hash
+
+        if ($ExpectedFileHash -ne $DowloadedFileHash)
+        {
+            Write-Error -Message '  BraveBrowserSetup.exe FileHash doesn''t match. Installation canceled.'
+        }
+        else
+        {
+            Start-Process -Wait -FilePath $OutFilePath -ArgumentList '/silent /install'
+        }
+
         Remove-Item -Path $OutFilePath
     }
 }
