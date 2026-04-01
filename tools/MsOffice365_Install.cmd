@@ -3,14 +3,13 @@
 ::================================================================================================================
 @echo off
 
-set OfficeDeploymentToolUri=https://officecdn.microsoft.com/pr/wsus/setup.exe
-set ScriptFolder=%~dp0
-set OfficeSetupFilePath=%ScriptFolder%\MsOfficeDeploymentTool.exe
-set ConfigFilePath=%ScriptFolder%\MsOfficeConfiguration.xml
+set OfficeSetupFilePath=%TEMP%\setup.exe
+set ConfigFilePath=%TEMP%\MsOfficeConfiguration.xml
 
 
 echo Downloading Office Deployment Tool ...
-curl "%OfficeDeploymentToolUri%" --output "%OfficeSetupFilePath%" --silent --fail
+winget.exe install --exact --id Microsoft.OfficeDeploymentTool --location "%TEMP%" ^
+--accept-source-agreements --accept-package-agreements --silent --disable-interactivity --source=winget
 
 
 echo Creating the configuration file ...
@@ -50,4 +49,4 @@ echo Creating the configuration file ...
 echo Running Office setup ...
 set ArgumentList=/configure ""%ConfigFilePath%""
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
-    "Start-Process -WindowStyle 'Hidden' -Verb 'RunAs' -FilePath '%OfficeSetupFilePath%' -ArgumentList '%ArgumentList%'"
+"Start-Process -WindowStyle 'Hidden' -Verb 'RunAs' -FilePath '%OfficeSetupFilePath%' -ArgumentList '%ArgumentList%'"
