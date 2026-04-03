@@ -3,12 +3,16 @@
 ::================================================================================================================
 @echo off
 
-set "OfficeSetupFilePath=%TEMP%\setup.exe"
-set "ConfigFilePath=%TEMP%\MsOfficeConfiguration.xml"
+for /f "usebackq delims=" %%i in (`
+  powershell -NoProfile -ExecutionPolicy Bypass -Command "[System.IO.Path]::GetTempPath()"
+`) do set "TempPath=%%i"
+
+set "OfficeSetupFilePath=%TempPath%\setup.exe"
+set "ConfigFilePath=%TempPath%\MsOfficeConfiguration.xml"
 
 
 echo Downloading Office Deployment Tool ...
-winget.exe install --exact --id Microsoft.OfficeDeploymentTool --location "%TEMP%" ^
+winget.exe install --exact --id Microsoft.OfficeDeploymentTool --location "%TempPath%" ^
 --accept-source-agreements --accept-package-agreements --silent --disable-interactivity --source=winget
 
 
