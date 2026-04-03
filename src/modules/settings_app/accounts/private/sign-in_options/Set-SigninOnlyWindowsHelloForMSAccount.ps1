@@ -6,7 +6,8 @@
 
 # This setting also control the automatic-logon checkbox visibility in user accounts (Netplwiz.exe):
 #   Users must enter a user name and password to use this computer.
-# Untick this option and enter your Username/Password to enable automatic login.
+
+# If you enable "passwordless sign-in", it will remove the Netplwiz checkbox.
 # Does not require a Microsoft account to show or hide this option.
 
 <#
@@ -32,14 +33,14 @@ function Set-SigninOnlyWindowsHelloForMSAccount
 
     process
     {
-        # on: 0 | off: 2 (default)
+        # on: 2 (default) | off: 0
         $OnlyPasswordLessForMSAccount = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device'
             Entries = @(
                 @{
                     Name  = 'DevicePasswordLessBuildVersion'
-                    Value = $State -eq 'Enabled' ? '0' : '2'
+                    Value = $State -eq 'Enabled' ? '2' : '0'
                     Type  = 'DWord'
                 }
             )

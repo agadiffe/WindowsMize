@@ -54,7 +54,7 @@ Not automated because such functions/scripts would certainly be flagged by Antiv
   i.e. desktop, downloads, documents, music, pictures, videos
 
 - Battery setting (e.g. Laptop)  
-  Limit the maximum charge to 85%% (or 90%) to preserve the battery longevity.  
+  Limit the maximum charge to 85% (or 90%) to preserve the battery longevity.  
   This option is generaly in the BIOS or via a manufacturer application.
 
 - Monitor: Download icc profile (if needed).  

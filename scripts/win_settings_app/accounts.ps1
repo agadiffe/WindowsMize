@@ -56,8 +56,9 @@ Set-SigninOptionsSetting -BiometricsGPO 'NotConfigured'
 # Requires compatible hardware and software components to have this option visible.
 Set-SigninOptionsSetting -SigninWithExternalDevice 'Enabled'
 
-# --- For improved security, only allow Windows Hello sign-in for Microsoft accounts on this device (default: Disabled)
+# --- For improved security, only allow Windows Hello sign-in for Microsoft accounts on this device (default: Enabled)
 # Requires a Microsoft account to have this option visible.
+# Enabled: also remove the "Users must enter a user name and password to use this computer" checkbox from Netplwiz.exe.
 Set-SigninOptionsSetting -OnlyWindowsHelloForMSAccount 'Disabled'
 
 # --- If you've been away, when should Windows require you to sign in again
