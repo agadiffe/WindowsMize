@@ -11,7 +11,7 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$WindowsMizeModuleNames = @( 'applications\management', 'settings_app\optional_features' )
+$WindowsMizeModuleNames = 'applications\management', 'settings_app\optional_features'
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 

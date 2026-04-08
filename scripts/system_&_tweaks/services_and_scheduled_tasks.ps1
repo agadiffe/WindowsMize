@@ -11,7 +11,7 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$WindowsMizeModuleNames = @( 'services', 'scheduled_tasks' )
+$WindowsMizeModuleNames = 'services', 'scheduled_tasks'
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 

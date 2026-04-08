@@ -192,20 +192,21 @@ function Set-UwpAppRegistryEntry
 
   Most of the types use little-endian (left-aligned) for the value.
 
-  Common types:
-  0x5f5e10b: bool (1 byte) | e.g. "WordWrap"=hex(5f5e10b):01,4b,da,0a,0a,a8,23,db,01
 
-  0x5f5e10c: string (N bytes) | e.g. "GeolocationConsent"=hex(5f5e10c):66,00,61,00,6c,00,73,00,65,00,00,00,ef,b8,44,70,aa,23,db,01
-  The string is encoded as unicode and must be null terminated.
-  'false' : 66,00,61,00,6c,00,73,00,65,00,00,00
-  'true'  : 74,00,72,00,75,00,65,00,00,00
+  0x5f5e10b: bool (1 byte)
+      e.g. "WordWrap"=hex(5f5e10b):01,4b,da,0a,0a,a8,23,db,01
 
-  0x5f5e104: int32 (4 bytes) | e.g. "FontSize"=hex(5f5e104):0b,00,00,00,a3,1a,40,6f,84,36,da,01
+  0x5f5e10c: string (N bytes)
+      e.g. "GeolocationConsent"=hex(5f5e10c):66,00,61,00,6c,00,73,00,65,00,00,00,ef,b8,44,70,aa,23,db,01
+      The string is encoded as unicode and must be null terminated.
+      'false' : 66,00,61,00,6c,00,73,00,65,00,00,00
+      'true'  : 74,00,72,00,75,00,65,00,00,00
+
+  0x5f5e104: int32 (4 bytes)
+      e.g. "FontSize"=hex(5f5e104):0b,00,00,00,a3,1a,40,6f,84,36,da,01
   0x5f5e104, 0x5f5e105: int32, uint32 (4 bytes)
   0x5f5e106, 0x5f5e107: int64, uint64 (8 bytes)
 
-
-  More types: (non-exhaustive list)
   0x5f5e10d: specific format (N bytes)
       e.g. "Settings_ShapeOutlineColor"=hex(5f5e10d):
               19,00,00,00, | struct size (number of bytes: including these ones, without padding) | decimal: 25
@@ -240,19 +241,41 @@ function Set-UwpAppRegistryEntry
       This registry type (0x5f5e10d) can be used to store any data, not only color (following the same above pattern).
         e.g. "LaunchScreenPosition"=hex(5f5e10d):left..top..right..bottom..monitorLeft..monitorTop..monitorRight..monitorBottom
 
-  0x5f5e109: double-precision floating-point (8 bytes) | big-endian (right-aligned)
+  0x5f5e109: double (8 bytes) | double-precision floating-point number | big-endian (right-aligned)
       e.g. "Width"=hex(5f5e109):00,00,00,00,00,94,93,40,1a,1f,ad,ab,3e,26,db,01
       $Number = 2.0553e-320
       $Bytes = [System.BitConverter]::GetBytes($Number)
       [array]::Reverse($Bytes)
       $Bytes | Format-Hex
 
-  0x5f5e110: specific format (16 bytes)
+  0x5f5e110: Used to store GUID or UUID (16 bytes)
       e.g. "LastSentSessionId"=hex(5f5e110):xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,xx,3c,b3,8d,a7,cd,26,db,01
-      Used to store GUID or UUID
 
-  0x5f5e113: specific format (16 bytes)
+  0x5f5e113: 4 floats (4 * 4 bytes) (16 bytes) | 4 single-precision floating-point numbers | big-endian (right-aligned)
       e.g. "Settings_Last_Window_Size_Position"=hex(5f5e113):00,00,ef,43,00,00,1a,43,00,c0,70,44,00,80,34,44,fe,26,ab,c6,79,d8,da,01
-      Series of smaller values : 4 double (4 * 4 bytes) (i.e. 4 single-precision floating-point numbers)
-      Each series use big-endian (right-aligned)
+      X, Y, Width, Height
+
+
+
+  https://github.com/ADeltaX/UWPSettingsEditor
+
+  0x5f5e101 : Byte                         0x5f5e114 : ArrayByte
+  0x5f5e102 : Int16                        0x5f5e115 : ArrayInt16
+  0x5f5e103 : Uint16                       0x5f5e116 : ArrayUint16
+  0x5f5e104 : Int32                        0x5f5e117 : ArrayInt32
+  0x5f5e105 : Uint32                       0x5f5e118 : ArrayUint32
+  0x5f5e106 : Int64                        0x5f5e119 : ArrayInt64
+  0x5f5e107 : Uint64                       0x5f5e11a : ArrayUint64
+  0x5f5e108 : Single                       0x5f5e11b : ArraySingle
+  0x5f5e109 : Double                       0x5f5e11c : ArrayDouble
+  0x5f5e10a : Char                         0x5f5e11d : ArrayChar16
+  0x5f5e10b : Boolean                      0x5f5e11e : ArrayBoolean
+  0x5f5e10c : String                       0x5f5e11f : ArrayString
+  0x5f5e10d : CompositeValue
+  0x5f5e10e : DateTimeOffset               0x5f5e120 : ArrayDateTimeOffset
+  0x5f5e10f : TimeSpan                     0x5f5e121 : ArrayTimeSpan
+  0x5f5e110 : Guid                         0x5f5e122 : ArrayGuid
+  0x5f5e111 : Point                        0x5f5e123 : ArrayPoint
+  0x5f5e112 : Size                         0x5f5e124 : ArraySize
+  0x5f5e113 : Rect                         0x5f5e125 : ArrayRect
 #>

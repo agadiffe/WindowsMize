@@ -494,7 +494,7 @@ $NotepadSettings = @{
     RecentFiles    = 'Enabled'
     SpellCheck     = 'Disabled'
     AutoCorrect    = 'Disabled'
-    Copilot        = 'Disabled'
+    WritingTools   = 'Disabled'
     StatusBar      = 'Enabled'
     ContinuePreviousSession    = 'Disabled'
     ContinuePreviousSessionTip = 'Disabled'
@@ -1182,8 +1182,8 @@ $DefenderSettings = @{
     #AdminProtection          = 'Enabled'
     SmartAppControl          = 'Disabled'
     CheckAppsAndFiles        = 'Disabled'  ; CheckAppsAndFilesGPO        = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
-    SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
-    PhishingProtectionGPO    = 'NotConfigured' # Disabled | Warn | Block | NotConfigured
+    SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    PhishingProtectionGPO    = 'NotConfigured' # Disabled | Enabled | NotConfigured
     UnwantedAppBlocking      = 'Disabled'  ; UnwantedAppBlockingGPO      = 'NotConfigured' # Disabled | Enabled | AuditMode | NotConfigured
     SmartScreenForStoreApps  = 'Disabled'
     WatsonEventsReportGPO    = 'Disabled'

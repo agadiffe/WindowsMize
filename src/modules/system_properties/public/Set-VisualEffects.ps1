@@ -2,15 +2,24 @@
 #                           System Properties - Advanced > Performance > Visual Effects
 #=================================================================================================================
 
-# settings > system > about > device specifications > related links (sysdm.cpl)
+# settings > system > about > device specifications > related links (sysdm.cpl).
+# To open the "Performance Options" window directly: SystemPropertiesPerformance.exe
 
 # Select the settings you want to use for the appearance and performance of Windows on this computer.
 
 <#
 .SYNTAX
     Set-VisualEffects
-        [-Value] {ManagedByWindows | BestAppearance | BestPerformance | Custom | Animation}
+        [-Value] {ManagedByWindows | BestAppearance | BestPerformance}
+        [<CommonParameters>]
+
+    Set-VisualEffects
+        [-Value] Custom
         [[-Setting] <VisualEffectsCustomSetting>]
+        [<CommonParameters>]
+
+    Set-VisualEffects
+        [-Value] Animation
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
@@ -87,7 +96,7 @@ function Set-VisualEffects
             $State = $PSBoundParameters['State']
 
             # default: on | off: disable the following effects.
-            # (The GUI toggle will be 'on' if at least one of these effects is enabled)
+            # The GUI toggle is controlled only by the state of 'Animate controls and elements inside windows' ... (bug or bad design?)
             $VisualEffectsCustomSettings = @{
                 'Animate controls and elements inside windows'   = $State
                 'Animate windows when minimizing and maximizing' = $State

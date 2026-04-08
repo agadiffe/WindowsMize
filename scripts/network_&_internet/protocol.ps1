@@ -11,7 +11,7 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$WindowsMizeModuleNames = @( 'network', 'services' )
+$WindowsMizeModuleNames = 'network', 'services'
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 
@@ -81,6 +81,7 @@ Set-NetAdapterProtocol -Name 'LltdResponder' -State 'Disabled'
 Set-NetAdapterProtocol -Name 'BridgeDriver' -State 'Disabled'
 
 # --- QoS Packet Scheduler (default: Enabled)
+# not really needed on small home network.
 Set-NetAdapterProtocol -Name 'QosPacketScheduler' -State 'Disabled'
 
 # --- Hyper-V Extensible Virtual Switch (default: Disabled)
@@ -97,7 +98,6 @@ Set-NetAdapterProtocol -Name 'MicrosoftMultiplexor' -State 'Disabled'
 
 Export-DefaultSystemDriversStartupType
 
-# Comment the drivers you want to disable.
 $SystemDriversToConfig = @(
     'BridgeDriver' # old ?
     'NetBiosDriver' # needed by old pc/hardware: File and Printer Sharing
@@ -106,7 +106,7 @@ $SystemDriversToConfig = @(
     'LltdIoDriver'
     'LltdResponderDriver'
     'MicrosoftMultiplexorDriver'
-    'QosPacketSchedulerDriver' # not really needed on small home network
+    'QosPacketSchedulerDriver'
 )
 # Disable the above selected drivers.
 #$SystemDriversToConfig | Set-ServiceStartupTypeGroup

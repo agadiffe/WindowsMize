@@ -11,7 +11,7 @@
 #Requires -RunAsAdministrator
 #Requires -Version 7.5
 
-$WindowsMizeModuleNames = @( 'power_options', 'settings_app\system' )
+$WindowsMizeModuleNames = 'power_options', 'settings_app\system'
 Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\modules\$_" })
 
 

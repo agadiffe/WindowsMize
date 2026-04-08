@@ -28,6 +28,19 @@ Import-Module -Name "$PSScriptRoot\..\..\src\modules\settings_app\defender_secur
 
 Write-Section -Name 'Windows Settings App - Windows Security (aka Defender)'
 
+<#
+  Notes about these features:
+    - Cloud-delivered protection & Automatic sample submission
+    - Smart App Control
+    - SmartScreen (Reputation-based protection)
+
+  They are all great protection features.
+  The trade-off is giving away A LOT of (potentially privacy) data to Microsoft.
+
+  If you are carefull about what files you install and run, you should be ok without them.
+  e.g. suspiscious email attachements, shady websites, etc ...
+#>
+
 #==========================================================
 #                Virus & threat protection
 #==========================================================
@@ -78,16 +91,16 @@ Set-DefenderSetting -SmartAppControl 'Disabled'
 #      Reputation-based protection
 #=======================================
 
-# --- Check apps and files (default: Enabled)
+# --- Check apps and files (default: Enabled (Warn))
 # GPO: Disabled | Warn | Block | NotConfigured
 Set-DefenderSetting -CheckAppsAndFiles 'Disabled' -CheckAppsAndFilesGPO 'NotConfigured'
 
 # --- Smartscreen for Microsoft Edge (default: Enabled)
-# GPO: Disabled | Warn | Block | NotConfigured
+# GPO: Disabled | Enabled | NotConfigured
 Set-DefenderSetting -SmartScreenForEdge 'Disabled' -SmartScreenForEdgeGPO 'NotConfigured'
 
 # --- Phishing protection
-# GPO: Disabled | Warn | Block | NotConfigured
+# GPO: Disabled | Enabled | NotConfigured
 Set-DefenderSetting -PhishingProtectionGPO 'NotConfigured'
 
 # --- Potentially unwanted app blocking
@@ -143,7 +156,7 @@ Set-DefenderNotificationsSetting -DynamicLockProblems 'Enabled'
 
 Write-Section -Name 'Miscellaneous' -SubSection
 
-# --- Watson events report
+# --- Watson events report (telemetry)
 Set-DefenderSetting -WatsonEventsReportGPO 'Disabled'
 
 #endregion miscellaneous

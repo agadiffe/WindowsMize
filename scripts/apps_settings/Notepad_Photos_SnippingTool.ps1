@@ -82,11 +82,11 @@ Set-WindowsNotepadSetting -SpellCheck 'Disabled'
 # --- Autocorrect (default: Enabled)
 Set-WindowsNotepadSetting -AutoCorrect 'Disabled'
 
-#              AI Features
+#           Advanced Features
 #=======================================
 
-# --- Copilot (default: Enabled)
-Set-WindowsNotepadSetting -Copilot 'Disabled'
+# --- Writing tools (aka Copilot) (default: Enabled)
+Set-WindowsNotepadSetting -WritingTools 'Disabled'
 
 #             Miscellaneous
 #=======================================

@@ -549,6 +549,34 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
+        # geolocation and/or notifications: if default_content_setting_values is enabled.
+        #                                cpss  | quiet perm
+        #   expand all requests :        false   false
+        #   collapse unwanted requests : true    false
+        #   collapse all requests :      false   true
+        Merge-Hashtable $BravePreferences ('{
+            "profile": {
+                "content_settings": {
+                    "enable_cpss": {
+                        "geolocation": true,
+                        "notifications": true
+                    },
+                    "enable_quiet_permission_ui": {
+                        "geolocation": false,
+                        "notifications": false
+                    }
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        # javascript_optimizer: if default_content_setting_values is enabled.
+        #   automatically disable JavaScript optimizers on unfamiliar sites
+        Merge-Hashtable $BravePreferences ('{
+            "safebrowsing": {
+                "javascript_optimizer_blocked_for_unfamiliar_sites": false
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
         ### Tor windows
         #---------------
         Merge-Hashtable $BraveLocalState ('{
@@ -712,7 +740,8 @@ function New-BraveBrowserConfigData
         #---------------
         Merge-Hashtable $BravePreferences ('{
             "credentials_enable_autosignin": false,
-            "credentials_enable_service": false // offer to save passwords and passkeys
+            "credentials_enable_service": false, // offer to save passwords and passkeys
+            "credentials_enable_automatic_passkey_upgrades": false // auto create passkey
         }' | ConvertFrom-Json -AsHashtable)
 
         ### Payment methods

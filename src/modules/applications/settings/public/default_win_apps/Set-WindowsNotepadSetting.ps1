@@ -16,7 +16,7 @@
         [-RecentFiles {Disabled | Enabled}]
         [-SpellCheck {Disabled | Enabled}]
         [-AutoCorrect {Disabled | Enabled}]
-        [-Copilot {Disabled | Enabled}]
+        [-WritingTools {Disabled | Enabled}]
         [-StatusBar {Disabled | Enabled}]
         [-ContinuePreviousSessionTip {Disabled | Enabled}]
         [-FormattingTips {Disabled | Enabled}]
@@ -66,8 +66,8 @@ function Set-WindowsNotepadSetting
 
         [state] $AutoCorrect,
 
-        # AI features
-        [state] $Copilot,
+        # advanced features
+        [state] $WritingTools,
 
         # miscellaneous
         [state] $StatusBar,
@@ -242,15 +242,16 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$AutoCorrectReg) | Out-Null
             }
-            'Copilot'
+            'WritingTools'
             {
+                # aka Copilot
                 # on: 1 (default) | off: 0
-                $CopilotReg = @{
+                $WritingToolsReg = @{
                     Name  = 'RewriteEnabled'
-                    Value = $Copilot -eq 'Enabled' ? '1' : '0'
+                    Value = $WritingTools -eq 'Enabled' ? '1' : '0'
                     Type  = '5f5e10b'
                 }
-                $NotepadSettings.Add([PSCustomObject]$CopilotReg) | Out-Null
+                $NotepadSettings.Add([PSCustomObject]$WritingToolsReg) | Out-Null
             }
             'StatusBar'
             {
