@@ -8,6 +8,8 @@
         [-PrimaryButton {Left | Right}]
         [-PointerSpeed <int>]
         [-EnhancedPointerPrecision {Disabled | Enabled}]
+        [-HapticFeedback {Disabled | Enabled}]
+        [-HapticFeedbackIntensity <int>]
         [-WheelScroll {MultipleLines | OneScreen}]
         [-LinesToScroll <int>]
         [-ScrollInactiveWindowsOnHover {Disabled | Enabled}]
@@ -35,6 +37,11 @@ function Set-MouseSetting
         [int] $PointerSpeed,
 
         [state] $EnhancedPointerPrecision,
+
+        [state] $HapticFeedback,
+
+        [ValidateRange(1, 4)]
+        [int] $HapticFeedbackIntensity,
 
         [WheelScrollMode] $WheelScroll,
 
@@ -72,6 +79,8 @@ function Set-MouseSetting
             'PrimaryButton'                { Set-MousePrimaryButton -Value $PrimaryButton }
             'PointerSpeed'                 { Set-MousePointerSpeed -Value $PointerSpeed }
             'EnhancedPointerPrecision'     { Set-MouseEnhancedPointerPrecision -State $EnhancedPointerPrecision }
+            'HapticFeedback'               { Set-MouseHapticFeedback -State $HapticFeedback }
+            'HapticFeedbackIntensity'      { Set-MouseHapticFeedbackIntensity -Value $HapticFeedbackIntensity }
             'ScrollInactiveWindowsOnHover' { Set-MouseScrollInactiveWindowsOnHover -State $ScrollInactiveWindowsOnHover }
             'ScrollingDirection'           { Set-MouseScrollingDirection -Value $ScrollingDirection }
 

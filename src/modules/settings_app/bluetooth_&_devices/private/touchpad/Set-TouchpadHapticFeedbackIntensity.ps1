@@ -4,16 +4,16 @@
 
 <#
 .SYNTAX
-    Set-TouchpadHapticClickIntensity
+    Set-TouchpadHapticFeedbackIntensity
         [-Value] <int>
         [<CommonParameters>]
 #>
 
-function Set-TouchpadHapticClickIntensity
+function Set-TouchpadHapticFeedbackIntensity
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadHapticClickIntensity -Value 50
+        PS> Set-TouchpadHapticFeedbackIntensity -Value 3
     #>
 
     [CmdletBinding()]
@@ -30,7 +30,7 @@ function Set-TouchpadHapticClickIntensity
         $SettingValue = ($Value - 1) * 25
 
         # default: 50 (range 0-100)
-        $TouchpadHapticClickIntensity = @{
+        $TouchpadHapticFeedbackIntensity = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'
             Entries = @(
@@ -42,7 +42,7 @@ function Set-TouchpadHapticClickIntensity
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Haptic Click Intensity' to '$SettingValue' ..."
-        Set-RegistryEntry -InputObject $TouchpadHapticClickIntensity
+        Write-Verbose -Message "Setting 'Touchpad - Haptic Click Intensity' to '$Value' ..."
+        Set-RegistryEntry -InputObject $TouchpadHapticFeedbackIntensity
     }
 }

@@ -167,6 +167,12 @@ Set-MouseSetting -PointerSpeed 10
 # --- Enhance pointer precision (default: Enabled)
 Set-MouseSetting -EnhancedPointerPrecision 'Enabled'
 
+# --- Haptic signals (default: Enabled)
+Set-MouseSetting -HapticFeedback 'Disabled'
+
+# --- --- Haptic signals intensity (default: 2 (range 1-4))
+Set-MouseSetting -HapticFeedbackIntensity 2
+
 #               Scrolling
 #=======================================
 
@@ -207,10 +213,10 @@ Set-TouchpadSetting -CursorSpeed 5
 Set-TouchpadSetting -ClickSensitivity 'Medium'
 
 # --- Haptic click (default: Enabled)
-Set-TouchpadSetting -HapticClick 'Enabled'
+Set-TouchpadSetting -HapticFeedback 'Enabled'
 
-# --- --- Haptic click Intensity (default: 3 (range 1-5))
-Set-TouchpadSetting -HapticClickIntensity 3
+# --- --- Haptic click intensity (default: 3 (range 1-5))
+Set-TouchpadSetting -HapticFeedbackIntensity 3
 
 #                 Taps
 #=======================================

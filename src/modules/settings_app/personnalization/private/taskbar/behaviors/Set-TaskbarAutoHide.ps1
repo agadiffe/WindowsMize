@@ -26,6 +26,7 @@ function Set-TaskbarAutoHide
     process
     {
         # 9th byte, first bit\ on: 1 | off: 0 (default)
+
         $SettingRegPath = 'Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
         $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'Settings'
         Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 8 -BitPos 1 -State ($State -eq 'Enabled')

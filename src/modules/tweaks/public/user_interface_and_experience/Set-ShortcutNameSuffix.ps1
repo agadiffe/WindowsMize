@@ -25,7 +25,7 @@ function Set-ShortcutNameSuffix
 
     process
     {
-        # default: e.g. "MyFile - Shortcut"
+        # example: "MyFile - Shortcut"
         # on: delete (default) | off: 00 00 00 00
         $ShortcutNameSuffix = @{
             Hive    = 'HKEY_CURRENT_USER'

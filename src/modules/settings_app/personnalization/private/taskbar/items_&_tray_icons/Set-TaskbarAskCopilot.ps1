@@ -27,7 +27,7 @@ function Set-TaskbarAskCopilot
     {
         $IsEnabled = $State -eq 'Enabled'
 
-        # on: 1 TaskbarCompanion (default) | off: 0 NoneSelected
+        # on: 1 TaskbarCompanion | off: 0 NoneSelected (default)
         $TaskbarAskCopilotButton = @(
             @{
                 Hive    = 'HKEY_CURRENT_USER'

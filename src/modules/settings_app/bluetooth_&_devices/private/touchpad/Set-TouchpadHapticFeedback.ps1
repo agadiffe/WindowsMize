@@ -4,16 +4,16 @@
 
 <#
 .SYNTAX
-    Set-TouchpadHapticClick
+    Set-TouchpadHapticFeedback
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-TouchpadHapticClick
+function Set-TouchpadHapticFeedback
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadHapticClick -State 'Enabled'
+        PS> Set-TouchpadHapticFeedback -State 'Enabled'
     #>
 
     [CmdletBinding()]
@@ -26,7 +26,7 @@ function Set-TouchpadHapticClick
     process
     {
         # on: 4294967295 (UINT_MAX) (default) | off: 0
-        $TouchpadHapticClick = @{
+        $TouchpadHapticFeedback = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'
             Entries = @(
@@ -39,6 +39,6 @@ function Set-TouchpadHapticClick
         }
 
         Write-Verbose -Message "Setting 'Touchpad - Haptic Click' to '$State' ..."
-        Set-RegistryEntry -InputObject $TouchpadHapticClick
+        Set-RegistryEntry -InputObject $TouchpadHapticFeedback
     }
 }

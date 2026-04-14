@@ -23,6 +23,7 @@
 
 $SystemDriversList += @{
     UserChoiceProtectionDriver = @(
+        # https://kolbi.cz/blog/2025/07/15/ucpd-sys-userchoice-protection-driver-part-2/
         @{
             DisplayName = 'ucpd'
             ServiceName = 'UCPD'
@@ -33,7 +34,7 @@ $SystemDriversList += @{
                            i.e. default web browser, PDF Viewer, image editor, DeviceRegion, ...'
         }
     )
-    BridgeDriver = @( #  old ?
+    BridgeDriver = @(
         @{
             DisplayName = 'Bridge Driver'
             ServiceName = 'l2bridge'

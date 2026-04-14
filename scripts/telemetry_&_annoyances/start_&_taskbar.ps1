@@ -112,6 +112,7 @@ Write-Section -Name 'Taskbar' -SubSection
 Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 
 # --- Ask Copilot (default: Disabled)
+# Disabled: also set the "Copilot and Win+C" keys to "None Selected".
 Set-TaskbarSetting -AskCopilot 'Disabled'
 
 # --- Task view (default: Enabled)

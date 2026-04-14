@@ -9,8 +9,8 @@
         [-LeaveOnWithMouse {Disabled | Enabled}]
         [-CursorSpeed <int>]
         [-ClickSensitivity {Light | Medium | Heavy}]
-        [-HapticClick {Disabled | Enabled}]
-        [-HapticClickIntensity <int>]
+        [-HapticFeedback {Disabled | Enabled}]
+        [-HapticFeedbackIntensity <int>]
         [-Sensitivity {Max | High | Medium | Low}]
         [-TapToClick {Disabled | Enabled}]
         [-TwoFingersTapToRightClick {Disabled | Enabled}]
@@ -71,10 +71,10 @@ function Set-TouchpadSetting
 
         [TouchpadClickSensitivityMode] $ClickSensitivity,
 
-        [state] $HapticClick,
+        [state] $HapticFeedback,
 
         [ValidateRange(1, 5)]
-        [int] $HapticClickIntensity,
+        [int] $HapticFeedbackIntensity,
 
         # taps
         [TouchpadSensitivityMode] $Sensitivity,
@@ -145,8 +145,8 @@ function Set-TouchpadSetting
             'LeaveOnWithMouse'             { Set-TouchpadLeaveOnWithMouse -State $LeaveOnWithMouse }
             'CursorSpeed'                  { Set-TouchpadCursorSpeed -Value $CursorSpeed }
             'ClickSensitivity'             { Set-TouchpadClickSensitivity -Value $ClickSensitivity }
-            'HapticClick'                  { Set-TouchpadHapticClick -State $HapticClick }
-            'HapticClickIntensity'         { Set-TouchpadHapticClickIntensity -Value $HapticClickIntensity }
+            'HapticFeedback'               { Set-TouchpadHapticFeedback -State $HapticFeedback }
+            'HapticFeedbackIntensity'      { Set-TouchpadHapticFeedbackIntensity -Value $HapticFeedbackIntensity }
 
             'Sensitivity'                  { Set-TouchpadSensitivity -Value $Sensitivity }
             'TapToClick'                   { Set-TouchpadSingleFingerTapToClick -State $TapToClick }

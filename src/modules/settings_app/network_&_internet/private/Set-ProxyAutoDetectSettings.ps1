@@ -28,6 +28,7 @@ function Set-ProxyAutoDetectSettings
     process
     {
         # 9th byte, 4th bit\ on: 1 (default) | off: 0
+
         $SettingRegPath = 'Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
         $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'DefaultConnectionSettings'
         Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 8 -BitPos 4 -State ($State -eq 'Enabled')
