@@ -6,7 +6,7 @@
 # (control.exe /name Microsoft.PowerOptions /page pagePlanSettings)
 #   > change advanced power settings > hard disk > turn off hard disk after
 
-# value are in minutes
+# value is in minutes
 # never: 0 | default: 20 (PluggedIn), 10 (OnBattery)
 
 <#

@@ -39,7 +39,7 @@ function Set-PowerStateTimeout
 
     process
     {
-        # value are in minutes
+        # value is in minutes
         # never: 0 | default (depends): PluggedIn\ 5 15 180, OnBattery\ 3 10 180
 
         $PowerStateValue = switch ($Name)

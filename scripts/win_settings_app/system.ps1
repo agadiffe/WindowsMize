@@ -239,13 +239,30 @@ Write-Section -Name 'Recovery' -SubSection
 # --- Quick Machine Recovery
 # default: Enabled on Home | Disabled on Pro/Enterprise
 # Disabled: Also disables AutoRemediation.
-Set-QuickMachineRecovery -State 'Enabled'
+Set-QuickMachineRecovery -State 'Disabled'
 
 # --- --- Automatically check for solutions (AutoRemediation) (default: Disabled)
 #   Look for solutions every (RetryInterval)
-# RetryInterval\ value are in minutes, default: 0, range: 0-720
+# RetryInterval\ value is in minutes, default: 0, range: 0-720
 #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
 #Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 0
+
+#         Point-In-Time Restore
+#=======================================
+
+# --- Point-In-Time Restore (default: Enabled)
+Set-PointInTimeRestoreSetting -State 'Disabled'
+
+# --- --- Restore Point Frequency
+# Every\ 4 hours | 6 hours | 12 hours | 16 hours | 24 hours (default)
+Set-PointInTimeRestoreSetting -Frequency 24
+
+# --- --- Restore Point Retention
+# 6 hours | 12 hours | 16 hours | 24 hours | 72 hours (default)
+Set-PointInTimeRestoreSetting -Retention 72
+
+# --- --- Restore Point Disk Usage: Maximum usage limit (default: 2% of disk (range 2-50 GB))
+Set-PointInTimeRestoreSetting -MaxDiskUsage 10
 
 #endregion recovery
 

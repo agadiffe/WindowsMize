@@ -1568,10 +1568,18 @@ Set-SystemAdvancedSetting @AdvancedSettings
 Set-TroubleshooterPreference -Value 'Disabled' # Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently
 
 # --- Recovery
-# RetryInterval: value are in minutes, default: 0, range: 0-720
+# RetryInterval: value is in minutes, default: 0, range: 0-720
 #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
 Set-QuickMachineRecovery -State 'Disabled'
 #Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 0
+
+$PointInTimeRestoreSettings = @{
+    State        = 'Disabled'
+    Frequency    = 24 # hours\ 4 | 6 | 12 | 16 | 24
+    Retention    = 72 # hours\ 6 | 12 | 16 | 24 | 72
+    MaxDiskUsage = 10 # GB | range 2-50
+}
+Set-PointInTimeRestoreSetting @PointInTimeRestoreSettings
 
 # --- Projecting to this PC
 Set-ProjectingToThisPC -GPO 'Disabled'

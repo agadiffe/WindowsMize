@@ -26,7 +26,7 @@ function Set-VisualEffectsNotificationsDuration
 
     process
     {
-        # value are in second
+        # value is in second
         # default (and minimum): 5
         $VisualEffectsNotificationsDuration = @{
             Hive    = 'HKEY_CURRENT_USER'

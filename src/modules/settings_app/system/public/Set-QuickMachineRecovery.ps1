@@ -62,9 +62,9 @@ function Set-QuickMachineRecovery
     {
         # State (QuickMachineRecovery)\ on: 1 (default on Home) | off: 0 (default on Pro/Enterprise)
         # AutoRemediation (Automatically check for solutions)\ on: 1 | off: 0 (default)
-        # RetryInterval (Look for solutions)\ value are in minutes, default: 0
+        # RetryInterval (Look for solutions)\ value is in minutes, default: 0
         #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
-        # RestartInterval (Restart every) (no GUI toggle)\ value are in minutes, default: 180
+        # RestartInterval (Restart every) (no GUI toggle)\ value is in minutes, default: 180
         #   (old) GUI values: 12 hours (720) | 24 hours (1440) | 36 hours (2160) | 48 hours (2880) | 60 hours (3600) | 72 hours (4320)
         # Headless (no GUI toggle)\ on: 1 | off: 0 (default)
 
