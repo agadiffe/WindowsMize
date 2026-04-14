@@ -238,7 +238,7 @@ Write-Section -Name 'Recovery' -SubSection
 
 # --- Quick Machine Recovery
 # default: Enabled on Home | Disabled on Pro/Enterprise
-# Disabled: Also disable AutoRemediation.
+# Disabled: Also disables AutoRemediation.
 Set-QuickMachineRecovery -State 'Enabled'
 
 # --- --- Automatically check for solutions (AutoRemediation) (default: Disabled)

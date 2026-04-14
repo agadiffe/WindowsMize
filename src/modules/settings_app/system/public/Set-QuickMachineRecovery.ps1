@@ -9,13 +9,13 @@
 .SYNTAX
     Set-QuickMachineRecovery
         [-State] {Disabled | Enabled}
-        [-WifiSsid <string>]
-        [-WifiPassword <string>]
-        [-ResetWifiCredential]
         [-AutoRemediation {Disabled | Enabled}]
         [-RetryInterval <int>]
         [-RestartInterval <int>]
         [-Headless {Disabled | Enabled}]
+        [-WifiSsid <string>]
+        [-WifiPassword <string>]
+        [-ResetWifiCredential]
         [<CommonParameters>]
 #>
 
@@ -23,25 +23,14 @@ function Set-QuickMachineRecovery
 {
     <#
     .DESCRIPTION
-        Disabling Quick Machine Recovery will disable AutoRemediation.
-        'ResetWifiCredential' parameter takes precendence over 'WifiSsid/WifiPassword' parameters.
-
-        Dynamic parameters:
-            available when 'State' is defined to 'Enabled':
-                [-AutoRemediation {Disabled | Enabled}]
-                [-RetryInterval <int>]
-                [-RestartInterval <int>]
-            
-            available when 'WifiSsid' is defined:
-                [-WifiPassword <string>]
-
-        RetryInterval & RestartInterval applies to AutoRemediation.
+        Disabling "Quick Machine Recovery ($State)" also disables AutoRemediation.
+        "ResetWifiCredential" parameter takes precendence over "WifiSsid/WifiPassword" parameters.
 
     .EXAMPLE
         PS> Set-QuickMachineRecovery -State 'Disabled'
 
     .EXAMPLE
-        PS> Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 30 -RestartInterval 180
+        PS> Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 30
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -50,55 +39,24 @@ function Set-QuickMachineRecovery
         [Parameter(Mandatory, Position = 0)]
         [state] $State,
 
-        [ValidateNotNullOrWhiteSpace()]
-        [string] $WifiSsid,
+        [state] $AutoRemediation,
+
+        [ValidateRange(0, 720)]
+        [int] $RetryInterval,
+
+        [ValidateRange(60, 4320)]
+        [int] $RestartInterval,
 
         [state] $Headless,
 
+        [ValidateNotNullOrWhiteSpace()]
+        [string] $WifiSsid,
+
+        [ValidateNotNullOrWhiteSpace()]
+        [string] $WifiPassword,
+
         [switch] $ResetWifiCredential
     )
-
-    dynamicparam
-    {
-        if ($State -eq 'Enabled' -or $WifiSsid)
-        {
-            $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
-
-            if ($State -eq 'Enabled')
-            {
-                $DynamicParamProperties = @(
-                    [PSCustomObject]@{
-                        Name = 'AutoRemediation'
-                        Type = [state]
-                    }
-                    [PSCustomObject]@{
-                        Name      = 'RetryInterval'
-                        Type      = [int]
-                        Attribute = @{ ValidateRange = 0, 720 }
-                    }
-                    [PSCustomObject]@{
-                        Name      = 'RestartInterval'
-                        Type      = [int]
-                        Attribute = @{ ValidateRange = 0, 4320 }
-                    }
-                )
-                $DynamicParamProperties | Add-DynamicParameter -Dictionary $ParamDictionary
-            }
-
-            if ($WifiSsid)
-            {
-                $DynamicParamProperties = @{
-                    Dictionary = $ParamDictionary
-                    Name       = 'WifiPassword'
-                    Type       = [string]
-                    Attribute  = @{ Parameter = @{ Mandatory = $true }; ValidateNotNullOrWhiteSpace = $true }
-                }
-                Add-DynamicParameter @DynamicParamProperties
-            }
-
-            $ParamDictionary
-        }
-    }
 
     process
     {
@@ -120,34 +78,38 @@ function Set-QuickMachineRecovery
 
         switch ($true)
         {
-            { $State -eq 'Disabled' }
+            { $AutoRemediation }
             {
-                $QmrSetting['AutoRemediation'] = '0'
+                $QmrSetting['AutoRemediation'] = $AutoRemediation -eq 'Enabled' ? '1' : '0'
             }
-            { $PSBoundParameters.ContainsKey('Headless') }
+            { $PSBoundParameters.ContainsKey('RetryInterval') }
+            {
+                $QmrSetting['RetryInterval'] = $RetryInterval
+            }
+            { $PSBoundParameters.ContainsKey('RestartInterval') }
+            {
+                $QmrSetting['RestartInterval'] = $RestartInterval
+            }
+            { $Headless }
             {
                 $QmrSetting['Headless'] = $Headless -eq 'Enabled' ? '1' : '0'
             }
             { $WifiSsid }
             {
                 $QmrSetting['WifiSsid'] = $WifiSsid
-                $QmrSetting['WifiPassword'] = $PSBoundParameters['WifiPassword']
             }
-            { $PSBoundParameters.ContainsKey('AutoRemediation') }
+            { $WifiPassword }
             {
-                $QmrSetting['AutoRemediation'] = $PSBoundParameters['AutoRemediation'] -eq 'Enabled' ? '1' : '0'
-            }
-            { $PSBoundParameters.ContainsKey('RetryInterval') }
-            {
-                $QmrSetting['RetryInterval'] = $PSBoundParameters['RetryInterval']
-            }
-            { $PSBoundParameters.ContainsKey('RestartInterval') }
-            {
-                $QmrSetting['RestartInterval'] = $PSBoundParameters['RestartInterval']
+                $QmrSetting['WifiPassword'] = $WifiPassword
             }
         }
 
-        if (-not $ResetWifiCredential -and $QmrSetting['WifiSsid'])
+        if ($State -eq 'Disabled')
+        {
+            $QmrSetting['AutoRemediation'] = '0'
+        }
+
+        if (-not $ResetWifiCredential -and ($QmrSetting['WifiSsid'] -or $QmrSetting['WifiPassword']))
         {
             $WifiCredential = "<Wifi ssid=""$($QmrSetting['WifiSsid'])"" password=""$($QmrSetting['WifiPassword'])""/>"
         }
