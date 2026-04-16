@@ -39,7 +39,7 @@ function Set-RemoteAssistance
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Position = 0)]
+        [Parameter(Mandatory, Position = 0)]
         [RemoteAssistanceState] $State,
 
         [RemoteAssistanceGpoState] $GPO,
@@ -58,13 +58,6 @@ function Set-RemoteAssistance
 
     process
     {
-        if (-not ($PSBoundParameters.ContainsKey('State') -or $PSBoundParameters.ContainsKey('GPO')))
-        {
-            Write-Error -Message (Write-InsufficientParameterCount)
-            Write-Error -Message 'Specify at least the ''State'' or ''GPO'' parameter.'
-            return
-        }
-
         $InvitationProperties = @{
             InvitationMaxTime     = $InvitationMaxTime
             InvitationMaxTimeUnit = $InvitationMaxTimeUnit

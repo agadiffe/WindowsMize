@@ -16,7 +16,7 @@ function Set-RemoteDesktopSetting
 {
     <#
     .EXAMPLE
-        PS> Set-StorageSenseSetting -RemoteDesktop 'Disabled' -RemoteDesktopGPO 'NotConfigured' -PortNumber 3390
+        PS> Set-RemoteDesktopSetting -RemoteDesktop 'Disabled' -RemoteDesktopGPO 'NotConfigured' -PortNumber 3390
     #>
 
     [CmdletBinding(PositionalBinding = $false)]

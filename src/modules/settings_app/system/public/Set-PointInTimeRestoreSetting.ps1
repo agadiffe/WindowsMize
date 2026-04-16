@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-PointInTimeRestoreSetting
-        [-State {Disabled | Enabled}]
+        [-PointInTimeRestore {Disabled | Enabled}]
         [-Frequency {4 | 6 | 12 | 16 | 24}]
         [-Retention {6 | 12 | 16 | 24 | 72}]
         [-MaxDiskUsage <int>]
@@ -16,13 +16,13 @@ function Set-PointInTimeRestoreSetting
 {
     <#
     .EXAMPLE
-        PS> Set-PointInTimeRestoreSetting -State 'Enabled' -Frequency 24 -MaxDiskUsage 4
+        PS> Set-PointInTimeRestoreSetting -PointInTimeRestore 'Enabled' -Frequency 24 -MaxDiskUsage 4
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [state] $State,
+        [state] $PointInTimeRestore,
 
         [ValidateSet(4, 6, 12, 16, 24)]
         [int] $Frequency,
@@ -44,10 +44,10 @@ function Set-PointInTimeRestoreSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'        { Set-PointInTimeRestore -State $State }
-            'Frequency'    { Set-PointInTimeRestoreFrequency -Value $Frequency }
-            'Retention'    { Set-PointInTimeRestoreRetention -Value $Retention }
-            'MaxDiskUsage' { Set-PointInTimeRestoreMaxDiskUsage -Value $MaxDiskUsage }
+            'PointInTimeRestore' { Set-PointInTimeRestore -State $PointInTimeRestore }
+            'Frequency'          { Set-PointInTimeRestoreFrequency -Value $Frequency }
+            'Retention'          { Set-PointInTimeRestoreRetention -Value $Retention }
+            'MaxDiskUsage'       { Set-PointInTimeRestoreMaxDiskUsage -Value $MaxDiskUsage }
         }
     }
 }

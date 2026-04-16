@@ -1531,7 +1531,6 @@ Set-StorageSenseSetting @StorageSenseSettings
 
 # --- Nearby sharing
 $NearbySharingSettings = @{
-    DragTray          = 'Disabled'
     NearbySharing     = 'Disabled' # Disabled | DevicesOnly | EveryoneNearby
     #FileSaveLocation = 'X:\MySharedFiles'
 }
@@ -1541,6 +1540,7 @@ Set-NearbySharingSetting @NearbySharingSettings
 $MultitaskingSettingSettings = @{
     ShowAppsTabsOnSnapAndAltTab = 'ThreeMostRecent' ; ShowAppsTabsOnSnapAndAltTabGPO = 'NotConfigured' # TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled | NotConfigured
     TitleBarWindowShake         = 'Disabled'        ; TitleBarWindowShakeGPO         = 'NotConfigured'
+    DropTray                    = 'Disabled'
     ShowAllWindowsOnTaskbar     = 'CurrentDesktop' # AllDesktops | CurrentDesktop
     ShowAllWindowsOnAltTab      = 'CurrentDesktop' # AllDesktops | CurrentDesktop
 }
@@ -1574,10 +1574,10 @@ Set-QuickMachineRecovery -State 'Disabled'
 #Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 0
 
 $PointInTimeRestoreSettings = @{
-    State        = 'Disabled'
-    Frequency    = 24 # hours\ 4 | 6 | 12 | 16 | 24
-    Retention    = 72 # hours\ 6 | 12 | 16 | 24 | 72
-    MaxDiskUsage = 10 # GB | range 2-50
+    PointInTimeRestore = 'Disabled'
+    Frequency          = 24 # hours\ 4 | 6 | 12 | 16 | 24
+    Retention          = 72 # hours\ 6 | 12 | 16 | 24 | 72
+    MaxDiskUsage       = 10 # GB | range 2-50
 }
 Set-PointInTimeRestoreSetting @PointInTimeRestoreSettings
 
@@ -1897,6 +1897,14 @@ $GamingSettings = @{
     GameMode                       = 'Disabled'
 }
 Set-GamingSetting @GamingSettings
+
+$XboxModeSettings = @{
+    XboxMode                   = 'Disabled'
+    ShowInTaskView             = 'Enabled'
+    ShowControlHintsInTaskView = 'Enabled'
+    ConfirmationPrompts        = 'Enabled'
+}
+Set-XboxModeSetting @XboxModeSettings
 
 #endregion gaming
 

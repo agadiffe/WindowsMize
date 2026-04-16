@@ -23,14 +23,17 @@ function Set-GamingSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        # game bar
         [state] $OpenGameBarWithController,
 
         [state] $UseViewMenuAsGuideButtonInApps,
 
+        # captures
         [state] $GameRecording,
 
         [GpoStateWithoutEnabled] $GameRecordingGPO,
 
+        # game mode
         [state] $GameMode
     )
 

@@ -21,6 +21,7 @@
         'Set-MultitaskingSetting'
         'Set-NearbySharingSetting'
         'Set-NotificationsSetting'
+        'Set-PointInTimeRestoreSetting'
         'Set-PowerSetting'
         'Set-ProjectingToThisPC'
         'Set-QuickMachineRecovery'

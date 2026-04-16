@@ -11,6 +11,7 @@
         [-ShowAllWindowsOnAltTab {AllDesktops | CurrentDesktop}]
         [-TitleBarWindowShake {Disabled | Enabled}]
         [-TitleBarWindowShakeGPO {Disabled | NotConfigured}]
+        [-DropTray {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -34,7 +35,9 @@ function Set-MultitaskingSetting
 
         [state] $TitleBarWindowShake,
 
-        [GpoStateWithoutEnabled] $TitleBarWindowShakeGPO
+        [GpoStateWithoutEnabled] $TitleBarWindowShakeGPO,
+
+        [state] $DropTray
     )
 
     process
@@ -53,6 +56,7 @@ function Set-MultitaskingSetting
             'ShowAllWindowsOnAltTab'         { Set-VirtualDesktopShowAllWindowsOnAltTab -Value $ShowAllWindowsOnAltTab }
             'TitleBarWindowShake'            { Set-TitleBarWindowShake -State $TitleBarWindowShake }
             'TitleBarWindowShakeGPO'         { Set-TitleBarWindowShake -GPO $TitleBarWindowShakeGPO }
+            'DropTray'                       { Set-MultitaskingDropTray -State $DropTray }
         }
     }
 }

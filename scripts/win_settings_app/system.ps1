@@ -126,9 +126,6 @@ Set-StorageSenseSetting -CleanupTempFiles 'Enabled' -CleanupTempFilesGPO 'NotCon
 
 Write-Section -Name 'Nearby sharing' -SubSection
 
-# --- Drag Tray (default: Enabled)
-Set-NearbySharingSetting -DragTray 'Disabled'
-
 # --- Nearby sharing
 # State: Disabled (default) | DevicesOnly | EveryoneNearby
 Set-NearbySharingSetting -NearbySharing 'Disabled'
@@ -153,6 +150,9 @@ Set-MultitaskingSetting -ShowAppsTabsOnSnapAndAltTab 'ThreeMostRecent' -ShowApps
 
 # --- Title bar window shake (default: Disabled)
 Set-MultitaskingSetting -TitleBarWindowShake 'Disabled' -TitleBarWindowShakeGPO 'NotConfigured'
+
+# --- Drop Tray (default: Enabled)
+Set-MultitaskingSetting -DropTray 'Disabled'
 
 #             Snap windows
 #=======================================
@@ -251,7 +251,7 @@ Set-QuickMachineRecovery -State 'Disabled'
 #=======================================
 
 # --- Point-In-Time Restore (default: Enabled)
-Set-PointInTimeRestoreSetting -State 'Disabled'
+Set-PointInTimeRestoreSetting -PointInTimeRestore 'Disabled'
 
 # --- --- Restore Point Frequency
 # Every\ 4 hours | 6 hours | 12 hours | 16 hours | 24 hours (default)

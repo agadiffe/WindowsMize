@@ -14,6 +14,7 @@
 
     FunctionsToExport = @(
         'Set-GamingSetting'
+        'Set-XboxModeSetting'
     )
     CmdletsToExport   = @()
     VariablesToExport = @()

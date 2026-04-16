@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                       System > Nearby Sharing > Drag Tray
+#                                        System > Multitasking > Drop Tray
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-NearbySharingDragTray
+    Set-MultitaskingDropTray
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-NearbySharingDragTray
+function Set-MultitaskingDropTray
 {
     <#
     .EXAMPLE
-        PS> Set-NearbySharingDragTray -State 'Disabled'
+        PS> Set-MultitaskingDropTray -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,7 +26,7 @@ function Set-NearbySharingDragTray
     process
     {
         # on: 1 (default) | off: 0
-        $NearbySharingDragTray = @{
+        $MultitaskingDropTray = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\CDP'
             Entries = @(
@@ -38,7 +38,7 @@ function Set-NearbySharingDragTray
             )
         }
 
-        Write-Verbose -Message "Setting 'Nearby Sharing - Drag Tray' to '$State' ..."
-        Set-RegistryEntry -InputObject $NearbySharingDragTray
+        Write-Verbose -Message "Setting 'Multitasking - Drop Tray' to '$State' ..."
+        Set-RegistryEntry -InputObject $MultitaskingDropTray
     }
 }
