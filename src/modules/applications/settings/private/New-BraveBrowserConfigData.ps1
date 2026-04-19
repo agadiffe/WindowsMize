@@ -340,7 +340,6 @@ function New-BraveBrowserConfigData
             "brave": {
                 "allow_element_blocker_in_private_mode": false,
                 "ad_block": {
-                    "cookie_list_opt_in_shown": true,
                     "custom_filters": "$BraveCustomFilters",
                     "list_subscriptions": {
                         "https://filters.adtidy.org/extension/ublock/filters/3.txt": {

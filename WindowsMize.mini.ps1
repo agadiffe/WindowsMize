@@ -1687,6 +1687,7 @@ $TouchpadSettings = @{
     TwoFingersTapToRightClick    = 'Enabled'
     TapTwiceAndDragToMultiSelect = 'Enabled'
     RightClickButton             = 'Enabled'
+    RightClickZoneSize           = 'Default' # Default | Small | Medium | Large
     TwoFingersToScroll           = 'Enabled'
     ScrollingDirection           = 'DownMotionScrollsUp' # DownMotionScrollsDown | DownMotionScrollsUp
     PinchToZoom                  = 'Enabled'

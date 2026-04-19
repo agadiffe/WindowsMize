@@ -237,6 +237,10 @@ Set-TouchpadSetting -TapTwiceAndDragToMultiSelect 'Enabled'
 # --- Press the lower right corner of the touchpad to right-click (default: Enabled)
 Set-TouchpadSetting -RightClickButton 'Enabled'
 
+# --- Right-click zone size
+# State: Default (default) | Small | Medium | Large
+Set-TouchpadSetting -RightClickZoneSize 'Enabled'
+
 #             Scroll & zoom
 #=======================================
 

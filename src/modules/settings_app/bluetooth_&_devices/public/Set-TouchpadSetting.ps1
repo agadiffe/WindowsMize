@@ -16,6 +16,7 @@
         [-TwoFingersTapToRightClick {Disabled | Enabled}]
         [-TapTwiceAndDragToMultiSelect {Disabled | Enabled}]
         [-RightClickButton {Disabled | Enabled}]
+        [-RightClickZoneSize {Default | Small | Medium | Large}]
         [-TwoFingersToScroll {Disabled | Enabled}]
         [-ScrollingDirection {DownMotionScrollsDown | DownMotionScrollsUp}]
         [-PinchToZoom {Disabled | Enabled}]
@@ -87,6 +88,8 @@ function Set-TouchpadSetting
 
         [state] $RightClickButton,
 
+        [TouchpadRightClickZoneSize] $RightClickZoneSize,
+
         # scroll & zoom
         [state] $TwoFingersToScroll,
 
@@ -153,6 +156,7 @@ function Set-TouchpadSetting
             'TwoFingersTapToRightClick'    { Set-TouchpadTwoFingersTapToRightClick -State $TwoFingersTapToRightClick }
             'TapTwiceAndDragToMultiSelect' { Set-TouchpadTapTwiceAndDragToMultiSelect -State $TapTwiceAndDragToMultiSelect }
             'RightClickButton'             { Set-TouchpadRightClickButton -State $RightClickButton }
+            'RightClickZoneSize'           { Set-TouchpadRightClickZoneSize -Value $RightClickZoneSize }
 
             'TwoFingersToScroll'           { Set-TouchpadTwoFingersToScroll -State $TwoFingersToScroll }
             'ScrollingDirection'           { Set-TouchpadScrollingDirection -Value $ScrollingDirection }

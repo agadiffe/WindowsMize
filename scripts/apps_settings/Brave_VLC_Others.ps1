@@ -40,6 +40,7 @@ Write-Section -Name 'Brave Browser' -SubSection
   The settings are organized the same way as in the GUI.
 #>
 
+# Once Brave is configured, select your regional filter list in "Shields > Content Filtering".
 Set-BraveBrowserSettings
 
 #==============================================================================

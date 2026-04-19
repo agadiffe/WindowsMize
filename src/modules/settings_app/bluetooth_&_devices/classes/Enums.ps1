@@ -39,6 +39,14 @@ enum TouchpadSensitivityMode
     Low    = 3
 }
 
+enum TouchpadRightClickZoneSize
+{
+    Default
+    Small
+    Medium
+    Large
+}
+
 enum TouchpadClickSensitivityMode
 {
     Light  = 0
