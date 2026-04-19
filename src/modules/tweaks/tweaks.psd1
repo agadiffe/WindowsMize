@@ -19,6 +19,7 @@
         'Set-HomeGroup'
         'Set-Hotspot2'
         'Set-LocalAccountsSecurityQuestions'
+        'Set-LockBatchFilesWhenInUse'
         'Set-LockScreenCameraAccess'
         'Set-MessagingCloudSync'
         'Set-NotificationsNetworkUsage'

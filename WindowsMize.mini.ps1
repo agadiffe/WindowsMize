@@ -1021,6 +1021,7 @@ Set-DisplayLastSignedinUserName -GPO 'Enabled' # Disabled | Enabled
 Set-HomeGroup -GPO 'Disabled' # old
 Set-Hotspot2 -State 'Disabled'
 Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
+Set-LockBatchFilesWhenInUse -State 'Enabled'
 Set-LockScreenCameraAccess -GPO 'Disabled'
 Set-MessagingCloudSync -GPO 'Disabled'
 #Set-NotificationsNetworkUsage -GPO 'NotConfigured'

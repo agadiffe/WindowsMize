@@ -44,6 +44,9 @@ Set-Hotspot2 -State 'Disabled'
 # --- Local Accounts Security Questions
 Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
 
+# --- Lock Batch Files When In Use
+Set-LockBatchFilesWhenInUse -State 'Enabled'
+
 # --- Lock screen camera access
 Set-LockScreenCameraAccess -GPO 'Disabled'
 
