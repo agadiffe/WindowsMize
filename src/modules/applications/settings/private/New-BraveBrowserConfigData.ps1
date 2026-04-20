@@ -74,11 +74,12 @@ function New-BraveBrowserConfigData
         #------------------------------------
         #region appearance
 
+        # show bookmarks:
+        #              show_on_all_tabs | always_show_bookmark_bar_on_ntp
+        #     always :      true               true or false (ignored)
+        #      never :      false              false
+        #   ntp only :      false              true
         Merge-Hashtable $BravePreferences ('{
-            // show bookmarks:
-            //   always\ show_on_all_tabs: true, always_show_bookmark_bar_on_ntp: true or false (ignored)
-            //   never\ show_on_all_tabs: false, always_show_bookmark_bar_on_ntp: false
-            //   only on new tabe page\ show_on_all_tabs: false, always_show_bookmark_bar_on_ntp: true
             "bookmark_bar": {
                 "show_on_all_tabs": true
             },
@@ -310,18 +311,25 @@ function New-BraveBrowserConfigData
                         }
                     }
                 },
-                // works in pair with: default_content_setting_values > cookies
-                // cookie_controls_mode + on-device site data:
-                // block all:         1 + dont allow sites to save data: 2 // no more GUI toggle
-                // block third-party: 1 + allow sites to save data: 1
-                // block third-party: 1 + delete data when close: 4
-                // allow all:         0 + allow sites to save data: 1
-                // allow all:         0 + delete data when close: 4
-                "cookie_controls_mode": 1,
                 "default_content_setting_values": {
-                    "cookies": 1, // on-device site data
                     "brave_remember_1p_storage": 1, // forget me when I close this site\ on: 2 | off: 1
                     "httpsUpgrades": 2 // strict: 2 | standard: 3 | off: 1
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        # these 2 settings works together.
+        #     block cookies    |     on-device site data
+        # block all:         1 + dont allow sites to save data: 2
+        # block third-party: 1 + allow sites to save data: 1
+        # block third-party: 1 + delete data when close: 4
+        # allow all:         0 + allow sites to save data: 1
+        # allow all:         0 + delete data when close: 4
+        Merge-Hashtable $BravePreferences ('{
+            "profile": {
+                "cookie_controls_mode": 1, // block cookies
+                "default_content_setting_values": {
+                    "cookies": 1 // on-device site data
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
@@ -549,10 +557,10 @@ function New-BraveBrowserConfigData
         }' | ConvertFrom-Json -AsHashtable)
 
         # geolocation and/or notifications: if default_content_setting_values is enabled.
-        #                                cpss  | quiet perm
-        #   expand all requests :        false   false
-        #   collapse unwanted requests : true    false
-        #   collapse all requests :      false   true
+        #        requests     | cpss  | quiet perm
+        #          expand all : false   false
+        #   collapse unwanted : true    false
+        #        collapse all : false   true
         Merge-Hashtable $BravePreferences ('{
             "profile": {
                 "content_settings": {

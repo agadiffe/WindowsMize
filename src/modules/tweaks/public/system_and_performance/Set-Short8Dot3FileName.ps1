@@ -85,7 +85,7 @@ function Set-Short8Dot3FileName
             Write-Verbose -Message ("   The following Warning is not as bad as stated.")
 
             $LogPath = Get-LogPath
-            $LogFileName = "8dot3_removal_@($(Get-Date -Format 'yyyy-MM-ddTHH-mm-ssK')).log"
+            $LogFileName = "8dot3_removal_@($(Get-Date -Format 'yyyy-MM-ddTHH-mm-ss')).log"
 
             New-ParentPath -Path "$LogPath\x"
             $LogPath = Resolve-Path -Path $LogPath
