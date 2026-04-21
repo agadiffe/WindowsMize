@@ -29,7 +29,7 @@ function Get-LoggedOnUserItemPropertyValue
 
     process
     {
-        $UserSid = (Get-LoggedOnUserInfo).Sid
+        $UserSid = (Get-LoggedOnUserInfo)['Sid']
         $ItemRegPath = "Registry::HKEY_USERS\$UserSid\$Path"
 
         # https://github.com/PowerShell/PowerShell/issues/9552

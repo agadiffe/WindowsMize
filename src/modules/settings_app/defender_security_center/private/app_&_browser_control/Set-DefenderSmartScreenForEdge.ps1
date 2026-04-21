@@ -72,7 +72,9 @@ function Set-DefenderSmartScreenForEdge
             }
             'GPO'
             {
-                # gpo\ not configured: delete (default) | on: 1 | off: 0
+                # gpo\ computer config > administrative tpl > windows components > windows defender smartScreen > microsoft edge
+                #   configure windows defender smartScreen
+                # not configured: delete (default) | on: 1 | off: 0
                 $DefenderSmartScreenForEdgeGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Edge'

@@ -972,6 +972,7 @@ $TasksToConfig = @(
     'Diagnostic'
     'Features'
     #'MicrosoftOffice'
+    #'MicrosoftOneDrive'
     'Miscellaneous'
     'Telemetry'
     'UserChoiceProtectionDriver'
