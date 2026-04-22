@@ -37,11 +37,10 @@ function Export-DefaultScheduledTasksState
                         Group-Object -Property 'TaskPath' |
                         ForEach-Object -Process {
                             $TaskDictionary = [ordered]@{}
-                            $_.Group |
-                                ForEach-Object -Process {
-                                    $TaskState = $_.State -eq 'Disabled' ? 'Disabled' : 'Enabled'
-                                    $TaskDictionary[$_.TaskName] = $TaskState
-                                }
+                            $_.Group | ForEach-Object -Process {
+                                $TaskState = $_.State -eq 'Disabled' ? 'Disabled' : 'Enabled'
+                                $TaskDictionary[$_.TaskName] = $TaskState
+                            }
 
                             [ordered]@{
                                 TaskPath = $_.Name

@@ -318,23 +318,24 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
-        # these 2 settings works together.
-        #     block cookies    |     on-device site data
-        # block all:         1 + dont allow sites to save data: 2
-        # block third-party: 1 + allow sites to save data: 1
-        # block third-party: 1 + delete data when close: 4
-        # allow all:         0 + allow sites to save data: 1
-        # allow all:         0 + delete data when close: 4
+        Merge-Hashtable $BraveLocalState ('{
+            "brave": {
+                "allow_element_blocker_in_private_mode": false
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        # if "on-device site data" is set to "dont allow sites to save data" : "block cookies" must be set to "1".
+        #  it will also set the "block cookies" GUI option to "block all".
         Merge-Hashtable $BravePreferences ('{
             "profile": {
-                "cookie_controls_mode": 1, // block cookies
+                "cookie_controls_mode": 1, // block cookies\ block third-party: 1 | allow all: 0
                 "default_content_setting_values": {
-                    "cookies": 1 // on-device site data
+                    "cookies": 1 // on-device site data\ allow: 1 | delete when close: 4 | dont allow: 2
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
 
-        ### Content Filtering
+        #### Content Filtering
         #---------------
         # Uncomment if you need custom filters.
         <#
@@ -344,9 +345,9 @@ function New-BraveBrowserConfigData
         ) -join '\n'
         #>
 
+        #### custom filter lists
         Merge-Hashtable $BraveLocalState ('{
             "brave": {
-                "allow_element_blocker_in_private_mode": false,
                 "ad_block": {
                     "custom_filters": "$BraveCustomFilters",
                     "list_subscriptions": {
@@ -361,7 +362,7 @@ function New-BraveBrowserConfigData
                             "last_update_attempt": "1"
                         },
                         "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.mini.txt": {
-                            "enabled": false, // HaGeZi DNS Blocklist (light, multi, pro, pro.plus, ultimate) (.mini)
+                            "enabled": false, // HaGeZi DNS Blocklist (light, multi, pro(.mini), pro.plus(.mini), ultimate(.mini))
                             "last_successful_update_attempt": "1",
                             "last_update_attempt": "1"
                         },
@@ -380,45 +381,202 @@ function New-BraveBrowserConfigData
                             "last_successful_update_attempt": "1",
                             "last_update_attempt": "1"
                         }
-                    },
-                    "regional_filters": {
-                        "AC023D22-AE88-4060-A978-4FEEEC4221693": {
-                            "enabled": false // EasyList Cookie (included in Fanboy Annoyances)
-                        },
-                        "67E792D4-AE03-4D1A-9EDE-80E01C81F9B8": {
-                            "enabled": true // Fanboy Annoyances + uBO Annoyances
-                        },
-                        "7911A1CB-304E-4CDB-ABB3-E2A94A37E4DD": {
-                            "enabled": false // Fanboy Social (included in Fanboy Annoyances)
-                        },
-                        "690FF3B4-8B6B-4709-8505-FEC6643D7BD9": {
-                            "enabled": false // Fanboy Anti-Newsletter (included in Fanboy Annoyances)
-                        },
-                        "2F3DCE16-A19A-493C-A88F-2E110FBD37D6": {
-                            "enabled": false // Fanboy Mobile Notifications (included in Fanboy Annoyances)
-                        },
-                        "1ED1870B-997C-4BFE-AEBC-B67D679BAF3B": {
-                            "enabled": false // Fanboy Anti-chat Apps
-                        },
-                        "E2FA7D98-0BD5-493E-8AF4-950604ADE9CB": {
-                            "enabled": true // AdGuard URL Tracking Protection
-                        },
-                        "78672887-A098-4D2C-B0CB-A3DEC4834DA7": {
-                            "enabled": false // Bypass Paywalls Clean Filters
-                        },
-                        "6B91E355-1421-4C03-9A30-911B4D0FB277": {
-                            "enabled": false // Anti-AI suggestions Filters
-                        },
-                        "F61D6B7B-4110-4EA4-9C81-38FB4CE90AEC": {
-                            "enabled": false // Blocklists Anti-Porn
-                        },
-                        "564C3B75-8731-404C-AD7C-5683258BA0B0": {
-                            "enabled": false // Brave Experimental Adblock Rules
-                        }
                     }
                 }
             }
         }'.Replace('$BraveCustomFilters', $BraveCustomFilters) | ConvertFrom-Json -AsHashtable)
+
+        #### filter lists - general
+        Merge-Hashtable $BraveLocalState ('{
+            "brave": {
+                "ad_block": {
+                    "regional_filters": {
+                        "AC023D22-AE88-4060-A978-4FEEEC4221693": {
+                            "enabled": false // Cookie notice blocker (included in Annoying distractions)
+                        },
+                        "67E792D4-AE03-4D1A-9EDE-80E01C81F9B8": {
+                            "enabled": true // Annoying distractions blocker
+                        },
+                        "6B91E355-1421-4C03-9A30-911B4D0FB277": {
+                            "enabled": false // AI suggestions blocker
+                        },
+                        "690FF3B4-8B6B-4709-8505-FEC6643D7BD9": {
+                            "enabled": false // Newsletter popup blocker (included in Annoying distractions)
+                        },
+                        "2F3DCE16-A19A-493C-A88F-2E110FBD37D6": {
+                            "enabled": false // Mobile app promo blocker (included in Annoying distractions)
+                        },
+                        "7911A1CB-304E-4CDB-ABB3-E2A94A37E4DD": {
+                            "enabled": false // Social media blocker (included in Annoying distractions)
+                        },
+                        "E2FA7D98-0BD5-493E-8AF4-950604ADE9CB": {
+                            "enabled": true // Tracking URL blocker
+                        },
+                        "1ED1870B-997C-4BFE-AEBC-B67D679BAF3B": {
+                            "enabled": false // Chat app blocker
+                        },
+                        "78672887-A098-4D2C-B0CB-A3DEC4834DA7": {
+                            "enabled": false // Paywall blocker
+                        },
+                        "F61D6B7B-4110-4EA4-9C81-38FB4CE90AEC": {
+                            "enabled": false // Porn blocker
+                        },
+                        "564C3B75-8731-404C-AD7C-5683258BA0B0": {
+                            "enabled": false // Experimental ad blocker
+                        }
+                    }
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        #### filter lists - YouTube
+        Merge-Hashtable $BraveLocalState ('{
+            "brave": {
+                "ad_block": {
+                    "regional_filters": {
+                        "9E8EC586-4E17-4E5E-99D7-35172C4CEA74": {
+                            "enabled": false // YouTube Shorts blocker
+                        },
+                        "5C6A6C95-B60A-4695-9EFB-539359022531": {
+                            "enabled": false // YouTube Playables blocker
+                        },
+                        "2D57ADED-3531-419A-9DED-7F8868BC1561": {
+                            "enabled": false // YouTube recommendations blocker (mobile-only)
+                        },
+                        "7F11B964-4F36-4E06-9D75-BD16381B9386": {
+                            "enabled": false // YouTube autodubbed videos blocker
+                        },
+                        "D579F370-6DE3-4507-AA9A-CEE4227E59F5": {
+                            "enabled": false // YouTube end video elements blocker
+                        },
+                        "49958DA7-F532-4A84-A765-9501729B8E75": {
+                            "enabled": false // YouTube members-only video blocker
+                        },
+                        "BD308B90-D3BB-4041-9114-22E096B0BA77": {
+                            "enabled": false // YouTube distractions elements blocker (mobile-only)
+                        },
+                        "3AFA9D35-D837-45B5-B742-B3D0FE94E77C": {
+                            "enabled": false // YouTube thumbnail image blocker
+                        }
+                    }
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        #### filter lists - regional
+        Merge-Hashtable $BraveLocalState ('{
+            "brave": {
+                "ad_block": {
+                    "regional_filters": {
+                        "9FCEECEC-52B4-4487-8E57-8781E82C91D0": {
+                            "enabled": false // Arabic website ad blocker
+                        },
+                        "FD176DD1-F9A0-4469-B43E-B1764893DD5C": {
+                            "enabled": false // Bulgarian website ad blocker
+                        },
+                        "92AA0D3B-34AC-4657-9A5C-DBAD339AF8E2": {
+                            "enabled": false // Chinese website ad blocker
+                        },
+                        "CC98E4BA-9257-4386-A1BC-1BBF6980324F": {
+                            "enabled": false // Chinese website annoyances blocker
+                        },
+                        "7CCB6921-7FDA-4A9B-B70A-12DD0A8F08EA": {
+                            "enabled": false // Czech and Slovak website ad blocker
+                        },
+                        "9D644676-4784-4982-B94D-C9AB19098D2A": {
+                            "enabled": false // Dutch website ad blocker
+                        },
+                        "0783DBFD-B5E0-4982-9B4A-711BDDB925B7": {
+                            "enabled": false // Estonian website ad blocker
+                        },
+                        "1C6D8556-3400-4358-B9AD-72689D7B2C46": {
+                            "enabled": false // Finnish website ad blocker
+                        },
+                        "9852EFC4-99E4-4F2D-A915-9C3196C7A1DE": {
+                            "enabled": false // French website ad blocker
+                        },
+                        "E71426E7-E898-401C-A195-177945415F38": {
+                            "enabled": false // German website ad blocker
+                        },
+                        "6C0F4C7F-969B-48A0-897A-14583015A587": {
+                            "enabled": false // Greek website ad blocker
+                        },
+                        "85F65E06-D7DA-4144-B6A5-E1AA965D1E47": {
+                            "enabled": false // Hebrew website ad blocker
+                        },
+                        "4C07DB6B-6377-4347-836D-68702CF1494A": {
+                            "enabled": false // Hindi website ad blocker
+                        },
+                        "EDEEE15A-6FA9-4FAC-8CA8-3565508EAAC3": {
+                            "enabled": false // Hungarian website ad blocker
+                        },
+                        "48796273-E783-431E-B864-44D3DCEA66DC": {
+                            "enabled": false // Icelandic website ad blocker
+                        },
+                        "93123971-5AE6-47BA-93EA-BE1E4682E2B6": {
+                            "enabled": false // Indonesian website ad blocker
+                        },
+                        "AB1A661D-E946-4F29-B47F-CA3885F6A9F7": {
+                            "enabled": false // Italian website ad blocker
+                        },
+                        "03F91310-9244-40FA-BCF6-DA31B832F34D": {
+                            "enabled": false // Japanese website ad blocker
+                        },
+                        "45B3ED40-C607-454F-A623-195FDD084637": {
+                            "enabled": false // Korean website ad blocker
+                        },
+                        "15B64333-BAF9-4B77-ADC8-935433CD6F4C": {
+                            "enabled": false // Latvian website ad blocker
+                        },
+                        "4E8B1A63-DEBE-4B8B-AD78-3811C632B353": {
+                            "enabled": false // Lithuanian website ad blocker
+                        },
+                        "7BC951C6-B0B8-4223-97FC-3C22605734FC": {
+                            "enabled": false // Macedonian website ad blocker
+                        },
+                        "8BEDBAA8-4FE2-4FEA-82F2-81B8124A4A74": {
+                            "enabled": false // Nordic website ad blocker
+                        },
+                        "C3C2F394-D7BB-4BC2-9793-E0F13B2B5971": {
+                            "enabled": false // Persian website ad blocker
+                        },
+                        "BF9234EB-4CB7-4CED-9FCB-F1FD31B0666C": {
+                            "enabled": false // Polish website ad blocker
+                        },
+                        "AD3E8454-F376-11E8-8EB2-F2801F1B9FD1": {
+                            "enabled": false // Romanian website ad blocker
+                        },
+                        "1088D292-2369-4D40-9BDF-C7DC03C05966": {
+                            "enabled": false // Russian website ad blocker - AdGuard Russian
+                        },
+                        "80470EEC-970F-4F2C-BF6B-4810520C72E6": {
+                            "enabled": false // Russian website ad blocker - RU AdList
+                        },
+                        "418D293D-72A8-4A28-8718-A1EE40A45AAF": {
+                            "enabled": false // Slovenian website ad blocker
+                        },
+                        "AE657374-1851-4DC4-892B-9212B13B15A7": {
+                            "enabled": false // Spanish website ad blocker
+                        },
+                        "1FEAF960-F377-11E8-8EB2-F2801F1B9FD1": {
+                            "enabled": false // Spanish and Portuguese website ad blocker
+                        },
+                        "7DC2AC80-5BBC-49B8-B473-A31A1145CAC1": {
+                            "enabled": false // Swedish website ad blocker
+                        },
+                        "658F092A-F377-11E8-8EB2-F2801F1B9FD1": {
+                            "enabled": false // Thai website ad blocker
+                        },
+                        "1BE19EFD-9191-4560-878E-30ECA72B5B3C": {
+                            "enabled": false // Turkish website ad blocker
+                        },
+                        "6A0209AC-9869-4FD6-A9DF-039B4200D52C": {
+                            "enabled": false // Vietnamese website ad blocker
+                        }
+                    }
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
 
         ### Social media blocking
         #---------------

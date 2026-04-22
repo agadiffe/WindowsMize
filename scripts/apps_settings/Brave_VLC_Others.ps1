@@ -38,9 +38,10 @@ Write-Section -Name 'Brave Browser' -SubSection
   For now, to customize the settings, open the file:
     src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
   The settings are organized the same way as in the GUI.
+
+  example: select your regional filter list (or do it later via the GUI).
 #>
 
-# Once Brave is configured, select your regional filter list in "Shields > Content Filtering".
 Set-BraveBrowserSettings
 
 #==============================================================================
