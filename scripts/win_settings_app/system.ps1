@@ -149,6 +149,7 @@ Write-Section -Name 'Multitasking' -SubSection
 Set-MultitaskingSetting -ShowAppsTabsOnSnapAndAltTab 'ThreeMostRecent' -ShowAppsTabsOnSnapAndAltTabGPO 'NotConfigured'
 
 # --- Title bar window shake (default: Disabled)
+# GPO: prevent the setting from working but does not gray out the toggle.
 Set-MultitaskingSetting -TitleBarWindowShake 'Disabled' -TitleBarWindowShakeGPO 'NotConfigured'
 
 # --- Drop Tray (default: Enabled)

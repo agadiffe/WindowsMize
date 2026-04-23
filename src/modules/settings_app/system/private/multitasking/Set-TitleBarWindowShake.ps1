@@ -56,7 +56,7 @@ function Set-TitleBarWindowShake
                 #   turn off Aero shake window minimizing mouse gesture
                 # not configured: delete (default) | on: 1
                 $TitleBarWindowShakeGpo = @{
-                    Hive    = 'HKEY_LOCAL_MACHINE'
+                    Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\Explorer'
                     Entries = @(
                         @{

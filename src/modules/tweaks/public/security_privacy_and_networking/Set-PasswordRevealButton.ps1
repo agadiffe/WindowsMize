@@ -25,7 +25,7 @@ function Set-PasswordRevealButton
 
     process
     {
-        # gpo\ user config > administrative tpl > windows components > credential user interface
+        # gpo\ computer config > administrative tpl > windows components > credential user interface
         #   do not display the password reveal button
         # not configured: delete (default) | on: 1
         $PasswordRevealButtonGpo = @{

@@ -25,8 +25,8 @@ function Set-MsrtDiagnosticReport
 
     process
     {
-        # gpo\ Disable Malicious Software Reporting tool diagnostic data (heartbeat report)
-        # not configured: delete (default) | on: 1
+        # Disable Malicious Software Reporting tool diagnostic data (heartbeat report)
+        # gpo\ not configured: delete (default) | on: 1
         $MsrtDiagnosticReportGpo = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Policies\Microsoft\MRT'
