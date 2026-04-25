@@ -25,7 +25,7 @@ function Set-RemoteDesktopPortNumber
     (
         [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
-        [int] $PortNumber
+        [int] $Value
     )
 
     process
@@ -37,17 +37,17 @@ function Set-RemoteDesktopPortNumber
             Entries = @(
                 @{
                     Name  = 'PortNumber'
-                    Value = $PortNumber
+                    Value = $Value
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Remote Desktop - Remote Desktop Port' to '$PortNumber' ..."
+        Write-Verbose -Message "Setting 'Remote Desktop - Remote Desktop Port' to '$Value' ..."
         Set-RegistryEntry -InputObject $RemoteDesktopPortNumber
 
         $FirewallRuleName = 'RemoteDesktop-UserMode-In-TCP', 'RemoteDesktop-UserMode-In-UDP'
-        Write-Verbose -Message "  Setting 'Firewall rules: $($FirewallRuleName -join ', '))' to '$PortNumber'"
-        Set-NetFirewallRule -Name $FirewallRuleName -LocalPort $PortNumber
+        Write-Verbose -Message "  Setting 'Firewall rules: $($FirewallRuleName -join ', '))' to '$Value'"
+        Set-NetFirewallRule -Name $FirewallRuleName -LocalPort $Value
     }
 }

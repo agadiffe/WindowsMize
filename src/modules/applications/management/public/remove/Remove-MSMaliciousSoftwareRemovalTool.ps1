@@ -19,8 +19,8 @@ function Remove-MSMaliciousSoftwareRemovalTool
             Write-Verbose -Message 'Removing Microsoft Windows Malicious Software Removal Tool (MSRT) ...'
             wusa.exe /uninstall /kb:890830 /quiet /norestart
 
-            # gpo\ install with windows update
-            # not configured: delete (default) | off: 1
+            # install with windows update
+            # gpo\ not configured: delete (default) | off: 1
             $MsrtWindowsUpdateGpo = @{
                 Hive    = 'HKEY_LOCAL_MACHINE'
                 Path    = 'SOFTWARE\Policies\Microsoft\MRT'

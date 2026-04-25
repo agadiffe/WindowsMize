@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-FirstSigninAnimation
-        -GPO {Disabled | Enabled | NotConfigured}
+        [-GPO] {Disabled | Enabled | NotConfigured}
         [<CommonParameters>]
 #>
 
@@ -25,19 +25,6 @@ function Set-FirstSigninAnimation
 
     process
     {
-        # on: 1 (default) | off: 0
-        $FirstSigninAnimation = @{
-            Hive    = 'HKEY_LOCAL_MACHINE'
-            Path    = 'SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
-            Entries = @(
-                @{
-                    Name  = 'EnableFirstLogonAnimation'
-                    Value = $GPO -eq 'Disabled' ? '0' : '1'
-                    Type  = 'DWord'
-                }
-            )
-        }
-
         # gpo\ computer config > administrative tpl > system > logon
         #   show first sign-in animation
         # not configured: delete (default) | on: 1 | off: 0
@@ -55,6 +42,6 @@ function Set-FirstSigninAnimation
         }
 
         Write-Verbose -Message "Setting 'First Sign-In Animation (GPO)' to '$GPO' ..."
-        $FirstSigninAnimation, $FirstSigninAnimationGpo | Set-RegistryEntry
+        Set-RegistryEntry -InputObject $FirstSigninAnimationGpo
     }
 }

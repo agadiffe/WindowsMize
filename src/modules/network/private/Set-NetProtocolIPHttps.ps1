@@ -51,6 +51,8 @@ function Set-NetProtocolIPHttps
             }
             'GPO'
             {
+                $IsNotConfigured = $GPO -eq 'NotConfigured'
+
                 $GpoStateValue, $GpoUrlValue = switch ($GPO)
                 {
                     'Enabled'  { '2', 'about:blank' } # 'https://example.com:443/IPHTTPs'
@@ -61,16 +63,17 @@ function Set-NetProtocolIPHttps
                 #   set ip-https state
                 # not configured: delete (default) | on: Default (0), Enabled (2), Disabled (3)
                 $NetworkProtocolIPHttpsGpo = @{
-                    RemoveKey = $GPO -eq 'NotConfigured'
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition\IPHTTPS\IPHTTPSInterface'
                     Entries = @(
                         @{
+                            RemoveEntry = $IsNotConfigured
                             Name  = 'IPHTTPS_ClientState'
                             Value = $GpoStateValue
                             Type  = 'DWord'
                         }
                         @{
+                            RemoveEntry = $IsNotConfigured
                             Name  = 'IPHTTPS_ClientUrl'
                             Value = $GpoUrlValue
                             Type  = 'String'

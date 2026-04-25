@@ -36,7 +36,7 @@ function Set-LockScreenYourWidgets
             {
                 # on: 1 (default) | off: 0
                 $LockScreenYourWidgets = @{
-                    Hive    = 'HKEY_CURRENT_USER\'
+                    Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Lock Screen'
                     Entries = @(
                         @{

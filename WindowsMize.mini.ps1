@@ -1193,14 +1193,20 @@ $DefenderSettings = @{
 Set-DefenderSetting @DefenderSettings
 
 # --- Notifications
+$DefenderAllNotifs = @{
+    VirusAndThreatAllNotifs      = 'Enabled'
+    AccountAllNotifs             = 'Enabled'
+}
+#Set-DefenderNotificationsSetting @DefenderAllNotifs
+
 $DefenderNotifs = @{
-    #VirusAndThreatAllNotifs      = 'Enabled'
-      RecentActivityAndScanResults = 'Disabled'
-      ThreatsFoundNoActionNeeded   = 'Enabled'
-      FilesOrActivitiesBlocked     = 'Enabled'
-    #AccountAllNotifs             = 'Enabled'
-      WindowsHelloProblems         = 'Enabled'
-      DynamicLockProblems          = 'Enabled'
+    # Virus And Threat
+    RecentActivityAndScanResults = 'Disabled'
+    ThreatsFoundNoActionNeeded   = 'Enabled'
+    FilesOrActivitiesBlocked     = 'Enabled'
+    # Account
+    WindowsHelloProblems         = 'Enabled'
+    DynamicLockProblems          = 'Enabled'
 }
 Set-DefenderNotificationsSetting @DefenderNotifs
 
