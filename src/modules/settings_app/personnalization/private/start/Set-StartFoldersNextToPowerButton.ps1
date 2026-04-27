@@ -46,7 +46,7 @@ function Set-StartFoldersNextToPowerButton
             {
                 return
             }
-            $StartFoldersBytes = ''
+            $StartFoldersBytes = $null
         }
         else
         {
@@ -81,7 +81,7 @@ function Set-StartFoldersNextToPowerButton
             )
         }
 
-        $StartFoldersShown = $StartFoldersBytes -eq '' ? 'None' : ($Value -join ', ')
+        $StartFoldersShown = $StartFoldersBytes ? ($Value -join ', ') : 'None'
 
         Write-Verbose -Message "Setting 'Start - Folders Next To The Power Button' to '$StartFoldersShown' ..."
         Set-RegistryEntry -InputObject $StartFoldersNextToPowerButton

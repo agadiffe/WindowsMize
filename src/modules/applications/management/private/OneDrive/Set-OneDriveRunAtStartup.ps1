@@ -39,7 +39,7 @@ function Set-OneDriveRunAtStartup
                 Entries = @(
                     @{
                         Name  = 'OneDrive'
-                        Value = $State -eq 'Enabled' ? '02 00 00 00 00 00 00 00 00 00 00 00' : '03 00 00 00 ' + $CurrentTimestamp
+                        Value = $State -eq 'Enabled' ? @(2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) : @(3, 0, 0, 0) + $CurrentTimestamp
                         Type  = 'Binary'
                     }
                 )

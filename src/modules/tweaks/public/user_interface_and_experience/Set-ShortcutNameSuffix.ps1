@@ -34,7 +34,7 @@ function Set-ShortcutNameSuffix
                 @{
                     RemoveEntry = $State -eq 'Enabled'
                     Name  = 'link'
-                    Value = '00 00 00 00'
+                    Value = 0, 0, 0, 0
                     Type  = 'Binary'
                 }
             )

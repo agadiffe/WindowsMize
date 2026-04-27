@@ -95,7 +95,6 @@ class AppPermissionPolicy : AppPermissionSetting
     AppPermissionPolicy([string]$EntryName, [string]$GPO)
     {
         $this.State = $GPO
-        $Value = $GPO -eq 'Enabled' ? '1' : '2'
         $IsNotConfigured = $GPO -eq 'NotConfigured'
 
         $this.Settings = @{
@@ -105,25 +104,25 @@ class AppPermissionPolicy : AppPermissionSetting
                 @{
                     RemoveEntry = $IsNotConfigured
                     Name  = $EntryName
-                    Value = $Value
+                    Value = $GPO -eq 'Enabled' ? '1' : '2'
                     Type  = 'DWord'
                 }
                 @{
                     RemoveEntry = $IsNotConfigured
                     Name  = "${EntryName}_ForceAllowTheseApps"
-                    Value = $Value
+                    Value = $null
                     Type  = 'MultiString'
                 }
                 @{
                     RemoveEntry = $IsNotConfigured
                     Name  = "${EntryName}_ForceDenyTheseApps"
-                    Value = $Value
+                    Value = $null
                     Type  = 'MultiString'
                 }
                 @{
                     RemoveEntry = $IsNotConfigured
                     Name  = "${EntryName}_UserInControlOfTheseApps"
-                    Value = $Value
+                    Value = $null
                     Type  = 'MultiString'
                 }
             )
