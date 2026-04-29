@@ -27,6 +27,7 @@ function Set-BraveBrowserSettings
         $BraveUserDataPath = "$BraveAppDataPath\User Data"
         $BraveProfilePath = "$BraveAppDataPath\User Data\Default"
 
+        Rename-Item -Path $BraveUserDataPath -NewName "$BraveUserDataPath.old" -ErrorAction 'SilentlyContinue'
         Remove-Item -Recurse -Path $BraveUserDataPath -ErrorAction 'SilentlyContinue'
         New-Item -ItemType 'Directory' -Path $BraveUserDataPath, $BraveProfilePath -ErrorAction 'SilentlyContinue' | Out-Null
 

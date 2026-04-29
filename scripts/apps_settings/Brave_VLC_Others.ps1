@@ -28,9 +28,7 @@ Write-Section -Name 'Brave Browser' -SubSection
 
 <#
   Meant to be used on a fresh Brave installation.
-
-  If used on current install, it will delete everything before applying the new settings.
-  /!\ Backup the data you want to keep (e.g. passwords and bookmarks).
+  The current "User Data" folder will be renamed with a .old extension.
 
   By default, everything is disabled: AI, Web3, Vpn, etc ...
   This is not done via policy, so you can customize everything afterward with the Brave GUI.
