@@ -39,7 +39,7 @@ function Set-FileExplorerShowRemovableDrivesOnlyInThisPC
             )
         }
 
-        Write-Verbose -Message "Setting 'File Explorer - Show Removable Drives Only In 'This PC'' to '$State' ..."
+        Write-Verbose -Message "Setting 'File Explorer - Show Removable Drives Only In 'This PC' to '$State' ..."
         Set-RegistryEntry -InputObject $DuplicateRemovableDrives
     }
 }

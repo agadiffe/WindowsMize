@@ -86,6 +86,7 @@ Write-Section -Name 'App & browser control' -SubSection
 #=======================================
 
 # --- Smart App Control (default: Evaluation)
+# Windows 11 only
 Set-DefenderSetting -SmartAppControl 'Disabled'
 
 #      Reputation-based protection

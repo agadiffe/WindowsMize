@@ -34,9 +34,9 @@ function Set-DefenderSetting
     param
     (
         # virus & threat protection
-        [CloudDelivereMode] $CloudDeliveredProtection,
+        [CloudDeliveredMode] $CloudDeliveredProtection,
 
-        [GpoCloudDelivereMode] $CloudDeliveredProtectionGPO,
+        [GpoCloudDeliveredMode] $CloudDeliveredProtectionGPO,
 
         [SampleSubmissionMode] $AutoSampleSubmission,
 

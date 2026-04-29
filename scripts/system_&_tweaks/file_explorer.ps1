@@ -101,7 +101,7 @@ Set-FileExplorerSetting -ShowHiddenItems 'Enabled'
 Set-FileExplorerSetting -HideFileExtensions 'Disabled'
 
 # --- Hide folder merge conflicts (default: Enabled)
-Set-FileExplorerSetting -HideFolderMergeConflicts 'Disabled'
+#Set-FileExplorerSetting -HideFolderMergeConflicts 'Enabled'
 
 # --- Hide protected operating system files (Recommended) (default: Enabled)
 #Set-FileExplorerSetting -HideProtectedSystemFiles 'Enabled'

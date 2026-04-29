@@ -246,6 +246,8 @@ settings
 
 ## 📥 Download & Execution
 This script requires "PowerShell (aka PowerShell Core)" and must be run as Administrator.  
+For Windows Pro+, it also requires "LGPO (Local Group Policy Object Utility").  
+LGPO is used to ensure that the policy settings appear in the Group Policy Editor.
 
 ### Automated
 1. Open a Windows PowerShell or PowerShell prompt.  
@@ -259,7 +261,7 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
 4. **Configure the script (WindowsMize.ps1) according to your preferences.**
 5. Double click on the `Run_WindowsMize.cmd` file to run the script.  
    Accept the Windows UAC prompt to run it as Administrator (required).  
-   If "PowerShell" is not installed, it will be automatically installed.
+   If "PowerShell and/or LGPO" are not installed, they will be automatically installed.
 6. Restart your computer (Mandatory for a lot of tweaks/settings).
 
 ### Manually
@@ -271,9 +273,10 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
 3. **Configure the script (WindowsMize.ps1) according to your preferences.**
 4. Open a Windows PowerShell or PowerShell prompt (as Administrator or not).  
    Right-click on `Start Menu` > `Terminal`.
-5. Install "PowerShell" if not already installed.
+5. Install "PowerShell" (if not already installed) and "LGPO" (if Windows Pro+).
     ```powershell
     winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
+    winget install --exact --id 'Microsoft.SecurityComplianceToolkit.LGPO' --accept-source-agreements --accept-package-agreements
     ```
 6. Open an elevated (i.e. Administrator) PowerShell prompt:  
    Right-click on `Start Menu` > `Terminal (Admin)`.  
@@ -296,6 +299,10 @@ This script requires "PowerShell (aka PowerShell Core)" and must be run as Admin
 10. Run the script.
     ```powershell
     .\WindowsMize.ps1
+    ```
+    or
+    ```powershell
+    .\WindowsMize.mini.ps1
     ```
 11. Restart your computer (Mandatory for a lot of tweaks/settings).
 

@@ -88,7 +88,7 @@ Write-Section -Name 'Applications Management'
 
 Write-Section -Name 'Appx & provisioned packages' -SubSection
 
-Remove-StartMenuPromotedApps # W11
+Remove-StartMenuPromotedApps # Win11
 Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 Set-Recall -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-Widgets -GPO 'Disabled'
@@ -727,7 +727,7 @@ $FileExplorerSettings = @{
     ShowHiddenItems                  = 'Enabled'
     #HideEmptyDrives                  = 'Enabled'
     HideFileExtensions               = 'Disabled'
-    HideFolderMergeConflicts         = 'Disabled'
+    #HideFolderMergeConflicts         = 'Enabled'
     #HideProtectedSystemFiles         = 'Enabled'
     #LaunchFolderInSeparateProcess    = 'Disabled'
     #RestorePreviousFoldersAtLogon    = 'Disabled'
@@ -1075,7 +1075,7 @@ $ActionCenterLayout = @(
     'ProjectL2'
     'LocalBluetooth'
 )
-# Win11 24H2+ only.
+# Win11 24H2+
 #Set-ActionCenterLayout -Value $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
@@ -1182,7 +1182,7 @@ $DefenderSettings = @{
     CloudDeliveredProtection = 'Disabled'  ; CloudDeliveredProtectionGPO = 'NotConfigured' # Disabled | Basic | Advanced | NotConfigured
     AutoSampleSubmission     = 'NeverSend' ; AutoSampleSubmissionGPO     = 'NotConfigured' # NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured
     #AdminProtection          = 'Enabled'
-    SmartAppControl          = 'Disabled'
+    SmartAppControl          = 'Disabled' # Win11
     CheckAppsAndFiles        = 'Disabled'  ; CheckAppsAndFilesGPO        = 'NotConfigured' # GPO: Disabled | Warn | Block | NotConfigured
     SmartScreenForEdge       = 'Disabled'  ; SmartScreenForEdgeGPO       = 'NotConfigured' # Disabled | Enabled | NotConfigured
     PhishingProtectionGPO    = 'NotConfigured' # Disabled | Enabled | NotConfigured
@@ -1867,7 +1867,7 @@ Set-DateAndTimeSetting @DateTimeSettings
 
 # --- Language & region
 # Install or remove: Basic typing, Handwriting, OCR, Speech recognition, Text-To-Speech.
-#Set-LanguageFeatures -State 'Disabled' # W11
+#Set-LanguageFeatures -State 'Disabled' # Win11
 
 $LanguageAndRegionSettings = @{
     FirstDayOfWeek            = 'Monday'
@@ -1972,4 +1972,5 @@ Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHour
 #endregion Win Settings App
 
 
+Remove-GroupPolicyNotConfiguredEnforcement
 Stop-Transcript # Stop Logging

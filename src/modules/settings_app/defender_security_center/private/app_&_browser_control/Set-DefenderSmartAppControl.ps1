@@ -38,18 +38,7 @@ function Set-DefenderSmartAppControl
             )
         }
 
-        $SACRegPath = "Registry::$($DefenderSmartAppControl['Hive'])\$($DefenderSmartAppControl['Path'])"
-        $SACCurrentStatus = (Get-ItemProperty -Path $SACRegPath).$($DefenderSmartAppControl['Entries'][0]['Name'])
-
         Write-Verbose -Message "Setting 'Defender - Smart App Control' to '$State' ..."
-
-        if ($null -eq $SACCurrentStatus)
-        {
-            Write-Verbose -Message "  Smart App Control not available on this computer (registry entry not found)."
-        }
-        else
-        {
-            Set-RegistryEntry -InputObject $DefenderSmartAppControl
-        }
+        Set-RegistryEntry -InputObject $DefenderSmartAppControl
     }
 }

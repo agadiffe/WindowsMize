@@ -106,5 +106,7 @@ function Set-RegistryEntry
                 }
             }
         }
+
+        Sync-GroupPolicySetting -InputObject $InputObject
     }
 }

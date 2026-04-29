@@ -76,4 +76,5 @@ $ScriptsToExecute = @(
 )
 $ScriptsToExecute.ForEach({ & "$PSScriptRoot\scripts\$_.ps1" })
 
+Remove-GroupPolicyNotConfiguredEnforcement
 Stop-Transcript # Stop Logging

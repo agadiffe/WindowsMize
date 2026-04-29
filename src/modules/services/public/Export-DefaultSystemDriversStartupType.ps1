@@ -18,7 +18,7 @@ function Export-DefaultSystemDriversStartupType
 
         if (-not (Test-Path -Path $LogFilePath))
         {
-            Write-Verbose -Message "Exporting Default System Drivers StartupType ($Key) ..."
+            Write-Verbose -Message 'Exporting Default System Drivers StartupType (WinMize) ...'
 
             New-ParentPath -Path $LogFilePath
 

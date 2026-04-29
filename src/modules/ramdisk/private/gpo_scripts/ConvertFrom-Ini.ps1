@@ -33,7 +33,7 @@ function ConvertFrom-Ini
     process
     {
         $IniContent = [ordered]@{}
-        switch -Regex ($InputObject -split "`r?`n")
+        switch -Regex ($InputObject -split '\r?\n')
         {
             '^\[(.+)\]'
             {

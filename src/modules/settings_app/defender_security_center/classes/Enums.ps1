@@ -3,14 +3,14 @@
 #==============================================================================
 
 # virus & threat protection
-enum CloudDelivereMode
+enum CloudDeliveredMode
 {
-    Disabled
-    Basic
-    Advanced
+    Disabled = 0
+    Basic    = 1
+    Advanced = 2
 }
 
-enum GpoCloudDelivereMode
+enum GpoCloudDeliveredMode
 {
     Disabled = 0
     Basic    = 1
@@ -20,10 +20,10 @@ enum GpoCloudDelivereMode
 
 enum SampleSubmissionMode
 {
-    NeverSend
-    AlwaysPrompt
-    SendSafeSamples
-    SendAllSamples
+    NeverSend       = 2
+    AlwaysPrompt    = 0
+    SendSafeSamples = 1
+    SendAllSamples  = 3
 }
 
 enum GpoSampleSubmissionMode
@@ -47,9 +47,9 @@ enum GpoCheckAppsAndFilesMode
 
 enum PUAProtectionMode
 {
-    Disabled
-    Enabled
-    AuditMode
+    Disabled  = 0
+    Enabled   = 1
+    AuditMode = 2
 }
 
 enum GpoPUAProtectionMode

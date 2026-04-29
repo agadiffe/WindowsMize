@@ -40,7 +40,7 @@ function Set-TimeServer
 
         Start-Service -Name 'W32Time'
 
-        $MaxRetries = 20
+        $MaxRetries = 50
         $RetryCount = 0
         while ((Get-Service -Name 'W32Time').Status -ne 'Running' -and $RetryCount -lt $MaxRetries)
         {

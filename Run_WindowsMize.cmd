@@ -4,11 +4,17 @@
 @echo off
 
 echo Installing PowerShell ...
-
 winget.exe install --exact --id Microsoft.PowerShell --accept-source-agreements --accept-package-agreements
 
 
-echo Running WindowsMize ...
+WHERE gpedit.msc >nul 2>nul
+IF %ERRORLEVEL% EQU 0 (
+    echo Installing LGPO ...
+    winget.exe install --exact --id Microsoft.SecurityComplianceToolkit.LGPO --accept-source-agreements --accept-package-agreements
+)
+
+
+echo Launching WindowsMize ...
 
 set "scriptFolder=%~dp0"
 set "windowsMizeFilePath=%scriptFolder%WindowsMize.ps1"

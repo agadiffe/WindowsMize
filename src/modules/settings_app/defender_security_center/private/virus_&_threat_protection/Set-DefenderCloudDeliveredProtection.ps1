@@ -21,9 +21,9 @@ function Set-DefenderCloudDeliveredProtection
     param
     (
         [Parameter(Position = 0)]
-        [CloudDelivereMode] $State,
+        [CloudDeliveredMode] $State,
 
-        [GpoCloudDelivereMode] $GPO
+        [GpoCloudDeliveredMode] $GPO
     )
 
     process
