@@ -43,6 +43,7 @@ function Remove-GroupPolicyNotConfiguredEnforcement
 
             if ($LgpoNewContent -ne $LgpoContent)
             {
+                $LgpoNewContent | Out-File -FilePath $LgpoTxtFilePath
                 Write-Verbose -Message "Removing 'DELETE command(s)' from Registry Policy file: $($GPRegistryFilePath[$Scope])"
                 lgpo.exe /r $LgpoTxtFilePath /w $GPRegistryFilePath[$Scope] /q
             }
