@@ -94,6 +94,7 @@ function Set-PagingFileSize
     {
         if ($State -eq 'CustomSize')
         {
+            $AllDrivesAutoManaged = 'Disabled'
             $InitialSize = $PSBoundParameters['InitialSize']
             $MaximumSize = $PSBoundParameters['MaximumSize']
 
@@ -105,10 +106,10 @@ function Set-PagingFileSize
             }
         }
 
-        Write-Verbose -Message "Setting 'All Drives AutoManaged Paging File Size' to '$AllDrivesSystemManaged'"
+        Write-Verbose -Message "Setting 'All Drives AutoManaged Paging File Size' to '$AllDrivesAutoManaged'"
 
         $ComputerSystem = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
-        $ComputerSystem.AutomaticManagedPagefile = $AllDrivesSystemManaged -eq 'Enabled'
+        $ComputerSystem.AutomaticManagedPagefile = $AllDrivesAutoManaged -eq 'Enabled'
         Set-CimInstance -InputObject $ComputerSystem -Verbose:$false
 
         if ($PSCmdlet.ParameterSetName -eq 'State')
