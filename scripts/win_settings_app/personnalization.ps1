@@ -167,6 +167,7 @@ Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
 
 Write-Section -Name 'Device usage' -SubSection
 
+# Ads related
 # default: DisableAll
 $DeviceUsageOption = @(
     #'Creativity'

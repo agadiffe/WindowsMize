@@ -55,7 +55,7 @@ Set-MessagingCloudSync -GPO 'Disabled'
 
 # --- Notification network usage
 # Needed by Discord, Microsoft Teams, ... to get real-time notifs (if installed from MS Store).
-#Set-NotificationsNetworkUsage -GPO 'NotConfigured'
+Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 
 # --- Password expiration (default: Enabled)
 Set-PasswordExpiration -State 'Disabled'
@@ -123,7 +123,7 @@ Set-Short8Dot3FileName -State 'Disabled' -RemoveExisting8dot3FileNames
 # Disabled: Use the previous Start Menu version.
 #   no msedgewebview2.exe processes in Task Manager.
 #   SearchHost.exe will be suspended when not in use.
-#Set-StartMenuWebview2Version -State 'Disabled'
+Set-StartMenuWebview2Version -State 'Disabled'
 
 # --- Startup Apps Delay (default: default)
 # Default: about 10s and/or idle state defined by Windows.

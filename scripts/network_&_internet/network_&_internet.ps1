@@ -91,9 +91,9 @@ Write-Section -Name 'Advanced network settings' -SubSection
 #   Mullvad    : Default | Adblock | Base | Extended | Family | All
 #   Quad9      : Default | Unfiltered
 
-#Set-DnsServer -ResetServerAddresses
-#Set-DnsServer -Provider 'Cloudflare' -Server 'Default' -FallbackToPlaintext
 Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
+#Set-DnsServer -Provider 'Cloudflare' -Server 'Default' -FallbackToPlaintext
+#Set-DnsServer -ResetServerAddresses
 
 #       Advanced sharing settings
 #=======================================

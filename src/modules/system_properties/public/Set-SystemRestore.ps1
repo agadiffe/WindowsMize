@@ -13,7 +13,7 @@
 # If you disable System Restore, a Windows update may enable it again ?
 # You can disable the related services or use Group Policy to disable the feature completely.
 
-# default: Enabled for system drive (e.g. 'C:\')
+# default: Disabled
 
 <#
 .SYNTAX

@@ -60,8 +60,8 @@ Set-ApplicationCompatibility -GPO 'Disabled'
 Set-CloudContent -GPO 'NotConfigured'
 
 # --- Consumer experiences
-# Disabled: also disable and gray out: 'settings > bluetooth & devices > mobile devices'
-Set-ConsumerExperience -GPO 'NotConfigured'
+# Enterprise and Education only.
+Set-ConsumerExperience -GPO 'Disabled'
 
 # --- Customer Experience Improvement Program (CEIP)
 # GPO: Disabled | Enabled | NotConfigured

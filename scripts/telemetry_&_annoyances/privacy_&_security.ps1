@@ -55,7 +55,7 @@ Write-Section -Name 'Windows permissions' -SubSection
 
 # --- Personalized offers (default: Enabled)
 # aka Telemetry > Tailored Experiences
-Set-WinPermissionsSetting -PersonalizedOffers 'Disabled' -PersonalizedOffersGPO 'NotConfigured'
+Set-WinPermissionsSetting -PersonalizedOffers 'Disabled' -PersonalizedOffersGPO 'Disabled'
 
 # --- Allow websites to access my language list (default: Enabled)
 Set-WinPermissionsSetting -LanguageListAccess 'Disabled'
@@ -67,15 +67,15 @@ Set-WinPermissionsSetting -TrackAppLaunches 'Disabled' -TrackAppLaunchesGPO 'Not
 Set-WinPermissionsSetting -ShowNotifsInSettingsApp 'Disabled'
 
 # --- Recommendations and offers in Settings (default: Enabled)
-Set-WinPermissionsSetting -ShowAdsInSettingsApp 'Disabled' -ShowAdsInSettingsAppGPO 'NotConfigured'
+Set-WinPermissionsSetting -ShowAdsInSettingsApp 'Disabled' -ShowAdsInSettingsAppGPO 'Disabled'
 
 # --- Advertising ID (default: Enabled)
-Set-WinPermissionsSetting -AdvertisingID 'Disabled' -AdvertisingIDGPO 'NotConfigured'
+Set-WinPermissionsSetting -AdvertisingID 'Disabled' -AdvertisingIDGPO 'Disabled'
 
 # --- Activity history (default: Enabled) | old
 #   Store my activity history on this device
 #   Store my activity history to Microsoft
-Set-WinPermissionsSetting -ActivityHistory 'Disabled' -ActivityHistoryGPO 'NotConfigured'
+Set-WinPermissionsSetting -ActivityHistory 'Disabled' -ActivityHistoryGPO 'Disabled'
 
 #endregion user data
 

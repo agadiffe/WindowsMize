@@ -74,13 +74,13 @@ Set-NotificationsSetting -AppsAndOtherSenders $SenderNotifs -State 'Disabled'
 #=======================================
 
 # --- Show the Windows welcome experience after updates and when signed in to show what's new and suggested (default: Enabled)
-Set-NotificationsSetting -ShowWelcomeExperience 'Disabled' -ShowWelcomeExperienceGPO 'NotConfigured'
+Set-NotificationsSetting -ShowWelcomeExperience 'Disabled' -ShowWelcomeExperienceGPO 'Disabled'
 
 # --- Suggest ways to get the most out of Windows and finish setting up this device (default: Enabled)
 Set-NotificationsSetting -SuggestWaysToFinishConfig 'Disabled'
 
 # --- Get tips and suggestions when using Windows (default: Enabled)
-Set-NotificationsSetting -TipsAndSuggestions 'Disabled' -TipsAndSuggestionsGPO 'NotConfigured'
+Set-NotificationsSetting -TipsAndSuggestions 'Disabled' -TipsAndSuggestionsGPO 'Disabled'
 
 #   Indicators from keyboard actions
 #=======================================

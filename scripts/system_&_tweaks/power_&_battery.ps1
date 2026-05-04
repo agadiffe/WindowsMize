@@ -49,7 +49,6 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 # Battery: Low | Critical | Reserve
 # Level: value in percent (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
-
 Set-AdvancedBatterySetting -Battery 'Low'      -Level 19 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 12
 Set-AdvancedBatterySetting -Battery 'Critical' -Level 9  -Action 'Sleep'
@@ -77,7 +76,7 @@ Write-Section -Name 'Power (& battery)' -SubSection
 # --- Power Mode
 # Available only when using the default Balanced power plan.
 # PowerMode: BestPowerEfficiency | Balanced | BestPerformance
-# PowerSource: PluggedIn | OnBattery
+# PowerSource (optional): PluggedIn | OnBattery
 Set-PowerSetting -PowerMode 'Balanced'
 #Set-PowerSetting -PowerSource 'PluggedIn' -PowerMode 'Balanced'
 #Set-PowerSetting -PowerSource 'OnBattery' -PowerMode 'BestPowerEfficiency'

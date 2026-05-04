@@ -573,6 +573,7 @@ Write-Section -Name 'Network & internet' -SubSection
 #   Mullvad    : Default | Adblock | Base | Extended | Family | All
 #   Quad9      : Default | Unfiltered
 Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
+#Set-DnsServer -Provider 'Cloudflare' -Server 'Default' -FallbackToPlaintext
 #Set-DnsServer -ResetServerAddresses
 
 $NetworkSettings = @{
@@ -684,7 +685,7 @@ Set-NetIcmpRedirects -State 'Disabled'
 Set-NetIPSourceRouting -State 'Disabled'
 #Set-NetLlmnr -GPO 'NotConfigured' # needed by NetworkDiscovery (File Explorer > Network)
 Set-NetLmhosts -State 'Disabled'
-#Set-NetMulicastDns -State 'Disabled'
+#Set-NetMulicastDns -State 'Disabled' # needed by NetworkDiscovery (File Explorer > Network)
 Set-NetSmhnr -GPO 'Disabled'
 #Set-NetProxyAutoDetect -State 'Disabled'
 
@@ -791,7 +792,7 @@ Set-AdvancedBatterySetting -Battery 'Critical' -Level 9  -Action 'Sleep'
 
 # --- Win settings app
 # PowerMode: BestPowerEfficiency | Balanced | BestPerformance
-# PowerSource: PluggedIn | OnBattery
+# PowerSource (optional): PluggedIn | OnBattery
 Set-PowerSetting -PowerMode 'Balanced'
 #Set-PowerSetting -PowerSource 'PluggedIn' -PowerMode 'Balanced'
 #Set-PowerSetting -PowerSource 'OnBattery' -PowerMode 'BestPowerEfficiency'
@@ -813,7 +814,7 @@ $DeviceTimeouts | Set-PowerSetting
 $EnergySaverSettings = @{
     AlwaysOn             = 'Disabled'
     TurnOnAtBatteryLevel = 30 # range: 0-100 / never: 0 | always: 100
-    LowerBrightness      = 70 # range: 0-99 | Disabled: 100
+    LowerBrightness      = 70 # range: 0-99 / Disabled: 100
 }
 Set-EnergySaverSetting @EnergySaverSettings
 
@@ -1025,7 +1026,7 @@ Set-LocalAccountsSecurityQuestions -GPO 'Disabled'
 Set-LockBatchFilesWhenInUse -State 'Enabled'
 Set-LockScreenCameraAccess -GPO 'Disabled'
 Set-MessagingCloudSync -GPO 'Disabled'
-#Set-NotificationsNetworkUsage -GPO 'NotConfigured'
+Set-NotificationsNetworkUsage -GPO 'NotConfigured'
 Set-PasswordExpiration -State 'Disabled'
 Set-PasswordRevealButton -GPO 'Disabled'
 Set-PrinterDriversDownloadOverHttp -GPO 'Disabled'
@@ -1039,7 +1040,7 @@ Set-FirstSigninAnimation -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled' # Managed: User | System
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
-#Set-StartMenuWebview2Version -State 'Disabled'
+Set-StartMenuWebview2Version -State 'Disabled'
 #Set-StartupAppsDelay -Value 2 # s / range: 0-45s
 #Set-StartupAppsDelay -Default
 #Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured
@@ -1158,7 +1159,7 @@ Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
 Set-AppAndDeviceInventory -GPO 'Disabled'
 Set-ApplicationCompatibility -GPO 'Disabled'
 Set-CloudContent -GPO 'NotConfigured' # also disable: Windows Spotlight
-Set-ConsumerExperience -GPO 'NotConfigured' # also disable: 'settings > bluetooth & devices > mobile devices'
+Set-ConsumerExperience -GPO 'Disabled' # Enterprise/Edu only
 Set-Ceip -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
 Set-ErrorReporting -GPO 'Disabled'
@@ -1225,9 +1226,9 @@ $PrivacyWinPermUserData = @{
     LanguageListAccess      = 'Disabled'
     TrackAppLaunches        = 'Disabled' ; TrackAppLaunchesGPO     = 'NotConfigured'
     ShowNotifsInSettingsApp = 'Disabled'
-    ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'NotConfigured'
-    AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'NotConfigured'
-    ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'NotConfigured' # old
+    ShowAdsInSettingsApp    = 'Disabled' ; ShowAdsInSettingsAppGPO = 'Disabled'
+    AdvertisingID           = 'Disabled' ; AdvertisingIDGPO        = 'Disabled'
+    ActivityHistory         = 'Disabled' ; ActivityHistoryGPO      = 'Disabled' # old
 }
 Set-WinPermissionsSetting @PrivacyWinPermUserData
 
@@ -1420,9 +1421,9 @@ Set-NotificationsSetting -AppsAndOtherSenders $SenderNotifs -State 'Disabled'
 
 # --- Notifications - Ads
 $NotificationsAdsSettings = @{
-    ShowWelcomeExperience     = 'Disabled' ; ShowWelcomeExperienceGPO = 'NotConfigured'
+    ShowWelcomeExperience     = 'Disabled' ; ShowWelcomeExperienceGPO = 'Disabled'
     SuggestWaysToFinishConfig = 'Disabled'
-    TipsAndSuggestions        = 'Disabled' ; TipsAndSuggestionsGPO    = 'NotConfigured'
+    TipsAndSuggestions        = 'Disabled' ; TipsAndSuggestionsGPO    = 'Disabled'
 }
 Set-NotificationsSetting @NotificationsAdsSettings
 
@@ -1740,6 +1741,8 @@ $BackgroundSettings = @{
 # --- Colors
 $ColorsSettings = @{
     Theme           = 'Dark' # Dark | Light
+    #AppsTheme       = 'Dark'
+    #SystemTheme     = 'Dark'
     Transparency    = 'Enabled'
     AccentColorMode = 'Manual' # Manual | Automatic
     ShowAccentColorOnStartAndTaskbar = 'Disabled'
@@ -1768,14 +1771,14 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 
 # --- Lock screen
 $LockScreenSettings = @{
-    #SetToPicture                 = $true
+    #SetToPicture                 = $true # $true | $false
     #GetFunFactsTipsTricks        = 'Disabled' # also unset: Windows Spotlight
     ShowPictureOnSigninScreen    = 'Enabled'  ; ShowPictureOnSigninScreenGPO = 'NotConfigured'
     YourWidgets                  = 'Disabled' ; YourWidgetsGPO               = 'NotConfigured'
 }
 Set-LockScreenSetting @LockScreenSettings
 
-# --- Device usage
+# --- Device usage (Ads related)
 $DeviceUsageOption = @(
     #'Creativity'
     #'Business'
