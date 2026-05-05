@@ -134,3 +134,22 @@ enum NotifsPositionIndex
     TopLeft      = 2
     TopCenter    = 3
 }
+
+
+# storage sense
+enum StorageSenseSchedule
+{
+    OnLowFreeDiskSpace = 0
+    Daily              = 1
+    Weekly             = 7
+    Monthly            = 30
+}
+
+enum GpoStorageSenseSchedule
+{
+    OnLowFreeDiskSpace = 0
+    Daily              = 1
+    Weekly             = 7
+    Monthly            = 30
+    NotConfigured
+}

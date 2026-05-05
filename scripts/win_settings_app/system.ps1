@@ -109,13 +109,29 @@ Write-Section -Name 'Storage' -SubSection
 #             Storage Sense
 #=======================================
 
+# --- Cleanup of temporary files (default: Disabled)
+# Works even if the main "Storage Sense" toggle is disabled.
+# GPO: Disabled | Enabled | NotConfigured
+Set-StorageSenseSetting -TempFilesCleanup 'Enabled' -TempFilesCleanupGPO 'NotConfigured'
+
 # --- Automatic User content cleanup (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StorageSenseSetting -StorageSense 'Disabled' -StorageSenseGPO 'NotConfigured'
 
-# --- Cleanup of temporary files (default: Disabled)
-# GPO: Disabled | Enabled | NotConfigured
-Set-StorageSenseSetting -CleanupTempFiles 'Enabled' -CleanupTempFilesGPO 'NotConfigured'
+# --- --- Run Storage Sense
+# State: OnLowFreeDiskSpace (default) | Daily | Weekly | Monthly
+# GPO: OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured
+Set-StorageSenseSetting -Schedule 'OnLowFreeDiskSpace' -ScheduleGPO 'NotConfigured'
+
+# --- --- Delete files in my recycle bin if have been there for over
+# State: 0 (never) | 1 | 14 | 30 (default) | 60
+# GPO: value in days (range 0-365) (never: 0) | NotConfigured
+Set-StorageSenseSetting -RecycleBinRetentionDays 30 -RecycleBinRetentionDaysGPO 'NotConfigured'
+
+# --- --- Delete files in my Downloads folder if they haven't been opened for more than
+# State: 0 (never) (default) | 1 | 14 | 30 | 60
+# GPO: value in days (range 0-365) (never: 0) | NotConfigured
+Set-StorageSenseSetting -DownloadsFolderRetentionDays 0 -DownloadsFolderRetentionDaysGPO 'NotConfigured'
 
 #endregion storage
 

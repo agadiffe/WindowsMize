@@ -5,10 +5,16 @@
 <#
 .SYNTAX
     Set-StorageSenseSetting
+        [-TempFilesCleanup {Disabled | Enabled}]
+        [-TempFilesCleanupGPO {Disabled | Enabled | NotConfigured}]
         [-StorageSense {Disabled | Enabled}]
         [-StorageSenseGPO {Disabled | Enabled | NotConfigured}]
-        [-CleanupTempFiles {Disabled | Enabled}]
-        [-CleanupTempFilesGPO {Disabled | Enabled | NotConfigured}]
+        [-Schedule {OnLowFreeDiskSpace | Daily | Weekly | Monthly}]
+        [-ScheduleGPO {OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured}]
+        [-RecycleBinRetentionDays {0 | 1 | 14 | 30 | 60}]
+        [-RecycleBinRetentionDaysGPO <object>] # <int> (range 0-365) | NotConfigured
+        [-DownloadsFolderRetentionDays {0 | 1 | 14 | 30 | 60}]
+        [-DownloadsFolderRetentionDaysGPO <object>] # <int> (range 0-365) | NotConfigured
         [<CommonParameters>]
 #>
 
@@ -22,13 +28,33 @@ function Set-StorageSenseSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        [state] $TempFilesCleanup,
+
+        [GpoState] $TempFilesCleanupGPO,
+
         [state] $StorageSense,
 
         [GpoState] $StorageSenseGPO,
 
-        [state] $CleanupTempFiles,
+        [StorageSenseSchedule] $Schedule,
 
-        [GpoState] $CleanupTempFilesGPO
+        [GpoStorageSenseSchedule] $ScheduleGPO,
+
+        [ValidateSet(0, 1, 14, 30, 60)]
+        [int] $RecycleBinRetentionDays,
+
+        [ValidateScript(
+            { ($_ -is [int] -and $_ -ge 0 -and $_ -le 365) -or $_ -eq 'NotConfigured' },
+            ErrorMessage = "Invalid value. Specify an integer between 0 and 365, or the string 'NotConfigured'.")]
+        [object] $RecycleBinRetentionDaysGPO,
+
+        [ValidateSet(0, 1, 14, 30, 60)]
+        [int] $DownloadsFolderRetentionDays,
+
+        [ValidateScript(
+            { ($_ -is [int] -and $_ -ge 0 -and $_ -le 365) -or $_ -eq 'NotConfigured' },
+            ErrorMessage = "Invalid value. Specify an integer between 0 and 365, or the string 'NotConfigured'.")]
+        [object] $DownloadsFolderRetentionDaysGPO
     )
 
     process
@@ -41,10 +67,17 @@ function Set-StorageSenseSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'StorageSense'        { Set-StorageSense -State $StorageSense }
-            'StorageSenseGPO'     { Set-StorageSense -GPO $StorageSenseGPO }
-            'CleanupTempFiles'    { Set-StorageSenseCleanupTempFiles -State $CleanupTempFiles }
-            'CleanupTempFilesGPO' { Set-StorageSenseCleanupTempFiles -GPO $CleanupTempFilesGPO }
+            'TempFilesCleanup'                 { Set-StorageSenseTempFilesCleanup -State $TempFilesCleanup }
+            'TempFilesCleanupGPO'              { Set-StorageSenseTempFilesCleanup -GPO $TempFilesCleanupGPO }
+
+            'StorageSense'                     { Set-StorageSense -State $StorageSense }
+            'StorageSenseGPO'                  { Set-StorageSense -GPO $StorageSenseGPO }
+            'Schedule'                         { Set-StorageSenseSchedule -Value $Schedule }
+            'ScheduleGPO'                      { Set-StorageSenseSchedule -GPO $ScheduleGPO }
+            'RecycleBinRetentionDays'          { Set-StorageSenseRecycleBinRetentionDays -Value $RecycleBinRetentionDays }
+            'RecycleBinRetentionDaysGPO'       { Set-StorageSenseRecycleBinRetentionDays -GPO $RecycleBinRetentionDaysGPO }
+            'DownloadsFolderRetentionDays'     { Set-StorageSenseDownloadsFolderRetentionDays -Value $DownloadsFolderRetentionDays }
+            'DownloadsFolderRetentionDaysGPO'  { Set-StorageSenseDownloadsFolderRetentionDays -GPO $DownloadsFolderRetentionDaysGPO }
         }
     }
 }

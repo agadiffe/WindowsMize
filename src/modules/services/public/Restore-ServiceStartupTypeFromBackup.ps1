@@ -23,7 +23,7 @@ function Restore-ServiceStartupTypeFromBackup
     param
     (
         [ValidateScript(
-            { Test-Path -Path $_ -PathType 'Leaf'},
+            { Test-Path -Path $_ -PathType 'Leaf' },
             ErrorMessage = 'The specified file does not exist or is not accessible.')]
         [string] $FilePath
     )

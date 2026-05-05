@@ -4,17 +4,17 @@
 
 <#
 .SYNTAX
-    Set-StorageSenseCleanupTempFiles
+    Set-StorageSenseTempFilesCleanup
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-StorageSenseCleanupTempFiles
+function Set-StorageSenseTempFilesCleanup
 {
     <#
     .EXAMPLE
-        PS> Set-StorageSenseCleanupTempFiles -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-StorageSenseTempFilesCleanup -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -28,14 +28,14 @@ function Set-StorageSenseCleanupTempFiles
 
     process
     {
-        $CleanupTempFilesMsg = 'Storage Sense - Cleanup Of Temporary Files'
+        $TempFilesCleanupMsg = 'Storage Sense - Cleanup Of Temporary Files'
 
         switch ($PSBoundParameters.Keys)
         {
             'State'
             {
                 # on: 1 | off: 0 (default)
-                $CleanupTempFiles = @{
+                $TempFilesCleanup = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy'
                     Entries = @(
@@ -47,15 +47,15 @@ function Set-StorageSenseCleanupTempFiles
                     )
                 }
 
-                Write-Verbose -Message "Setting '$CleanupTempFilesMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $CleanupTempFiles
+                Write-Verbose -Message "Setting '$TempFilesCleanupMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $TempFilesCleanup
             }
             'GPO'
             {
                 # gpo\ computer config > administrative tpl > system > storage sense
                 #   allow storage sense temporary files cleanup
                 # not configured: delete (default) | on: 1 | off: 0
-                $CleanupTempFilesGpo = @{
+                $TempFilesCleanupGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\StorageSense'
                     Entries = @(
@@ -68,8 +68,8 @@ function Set-StorageSenseCleanupTempFiles
                     )
                 }
 
-                Write-Verbose -Message "Setting '$CleanupTempFilesMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $CleanupTempFilesGpo
+                Write-Verbose -Message "Setting '$TempFilesCleanupMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $TempFilesCleanupGpo
             }
         }
     }

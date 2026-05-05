@@ -1533,8 +1533,12 @@ Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 
 # --- Storage
 $StorageSenseSettings = @{
+    TempFilesCleanup = 'Enabled'  ; TempFilesCleanupGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
     StorageSense     = 'Disabled' ; StorageSenseGPO     = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    CleanupTempFiles = 'Enabled'  ; CleanupTempFilesGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    Schedule         = 'Disabled' ; ScheduleGPO         = 'NotConfigured' # OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured
+    # RetentionDays/ State: 0 (Never) | 1 | 14 | 30 | 60 / GPO: value in days (range 0-365) | NotConfigured
+    RecycleBinRetentionDays      = 30 ; RecycleBinRetentionDaysGPO      = 'NotConfigured'
+    DownloadsFolderRetentionDays = 0  ; DownloadsFolderRetentionDaysGPO = 'NotConfigured'
 }
 Set-StorageSenseSetting @StorageSenseSettings
 
@@ -1584,8 +1588,8 @@ Set-QuickMachineRecovery -State 'Disabled'
 
 $PointInTimeRestoreSettings = @{
     PointInTimeRestore = 'Disabled'
-    Frequency          = 24 # hours\ 4 | 6 | 12 | 16 | 24
-    Retention          = 72 # hours\ 6 | 12 | 16 | 24 | 72
+    Frequency          = 24 # hours/ 4 | 6 | 12 | 16 | 24
+    Retention          = 72 # hours/ 6 | 12 | 16 | 24 | 72
     MaxDiskUsage       = 10 # GB | range 2-50
 }
 Set-PointInTimeRestoreSetting @PointInTimeRestoreSettings
