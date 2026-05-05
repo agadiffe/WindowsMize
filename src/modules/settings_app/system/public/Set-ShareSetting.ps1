@@ -1,22 +1,23 @@
 #=================================================================================================================
-#                                       System > Nearby Sharing - Settings
+#                                            System > Share - Settings
 #=================================================================================================================
 
 # For GPO see: tweaks > Set-WindowsSharedExperience.
 
 <#
 .SYNTAX
-    Set-NearbySharingSetting
+    Set-ShareSetting
         [-NearbySharing {Disabled | DevicesOnly | EveryoneNearby}]
         [-FileSaveLocation <string>]
+        [-ShowSuggestedApps {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
-function Set-NearbySharingSetting
+function Set-ShareSetting
 {
     <#
     .EXAMPLE
-        PS> Set-NearbySharingSetting -NearbySharing 'Disabled' -FileSaveLocation 'X:\SharedFiles'
+        PS> Set-ShareSetting -NearbySharing 'Disabled' -FileSaveLocation 'X:\SharedFiles'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -30,7 +31,9 @@ function Set-NearbySharingSetting
                 $Item.PSProvider.Name -eq 'FileSystem' -and $Item.PSIsContainer
             },
             ErrorMessage = 'The specified path is invalid. It must be an existing directory on a file system.')]
-        [string] $FileSaveLocation
+        [string] $FileSaveLocation,
+
+        [state] $ShowSuggestedApps
     )
 
     process
@@ -43,8 +46,9 @@ function Set-NearbySharingSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'NearbySharing'    { Set-NearbySharing -State $NearbySharing }
-            'FileSaveLocation' { Set-NearbySharingFileSaveLocation -Path $FileSaveLocation }
+            'NearbySharing'     { Set-NearbySharing -State $NearbySharing }
+            'FileSaveLocation'  { Set-NearbySharingFileSaveLocation -Path $FileSaveLocation }
+            'ShowSuggestedApps' { Set-ShareShowSuggestedApps -State $ShowSuggestedApps }
         }
     }
 }

@@ -136,21 +136,24 @@ Set-StorageSenseSetting -DownloadsFolderRetentionDays 0 -DownloadsFolderRetentio
 #endregion storage
 
 #==========================================================
-#                      Nearby sharing
+#                          Share
 #==========================================================
-#region nearby sharing
+#region share
 
-Write-Section -Name 'Nearby sharing' -SubSection
+Write-Section -Name 'Share' -SubSection
 
 # --- Nearby sharing
 # State: Disabled (default) | DevicesOnly | EveryoneNearby
-Set-NearbySharingSetting -NearbySharing 'Disabled'
+Set-ShareSetting -NearbySharing 'Disabled'
 
 # --- Save files I receive to
 # default location: Downloads folder
-#Set-NearbySharingSetting -FileSaveLocation 'X:\MySharedFiles'
+#Set-ShareSetting -FileSaveLocation 'X:\MySharedFiles'
 
-#endregion nearby sharing
+# --- Show me suggested apps in share surfaces (ads) (default: Enabled)
+Set-ShareSetting -ShowSuggestedApps 'Disabled'
+
+#endregion share
 
 #==========================================================
 #                       Multitasking

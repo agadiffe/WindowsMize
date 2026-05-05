@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                             System > Nearby Sharing
+#                                                 System > Share
 #=================================================================================================================
 
 <#
@@ -74,7 +74,7 @@ function Set-NearbySharing
             }
         )
 
-        Write-Verbose -Message "Setting 'Nearby Sharing' to '$State' ..."
+        Write-Verbose -Message "Setting 'Share - Nearby Sharing' to '$State' ..."
         $NearbySharing | Set-RegistryEntry
     }
 }

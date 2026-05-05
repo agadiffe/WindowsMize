@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                System > Nearby Sharing > Save Files I Receive To
+#                                    System > Share > Save Files I Receive To
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-NearbySharingFileSaveLocation
+    Set-ShareFileSaveLocation
         [-Path] <string>
         [<CommonParameters>]
 #>
 
-function Set-NearbySharingFileSaveLocation
+function Set-ShareFileSaveLocation
 {
     <#
     .EXAMPLE
-        PS> Set-NearbySharingFileSaveLocation -Path 'X:\SharedFiles'
+        PS> Set-ShareFileSaveLocation -Path 'X:\SharedFiles'
     #>
 
     [CmdletBinding()]
@@ -32,7 +32,7 @@ function Set-NearbySharingFileSaveLocation
     process
     {
         # default location: Downloads folder
-        $NearbySharingFileSaveLocation = @{
+        $ShareFileSaveLocation = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\CDP'
             Entries = @(
@@ -44,7 +44,7 @@ function Set-NearbySharingFileSaveLocation
             )
         }
 
-        Write-Verbose -Message "Setting 'Nearby Sharing - Save Files I Receive To' to '$Path' ..."
-        Set-RegistryEntry -InputObject $NearbySharingFileSaveLocation
+        Write-Verbose -Message "Setting 'Share - Save Files I Receive To' to '$Path' ..."
+        Set-RegistryEntry -InputObject $ShareFileSaveLocation
     }
 }

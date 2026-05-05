@@ -1542,12 +1542,13 @@ $StorageSenseSettings = @{
 }
 Set-StorageSenseSetting @StorageSenseSettings
 
-# --- Nearby sharing
-$NearbySharingSettings = @{
+# --- Share
+$ShareSettings = @{
     NearbySharing     = 'Disabled' # Disabled | DevicesOnly | EveryoneNearby
-    #FileSaveLocation = 'X:\MySharedFiles'
+    #FileSaveLocation  = 'X:\MySharedFiles'
+    ShowSuggestedApps = 'Disabled'
 }
-Set-NearbySharingSetting @NearbySharingSettings
+Set-ShareSetting @ShareSettings
 
 # --- Multitasking
 $MultitaskingSettingSettings = @{
