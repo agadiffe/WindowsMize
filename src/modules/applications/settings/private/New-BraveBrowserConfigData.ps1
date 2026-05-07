@@ -215,6 +215,8 @@ function New-BraveBrowserConfigData
                     "mute_indicator_not_clickable": false,
                     "always_hide_tab_close_button": false,
                     "middle_click_close_tab_enabled": true,
+                    "scrollable_horizontal_tab_strip": false, // if off, min_width_mode is ignored
+                    "min_width_mode": 2, // minimum tab width\ minimum: 1 | medium: 2 | large: 3 | full width: 4
                     "hover_mode": 0 // tooltip: 0 | card: 1 | card with preview: 2
                 }
             }
