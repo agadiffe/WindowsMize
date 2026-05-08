@@ -54,7 +54,7 @@ function Set-RegistryEntrySystemProtected
         Invoke-CommandAsSystem -Command $Command -Verbose:$false
 
         # let log files the time to be generated (e.g. slow drive)
-        $MaxRetries = 20
+        $MaxRetries = 30
         $RetryCount = 0
         while ((-not (Test-Path -Path $VerboseLogPath) -or -not (Test-Path -Path $ErrorLogPath)) -and $RetryCount -lt $MaxRetries)
         {

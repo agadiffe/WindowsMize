@@ -10,8 +10,8 @@
     Set-QuickMachineRecovery
         [-State] {Disabled | Enabled}
         [-AutoRemediation {Disabled | Enabled}]
-        [-RetryInterval <int>]
-        [-RestartInterval <int>]
+        [-RetryIntervalMins <int>]
+        [-RestartIntervalMins <int>]
         [-Headless {Disabled | Enabled}]
         [-WifiSsid <string>]
         [-WifiPassword <string>]
@@ -30,7 +30,7 @@ function Set-QuickMachineRecovery
         PS> Set-QuickMachineRecovery -State 'Disabled'
 
     .EXAMPLE
-        PS> Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 30
+        PS> Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryIntervalMins 30
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -42,10 +42,10 @@ function Set-QuickMachineRecovery
         [state] $AutoRemediation,
 
         [ValidateRange(0, 720)]
-        [int] $RetryInterval,
+        [int] $RetryIntervalMins,
 
         [ValidateRange(60, 4320)]
-        [int] $RestartInterval,
+        [int] $RestartIntervalMins,
 
         [state] $Headless,
 
@@ -62,9 +62,9 @@ function Set-QuickMachineRecovery
     {
         # State (QuickMachineRecovery)\ on: 1 (default on Home) | off: 0 (default on Pro/Enterprise)
         # AutoRemediation (Automatically check for solutions)\ on: 1 | off: 0 (default)
-        # RetryInterval (Look for solutions)\ value is in minutes, default: 0
+        # RetryIntervalMins (Look for solutions)\ value is in minutes, default: 0
         #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
-        # RestartInterval (Restart every) (no GUI toggle)\ value is in minutes, default: 180
+        # RestartIntervalMins (Restart every) (no GUI toggle)\ value is in minutes, default: 180
         #   (old) GUI values: 12 hours (720) | 24 hours (1440) | 36 hours (2160) | 48 hours (2880) | 60 hours (3600) | 72 hours (4320)
         # Headless (no GUI toggle)\ on: 1 | off: 0 (default)
 
@@ -82,13 +82,13 @@ function Set-QuickMachineRecovery
             {
                 $QmrSetting['AutoRemediation'] = $AutoRemediation -eq 'Enabled' ? '1' : '0'
             }
-            { $PSBoundParameters.ContainsKey('RetryInterval') }
+            { $PSBoundParameters.ContainsKey('RetryIntervalMins') }
             {
-                $QmrSetting['RetryInterval'] = $RetryInterval
+                $QmrSetting['RetryInterval'] = $RetryIntervalMins
             }
-            { $PSBoundParameters.ContainsKey('RestartInterval') }
+            { $PSBoundParameters.ContainsKey('RestartIntervalMins') }
             {
-                $QmrSetting['RestartInterval'] = $RestartInterval
+                $QmrSetting['RestartInterval'] = $RestartIntervalMins
             }
             { $Headless }
             {
@@ -138,7 +138,7 @@ function Set-QuickMachineRecovery
         {
             $RetryIntervalMsg = $QmrSetting['RetryInterval'] -ne '0' ? "Every $($QmrSetting['RetryInterval']) mins" : 'Once'
             Write-Verbose -Message "    Set 'Look for solutions' to '$RetryIntervalMsg'"
-            Write-Verbose -Message "    Set 'Restart every' to '$($QmrSetting['RestartInterval']) mins' (if RetryInterval != Once)"
+            Write-Verbose -Message "    Set 'Restart every' to '$($QmrSetting['RestartInterval']) mins' (if RetryIntervalMins != Once)"
         }
 
         if ($ResetWifiCredential)

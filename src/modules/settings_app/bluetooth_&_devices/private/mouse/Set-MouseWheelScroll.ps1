@@ -8,7 +8,7 @@
 <#
 .SYNTAX
     Set-MouseWheelScroll
-        [-Value] {MultipleLines | OneScreen}
+        [-Mode] {MultipleLines | OneScreen}
         [-LinesToScroll <int>]
         [<CommonParameters>]
 #>
@@ -17,17 +17,17 @@ function Set-MouseWheelScroll
 {
     <#
     .EXAMPLE
-        PS> Set-MouseWheelScroll -Value 'OneScreen'
+        PS> Set-MouseWheelScroll -Mode 'OneScreen'
 
     .EXAMPLE
-        PS> Set-MouseWheelScroll -Value 'MultipleLines' -LinesToScroll 42
+        PS> Set-MouseWheelScroll -Mode 'MultipleLines' -LinesToScroll 42
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [WheelScrollMode] $Value,
+        [WheelScrollMode] $Mode,
 
         [ValidateRange(1, 100)]
         [int] $LinesToScroll = 3
@@ -35,9 +35,9 @@ function Set-MouseWheelScroll
 
     process
     {
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($Mode)
         {
-            'MultipleLines' { [string]$LinesToScroll }
+            'MultipleLines' { $LinesToScroll }
             'OneScreen'     { '-1' }
         }
 
@@ -54,7 +54,7 @@ function Set-MouseWheelScroll
             )
         }
 
-        $MouseWheelScrollMsg = "$Value$(if($Value -eq 'MultipleLines') { " (Lines to scroll at a time: $SettingValue)" })"
+        $MouseWheelScrollMsg = "$Mode$(if($Mode -eq 'MultipleLines') { " (Lines to scroll at a time: $SettingValue)" })"
         Write-Verbose -Message "Setting 'Mouse - Roll The Mouse Wheel To Scroll' to '$MouseWheelScrollMsg' ..."
         Set-RegistryEntry -InputObject $MouseWheelScroll
     }

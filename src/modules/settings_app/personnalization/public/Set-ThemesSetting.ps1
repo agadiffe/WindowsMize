@@ -47,7 +47,7 @@ function Set-ThemesSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'DesktopIcons'                { Set-ThemesDesktopIcons -Value $DesktopIcons }
+            'DesktopIcons'                { Set-ThemesDesktopIcons -Icon $DesktopIcons }
             'HideAllDesktopIcons'         { Set-ThemesDesktopIcons -HideAll:$HideAllDesktopIcons }
             'ThemesCanChangeDesktopIcons' { Set-ThemesCanChangeDesktopIcons -State $ThemesCanChangeDesktopIcons }
         }

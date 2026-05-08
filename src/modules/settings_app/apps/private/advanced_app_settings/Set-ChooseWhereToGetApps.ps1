@@ -10,7 +10,7 @@
 <#
 .SYNTAX
     Set-ChooseWhereToGetApps
-        [[-Value] {Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly}]
+        [[-Mode] {Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly}]
         [-GPO {Anywhere | AnywhereWithStoreNotif | AnywhereWithWarnIfNotStore | StoreOnly | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -19,14 +19,14 @@ function Set-ChooseWhereToGetApps
 {
     <#
     .EXAMPLE
-        PS> Set-ChooseWhereToGetApps -Value 'Anywhere' -GPO 'NotConfigured'
+        PS> Set-ChooseWhereToGetApps -Mode 'Anywhere' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [AppInstallControl] $Value,
+        [AppInstallControl] $Mode,
 
         [GpoAppInstallControl] $GPO
     )
@@ -44,7 +44,7 @@ function Set-ChooseWhereToGetApps
 
         switch ($PSBoundParameters.Keys)
         {
-            'Value'
+            'Mode'
             {
                 # Anywhere (default) | Recommendations | PreferStore | StoreOnly
                 $WhereToGetApps = @{
@@ -53,13 +53,13 @@ function Set-ChooseWhereToGetApps
                     Entries = @(
                         @{
                             Name  = 'AicEnabled'
-                            Value = $RegValue[$Value]
+                            Value = $RegValue[$Mode]
                             Type  = 'String'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WhereToGetAppsMsg' to '$Value' ..."
+                Write-Verbose -Message "Setting '$WhereToGetAppsMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $WhereToGetApps
             }
             'GPO'

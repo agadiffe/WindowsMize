@@ -143,7 +143,7 @@ function Set-BackgroundAppPermissionsSetting
                 'Never'     { '1', '1', '0', '1' }
             }
 
-            # Always: 0010 | Optimized: 0000 (default) | Never: 1101
+            # Always: 00100 | Optimized: 00000 (default) | Never: 11010
             $BackgroundApps = [AppPermissionSetting]::new(@{
                 Hive    = 'HKEY_CURRENT_USER'
                 Path    = "Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications\$AppRegPathName"

@@ -26,7 +26,7 @@
 .SYNTAX
     Set-AdvancedBatterySetting
         [-Battery] {Low | Critical | Reserve}
-        [[-Level] <int>]
+        [[-Percent] <int>]
         [[-Action] {DoNothing | Sleep | Hibernate | ShutDown}]
         [<CommonParameters>]
 #>
@@ -38,10 +38,10 @@ function Set-AdvancedBatterySetting
         'Reserve Battery' does not support 'Action' parameter.
 
     .EXAMPLE
-        PS> Set-AdvancedBatterySetting -Battery 'Low' -Level 20
+        PS> Set-AdvancedBatterySetting -Battery 'Low' -Percentage 20
 
     .EXAMPLE
-        PS> Set-AdvancedBatterySetting -Battery 'Critical' -Level 10 -Action 'ShutDown'
+        PS> Set-AdvancedBatterySetting -Battery 'Critical' -Percent 10 -Action 'ShutDown'
     #>
 
     [CmdletBinding()]
@@ -53,7 +53,7 @@ function Set-AdvancedBatterySetting
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [ValidateRange(5, 100)]
-        [int] $Level,
+        [int] $Percent,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [ValidateSet('DoNothing', 'Sleep', 'Hibernate', 'ShutDown')]
@@ -62,26 +62,17 @@ function Set-AdvancedBatterySetting
 
     process
     {
-        if (-not ($PSBoundParameters.Keys.Count - 1))
+        if (-not ($PSBoundParameters.ContainsKey('Percent') -or $PSBoundParameters.ContainsKey('Action')))
         {
             Write-Error -Message (Write-InsufficientParameterCount)
-            Write-Error -Message 'Specify at least the ''Level'' or ''Action'' parameter.'
+            Write-Error -Message 'Specify at least the ''Percent'' or ''Action'' parameter.'
             return
         }
 
-        # [ValidateScript({ $Battery -ne 'Reserve' })] does not work if $Battery is defined after $Action
-        if ($Action -and $Battery -eq 'Reserve')
+        if ($Battery -eq 'Reserve' -and $PSBoundParameters.ContainsKey('Action'))
         {
             Write-Error -Message '''Reserve Battery'' does not support ''Action'' parameter.'
             return
-        }
-
-        $SettingIndex = switch ($Action)
-        {
-            'DoNothing' { 0 }
-            'Sleep'     { 1 }
-            'Hibernate' { 2 }
-            'ShutDown'  { 3 }
         }
 
         $ActionSettingGUID, $LevelSettingGUID = switch ($Battery)
@@ -91,20 +82,32 @@ function Set-AdvancedBatterySetting
             'Reserve'  { '', 'f3c5027d-cd16-4930-aa6b-90db844a8f00' }
         }
 
-        $BatterySettingState = "$(if ($Level) { "'$Level%'" }) $(if ($Action) { if ($Level) { "/" } "'$Action'" })"
-        Write-Verbose -Message "Setting '$Battery battery' to $BatterySettingState ..."
+        $Msg = @()
+        if ($PSBoundParameters.ContainsKey('Percent')) { $Msg += "$Percent%" }
+        if ($PSBoundParameters.ContainsKey('Action'))  { $Msg += $Action }
+        $BatterySettingMsg = $Msg -join ' / '
+
+        Write-Verbose -Message "Setting '$Battery battery' to '$BatterySettingMsg' ..."
 
         switch ($PSBoundParameters.Keys)
         {
             'Action'
             {
+                $SettingIndex = switch ($Action)
+                {
+                    'DoNothing' { 0 }
+                    'Sleep'     { 1 }
+                    'Hibernate' { 2 }
+                    'ShutDown'  { 3 }
+                }
+
                 powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_BATTERY $ActionSettingGUID $SettingIndex
                 powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_BATTERY $ActionSettingGUID $SettingIndex
             }
-            'Level'
+            'Percent'
             {
-                powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_BATTERY $LevelSettingGUID $Level
-                powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_BATTERY $LevelSettingGUID $Level
+                powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_BATTERY $LevelSettingGUID $Percent
+                powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_BATTERY $LevelSettingGUID $Percent
             }
         }
     }

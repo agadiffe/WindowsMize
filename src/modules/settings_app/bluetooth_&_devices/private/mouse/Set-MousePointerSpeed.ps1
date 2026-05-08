@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-MousePointerSpeed
-        [-Value] <int>
+        [-Speed] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-MousePointerSpeed
 {
     <#
     .EXAMPLE
-        PS> Set-MousePointerSpeed -Value 10
+        PS> Set-MousePointerSpeed -Speed 10
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-MousePointerSpeed
     (
         [Parameter(Mandatory)]
         [ValidateRange(1, 20)]
-        [int] $Value
+        [int] $Speed
     )
 
     process
@@ -33,13 +33,13 @@ function Set-MousePointerSpeed
             Entries = @(
                 @{
                     Name  = 'MouseSensitivity'
-                    Value = $Value
+                    Value = $Speed
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Mouse - Mouse Pointer Speed' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Mouse - Mouse Pointer Speed' to '$Speed' ..."
         Set-RegistryEntry -InputObject $MousePointerSpeed
     }
 }

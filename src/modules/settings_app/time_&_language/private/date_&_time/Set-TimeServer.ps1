@@ -38,23 +38,15 @@ function Set-TimeServer
 
         Write-Verbose -Message "Setting 'Internet Time Server' to '$TimeServer' ..."
 
-        Start-Service -Name 'W32Time'
-
-        $MaxRetries = 50
-        $RetryCount = 0
-        while ((Get-Service -Name 'W32Time').Status -ne 'Running' -and $RetryCount -lt $MaxRetries)
+        $TimeService = Start-Service -Name 'W32Time' -PassThru
+        $TimeService.WaitForStatus('Running', [TimeSpan]::FromSeconds(5))
+        if ($TimeService.Status -eq 'Running')
         {
-            Start-Sleep -Seconds 0.1
-            $RetryCount++
-        }
-
-        if ($RetryCount -eq $MaxRetries)
-        {
-            Write-Error -Message "    Cannot start W32Time service. Settings not applied."
+            w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$TimeServer" /update | Out-Null
         }
         else
         {
-            w32tm.exe /config /syncfromflags:manual /manualpeerlist:"$TimeServer" /update | Out-Null
+            Write-Error -Message "    Cannot start W32Time service. Setting not applied."
         }
     }
 }

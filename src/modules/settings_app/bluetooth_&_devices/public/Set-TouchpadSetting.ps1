@@ -22,8 +22,8 @@
         [-PinchToZoom {Disabled | Enabled}]
         [-ThreeFingersTap {Nothing | OpenSearch | NotificationCenter | PlayPause |
                            MiddleMouseButton | MouseBackButton | MouseForwardButton}]
-        [-ThreeFingersSwipes {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop |
-                              ChangeAudioAndVolume | Custom}]
+        [-ThreeFingersSwipe {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop |
+                             ChangeAudioAndVolume | Custom}]
         [-ThreeFingersUp {Nothing | SwitchApps | TaskView | ShowDesktop | SwitchDesktops | HideAllExceptAppInFocus |
                           CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation |
                           SnapWindowToLeft | SnapWindowToRight | MaximizeWindow | MinimizeWindow |
@@ -32,7 +32,7 @@
         [-ThreeFingersLeft { same as ThreeFingersUp }]
         [-ThreeFingersRight { same as ThreeFingersUp }]
         [-FourFingersTap { same as ThreeFingersTap }]
-        [-FourFingersSwipes { same as ThreeFingersSwipes }]
+        [-FourFingersSwipe { same as ThreeFingersSwipes }]
         [-FourFingersUp { same as ThreeFingersUp }]
         [-FourFingersDown { same as ThreeFingersUp }]
         [-FourFingersLeft { same as ThreeFingersUp }]
@@ -56,7 +56,7 @@ function Set-TouchpadSetting
         PS> Set-TouchpadSetting -LeaveOnWithMouse 'Disabled' -ScrollingDirection 'DownMotionScrollsUp'
 
     .EXAMPLE
-        PS> Set-TouchpadSetting -FourFingersSwipes 'Custom' -FourFingersUp 'MaximizeWindow' -FourFingersDown 'MinimizeWindow'
+        PS> Set-TouchpadSetting -FourFingersSwipe 'Custom' -FourFingersUp 'MaximizeWindow' -FourFingersDown 'MinimizeWindow'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -100,23 +100,23 @@ function Set-TouchpadSetting
         # gestures
         [TouchpadTapMode] $ThreeFingersTap,
 
-        [TouchpadSwipesMode] $ThreeFingersSwipes,
+        [TouchpadSwipesMode] $ThreeFingersSwipe,
 
         [TouchpadTapMode] $FourFingersTap,
 
-        [TouchpadSwipesMode] $FourFingersSwipes
+        [TouchpadSwipesMode] $FourFingersSwipe
     )
 
     dynamicparam
     {
-        if ($ThreeFingersSwipes -eq 'Custom' -or $FourFingersSwipes -eq 'Custom')
+        if ($ThreeFingersSwipe -eq 'Custom' -or $FourFingersSwipe -eq 'Custom')
         {
             $DynamicParameters = @()
-            if ($ThreeFingersSwipes -eq 'Custom')
+            if ($ThreeFingersSwipe -eq 'Custom')
             {
                 $DynamicParameters += 'ThreeFingersUp', 'ThreeFingersDown', 'ThreeFingersLeft', 'ThreeFingersRight'
             }
-            if ($FourFingersSwipes -eq 'Custom')
+            if ($FourFingersSwipe -eq 'Custom')
             {
                 $DynamicParameters += 'FourFingersUp', 'FourFingersDown', 'FourFingersLeft', 'FourFingersRight'
             }
@@ -146,24 +146,24 @@ function Set-TouchpadSetting
         {
             'Touchpad'                     { Set-Touchpad -State $Touchpad }
             'LeaveOnWithMouse'             { Set-TouchpadLeaveOnWithMouse -State $LeaveOnWithMouse }
-            'CursorSpeed'                  { Set-TouchpadCursorSpeed -Value $CursorSpeed }
-            'ClickSensitivity'             { Set-TouchpadClickSensitivity -Value $ClickSensitivity }
+            'CursorSpeed'                  { Set-TouchpadCursorSpeed -Speed $CursorSpeed }
+            'ClickSensitivity'             { Set-TouchpadClickSensitivity -Sensitivity $ClickSensitivity }
             'HapticFeedback'               { Set-TouchpadHapticFeedback -State $HapticFeedback }
-            'HapticFeedbackIntensity'      { Set-TouchpadHapticFeedbackIntensity -Value $HapticFeedbackIntensity }
+            'HapticFeedbackIntensity'      { Set-TouchpadHapticFeedbackIntensity -Intensity $HapticFeedbackIntensity }
 
-            'Sensitivity'                  { Set-TouchpadSensitivity -Value $Sensitivity }
+            'Sensitivity'                  { Set-TouchpadSensitivity -Sensitivity $Sensitivity }
             'TapToClick'                   { Set-TouchpadSingleFingerTapToClick -State $TapToClick }
             'TwoFingersTapToRightClick'    { Set-TouchpadTwoFingersTapToRightClick -State $TwoFingersTapToRightClick }
             'TapTwiceAndDragToMultiSelect' { Set-TouchpadTapTwiceAndDragToMultiSelect -State $TapTwiceAndDragToMultiSelect }
             'RightClickButton'             { Set-TouchpadRightClickButton -State $RightClickButton }
-            'RightClickZoneSize'           { Set-TouchpadRightClickZoneSize -Value $RightClickZoneSize }
+            'RightClickZoneSize'           { Set-TouchpadRightClickZoneSize -Size $RightClickZoneSize }
 
             'TwoFingersToScroll'           { Set-TouchpadTwoFingersToScroll -State $TwoFingersToScroll }
-            'ScrollingDirection'           { Set-TouchpadScrollingDirection -Value $ScrollingDirection }
+            'ScrollingDirection'           { Set-TouchpadScrollingDirection -Direction $ScrollingDirection }
             'PinchToZoom'                  { Set-TouchpadPinchToZoom -State $PinchToZoom }
 
-            'ThreeFingersTap'              { Set-TouchpadGesturesThreeFingersTap -Value $ThreeFingersTap }
-            'ThreeFingersSwipes'
+            'ThreeFingersTap'              { Set-TouchpadGesturesThreeFingersTap -Mode $ThreeFingersTap }
+            'ThreeFingersSwipe'
             {
                 $HashtableSubsetParam = @{
                     Source            = $PSBoundParameters
@@ -171,10 +171,10 @@ function Set-TouchpadSetting
                     SubStringToRemove = 'ThreeFingers'
                 }
                 $ThreeFingersParam = Get-HashtableSubset @HashtableSubsetParam
-                Set-TouchpadGesturesThreeFingersSwipes -Value $ThreeFingersSwipes @ThreeFingersParam
+                Set-TouchpadGesturesThreeFingersSwipe -Mode $ThreeFingersSwipe @ThreeFingersParam
             }
-            'FourFingersTap'               { Set-TouchpadGesturesFourFingersTap -Value $FourFingersTap }
-            'FourFingersSwipes'
+            'FourFingersTap'               { Set-TouchpadGesturesFourFingersTap -Mode $FourFingersTap }
+            'FourFingersSwipe'
             {
                 $HashtableSubsetParam = @{
                     Source            = $PSBoundParameters
@@ -182,7 +182,7 @@ function Set-TouchpadSetting
                     SubStringToRemove = 'FourFingers'
                 }
                 $FourFingersParam = Get-HashtableSubset @HashtableSubsetParam
-                Set-TouchpadGesturesFourFingersSwipes -Value $FourFingersSwipes @FourFingersParam
+                Set-TouchpadGesturesFourFingersSwipe -Mode $FourFingersSwipe @FourFingersParam
             }
         }
     }

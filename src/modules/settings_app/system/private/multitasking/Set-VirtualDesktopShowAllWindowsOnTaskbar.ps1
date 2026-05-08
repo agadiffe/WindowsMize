@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-VirtualDesktopShowAllWindowsOnTaskbar
-        [-Value] {AllDesktops | CurrentDesktop}
+        [-Scope] {AllDesktops | CurrentDesktop}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-VirtualDesktopShowAllWindowsOnTaskbar
 {
     <#
     .EXAMPLE
-        PS> Set-VirtualDesktopShowAllWindowsOnTaskbar -Value 'CurrentDesktop'
+        PS> Set-VirtualDesktopShowAllWindowsOnTaskbar -Scope 'CurrentDesktop'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [WindowVisibilty] $Value
+        [WindowVisibilty] $Scope
     )
 
     process
@@ -32,13 +32,13 @@ function Set-VirtualDesktopShowAllWindowsOnTaskbar
             Entries = @(
                 @{
                     Name  = 'VirtualDesktopTaskbarFilter'
-                    Value = [int]$Value
+                    Value = [int]$Scope
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Multitasking - On The Taskbar, Show All The Open Windows' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Multitasking - On The Taskbar, Show All The Open Windows' to '$Scope' ..."
         Set-RegistryEntry -InputObject $ShowAllWindowsOnTaskbar
     }
 }

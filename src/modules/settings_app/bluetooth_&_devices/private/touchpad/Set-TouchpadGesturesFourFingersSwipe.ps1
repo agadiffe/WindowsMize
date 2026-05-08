@@ -4,8 +4,8 @@
 
 <#
 .SYNTAX
-    Set-TouchpadGesturesFourFingersSwipes
-        [-Value] {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom}
+    Set-TouchpadGesturesFourFingersSwipe
+        [-Mode] {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom}
         [-Up {Nothing | SwitchApps | TaskView | ShowDesktop | SwitchDesktops | HideAllExceptAppInFocus |
               CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation |
               SnapWindowToLeft | SnapWindowToRight | MaximizeWindow | MinimizeWindow |
@@ -16,21 +16,21 @@
         [<CommonParameters>]
 #>
 
-function Set-TouchpadGesturesFourFingersSwipes
+function Set-TouchpadGesturesFourFingersSwipe
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadGesturesFourFingersSwipes -Value 'SwitchAppsAndShowDesktop'
+        PS> Set-TouchpadGesturesFourFingersSwipe -Mode 'SwitchAppsAndShowDesktop'
 
     .EXAMPLE
-        PS> Set-TouchpadGesturesFourFingersSwipes -Value 'Custom' -Up 'MaximizeWindow' -Down 'MinimizeWindow'
+        PS> Set-TouchpadGesturesFourFingersSwipe -Mode 'Custom' -Up 'MaximizeWindow' -Down 'MinimizeWindow'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Mandatory, Position = 0)]
-        [TouchpadSwipesMode] $Value,
+        [TouchpadSwipesMode] $Mode,
 
         [TouchpadSwipesCustomMode] $Up,
 
@@ -46,23 +46,23 @@ function Set-TouchpadGesturesFourFingersSwipes
         # FourFingerSlideEnabled\
         #   nothing: 0 | switch apps and show desktop: 1 (default) | switch desktops and show desktop: 2
         #   change audio and volume: 3 | custom: 65535 (hex: ffff)
-        $TouchpadFourFingersSwipes = @{
+        $TouchpadFourFingersSwipe = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'
             Entries = @(
                 @{
                     Name  = 'FourFingerSlideEnabled'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Four-Finger Gestures Swipes' to '$Value' ..."
-        Set-RegistryEntry -InputObject $TouchpadFourFingersSwipes
+        Write-Verbose -Message "Setting 'Touchpad - Four-Finger Gestures Swipes' to '$Mode' ..."
+        Set-RegistryEntry -InputObject $TouchpadFourFingersSwipe
 
 
-        $PSBoundParameters.Remove('Value') | Out-Null
+        $PSBoundParameters.Remove('Mode') | Out-Null
         if ($PSBoundParameters.Keys.Count)
         {
             Set-TouchpadGesturesAdvancedFingersSwipes -Name 'FourFinger' @PSBoundParameters

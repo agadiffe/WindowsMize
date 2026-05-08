@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-StorageSenseSchedule
-        [[-Value] {OnLowFreeDiskSpace | Daily | Weekly | Monthly}]
+        [[-Schedule] {OnLowFreeDiskSpace | Daily | Weekly | Monthly}]
         [-GPO {OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-StorageSenseSchedule
 {
     <#
     .EXAMPLE
-        PS> Set-StorageSenseSchedule -Value 'OnLowFreeDiskSpace' -GPO 'NotConfigured'
+        PS> Set-StorageSenseSchedule -Schedule 'OnLowFreeDiskSpace' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [StorageSenseSchedule] $Value,
+        [StorageSenseSchedule] $Schedule,
 
         [GpoStorageSenseSchedule] $GPO
     )
@@ -32,7 +32,7 @@ function Set-StorageSenseSchedule
 
         switch ($PSBoundParameters.Keys)
         {
-            'Value'
+            'Schedule'
             {
                 # During low free disk space: 0 (default) | Every day: 1 | Every week: 7 | Every month: 30
                 $StorageSenseSchedule = @{
@@ -41,13 +41,13 @@ function Set-StorageSenseSchedule
                     Entries = @(
                         @{
                             Name  = '2048'
-                            Value = [int]$Value
+                            Value = [int]$Schedule
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$StorageSenseScheduleMsg' to '$Value' ..."
+                Write-Verbose -Message "Setting '$StorageSenseScheduleMsg' to '$Schedule' ..."
                 Set-RegistryEntry -InputObject $StorageSenseSchedule
             }
             'GPO'

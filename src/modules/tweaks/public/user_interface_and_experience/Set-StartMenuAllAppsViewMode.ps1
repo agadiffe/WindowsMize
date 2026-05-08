@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-StartMenuAllAppsViewMode
-        [-Value] {Category | Grid | List}
+        [-Mode] {Category | Grid | List}
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-StartMenuAllAppsViewMode
 {
     <#
     .EXAMPLE
-        PS> Set-StartMenuAllAppsViewMode -Value 'Category'
+        PS> Set-StartMenuAllAppsViewMode -Mode 'Category'
     #>
 
     [CmdletBinding()]
@@ -21,12 +21,12 @@ function Set-StartMenuAllAppsViewMode
     (
         [Parameter(Mandatory)]
         [ValidateSet('Category', 'Grid', 'List')]
-        [string] $Value
+        [string] $Mode
     )
 
     process
     {
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($Mode)
         {
             'Category' { '0' }
             'Grid'     { '1' }
@@ -46,7 +46,7 @@ function Set-StartMenuAllAppsViewMode
             )
         }
 
-        Write-Verbose -Message "Setting 'Start Menu - All Apps View Mode' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Start Menu - All Apps View Mode' to '$Mode' ..."
         Set-RegistryEntry -InputObject $AllAppsViewMode
     }
 }

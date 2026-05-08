@@ -239,7 +239,7 @@ Set-TouchpadSetting -RightClickButton 'Enabled'
 
 # --- Right-click zone size
 # State: Default (default) | Small | Medium | Large
-Set-TouchpadSetting -RightClickZoneSize 'Enabled'
+Set-TouchpadSetting -RightClickZoneSize 'Default'
 
 #             Scroll & zoom
 #=======================================
@@ -263,18 +263,18 @@ Set-TouchpadSetting -PinchToZoom 'Enabled'
 
 # --- Swipes
 # State: Nothing | SwitchAppsAndShowDesktop (default) | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
-#Set-TouchpadSetting -ThreeFingersSwipes 'SwitchAppsAndShowDesktop'
+#Set-TouchpadSetting -ThreeFingersSwipe 'SwitchAppsAndShowDesktop'
 
 # Nothing | SwitchApps (left/right) | TaskView (up) | ShowDesktop (down) | SwitchDesktops | HideAllExceptAppInFocus |
 # CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation | SnapWindowToLeft | SnapWindowToRight |
 # MaximizeWindow | MinimizeWindow | NextTrack | PreviousTrack | VolumeUp | VolumeDown | Mute
-$ThreeFingersSwipesCustom = @{
+$ThreeFingersSwipeCustom = @{
     ThreeFingersUp    = 'TaskView'
     ThreeFingersDown  = 'ShowDesktop'
     ThreeFingersLeft  = 'SwitchApps'
     ThreeFingersRight = 'SwitchApps'
 }
-#Set-TouchpadSetting -ThreeFingersSwipes 'Custom' @ThreeFingersSwipesCustom
+#Set-TouchpadSetting -ThreeFingersSwipe 'Custom' @ThreeFingersSwipeCustom
 
 #         Four-finger gestures
 #=======================================
@@ -285,18 +285,18 @@ $ThreeFingersSwipesCustom = @{
 
 # --- Swipes
 # State: Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop (default) | ChangeAudioAndVolume | Custom
-#Set-TouchpadSetting -FourFingersSwipes 'SwitchDesktopsAndShowDesktop'
+#Set-TouchpadSetting -FourFingersSwipe 'SwitchDesktopsAndShowDesktop'
 
 # Nothing | SwitchApps | TaskView (up) | ShowDesktop (down) | SwitchDesktops (left/right) | HideAllExceptAppInFocus |
 # CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation | SnapWindowToLeft | SnapWindowToRight |
 # MaximizeWindow | MinimizeWindow | NextTrack | PreviousTrack | VolumeUp | VolumeDown | Mute
-$FourFingersSwipesCustom = @{
+$FourFingersSwipeCustom = @{
     FourFingersUp    = 'TaskView'
     FourFingersDown  = 'ShowDesktop'
     FourFingersLeft  = 'SwitchDesktops'
     FourFingersRight = 'SwitchDesktops'
 }
-#Set-TouchpadSetting -FourFingersSwipes 'Custom' @FourFingersSwipesCustom
+#Set-TouchpadSetting -FourFingersSwipe 'Custom' @FourFingersSwipeCustom
 
 #endregion touchpad
 #>

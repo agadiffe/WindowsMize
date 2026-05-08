@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-BluetoothDiscoveryMode
-        [-Value] {Default | Advanced}
+        [-Mode] {Default | Advanced}
         [<CommonParameters>]
 #>
 
@@ -15,14 +15,14 @@ function Set-BluetoothDiscoveryMode
 {
     <#
     .EXAMPLE
-        PS> Set-BluetoothDiscoveryMode -Value 'Default'
+        PS> Set-BluetoothDiscoveryMode -Mode 'Default'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [BluetoothDiscoveryMode] $Value
+        [BluetoothDiscoveryMode] $Mode
     )
 
     process
@@ -34,13 +34,13 @@ function Set-BluetoothDiscoveryMode
             Entries = @(
                 @{
                     Name  = 'AdvancedDiscoveryMode'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Devices - Use LE Audio When Available' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Devices - Use LE Audio When Available' to '$Mode' ..."
         Set-RegistryEntry -InputObject $BluetoothDiscoveryMode
     }
 }

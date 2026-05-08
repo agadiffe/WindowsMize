@@ -1,28 +1,26 @@
 #=================================================================================================================
-#                                Disable Store App Results From Start Menu Search
+#                            Start Menu - Include Store Suggestions In Search Results
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Disable-StoreAppResultsFromStartMenuSearch
-        [-Reset]
+    Set-StartMenuSearchIncludeStoreSuggestions
+        [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Disable-StoreAppResultsFromStartMenuSearch
+function Set-StartMenuSearchIncludeStoreSuggestions
 {
     <#
     .EXAMPLE
-        PS> Disable-StoreAppResultsFromStartMenuSearch
-
-    .EXAMPLE
-        PS> Disable-StoreAppResultsFromStartMenuSearch -Reset
+        PS> Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
-        [switch] $Reset
+        [Parameter(Mandatory)]
+        [state] $State
     )
 
     process
@@ -38,10 +36,9 @@ function Disable-StoreAppResultsFromStartMenuSearch
                 Sid  = 'S-1-1-0' # 'EVERYONE' group
             }
 
-            $StoreAppsSuggestionsState = $Reset ? 'Resetting' : 'Disabling'
-            Write-Verbose -Message "$StoreAppsSuggestionsState 'Store Apps Suggestions In Start Menu Search' ..."
+            Write-Verbose -Message "Setting 'Store Apps Suggestions In Start Menu Search' to '$State' ..."
 
-            if ($Reset)
+            if ($State -eq 'Enabled')
             {
                 Set-FileSystemAccessRule @AccessRuleParam -RemoveAll
             }

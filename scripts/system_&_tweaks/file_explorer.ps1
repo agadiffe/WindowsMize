@@ -37,7 +37,7 @@ Set-FileExplorerSetting -LaunchTo 'Home'
 
 # --- Open each folder in same/new window
 # State: SameWindow (default) | NewWindow
-#Set-FileExplorerSetting -OpenFolder 'SameWindow'
+#Set-FileExplorerSetting -OpenFolderMode 'SameWindow'
 
 # --- Open desktop folders and external folder links in new tab (default: Enabled)
 # Requires 'Open each folder in the same window'.
@@ -45,7 +45,7 @@ Set-FileExplorerSetting -LaunchTo 'Home'
 
 # --- Single/Double-click to open an item
 # State: SingleClick | DoubleClick (default)
-#Set-FileExplorerSetting -OpenItem 'DoubleClick'
+#Set-FileExplorerSetting -OpenItemMode 'DoubleClick'
 
 # --- Show recently used files (default: Enabled)
 Set-FileExplorerSetting -ShowRecentFiles 'Enabled'
@@ -114,7 +114,7 @@ Set-FileExplorerSetting -HideFileExtensions 'Disabled'
 
 # --- Show drive letters
 # State: Disabled | AfterDriveName (default) | BeforeDriveName
-#Set-FileExplorerSetting -ShowDriveLetters 'AfterDriveName'
+#Set-FileExplorerSetting -DriveLetterDisplayMode 'AfterDriveName'
 
 # --- Show encrypted or compressed NTFS files in color (default: Disabled)
 #Set-FileExplorerSetting -ColorEncryptedAndCompressedFiles 'Disabled'
@@ -139,7 +139,7 @@ Set-FileExplorerSetting -SharingWizard 'Disabled'
 
 # --- When typing into list view
 # State: SelectItemInView (default) | AutoTypeInSearchBox
-#Set-FileExplorerSetting -TypingIntoListViewBehavior 'SelectItemInView'
+#Set-FileExplorerSetting -TypingIntoListViewMode 'SelectItemInView'
 
 #            Navigation pane
 #=======================================
@@ -208,7 +208,7 @@ Set-FileExplorerSetting -ShowGallery 'Disabled'
 Set-FileExplorerSetting -ShowRemovableDrivesOnlyInThisPC 'Enabled'
 
 # --- Max icon cache size (default: 512 KB)
-Set-FileExplorerSetting -MaxIconCacheSize 4096
+Set-FileExplorerSetting -MaxIconCacheSizeKB 4096
 
 # --- Auto folder type detection (default: Enabled)
 Set-FileExplorerSetting -AutoFolderTypeDetection 'Disabled'

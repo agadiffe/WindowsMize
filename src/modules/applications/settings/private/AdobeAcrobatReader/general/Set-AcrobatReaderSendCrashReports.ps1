@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AcrobatReaderSendCrashReports
-        [-Value] {Ask | Always | Never}
+        [-Mode] {Ask | Always | Never}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-AcrobatReaderSendCrashReports
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderSendCrashReports -Value 'Never'
+        PS> Set-AcrobatReaderSendCrashReports -Mode 'Never'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [AdobeCrashReportsMode] $Value
+        [AdobeCrashReportsMode] $Mode
     )
 
     process
@@ -32,13 +32,13 @@ function Set-AcrobatReaderSendCrashReports
             Entries = @(
                 @{
                     Name  = 'iSendCrashReportsOption'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Acrobat Reader - Send Crash Reports' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Acrobat Reader - Send Crash Reports' to '$Mode' ..."
         Set-RegistryEntry -InputObject $AcrobatReaderSendCrashReports
     }
 }

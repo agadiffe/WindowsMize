@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-MousePrimaryButton
-        [-Value] {Left | Right}
+        [-Button] {Left | Right}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-MousePrimaryButton
 {
     <#
     .EXAMPLE
-        PS> Set-MousePrimaryButton -Value 'Left'
+        PS> Set-MousePrimaryButton -Button 'Left'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [MouseButtonMode] $Value
+        [MouseButtonMode] $Button
     )
 
     process
@@ -32,13 +32,13 @@ function Set-MousePrimaryButton
             Entries = @(
                 @{
                     Name  = 'SwapMouseButtons'
-                    Value = [int]$Value
+                    Value = [int]$Button
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Mouse - Primary Mouse Button' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Mouse - Primary Mouse Button' to '$Button' ..."
         Set-RegistryEntry -InputObject $MousePrimaryButton
     }
 }

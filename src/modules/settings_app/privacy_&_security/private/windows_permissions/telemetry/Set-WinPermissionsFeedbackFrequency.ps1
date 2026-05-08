@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-WinPermissionsFeedbackFrequency
-        [[-State] {Never | Automatically | Always | Daily | Weekly}]
+        [[-Mode] {Never | Automatically | Always | Daily | Weekly}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -16,14 +16,14 @@ function Set-WinPermissionsFeedbackFrequency
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsFeedbackFrequency -State 'Never' -GPO 'NotConfigured'
+        PS> Set-WinPermissionsFeedbackFrequency -Mode 'Never' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [FeedbackFrequencyMode] $State,
+        [FeedbackFrequencyMode] $Mode,
 
         [GpoStateWithoutEnabled] $GPO
     )
@@ -34,9 +34,9 @@ function Set-WinPermissionsFeedbackFrequency
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Mode'
             {
-                $NumberOfSIUF, $NanoSeconds = switch ($State)
+                $NumberOfSIUF, $NanoSeconds = switch ($Mode)
                 {
                     'Never'         { '0', '' }
                     'Always'        { '', '100000000' }
@@ -44,7 +44,7 @@ function Set-WinPermissionsFeedbackFrequency
                     'Weekly'        { '1', '6048000000000' }
                 }
 
-                $IsAuto = $State -eq 'Automatically'
+                $IsAuto = $Mode -eq 'Automatically'
 
                 # automatically: delete delete (default) | always: delete 100000000
                 # once a day: 1 864000000000 | once a week: 1 6048000000000 | never: 0 delete
@@ -53,13 +53,13 @@ function Set-WinPermissionsFeedbackFrequency
                     Path    = 'Software\Microsoft\Siuf\Rules'
                     Entries = @(
                         @{
-                            RemoveEntry = $IsAuto -or $State -eq 'Always'
+                            RemoveEntry = $IsAuto -or $Mode -eq 'Always'
                             Name  = 'NumberOfSIUFInPeriod'
                             Value = $NumberOfSIUF
                             Type  = 'DWord'
                         }
                         @{
-                            RemoveEntry = $IsAuto -or $State -eq 'Never'
+                            RemoveEntry = $IsAuto -or $Mode -eq 'Never'
                             Name  = 'PeriodInNanoSeconds'
                             Value = $NanoSeconds
                             Type  = 'QWord'
@@ -67,7 +67,7 @@ function Set-WinPermissionsFeedbackFrequency
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WinPermissionsFeedbackFrequencyMsg' to '$State' ..."
+                Write-Verbose -Message "Setting '$WinPermissionsFeedbackFrequencyMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $WinPermissionsFeedbackFrequency
             }
             'GPO'

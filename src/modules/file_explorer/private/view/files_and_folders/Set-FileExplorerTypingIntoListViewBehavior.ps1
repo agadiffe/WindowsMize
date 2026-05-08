@@ -9,7 +9,7 @@
 <#
 .SYNTAX
     Set-FileExplorerTypingIntoListViewBehavior
-        [-Value] {SelectItemInView | AutoTypeInSearchBox}
+        [-Mode] {SelectItemInView | AutoTypeInSearchBox}
         [<CommonParameters>]
 #>
 
@@ -17,22 +17,22 @@ function Set-FileExplorerTypingIntoListViewBehavior
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerTypingIntoListViewBehavior -Value 'Enabled'
+        PS> Set-FileExplorerTypingIntoListViewBehavior -Mode 'SelectItemInView'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TypingIntoListViewMode] $Value
+        [TypingIntoListViewMode] $Mode
     )
 
     process
     {
         # select the typed item in the view: 0 (default) | automatically type into the Search Box: 1
 
-        $HideEmptyDrives = [HkcuExplorerAdvanced]::new('TypeAhead', [int]$Value, 'DWord')
-        $HideEmptyDrives.WriteVerboseMsg('File Explorer - When Typing Into List View', $Value)
+        $HideEmptyDrives = [HkcuExplorerAdvanced]::new('TypeAhead', [int]$Mode, 'DWord')
+        $HideEmptyDrives.WriteVerboseMsg('File Explorer - When Typing Into List View', $Mode)
         $HideEmptyDrives.SetRegistryEntry()
     }
 }

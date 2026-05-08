@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarCalendarState
-        [-Value] {Collapsed | Expanded}
+        [-State] {Collapsed | Expanded}
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-TaskbarCalendarState
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarCalendarState -Value 'Expanded'
+        PS> Set-TaskbarCalendarState -State 'Expanded'
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-TaskbarCalendarState
     (
         [Parameter(Mandatory)]
         [ValidateSet('Collapsed', 'Expanded')]
-        [string] $Value
+        [string] $State
     )
 
     process
@@ -29,11 +29,11 @@ function Set-TaskbarCalendarState
         # Collapsed: 0 (default) | Expanded: 1
         $TaskbarCalendarState = @{
             Name  = 'CalendarState'
-            Value = $Value -eq 'Expanded' ? '1' : '0'
+            Value = $State -eq 'Expanded' ? '1' : '0'
             Type  = '5f5e10b'
         }
 
-        Write-Verbose -Message "Setting 'TaskbarCalendarState' to '$Value' ..."
+        Write-Verbose -Message "Setting 'TaskbarCalendarState' to '$State' ..."
         Set-UwpAppSetting -Name 'TaskbarCalendar' -Setting $TaskbarCalendarState
     }
 }

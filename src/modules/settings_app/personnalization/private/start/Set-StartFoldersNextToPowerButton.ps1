@@ -9,8 +9,8 @@
 <#
 .SYNTAX
     Set-StartFoldersNextToPowerButton
-        [-Value] {Settings | FileExplorer | Network | PersonalFolder |
-                  Documents | Downloads | Music | Pictures | Videos}
+        [-Item] {Settings | FileExplorer | Network | PersonalFolder |
+                    Documents | Downloads | Music | Pictures | Videos}
         [<CommonParameters>]
 
     Set-StartFoldersNextToPowerButton
@@ -22,17 +22,17 @@ function Set-StartFoldersNextToPowerButton
 {
     <#
     .EXAMPLE
-        PS> Set-StartFoldersNextToPowerButton -Value 'Settings', 'PersonalFolder'
+        PS> Set-StartFoldersNextToPowerButton -Item 'Settings', 'PersonalFolder'
 
     .EXAMPLE
         PS> Set-StartFoldersNextToPowerButton -None
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Value')]
+    [CmdletBinding(DefaultParameterSetName = 'Item')]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Value')]
-        [StartFoldersName[]] $Value,
+        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Item')]
+        [StartFoldersName[]] $Item,
 
         [Parameter(Mandatory, ParameterSetName = 'None')]
         [switch] $None
@@ -52,7 +52,7 @@ function Set-StartFoldersNextToPowerButton
         {
             $StartFolders = [System.Collections.ArrayList]::new()
 
-            switch ($Value)
+            switch ($Item)
             {
                 'Settings'       { $StartFolders.Add('86,08,73,52,aa,51,43,42,9f,7b,27,76,58,46,59,d4') | Out-Null }
                 'FileExplorer'   { $StartFolders.Add('bc,24,8a,14,0c,d6,89,42,a0,80,6e,d9,bb,a2,48,82') | Out-Null }
@@ -81,7 +81,7 @@ function Set-StartFoldersNextToPowerButton
             )
         }
 
-        $StartFoldersShown = $StartFoldersBytes ? ($Value -join ', ') : 'None'
+        $StartFoldersShown = $StartFoldersBytes ? ($Item -join ', ') : 'None'
 
         Write-Verbose -Message "Setting 'Start - Folders Next To The Power Button' to '$StartFoldersShown' ..."
         Set-RegistryEntry -InputObject $StartFoldersNextToPowerButton

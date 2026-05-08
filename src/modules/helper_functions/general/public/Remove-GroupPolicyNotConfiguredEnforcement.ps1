@@ -36,7 +36,12 @@ function Remove-GroupPolicyNotConfiguredEnforcement
 
         foreach ($Scope in $GPRegistryFilePath.Keys)
         {
-            lgpo.exe /parse /$Scope $GPRegistryFilePath[$Scope] /q | Out-File -FilePath $LgpoTxtFilePath
+            $StartProcessParam = @{
+                FilePath               = 'lgpo.exe'
+                ArgumentList           = "/parse /$Scope ""$($GPRegistryFilePath[$Scope])"" /q"
+                RedirectStandardOutput = $LgpoTxtFilePath
+            }
+            Start-Process -Wait -NoNewWindow @StartProcessParam
 
             $LgpoContent = Get-Content -Raw -Path $LgpoTxtFilePath
             $LgpoNewContent = $LgpoContent -replace '(?:.+\r?\n){3}DELETE'
@@ -45,7 +50,11 @@ function Remove-GroupPolicyNotConfiguredEnforcement
             {
                 $LgpoNewContent | Out-File -FilePath $LgpoTxtFilePath
                 Write-Verbose -Message "Removing 'DELETE command(s)' from Registry Policy file: $($GPRegistryFilePath[$Scope])"
-                lgpo.exe /r $LgpoTxtFilePath /w $GPRegistryFilePath[$Scope] /q
+                $StartProcessParam = @{
+                    FilePath     = 'lgpo.exe'
+                    ArgumentList = "/r ""$LgpoTxtFilePath"" /w ""$($GPRegistryFilePath[$Scope])"" /q"
+                }
+                Start-Process -Wait -NoNewWindow @StartProcessParam
             }
 
             Remove-Item -Path $LgpoTxtFilePath

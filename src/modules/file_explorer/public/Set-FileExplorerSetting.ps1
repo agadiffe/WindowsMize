@@ -8,9 +8,9 @@
 
         # General
         [-LaunchTo {ThisPC | Home | Downloads | OneDrive}]
-        [-OpenFolder {SameWindow | NewWindow}]
+        [-OpenFolderMode {SameWindow | NewWindow}]
         [-OpenFolderInNewTab {Disabled | Enabled}]
-        [-OpenItem {SingleClick | DoubleClick}]
+        [-OpenItemMode {SingleClick | DoubleClick}]
         [-ShowRecentFiles {Disabled | Enabled}]
         [-ShowFrequentFolders {Disabled | Enabled}]
         [-ShowCloudFiles {Disabled | Enabled}]
@@ -30,7 +30,7 @@
         [-HideProtectedSystemFiles {Disabled | Enabled}]
         [-LaunchFolderInSeparateProcess {Disabled | Enabled}]
         [-RestorePreviousFoldersAtLogon {Disabled | Enabled}]
-        [-ShowDriveLetters {Disabled | AfterDriveName | BeforeDriveName}]
+        [-DriveLetterDisplayMode {Disabled | AfterDriveName | BeforeDriveName}]
         [-ShowPreviewHandlers {Disabled | Enabled}]
         [-ShowStatusBar {Disabled | Enabled}]
         [-ColorEncryptedAndCompressedFiles {Disabled | Enabled}]
@@ -38,7 +38,7 @@
         [-ShowSyncProviderNotifications {Disabled | Enabled}]
         [-ItemsCheckBoxes {Disabled | Enabled}]
         [-SharingWizard {Disabled | Enabled}]
-        [-TypingIntoListViewBehavior {SelectItemInView | AutoTypeInSearchBox}]
+        [-TypingIntoListViewMode {SelectItemInView | AutoTypeInSearchBox}]
         [-ShowCloudStatesOnNavPane {Disabled | Enabled}]
         [-ExpandToCurrentFolder {Disabled | Enabled}]
         [-ShowAllFolders {Disabled | Enabled}]
@@ -56,7 +56,7 @@
         [-ShowHome {Disabled | Enabled}]
         [-ShowGallery {Disabled | Enabled}]
         [-ShowRemovableDrivesOnlyInThisPC {Disabled | Enabled}]
-        [-MaxIconCacheSize <int>]
+        [-MaxIconCacheSizeKB <int>]
         [-AutoFolderTypeDetection {Disabled | Enabled}]
         [-UndoRedo {Disabled | Enabled}]
         [-ConfirmFileDelete {Disabled | Enabled}]
@@ -81,9 +81,9 @@ function Set-FileExplorerSetting
     (
         # General
         [LaunchTo] $LaunchTo,
-        [OpenFolderMode] $OpenFolder,
+        [OpenFolderMode] $OpenFolderMode,
         [state] $OpenFolderInNewTab,
-        [OpenItemMode] $OpenItem,
+        [OpenItemMode] $OpenItemMode,
         [state] $ShowRecentFiles,
         [state] $ShowFrequentFolders,
         [state] $ShowCloudFiles,
@@ -103,7 +103,7 @@ function Set-FileExplorerSetting
         [state] $HideProtectedSystemFiles,
         [state] $LaunchFolderInSeparateProcess,
         [state] $RestorePreviousFoldersAtLogon,
-        [DriveLettersMode] $ShowDriveLetters,
+        [DriveLettersMode] $DriveLetterDisplayMode,
         [state] $ShowPreviewHandlers,
         [state] $ShowStatusBar,
         [state] $ColorEncryptedAndCompressedFiles,
@@ -111,7 +111,7 @@ function Set-FileExplorerSetting
         [state] $ShowSyncProviderNotifications,
         [state] $ItemsCheckBoxes,
         [state] $SharingWizard,
-        [TypingIntoListViewMode] $TypingIntoListViewBehavior,
+        [TypingIntoListViewMode] $TypingIntoListViewMode,
 
         [state] $ShowCloudStatesOnNavPane,
         [state] $ExpandToCurrentFolder,
@@ -130,7 +130,7 @@ function Set-FileExplorerSetting
         [state] $ShowHome,
         [state] $ShowGallery,
         [state] $ShowRemovableDrivesOnlyInThisPC,
-        [int] $MaxIconCacheSize,
+        [int] $MaxIconCacheSizeKB,
         [state] $AutoFolderTypeDetection,
         [state] $UndoRedo,
         [state] $ConfirmFileDelete,
@@ -150,10 +150,10 @@ function Set-FileExplorerSetting
         switch ($PSBoundParameters.Keys)
         {
             # General
-            'LaunchTo'                         { Set-FileExplorerLaunchTo -Value $LaunchTo }
-            'OpenFolder'                       { Set-FileExplorerOpenFolder -Value $OpenFolder }
+            'LaunchTo'                         { Set-FileExplorerLaunchTo -LaunchTo $LaunchTo }
+            'OpenFolderMode'                   { Set-FileExplorerOpenFolder -Mode $OpenFolderMode }
             'OpenFolderInNewTab'               { Set-FileExplorerOpenFolderInNewTab -State $OpenFolderInNewTab }
-            'OpenItem'                         { Set-FileExplorerOpenItem -Value $OpenItem }
+            'OpenItemMode'                     { Set-FileExplorerOpenItem -ClickMode $OpenItemMode }
             'ShowRecentFiles'                  { Set-FileExplorerShowRecentFiles -State $ShowRecentFiles }
             'ShowFrequentFolders'              { Set-FileExplorerShowFrequentFolders -State $ShowFrequentFolders }
             'ShowCloudFiles'                   { Set-FileExplorerShowCloudFiles -State $ShowCloudFiles }
@@ -173,7 +173,7 @@ function Set-FileExplorerSetting
             'HideProtectedSystemFiles'         { Set-FileExplorerHideProtectedSystemFiles -State $HideProtectedSystemFiles }
             'LaunchFolderInSeparateProcess'    { Set-FileExplorerLaunchFolderInSeparateProcess -State $LaunchFolderInSeparateProcess }
             'RestorePreviousFoldersAtLogon'    { Set-FileExplorerRestorePreviousFoldersAtLogon -State $RestorePreviousFoldersAtLogon }
-            'ShowDriveLetters'                 { Set-FileExplorerShowDriveLetters -State $ShowDriveLetters }
+            'DriveLetterDisplayMode'           { Set-FileExplorerShowDriveLetters -Mode $DriveLetterDisplayMode }
             'ShowPreviewHandlers'              { Set-FileExplorerShowPreviewHandlers -State $ShowPreviewHandlers }
             'ShowStatusBar'                    { Set-FileExplorerShowStatusBar -State $ShowStatusBar }
             'ColorEncryptedAndCompressedFiles' { Set-FileExplorerColorEncryptedAndCompressedFiles -State $ColorEncryptedAndCompressedFiles }
@@ -181,7 +181,7 @@ function Set-FileExplorerSetting
             'ShowSyncProviderNotifications'    { Set-FileExplorerShowSyncProviderNotifications -State $ShowSyncProviderNotifications }
             'ItemsCheckBoxes'                  { Set-FileExplorerItemsCheckBoxes -State $ItemsCheckBoxes }
             'SharingWizard'                    { Set-FileExplorerSharingWizard -State $SharingWizard }
-            'TypingIntoListViewBehavior'       { Set-FileExplorerTypingIntoListViewBehavior -Value $TypingIntoListViewBehavior }
+            'TypingIntoListViewMode'           { Set-FileExplorerTypingIntoListViewBehavior -Mode $TypingIntoListViewMode }
 
             'ShowCloudStatesOnNavPane'         { Set-FileExplorerShowCloudStatesOnNavPane -State $ShowCloudStatesOnNavPane }
             'ExpandToCurrentFolder'            { Set-FileExplorerExpandToCurrentFolder -State $ExpandToCurrentFolder }
@@ -200,7 +200,7 @@ function Set-FileExplorerSetting
             'ShowHome'                         { Set-FileExplorerShowHome -State $ShowHome }
             'ShowGallery'                      { Set-FileExplorerShowGallery -State $ShowGallery }
             'ShowRemovableDrivesOnlyInThisPC'  { Set-FileExplorerShowRemovableDrivesOnlyInThisPC -State $ShowRemovableDrivesOnlyInThisPC }
-            'MaxIconCacheSize'                 { Set-FileExplorerMaxIconCacheSize -Value $MaxIconCacheSize }
+            'MaxIconCacheSizeKB'               { Set-FileExplorerMaxIconCacheSize -KB $MaxIconCacheSizeKB }
             'AutoFolderTypeDetection'          { Set-FileExplorerAutoFolderTypeDetection -State $AutoFolderTypeDetection }
             'UndoRedo'                         { Set-FileExplorerUndoRedo -State $UndoRedo }
             'ConfirmFileDelete'                { Set-RecycleBinConfirmFileDelete -State $ConfirmFileDelete }

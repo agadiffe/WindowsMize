@@ -15,7 +15,7 @@ function Set-TaskbarShareAnyWindow
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarShareAnyWindow -Value 'None'
+        PS> Set-TaskbarShareAnyWindow -State 'Disabled'
     #>
 
     [CmdletBinding()]

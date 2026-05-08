@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-BackgroundWallpaperStyle
-        [-Value] {Fill | Fit | Stretch | Span | Tile | Center}
+        [-Style] {Fill | Fit | Stretch | Span | Tile | Center}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-BackgroundWallpaperStyle
 {
     <#
     .EXAMPLE
-        PS> Set-BackgroundWallpaperStyle -Value 'Fill'
+        PS> Set-BackgroundWallpaperStyle -Style 'Fill'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [WallpaperFitMode] $Value
+        [WallpaperFitMode] $Style
     )
 
     process
@@ -32,18 +32,18 @@ function Set-BackgroundWallpaperStyle
             Entries = @(
                 @{
                     Name  = 'WallpaperStyle'
-                    Value = [int]$Value
+                    Value = [int]$Style
                     Type  = 'String'
                 }
                 @{
                     Name  = 'TileWallpaper'
-                    Value = $Value -eq 'Tile' ? '1' : '0'
+                    Value = $Style -eq 'Tile' ? '1' : '0'
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Background Picture - Choose A Fit For Your Desktop Image' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Background Picture - Choose A Fit For Your Desktop Image' to '$Style' ..."
         Set-RegistryEntry -InputObject $BackgroundWallpaperStyle
     }
 }

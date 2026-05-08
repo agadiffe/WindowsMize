@@ -72,12 +72,12 @@ function Set-StorageSenseSetting
 
             'StorageSense'                     { Set-StorageSense -State $StorageSense }
             'StorageSenseGPO'                  { Set-StorageSense -GPO $StorageSenseGPO }
-            'Schedule'                         { Set-StorageSenseSchedule -Value $Schedule }
+            'Schedule'                         { Set-StorageSenseSchedule -Schedule $Schedule }
             'ScheduleGPO'                      { Set-StorageSenseSchedule -GPO $ScheduleGPO }
-            'RecycleBinRetentionDays'          { Set-StorageSenseRecycleBinRetentionDays -Value $RecycleBinRetentionDays }
-            'RecycleBinRetentionDaysGPO'       { Set-StorageSenseRecycleBinRetentionDays -GPO $RecycleBinRetentionDaysGPO }
-            'DownloadsFolderRetentionDays'     { Set-StorageSenseDownloadsFolderRetentionDays -Value $DownloadsFolderRetentionDays }
-            'DownloadsFolderRetentionDaysGPO'  { Set-StorageSenseDownloadsFolderRetentionDays -GPO $DownloadsFolderRetentionDaysGPO }
+            'RecycleBinRetentionDays'          { Set-StorageSenseRecycleBinRetention -Days $RecycleBinRetentionDays }
+            'RecycleBinRetentionDaysGPO'       { Set-StorageSenseRecycleBinRetention -GPO $RecycleBinRetentionDaysGPO }
+            'DownloadsFolderRetentionDays'     { Set-StorageSenseDownloadsFolderRetention -Days $DownloadsFolderRetentionDays }
+            'DownloadsFolderRetentionDaysGPO'  { Set-StorageSenseDownloadsFolderRetention -GPO $DownloadsFolderRetentionDaysGPO }
         }
     }
 }

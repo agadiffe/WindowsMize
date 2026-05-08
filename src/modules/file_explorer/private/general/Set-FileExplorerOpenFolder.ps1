@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-FileExplorerOpenFolder
-        [-Value] {SameWindow | NewWindow}
+        [-Mode] {SameWindow | NewWindow}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-FileExplorerOpenFolder
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerOpenFolder -Value 'SameWindow'
+        PS> Set-FileExplorerOpenFolder -Mode 'SameWindow'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [OpenFolderMode] $Value
+        [OpenFolderMode] $Mode
     )
 
     process
@@ -29,7 +29,7 @@ function Set-FileExplorerOpenFolder
 
         $SettingRegPath = 'Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState'
         $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'Settings'
-        Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 6 -State ($Value -eq 'NewWindow')
+        Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 6 -State ($Mode -eq 'NewWindow')
 
         $OpenFolder = @{
             Hive    = 'HKEY_CURRENT_USER'
@@ -43,7 +43,7 @@ function Set-FileExplorerOpenFolder
             )
         }
 
-        Write-Verbose -Message "Setting 'File Explorer - Open Each Folder In Same/New Window' to '$Value' ..."
+        Write-Verbose -Message "Setting 'File Explorer - Open Each Folder In Same/New Window' to '$Mode' ..."
         Set-RegistryEntry -InputObject $OpenFolder
     }
 }

@@ -25,7 +25,8 @@ function Remove-CapabilityConsentStorageDatabase
                 'lfsvc'  # Geolocation Service
                 'camsvc' # Capability Access Manager Service
             )
-            Stop-Service -Name `$ServicesToStop -Force -ErrorAction 'SilentlyContinue'
+            `$Services = Stop-Service -Name `$ServicesToStop -Force -PassThru -ErrorAction 'SilentlyContinue'
+            `$Services.WaitForStatus('Stopped', [TimeSpan]::FromSeconds(3))
 
             `$MaxRetries = 30
             `$RetryCount = 0

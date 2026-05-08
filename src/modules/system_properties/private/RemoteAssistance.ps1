@@ -4,36 +4,36 @@
 
 <#
 .SYNTAX
-    Set-RemoteAssistanceState
-        [-State] {Disabled | FullControl | ViewOnly}
+    Set-RemoteAssistanceAccess
+        [-Access] {Disabled | FullControl | ViewOnly}
         [[-InvitationMaxTime] <int>]
         [[-InvitationMaxTimeUnit] {Minutes | Hours | Days}]
         [-EncryptedOnly {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
-function Set-RemoteAssistanceState
+function Set-RemoteAssistanceAccess
 {
     <#
     .EXAMPLE
-        PS> Set-RemoteAssistanceState -State 'Disabled'
+        PS> Set-RemoteAssistanceAccess -Access 'Disabled'
 
     .EXAMPLE
         PS> $RemoteAssistanceProperties = @{
-                State                 = 'Enabled'
+                Access                = 'ViewOnly'
                 InvitationMaxTime     = 42
                 InvitationMaxTimeUnit = 'Minutes'
                 InvitationMethod      = 'SimpleMAPI'
                 EncryptedOnly         = 'Enabled'
             }
-        PS> Set-RemoteAssistanceState @RemoteAssistanceProperties
+        PS> Set-RemoteAssistanceAccess @RemoteAssistanceProperties
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Mandatory, Position = 0)]
-        [RemoteAssistanceState] $State,
+        [RemoteAssistanceAccess] $Access,
 
         [Parameter(Position = 1)]
         [ValidateRange(1, 99)]
@@ -47,7 +47,7 @@ function Set-RemoteAssistanceState
 
     process
     {
-        $GetHelp, $FullControl = switch ($State)
+        $GetHelp, $FullControl = switch ($Access)
         {
             'Disabled'    { '0', '0' }
             'FullControl' { '1', '1' }
@@ -72,13 +72,15 @@ function Set-RemoteAssistanceState
             )
         }
 
-        Write-Verbose -Message "Setting 'Remote Assistance' to '$State' ..."
+        Write-Verbose -Message "Setting 'Remote Assistance' to '$Access' ..."
         Set-RegistryEntry -InputObject $RemoteAssistance
 
-        Write-Verbose -Message "  set 'Firewall rules (group: @FirewallAPI.dll,-33002)' to '$State'"
-        Set-NetFirewallRule -Group '@FirewallAPI.dll,-33002' -Enabled ($State -ne 'Disabled' ? 'True' : 'False')
+        $IsAccessDisabled = $Access -eq 'Disabled'
+        $FirewallState = $IsAccessDisabled ? 'Disabled' : 'Enabled'
+        Write-Verbose -Message "  set 'Firewall rules (group: @FirewallAPI.dll,-33002)' to '$FirewallState'"
+        Set-NetFirewallRule -Group '@FirewallAPI.dll,-33002' -Enabled ($IsAccessDisabled ? 'False' : 'True')
 
-        if ($State -ne 'Disabled')
+        if (-not $IsAccessDisabled)
         {
             # CreateEncryptedOnlyTickets\ on: 1 | off: 0 (default)
             # MaxTicketExpiry\ default: 6 (range 1-99)
@@ -94,7 +96,7 @@ function Set-RemoteAssistanceState
                     }
                     @{
                         Name  = 'MaxTicketExpiry'
-                        Value = [string]$InvitationMaxTime
+                        Value = $InvitationMaxTime
                         Type  = 'DWord'
                     }
                     @{
@@ -105,8 +107,8 @@ function Set-RemoteAssistanceState
                 )
             }
 
-            $InvitationState = "$InvitationMaxTime $InvitationMaxTimeUnit (EncryptedOnly: $EncryptedOnly)'"
-            Write-Verbose -Message "Setting 'Remote Assistance Invitations' to '$InvitationState' ..."
+            $InvitationMsg = "$InvitationMaxTime $InvitationMaxTimeUnit (EncryptedOnly: $EncryptedOnly)'"
+            Write-Verbose -Message "Setting 'Remote Assistance Invitations' to '$InvitationMsg' ..."
             Set-RegistryEntry -InputObject $RemoteAssistanceInvitations
         }
     }
@@ -115,8 +117,8 @@ function Set-RemoteAssistanceState
 
 <#
 .SYNTAX
-    Set-RemoteAssistanceGpo
-        [-State] {Disabled | FullControl | ViewOnly | NotConfigured}
+    Set-RemoteAssistancePolicy
+        [-GPO] {Disabled | FullControl | ViewOnly | NotConfigured}
         [[-InvitationMaxTime] <int>]
         [[-InvitationMaxTimeUnit] {Minutes | Hours | Days}]
         [[-InvitationMethod] {SimpleMAPI | Mailto}]
@@ -124,28 +126,28 @@ function Set-RemoteAssistanceState
         [<CommonParameters>]
 #>
 
-function Set-RemoteAssistanceGpo
+function Set-RemoteAssistancePolicy
 {
     <#
     .EXAMPLE
-        PS> Set-RemoteAssistanceGpo -State 'Disabled'
+        PS> Set-RemoteAssistancePolicy -GPO 'Disabled'
 
     .EXAMPLE
         PS> $RemoteAssistanceGpoProperties = @{
-                State                 = 'Enabled'
+                GPO                   = 'ViewOnly'
                 InvitationMaxTime     = 42
                 InvitationMaxTimeUnit = 'Minutes'
                 InvitationMethod      = 'SimpleMAPI'
                 EncryptedOnly         = 'Enabled'
             }
-        PS> Set-RemoteAssistanceGpo @RemoteAssistanceGpoProperties
+        PS> Set-RemoteAssistancePolicy @RemoteAssistanceGpoProperties
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Mandatory, Position = 0)]
-        [RemoteAssistanceGpoState] $State,
+        [RemoteAssistanceGpoAccess] $GPO,
 
         [Parameter(Position = 1)]
         [ValidateRange(1, 99)]
@@ -162,8 +164,8 @@ function Set-RemoteAssistanceGpo
 
     process
     {
-        $IsDisabledOrNotConfigured = @('Disabled', 'NotConfigured') -contains $State
-        $GetHelp, $FullControl = switch ($State)
+        $IsDisabledOrNotConfigured = @('Disabled', 'NotConfigured') -contains $GPO
+        $GetHelp, $FullControl = switch ($GPO)
         {
             'Disabled'    { '0', '0' }
             'FullControl' { '1', '1' }
@@ -184,7 +186,7 @@ function Set-RemoteAssistanceGpo
             Path    = 'SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
             Entries = @(
                 @{
-                    RemoveEntry = $State -eq 'NotConfigured' -and $State -ne 'Disabled'
+                    RemoveEntry = $GPO -eq 'NotConfigured'
                     Name  = 'fAllowToGetHelp'
                     Value = $GetHelp
                     Type  = 'DWord'
@@ -198,7 +200,7 @@ function Set-RemoteAssistanceGpo
                 @{
                     RemoveEntry = $IsDisabledOrNotConfigured
                     Name  = 'MaxTicketExpiry'
-                    Value = [string]$InvitationMaxTime
+                    Value = $InvitationMaxTime
                     Type  = 'DWord'
                 }
                 @{
@@ -216,7 +218,7 @@ function Set-RemoteAssistanceGpo
             )
         }
 
-        Write-Verbose -Message "Setting 'Remote Assistance (GPO)' to '$State' ..."
+        Write-Verbose -Message "Setting 'Remote Assistance (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $RemoteAssistanceGpo
 
 

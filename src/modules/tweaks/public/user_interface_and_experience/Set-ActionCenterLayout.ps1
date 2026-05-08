@@ -7,9 +7,9 @@
 <#
 .SYNTAX
     Set-ActionCenterLayout
-        [-Value] {WiFi | Bluetooth | Cellular | WindowsStudio | AirplaneMode | Accessibility | Vpn |
-                 RotationLock | BatterySaver | EnergySaverAcOnly | LiveCaptions | BlueLightReduction |
-                 MobileHotspot | NearShare | ColorProfile | Cast | ProjectL2 | LocalBluetooth}
+        [-QuickAction] {WiFi | Bluetooth | Cellular | WindowsStudio | AirplaneMode | Accessibility | Vpn |
+                        RotationLock | BatterySaver | EnergySaverAcOnly | LiveCaptions | BlueLightReduction |
+                        MobileHotspot | NearShare | ColorProfile | Cast | ProjectL2 | LocalBluetooth}
         [<CommonParameters>]
 
     Set-ActionCenterLayout
@@ -29,7 +29,7 @@ function Set-ActionCenterLayout
                 'EnergySaverAcOnly'
                 ...
             )
-        PS> Set-ActionCenterLayout -Value $ActionCenterLayout
+        PS> Set-ActionCenterLayout -QuickAction $ActionCenterLayout
 
     .EXAMPLE
         PS> Set-ActionCenterLayout -Reset
@@ -58,7 +58,7 @@ function Set-ActionCenterLayout
             'Cast',
             'ProjectL2',
             'LocalBluetooth')]
-        [string[]] $Value,
+        [string[]] $QuickAction,
 
         [Parameter(Mandatory, ParameterSetName = 'Reset')]
         [switch] $Reset
@@ -86,12 +86,11 @@ function Set-ActionCenterLayout
         )
 
         # There is 'Microsoft.QuickAction.A9' that should be in last position.
-        # Don't know what it is used for.
         # It will be automatically added by Windows if the value is missing.
-        foreach ($QuickAction in $Value)
+        foreach ($Item in $QuickAction)
         {
             $LayoutValue[0]['QuickActions'].Add([PSCustomObject]@{
-                FriendlyName = "Microsoft.QuickAction.$QuickAction"
+                FriendlyName = "Microsoft.QuickAction.$Item"
             }) | Out-Null
         }
 

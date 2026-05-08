@@ -23,7 +23,7 @@
         [<CommonParameters>]
 
     Set-SystemRestore
-        [-AllDrivesDisabled]
+        [-DisableForAllDrives]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -35,7 +35,7 @@ function Set-SystemRestore
         PS> Set-SystemRestore -Drive $env:SystemDrive -State 'Disabled'
 
     .EXAMPLE
-        PS> Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+        PS> Set-SystemRestore -DisableForAllDrives -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'SelectDrive')]
@@ -55,7 +55,7 @@ function Set-SystemRestore
         [state] $State,
 
         [Parameter(ParameterSetName = 'AllDrives')]
-        [switch] $AllDrivesDisabled,
+        [switch] $DisableForAllDrives,
 
         [Parameter(ParameterSetName = 'AllDrives')]
         [GpoStateWithoutEnabled] $GPO
@@ -77,7 +77,7 @@ function Set-SystemRestore
             }
             'AllDrives'
             {
-                if ($AllDrivesDisabled)
+                if ($DisableForAllDrives)
                 {
                     # off: delete 0
                     $SystemRestore = @(

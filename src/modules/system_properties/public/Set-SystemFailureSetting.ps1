@@ -55,7 +55,7 @@ function Set-SystemFailureSetting
         {
             'WriteEventToSystemLog'              { Set-SystemFailureWriteEventToSystemLog -State $WriteEventToSystemLog }
             'AutoRestart'                        { Set-SystemFailureAutoRestart -State $AutoRestart }
-            'WriteDebugInfo'                     { Set-SystemFailureWriteDebugInfo -Value $WriteDebugInfo }
+            'WriteDebugInfo'                     { Set-SystemFailureWriteDebugInfo -DumpType $WriteDebugInfo }
             'OverwriteExistingDebugFile'         { Set-SystemFailureOverwriteExistingDebugFile -State $OverwriteExistingDebugFile }
             'AlwaysKeepMemoryDumpOnLowDiskSpace' { Set-SystemFailureAlwaysKeepMemoryDump -State $AlwaysKeepMemoryDumpOnLowDiskSpace }
         }

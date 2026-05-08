@@ -50,10 +50,10 @@ function Set-MultitaskingSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'ShowAppsTabsOnSnapAndAltTab'    { Set-MultitaskingShowAppsTabsOnSnapAndAltTab -State $ShowAppsTabsOnSnapAndAltTab }
+            'ShowAppsTabsOnSnapAndAltTab'    { Set-MultitaskingShowAppsTabsOnSnapAndAltTab -Mode $ShowAppsTabsOnSnapAndAltTab }
             'ShowAppsTabsOnSnapAndAltTabGPO' { Set-MultitaskingShowAppsTabsOnSnapAndAltTab -GPO $ShowAppsTabsOnSnapAndAltTabGPO }
-            'ShowAllWindowsOnTaskbar'        { Set-VirtualDesktopShowAllWindowsOnTaskbar -Value $ShowAllWindowsOnTaskbar }
-            'ShowAllWindowsOnAltTab'         { Set-VirtualDesktopShowAllWindowsOnAltTab -Value $ShowAllWindowsOnAltTab }
+            'ShowAllWindowsOnTaskbar'        { Set-VirtualDesktopShowAllWindowsOnTaskbar -Scope $ShowAllWindowsOnTaskbar }
+            'ShowAllWindowsOnAltTab'         { Set-VirtualDesktopShowAllWindowsOnAltTab -Scope $ShowAllWindowsOnAltTab }
             'TitleBarWindowShake'            { Set-TitleBarWindowShake -State $TitleBarWindowShake }
             'TitleBarWindowShakeGPO'         { Set-TitleBarWindowShake -GPO $TitleBarWindowShakeGPO }
             'DropTray'                       { Set-MultitaskingDropTray -State $DropTray }

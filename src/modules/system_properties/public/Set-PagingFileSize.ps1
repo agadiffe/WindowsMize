@@ -22,13 +22,13 @@
 .SYNTAX
     Set-PagingFileSize
         [-Drive] <string[]>
-        [-State] {CustomSize | SystemManaged | NoPagingFile}
-        -InitialSize <int>
-        -MaximumSize <int>
+        [-Management] {CustomSize | SystemManaged | NoPagingFile}
+        -InitialSizeMB <int>
+        -MaximumSizeMB <int>
         [<CommonParameters>]
 
     Set-PagingFileSize
-        -AllDrivesAutoManaged {Disabled | Enabled}
+        -AutoManageAllDrives {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
@@ -37,19 +37,19 @@ function Set-PagingFileSize
     <#
     .DESCRIPTION
         Dynamic parameters:
-            -InitialSize <int> & -MaximumSize <int> : available when 'State' is defined to 'CustomSize'.
+            -InitialSizeMB <int> & -MaximumSizeMB <int> : available when 'Management' is defined to 'CustomSize'.
 
     .EXAMPLE
-        PS> Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 512 -MaximumSize 2048
+        PS> Set-PagingFileSize -Drive $env:SystemDrive -Management 'CustomSize' -InitialSizeMB 512 -MaximumSizeMB 2048
 
     .EXAMPLE
-        PS> Set-PagingFileSize -Drive 'X:', 'Y:' -State 'NoPagingFile'
+        PS> Set-PagingFileSize -Drive 'X:', 'Y:' -Management 'NoPagingFile'
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'State')]
+    [CmdletBinding(DefaultParameterSetName = 'Management')]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'State')]
+        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Management')]
         [ValidatePattern(
             '^[A-Za-z]:\\?$',
             ErrorMessage = 'Drive format must be a letter followed by a colon, ' +
@@ -59,19 +59,19 @@ function Set-PagingFileSize
             ErrorMessage = 'The specified drive does not exist or is not accessible.')]
         [string[]] $Drive,
 
-        [Parameter(Mandatory, Position = 1, ParameterSetName = 'State')]
+        [Parameter(Mandatory, Position = 1, ParameterSetName = 'Management')]
         [ValidateSet('CustomSize', 'SystemManaged', 'NoPagingFile')]
-        [string] $State,
+        [string] $Management,
 
-        [Parameter(Mandatory, ParameterSetName = 'AllDrivesAutoManaged')]
-        [state] $AllDrivesAutoManaged
+        [Parameter(Mandatory, ParameterSetName = 'AutoManageAllDrives')]
+        [state] $AutoManageAllDrives
     )
 
     dynamicparam
     {
-        if ($State -eq 'CustomSize')
+        if ($Management -eq 'CustomSize')
         {
-            $DynParameter = 'InitialSize', 'MaximumSize'
+            $DynParameter = 'InitialSizeMB', 'MaximumSizeMB'
 
             $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
             $DynParameter | ForEach-Object -Process {
@@ -80,7 +80,7 @@ function Set-PagingFileSize
                     Name       = $_
                     Type       = [int]
                     Attribute  = @{
-                        Parameter     = @{ Mandatory = $true; ParameterSetName = 'State' }
+                        Parameter     = @{ Mandatory = $true; ParameterSetName = 'Management' }
                         ValidateRange = 'NonNegative'
                     }
                 }
@@ -92,33 +92,32 @@ function Set-PagingFileSize
 
     process
     {
-        if ($State -eq 'CustomSize')
+        if ($Management -eq 'CustomSize')
         {
-            $AllDrivesAutoManaged = 'Disabled'
-            $InitialSize = $PSBoundParameters['InitialSize']
-            $MaximumSize = $PSBoundParameters['MaximumSize']
+            $AutoManageAllDrives = 'Disabled'
+            $InitialSizeMB = $PSBoundParameters['InitialSizeMB']
+            $MaximumSizeMB = $PSBoundParameters['MaximumSizeMB']
 
-            # [ValidateScript({ $_ -ge $InitialSize })] does not work if $InitialSize is defined after $MaximumSize
-            if ($MaximumSize -lt $InitialSize)
+            if ($MaximumSizeMB -lt $InitialSizeMB)
             {
-                Write-Error -Message 'MaximumSize must be greater than or equal to InitialSize.'
+                Write-Error -Message 'MaximumSizeMB must be greater than or equal to InitialSizeMB.'
                 return
             }
         }
 
-        Write-Verbose -Message "Setting 'All Drives AutoManaged Paging File Size' to '$AllDrivesAutoManaged'"
+        Write-Verbose -Message "Setting 'All Drives AutoManaged Paging File Size' to '$AutoManageAllDrives'"
 
         $ComputerSystem = Get-CimInstance -ClassName 'Win32_ComputerSystem' -Verbose:$false
-        $ComputerSystem.AutomaticManagedPagefile = $AllDrivesAutoManaged -eq 'Enabled'
+        $ComputerSystem.AutomaticManagedPagefile = $AutoManageAllDrives -eq 'Enabled'
         Set-CimInstance -InputObject $ComputerSystem -Verbose:$false
 
-        if ($PSCmdlet.ParameterSetName -eq 'State')
+        if ($PSCmdlet.ParameterSetName -eq 'Management')
         {
-            $StateMsg = $State -eq 'CustomSize' ? "$InitialSize MB / $MaximumSize MB" : $State
+            $ManagementMsg = $Management -eq 'CustomSize' ? "$InitialSizeMB MB / $MaximumSizeMB MB" : $Management
 
             foreach ($DriveLetter in $Drive)
             {
-                Write-Verbose -Message "Setting 'Paging File Size' for drive '$DriveLetter' to '$StateMsg' ..."
+                Write-Verbose -Message "Setting 'Paging File Size' for drive '$DriveLetter' to '$ManagementMsg' ..."
 
                 $DriveLetter = $DriveLetter.Replace('\', '')
 
@@ -128,7 +127,7 @@ function Set-PagingFileSize
                 }
                 $PagingFileSetting = Get-CimInstance @PagingFileProperties -Verbose:$false
 
-                if ($State -eq 'NoPagingFile')
+                if ($Management -eq 'NoPagingFile')
                 {
                     if ($PagingFileSetting)
                     {
@@ -146,13 +145,13 @@ function Set-PagingFileSize
                         $PagingFileSetting = New-CimInstance @NewPagingFileProperties -Verbose:$false
                     }
 
-                    if ($State -eq 'SystemManaged')
+                    if ($Management -eq 'SystemManaged')
                     {
-                        $InitialSize = $MaximumSize = 0
+                        $InitialSizeMB = $MaximumSizeMB = 0
                     }
 
-                    $PagingFileSetting.InitialSize = $InitialSize
-                    $PagingFileSetting.MaximumSize = $MaximumSize
+                    $PagingFileSetting.InitialSize = $InitialSizeMB
+                    $PagingFileSetting.MaximumSize = $MaximumSizeMB
                     Set-CimInstance -InputObject $PagingFileSetting -Verbose:$false
                 }
             }

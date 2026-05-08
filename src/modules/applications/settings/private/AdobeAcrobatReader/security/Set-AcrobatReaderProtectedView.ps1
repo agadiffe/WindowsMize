@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AcrobatReaderProtectedView
-        [[-State] {Disabled | UnsafeLocationsFiles | AllFiles}]
+        [[-Mode] {Disabled | UnsafeLocationsFiles | AllFiles}]
         [-GPO {Disabled | UnsafeLocationsFiles | AllFiles | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-AcrobatReaderProtectedView
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderProtectedView -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-AcrobatReaderProtectedView -Mode 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [AdobeProtectedViewMode] $State,
+        [AdobeProtectedViewMode] $Mode,
 
         [AdobeProtectedViewModeGpo] $GPO
     )
@@ -32,7 +32,7 @@ function Set-AcrobatReaderProtectedView
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Mode'
             {
                 # off: 0 (default) | files from potentially unsafe locations: 1 | all files: 2
                 $AcrobatReaderProtectedView = @{
@@ -41,13 +41,13 @@ function Set-AcrobatReaderProtectedView
                     Entries = @(
                         @{
                             Name  = 'iProtectedView'
-                            Value = [int]$State
+                            Value = [int]$Mode
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$ProtectedViewMsg' to '$State' ..."
+                Write-Verbose -Message "Setting '$ProtectedViewMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $AcrobatReaderProtectedView
             }
             'GPO'

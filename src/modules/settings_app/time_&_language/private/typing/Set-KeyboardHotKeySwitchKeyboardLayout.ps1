@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-KeyboardHotKeySwitchKeyboardLayout
-        [-Value] {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}
+        [-Hotkey] {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}
         [<CommonParameters>]
 #>
 
@@ -15,14 +15,14 @@ function Set-KeyboardHotKeySwitchKeyboardLayout
 {
     <#
     .EXAMPLE
-        PS> Set-KeyboardHotKeySwitchKeyboardLayout -Value 'NotAssigned'
+        PS> Set-KeyboardHotKeySwitchKeyboardLayout -Hotkey 'NotAssigned'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [SwitchInputHotKeys] $Value
+        [SwitchInputHotKeys] $Hotkey
     )
 
     process
@@ -34,21 +34,21 @@ function Set-KeyboardHotKeySwitchKeyboardLayout
             Entries = @(
                 @{
                     Name  = 'Layout Hotkey'
-                    Value = [int]$Value
+                    Value = [int]$Hotkey
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Typing - Keyboard Input Language Hot Keys: Switch Keyboard Layout' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Typing - Keyboard Input Language Hot Keys: Switch Keyboard Layout' to '$Hotkey' ..."
         Set-RegistryEntry -InputObject $SwitchKeyboardLayoutHotkey
 
         $LanguageHotkey = Get-LoggedOnUserItemPropertyValue -Path 'Keyboard Layout\Toggle' -Name 'Language Hotkey'
-        if ($Value -ne 'NotAssigned' -and [int]$Value -eq $LanguageHotkey)
+        if ($Hotkey -ne 'NotAssigned' -and [int]$Hotkey -eq $LanguageHotkey)
         {
             Write-Verbose -Message ('  Hot key is also assigned to ''Switch Input Language''.' +
                                    ' Resetting ''Switch Input Language'' to ''NotAssigned''.')
-            Set-KeyboardHotKeySwitchInputLanguage -Value 'NotAssigned'
+            Set-KeyboardHotKeySwitchInputLanguage -Hotkey 'NotAssigned'
         }
     }
 }

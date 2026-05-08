@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-KeyboardHotkey
-        [-Value] <char>
+        [-Hotkey] <char>
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
@@ -18,7 +18,7 @@ function Set-KeyboardHotkey
         Also disable any combinaison of 'Windows + any + key'.
 
     .EXAMPLE
-        PS> Set-KeyboardHotkey -Value 'X' -State 'Disabled'
+        PS> Set-KeyboardHotkey -Hotkey 'X' -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,7 +26,7 @@ function Set-KeyboardHotkey
     (
         [Parameter(Mandatory, ValueFromPipeline)]
         [ValidatePattern('^[A-Za-z]$')]
-        [char] $Value,
+        [char] $Hotkey,
 
         [Parameter(Mandatory)]
         [ValidateSet('Disabled', 'Enabled')]
@@ -58,18 +58,18 @@ function Set-KeyboardHotkey
 
     process
     {
-        $Value = [char]::ToUpper($Value)
+        $Hotkey = [char]::ToUpper($Hotkey)
         switch ($State)
         {
             'Disabled'
             {
-                $DisabledHotkeysValue = $DisabledHotkeysValue.Replace("$Value", '')
+                $DisabledHotkeysValue = $DisabledHotkeysValue.Replace("$Hotkey", '')
             }
             'Enabled'
             {
-                if (-not $DisabledHotkeysValue.Contains($Value))
+                if (-not $DisabledHotkeysValue.Contains($Hotkey))
                 {
-                    $DisabledHotkeysValue += $Value
+                    $DisabledHotkeysValue += $Hotkey
                 }
             }
         }

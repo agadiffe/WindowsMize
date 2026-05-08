@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-PointInTimeRestoreFrequency
-        [-Value] {4 | 6 | 12 | 16 | 24}
+        [-Hours] {4 | 6 | 12 | 16 | 24}
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-PointInTimeRestoreFrequency
 {
     <#
     .EXAMPLE
-        PS> Set-PointInTimeRestoreFrequency -Value 24
+        PS> Set-PointInTimeRestoreFrequency -Hours 24
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-PointInTimeRestoreFrequency
     (
         [Parameter(Mandatory)]
         [ValidateSet(4, 6, 12, 16, 24)]
-        [int] $Value
+        [int] $Hours
     )
 
     process
@@ -33,13 +33,13 @@ function Set-PointInTimeRestoreFrequency
             Entries = @(
                 @{
                     Name  = 'SnapshotInterval_UX'
-                    Value = $Value * 60
+                    Value = $Hours * 60
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Recovery - Point-In-Time Restore: Restore Point Frequency' to '$Value hours' ..."
+        Write-Verbose -Message "Setting 'Recovery - Point-In-Time Restore: Restore Point Frequency' to '$Hours hours' ..."
         Set-RegistryEntry -InputObject $PointInTimeRestoreFrequency
     }
 }

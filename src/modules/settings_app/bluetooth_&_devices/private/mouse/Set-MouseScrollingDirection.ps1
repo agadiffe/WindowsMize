@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-MouseScrollingDirection
-        [-Value] {DownMotionScrollsDown | DownMotionScrollsUp}
+        [-Direction] {DownMotionScrollsDown | DownMotionScrollsUp}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-MouseScrollingDirection
 {
     <#
     .EXAMPLE
-        PS> Set-MouseScrollingDirection -Value 'DownMotionScrollsDown'
+        PS> Set-MouseScrollingDirection -Direction 'DownMotionScrollsDown'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [ScrollingDirectionMode] $Value
+        [ScrollingDirectionMode] $Direction
     )
 
     process
@@ -32,13 +32,13 @@ function Set-MouseScrollingDirection
             Entries = @(
                 @{
                     Name  = 'ReverseMouseWheelDirection'
-                    Value = $Value -eq 'DownMotionScrollsDown' ? '0' : '1'
+                    Value = $Direction -eq 'DownMotionScrollsDown' ? '0' : '1'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Mouse - Scrolling Direction' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Mouse - Scrolling Direction' to '$Direction' ..."
         Set-RegistryEntry -InputObject $MouseScrollingDirection
     }
 }

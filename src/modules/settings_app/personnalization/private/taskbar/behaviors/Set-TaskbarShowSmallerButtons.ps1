@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarShowSmallerButtons
-        [-Value] {Always | Never | WhenFull}
+        [-Preference] {Always | Never | WhenFull}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-TaskbarShowSmallerButtons
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarShowSmallerButtons -Value 'WhenFull'
+        PS> Set-TaskbarShowSmallerButtons -Preference 'WhenFull'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TaskbarSmallerButtonsMode] $Value
+        [TaskbarSmallerButtonsMode] $Preference
     )
 
     process
@@ -32,13 +32,13 @@ function Set-TaskbarShowSmallerButtons
             Entries = @(
                 @{
                     Name  = 'IconSizePreference'
-                    Value = [int]$Value
+                    Value = [int]$Preference
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar - Show Smaller Taskbar Buttons' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Taskbar - Show Smaller Taskbar Buttons' to '$Preference' ..."
         Set-RegistryEntry -InputObject $TaskbarSmallerButtons
     }
 }

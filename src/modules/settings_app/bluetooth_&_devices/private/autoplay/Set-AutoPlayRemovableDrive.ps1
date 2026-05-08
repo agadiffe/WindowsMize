@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AutoPlayRemovableDrive
-        [-Value] {Default | NoAction | OpenFolder | AskEveryTime}
+        [-Action] {Default | NoAction | OpenFolder | AskEveryTime}
         [<CommonParameters>]
 #>
 
@@ -13,26 +13,26 @@ function Set-AutoPlayRemovableDrive
 {
     <#
     .EXAMPLE
-        PS> Set-AutoPlayRemovableDrive -Value 'OpenFolder'
+        PS> Set-AutoPlayRemovableDrive -Action 'OpenFolder'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [AutoPlayMode] $Value
+        [AutoPlayMode] $Action
     )
 
     process
     {
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($Action)
         {
             'NoAction'     { 'MSTakeNoAction' }
             'OpenFolder'   { 'MSOpenFolder' }
             'AskEveryTime' { 'MSPromptEachTime' }
         }
 
-        $IsDefault = $Value -eq 'Default'
+        $IsDefault = $Action -eq 'Default'
 
         # Default: delete key (default) | NoAction: MSTakeNoAction | OpenFolder: MSOpenFolder | AskEveryTime: MSPromptEachTime
         $AutoPlayRemovableDrive = @(
@@ -62,7 +62,7 @@ function Set-AutoPlayRemovableDrive
             }
         )
 
-        Write-Verbose -Message "Setting 'AutoPlay Default - Removable Drive' to '$Value' ..."
+        Write-Verbose -Message "Setting 'AutoPlay Default - Removable Drive' to '$Action' ..."
         $AutoPlayRemovableDrive | Set-RegistryEntry
     }
 }

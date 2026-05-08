@@ -15,7 +15,7 @@
 
     Set-PowerSetting
         -PowerState {Screen | Sleep | Hibernate}
-        -Timeout <int>
+        -TimeoutMins <int>
         -PowerSource {PluggedIn | OnBattery}
         [<CommonParameters>]
 
@@ -36,7 +36,7 @@ function Set-PowerSetting
         PS> Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
 
     .EXAMPLE
-        PS> Set-PowerSetting -PowerState 'Sleep' -Timeout 10 -PowerSource 'PluggedIn'
+        PS> Set-PowerSetting -PowerState 'Sleep' -TimeoutMins 10 -PowerSource 'PluggedIn'
 
     .EXAMPLE
         PS> Set-PowerSetting -ButtonControls 'LidClose' -Action 'Sleep' -PowerSource 'OnBattery'
@@ -56,7 +56,7 @@ function Set-PowerSetting
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
         [ValidateRange('NonNegative')]
-        [int] $Timeout,
+        [int] $TimeoutMins,
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'ButtonControls')]
         [ButtonControls] $ButtonControls,
@@ -91,14 +91,14 @@ function Set-PowerSetting
             {
                 if ($PSBoundParameters.ContainsKey('PowerSource'))
                 {
-                    Set-PowerMode -Value $PowerMode -PowerSource $PowerSource
+                    Set-PowerMode -Mode $PowerMode -PowerSource $PowerSource
                 }
                 else
                 {
-                    Set-PowerMode -Value $PowerMode
+                    Set-PowerMode -Mode $PowerMode
                 }
             }
-            'PowerStateTimeout' { Set-PowerStateTimeout -Name $PowerState -Timeout $Timeout -PowerSource $PowerSource }
+            'PowerStateTimeout' { Set-PowerStateTimeout -Name $PowerState -TimeoutMins $TimeoutMins -PowerSource $PowerSource }
             'ButtonControls'    { Set-PowerButtonControls -Name $ButtonControls -Action $Action -PowerSource $PowerSource }
         }
     }

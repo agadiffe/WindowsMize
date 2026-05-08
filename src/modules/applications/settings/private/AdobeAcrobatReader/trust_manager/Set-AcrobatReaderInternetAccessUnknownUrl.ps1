@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AcrobatReaderInternetAccessUnknownUrl
-        [[-State] {Ask | Allow | Block}]
+        [[-Mode] {Ask | Allow | Block}]
         [-GPO {Ask | Allow | Block | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-AcrobatReaderInternetAccessUnknownUrl
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderInternetAccessUnknownUrl -State 'Ask' -GPO 'NotConfigured'
+        PS> Set-AcrobatReaderInternetAccessUnknownUrl -Mode 'Ask' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [AdobeInternetAccessUnknownUrlMode] $State,
+        [AdobeInternetAccessUnknownUrlMode] $Mode,
 
         [AdobeInternetAccessUnknownUrlModeGpo] $GPO
     )
@@ -32,7 +32,7 @@ function Set-AcrobatReaderInternetAccessUnknownUrl
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Mode'
             {
                 # ask: 1 (default)| on: 2 | off: 3
                 $AcrobatReaderInternetAccessUnknownUrl = @{
@@ -41,13 +41,13 @@ function Set-AcrobatReaderInternetAccessUnknownUrl
                     Entries = @(
                         @{
                             Name  = 'iUnknownURLPerms'
-                            Value = [int]$State
+                            Value = [int]$Mode
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$InternetAccessUnknownUrlMsg' to '$State' ..."
+                Write-Verbose -Message "Setting '$InternetAccessUnknownUrlMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $AcrobatReaderInternetAccessUnknownUrl
             }
             'GPO'

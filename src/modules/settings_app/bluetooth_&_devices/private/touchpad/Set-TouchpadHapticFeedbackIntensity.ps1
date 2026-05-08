@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TouchpadHapticFeedbackIntensity
-        [-Value] <int>
+        [-Intensity] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-TouchpadHapticFeedbackIntensity
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadHapticFeedbackIntensity -Value 3
+        PS> Set-TouchpadHapticFeedbackIntensity -Intensity 3
     #>
 
     [CmdletBinding()]
@@ -21,13 +21,13 @@ function Set-TouchpadHapticFeedbackIntensity
     (
         [Parameter(Mandatory)]
         [ValidateRange(1, 5)]
-        [int] $Value
+        [int] $Intensity
     )
 
     process
     {
         # GUI values: range 1-5
-        $SettingValue = ($Value - 1) * 25
+        $SettingValue = ($Intensity - 1) * 25
 
         # default: 50 (range 0-100)
         $TouchpadHapticFeedbackIntensity = @{
@@ -42,7 +42,7 @@ function Set-TouchpadHapticFeedbackIntensity
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Haptic Click Intensity' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Touchpad - Haptic Click Intensity' to '$Intensity' ..."
         Set-RegistryEntry -InputObject $TouchpadHapticFeedbackIntensity
     }
 }

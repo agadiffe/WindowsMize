@@ -111,7 +111,7 @@ function Set-WinUpdateSetting
             'DownloadOverMeteredConnectionsGPO' { Set-WinUpdateOverMeteredConnections -GPO $DownloadOverMeteredConnectionsGPO }
             'RestartNotification'               { Set-WinUpdateRestartNotification -State $RestartNotification }
             'RestartNotificationGPO'            { Set-WinUpdateRestartNotification -GPO $RestartNotificationGPO }
-            'DeliveryOptimization'              { Set-WinUpdateDeliveryOptimization -State $DeliveryOptimization }
+            'DeliveryOptimization'              { Set-WinUpdateDeliveryOptimization -Mode $DeliveryOptimization }
             'DeliveryOptimizationGPO'           { Set-WinUpdateDeliveryOptimization -GPO $DeliveryOptimizationGPO }
             'InsiderProgramPageVisibility'      { Set-WinUpdateInsiderProgramPageVisibility -State $InsiderProgramPageVisibility }
 

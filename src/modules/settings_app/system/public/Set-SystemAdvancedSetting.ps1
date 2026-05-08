@@ -47,7 +47,7 @@ function Set-SystemAdvancedSetting
             'EndTask'             { Set-TaskbarEndTask -State $EndTask }
             'ModernRunDialog'     { Set-ModernRunDialog -State $ModernRunDialog }
             'LongPaths'           { Set-LongPaths -State $LongPaths }
-            'Sudo'                { Set-SudoCommand -Value $Sudo }
+            'Sudo'                { Set-SudoCommand -Mode $Sudo }
             'MoreAgentConnectors' { Set-MoreAgentConnectors -State $MoreAgentConnectors }
         }
     }

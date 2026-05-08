@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-ThemesDesktopIcons
-        [-Value] {ThisPC | UserFiles | Network | RecycleBin | ControlPanel}
+        [-Icon] {ThisPC | UserFiles | Network | RecycleBin | ControlPanel}
         [<CommonParameters>]
 
     Set-ThemesDesktopIcons
@@ -17,17 +17,17 @@ function Set-ThemesDesktopIcons
 {
     <#
     .EXAMPLE
-        PS> Set-ThemesDesktopIcons -Value 'ThisPC', 'Network'
+        PS> Set-ThemesDesktopIcons -Icon 'ThisPC', 'Network'
 
     .EXAMPLE
         PS> Set-ThemesDesktopIcons -HideAll
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Value')]
+    [CmdletBinding(DefaultParameterSetName = 'Icon')]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Value')]
-        [DesktopIcons[]] $Value,
+        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Icon')]
+        [DesktopIcons[]] $Icon,
 
         [Parameter(Mandatory, ParameterSetName = 'Hide')]
         [switch] $HideAll
@@ -35,7 +35,7 @@ function Set-ThemesDesktopIcons
 
     process
     {
-        if ($PSCmdlet.ParameterSetName -eq 'Hide' -and $false -eq $HideAll)
+        if ($PSCmdlet.ParameterSetName -eq 'Hide' -and -not $HideAll)
         {
             return
         }
@@ -66,14 +66,14 @@ function Set-ThemesDesktopIcons
         {
             $DesktopIcon = @{
                 Name  = $DesktopIconGuid[$Key]
-                Value = $Value -contains $Key ? '0' : '1'
+                Value = $Icon -contains $Key ? '0' : '1'
                 Type  = 'DWord'
             }
             $ThemesDesktopIcons[0]['Entries'].Add($DesktopIcon) | Out-Null
         }
         $ThemesDesktopIcons[1]['Entries'] = $ThemesDesktopIcons[0]['Entries']
 
-        $DesktopIconsShown = $Value ? ($Value | Join-String -Separator ', ') : 'HideAll'
+        $DesktopIconsShown = $Icon ? ($Icon | Join-String -Separator ', ') : 'HideAll'
 
         Write-Verbose -Message "Setting 'Themes - Desktop Icons' to '$DesktopIconsShown' ..."
         $ThemesDesktopIcons | Set-RegistryEntry

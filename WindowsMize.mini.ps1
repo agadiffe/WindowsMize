@@ -710,9 +710,9 @@ Write-Section -Name 'File Explorer' -SubSection
 $FileExplorerSettings = @{
     # --- General
     LaunchTo               = 'Home' # ThisPC | Home | Downloads | OneDrive
-    #OpenFolder             = 'SameWindow' # SameWindow | NewWindow
+    #OpenFolderMode         = 'SameWindow' # SameWindow | NewWindow
     #OpenFolderInNewTab     = 'Enabled'
-    #OpenItem               = 'DoubleClick' # SingleClick | DoubleClick
+    #OpenItemMode           = 'DoubleClick' # SingleClick | DoubleClick
     ShowRecentFiles        = 'Enabled'
     ShowFrequentFolders    = 'Disabled'
     ShowCloudFiles         = 'Disabled'
@@ -732,7 +732,7 @@ $FileExplorerSettings = @{
     #HideProtectedSystemFiles         = 'Enabled'
     #LaunchFolderInSeparateProcess    = 'Disabled'
     #RestorePreviousFoldersAtLogon    = 'Disabled'
-    #ShowDriveLetters                 = 'AfterDriveName' # Disabled | AfterDriveName | BeforeDriveName
+    #DriveLetterDisplayMode           = 'AfterDriveName' # Disabled | AfterDriveName | BeforeDriveName
     #ColorEncryptedAndCompressedFiles = 'Disabled'
     #ShowItemsInfoPopup               = 'Enabled'
     #ShowPreviewHandlers              = 'Enabled'
@@ -740,7 +740,7 @@ $FileExplorerSettings = @{
     ShowSyncProviderNotifications    = 'Disabled'
     ItemsCheckBoxes                  = 'Enabled'
     SharingWizard                    = 'Disabled'
-    #TypingIntoListViewBehavior       = 'SelectItemInView' # SelectItemInView | AutoTypeInSearchBox
+    #TypingIntoListViewMode           = 'SelectItemInView' # SelectItemInView | AutoTypeInSearchBox
     ShowCloudStatesOnNavPane         = 'Disabled'
     #ExpandToCurrentFolder            = 'Disabled'
     #ShowAllFolders                   = 'Disabled'
@@ -758,7 +758,7 @@ $FileExplorerSettings = @{
     ShowHome                        = 'Enabled'
     ShowGallery                     = 'Disabled'
     ShowRemovableDrivesOnlyInThisPC = 'Enabled'
-    MaxIconCacheSize                = 4096 # KB
+    MaxIconCacheSizeKB              = 4096
     AutoFolderTypeDetection         = 'Disabled'
     #UndoRedo                        = 'Disabled'
     #RecycleBin                      = 'Enabled'  ; RecycleBinGPO        = 'NotConfigured'
@@ -778,17 +778,17 @@ Write-Section -Name 'Power & battery' -SubSection
 Set-FastStartup -State 'Disabled'
 Set-Hibernate -State 'Disabled'
 
-Set-HardDiskTimeout -PowerSource 'OnBattery' -Timeout 20 # min
-Set-HardDiskTimeout -PowerSource 'PluggedIn' -Timeout 60 # min
+Set-HardDiskTimeout -PowerSource 'OnBattery' -TimeoutMins 20
+Set-HardDiskTimeout -PowerSource 'PluggedIn' -TimeoutMins 60
 
 Set-ModernStandbyNetworkConnectivity -PowerSource 'OnBattery' -State 'Disabled' # Disabled | Enabled | ManagedByWindows
 Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled' # Disabled | Enabled | ManagedByWindows
 
-# Level: value in percent (range: 5-100)
+# Percent: value in percentage (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
-Set-AdvancedBatterySetting -Battery 'Low'      -Level 19 -Action 'DoNothing'
-Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 12
-Set-AdvancedBatterySetting -Battery 'Critical' -Level 9  -Action 'Sleep'
+Set-AdvancedBatterySetting -Battery 'Low'      -Percent 19 -Action 'DoNothing'
+Set-AdvancedBatterySetting -Battery 'Reserve'  -Percent 12
+Set-AdvancedBatterySetting -Battery 'Critical' -Percent 9  -Action 'Sleep'
 
 # --- Win settings app
 # PowerMode: BestPowerEfficiency | Balanced | BestPerformance
@@ -799,22 +799,22 @@ Set-PowerSetting -PowerMode 'Balanced'
 
 Set-PowerSetting -BatteryPercentage 'Disabled'
 
-# Timeout: value in minutes | never: 0
+# TimeoutMins: value in minutes | never: 0
 $DeviceTimeouts = @(
-    @{ PowerSource = 'PluggedIn' ; PowerState = 'Screen'    ; Timeout = 3 }
-    @{ PowerSource = 'PluggedIn' ; PowerState = 'Sleep'     ; Timeout = 10 }
-    @{ PowerSource = 'PluggedIn' ; PowerState = 'Hibernate' ; Timeout = 60 }
+    @{ PowerSource = 'PluggedIn' ; PowerState = 'Screen'    ; TimeoutMins = 3 }
+    @{ PowerSource = 'PluggedIn' ; PowerState = 'Sleep'     ; TimeoutMins = 10 }
+    @{ PowerSource = 'PluggedIn' ; PowerState = 'Hibernate' ; TimeoutMins = 60 }
 
-    @{ PowerSource = 'OnBattery' ; PowerState = 'Screen'    ; Timeout = 3 }
-    @{ PowerSource = 'OnBattery' ; PowerState = 'Sleep'     ; Timeout = 5 }
-    @{ PowerSource = 'OnBattery' ; PowerState = 'Hibernate' ; Timeout = 30 }
+    @{ PowerSource = 'OnBattery' ; PowerState = 'Screen'    ; TimeoutMins = 3 }
+    @{ PowerSource = 'OnBattery' ; PowerState = 'Sleep'     ; TimeoutMins = 5 }
+    @{ PowerSource = 'OnBattery' ; PowerState = 'Hibernate' ; TimeoutMins = 30 }
 ) | ForEach-Object { [PSCustomObject]$_ }
 $DeviceTimeouts | Set-PowerSetting
 
 $EnergySaverSettings = @{
     AlwaysOn             = 'Disabled'
     TurnOnAtBatteryLevel = 30 # range: 0-100 / never: 0 | always: 100
-    LowerBrightness      = 70 # range: 0-99 / Disabled: 100
+    LowerBrightness      = 'Enabled'
 }
 Set-EnergySaverSetting @EnergySaverSettings
 
@@ -841,19 +841,19 @@ Write-Section -Name 'System properties' -SubSection
 # --- Miscellaneous
 Set-ManufacturerAppsAutoDownload -State 'Enabled' -GPO 'NotConfigured'
 
-# CustomSize | SystemManaged | NoPagingFile
-Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 4096 -MaximumSize 4096 # MB
-#Set-PagingFileSize -AllDrivesAutoManaged 'Enabled'
-#Set-PagingFileSize -Drive 'X:', 'Y:' -State 'SystemManaged'
+# Management: CustomSize | SystemManaged | NoPagingFile
+Set-PagingFileSize -Drive $env:SystemDrive -Management 'CustomSize' -InitialSizeMB 4096 -MaximumSizeMB 4096
+#Set-PagingFileSize -AutoManageAllDrives 'Enabled'
+#Set-PagingFileSize -Drive 'X:', 'Y:' -Management 'SystemManaged'
 
 Set-DataExecutionPrevention -State 'OptIn' # OptIn | OptOut
 
-Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+Set-SystemRestore -DisableForAllDrives -GPO 'NotConfigured'
 #Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
 
-Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured' # Disabled | FullControl | ViewOnly | NotConfigured
+Set-RemoteAssistance -Access 'Disabled' -GPO 'NotConfigured' # Disabled | FullControl | ViewOnly | NotConfigured
 $RemoteAssistanceProperties = @{
-    State                 = 'ViewOnly'
+    Access                = 'ViewOnly'
     GPO                   = 'NotConfigured'
     InvitationMaxTime     = 6 # range: 1-99
     InvitationMaxTimeUnit = 'Hours' # Minutes | Hours | Days
@@ -874,7 +874,7 @@ $VisualEffectsCustomSettings = @{
     'Fade out menu items after clicking'              = 'Enabled'
     'Save taskbar thumbnail previews'                 = 'Disabled'
     'Show shadows under mouse pointer'                = 'Enabled'
-    'Show shadows under windows'                      = 'Enabled'
+    'Show shadows under windows'                      = 'Disabled'
     'Show thumbnails instead of icons'                = 'Enabled'
     'Show translucent selection rectangle'            = 'Enabled'
     'Show window contents while dragging'             = 'Enabled'
@@ -883,9 +883,9 @@ $VisualEffectsCustomSettings = @{
     'Smooth-scroll list boxes'                        = 'Enabled'
     'Use drop shadows for icon labels on the desktop' = 'Enabled'
 }
-# ManagedByWindows | BestAppearance | BestPerformance | Custom
-Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
-#Set-VisualEffects -Value 'ManagedByWindows'
+# Mode: ManagedByWindows | BestAppearance | BestPerformance | Custom
+Set-VisualEffects -Mode 'Custom' -Setting $VisualEffectsCustomSettings
+#Set-VisualEffects -Mode 'ManagedByWindows'
 
 # --- System Failure
 $SystemFailureSettings = @{
@@ -1041,7 +1041,7 @@ Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled' # Managed: User | Syste
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'
 Set-StartMenuWebview2Version -State 'Disabled'
-#Set-StartupAppsDelay -Value 2 # s / range: 0-45s
+#Set-StartupAppsDelay -Seconds 2 # range: 0-45
 #Set-StartupAppsDelay -Default
 #Set-StartupShutdownVerboseStatusMessages -GPO 'NotConfigured' # Enabled | NotConfigured
 
@@ -1077,24 +1077,21 @@ $ActionCenterLayout = @(
     'LocalBluetooth'
 )
 # Win11 24H2+
-#Set-ActionCenterLayout -Value $ActionCenterLayout
+#Set-ActionCenterLayout -QuickAction $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-Disable-BackupYourPCStartMenuAndSettingsAppBanners
-#Disable-BackupYourPCStartMenuAndSettingsAppBanners -Reset
-#Disable-GameBarLinks # Fix popup errors if XBox GameBar is uninstalled
-#Disable-GameBarLinks -Reset
-Disable-StoreAppResultsFromStartMenuSearch
-#Disable-StoreAppResultsFromStartMenuSearch -Reset
+Set-BackupYourPCBanners -State 'Disabled'
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
+#Set-GameBarLinks -State 'Disabled' # Disabled: Fix popup errors if XBox GameBar is uninstalled.
 Set-HelpTips -GPO 'Disabled'
-Set-MenuShowDelay -Value '200' # ms | range 50-1000
+Set-MenuShowDelay -Milliseconds '200' # range 50-1000
 Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
-Set-StartMenuAllAppsViewMode -Value 'Category' # Category | Grid | List
+Set-StartMenuAllAppsViewMode -Mode 'Category' # Category | Grid | List
 #Set-StartMenuRecommendedSection -GPO 'NotConfigured' # Enterprise/Edu only
+Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled' # Ads/Promo
 Set-SuggestedContent -State 'Disabled'
-Set-TaskbarCalendarState -Value 'Expanded' # Collapsed | Expanded
+Set-TaskbarCalendarState -State 'Expanded' # Collapsed | Expanded
 Set-WindowsExperimentation -GPO 'Disabled'
 Set-WindowsInputExperience -State 'Disabled' # don't disable if touchscreen
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
@@ -1102,10 +1099,10 @@ Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
 Set-WindowsSharedExperience -GPO 'NotConfigured' # disable: "nearby sharing" and "share across devices"
 
 $WindowsSpotlightSettings = @{
-    AllFeaturesGPO = 'NotConfigured'
-    DesktopGPO     = 'NotConfigured'
-    LockScreenGPO  = 'NotConfigured' # Enterprise only
-    AdsContentGPO  = 'Disabled'
+    AllFeaturesGPO      = 'NotConfigured'
+    DesktopGPO          = 'NotConfigured'
+    LockScreenGPO       = 'NotConfigured' # Enterprise only
+    SuggestedContentGPO = 'Disabled' # Ads/Promo
     #LearnAboutPictureDesktopIcon = 'Disabled'
 }
 Set-WindowsSpotlight @WindowsSpotlightSettings
@@ -1533,9 +1530,9 @@ Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 
 # --- Storage
 $StorageSenseSettings = @{
-    TempFilesCleanup = 'Enabled'  ; TempFilesCleanupGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    StorageSense     = 'Disabled' ; StorageSenseGPO     = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    Schedule         = 'Disabled' ; ScheduleGPO         = 'NotConfigured' # OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured
+    TempFilesCleanup = 'Enabled'            ; TempFilesCleanupGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    StorageSense     = 'Disabled'           ; StorageSenseGPO     = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    Schedule         = 'OnLowFreeDiskSpace' ; ScheduleGPO         = 'NotConfigured' # OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured
     # RetentionDays/ State: 0 (Never) | 1 | 14 | 30 | 60 / GPO: value in days (range 0-365) | NotConfigured
     RecycleBinRetentionDays      = 30 ; RecycleBinRetentionDaysGPO      = 'NotConfigured'
     DownloadsFolderRetentionDays = 0  ; DownloadsFolderRetentionDaysGPO = 'NotConfigured'
@@ -1579,19 +1576,19 @@ $AdvancedSettings = @{
 Set-SystemAdvancedSetting @AdvancedSettings
 
 # --- Troubleshoot
-Set-TroubleshooterPreference -Value 'Disabled' # Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently
+Set-TroubleshooterPreference -RunMode 'Disabled' # Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently
 
 # --- Recovery
-# RetryInterval: value is in minutes, default: 0, range: 0-720
+# RetryIntervalMins: value is in minutes, default: 0, range: 0-720
 #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
 Set-QuickMachineRecovery -State 'Disabled'
-#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 0
+#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryIntervalMins 0
 
 $PointInTimeRestoreSettings = @{
     PointInTimeRestore = 'Disabled'
-    Frequency          = 24 # hours/ 4 | 6 | 12 | 16 | 24
-    Retention          = 72 # hours/ 6 | 12 | 16 | 24 | 72
-    MaxDiskUsage       = 10 # GB | range 2-50
+    FrequencyHours     = 24 # 4 | 6 | 12 | 16 | 24
+    RetentionHours     = 72 # 6 | 12 | 16 | 24 | 72
+    MaxDiskUsageGB     = 10 # range 2-50
 }
 Set-PointInTimeRestoreSetting @PointInTimeRestoreSettings
 
@@ -1705,28 +1702,38 @@ $TouchpadSettings = @{
     TwoFingersToScroll           = 'Enabled'
     ScrollingDirection           = 'DownMotionScrollsUp' # DownMotionScrollsDown | DownMotionScrollsUp
     PinchToZoom                  = 'Enabled'
-    #ThreeFingersTap              = 'OpenSearch'
-    #ThreeFingersSwipes           = 'SwitchAppsAndShowDesktop'
-    #FourFingersTap               = 'NotificationCenter'
-    #FourFingersSwipes            = 'SwitchDesktopsAndShowDesktop'
 }
 #Set-TouchpadSetting @TouchpadSettings
 
-$ThreeFingersSwipesCustom = @{
+# Taps: Nothing | OpenSearch | NotificationCenter | PlayPause | MiddleMouseButton | MouseBackButton | MouseForwardButton
+# Swipes: Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom
+$TouchpadGesturesSettings = @{
+    ThreeFingersTap   = 'OpenSearch'
+    ThreeFingersSwipe = 'SwitchAppsAndShowDesktop'
+    FourFingersTap    = 'NotificationCenter'
+    FourFingersSwipe  = 'SwitchDesktopsAndShowDesktop'
+}
+#Set-TouchpadSetting @TouchpadGesturesSettings
+
+# Custom: Nothing | SwitchApps | TaskView | ShowDesktop | SwitchDesktops | HideAllExceptAppInFocus |
+# CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation | SnapWindowToLeft | SnapWindowToRight |
+# MaximizeWindow | MinimizeWindow | NextTrack | PreviousTrack | VolumeUp | VolumeDown | Mute
+
+$ThreeFingersSwipeCustom = @{
     ThreeFingersUp    = 'TaskView'
     ThreeFingersDown  = 'ShowDesktop'
     ThreeFingersLeft  = 'SwitchApps'
     ThreeFingersRight = 'SwitchApps'
 }
-#Set-TouchpadSetting -ThreeFingersSwipes 'Custom' @ThreeFingersSwipesCustom
+#Set-TouchpadSetting -ThreeFingersSwipe 'Custom' @ThreeFingersSwipeCustom
 
-$FourFingersSwipesCustom = @{
+$FourFingersSwipeCustom = @{
     FourFingersUp    = 'TaskView'
     FourFingersDown  = 'ShowDesktop'
     FourFingersLeft  = 'SwitchDesktops'
     FourFingersRight = 'SwitchDesktops'
 }
-#Set-TouchpadSetting -FourFingersSwipes 'Custom' @FourFingersSwipesCustom
+#Set-TouchpadSetting -FourFingersSwipe 'Custom' @FourFingersSwipeCustom
 
 #endregion bluetooth & devices
 
@@ -1776,14 +1783,14 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 
 # --- Lock screen
 $LockScreenSettings = @{
-    #SetToPicture                 = $true # $true | $false
-    #GetFunFactsTipsTricks        = 'Disabled' # also unset: Windows Spotlight
-    ShowPictureOnSigninScreen    = 'Enabled'  ; ShowPictureOnSigninScreenGPO = 'NotConfigured'
-    YourWidgets                  = 'Disabled' ; YourWidgetsGPO               = 'NotConfigured'
+    #SetToPicture              = $true # $true | $false
+    #GetFunFactsTipsTricks     = 'Disabled' # also unset: Windows Spotlight
+    ShowPictureOnSigninScreen = 'Enabled'  ; ShowPictureOnSigninScreenGPO = 'NotConfigured'
+    YourWidgets               = 'Disabled' ; YourWidgetsGPO               = 'NotConfigured'
 }
 Set-LockScreenSetting @LockScreenSettings
 
-# --- Device usage (Ads related)
+# --- Device usage (Ads/Promo)
 $DeviceUsageOption = @(
     #'Creativity'
     #'Business'
@@ -1793,7 +1800,7 @@ $DeviceUsageOption = @(
     #'Gaming'
     #'School'
 )
-#Set-DeviceUsageSetting -Value $DeviceUsageOption
+#Set-DeviceUsageSetting -Usage $DeviceUsageOption
 Set-DeviceUsageSetting -DisableAll
 
 #endregion personnalization
@@ -1934,7 +1941,7 @@ Write-Section -Name 'Accessibility' -SubSection
 $AccessibilitySettings = @{
     VisualEffectsAlwaysShowScrollbars  = 'Disabled'
     VisualEffectsAnimation             = 'Enabled'
-    VisualEffectsNotificationsDuration = 5 # s / value: 5 | 7 | 15 | 30 | 60 | 300
+    VisualEffectsNotifsDurationSeconds = 5 # 5 | 7 | 15 | 30 | 60 | 300
     ContrastThemesKeyboardShorcut      = 'Disabled'
     NarratorKeyboardShorcut            = 'Disabled'
     NarratorAutoSendTelemetry          = 'Disabled'
@@ -1971,9 +1978,10 @@ $WindowsUpdateSettings = @{
 Set-WinUpdateSetting @WindowsUpdateSettings
 
 # Values are in 24H clock format (range 0-23), Max range is 18 hours.
-#Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured' # State: Automatically | Manually
+# State: Automatically | Manually / GPO: Enabled | NotConfigured
+#Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured'
 Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHoursEnd 1
-#Set-WinUpdateSetting -ActiveHoursGPO 'Enabled' -ActiveHoursStart 7 -ActiveHoursEnd 1 # GPO: Enabled | NotConfigured
+#Set-WinUpdateSetting -ActiveHoursGPO 'Enabled' -ActiveHoursStart 7 -ActiveHoursEnd 1
 
 #endregion Windows Update
 

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AccentColorMode
-        [-Value] {Manual | Automatic}
+        [-Mode] {Manual | Automatic}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-AccentColorMode
 {
     <#
     .EXAMPLE
-        PS> Set-AccentColorMode -Value 'Manual'
+        PS> Set-AccentColorMode -Mode 'Manual'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [AccentColorMode] $Value
+        [AccentColorMode] $Mode
     )
 
     process
@@ -33,13 +33,13 @@ function Set-AccentColorMode
             Entries = @(
                 @{
                     Name  = 'AutoColorization'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Colors - Accent Color Mode' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Colors - Accent Color Mode' to '$Mode' ..."
         Set-RegistryEntry -InputObject $AccentColorMode
     }
 }

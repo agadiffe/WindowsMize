@@ -39,7 +39,7 @@ function Set-DisplayBrightnessSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'Brightness'              { Set-DisplayBrightness -Value $Brightness }
+            'Brightness'              { Set-DisplayBrightness -Percent $Brightness }
             'AdjustBasedOnContent'    { Set-DisplayBrightnessAdjustBasedOnContent -State $AdjustBasedOnContent }
             'AdjustOnLightingChanges' { Set-DisplayBrightnessAdjustOnLightingChanges -State $AdjustOnLightingChanges }
         }

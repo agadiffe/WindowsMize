@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-SystemFailureWriteDebugInfo
-        [-Value] {None | Complete | Kernel | Small | Automatic | Active}
+        [-DumpType] {None | Complete | Kernel | Small | Automatic | Active}
         [<CommonParameters>]
 #>
 
@@ -22,14 +22,14 @@ function Set-SystemFailureWriteDebugInfo
           Automatic: 800 MB
 
     .EXAMPLE
-        PS> Set-SystemFailureWriteDebugInfo -Value 'None'
+        PS> Set-SystemFailureWriteDebugInfo -DumpType 'None'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [DebugInfoMethod] $Value
+        [DebugInfoMethod] $DumpType
     )
 
     process
@@ -41,11 +41,11 @@ function Set-SystemFailureWriteDebugInfo
             Entries = @(
                 @{
                     Name  = 'CrashDumpEnabled'
-                    Value = [int]$Value
+                    Value = [int]$DumpType
                     Type  = 'DWord'
                 }
                 @{
-                    RemoveEntry = $Value -ne 'Active'
+                    RemoveEntry = $DumpType -ne 'Active'
                     Name  = 'FilterPages'
                     Value = '1'
                     Type  = 'DWord'
@@ -53,7 +53,7 @@ function Set-SystemFailureWriteDebugInfo
             )
         }
 
-        Write-Verbose -Message "Setting 'System Failure - Write Debugging Information' to '$Value' ..."
+        Write-Verbose -Message "Setting 'System Failure - Write Debugging Information' to '$DumpType' ..."
         Set-RegistryEntry -InputObject $SystemFailureDebugInfo
     }
 }

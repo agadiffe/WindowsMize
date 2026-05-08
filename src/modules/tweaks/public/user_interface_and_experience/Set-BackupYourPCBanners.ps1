@@ -1,25 +1,26 @@
 #=================================================================================================================
-#                           Disable Backup Your Pc Start Menu And Settings App Banners
+#                                             Backup Your Pc Banners
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Disable-BackupYourPCStartMenuAndSettingsAppBanners
-        [-Reset]
+    Set-BackupYourPCBanners
+        [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Disable-BackupYourPCStartMenuAndSettingsAppBanners
+function Set-BackupYourPCBanners
 {
     <#
     .EXAMPLE
-        PS> Disable-BackupYourPCStartMenuAndSettingsAppBanners
+        PS> Set-BackupYourPCBanners -State 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
-        [switch] $Reset
+        [Parameter(Mandatory)]
+        [state] $State
     )
 
     process
@@ -30,7 +31,7 @@ function Disable-BackupYourPCStartMenuAndSettingsAppBanners
             Path    = 'Software\Microsoft\Windows\CurrentVersion\RulesEngine\StateManager'
             Entries = @(
                 @{
-                    RemoveEntry = $Reset
+                    RemoveEntry = $State -eq 'Enabled'
                     Name  = 'LastSuppressionTimes'
                     Value = '{"settingshomealertbanner":"2099-01-01T00:00:00Z","startmenu":"2099-01-01T00:00:00Z"}'
                     Type  = 'String'
@@ -44,8 +45,7 @@ function Disable-BackupYourPCStartMenuAndSettingsAppBanners
             )
         }
 
-        $BackupYourPcBannersState = $Reset ? 'Resetting' : 'Disabling'
-        Write-Verbose -Message "$BackupYourPcBannersState 'Backup Your PC - Start Menu And Settings App Banners' ..."
+        Write-Verbose -Message "Setting 'Backup Your PC banners (Start Menu And Settings App)' to '$State' ..."
         Set-RegistryEntry -InputObject $BackupYourPcBanners
     }
 }

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AcrobatReaderInternetAccess
-        [[-State] {BlockAllWebSites | AllowAllWebSites | Custom}]
+        [[-Mode] {BlockAllWebSites | AllowAllWebSites | Custom}]
         [-GPO {BlockAllWebSites | AllowAllWebSites | Custom | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-AcrobatReaderInternetAccess
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderInternetAccess -State 'Custom' -GPO 'NotConfigured'
+        PS> Set-AcrobatReaderInternetAccess -Mode 'Custom' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [AdobeInternetAccessMode] $State,
+        [AdobeInternetAccessMode] $Mode,
 
         [AdobeInternetAccessModeGpo] $GPO
     )
@@ -32,7 +32,7 @@ function Set-AcrobatReaderInternetAccess
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Mode'
             {
                 # on: 2 | off: 1 | custom: 0 (default)
                 $AcrobatReaderInternetAccess = @{
@@ -41,13 +41,13 @@ function Set-AcrobatReaderInternetAccess
                     Entries = @(
                         @{
                             Name  = 'iURLPerms'
-                            Value = [int]$State
+                            Value = [int]$Mode
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$InternetAccessMsg' to '$State' ..."
+                Write-Verbose -Message "Setting '$InternetAccessMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $AcrobatReaderInternetAccess
             }
             'GPO'

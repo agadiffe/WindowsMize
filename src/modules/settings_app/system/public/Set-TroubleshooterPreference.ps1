@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TroubleshooterPreference
-        [-Value] {Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently}
+        [-RunMode] {Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently}
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-TroubleshooterPreference
 {
     <#
     .EXAMPLE
-        PS> Set-TroubleshooterPreference -Value 'Disabled'
+        PS> Set-TroubleshooterPreference -RunMode 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -21,12 +21,12 @@ function Set-TroubleshooterPreference
     (
         [Parameter(Mandatory)]
         [ValidateSet('Disabled', 'AskBeforeRunning', 'AutoRunAndNotify', 'AutoRunSilently' )]
-        [string] $Value
+        [string] $RunMode
     )
 
     process
     {
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($RunMode)
         {
             'Disabled'         { '1' }
             'AskBeforeRunning' { '2' }
@@ -48,7 +48,7 @@ function Set-TroubleshooterPreference
             )
         }
 
-        Write-Verbose -Message "Setting 'Troubleshoot - Recommended Troubleshooter Preference' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Troubleshoot - Recommended Troubleshooter Preference' to '$RunMode' ..."
         Set-RegistryEntry -InputObject $TroubleshootPreference
     }
 }

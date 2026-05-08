@@ -111,9 +111,9 @@ function Set-WinUpdateActiveHours
                         )
                     }
 
-                    $ActiveHoursState = "Start: $($PSBoundParameters['Start']), End: $($PSBoundParameters['End'])"
+                    $ActiveHoursMsg = "Start: $($PSBoundParameters['Start']), End: $($PSBoundParameters['End'])"
 
-                    Write-Verbose -Message "Setting '$WinUpdateActiveHoursMsg' to '$ActiveHoursState' ..."
+                    Write-Verbose -Message "Setting '$WinUpdateActiveHoursMsg' to '$ActiveHoursMsg' ..."
                     Set-RegistryEntry -InputObject $WinUpdateActiveHours
                 }
             }
@@ -149,9 +149,9 @@ function Set-WinUpdateActiveHours
                     )
                 }
 
-                $ActiveHoursState = if ($GPO -eq 'Enabled') { ", Start: $($PSBoundParameters['Start']), End: $($PSBoundParameters['End'])" }
+                $ActiveHoursMsg = if ($GPO -eq 'Enabled') { ", Start: $($PSBoundParameters['Start']), End: $($PSBoundParameters['End'])" }
 
-                Write-Verbose -Message "Setting '$WinUpdateActiveHoursMsg (GPO)' to '$GPO$ActiveHoursState' ..."
+                Write-Verbose -Message "Setting '$WinUpdateActiveHoursMsg (GPO)' to '$GPO$ActiveHoursMsg' ..."
                 Set-RegistryEntry -InputObject $WinUpdateActiveHoursGpo
             }
         }

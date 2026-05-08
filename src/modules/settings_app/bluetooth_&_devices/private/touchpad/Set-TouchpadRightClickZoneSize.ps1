@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TouchpadRightClickZoneSize
-        [-Value] {Default | Small | Medium | Large}
+        [-Size] {Default | Small | Medium | Large}
         [<CommonParameters>]
 #>
 
@@ -13,19 +13,19 @@ function Set-TouchpadRightClickZoneSize
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadRightClickZoneSize -Value 'Default'
+        PS> Set-TouchpadRightClickZoneSize -Size 'Default'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TouchpadRightClickZoneSize] $Value
+        [TouchpadRightClickZoneSize] $Size
     )
 
     process
     {
-        $ZoneWidth, $ZoneHeight = switch ($Value)
+        $ZoneWidth, $ZoneHeight = switch ($Size)
         {
             'Default' {  0,  0 }
             'Small'   { 25, 10 }
@@ -51,7 +51,7 @@ function Set-TouchpadRightClickZoneSize
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Right-Click Zone Size' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Touchpad - Right-Click Zone Size' to '$Size' ..."
         Set-RegistryEntry -InputObject $TouchpadRightClickZoneSize
     }
 }

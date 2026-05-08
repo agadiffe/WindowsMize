@@ -11,7 +11,7 @@
 .SYNTAX
     Set-PowerStateTimeout
         [-Name] {Screen | Sleep | Hibernate}
-        [-Timeout] <int>
+        [-TimeoutMins] <int>
         [-PowerSource] {PluggedIn | OnBattery}
         [<CommonParameters>]
 #>
@@ -20,7 +20,7 @@ function Set-PowerStateTimeout
 {
     <#
     .EXAMPLE
-        PS> Set-PowerStateTimeout -Name 'Sleep' -Timeout 10 -PowerSource 'PluggedIn'
+        PS> Set-PowerStateTimeout -Name 'Sleep' -TimeoutMins 10 -PowerSource 'PluggedIn'
     #>
 
     [CmdletBinding()]
@@ -31,7 +31,7 @@ function Set-PowerStateTimeout
 
         [Parameter(Mandatory)]
         [ValidateRange('NonNegative')]
-        [int] $Timeout,
+        [int] $TimeoutMins,
 
         [Parameter(Mandatory)]
         [PowerSource] $PowerSource
@@ -55,7 +55,7 @@ function Set-PowerStateTimeout
             'OnBattery' { 'DC' }
         }
 
-        Write-Verbose -Message "Setting 'Power - $Name Timeout ($PowerSource)' to '$Timeout min' ..."
-        powercfg.exe -Change $PowerStateValue-Timeout-$PowerSourceValue $Timeout
+        Write-Verbose -Message "Setting 'Power - $Name Timeout ($PowerSource)' to '$TimeoutMins min(s)' ..."
+        powercfg.exe -Change $PowerStateValue-Timeout-$PowerSourceValue $TimeoutMins
     }
 }

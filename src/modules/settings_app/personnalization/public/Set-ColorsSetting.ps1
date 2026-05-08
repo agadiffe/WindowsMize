@@ -3,18 +3,10 @@
 #=================================================================================================================
 
 <#
-.SYNTAX
     Set-ColorsSetting
         [-Theme {Dark | Light}]
-        [-Transparency {Disabled | Enabled}]
-        [-AccentColorMode {Manual | Automatic}]
-        [-ShowAccentColorOnStartAndTaskbar {Disabled | Enabled}]
-        [-ShowAccentColorOnTitleAndBorders {Disabled | Enabled}]
-        [<CommonParameters>]
-
-    Set-ColorsSetting
-        -AppsTheme {Dark | Light}
-        -SystemTheme {Dark | Light}
+        [-AppsTheme {Dark | Light}]
+        [-SystemTheme {Dark | Light}]
         [-Transparency {Disabled | Enabled}]
         [-AccentColorMode {Manual | Automatic}]
         [-ShowAccentColorOnStartAndTaskbar {Disabled | Enabled}]
@@ -27,21 +19,15 @@ function Set-ColorsSetting
     <#
     .EXAMPLE
         PS> Set-ColorsSetting -Theme 'Dark' -Transparency 'Disabled' -AccentColorMode 'Manual'
-
-    .EXAMPLE
-        PS> Set-ColorsSetting -AppsTheme 'Dark' -SystemTheme 'Dark' -AccentColorMode 'Manual'
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Theme')]
+    [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(ParameterSetName = 'Theme')]
         [ColorsTheme] $Theme,
 
-        [Parameter(Mandatory, ParameterSetName = 'CustomTheme')]
         [ColorsTheme] $AppsTheme,
 
-        [Parameter(Mandatory, ParameterSetName = 'CustomTheme')]
         [ColorsTheme] $SystemTheme,
 
         [state] $Transparency,
@@ -63,10 +49,11 @@ function Set-ColorsSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'Theme'                            { Set-ColorsTheme -Value $Theme }
-            'SystemTheme'                      { Set-ColorsTheme -System $SystemTheme -Apps $AppsTheme }
+            'Theme'                            { Set-ColorsTheme -Mode $Theme }
+            'AppsTheme'                        { Set-ColorsTheme -Apps $AppsTheme }
+            'SystemTheme'                      { Set-ColorsTheme -System $SystemTheme }
             'Transparency'                     { Set-ColorsTransparency -State $Transparency }
-            'AccentColorMode'                  { Set-AccentColorMode -Value $AccentColorMode }
+            'AccentColorMode'                  { Set-AccentColorMode -Mode $AccentColorMode }
             'ShowAccentColorOnStartAndTaskbar' { Set-AccentColorShowOnStartAndTaskbar -State $ShowAccentColorOnStartAndTaskbar }
             'ShowAccentColorOnTitleAndBorders' { Set-AccentColorShowOnTitleAndBorders -State $ShowAccentColorOnTitleAndBorders }
         }

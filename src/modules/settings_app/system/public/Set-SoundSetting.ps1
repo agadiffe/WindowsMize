@@ -33,7 +33,7 @@ function Set-SoundSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'AdjustVolumeOnCommunication' { Set-SoundAdjustVolumeOnCommunication -Value $AdjustVolumeOnCommunication }
+            'AdjustVolumeOnCommunication' { Set-SoundAdjustVolumeOnCommunication -Preference $AdjustVolumeOnCommunication }
         }
     }
 }

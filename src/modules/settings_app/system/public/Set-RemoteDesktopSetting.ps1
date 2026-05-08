@@ -45,7 +45,7 @@ function Set-RemoteDesktopSetting
             'RemoteDesktop'              { Set-RemoteDesktop -State $RemoteDesktop }
             'RemoteDesktopGPO'           { Set-RemoteDesktop -GPO $RemoteDesktopGPO }
             'NetworkLevelAuthentication' { Set-RemoteDesktopNetworkLevelAuthentication -State $NetworkLevelAuthentication }
-            'PortNumber'                 { Set-RemoteDesktopPortNumber -Value $PortNumber }
+            'PortNumber'                 { Set-RemoteDesktopPortNumber -Port $PortNumber }
         }
     }
 }

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AcrobatReaderPageUnits
-        [-Value] {Points | Inches | Millimeters | Centimeters | Picas}
+        [-Unit] {Points | Inches | Millimeters | Centimeters | Picas}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-AcrobatReaderPageUnits
 {
     <#
     .EXAMPLE
-        PS> Set-AcrobatReaderPageUnits -Value 'Centimeters'
+        PS> Set-AcrobatReaderPageUnits -Unit 'Centimeters'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [AdobePageUnits] $Value
+        [AdobePageUnits] $Unit
     )
 
     process
@@ -32,13 +32,13 @@ function Set-AcrobatReaderPageUnits
             Entries = @(
                 @{
                     Name  = 'iPageUnits'
-                    Value = [int]$Value
+                    Value = [int]$Unit
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Acrobat Reader - Page Units' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Acrobat Reader - Page Units' to '$Unit' ..."
         Set-RegistryEntry -InputObject $AcrobatReaderPageUnits
     }
 }

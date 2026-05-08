@@ -9,7 +9,7 @@
 <#
 .SYNTAX
     Set-RemoteDesktopPortNumber
-        [-Value] <int>
+        [-Port] <int>
         [<CommonParameters>]
 #>
 
@@ -17,7 +17,7 @@ function Set-RemoteDesktopPortNumber
 {
     <#
     .EXAMPLE
-        PS> Set-RemoteDesktopPortNumber -Value 3389
+        PS> Set-RemoteDesktopPortNumber -Port 3389
     #>
 
     [CmdletBinding()]
@@ -25,7 +25,7 @@ function Set-RemoteDesktopPortNumber
     (
         [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
-        [int] $Value
+        [int] $Port
     )
 
     process
@@ -37,17 +37,17 @@ function Set-RemoteDesktopPortNumber
             Entries = @(
                 @{
                     Name  = 'PortNumber'
-                    Value = $Value
+                    Value = $Port
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Remote Desktop - Remote Desktop Port' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Remote Desktop - Remote Desktop Port' to '$Port' ..."
         Set-RegistryEntry -InputObject $RemoteDesktopPortNumber
 
         $FirewallRuleName = 'RemoteDesktop-UserMode-In-TCP', 'RemoteDesktop-UserMode-In-UDP'
-        Write-Verbose -Message "  Setting 'Firewall rules: $($FirewallRuleName -join ', '))' to '$Value'"
-        Set-NetFirewallRule -Name $FirewallRuleName -LocalPort $Value
+        Write-Verbose -Message "  Setting 'Firewall rules: $($FirewallRuleName -join ', '))' to '$Port'"
+        Set-NetFirewallRule -Name $FirewallRuleName -LocalPort $Port
     }
 }

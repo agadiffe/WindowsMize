@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-WinUpdateDeliveryOptimization
-        [[-State] {Disabled | LocalNetwork | InternetAndLocalNetwork}]
+        [[-Mode] {Disabled | LocalNetwork | InternetAndLocalNetwork}]
         [-GPO {Disabled | LocalNetwork | InternetAndLocalNetwork | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-WinUpdateDeliveryOptimization
 {
     <#
     .EXAMPLE
-        PS> Set-WinUpdateDeliveryOptimization -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-WinUpdateDeliveryOptimization -Mode 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [DeliveryOptimizationMode] $State,
+        [DeliveryOptimizationMode] $Mode,
 
         [GpoDeliveryOptimizationMode] $GPO
     )
@@ -32,7 +32,7 @@ function Set-WinUpdateDeliveryOptimization
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Mode'
             {
                 # off: 0 | devices on my local network: 1 (default) | devices on the internet and my local network: 3
                 $WinUpdateDeliveryOptimization = @{
@@ -41,13 +41,13 @@ function Set-WinUpdateDeliveryOptimization
                     Entries = @(
                         @{
                             Name  = 'DownloadMode'
-                            Value = [int]$State
+                            Value = [int]$Mode
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WinUpdateDeliveryOptimizationMsg' to '$State' ..."
+                Write-Verbose -Message "Setting '$WinUpdateDeliveryOptimizationMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $WinUpdateDeliveryOptimization
             }
             'GPO'

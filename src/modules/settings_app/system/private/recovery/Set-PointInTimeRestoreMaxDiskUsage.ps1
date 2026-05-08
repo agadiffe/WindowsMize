@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-PointInTimeRestoreMaxDiskUsage
-        [-Value] <int>
+        [-GB] <int>
         [<CommonParameters>]
 #>
 
@@ -15,7 +15,7 @@ function Set-PointInTimeRestoreMaxDiskUsage
 {
     <#
     .EXAMPLE
-        PS> Set-PointInTimeRestoreMaxDiskUsage -Value 4
+        PS> Set-PointInTimeRestoreMaxDiskUsage -GB 4
     #>
 
     [CmdletBinding()]
@@ -23,7 +23,7 @@ function Set-PointInTimeRestoreMaxDiskUsage
     (
         [Parameter(Mandatory)]
         [ValidateRange(2, 50)]
-        [int] $Value
+        [int] $GB
     )
 
     process
@@ -35,13 +35,13 @@ function Set-PointInTimeRestoreMaxDiskUsage
             Entries = @(
                 @{
                     Name  = 'MaxTimespan_UX'
-                    Value = $Value * 1024
+                    Value = $GB * 1024
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Recovery - Point-In-Time Restore: Restore Point Disk Usage' to '$Value GB' ..."
+        Write-Verbose -Message "Setting 'Recovery - Point-In-Time Restore: Restore Point Disk Usage' to '$GB GB' ..."
         Set-RegistryEntry -InputObject $PointInTimeRestoreMaxDiskUsage
     }
 }

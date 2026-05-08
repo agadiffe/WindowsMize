@@ -127,8 +127,8 @@ Set-StartMenuWebview2Version -State 'Disabled'
 
 # --- Startup Apps Delay (default: default)
 # Default: about 10s and/or idle state defined by Windows.
-# Value: second (range 0-45)
-#Set-StartupAppsDelay -Value 2
+# Seconds: value in seconds (range 0-45)
+#Set-StartupAppsDelay -Seconds 2
 #Set-StartupAppsDelay -Default
 
 # --- Startup/Shutdown verbose status messages
@@ -147,6 +147,7 @@ Write-Section -Name 'User interface and experience' -SubSection
 # --- Action center layout
 # Windows 11 24H2+ only.
 # Rearrange the order according to your preferences.
+# Missing or commented item will be positionned at the end/bottom of the Action Center.
 $ActionCenterLayout = @(
     'WiFi'
     'Bluetooth'
@@ -167,31 +168,25 @@ $ActionCenterLayout = @(
     'ProjectL2'
     'LocalBluetooth'
 )
-#Set-ActionCenterLayout -Value $ActionCenterLayout
+#Set-ActionCenterLayout -QuickAction $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
-# --- Disable 'Backup your PC' Start Menu and Settings Home page banners (default: Enabled)
-Disable-BackupYourPCStartMenuAndSettingsAppBanners
-#Disable-BackupYourPCStartMenuAndSettingsAppBanners -Reset
-
-# --- Disable GameBar Links (default: Enabled)
-# Fix popup errors if XBox GameBar is uninstalled.
-#Disable-GameBarLinks
-#Disable-GameBarLinks -Reset
-
-# --- Disable Store App results from Start Menu Search (default: Enabled)
-Disable-StoreAppResultsFromStartMenuSearch
-#Disable-StoreAppResultsFromStartMenuSearch -Reset
+# --- 'Backup your PC' banners (Start Menu and Settings Home page) (default: Enabled)
+Set-BackupYourPCBanners -State 'Disabled'
 
 # --- Copy/Paste dialog : Show more details (default: Disabled)
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
+
+# --- GameBar Links (default: Enabled)
+# Disabled: Fix popup errors if XBox GameBar is uninstalled.
+Set-GameBarLinks -State 'Disabled'
 
 # --- Help tips
 Set-HelpTips -GPO 'Disabled'
 
 # --- Menu Show Delay (default: 400)
 # Value is in milliseconds (range 50-1000).
-Set-MenuShowDelay -Value '200'
+Set-MenuShowDelay -Milliseconds '200'
 
 # --- Online tips
 Set-OnlineTips -GPO 'Disabled'
@@ -200,19 +195,22 @@ Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
 
 # --- Start Menu - All Apps View Mode
-# State: Category (default) | Grid | List
-Set-StartMenuAllAppsViewMode -Value 'Category'
+# Mode: Category (default) | Grid | List
+Set-StartMenuAllAppsViewMode -Mode 'Category'
 
 # --- Start Menu - Recommended section
 # Enterprise and Education only.
 #Set-StartMenuRecommendedSection -GPO 'NotConfigured'
+
+# --- Start Menu - Include Store suggestions in search results (Ads/Promo) (default: Enabled)
+Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled'
 
 # --- Suggested content (default: Enabled)
 Set-SuggestedContent -State 'Disabled'
 
 # --- Taskbar calendar state
 # State: Collapsed (default) | Expanded
-Set-TaskbarCalendarState -Value 'Expanded'
+Set-TaskbarCalendarState -State 'Expanded'
 
 # --- Windows experimentation
 Set-WindowsExperimentation -GPO 'Disabled'
@@ -242,8 +240,8 @@ Set-WindowsSpotlight -DesktopGPO 'NotConfigured'
 # --- --- Lock Screen (Enterprise only)
 Set-WindowsSpotlight -LockScreenGPO 'NotConfigured'
 
-# --- --- Ads Content
-Set-WindowsSpotlight -AdsContentGPO 'Disabled'
+# --- --- Suggested Content (Ads/Promo)
+Set-WindowsSpotlight -SuggestedContentGPO 'Disabled'
 
 # --- --- Learn about this picture (Desktop icon) (default: Enabled)
 #Set-WindowsSpotlight -LearnAboutPictureDesktopIcon 'Disabled'

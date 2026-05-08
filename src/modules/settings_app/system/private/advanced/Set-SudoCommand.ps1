@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-SudoCommand
-        [-Value] {Disabled | NewWindow | InputDisabled | Inline}
+        [-Mode] {Disabled | NewWindow | InputDisabled | Inline}
         [<CommonParameters>]
 #>
 
@@ -13,20 +13,20 @@ function Set-SudoCommand
 {
     <#
     .EXAMPLE
-        PS> Set-SudoCommand -Value 'Disabled'
+        PS> Set-SudoCommand -Mode 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [SudoMode] $Value
+        [SudoMode] $Mode
     )
 
     process
     {
         # disabled: disable (default) | in a new window: forceNewWindow | with input disabled: disableInput | inline: normal
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($Mode)
         {
             'NewWindow'     { 'forceNewWindow' }
             'InputDisabled' { 'disableInput' }
@@ -34,7 +34,7 @@ function Set-SudoCommand
             'Disabled'      { 'disable' }
         }
 
-        Write-Verbose -Message "Setting 'System Advanced - Sudo Command' to '$Value' ..."
+        Write-Verbose -Message "Setting 'System Advanced - Sudo Command' to '$Mode' ..."
 
         if (-not (Get-Command 'sudo.exe' -ErrorAction 'SilentlyContinue'))
         {

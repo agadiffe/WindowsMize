@@ -134,7 +134,7 @@ function Sync-GroupPolicySetting
             $PolicySetting | Out-File -FilePath $LgpoTxtFilePath
 
             Write-Verbose -Message '    update Registry Policy file.'
-            lgpo.exe /t $LgpoTxtFilePath /q
+            Start-Process -Wait -NoNewWindow -FilePath 'lgpo.exe' -ArgumentList "/t ""$LgpoTxtFilePath"" /q"
 
             Remove-Item -Path $LgpoTxtFilePath
         }

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-VisualEffectsNotificationsDuration
-        [-Value] {5 | 7 | 15 | 30 | 60 | 300}
+        [-Seconds] {5 | 7 | 15 | 30 | 60 | 300}
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-VisualEffectsNotificationsDuration
 {
     <#
     .EXAMPLE
-        PS> Set-VisualEffectsNotificationsDuration -Value 5
+        PS> Set-VisualEffectsNotificationsDuration -Seconds 5
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-VisualEffectsNotificationsDuration
     (
         [Parameter(Mandatory)]
         [ValidateSet(5, 7, 15, 30, 60, 300)]
-        [int] $Value
+        [int] $Seconds
     )
 
     process
@@ -34,13 +34,13 @@ function Set-VisualEffectsNotificationsDuration
             Entries = @(
                 @{
                     Name  = 'MessageDuration'
-                    Value = $Value
+                    Value = $Seconds
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Visual Effects - Dismiss Notifications After This Amount Of Time' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Visual Effects - Dismiss Notifications After This Amount Of Time' to '$Seconds seconds' ..."
         Set-RegistryEntry -InputObject $VisualEffectsNotificationsDuration
     }
 }

@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-MenuShowDelay
-        [-Value] <int>
+        [-Milliseconds] <int>
         [<CommonParameters>]
 #>
 
@@ -15,7 +15,7 @@ function Set-MenuShowDelay
 {
     <#
     .EXAMPLE
-        PS> Set-MenuShowDelay -Value '200'
+        PS> Set-MenuShowDelay -Milliseconds '200'
     #>
 
     [CmdletBinding()]
@@ -23,7 +23,7 @@ function Set-MenuShowDelay
     (
         [Parameter(Mandatory)]
         [ValidateRange(50, 1000)]
-        [int] $Value
+        [int] $Milliseconds
     )
 
     process
@@ -35,13 +35,13 @@ function Set-MenuShowDelay
             Entries = @(
                 @{
                     Name  = 'MenuShowDelay'
-                    Value = $Value
+                    Value = $Milliseconds
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Menu Show Delay' to '$Value milliseconds' ..."
+        Write-Verbose -Message "Setting 'Menu Show Delay' to '$Milliseconds milliseconds' ..."
         Set-RegistryEntry -InputObject $MenuShowDelay
     }
 }

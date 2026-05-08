@@ -56,9 +56,9 @@ function Set-GeneralAppsSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'ChooseWhereToGetApps'              { Set-ChooseWhereToGetApps -Value $ChooseWhereToGetApps }
+            'ChooseWhereToGetApps'              { Set-ChooseWhereToGetApps -Mode $ChooseWhereToGetApps }
             'ChooseWhereToGetAppsGPO'           { Set-ChooseWhereToGetApps -GPO $ChooseWhereToGetAppsGPO }
-            'ShareAcrossDevices'                { Set-AppsShareAcrossDevices -Value $ShareAcrossDevices }
+            'ShareAcrossDevices'                { Set-AppsShareAcrossDevices -Mode $ShareAcrossDevices }
             'AutoArchiveApps'                   { Set-AppsAutoArchive -State $AutoArchiveApps }
             'AutoArchiveAppsGPO'                { Set-AppsAutoArchive -GPO $AutoArchiveAppsGPO }
 

@@ -92,7 +92,7 @@ function Set-TaskbarSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'SearchBox'                       { Set-TaskbarSearchBox -Value $SearchBox }
+            'SearchBox'                       { Set-TaskbarSearchBox -Mode $SearchBox }
             'SearchBoxGPO'                    { Set-TaskbarSearchBox -GPO $SearchBoxGPO }
             'AskCopilot'                      { Set-TaskbarAskCopilot -State $AskCopilot }
             'TaskView'                        { Set-TaskbarTaskView -State $TaskView }
@@ -100,27 +100,27 @@ function Set-TaskbarSetting
             'Widgets'                         { Set-TaskbarWidgets -State $Widgets }
             'ResumeAppNotif'                  { Set-TaskbarResumeAppNotif -State $ResumeAppNotif }
 
-            'EmojiAndMore'                    { Set-TaskbarEmojiAndMore -Value $EmojiAndMore }
+            'EmojiAndMore'                    { Set-TaskbarEmojiAndMore -Visibility $EmojiAndMore }
             'PenMenu'                         { Set-TaskbarPenMenu -State $PenMenu }
-            'TouchKeyboard'                   { Set-TaskbarTouchKeyboard -Value $TouchKeyboard }
+            'TouchKeyboard'                   { Set-TaskbarTouchKeyboard -Visibility $TouchKeyboard }
             'VirtualTouchpad'                 { Set-TaskbarVirtualTouchpad -State $VirtualTouchpad }
 
             'HiddenIconMenu'                  { Set-TaskbarHiddenIconMenu -State $HiddenIconMenu }
 
-            'Alignment'                       { Set-TaskbarAlignment -Value $Alignment }
+            'Alignment'                       { Set-TaskbarAlignment -Mode $Alignment }
             'TouchOptimized'                  { Set-TaskbarTouchOptimized -State $TouchOptimized }
             'AutoHide'                        { Set-TaskbarAutoHide -State $AutoHide }
             'ShowAppsBadges'                  { Set-TaskbarShowAppsBadges -State $ShowAppsBadges }
             'ShowAppsFlashing'                { Set-TaskbarShowAppsFlashing -State $ShowAppsFlashing }
             'ShowOnAllDisplays'               { Set-TaskbarShowOnAllDisplays -State $ShowOnAllDisplays }
             'ShowOnAllDisplaysGPO'            { Set-TaskbarShowOnAllDisplays -GPO $ShowOnAllDisplaysGPO }
-            'ShowAppsOnMultipleDisplays'      { Set-TaskbarShowAppsOnMultipleDisplays -Value $ShowAppsOnMultipleDisplays }
+            'ShowAppsOnMultipleDisplays'      { Set-TaskbarShowAppsOnMultipleDisplays -Mode $ShowAppsOnMultipleDisplays }
             'ShareAnyWindow'                  { Set-TaskbarShareAnyWindow -State $ShareAnyWindow }
             'FarCornerToShowDesktop'          { Set-TaskbarFarCornerToShowDesktop -State $FarCornerToShowDesktop }
             'GroupAndHideLabelsMainTaskbar'   { Set-TaskbarCombineButtonsAndHideLabels -MainTaskbar $GroupAndHideLabelsMainTaskbar }
             'GroupAndHideLabelsOtherTaskbars' { Set-TaskbarCombineButtonsAndHideLabels -OtherTaskbars $GroupAndHideLabelsOtherTaskbars }
             'GroupAndHideLabelsGPO'           { Set-TaskbarCombineButtonsAndHideLabels -GPO $GroupAndHideLabelsGPO }
-            'ShowSmallerButtons'              { Set-TaskbarShowSmallerButtons -Value $ShowSmallerButtons }
+            'ShowSmallerButtons'              { Set-TaskbarShowSmallerButtons -Preference $ShowSmallerButtons }
             'ShowJumplistOnHover'             { Set-TaskbarShowJumplistOnHover -State $ShowJumplistOnHover }
         }
     }

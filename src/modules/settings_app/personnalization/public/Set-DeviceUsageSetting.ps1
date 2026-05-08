@@ -9,7 +9,7 @@
 <#
 .SYNTAX
     Set-DeviceUsageSetting
-        [-Value] {Creativity | Business | Development | Entertainment | Family | Gaming | School}
+        [-Usage] {Creativity | Business | Development | Entertainment | Family | Gaming | School}
         [<CommonParameters>]
 
     Set-DeviceUsageSetting
@@ -21,18 +21,18 @@ function Set-DeviceUsageSetting
 {
     <#
     .EXAMPLE
-        PS> Set-DeviceUsageSetting -Value 'Development', 'Entertainment'
+        PS> Set-DeviceUsageSetting -Usage 'Development', 'Entertainment'
 
     .EXAMPLE
         PS> Set-DeviceUsageSetting -DisableAll
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Value')]
+    [CmdletBinding(DefaultParameterSetName = 'Usage')]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Value')]
+        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Usage')]
         [ValidateSet('Creativity', 'Business', 'Development', 'Entertainment', 'Family', 'Gaming', 'School')]
-        [string[]] $Value,
+        [string[]] $Usage,
 
         [Parameter(Mandatory, ParameterSetName = 'Disable')]
         [switch] $DisableAll
@@ -40,7 +40,7 @@ function Set-DeviceUsageSetting
 
     process
     {
-        if ($PSCmdlet.ParameterSetName -eq 'Disable' -and $false -eq $DisableAll)
+        if ($PSCmdlet.ParameterSetName -eq 'Disable' -and -not $DisableAll)
         {
             return
         }
@@ -57,7 +57,7 @@ function Set-DeviceUsageSetting
 
         foreach ($Key in $KeyName.Keys)
         {
-            $IsEnabled = $Value -contains $Key
+            $IsEnabled = $Usage -contains $Key
 
             # on: 1 0 | off: 0 0 (default)
             $DeviceUsage = @{
@@ -81,7 +81,7 @@ function Set-DeviceUsageSetting
             Set-RegistryEntry -InputObject $DeviceUsage
         }
 
-        $IsDeviceUsageEnabled = $null -ne $Value
+        $IsDeviceUsageEnabled = $null -ne $Usage
 
         # If at least one 'Device Usage' option is enabled, 'Device Usage Consent' must be accepted.
         # on: 1 | off: 0 (default)

@@ -92,7 +92,7 @@ function Set-StartSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'LayoutMode'                      { Set-StartLayoutMode -Value $LayoutMode }
+            'LayoutMode'                      { Set-StartLayoutMode -Layout $LayoutMode }
             'ShowAllPins'                     { Set-StartShowAllPins -State $ShowAllPins }
             'ShowMostUsedApps'                { Set-StartShowMostUsedApps -State $ShowMostUsedApps }
             'ShowMostUsedAppsGPO'             { Set-StartShowMostUsedApps -GPO $ShowMostUsedAppsGPO }
@@ -103,7 +103,7 @@ function Set-StartSetting
             'ShowWebsitesFromHistoryGPO'      { Set-StartShowWebsitesFromHistory -GPO $ShowWebsitesFromHistoryGPO }
             'ShowRecommendations'             { Set-StartShowRecommendations -State $ShowRecommendations }
             'ShowAccountNotifications'        { Set-StartShowAccountNotifications -State $ShowAccountNotifications }
-            'FoldersNextToPowerButton'        { Set-StartFoldersNextToPowerButton -Value $FoldersNextToPowerButton }
+            'FoldersNextToPowerButton'        { Set-StartFoldersNextToPowerButton -Item $FoldersNextToPowerButton }
             'HideAllFoldersNextToPowerButton' { Set-StartFoldersNextToPowerButton -None:$HideAllFoldersNextToPowerButton }
             'ShowMobileDevice'                { Set-StartShowMobileDevice -State $ShowMobileDevice }
         }

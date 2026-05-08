@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-FileExplorerOpenItem
-        [-Value] {SingleClick | DoubleClick}
+        [-ClickMode] {SingleClick | DoubleClick}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-FileExplorerOpenItem
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerOpenItem -Value 'DoubleClick'
+        PS> Set-FileExplorerOpenItem -ClickMode 'DoubleClick'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [OpenItemMode] $Value
+        [OpenItemMode] $ClickMode
     )
 
     process
@@ -29,10 +29,10 @@ function Set-FileExplorerOpenItem
 
         $SettingRegPath = 'Software\Microsoft\Windows\CurrentVersion\Explorer'
         $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'ShellState'
-        Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 6 -State ($Value -eq 'DoubleClick')
+        Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 4 -BitPos 6 -State ($ClickMode -eq 'DoubleClick')
 
         $OpenItem = [HkcuExplorer]::new('ShellState', $SettingBytes, 'Binary')
-        $OpenItem.WriteVerboseMsg('File Explorer - Single/Double-Click To Open An Item', $Value)
+        $OpenItem.WriteVerboseMsg('File Explorer - Single/Double-Click To Open An Item', $ClickMode)
         $OpenItem.SetRegistryEntry()
     }
 }

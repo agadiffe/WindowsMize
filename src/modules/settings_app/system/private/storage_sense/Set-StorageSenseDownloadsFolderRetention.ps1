@@ -4,17 +4,17 @@
 
 <#
 .SYNTAX
-    Set-StorageSenseDownloadsRetentionDays
-        [[-Value] {0 | 1 | 14 | 30 | 60}]
+    Set-StorageSenseDownloadsFolderRetention
+        [[-Days] {0 | 1 | 14 | 30 | 60}]
         [-GPO <object>] # <int> (range 0-365) | NotConfigured
         [<CommonParameters>]
 #>
 
-function Set-StorageSenseDownloadsRetentionDays
+function Set-StorageSenseDownloadsFolderRetention
 {
     <#
     .EXAMPLE
-        PS> Set-StorageSenseDownloadsRetentionDays -Value 30 -GPO 'NotConfigured'
+        PS> Set-StorageSenseDownloadsFolderRetention -Days 30 -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -22,7 +22,7 @@ function Set-StorageSenseDownloadsRetentionDays
     (
         [Parameter(Position = 0)]
         [ValidateSet(0, 1, 14, 30, 60)]
-        [int] $Value,
+        [int] $Days,
 
         [ValidateScript(
             { ($_ -is [int] -and $_ -ge 0 -and $_ -le 365) -or $_ -eq 'NotConfigured' },
@@ -32,35 +32,35 @@ function Set-StorageSenseDownloadsRetentionDays
 
     process
     {
-        $DownloadsRetentionDaysMsg = 'Storage Sense - Delete Files In My Downloads Folder After'
+        $DownloadsRetentionMsg = 'Storage Sense - Delete Files In My Downloads Folder After'
 
         switch ($PSBoundParameters.Keys)
         {
-            'Value'
+            'Days'
             {
                 # Never: 0 (default) | 1 day: 1 | 14 days: 14 | 30 days: 30 | 60 days: 60
-                $DownloadsRetentionDays = @{
+                $DownloadsRetention = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy'
                     Entries = @(
                         @{
                             Name  = '512'
-                            Value = $Value
+                            Value = $Days
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                $ValueMsg = $Value -eq 0 ? 'Never' : "$Value day(s)"
-                Write-Verbose -Message "Setting '$DownloadsRetentionDaysMsg' to '$ValueMsg' ..."
-                Set-RegistryEntry -InputObject $DownloadsRetentionDays
+                $ValueMsg = $Days -eq 0 ? 'Never' : "$Days day(s)"
+                Write-Verbose -Message "Setting '$DownloadsRetentionMsg' to '$ValueMsg' ..."
+                Set-RegistryEntry -InputObject $DownloadsRetention
             }
             'GPO'
             {
                 # gpo\ computer config > administrative tpl > system > storage sense
                 #   configure storage sense downloads cleanup threshold
                 # not configured: delete (default) | on: value in days (range 0-365) (never: 0)
-                $DownloadsRetentionDaysGpo = @{
+                $DownloadsRetentionGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\StorageSense'
                     Entries = @(
@@ -79,8 +79,8 @@ function Set-StorageSenseDownloadsRetentionDays
                     'NotConfigured' { 'NotConfigured' }
                     Default         { "$GPO day(s)" }
                 }
-                Write-Verbose -Message "Setting '$DownloadsRetentionDaysMsg (GPO)' to '$GpoMsg' ..."
-                Set-RegistryEntry -InputObject $DownloadsRetentionDaysGpo
+                Write-Verbose -Message "Setting '$DownloadsRetentionMsg (GPO)' to '$GpoMsg' ..."
+                Set-RegistryEntry -InputObject $DownloadsRetentionGpo
             }
         }
     }

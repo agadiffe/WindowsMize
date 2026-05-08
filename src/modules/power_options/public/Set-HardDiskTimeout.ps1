@@ -13,7 +13,7 @@
 .SYNTAX
     Set-HardDiskTimeout
         [-PowerSource] {PluggedIn | OnBattery}
-        [-Timeout] <int>
+        [-TimeoutMins] <int>
         [<CommonParameters>]
 #>
 
@@ -21,7 +21,7 @@ function Set-HardDiskTimeout
 {
     <#
     .EXAMPLE
-        PS> Set-HardDiskTimeout -PowerSource 'PluggedIn' -Timeout 42
+        PS> Set-HardDiskTimeout -PowerSource 'PluggedIn' -TimeoutMins 42
     #>
 
     [CmdletBinding()]
@@ -32,7 +32,7 @@ function Set-HardDiskTimeout
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [ValidateRange(0, 71582788)]
-        [int] $Timeout
+        [int] $TimeoutMins
     )
 
     process
@@ -43,7 +43,7 @@ function Set-HardDiskTimeout
             'OnBattery' { 'DC' }
         }
 
-        Write-Verbose -Message "Setting 'Hard Disk Timeout ($PowerSource)' to '$Timeout min' ..."
-        powercfg.exe -Change Disk-Timeout-$PowerSourceValue $Timeout
+        Write-Verbose -Message "Setting 'Hard Disk Timeout ($PowerSource)' to '$TimeoutMins min(s)' ..."
+        powercfg.exe -Change Disk-Timeout-$PowerSourceValue $TimeoutMins
     }
 }

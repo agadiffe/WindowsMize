@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-AutoPlayMemoryCard
-        [-Value] {Default | NoAction | OpenFolder | AskEveryTime}
+        [-Action] {Default | NoAction | OpenFolder | AskEveryTime}
         [<CommonParameters>]
 #>
 
@@ -13,26 +13,26 @@ function Set-AutoPlayMemoryCard
 {
     <#
     .EXAMPLE
-        PS> Set-AutoPlayMemoryCard -Value 'OpenFolder'
+        PS> Set-AutoPlayMemoryCard -Action 'OpenFolder'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [AutoPlayMode] $Value
+        [AutoPlayMode] $Action
     )
 
     process
     {
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($Action)
         {
             'NoAction'     { 'MSTakeNoAction' }
             'OpenFolder'   { 'MSOpenFolder' }
             'AskEveryTime' { 'MSPromptEachTime' }
         }
 
-        $IsDefault = $Value -eq 'Default'
+        $IsDefault = $Action -eq 'Default'
 
         # Default: delete key (default) | NoAction: MSTakeNoAction | OpenFolder: MSOpenFolder | AskEveryTime: MSPromptEachTime
         $AutoPlayMemoryCard = @(
@@ -62,7 +62,7 @@ function Set-AutoPlayMemoryCard
             }
         )
 
-        Write-Verbose -Message "Setting 'AutoPlay Default - Memory Card' to '$Value' ..."
+        Write-Verbose -Message "Setting 'AutoPlay Default - Memory Card' to '$Action' ..."
         $AutoPlayMemoryCard | Set-RegistryEntry
     }
 }

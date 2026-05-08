@@ -6,9 +6,9 @@
 .SYNTAX
     Set-PointInTimeRestoreSetting
         [-PointInTimeRestore {Disabled | Enabled}]
-        [-Frequency {4 | 6 | 12 | 16 | 24}]
-        [-Retention {6 | 12 | 16 | 24 | 72}]
-        [-MaxDiskUsage <int>]
+        [-FrequencyHours {4 | 6 | 12 | 16 | 24}]
+        [-RetentionHours {6 | 12 | 16 | 24 | 72}]
+        [-MaxDiskUsageGB <int>]
         [<CommonParameters>]
 #>
 
@@ -16,7 +16,7 @@ function Set-PointInTimeRestoreSetting
 {
     <#
     .EXAMPLE
-        PS> Set-PointInTimeRestoreSetting -PointInTimeRestore 'Enabled' -Frequency 24 -MaxDiskUsage 4
+        PS> Set-PointInTimeRestoreSetting -PointInTimeRestore 'Enabled' -FrequencyHours 24 -MaxDiskUsageGB 4
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -25,13 +25,13 @@ function Set-PointInTimeRestoreSetting
         [state] $PointInTimeRestore,
 
         [ValidateSet(4, 6, 12, 16, 24)]
-        [int] $Frequency,
+        [int] $FrequencyHours,
 
         [ValidateSet(6, 12, 16, 24, 72)]
-        [int] $Retention,
+        [int] $RetentionHours,
 
         [ValidateRange(2, 50)]
-        [int] $MaxDiskUsage
+        [int] $MaxDiskUsageGB
     )
 
     process
@@ -45,9 +45,9 @@ function Set-PointInTimeRestoreSetting
         switch ($PSBoundParameters.Keys)
         {
             'PointInTimeRestore' { Set-PointInTimeRestore -State $PointInTimeRestore }
-            'Frequency'          { Set-PointInTimeRestoreFrequency -Value $Frequency }
-            'Retention'          { Set-PointInTimeRestoreRetention -Value $Retention }
-            'MaxDiskUsage'       { Set-PointInTimeRestoreMaxDiskUsage -Value $MaxDiskUsage }
+            'FrequencyHours'     { Set-PointInTimeRestoreFrequency -Hours $FrequencyHours }
+            'RetentionHours'     { Set-PointInTimeRestoreRetention -Hours $RetentionHours }
+            'MaxDiskUsageGB'     { Set-PointInTimeRestoreMaxDiskUsage -GB $MaxDiskUsageGB }
         }
     }
 }

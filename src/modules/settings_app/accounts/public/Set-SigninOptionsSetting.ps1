@@ -94,7 +94,7 @@ function Set-SigninOptionsSetting
             'BiometricsGPO'                     { Set-SigninBiometrics -GPO $BiometricsGPO }
             'SigninWithExternalDevice'          { Set-SigninWithExternalDevice -State $SigninWithExternalDevice }
             'OnlyWindowsHelloForMSAccount'      { Set-SigninOnlyWindowsHelloForMSAccount -State $OnlyWindowsHelloForMSAccount }
-            'SigninRequiredIfAway'              { Set-SigninRequiredIfAway -Value $PSBoundParameters['SigninRequiredIfAway'] }
+            'SigninRequiredIfAway'              { Set-SigninRequiredIfAway -Delay $PSBoundParameters['SigninRequiredIfAway'] }
             'DynamicLock'                       { Set-SigninDynamicLock -State $DynamicLock }
             'DynamicLockGPO'                    { Set-SigninDynamicLock -GPO $DynamicLockGPO }
             'AutoRestartApps'                   { Set-SigninAutoRestartApps -State $AutoRestartApps }

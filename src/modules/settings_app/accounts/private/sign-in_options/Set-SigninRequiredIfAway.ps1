@@ -29,12 +29,12 @@ function Test-ModernStandbyAvailability
 <#
 .SYNTAX for Standard Standby (S3)
     Set-SigninRequiredIfAway
-        [-Value] {Never | OnWakesUpFromSleep}
+        [-Delay] {Never | OnWakesUpFromSleep}
         [<CommonParameters>]
 
 .SYNTAX for Modern Standby (S0)
     Set-SigninRequiredIfAway
-        [-Value] {Never | Always | OneMin | ThreeMins | FiveMins | FifteenMins}
+        [-Delay] {Never | Always | OneMin | ThreeMins | FiveMins | FifteenMins}
         [<CommonParameters>]
 #>
 
@@ -44,13 +44,13 @@ function Set-SigninRequiredIfAway
     .DESCRIPTION
         Dynamic parameters: The syntax depends on the Standby mode that the computer use.
             Standard Standby (S3):
-                [-Value] {Never | OnWakesUpFromSleep}
+                [-Delay] {Never | OnWakesUpFromSleep}
 
             Modern Standby (S0):
-                [-Value] {Never | Always | OneMin | ThreeMins | FiveMins | FifteenMins}
+                [-Delay] {Never | Always | OneMin | ThreeMins | FiveMins | FifteenMins}
 
     .EXAMPLE
-        PS> Set-SigninRequiredIfAway -Value 'Never'
+        PS> Set-SigninRequiredIfAway -Delay 'Never'
     #>
 
     [CmdletBinding()]
@@ -61,7 +61,7 @@ function Set-SigninRequiredIfAway
         $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
         $DynamicParamProperties = @{
             Dictionary = $ParamDictionary
-            Name       = 'Value'
+            Name       = 'Delay'
             Type       = $null
             Attribute  = @{ Parameter = @{ Mandatory = $true; Position = 0 } }
         }
@@ -82,11 +82,11 @@ function Set-SigninRequiredIfAway
     process
     {
         $SigninRequiredIfAwayMsg = 'Sign-In Options - When Should Windows Require You To Sign In Again'
-        $Value = $PSBoundParameters['Value']
+        $Delay = $PSBoundParameters['Delay']
 
         if (Test-ModernStandbyAvailability)
         {
-            $SettingValue = switch ($Value)
+            $SettingValue = switch ($Delay)
             {
                 'Never'       { [uint]::MaxValue }
                 'Always'      { 0 }
@@ -110,15 +110,15 @@ function Set-SigninRequiredIfAway
                 )
             }
 
-            Write-Verbose -Message "Setting '$SigninRequiredIfAwayMsg' to '$Value' ..."
+            Write-Verbose -Message "Setting '$SigninRequiredIfAwayMsg' to '$Delay' ..."
             Set-RegistryEntry -InputObject $SigninRequiredIfAway
         }
         else
         {
             # never: 0 | when PC wakes up from sleep: 1 (default)
-            Write-Verbose -Message "Setting '$SigninRequiredIfAwayMsg' to '$Value' ..."
+            Write-Verbose -Message "Setting '$SigninRequiredIfAwayMsg' to '$Delay' ..."
 
-            $SettingIndex = $Value -eq 'Never' ? 0 : 1
+            $SettingIndex = $Delay -eq 'Never' ? 0 : 1
 
             powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex
             powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_NONE CONSOLELOCK $SettingIndex

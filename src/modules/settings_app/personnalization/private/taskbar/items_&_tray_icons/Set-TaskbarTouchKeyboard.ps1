@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarTouchKeyboard
-        [-Value] {Never | Always | WhenNoKeyboard}
+        [-Visibility] {Never | Always | WhenNoKeyboard}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-TaskbarTouchKeyboard
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarTouchKeyboard -Value 'Never'
+        PS> Set-TaskbarTouchKeyboard -Visibility 'Never'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TouchKeyboardMode] $Value
+        [TouchKeyboardMode] $Visibility
     )
 
     process
@@ -32,13 +32,13 @@ function Set-TaskbarTouchKeyboard
             Entries = @(
                 @{
                     Name  = 'TipbandDesiredVisibility'
-                    Value = [int]$Value
+                    Value = [int]$Visibility
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar Tray Icons - Touch Keyboard' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Taskbar Tray Icons - Touch Keyboard' to '$Visibility' ..."
         Set-RegistryEntry -InputObject $TaskbarTrayIconsTouchKeyboard
     }
 }

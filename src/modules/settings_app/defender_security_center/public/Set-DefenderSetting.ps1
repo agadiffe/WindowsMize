@@ -80,7 +80,7 @@ function Set-DefenderSetting
         {
             'CloudDeliveredProtection'    { Set-DefenderCloudDeliveredProtection -State $CloudDeliveredProtection }
             'CloudDeliveredProtectionGPO' { Set-DefenderCloudDeliveredProtection -GPO $CloudDeliveredProtectionGPO }
-            'AutoSampleSubmission'        { Set-DefenderAutoSampleSubmission -State $AutoSampleSubmission }
+            'AutoSampleSubmission'        { Set-DefenderAutoSampleSubmission -Consent $AutoSampleSubmission }
             'AutoSampleSubmissionGPO'     { Set-DefenderAutoSampleSubmission -GPO $AutoSampleSubmissionGPO }
 
             'AdminProtection'             { Set-DefenderAdminProtection -State $AdminProtection }

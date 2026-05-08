@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-StartupAppsDelay
-        -Value <second>
+        -Seconds <int>
         [<CommonParameters>]
 
     Set-StartupAppsDelay
@@ -17,7 +17,7 @@ function Set-StartupAppsDelay
 {
     <#
     .EXAMPLE
-        PS> Set-StartupAppsDelay -Value 2
+        PS> Set-StartupAppsDelay -Seconds 2
 
     .EXAMPLE
         PS> Set-StartupAppsDelay -Default
@@ -28,7 +28,7 @@ function Set-StartupAppsDelay
     (
         [Parameter(Mandatory, ParameterSetName = 'Custom')]
         [ValidateRange(0, 45)]
-        [int] $Value,
+        [int] $Seconds,
 
         [Parameter(Mandatory, ParameterSetName = 'Default')]
         [switch] $Default
@@ -36,12 +36,12 @@ function Set-StartupAppsDelay
 
     process
     {
-        if ($PSCmdlet.ParameterSetName -eq 'Default' -and $Default -eq $false)
+        if ($PSCmdlet.ParameterSetName -eq 'Default' -and -not $Default)
         {
             return
         }
 
-        # default (delete): about 10s / some idle state threehold
+        # default (delete): about 10s / some idle state threshold
         $StartupAppsDelay = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize'
@@ -49,7 +49,7 @@ function Set-StartupAppsDelay
                 @{
                     RemoveEntry = $Default
                     Name  = 'Startupdelayinmsec'
-                    Value = $Value * 1000 + 100
+                    Value = $Seconds * 1000 + 100
                     Type  = 'DWord'
                 }
                 @{
@@ -61,8 +61,8 @@ function Set-StartupAppsDelay
             )
         }
 
-        $StateMsg = $Default ? 'Default' : "$Value ms"
-        Write-Verbose -Message "Setting 'Startup Apps Delay' to '$StateMsg' ..."
+        $ValueMsg = $Default ? 'Default' : "$Seconds seconds"
+        Write-Verbose -Message "Setting 'Startup Apps Delay' to '$ValueMsg' ..."
         Set-RegistryEntry -InputObject $StartupAppsDelay 
     }
 }

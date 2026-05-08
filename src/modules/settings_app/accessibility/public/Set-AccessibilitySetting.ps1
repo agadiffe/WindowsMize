@@ -7,7 +7,7 @@
     Set-AccessibilitySetting
         [-VisualEffectsAlwaysShowScrollbars {Disabled | Enabled}]
         [-VisualEffectsAnimation {Disabled | Enabled}]
-        [-VisualEffectsNotificationsDuration {5 | 7 | 15 | 30 | 60 | 300}]
+        [-VisualEffectsNotifsDurationSeconds {5 | 7 | 15 | 30 | 60 | 300}]
         [-ContrastThemesKeyboardShorcut {Disabled | Enabled}]
         [-NarratorKeyboardShorcut {Disabled | Enabled}]
         [-NarratorAutoSendTelemetry {Disabled | Enabled}]
@@ -39,7 +39,7 @@ function Set-AccessibilitySetting
         [state] $VisualEffectsAnimation,
 
         [ValidateSet(5, 7, 15, 30, 60, 300)]
-        [int] $VisualEffectsNotificationsDuration,
+        [int] $VisualEffectsNotifsDurationSeconds,
 
         # contrast themes
         [state] $ContrastThemesKeyboardShorcut,
@@ -83,7 +83,7 @@ function Set-AccessibilitySetting
         {
             'VisualEffectsAlwaysShowScrollbars'       { Set-VisualEffectsAlwaysShowScrollbars -State $VisualEffectsAlwaysShowScrollbars }
             'VisualEffectsAnimation'                  { Set-VisualEffectsAnimation -State $VisualEffectsAnimation }
-            'VisualEffectsNotificationsDuration'      { Set-VisualEffectsNotificationsDuration -Value $VisualEffectsNotificationsDuration }
+            'VisualEffectsNotifsDurationSeconds'      { Set-VisualEffectsNotificationsDuration -Seconds $VisualEffectsNotifsDurationSeconds }
 
             'ContrastThemesKeyboardShorcut'           { Set-ContrastThemesKeyboardShorcut -State $ContrastThemesKeyboardShorcut }
 

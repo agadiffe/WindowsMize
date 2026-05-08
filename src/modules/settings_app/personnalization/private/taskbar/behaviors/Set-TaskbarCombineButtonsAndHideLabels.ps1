@@ -8,7 +8,7 @@
 <#
 .SYNTAX
     Set-TaskbarCombineButtonsAndHideLabels
-        [[-MainTaskbar] {Always | WhenTaskbarIsFull | Never}]
+        [-MainTaskbar {Always | WhenTaskbarIsFull | Never}]
         [-OtherTaskbars {Always | WhenTaskbarIsFull | Never}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
@@ -24,7 +24,6 @@ function Set-TaskbarCombineButtonsAndHideLabels
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
-        [Parameter(Position = 0)]
         [TaskbarGroupingMode] $MainTaskbar,
 
         [TaskbarGroupingMode] $OtherTaskbars,

@@ -10,17 +10,16 @@
 <#
 .SYNTAX
     Set-VisualEffects
-        [-Value] {ManagedByWindows | BestAppearance | BestPerformance}
+        -Mode {ManagedByWindows | BestAppearance | BestPerformance | Custom}
         [<CommonParameters>]
 
     Set-VisualEffects
-        [-Value] Custom
-        [[-Setting] <VisualEffectsCustomSetting>]
+        -Mode Custom
+        -Setting <VisualEffectsCustomSetting>
         [<CommonParameters>]
 
     Set-VisualEffects
-        [-Value] Animation
-        [-State] {Disabled | Enabled}
+        -Animation {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
@@ -29,14 +28,13 @@ function Set-VisualEffects
     <#
     .DESCRIPTION
         Dynamic parameters:
-            [[-Setting] <VisualEffectsCustomSetting>] : available when 'Value' is defined to 'Custom'.
-            [-State] {Disabled | Enabled} : available when 'Value' is defined to 'Animation'.
+            [-Setting <VisualEffectsCustomSetting>] : available when 'Mode' is defined to 'Custom'.
 
     .EXAMPLE
-        PS> Set-VisualEffects -Value 'ManagedByWindows'
+        PS> Set-VisualEffects -Mode 'ManagedByWindows'
 
     .EXAMPLE
-        PS> Set-VisualEffects -Value 'Animation' -State 'Enabled'
+        PS> Set-VisualEffects -Animation 'Enabled'
 
     .EXAMPLE
         PS> $VisualEffectsCustomSettings = @{
@@ -44,46 +42,30 @@ function Set-VisualEffects
                 'Enable Peek'                     = 'Enabled'
                 'Save taskbar thumbnail previews' = 'Disabled'
             }
-        PS> Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
+        PS> Set-VisualEffects -Mode 'Custom' -Setting $VisualEffectsCustomSettings
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Mode')]
     param
     (
-        [Parameter(Mandatory)]
-        [ValidateSet('ManagedByWindows', 'BestAppearance', 'BestPerformance', 'Custom', 'Animation')]
-        [string] $Value
+        [Parameter(Mandatory, ParameterSetName = 'Mode')]
+        [ValidateSet('ManagedByWindows', 'BestAppearance', 'BestPerformance', 'Custom')]
+        [string] $Mode,
+
+        [Parameter(Mandatory, ParameterSetName = 'Animation')]
+        [state] $Animation
     )
 
     dynamicparam
     {
-        if ($Value -eq 'Custom' -or $Value -eq 'Animation')
+        if ($Mode -eq 'Custom')
         {
             $ParamDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
             $DynamicParamProperties = @{
                 Dictionary = $ParamDictionary
-                Attribute  = @{ Parameter = @{ Position = 1 } }
+                Name       = 'Setting'
+                Type       = [VisualEffectsCustomSetting]
             }
-
-            switch ($Value)
-            {
-                'Custom'
-                {
-                    $DynamicParamProperties += @{
-                        Name = 'Setting'
-                        Type = [VisualEffectsCustomSetting]
-                    }
-                }
-                'Animation'
-                {
-                    $DynamicParamProperties += @{
-                        Name = 'State'
-                        Type = [state]
-                    }
-                    $DynamicParamProperties['Attribute']['Parameter'] += @{ Mandatory = $true }
-                }
-            }
-
             Add-DynamicParameter @DynamicParamProperties
             $ParamDictionary
         }
@@ -91,27 +73,25 @@ function Set-VisualEffects
 
     process
     {
-        if ($Value -eq 'Animation')
+        if ($PSCmdlet.ParameterSetName -eq 'Animation')
         {
-            $State = $PSBoundParameters['State']
-
             # default: on | off: disable the following effects.
             # The GUI toggle is controlled only by the state of 'Animate controls and elements inside windows' ... (bug or bad design?)
             $VisualEffectsCustomSettings = @{
-                'Animate controls and elements inside windows'   = $State
-                'Animate windows when minimizing and maximizing' = $State
-                'Fade or slide menus into view'                  = $State
-                'Fade or slide ToolTips into view'               = $State
-                'Fade out menu items after clicking'             = $State
-                'Slide open combo boxes'                         = $State
-                'Smooth-scroll list boxes'                       = $State
+                'Animate controls and elements inside windows'   = $Animation
+                'Animate windows when minimizing and maximizing' = $Animation
+                'Fade or slide menus into view'                  = $Animation
+                'Fade or slide ToolTips into view'               = $Animation
+                'Fade out menu items after clicking'             = $Animation
+                'Slide open combo boxes'                         = $Animation
+                'Smooth-scroll list boxes'                       = $Animation
             }
 
             Set-VisualEffectsCustomSetting -Setting $VisualEffectsCustomSettings
         }
         else
         {
-            $ValueSetting = switch ($Value)
+            $ModeValue = switch ($Mode)
             {
                 'ManagedByWindows' { '0' }
                 'BestAppearance'   { '1' }
@@ -127,13 +107,13 @@ function Set-VisualEffects
                 Entries = @(
                     @{
                         Name  = 'VisualFXSetting'
-                        Value = $ValueSetting
+                        Value = $ModeValue
                         Type  = 'DWord'
                     }
                 )
             }
 
-            Write-Verbose -Message "Setting 'Visual Effects' to '$Value' ..."
+            Write-Verbose -Message "Setting 'Visual Effects' to '$Mode' ..."
             Set-RegistryEntry -InputObject $VisualEffectsReg
 
             if ($PSBoundParameters.ContainsKey('Setting'))

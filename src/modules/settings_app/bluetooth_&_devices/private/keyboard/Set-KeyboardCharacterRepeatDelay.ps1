@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-KeyboardCharacterRepeatDelay
-        [-Value] <int>
+        [-Delay] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-KeyboardCharacterRepeatDelay
 {
     <#
     .EXAMPLE
-        PS> Set-KeyboardCharacterRepeatDelay -Value 1
+        PS> Set-KeyboardCharacterRepeatDelay -Delay 1
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-KeyboardCharacterRepeatDelay
     (
         [Parameter(Mandatory)]
         [ValidateRange(0, 3)]
-        [int] $Value
+        [int] $Delay
     )
 
     process
@@ -33,13 +33,13 @@ function Set-KeyboardCharacterRepeatDelay
             Entries = @(
                 @{
                     Name  = 'KeyboardDelay'
-                    Value = $Value
+                    Value = $Delay
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Keyboard - Character Repeat Delay' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Keyboard - Character Repeat Delay' to '$Delay' ..."
         Set-RegistryEntry -InputObject $KeyboardCharacterRepeatDelay
     }
 }

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TouchpadSensitivity
-        [-Value] {Max | High | Medium | Low}
+        [-Sensitivity] {Max | High | Medium | Low}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-TouchpadSensitivity
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadSensitivity -Value 'Medium'
+        PS> Set-TouchpadSensitivity -Sensitivity 'Medium'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TouchpadSensitivityMode] $Value
+        [TouchpadSensitivityMode] $Sensitivity
     )
 
     process
@@ -32,13 +32,13 @@ function Set-TouchpadSensitivity
             Entries = @(
                 @{
                     Name  = 'AAPThreshold'
-                    Value = [int]$Value
+                    Value = [int]$Sensitivity
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad Sensitivity' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Touchpad Sensitivity' to '$Sensitivity' ..."
         Set-RegistryEntry -InputObject $TouchpadSensitivity
     }
 }

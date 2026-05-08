@@ -66,9 +66,9 @@ function Set-TypingSetting
             'HighlightMisspelledWords'              { Set-TypingHighlightMisspelledWords -State $HighlightMisspelledWords }
             'TypingAndCorrectionHistory'            { Set-TypingInsights -State $TypingAndCorrectionHistory }
             'UseDifferentInputMethodForEachApp'     { Set-KeyboardUseDifferentInputMethodForEachApp -State $UseDifferentInputMethodForEachApp }
-            'LanguageBar'                           { Set-KeyboardLanguageBar -Value $LanguageBar }
-            'SwitchInputLanguageHotKey'             { Set-KeyboardHotKeySwitchInputLanguage -Value $SwitchInputLanguageHotKey }
-            'SwitchKeyboardLayoutHotKey'            { Set-KeyboardHotKeySwitchKeyboardLayout -Value $SwitchKeyboardLayoutHotKey }
+            'LanguageBar'                           { Set-KeyboardLanguageBar -Mode $LanguageBar }
+            'SwitchInputLanguageHotKey'             { Set-KeyboardHotKeySwitchInputLanguage -Hotkey $SwitchInputLanguageHotKey }
+            'SwitchKeyboardLayoutHotKey'            { Set-KeyboardHotKeySwitchKeyboardLayout -Hotkey $SwitchKeyboardLayoutHotKey }
         }
     }
 }

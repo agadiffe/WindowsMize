@@ -19,7 +19,7 @@
 <#
 .SYNTAX
     Set-RemoteAssistance
-        [[-State] {Disabled | FullControl | ViewOnly}]
+        [[-Access] {Disabled | FullControl | ViewOnly}]
         [-GPO {Disabled | FullControl | ViewOnly | NotConfigured}]
         [-InvitationMaxTime <int>]
         [-InvitationMaxTimeUnit {Minutes | Hours | Days}]
@@ -33,16 +33,16 @@ function Set-RemoteAssistance
 {
     <#
     .EXAMPLE
-        PS> Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-RemoteAssistance -Access 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Mandatory, Position = 0)]
-        [RemoteAssistanceState] $State,
+        [RemoteAssistanceAccess] $Access,
 
-        [RemoteAssistanceGpoState] $GPO,
+        [RemoteAssistanceGpoAccess] $GPO,
 
         [ValidateRange(1, 99)]
         [int] $InvitationMaxTime = 6,
@@ -65,22 +65,22 @@ function Set-RemoteAssistance
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Access'
             {
                 $RemoteAssistanceProperties = @{
-                    State         = $State
+                    Access        = $Access
                     EncryptedOnly = $EncryptedOnly
                 }
-                Set-RemoteAssistanceState @RemoteAssistanceProperties @InvitationProperties
+                Set-RemoteAssistanceAccess @RemoteAssistanceProperties @InvitationProperties
             }
             'GPO'
             {
                 $RemoteAssistancePropertiesGpo = @{
-                    State            = $GPO
+                    GPO              = $GPO
                     EncryptedOnly    = $EncryptedOnlyGPO
                     InvitationMethod = $InvitationMethodGPO
                 }
-                Set-RemoteAssistanceGpo @RemoteAssistancePropertiesGpo @InvitationProperties
+                Set-RemoteAssistancePolicy @RemoteAssistancePropertiesGpo @InvitationProperties
             }
         }
     }

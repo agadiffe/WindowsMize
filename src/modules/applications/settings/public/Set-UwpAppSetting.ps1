@@ -66,7 +66,7 @@ function Set-UwpAppSetting
             Wait-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
 
             # Settings.dat file is not instantly unlocked after process termination.
-            $MaxRetries = 20
+            $MaxRetries = 30
             $RetryCount = 0
             while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and $RetryCount -lt $MaxRetries)
             {

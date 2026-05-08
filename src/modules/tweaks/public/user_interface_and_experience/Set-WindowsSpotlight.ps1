@@ -8,7 +8,7 @@
         [-AllFeaturesGPO {Disabled | NotConfigured}]
         [-DesktopGPO {Disabled | NotConfigured}]
         [-LockScreenGPO {Disabled | NotConfigured}]
-        [-AdsContentGPO {Disabled | NotConfigured}]
+        [-SuggestedContentGPO {Disabled | NotConfigured}]
         [-LearnAboutPictureDesktopIcon {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -29,7 +29,7 @@ function Set-WindowsSpotlight
         [GpoStateWithoutEnabled] $AllFeaturesGPO,
         [GpoStateWithoutEnabled] $DesktopGPO,
         [GpoStateWithoutEnabled] $LockScreenGPO,
-        [GpoStateWithoutEnabled] $AdsContentGPO,
+        [GpoStateWithoutEnabled] $SuggestedContentGPO,
         [state] $LearnAboutPictureDesktopIcon
     )
 
@@ -120,9 +120,9 @@ function Set-WindowsSpotlight
                 Write-Verbose -Message "Setting 'Windows Spotlight - Lock Screen (GPO)' to '$LockScreenGPO' ..."
                 Set-RegistryEntry -InputObject $LockScreenRegGpo
             }
-            'AdsContentGPO'
+            'SuggestedContentGPO'
             {
-                $IsNotConfigured = $AdsContentGPO -eq 'NotConfigured'
+                $IsNotConfigured = $SuggestedContentGPO -eq 'NotConfigured'
 
                 # gpo\ user config > administrative tpl > windows components > cloud content
                 #   turn off Windows spotlight on Action Center (do not display suggested content (apps or features))
@@ -147,7 +147,7 @@ function Set-WindowsSpotlight
                     )
                 }
 
-                Write-Verbose -Message "Setting 'Windows Spotlight - Ads Content (GPO)' to '$AdsContentGPO' ..."
+                Write-Verbose -Message "Setting 'Windows Spotlight - Ads Content (GPO)' to '$SuggestedContentGPO' ..."
                 Set-RegistryEntry -InputObject $AdsContentRegGpo
             }
             'LearnAboutPictureDesktopIcon'

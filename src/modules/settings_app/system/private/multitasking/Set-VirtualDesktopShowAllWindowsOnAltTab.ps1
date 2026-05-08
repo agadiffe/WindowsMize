@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-VirtualDesktopShowAllWindowsOnAltTab
-        [-Value] {AllDesktops | CurrentDesktop}
+        [-Scope] {AllDesktops | CurrentDesktop}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-VirtualDesktopShowAllWindowsOnAltTab
 {
     <#
     .EXAMPLE
-        PS> Set-VirtualDesktopShowAllWindowsOnAltTab -Value 'CurrentDesktop'
+        PS> Set-VirtualDesktopShowAllWindowsOnAltTab -Scope 'CurrentDesktop'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [WindowVisibilty] $Value
+        [WindowVisibilty] $Scope
     )
 
     process
@@ -32,13 +32,13 @@ function Set-VirtualDesktopShowAllWindowsOnAltTab
             Entries = @(
                 @{
                     Name  = 'VirtualDesktopAltTabFilter'
-                    Value = [int]$Value
+                    Value = [int]$Scope
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Multitasking - Show All Open Windows When I Press Alt+Tab' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Multitasking - Show All Open Windows When I Press Alt+Tab' to '$Scope' ..."
         Set-RegistryEntry -InputObject $ShowAllWindowsOnAltTab
     }
 }

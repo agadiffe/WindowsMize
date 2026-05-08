@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-DefenderAutoSampleSubmission
-        [[-State] {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples}]
+        [[-Consent] {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples}]
         [-GPO {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-DefenderAutoSampleSubmission
 {
     <#
     .EXAMPLE
-        PS> Set-DefenderAutoSampleSubmission -State 'NeverSend' -GPO 'NotConfigured'
+        PS> Set-DefenderAutoSampleSubmission -Consent 'NeverSend' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [SampleSubmissionMode] $State,
+        [SampleSubmissionMode] $Consent,
 
         [GpoSampleSubmissionMode] $GPO
     )
@@ -35,8 +35,8 @@ function Set-DefenderAutoSampleSubmission
             'State'
             {
                 # AlwaysPrompt | SendSafeSamples (default) | NeverSend | SendAllSamples
-                Write-Verbose -Message "Setting '$DefenderAutoSampleSubmissionMsg' to '$State' ..."
-                Set-MpPreference -SubmitSamplesConsent $State
+                Write-Verbose -Message "Setting '$DefenderAutoSampleSubmissionMsg' to '$Consent' ..."
+                Set-MpPreference -SubmitSamplesConsent $Consent
             }
             'GPO'
             {

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-WinPermissionsFindMyFiles
-        [-State] {Classic | Enhanced}
+        [-Mode] {Classic | Enhanced}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-WinPermissionsFindMyFiles
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsFindMyFiles -State 'Disabled'
+        PS> Set-WinPermissionsFindMyFiles -Mode 'Classic'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [FindMyFilesMode] $State
+        [FindMyFilesMode] $Mode
     )
 
     process
@@ -32,13 +32,13 @@ function Set-WinPermissionsFindMyFiles
             Entries = @(
                 @{
                     Name  = 'EnableFindMyFiles'
-                    Value = $State -eq 'Classic' ? '0' : '1'
+                    Value = $Mode -eq 'Classic' ? '0' : '1'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Permissions - Search: Find My Files' to '$State' ..."
+        Write-Verbose -Message "Setting 'Windows Permissions - Search: Find My Files' to '$Mode' ..."
         Set-RegistryEntry -InputObject $WinPermissionsFindMyFiles
     }
 }

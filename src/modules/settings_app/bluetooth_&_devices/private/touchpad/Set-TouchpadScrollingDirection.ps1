@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TouchpadScrollingDirection
-        [-Value] {DownMotionScrollsDown | DownMotionScrollsUp}
+        [-Direction] {DownMotionScrollsDown | DownMotionScrollsUp}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-TouchpadScrollingDirection
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadScrollingDirection -Value 'DownMotionScrollsUp'
+        PS> Set-TouchpadScrollingDirection -Direction 'DownMotionScrollsUp'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [ScrollingDirectionMode] $Value
+        [ScrollingDirectionMode] $Direction
     )
 
     process
@@ -32,13 +32,13 @@ function Set-TouchpadScrollingDirection
             Entries = @(
                 @{
                     Name  = 'ScrollDirection'
-                    Value = $Value -eq 'DownMotionScrollsDown' ? '1' : '0'
+                    Value = $Direction -eq 'DownMotionScrollsDown' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Scrolling Direction' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Touchpad - Scrolling Direction' to '$Direction' ..."
         Set-RegistryEntry -InputObject $TouchpadScrollingDirection
     }
 }

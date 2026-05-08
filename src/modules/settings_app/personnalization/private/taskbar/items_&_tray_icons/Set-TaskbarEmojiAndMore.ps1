@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarEmojiAndMore
-        [-Value] {Never | WhileTyping | Always}
+        [-Visibility] {Never | WhileTyping | Always}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-TaskbarEmojiAndMore
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarEmojiAndMore -Value 'Never'
+        PS> Set-TaskbarEmojiAndMore -Visibility 'Never'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [EmojiMode] $Value
+        [EmojiMode] $Visibility
     )
 
     process
@@ -32,13 +32,13 @@ function Set-TaskbarEmojiAndMore
             Entries = @(
                 @{
                     Name  = 'EmojiAndMoreIconVisibilityState'
-                    Value = [int]$Value
+                    Value = [int]$Visibility
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar Tray Icons - Emoji And More' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Taskbar Tray Icons - Emoji And More' to '$Visibility' ..."
         Set-RegistryEntry -InputObject $TaskbarTrayIconsEmojiAndMore
     }
 }

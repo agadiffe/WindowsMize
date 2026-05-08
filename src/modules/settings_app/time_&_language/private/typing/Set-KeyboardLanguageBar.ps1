@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-KeyboardLanguageBar
-        [-Value] {FloatingOnDesktop | DockedInTaskbar | Hidden}
+        [-Mode] {FloatingOnDesktop | DockedInTaskbar | Hidden}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-KeyboardLanguageBar
 {
     <#
     .EXAMPLE
-        PS> Set-KeyboardLanguageBar -Value 'DockedInTaskbar'
+        PS> Set-KeyboardLanguageBar -Mode 'DockedInTaskbar'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [LanguageBarMode] $Value
+        [LanguageBarMode] $Mode
     )
 
     process
@@ -33,7 +33,7 @@ function Set-KeyboardLanguageBar
         #   'HKEY_CURRENT_USER\Control Panel\Desktop\UserPreferencesMask'
         #   6th byte, 1st bit\ on: 1 | off: 0 (default)
 
-        $DesktopLanguageBarState = $Value -ne 'DockedInTaskbar'
+        $DesktopLanguageBarState = $Mode -ne 'DockedInTaskbar'
         $DesktopLanguageBar = @{
             UseLegacySwitchMode  = (Get-WinLanguageBarOption).IsLegacySwitchingMode
             UseLegacyLanguageBar = $DesktopLanguageBarState
@@ -51,13 +51,13 @@ function Set-KeyboardLanguageBar
             Entries = @(
                 @{
                     Name  = 'ShowStatus'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Typing - Keyboard Input Methods: Language Bar Options' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Typing - Keyboard Input Methods: Language Bar Options' to '$Mode' ..."
         Set-RegistryEntry -InputObject $LanguageBar
     }
 }

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-MouseHapticFeedbackIntensity
-        [-Value] <int>
+        [-Intensity] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-MouseHapticFeedbackIntensity
 {
     <#
     .EXAMPLE
-        PS> Set-MouseHapticFeedbackIntensity -Value 2
+        PS> Set-MouseHapticFeedbackIntensity -Intensity 2
     #>
 
     [CmdletBinding()]
@@ -21,12 +21,12 @@ function Set-MouseHapticFeedbackIntensity
     (
         [Parameter(Mandatory)]
         [ValidateRange(1, 4)]
-        [int] $Value
+        [int] $Intensity
     )
 
     process
     {
-        $SettingValue = switch ($Value)
+        $SettingValue = switch ($Intensity)
         {
             '1' { 0, 0, 0, 0, 0, 0, 208, 63 }
             '2' { 0, 0, 0, 0, 0, 0, 224, 63 }
@@ -47,7 +47,7 @@ function Set-MouseHapticFeedbackIntensity
             )
         }
 
-        Write-Verbose -Message "Setting 'Mouse - Haptic Signals Intensity' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Mouse - Haptic Signals Intensity' to '$Intensity' ..."
         Set-RegistryEntry -InputObject $MouseHapticFeedbackIntensity
     }
 }

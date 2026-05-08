@@ -225,6 +225,6 @@ Set-WindowsSnippingToolSetting -Theme 'System'
 #   Color Picker beacon (blue dot)
 #   Text Extractor beacon (blue dot)
 #   Live Annotation Mode tip
-Set-WindowsPhotosSetting -TeachingTips 'Disabled'
+Set-WindowsSnippingToolSetting -TeachingTips 'Disabled'
 
 #endregion snipping tool

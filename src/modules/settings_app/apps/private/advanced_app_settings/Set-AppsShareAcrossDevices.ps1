@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-AppsShareAcrossDevices
-        [[-Value] {Disabled | DevicesOnly | EveryoneNearby}]
+        [[-Mode] {Disabled | DevicesOnly | EveryoneNearby}]
         [<CommonParameters>]
 #>
 
@@ -15,14 +15,14 @@ function Set-AppsShareAcrossDevices
 {
     <#
     .EXAMPLE
-        PS> Set-AppsShareAcrossDevices -Value 'Disabled'
+        PS> Set-AppsShareAcrossDevices -Mode 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [ShareAcrossDevicesMode] $Value
+        [ShareAcrossDevicesMode] $Mode
     )
 
     process
@@ -36,12 +36,12 @@ function Set-AppsShareAcrossDevices
                 Entries = @(
                     @{
                         Name  = 'CdpSessionUserAuthzPolicy'
-                        Value = [int]$Value
+                        Value = [int]$Mode
                         Type  = 'DWord'
                     }
                     @{
                         Name  = 'RomeSdkChannelUserAuthzPolicy'
-                        Value = [int]$Value
+                        Value = [int]$Mode
                         Type  = 'DWord'
                     }
                 )
@@ -52,14 +52,14 @@ function Set-AppsShareAcrossDevices
                 Entries = @(
                     @{
                         Name  = 'RomeSdkChannelUserAuthzPolicy'
-                        Value = [int]$Value
+                        Value = [int]$Mode
                         Type  = 'DWord'
                     }
                 )
             }
         )
 
-        Write-Verbose -Message "Setting 'Apps - Share Across Devices' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Apps - Share Across Devices' to '$Mode' ..."
         $AppsShareAcrossDevices | Set-RegistryEntry
     }
 }

@@ -43,8 +43,8 @@ function Set-AutoPlaySetting
         {
             'AutoPlay'       { Set-AutoPlay -State $AutoPlay }
             'AutoPlayGPO'    { Set-AutoPlay -GPO $AutoPlayGPO }
-            'RemovableDrive' { Set-AutoPlayRemovableDrive -Value $RemovableDrive }
-            'MemoryCard'     { Set-AutoPlayMemoryCard -Value $MemoryCard }
+            'RemovableDrive' { Set-AutoPlayRemovableDrive -Action $RemovableDrive }
+            'MemoryCard'     { Set-AutoPlayMemoryCard -Action $MemoryCard }
         }
     }
 }

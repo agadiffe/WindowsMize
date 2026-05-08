@@ -28,6 +28,6 @@ function Set-VoiceTypingKeyboardShorcut
     process
     {
         Write-Verbose -Message "Setting 'Speech - Keyboard Shorcut For Voice Typing (Win + H)' to '$State' ..."
-        Set-KeyboardHotkey -Value 'H' -State $State
+        Set-KeyboardHotkey -Hotkey 'H' -State $State
     }
 }

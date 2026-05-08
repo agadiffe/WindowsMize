@@ -43,8 +43,8 @@ function Set-KeyboardSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'CharacterRepeatDelay'            { Set-KeyboardCharacterRepeatDelay -Value $CharacterRepeatDelay }
-            'CharacterRepeatRate'             { Set-KeyboardCharacterRepeatRate -Value $CharacterRepeatRate }
+            'CharacterRepeatDelay'            { Set-KeyboardCharacterRepeatDelay -Delay $CharacterRepeatDelay }
+            'CharacterRepeatRate'             { Set-KeyboardCharacterRepeatRate -Speed $CharacterRepeatRate }
             'CopilotAndWinCKeys'              { Set-KeyboardCopilotAndWinCKeys -Name $CopilotAndWinCKeys }
             'PrintScreenKeyOpenScreenCapture' { Set-KeyboardPrintScreenKeyOpenScreenCapture -State $PrintScreenKeyOpenScreenCapture }
         }

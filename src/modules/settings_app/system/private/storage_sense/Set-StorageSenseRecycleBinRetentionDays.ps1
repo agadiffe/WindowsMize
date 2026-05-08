@@ -4,17 +4,17 @@
 
 <#
 .SYNTAX
-    Set-StorageSenseRecycleBinRetentionDays
-        [[-Value] {0 | 1 | 14 | 30 | 60}]
+    Set-StorageSenseRecycleBinRetention
+        [[-Days] {0 | 1 | 14 | 30 | 60}]
         [-GPO <object>] # <int> (range 0-365) | NotConfigured
         [<CommonParameters>]
 #>
 
-function Set-StorageSenseRecycleBinRetentionDays
+function Set-StorageSenseRecycleBinRetention
 {
     <#
     .EXAMPLE
-        PS> Set-StorageSenseRecycleBinRetentionDays -Value 30 -GPO 'NotConfigured'
+        PS> Set-StorageSenseRecycleBinRetention -Days 30 -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -22,7 +22,7 @@ function Set-StorageSenseRecycleBinRetentionDays
     (
         [Parameter(Position = 0)]
         [ValidateSet(0, 1, 14, 30, 60)]
-        [int] $Value,
+        [int] $Days,
 
         [ValidateScript(
             { ($_ -is [int] -and $_ -ge 0 -and $_ -le 365) -or $_ -eq 'NotConfigured' },
@@ -32,35 +32,35 @@ function Set-StorageSenseRecycleBinRetentionDays
 
     process
     {
-        $RecycleBinRetentionDaysMsg = 'Storage Sense - Delete Files In My Recycle Bin After'
+        $RecycleBinRetentionMsg = 'Storage Sense - Delete Files In My Recycle Bin After'
 
         switch ($PSBoundParameters.Keys)
         {
-            'Value'
+            'Days'
             {
                 # Never: 0 | 1 day: 1 | 14 days: 14 | 30 days: 30 (default) | 60 days: 60
-                $RecycleBinRetentionDays = @{
+                $RecycleBinRetention = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy'
                     Entries = @(
                         @{
                             Name  = '256'
-                            Value = $Value
+                            Value = $Days
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                $ValueMsg = $Value -eq 0 ? 'Never' : "$Value day(s)"
-                Write-Verbose -Message "Setting '$RecycleBinRetentionDaysMsg' to '$ValueMsg' ..."
-                Set-RegistryEntry -InputObject $RecycleBinRetentionDays
+                $ValueMsg = $Days -eq 0 ? 'Never' : "$Days day(s)"
+                Write-Verbose -Message "Setting '$RecycleBinRetentionMsg' to '$ValueMsg' ..."
+                Set-RegistryEntry -InputObject $RecycleBinRetention
             }
             'GPO'
             {
                 # gpo\ computer config > administrative tpl > system > storage sense
                 #   configure storage sense recycle bin cleanup threshold
                 # not configured: delete (default) | on: value in days (range 0-365) (never: 0)
-                $RecycleBinRetentionDaysGpo = @{
+                $RecycleBinRetentionGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\StorageSense'
                     Entries = @(
@@ -79,8 +79,8 @@ function Set-StorageSenseRecycleBinRetentionDays
                     'NotConfigured' { 'NotConfigured' }
                     Default         { "$GPO day(s)" }
                 }
-                Write-Verbose -Message "Setting '$RecycleBinRetentionDaysMsg (GPO)' to '$GpoMsg' ..."
-                Set-RegistryEntry -InputObject $RecycleBinRetentionDaysGpo
+                Write-Verbose -Message "Setting '$RecycleBinRetentionMsg (GPO)' to '$GpoMsg' ..."
+                Set-RegistryEntry -InputObject $RecycleBinRetentionGpo
             }
         }
     }

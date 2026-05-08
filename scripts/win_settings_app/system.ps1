@@ -242,7 +242,7 @@ Write-Section -Name 'Troubleshoot' -SubSection
 
 # --- Recommended troubleshooter preference
 # State: Disabled | AskBeforeRunning (default) | AutoRunAndNotify | AutoRunSilently
-Set-TroubleshooterPreference -Value 'Disabled'
+Set-TroubleshooterPreference -RunMode 'Disabled'
 
 #endregion troubleshoot
 
@@ -262,10 +262,10 @@ Write-Section -Name 'Recovery' -SubSection
 Set-QuickMachineRecovery -State 'Disabled'
 
 # --- --- Automatically check for solutions (AutoRemediation) (default: Disabled)
-#   Look for solutions every (RetryInterval)
-# RetryInterval\ value is in minutes, default: 0, range: 0-720
+#   Look for solutions every (RetryIntervalMins)
+# RetryIntervalMins\ value is in minutes, default: 0, range: 0-720
 #   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
-#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryInterval 0
+#Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryIntervalMins 0
 
 #         Point-In-Time Restore
 #=======================================
@@ -275,14 +275,14 @@ Set-PointInTimeRestoreSetting -PointInTimeRestore 'Disabled'
 
 # --- --- Restore Point Frequency
 # Every\ 4 hours | 6 hours | 12 hours | 16 hours | 24 hours (default)
-Set-PointInTimeRestoreSetting -Frequency 24
+Set-PointInTimeRestoreSetting -FrequencyHours 24
 
 # --- --- Restore Point Retention
 # 6 hours | 12 hours | 16 hours | 24 hours | 72 hours (default)
-Set-PointInTimeRestoreSetting -Retention 72
+Set-PointInTimeRestoreSetting -RetentionHours 72
 
 # --- --- Restore Point Disk Usage: Maximum usage limit (default: 2% of disk (range 2-50 GB))
-Set-PointInTimeRestoreSetting -MaxDiskUsage 10
+Set-PointInTimeRestoreSetting -MaxDiskUsageGB 10
 
 #endregion recovery
 

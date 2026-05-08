@@ -28,6 +28,6 @@ function Set-VisualEffectsAnimation
         # default: Enabled
 
         Write-Verbose -Message "Setting 'Visual Effects - Animation Effects' to '$State' ..."
-        Set-VisualEffects -Value 'Animation' -State $State
+        Set-VisualEffects -Animation $State
     }
 }

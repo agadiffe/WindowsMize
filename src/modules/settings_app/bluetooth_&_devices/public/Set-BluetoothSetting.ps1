@@ -45,7 +45,7 @@ function Set-BluetoothSetting
         switch ($PSBoundParameters.Keys)
         {
             'BluetoothGPO'                    { Set-Bluetooth -GPO $BluetoothGPO }
-            'DiscoveryMode'                   { Set-BluetoothDiscoveryMode -Value $DiscoveryMode }
+            'DiscoveryMode'                   { Set-BluetoothDiscoveryMode -Mode $DiscoveryMode }
             'LowEnergyAudio'                  { Set-BluetoothLowEnergyAudio -State $LowEnergyAudio }
             'ShowQuickPairConnectionNotif'    { Set-BluetoothShowQuickPairConnectionNotif -State $ShowQuickPairConnectionNotif  }
             'ShowQuickPairConnectionNotifGPO' { Set-BluetoothShowQuickPairConnectionNotif -GPO $ShowQuickPairConnectionNotifGPO }

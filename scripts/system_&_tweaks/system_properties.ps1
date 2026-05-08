@@ -50,7 +50,7 @@ Write-Section -Name 'Advanced' -SubSection
 #==========================================================
 
 # --- Visual effects
-# Value: ManagedByWindows (default) | BestAppearance | BestPerformance | Custom
+# Mode: ManagedByWindows (default) | BestAppearance | BestPerformance | Custom
 # Setting: <VisualEffectsCustomSetting> (see below)
 
 $VisualEffectsCustomSettings = @{
@@ -63,7 +63,7 @@ $VisualEffectsCustomSettings = @{
     'Fade out menu items after clicking'              = 'Enabled'
     'Save taskbar thumbnail previews'                 = 'Disabled'
     'Show shadows under mouse pointer'                = 'Enabled'
-    'Show shadows under windows'                      = 'Enabled'
+    'Show shadows under windows'                      = 'Disabled'
     'Show thumbnails instead of icons'                = 'Enabled'
     'Show translucent selection rectangle'            = 'Enabled'
     'Show window contents while dragging'             = 'Enabled'
@@ -72,18 +72,18 @@ $VisualEffectsCustomSettings = @{
     'Smooth-scroll list boxes'                        = 'Enabled'
     'Use drop shadows for icon labels on the desktop' = 'Enabled'
 }
-Set-VisualEffects -Value 'Custom' -Setting $VisualEffectsCustomSettings
-#Set-VisualEffects -Value 'ManagedByWindows'
+Set-VisualEffects -Mode 'Custom' -Setting $VisualEffectsCustomSettings
+#Set-VisualEffects -Mode 'ManagedByWindows'
 
 # --- Advanced > Virtual memory
-# AllDrivesAutoManaged: Disabled | Enabled (default)
+# AutoManageAllDrives: Disabled | Enabled (default)
 # Drive: drive to config (e.g. 'C:')
-# State: CustomSize | SystemManaged | NoPagingFile
-# InitialSize/MaximumSize: size in MB
+# Management: CustomSize | SystemManaged | NoPagingFile
+# InitialSizeMB/MaximumSizeMB: size in MB
 
-#Set-PagingFileSize -AllDrivesAutoManaged 'Enabled'
-Set-PagingFileSize -Drive $env:SystemDrive -State 'CustomSize' -InitialSize 4096 -MaximumSize 4096
-#Set-PagingFileSize -Drive 'X:', 'Y:' -State 'SystemManaged'
+#Set-PagingFileSize -AutoManageAllDrives 'Enabled'
+Set-PagingFileSize -Drive $env:SystemDrive -Management 'CustomSize' -InitialSizeMB 4096 -MaximumSizeMB 4096
+#Set-PagingFileSize -Drive 'X:', 'Y:' -Management 'SystemManaged'
 
 # --- Data execution prevention
 #   Essential Windows programs and services only (OptIn)
@@ -128,9 +128,9 @@ Write-Section -Name 'System protection' -SubSection
 # Also controlled by the group 'Services & Scheduled Tasks > WindowsBackupAndSystemRestore' in the
 # file 'scripts\services_and_scheduled_tasks.ps1'. The services are left to default state 'Manual'.
 
-# AllDrivesDisabled: turn off System Restore
+# DisableForAllDrives: turn off System Restore
 # Drive: drive to config (e.g. 'C:')
-Set-SystemRestore -AllDrivesDisabled -GPO 'NotConfigured'
+Set-SystemRestore -DisableForAllDrives -GPO 'NotConfigured'
 #Set-SystemRestore -Drive $env:SystemDrive -State 'Enabled'
 
 #endregion sys protection
@@ -145,9 +145,9 @@ Write-Section -Name 'Remote' -SubSection
 # --- Remote assistance
 #   Allow remote assistance connections to this computer (ViewOnly)
 #   Allow this computer to be controlled remotely (FullControl)
-# State: Disabled | FullControl | ViewOnly (default)
+# Access: Disabled | FullControl | ViewOnly (default)
 # GPO: Disabled | FullControl | ViewOnly | NotConfigured
-Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured'
+Set-RemoteAssistance -Access 'Disabled' -GPO 'NotConfigured'
 
 # Advanced settings
 #  InvitationMaxTime     : number (range 1-99), default: 6
@@ -156,7 +156,7 @@ Set-RemoteAssistance -State 'Disabled' -GPO 'NotConfigured'
 #  EncryptedOnlyGPO      : Disabled | Enabled | NotConfigured (default)
 #  InvitationMethodGPO   : SimpleMAPI (default) | Mailto
 $RemoteAssistanceProperties = @{
-    State                 = 'ViewOnly'
+    Access                = 'ViewOnly'
     GPO                   = 'NotConfigured'
     InvitationMaxTime     = 6
     InvitationMaxTimeUnit = 'Hours'

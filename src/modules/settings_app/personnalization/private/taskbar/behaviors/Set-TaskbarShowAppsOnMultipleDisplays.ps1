@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-TaskbarShowAppsOnMultipleDisplays
-        [-Value] {AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen}
+        [-Mode] {AllTaskbars | MainAndTaskbarWhereAppIsOpen | TaskbarWhereAppIsOpen}
         [<CommonParameters>]
 #>
 
@@ -15,14 +15,14 @@ function Set-TaskbarShowAppsOnMultipleDisplays
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarShowAppsOnMultipleDisplays -Value 'AllTaskbars'
+        PS> Set-TaskbarShowAppsOnMultipleDisplays -Mode 'AllTaskbars'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TaskbarAppsVisibility] $Value
+        [TaskbarAppsVisibility] $Mode
     )
 
     process
@@ -34,13 +34,13 @@ function Set-TaskbarShowAppsOnMultipleDisplays
             Entries = @(
                 @{
                     Name  = 'MMTaskbarMode'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar - When Using Multiple Displays, Show My Taskbar Apps On' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Taskbar - When Using Multiple Displays, Show My Taskbar Apps On' to '$Mode' ..."
         Set-RegistryEntry -InputObject $TaskbarAppsVisibility
     }
 }

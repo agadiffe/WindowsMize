@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarSearchBox
-        [[-Value] {Hide | IconOnly | Box | IconAndLabel}]
+        [[-Mode] {Hide | IconOnly | Box | IconAndLabel}]
         [-GPO {Hide | IconOnly | Box | IconAndLabel | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-TaskbarSearchBox
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarSearchBox -Value 'Hide' -GPO 'NotConfigured'
+        PS> Set-TaskbarSearchBox -Mode 'Hide' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [SearchBoxMode] $Value,
+        [SearchBoxMode] $Mode,
 
         [GpoSearchBoxMode] $GPO
     )
@@ -32,7 +32,7 @@ function Set-TaskbarSearchBox
 
         switch ($PSBoundParameters.Keys)
         {
-            'Value'
+            'Mode'
             {
                 # hide: 0 | search icon only: 1 | search box: 2 (default) | search icon and label: 3
                 $TaskbarSearchBox = @{
@@ -41,13 +41,13 @@ function Set-TaskbarSearchBox
                     Entries = @(
                         @{
                             Name  = 'SearchboxTaskbarMode'
-                            Value = [int]$Value
+                            Value = [int]$Mode
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$TaskbarSearchBoxMsg' to '$Value' ..."
+                Write-Verbose -Message "Setting '$TaskbarSearchBoxMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $TaskbarSearchBox
             }
             'GPO'

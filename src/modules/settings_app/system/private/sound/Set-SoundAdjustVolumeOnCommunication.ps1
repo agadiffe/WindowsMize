@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-SoundAdjustVolumeOnCommunication
-        [-Value] {DoNothing | MuteOtherSounds | ReduceOtherSoundsBy80Percent | ReduceOtherSoundsBy50Percent}
+        [-Preference] {DoNothing | MuteOtherSounds | ReduceOtherSoundsBy80Percent | ReduceOtherSoundsBy50Percent}
         [<CommonParameters>]
 #>
 
@@ -15,14 +15,14 @@ function Set-SoundAdjustVolumeOnCommunication
 {
     <#
     .EXAMPLE
-        PS> Set-SoundAdjustVolumeOnCommunication -Value 'DoNothing'
+        PS> Set-SoundAdjustVolumeOnCommunication -Preference 'DoNothing'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [AdjustVolumeMode] $Value
+        [AdjustVolumeMode] $Preference
     )
 
     process
@@ -37,13 +37,13 @@ function Set-SoundAdjustVolumeOnCommunication
             Entries = @(
                 @{
                     Name  = 'UserDuckingPreference'
-                    Value = [int]$Value
+                    Value = [int]$Preference
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Sound - When Windows Detects Communications Activity' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Sound - When Windows Detects Communications Activity' to '$Preference' ..."
         Set-RegistryEntry -InputObject $SoundVolumeCommunicationsActivity
     }
 }

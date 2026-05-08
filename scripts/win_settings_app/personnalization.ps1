@@ -167,7 +167,7 @@ Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
 
 Write-Section -Name 'Device usage' -SubSection
 
-# Ads related
+# Ads/Promo
 # default: DisableAll
 $DeviceUsageOption = @(
     #'Creativity'
@@ -178,7 +178,7 @@ $DeviceUsageOption = @(
     #'Gaming'
     #'School'
 )
-#Set-DeviceUsageSetting -Value $DeviceUsageOption
+#Set-DeviceUsageSetting -Usage $DeviceUsageOption
 Set-DeviceUsageSetting -DisableAll
 
 #endregion device usage

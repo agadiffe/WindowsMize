@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarAlignment
-        [-Value] {Left | Center}
+        [-Mode] {Left | Center}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-TaskbarAlignment
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarAlignment -Value 'Center'
+        PS> Set-TaskbarAlignment -Mode 'Center'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TaskbarAlignment] $Value
+        [TaskbarAlignment] $Mode
     )
 
     process
@@ -32,13 +32,13 @@ function Set-TaskbarAlignment
             Entries = @(
                 @{
                     Name  = 'TaskbarAl'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar Alignment' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Taskbar Alignment' to '$Mode' ..."
         Set-RegistryEntry -InputObject $TaskbarAlignment
     }
 }

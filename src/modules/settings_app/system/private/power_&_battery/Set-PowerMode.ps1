@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-PowerMode
-        [-Value] {BestPowerEfficiency | Balanced | BestPerformance}
+        [-Mode] {BestPowerEfficiency | Balanced | BestPerformance}
         [[-PowerSource] {PluggedIn | OnBattery}]
         [<CommonParameters>]
 #>
@@ -17,14 +17,14 @@ function Set-PowerMode
         Available only when using the default Balanced power plan.
 
     .EXAMPLE
-        PS> Set-PowerMode -PowerSource 'PluggedIn' -Value 'BestPowerEfficiency'
+        PS> Set-PowerMode -PowerSource 'PluggedIn' -Mode 'BestPowerEfficiency'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [PowerMode] $Value,
+        [PowerMode] $Mode,
 
         [PowerSource] $PowerSource
     )
@@ -35,7 +35,7 @@ function Set-PowerMode
         # Requested registry access is not allowed.
 
         # default: Balanced
-        $PowerSchemeGuid = switch ($Value)
+        $PowerSchemeGuid = switch ($Mode)
         {
             'BestPowerEfficiency' { '961cc777-2547-4f9d-8174-7d86181b8a7a' }
             'Balanced'            { '00000000-0000-0000-0000-000000000000' }
@@ -67,7 +67,7 @@ function Set-PowerMode
 
         $PowerSourceMsg = $PSBoundParameters.ContainsKey('PowerSource') ? "$PowerSource" : 'PluggedIn & OnBattery'
 
-        Write-Verbose -Message "Setting 'Power Mode ($PowerSourceMsg)' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Power Mode ($PowerSourceMsg)' to '$Mode' ..."
         Set-RegistryEntrySystemProtected -InputObject $PowerMode
     }
 }
@@ -78,7 +78,7 @@ function Set-PowerMode
 <#
 .SYNTAX
     Set-PowerMode
-        [-Value] {BestPowerEfficiency | Balanced | BestPerformance}
+        [-Mode] {BestPowerEfficiency | Balanced | BestPerformance}
         [<CommonParameters>]
 #>
 
@@ -90,27 +90,27 @@ function Set-PowerMode_Unused
         Applies only to the active power source (e.g. Laptop: PluggedIn or OnBattery).
 
     .EXAMPLE
-        PS> Set-PowerMode -Value 'BestPowerEfficiency'
+        PS> Set-PowerMode -Mode 'BestPowerEfficiency'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [PowerMode] $Value
+        [PowerMode] $Mode
     )
 
     process
     {
         # default: Balanced
-        $OverlayGUID = switch ($Value)
+        $OverlayGUID = switch ($Mode)
         {
             'BestPowerEfficiency' { 'OVERLAY_SCHEME_MIN' }
             'Balanced'            { 'OVERLAY_SCHEME_NONE' }
             'BestPerformance'     { 'OVERLAY_SCHEME_MAX' }
         }
 
-        Write-Verbose -Message "Setting 'Power Mode' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Power Mode' to '$Mode' ..."
         powercfg.exe -OverlaySetActive $OverlayGUID
     }
 }

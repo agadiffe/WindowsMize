@@ -113,7 +113,7 @@ function Set-NotificationsSetting
             'TipsAndSuggestions'        { Set-NotificationsTipsAndSuggestions -State $TipsAndSuggestions }
             'TipsAndSuggestionsGPO'     { Set-NotificationsTipsAndSuggestions -GPO $TipsAndSuggestionsGPO }
 
-            'ScreenIndicatorsPosition'  { Set-NotificationsScreenIndicatorsPosition -Value $ScreenIndicatorsPosition }
+            'ScreenIndicatorsPosition'  { Set-NotificationsScreenIndicatorsPosition -Mode $ScreenIndicatorsPosition }
         }
     }
 }

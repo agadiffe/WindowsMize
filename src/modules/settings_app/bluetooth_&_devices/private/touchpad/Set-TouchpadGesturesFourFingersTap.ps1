@@ -1,12 +1,12 @@
 #=================================================================================================================
-#                           Bluetooth & Devices > Touchpad > Four-Finger Gestures > Tap
+#                          Bluetooth & Devices > Touchpad > Four-Finger Gestures > Taps
 #=================================================================================================================
 
 <#
 .SYNTAX
     Set-TouchpadGesturesFourFingersTap
-        [-Value] {Nothing | OpenSearch | NotificationCenter | PlayPause |
-                  MiddleMouseButton | MouseBackButton | MouseForwardButton}
+        [-Mode] {Nothing | OpenSearch | NotificationCenter | PlayPause |
+                 MiddleMouseButton | MouseBackButton | MouseForwardButton}
         [<CommonParameters>]
 #>
 
@@ -14,14 +14,14 @@ function Set-TouchpadGesturesFourFingersTap
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadGesturesFourFingersTap -Value 'OpenSearch'
+        PS> Set-TouchpadGesturesFourFingersTap -Mode 'OpenSearch'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [TouchpadTapMode] $Value
+        [TouchpadTapMode] $Mode
     )
 
     process
@@ -38,18 +38,18 @@ function Set-TouchpadGesturesFourFingersTap
             Entries = @(
                 @{
                     Name  = 'FourFingerTapEnabled'
-                    Value = @('MouseBackButton', 'MouseForwardButton') -contains $Value ? 65535 : [int]$Value
+                    Value = @('MouseBackButton', 'MouseForwardButton') -contains $Mode ? 65535 : [int]$Mode
                     Type  = 'DWord'
                 }
                 @{
                     Name  = 'CustomFourFingerTap'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Three-Finger Gestures Taps' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Touchpad - Three-Finger Gestures Taps' to '$Mode' ..."
         Set-RegistryEntry -InputObject $TouchpadThreeFingersTap
     }
 }

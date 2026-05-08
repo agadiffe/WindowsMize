@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-KeyboardCharacterRepeatRate
-        [-Value] <int>
+        [-Speed] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-KeyboardCharacterRepeatRate
 {
     <#
     .EXAMPLE
-        PS> Set-KeyboardCharacterRepeatRate -Value 31
+        PS> Set-KeyboardCharacterRepeatRate -Speed 31
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-KeyboardCharacterRepeatRate
     (
         [Parameter(Mandatory)]
         [ValidateRange(0, 31)]
-        [int] $Value
+        [int] $Speed
     )
 
     process
@@ -33,13 +33,13 @@ function Set-KeyboardCharacterRepeatRate
             Entries = @(
                 @{
                     Name  = 'KeyboardSpeed'
-                    Value = $Value
+                    Value = $Speed
                     Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Keyboard - Character Repeat Rate' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Keyboard - Character Repeat Rate' to '$Speed' ..."
         Set-RegistryEntry -InputObject $KeyboardCharacterRepeatRate
     }
 }

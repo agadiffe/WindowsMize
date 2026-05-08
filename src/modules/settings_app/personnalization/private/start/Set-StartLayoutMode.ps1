@@ -7,7 +7,7 @@
 <#
 .SYNTAX
     Set-StartLayoutMode
-        [-Value] {Default | MorePins | MoreRecommendations}
+        [-Layout] {Default | MorePins | MoreRecommendations}
         [<CommonParameters>]
 #>
 
@@ -15,14 +15,14 @@ function Set-StartLayoutMode
 {
     <#
     .EXAMPLE
-        PS> Set-StartLayoutMode -Value 'Default'
+        PS> Set-StartLayoutMode -Layout 'Default'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [StartLayoutMode] $Value
+        [StartLayoutMode] $Layout
     )
 
     process
@@ -34,13 +34,13 @@ function Set-StartLayoutMode
             Entries = @(
                 @{
                     Name  = 'Start_Layout'
-                    Value = [int]$Value
+                    Value = [int]$Layout
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Start - Layout Mode' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Start - Layout Mode' to '$Layout' ..."
         Set-RegistryEntry -InputObject $StartLayout
     }
 }

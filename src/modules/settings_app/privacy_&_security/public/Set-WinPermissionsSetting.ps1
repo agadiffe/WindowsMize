@@ -172,7 +172,7 @@ function Set-WinPermissionsSetting
             'DeleteDiagnosticDataGPO'        { Set-WinPermissionsDeleteDiagnosticData -GPO $DeleteDiagnosticDataGPO }
             'ImproveInkingAndTyping'         { Set-WinPermissionsImproveInkingAndTyping -State $ImproveInkingAndTyping }
             'ImproveInkingAndTypingGPO'      { Set-WinPermissionsImproveInkingAndTyping -GPO $ImproveInkingAndTypingGPO }
-            'FeedbackFrequency'              { Set-WinPermissionsFeedbackFrequency -State $FeedbackFrequency }
+            'FeedbackFrequency'              { Set-WinPermissionsFeedbackFrequency -Mode $FeedbackFrequency }
             'FeedbackFrequencyGPO'           { Set-WinPermissionsFeedbackFrequency -GPO $FeedbackFrequencyGPO }
 
             # Search
@@ -186,7 +186,7 @@ function Set-WinPermissionsSetting
             'CloudFileContentSearch'         { Set-WinPermissionsCloudFileContentSearch -State $CloudFileContentSearch }
             'StartMenuWebSearch'             { Set-WinPermissionsStartMenuWebSearch -State $StartMenuWebSearch }
 
-            'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -State $FindMyFiles }
+            'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -Mode $FindMyFiles }
             'IndexEncryptedFilesGPO'         { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }
         }
     }

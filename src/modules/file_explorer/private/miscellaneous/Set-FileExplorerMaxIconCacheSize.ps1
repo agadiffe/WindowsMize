@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-FileExplorerMaxIconCacheSize
-        [-Value] <int>
+        [-KB] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-FileExplorerMaxIconCacheSize
 {
     <#
     .EXAMPLE
-        PS> Set-FileExplorerMaxIconCacheSize -Value 4096
+        PS> Set-FileExplorerMaxIconCacheSize -KB 4096
     #>
 
     [CmdletBinding()]
@@ -21,15 +21,15 @@ function Set-FileExplorerMaxIconCacheSize
     (
         [Parameter(Mandatory)]
         [ValidateRange('NonNegative')]
-        [int] $Value
+        [int] $KB
     )
 
     process
     {
         # default: 512 KB
 
-        $MaxIconCacheSize = [HkcuExplorer]::new('MaxCachedIcons', $Value, 'String')
-        $MaxIconCacheSize.WriteVerboseMsg('File Explorer - Max Icon Cache Size', $Value)
+        $MaxIconCacheSize = [HkcuExplorer]::new('MaxCachedIcons', $KB, 'String')
+        $MaxIconCacheSize.WriteVerboseMsg('File Explorer - Max Icon Cache Size', $KB)
         $MaxIconCacheSize.SetRegistryEntry()
     }
 }

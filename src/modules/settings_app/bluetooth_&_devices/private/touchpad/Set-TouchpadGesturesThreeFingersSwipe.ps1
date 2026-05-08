@@ -4,8 +4,8 @@
 
 <#
 .SYNTAX
-    Set-TouchpadGesturesThreeFingersSwipes
-        [-Value] {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom}
+    Set-TouchpadGesturesThreeFingersSwipe
+        [-Mode] {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop | ChangeAudioAndVolume | Custom}
         [-Up {Nothing | SwitchApps | TaskView | ShowDesktop | SwitchDesktops | HideAllExceptAppInFocus |
               CreateDesktop | RemoveDesktop | ForwardNavigation | BackwardNavigation |
               SnapWindowToLeft | SnapWindowToRight | MaximizeWindow | MinimizeWindow |
@@ -16,21 +16,21 @@
         [<CommonParameters>]
 #>
 
-function Set-TouchpadGesturesThreeFingersSwipes
+function Set-TouchpadGesturesThreeFingersSwipe
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadGesturesThreeFingersSwipes -Value 'SwitchAppsAndShowDesktop'
+        PS> Set-TouchpadGesturesThreeFingersSwipe -Mode 'SwitchAppsAndShowDesktop'
 
     .EXAMPLE
-        PS> Set-TouchpadGesturesThreeFingersSwipes -Value 'Custom' -Up 'MaximizeWindow' -Down 'MinimizeWindow'
+        PS> Set-TouchpadGesturesThreeFingersSwipe -Mode 'Custom' -Up 'MaximizeWindow' -Down 'MinimizeWindow'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Mandatory, Position = 0)]
-        [TouchpadSwipesMode] $Value,
+        [TouchpadSwipesMode] $Mode,
 
         [TouchpadSwipesCustomMode] $Up,
 
@@ -46,23 +46,23 @@ function Set-TouchpadGesturesThreeFingersSwipes
         # ThreeFingerSlideEnabled\
         #   nothing: 0 | switch apps and show desktop: 1 (default) | switch desktops and show desktop: 2
         #   change audio and volume: 3 | custom: 65535 (hex: ffff)
-        $TouchpadThreeFingersSwipes = @{
+        $TouchpadThreeFingersSwipe = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'
             Entries = @(
                 @{
                     Name  = 'ThreeFingerSlideEnabled'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Three-Finger Gestures Swipes' to '$Value' ..."
-        Set-RegistryEntry -InputObject $TouchpadThreeFingersSwipes
+        Write-Verbose -Message "Setting 'Touchpad - Three-Finger Gestures Swipes' to '$Mode' ..."
+        Set-RegistryEntry -InputObject $TouchpadThreeFingersSwipe
 
 
-        $PSBoundParameters.Remove('Value') | Out-Null
+        $PSBoundParameters.Remove('Mode') | Out-Null
         if ($PSBoundParameters.Keys.Count)
         {
             Set-TouchpadGesturesAdvancedFingersSwipes -Name 'ThreeFinger' @PSBoundParameters

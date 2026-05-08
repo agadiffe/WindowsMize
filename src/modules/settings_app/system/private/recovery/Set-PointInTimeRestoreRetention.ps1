@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-PointInTimeRestoreRetention
-        [-Value] {6 | 12 | 16 | 24 | 72}
+        [-Hours] {6 | 12 | 16 | 24 | 72}
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-PointInTimeRestoreRetention
 {
     <#
     .EXAMPLE
-        PS> Set-PointInTimeRestoreRetention -Value 72
+        PS> Set-PointInTimeRestoreRetention -Hours 72
     #>
 
     [CmdletBinding()]
@@ -21,7 +21,7 @@ function Set-PointInTimeRestoreRetention
     (
         [Parameter(Mandatory)]
         [ValidateSet(6, 12, 16, 24, 72)]
-        [int] $Value
+        [int] $Hours
     )
 
     process
@@ -33,13 +33,13 @@ function Set-PointInTimeRestoreRetention
             Entries = @(
                 @{
                     Name  = 'MaxTimespan_UX'
-                    Value = $Value * 60
+                    Value = $Hours * 60
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Recovery - Point-In-Time Restore: Restore Point Retention' to '$Value hours' ..."
+        Write-Verbose -Message "Setting 'Recovery - Point-In-Time Restore: Restore Point Retention' to '$Hours hours' ..."
         Set-RegistryEntry -InputObject $PointInTimeRestoreRetention
     }
 }

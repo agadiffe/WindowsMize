@@ -76,18 +76,18 @@ function Set-MouseSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'PrimaryButton'                { Set-MousePrimaryButton -Value $PrimaryButton }
-            'PointerSpeed'                 { Set-MousePointerSpeed -Value $PointerSpeed }
+            'PrimaryButton'                { Set-MousePrimaryButton -Button $PrimaryButton }
+            'PointerSpeed'                 { Set-MousePointerSpeed -Speed $PointerSpeed }
             'EnhancedPointerPrecision'     { Set-MouseEnhancedPointerPrecision -State $EnhancedPointerPrecision }
             'HapticFeedback'               { Set-MouseHapticFeedback -State $HapticFeedback }
-            'HapticFeedbackIntensity'      { Set-MouseHapticFeedbackIntensity -Value $HapticFeedbackIntensity }
+            'HapticFeedbackIntensity'      { Set-MouseHapticFeedbackIntensity -Intensity $HapticFeedbackIntensity }
             'ScrollInactiveWindowsOnHover' { Set-MouseScrollInactiveWindowsOnHover -State $ScrollInactiveWindowsOnHover }
-            'ScrollingDirection'           { Set-MouseScrollingDirection -Value $ScrollingDirection }
+            'ScrollingDirection'           { Set-MouseScrollingDirection -Direction $ScrollingDirection }
 
             'WheelScroll'
             {
                 $LinesToScrollValue = $PSBoundParameters.ContainsKey('LinesToScroll') ? $PSBoundParameters['LinesToScroll'] : 3
-                Set-MouseWheelScroll -Value $WheelScroll -LinesToScroll $LinesToScrollValue
+                Set-MouseWheelScroll -Mode $WheelScroll -LinesToScroll $LinesToScrollValue
             }
         }
     }

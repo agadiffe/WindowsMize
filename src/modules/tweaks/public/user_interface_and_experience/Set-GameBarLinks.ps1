@@ -1,31 +1,34 @@
 #=================================================================================================================
-#                                              Disable GameBar Links
+#                                                  GameBar Links
 #=================================================================================================================
 
 # Fix error if XBox GameBar is uninstalled.
 
 <#
 .SYNTAX
-    Disable-GameBarLinks
-        [-Reset]
+    Set-GameBarLinks
+        [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Disable-GameBarLinks
+function Set-GameBarLinks
 {
     <#
     .EXAMPLE
-        PS> Disable-GameBarLinks
+        PS> Set-GameBarLinks -State 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
-        [switch] $Reset
+        [Parameter(Mandatory)]
+        [state] $State
     )
 
     process
     {
+        $IsEnabled = $State -eq 'Enabled'
+
         $GamebarLinks = @(
             @{
                 Hive    = 'HKEY_CLASSES_ROOT'
@@ -42,7 +45,7 @@ function Disable-GameBarLinks
                         Type  = 'String'
                     }
                     @{
-                        RemoveEntry = $Reset
+                        RemoveEntry = $IsEnabled
                         Name  = 'NoOpenWith'
                         Value = ''
                         Type  = 'String'
@@ -50,7 +53,7 @@ function Disable-GameBarLinks
                 )
             }
             @{
-                RemoveKey = $Reset
+                RemoveKey = $IsEnabled
                 Hive    = 'HKEY_CLASSES_ROOT'
                 Path    = 'ms-gamebar\shell\open\command'
                 Entries = @(
@@ -76,7 +79,7 @@ function Disable-GameBarLinks
                         Type  = 'String'
                     }
                     @{
-                        RemoveEntry = $Reset
+                        RemoveEntry = $IsEnabled
                         Name  = 'NoOpenWith'
                         Value = ''
                         Type  = 'String'
@@ -84,7 +87,7 @@ function Disable-GameBarLinks
                 )
             }
             @{
-                RemoveKey = $Reset
+                RemoveKey = $IsEnabled
                 Hive    = 'HKEY_CLASSES_ROOT'
                 Path    = 'ms-gamebarservices\shell\open\command'
                 Entries = @(
@@ -97,8 +100,7 @@ function Disable-GameBarLinks
             }
         )
 
-        $GamebarLinksState = $Reset ? 'Resetting' : 'Disabling'
-        Write-Verbose -Message "$GamebarLinksState 'GameBar Links (fix error if XBox GameBar is uninstalled)' ..."
+        Write-Verbose -Message "Setting 'GameBar Links (fix error if XBox GameBar is uninstalled)' to '$State' ..."
         $GamebarLinks | Set-RegistryEntry
     }
 }

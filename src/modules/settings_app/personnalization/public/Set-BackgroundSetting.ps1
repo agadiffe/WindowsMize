@@ -36,7 +36,7 @@ function Set-BackgroundSetting
         switch ($PSBoundParameters.Keys)
         {
             'Wallpaper'      { Set-BackgroundWallpaper -FilePath $Wallpaper }
-            'WallpaperStyle' { Set-BackgroundWallpaperStyle -Value $WallpaperStyle }
+            'WallpaperStyle' { Set-BackgroundWallpaperStyle -Style $WallpaperStyle }
         }
     }
 }

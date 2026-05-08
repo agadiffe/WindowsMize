@@ -6,7 +6,7 @@
 .SYNTAX
     Set-EnergySaverSetting
         [-AlwaysOn {Disabled | Enabled}]
-        [-LowerBrightness <int>]
+        [-LowerBrightness {Disabled | Enabled}]
         [-TurnOnAtBatteryLevel <int>]
         [<CommonParameters>]
 #>
@@ -15,7 +15,7 @@ function Set-EnergySaverSetting
 {
     <#
     .EXAMPLE
-        PS> Set-EnergySaverSetting -AlwaysOn 'Disabled' -LowerBrightness 70 -TurnOnAtBatteryLevel 42
+        PS> Set-EnergySaverSetting -AlwaysOn 'Disabled' -LowerBrightness 'Enabled' -TurnOnAtBatteryLevel 42
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -23,8 +23,7 @@ function Set-EnergySaverSetting
     (
         [state] $AlwaysOn,
 
-        [ValidateRange(0, 100)]
-        [int] $LowerBrightness,
+        [state] $LowerBrightness,
 
         [ValidateRange(0, 100)]
         [int] $TurnOnAtBatteryLevel
@@ -41,7 +40,7 @@ function Set-EnergySaverSetting
         switch ($PSBoundParameters.Keys)
         {
             'AlwaysOn'             { Set-EnergySaverAlwaysOn -State $AlwaysOn }
-            'LowerBrightness'      { Set-EnergySaverLowerBrightness -Percent $LowerBrightness }
+            'LowerBrightness'      { Set-EnergySaverLowerBrightness -State $LowerBrightness }
             'TurnOnAtBatteryLevel' { Set-EnergySaverTurnOnAtBatteryLevel -Percent $TurnOnAtBatteryLevel }
         }
     }

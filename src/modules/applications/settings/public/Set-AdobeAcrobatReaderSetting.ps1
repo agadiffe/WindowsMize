@@ -222,7 +222,7 @@ function Set-AdobeAcrobatReaderSetting
             'ShowMessagesAtLaunchGPO'            { Set-AcrobatReaderShowMessagesAtLaunch -GPO $ShowMessagesAtLaunchGPO }
             'ShowMessagesWhenViewingPdf'         { Set-AcrobatReaderShowMessagesWhenViewingPdf -State $ShowMessagesWhenViewingPdf }
             'ShowMessagesWhenViewingPdfGPO'      { Set-AcrobatReaderShowMessagesWhenViewingPdf -GPO $ShowMessagesWhenViewingPdfGPO }
-            'SendCrashReports'                   { Set-AcrobatReaderSendCrashReports -Value $SendCrashReports }
+            'SendCrashReports'                   { Set-AcrobatReaderSendCrashReports -Mode $SendCrashReports }
 
             ## Email accounts
             'WebmailGPO'                         { Set-AcrobatReaderWebmail -GPO $WebmailGPO }
@@ -241,7 +241,7 @@ function Set-AdobeAcrobatReaderSetting
             'ProtectedModeGPO'                   { Set-AcrobatReaderProtectedMode -GPO $ProtectedModeGPO }
             'AppContainer'                       { Set-AcrobatReaderAppContainer -State $AppContainer }
             'AppContainerGPO'                    { Set-AcrobatReaderAppContainer -GPO $AppContainerGPO }
-            'ProtectedView'                      { Set-AcrobatReaderProtectedView -State $ProtectedView }
+            'ProtectedView'                      { Set-AcrobatReaderProtectedView -Mode $ProtectedView }
             'ProtectedViewGPO'                   { Set-AcrobatReaderProtectedView -GPO $ProtectedViewGPO }
             'EnhancedSecurity'                   { Set-AcrobatReaderEnhancedSecurity -State $EnhancedSecurity }
             'EnhancedSecurityGPO'                { Set-AcrobatReaderEnhancedSecurity -GPO $EnhancedSecurityGPO }
@@ -255,13 +255,13 @@ function Set-AdobeAcrobatReaderSetting
             ## Trust manager
             'OpenFileAttachments'                { Set-AcrobatReaderOpenFileAttachments -State $OpenFileAttachments }
             'OpenFileAttachmentsGPO'             { Set-AcrobatReaderOpenFileAttachments -GPO $OpenFileAttachmentsGPO }
-            'InternetAccessFromPdf'              { Set-AcrobatReaderInternetAccess -State $InternetAccessFromPdf }
+            'InternetAccessFromPdf'              { Set-AcrobatReaderInternetAccess -Mode $InternetAccessFromPdf }
             'InternetAccessFromPdfGPO'           { Set-AcrobatReaderInternetAccess -GPO $InternetAccessFromPdfGPO }
-            'InternetAccessFromPdfUnknownUrl'    { Set-AcrobatReaderInternetAccessUnknownUrl -State $InternetAccessFromPdfUnknownUrl }
+            'InternetAccessFromPdfUnknownUrl'    { Set-AcrobatReaderInternetAccessUnknownUrl -Mode $InternetAccessFromPdfUnknownUrl }
             'InternetAccessFromPdfUnknownUrlGPO' { Set-AcrobatReaderInternetAccessUnknownUrl -GPO $InternetAccessFromPdfUnknownUrlGPO }
 
             ## Units
-            'PageUnits'                          { Set-AcrobatReaderPageUnits -Value $PageUnits }
+            'PageUnits'                          { Set-AcrobatReaderPageUnits -Unit $PageUnits }
 
 
             # --- Miscellaneous

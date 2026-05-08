@@ -3,14 +3,14 @@
 #==============================================================================
 
 # remote assistance
-enum RemoteAssistanceState
+enum RemoteAssistanceAccess
 {
     Disabled
     FullControl
     ViewOnly
 }
 
-enum RemoteAssistanceGpoState
+enum RemoteAssistanceGpoAccess
 {
     Disabled
     FullControl

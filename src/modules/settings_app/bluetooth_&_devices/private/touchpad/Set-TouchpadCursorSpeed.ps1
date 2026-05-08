@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-TouchpadCursorSpeed
-        [-Value] <int>
+        [-Speed] <int>
         [<CommonParameters>]
 #>
 
@@ -13,7 +13,7 @@ function Set-TouchpadCursorSpeed
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadCursorSpeed -Value 5
+        PS> Set-TouchpadCursorSpeed -Speed 5
     #>
 
     [CmdletBinding()]
@@ -21,13 +21,13 @@ function Set-TouchpadCursorSpeed
     (
         [Parameter(Mandatory)]
         [ValidateRange(1, 10)]
-        [int] $Value
+        [int] $Speed
     )
 
     process
     {
         # GUI values are divided by 2
-        $SettingValue = $Value * 2
+        $SettingValue = $Speed * 2
 
         # default: 10 (range 2-20)
         $TouchpadCursorSpeed = @{

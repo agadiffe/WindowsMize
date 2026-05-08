@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-NotificationsScreenIndicatorsPosition
-        [-Value] {BottomCenter | TopLeft | TopCenter}
+        [-Mode] {BottomCenter | TopLeft | TopCenter}
         [<CommonParameters>]
 #>
 
@@ -13,14 +13,14 @@ function Set-NotificationsScreenIndicatorsPosition
 {
     <#
     .EXAMPLE
-        PS> Set-NotificationsScreenIndicatorsPosition -Value 'BottomCenter'
+        PS> Set-NotificationsScreenIndicatorsPosition -Mode 'BottomCenter'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [NotifsPositionIndex] $Value
+        [NotifsPositionIndex] $Mode
     )
 
     process
@@ -32,13 +32,13 @@ function Set-NotificationsScreenIndicatorsPosition
             Entries = @(
                 @{
                     Name  = 'PositionIndex'
-                    Value = [int]$Value
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Notifications - Position Of On-Screen Indicators' to '$Value' ..."
+        Write-Verbose -Message "Setting 'Notifications - Position Of On-Screen Indicators' to '$Mode' ..."
         Set-RegistryEntry -InputObject $NotificationsScreenIndicatorsPosition
     }
 }

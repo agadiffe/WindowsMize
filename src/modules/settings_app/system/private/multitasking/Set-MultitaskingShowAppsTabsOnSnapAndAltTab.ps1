@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-MultitaskingShowAppsTabsOnSnapAndAltTab
-        [[-State] {TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled}]
+        [[-Mode] {TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled}]
         [-GPO {TwentyMostRecent | FiveMostRecent | ThreeMostRecent | Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -14,14 +14,14 @@ function Set-MultitaskingShowAppsTabsOnSnapAndAltTab
 {
     <#
     .EXAMPLE
-        PS> Set-MultitaskingShowAppsTabsOnSnapAndAltTab -State 'ThreeMostRecent' -GPO 'NotConfigured'
+        PS> Set-MultitaskingShowAppsTabsOnSnapAndAltTab -Mode 'ThreeMostRecent' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
         [Parameter(Position = 0)]
-        [AppsTabsOnSnapMode] $State,
+        [AppsTabsOnSnapMode] $Mode,
 
         [GpoAppsTabsOnSnapMode] $GPO
     )
@@ -32,7 +32,7 @@ function Set-MultitaskingShowAppsTabsOnSnapAndAltTab
 
         switch ($PSBoundParameters.Keys)
         {
-            'State'
+            'Mode'
             {
                 # 20 most recent tabs: 0 | 5 most recent tabs: 1 | 3 most recent tabs: 2 (default) | Don't show tabs: 3
                 $AppsTabsOnSnapAndAltTab = @{
@@ -41,13 +41,13 @@ function Set-MultitaskingShowAppsTabsOnSnapAndAltTab
                     Entries = @(
                         @{
                             Name  = 'MultiTaskingAltTabFilter'
-                            Value = [int]$State
+                            Value = [int]$Mode
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$AppsTabsOnSnapAndAltTabMsg' to '$State' ..."
+                Write-Verbose -Message "Setting '$AppsTabsOnSnapAndAltTabMsg' to '$Mode' ..."
                 Set-RegistryEntry -InputObject $AppsTabsOnSnapAndAltTab
             }
             'GPO'

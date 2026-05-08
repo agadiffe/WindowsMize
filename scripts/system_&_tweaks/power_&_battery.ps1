@@ -34,9 +34,9 @@ Set-Hibernate -State 'Disabled'
 
 # --- Turn off hard disk after idle time
 # PowerSource: PluggedIn (default: 20) | OnBattery (default: 10)
-# Timeout: value in minutes
-Set-HardDiskTimeout -PowerSource 'OnBattery' -Timeout 20
-Set-HardDiskTimeout -PowerSource 'PluggedIn' -Timeout 60
+# TimeoutMins: value in minutes
+Set-HardDiskTimeout -PowerSource 'OnBattery' -TimeoutMins 20
+Set-HardDiskTimeout -PowerSource 'PluggedIn' -TimeoutMins 60
 
 # --- Modern standby (S0) : Network connectivity
 # PowerSource: PluggedIn | OnBattery
@@ -47,11 +47,11 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 # --- Battery settings
 # default: Low 10%, DoNothing | Reserve 7% | Critical 5%, Hibernate
 # Battery: Low | Critical | Reserve
-# Level: value in percent (range: 5-100)
+# Percent: value in percentage (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
-Set-AdvancedBatterySetting -Battery 'Low'      -Level 19 -Action 'DoNothing'
-Set-AdvancedBatterySetting -Battery 'Reserve'  -Level 12
-Set-AdvancedBatterySetting -Battery 'Critical' -Level 9  -Action 'Sleep'
+Set-AdvancedBatterySetting -Battery 'Low'      -Percent 19 -Action 'DoNothing'
+Set-AdvancedBatterySetting -Battery 'Reserve'  -Percent 12
+Set-AdvancedBatterySetting -Battery 'Critical' -Percent 9  -Action 'Sleep'
 
 #endregion control panel
 
@@ -92,15 +92,15 @@ Set-PowerSetting -BatteryPercentage 'Disabled'
 # --- Make my device hibernate after
 # PowerSource: PluggedIn | OnBattery
 # PowerState: Screen | Sleep | Hibernate
-# Timeout: value in minutes | never: 0
+# TimeoutMins: value in minutes | never: 0
 
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Screen'    -Timeout 3
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Sleep'     -Timeout 10
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Hibernate' -Timeout 60
+Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Screen'    -TimeoutMins 3
+Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Sleep'     -TimeoutMins 10
+Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Hibernate' -TimeoutMins 60
 
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Screen'    -Timeout 3
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Sleep'     -Timeout 5
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -Timeout 30
+Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Screen'    -TimeoutMins 3
+Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Sleep'     -TimeoutMins 5
+Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -TimeoutMins 30
 
 #             Energy saver
 #=======================================
@@ -109,14 +109,11 @@ Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -Timeout 30
 Set-EnergySaverSetting -AlwaysOn 'Disabled'
 
 # --- Turn energy saver on automatically when battery level is at
-# default: 30 | never: 0 | always: 100
+# range: 0-100 / default: 30 | never: 0 | always: 100
 Set-EnergySaverSetting -TurnOnAtBatteryLevel 30
 
-# --- Lower screen brightness when using energy saver
-# If you use a custom value and turn off the feature in the GUI,
-# when you turn it back on, the default value will be used.
-# Enabled: 70 (default) (range 0-99) | Disabled: 100
-Set-EnergySaverSetting -LowerBrightness 70
+# --- Lower screen brightness when using energy saver (default: Enabled)
+Set-EnergySaverSetting -LowerBrightness 'Enabled'
 
 #  Lid, power & sleep button controls
 #=======================================

@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-DisplayBrightness
-        [-Value] <int>
+        [-Percent] <int>
         [<CommonParameters>]
 #>
 
@@ -16,7 +16,7 @@ function Set-DisplayBrightness
         Available with a built-in display (e.g. Laptop).
 
     .EXAMPLE
-        PS> Set-DisplayBrightness -Value 70
+        PS> Set-DisplayBrightness -Percent 70
     #>
 
     [CmdletBinding()]
@@ -24,16 +24,16 @@ function Set-DisplayBrightness
     (
         [Parameter(Mandatory)]
         [ValidateRange(0, 100)]
-        [int] $Value
+        [int] $Percent
     )
 
     process
     {
         # range: 0-100
-        Write-Verbose -Message "Setting 'Display Brightness' to '$Value%' ..."
+        Write-Verbose -Message "Setting 'Display Brightness' to '$Percent%' ..."
 
-        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Value 2>&1 | Out-Null
-        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Value 2>&1 | Out-Null
+        powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent 2>&1 | Out-Null
+        powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent 2>&1 | Out-Null
         if ($Global:LASTEXITCODE -ne 0) {
             Write-Verbose -Message "  cannot set the Display Brightness (probably no built-in display available)"
         }
