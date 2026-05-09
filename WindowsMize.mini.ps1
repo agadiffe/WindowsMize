@@ -1700,8 +1700,14 @@ $TouchpadSettings = @{
     RightClickButton             = 'Enabled'
     RightClickZoneSize           = 'Default' # Default | Small | Medium | Large
     TwoFingersToScroll           = 'Enabled'
+    SingleFingerToScroll         = 'RightSide' # Disabled | LeftSide | RightSide
+    AutoScrollingAtEdge          = 'Enabled'
+    AutoScrollingWithPressure    = 'Enabled'
+    AcceleratedScrolling         = 'Enabled'
+    ScrollSpeed                  = 5 # range: 0-10
     ScrollingDirection           = 'DownMotionScrollsUp' # DownMotionScrollsDown | DownMotionScrollsUp
     PinchToZoom                  = 'Enabled'
+    ZoomSpeed                    = 5 # range: 0-10
 }
 #Set-TouchpadSetting @TouchpadSettings
 

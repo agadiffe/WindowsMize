@@ -18,8 +18,14 @@
         [-RightClickButton {Disabled | Enabled}]
         [-RightClickZoneSize {Default | Small | Medium | Large}]
         [-TwoFingersToScroll {Disabled | Enabled}]
+        [-SingleFingerToScroll {Disabled | LeftSide | RightSide}]
+        [-AutoScrollingWithPressure {Disabled | Enabled}]
+        [-AutoScrollingAtEdge {Disabled | Enabled}]
+        [-AcceleratedScrolling {Disabled | Enabled}]
+        [-ScrollSpeed <int>]
         [-ScrollingDirection {DownMotionScrollsDown | DownMotionScrollsUp}]
         [-PinchToZoom {Disabled | Enabled}]
+        [-ZoomSpeed <int>]
         [-ThreeFingersTap {Nothing | OpenSearch | NotificationCenter | PlayPause |
                            MiddleMouseButton | MouseBackButton | MouseForwardButton}]
         [-ThreeFingersSwipe {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop |
@@ -32,7 +38,7 @@
         [-ThreeFingersLeft { same as ThreeFingersUp }]
         [-ThreeFingersRight { same as ThreeFingersUp }]
         [-FourFingersTap { same as ThreeFingersTap }]
-        [-FourFingersSwipe { same as ThreeFingersSwipes }]
+        [-FourFingersSwipe { same as ThreeFingersSwipe }]
         [-FourFingersUp { same as ThreeFingersUp }]
         [-FourFingersDown { same as ThreeFingersUp }]
         [-FourFingersLeft { same as ThreeFingersUp }]
@@ -44,7 +50,7 @@ function Set-TouchpadSetting
 {
     <#
     .DESCRIPTION
-        Dynamic parameters: available when 'ThreeFingersSwipes' or 'FourFingersSwipes' are defined to 'Custom'.
+        Dynamic parameters: available when 'ThreeFingersSwipe' or 'FourFingersSwipe' are defined to 'Custom'.
             -ThreeFingersUp, -ThreeFingersDown, -ThreeFingersLeft, -ThreeFingersRight
             -FourFingersUp, -FourFingersDown, -FourFingersLeft, -FourFingersRight
         Accepted values: {Nothing | SwitchApps | TaskView | ShowDesktop | SwitchDesktops | HideAllExceptAppInFocus |
@@ -93,9 +99,23 @@ function Set-TouchpadSetting
         # scroll & zoom
         [state] $TwoFingersToScroll,
 
+        [SingleFingerScrollMode] $SingleFingerToScroll,
+
+        [state] $AutoScrollingWithPressure,
+
+        [state] $AutoScrollingAtEdge,
+
+        [state] $AcceleratedScrolling,
+
+        [ValidateRange(0, 10)]
+        [int] $ScrollSpeed,
+
         [ScrollingDirectionMode] $ScrollingDirection,
 
         [state] $PinchToZoom,
+
+        [ValidateRange(0, 10)]
+        [int] $ZoomSpeed,
 
         # gestures
         [TouchpadTapMode] $ThreeFingersTap,
@@ -159,8 +179,14 @@ function Set-TouchpadSetting
             'RightClickZoneSize'           { Set-TouchpadRightClickZoneSize -Size $RightClickZoneSize }
 
             'TwoFingersToScroll'           { Set-TouchpadTwoFingersToScroll -State $TwoFingersToScroll }
+            'SingleFingerToScroll'         { Set-TouchpadSingleFingerToScroll -Mode $SingleFingerToScroll }
+            'AutoScrollingWithPressure'    { Set-TouchpadAutoScrollingWithPressure -State $AutoScrollingWithPressure }
+            'AutoScrollingAtEdge'          { Set-TouchpadAutoScrollingAtEdge -State $AutoScrollingAtEdge }
+            'AcceleratedScrolling'         { Set-TouchpadAcceleratedScrolling -State $AcceleratedScrolling }
+            'ScrollSpeed'                  { Set-TouchpadScrollSpeed -Speed $ScrollSpeed }
             'ScrollingDirection'           { Set-TouchpadScrollingDirection -Direction $ScrollingDirection }
             'PinchToZoom'                  { Set-TouchpadPinchToZoom -State $PinchToZoom }
+            'ZoomSpeed'                    { Set-TouchpadPinchToZoomSpeed -Speed $ZoomSpeed }
 
             'ThreeFingersTap'              { Set-TouchpadGesturesThreeFingersTap -Mode $ThreeFingersTap }
             'ThreeFingersSwipe'

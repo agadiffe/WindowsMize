@@ -1,45 +1,45 @@
 #=================================================================================================================
-#                                  Bluetooth & Devices > Touchpad > Cursor Speed
+#                          Bluetooth & Devices > Touchpad > Scroll & Zoom > Scroll Speed
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-TouchpadCursorSpeed
+    Set-TouchpadScrollSpeed
         [-Speed] <int>
         [<CommonParameters>]
 #>
 
-function Set-TouchpadCursorSpeed
+function Set-TouchpadScrollSpeed
 {
     <#
     .EXAMPLE
-        PS> Set-TouchpadCursorSpeed -Speed 5
+        PS> Set-TouchpadScrollSpeed -Speed 5
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [ValidateRange(1, 10)]
+        [ValidateRange(0, 10)]
         [int] $Speed
     )
 
     process
     {
-        # default: 10 (range 2-20)
-        $TouchpadCursorSpeed = @{
+        # default: 50 (range 0-100)
+        $TouchpadScrollSpeed = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'
             Entries = @(
                 @{
-                    Name  = 'CursorSpeed'
-                    Value = $Speed * 2
+                    Name  = 'PanSensitivity'
+                    Value = $Speed * 10
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Touchpad - Cursor Speed' to '$Speed' ..."
-        Set-RegistryEntry -InputObject $TouchpadCursorSpeed
+        Write-Verbose -Message "Setting 'Touchpad - Scroll Speed' to '$Speed' ..."
+        Set-RegistryEntry -InputObject $TouchpadScrollSpeed
     }
 }

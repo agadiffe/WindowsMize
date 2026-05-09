@@ -247,12 +247,31 @@ Set-TouchpadSetting -RightClickZoneSize 'Default'
 # --- Drag two fingers to scroll (default: Enabled)
 Set-TouchpadSetting -TwoFingersToScroll 'Enabled'
 
+# --- Single-finger scrolling
+State: Disabled | LeftSide | RightSide (default)
+Set-TouchpadSetting -SingleFingerToScroll 'RightSide'
+
+# --- Automatic scrolling at edge (default: Enabled)
+Set-TouchpadSetting -AutoScrollingAtEdge 'Enabled'
+
+# --- Automatic scrolling with pressure (default: Enabled)
+Set-TouchpadSetting -AutoScrollingWithPressure 'Enabled'
+
+# --- Accelerated scrolling (default: Enabled)
+Set-TouchpadSetting -AcceleratedScrolling 'Enabled'
+
+# --- Scroll speed (default: 5 (range 0-10))
+Set-TouchpadSetting -ScrollSpeed 5
+
 # --- Scrolling direction
 # State: DownMotionScrollsDown | DownMotionScrollsUp (default)
 Set-TouchpadSetting -ScrollingDirection 'DownMotionScrollsUp'
 
 # --- Pinch to zoom (default: Enabled)
 Set-TouchpadSetting -PinchToZoom 'Enabled'
+
+# --- --- Zoom speed (default: 5 (range 0-10))
+Set-TouchpadSetting -ZoomSpeed 5
 
 #         Three-finger gestures
 #=======================================

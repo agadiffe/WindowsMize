@@ -31,6 +31,13 @@ enum ScrollingDirectionMode
 
 
 # touchpad
+enum SingleFingerScrollMode
+{
+    Disabled  = 0
+    LeftSide  = 1
+    RightSide = 2
+}
+
 enum TouchpadSensitivityMode
 {
     Max    = 0
