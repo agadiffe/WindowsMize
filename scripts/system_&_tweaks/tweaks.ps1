@@ -282,7 +282,8 @@ Set-FileHistory -GPO 'Disabled'
 Set-FontProviders -GPO 'Disabled'
 
 # --- Home setting page visibility
-Set-HomeSettingPageVisibility -GPO 'Disabled'
+# GPO: Hide | Show
+Set-HomeSettingPageVisibility -GPO 'Hide'
 
 # --- Location permission
 Set-LocationPermission -GPO 'NotConfigured'

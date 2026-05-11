@@ -1116,7 +1116,7 @@ Set-DisplayLockScreen -GPO 'NotConfigured'
 Set-EaseOfAccessReadScanSection -State 'Disabled'
 Set-FileHistory -GPO 'Disabled'
 Set-FontProviders -GPO 'Disabled' # Disabled | Enabled | NotConfigured
-Set-HomeSettingPageVisibility -GPO 'Disabled'
+Set-HomeSettingPageVisibility -GPO 'Hide' # Hide | Show
 Set-LocationPermission -GPO 'NotConfigured'
 Set-LocationScriptingPermission -GPO 'NotConfigured'
 Set-OpenWithDialogStoreAccess -GPO 'Disabled'
