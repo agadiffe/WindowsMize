@@ -1,7 +1,7 @@
 ###############################################################################
 # Microsoft Solitaire Ads - DNS list
 ###############################################################################
-# Add this list to your Hosts file: C:\System32\drivers\etc\hosts
+# Add this list to your Hosts file: C:\Windows\System32\drivers\etc\hosts
 # Source: Internet / Reddit
 # You can use tools like Wireshark/Fiddler to get more DNS requests.
 

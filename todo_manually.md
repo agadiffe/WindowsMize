@@ -3,18 +3,137 @@ Review these todos after the script execution and computer restart.
 (or before, depending of the setting. e.g. you probably want to set the "display scale" right away)
 
 ## DNS block lists
-Add these lists to your Hosts file: `C:\System32\drivers\etc\hosts`.  
-You might need to add this file as exception in Microsoft Defender.
+Add these domain lists to your hosts file (C:\Windows\System32\drivers\etc\hosts).  
+You may need to allow modifications to the hosts file in Microsoft Defender (e.g. by adding the file as an exclusion).
 
-Not automated because such functions/scripts would certainly be flagged by Antivirus ...
+Excluding the hosts file from Defender can reduce security if malware later gains access to your system,  
+because malware often abuses the hosts file to block security websites or redirect traffic.  
+An alternative is to use AdGuard Home or a similar DNS-based filtering tool.
+
+Not automated, because scripts or tools that modify the hosts file are commonly flagged by antivirus software,  
+including Microsoft Defender, as potentially suspicious behavior.
 
 - Microsoft Solitaire Ads  
-  see [Microsoft-Solitaire-Ads_DNS-list.txt](tools/Microsoft-Solitaire-Ads_DNS-list.txt)
+  See [Microsoft-Solitaire-Ads_DNS-list.txt](tools/Microsoft-Solitaire-Ads_DNS-list.txt).  
+  Open Notepad as administrator and copy/paste the list to your hosts file.
 - Microsoft trackers (Windows, Office, MSN)  
   GitHub project: https://github.com/hagezi/dns-blocklists  
   Hosts file:  
-  - https://github.com/hagezi/dns-blocklists/blob/main/hosts/native.winoffice-compressed.txt  
+  - https://github.com/hagezi/dns-blocklists/blob/main/hosts/native.winoffice-compressed.txt
   - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.winoffice-compressed.txt
+
+  <details>
+    <summary>Script to add/update the "Windows Tracker DNS Blocklist" (save it as .ps1 file) (Click to expand)</summary>
+  
+  ```powershell
+  #=================================================================================================================
+  #                           Hosts file - HaGeZi's Windows/Office Tracker DNS Blocklist
+  #=================================================================================================================
+  
+  # https://github.com/hagezi/dns-blocklists
+  
+  
+  <#
+  .SYNTAX
+      Set-HostsDnsBlocklistsNativeWinOffice.ps1 [<CommonParameters>]
+  #>
+  
+  [CmdletBinding()]
+  param ()
+  
+  $HostsData = @{
+      #Source      = 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/native.winoffice-compressed.txt'
+      Source      = 'https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.winoffice-compressed.txt'
+      Destination = "$env:SystemRoot\System32\drivers\etc\hosts"
+  }
+  
+  try
+  {
+      Write-Output -InputObject 'Getting HaGeZi''s Windows/Office Tracker DNS Blocklist ...'
+      $SourceHostsContent = (Invoke-RestMethod -Uri $HostsData['Source']) -replace '\r?\n', "`r`n"
+  }
+  catch
+  {
+      throw
+  }
+  
+  $WinTrackerHeader ="
+  
+      ###############################################################################
+      # HaGeZi's Windows/Office Tracker - DNS list
+      ###############################################################################
+      " -replace '(?m)^ +' -replace '\r?\n', "`r`n"
+  
+  $WinTrackerFooter ="
+  
+      # HaGeZi's Windows/Office Tracker - End #######################################
+      " -replace '(?m)^ +' -replace '\r?\n', "`r`n"
+  
+  $SourceHostsContent = "$WinTrackerHeader$SourceHostsContent$WinTrackerFooter"
+  $CurrentHostsContent = (Get-Content -Raw -Path $HostsData['Destination']) -replace '\r?\n', "`r`n"
+  
+  if ($CurrentHostsContent.Contains($SourceHostsContent))
+  {
+      Write-Output -InputObject '"HaGeZi''s Windows/Office Tracker DNS list" is already up to date.'
+  }
+  else
+  {
+      Write-Output -InputObject 'Updating hosts file with new "HaGeZi''s Windows/Office Tracker DNS list" content ...'
+  
+      $Pattern = "(?s)$WinTrackerHeader.*?$WinTrackerFooter\r?\n"
+  
+      if ($CurrentHostsContent -match $Pattern)
+      {
+          $CurrentHostsContent = $CurrentHostsContent -replace $Pattern, $SourceHostsContent
+          $CurrentHostsContent | Out-File -FilePath $HostsData['Destination']
+      }
+      else
+      {
+          $SourceHostsContent | Out-File -Append -FilePath $HostsData['Destination']
+      }
+  
+      Clear-DnsClientCache
+  }
+  ```
+  
+  </details>
+
+  <details>
+    <summary>Script to create a Scheduled Task for auto-updating the "Windows Tracker DNS Blocklist" (Click to expand)</summary>
+  
+  ```powershell
+  # Replace the below "FilePath" with the path where you saved your script.
+  $FilePath = 'C:\Users\<User>\Documents\Set-HostsDnsBlocklistsNativeWinOffice.ps1'
+  
+  $TaskName = 'HaGeZi''s Windows & Office Tracker DNS Blocklist'
+  $TaskPath = '\'
+  $TaskActionParam = @{
+      Execute  = 'powershell.exe'
+      Argument = "-NoProfile -ExecutionPolicy Bypass -File ""$FilePath"""
+  }
+  $TaskAction = New-ScheduledTaskAction @TaskActionParam
+  
+  $Trigger = New-ScheduledTaskTrigger -Daily -At '1pm' # dummy value
+  # disable "synchronize across time zones"
+  $Trigger.StartBoundary = (Get-Date -Hour 13 -Minute 0 -Second 0).ToString('yyyy-MM-ddTHH:mm:ss')
+  
+  $TaskPrincipal = New-ScheduledTaskPrincipal -UserId 'S-1-5-18' # 'NT AUTHORITY\SYSTEM'
+  $TaskSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -StartWhenAvailable
+  
+  $ScheduledTaskParam = @{
+      TaskName  = $TaskName
+      TaskPath  = $TaskPath
+      Action    = $TaskAction
+      Trigger   = $Trigger
+      Principal = $TaskPrincipal
+      Settings  = $TaskSettings
+  }
+  
+  Unregister-ScheduledTask -TaskPath $TaskPath -TaskName $TaskName -Confirm:$false -ErrorAction 'SilentlyContinue'
+  Register-ScheduledTask @ScheduledTaskParam -Verbose:$false | Out-Null
+  ```
+  
+  </details>
 
 ## Settings
 - System:
