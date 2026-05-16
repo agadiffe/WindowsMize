@@ -17,6 +17,7 @@
         [-TouchKeyboard {Never | Always | WhenNoKeyboard}]
         [-VirtualTouchpad {Disabled | Enabled}]
         [-HiddenIconMenu {Disabled | Enabled}]
+        [-Position] {Left | Top | Right | Bottom}
         [-Alignment {Left | Center}]
         [-TouchOptimized {Disabled | Enabled}]
         [-AutoHide {Disabled | Enabled}]
@@ -65,6 +66,7 @@ function Set-TaskbarSetting
         [state] $HiddenIconMenu,
 
         # taskbar behaviors
+        [TaskbarPosition] $Position,
         [TaskbarAlignment] $Alignment,
         [state] $TouchOptimized,
         [state] $AutoHide,
@@ -107,6 +109,7 @@ function Set-TaskbarSetting
 
             'HiddenIconMenu'                  { Set-TaskbarHiddenIconMenu -State $HiddenIconMenu }
 
+            'Position'                        { Set-TaskbarPosition -Mode $Position }
             'Alignment'                       { Set-TaskbarAlignment -Mode $Alignment }
             'TouchOptimized'                  { Set-TaskbarTouchOptimized -State $TouchOptimized }
             'AutoHide'                        { Set-TaskbarAutoHide -State $AutoHide }

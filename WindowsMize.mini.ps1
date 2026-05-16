@@ -1473,6 +1473,7 @@ $TaskbarSettings = @{
     VirtualTouchpad = 'Disabled'
     HiddenIconMenu  = 'Enabled'
 
+    Position                        = 'Bottom' # Left | Top | Right | Bottom
     Alignment                       = 'Center' # Left | Center
     #TouchOptimized                  = 'Enabled'
     AutoHide                        = 'Disabled'
