@@ -94,11 +94,13 @@ Set-WindowsNotepadSetting -WritingTools 'Disabled'
 # --- Status bar (default: Enabled)
 Set-WindowsNotepadSetting -StatusBar 'Enabled'
 
-# --- Continue Previous Session tip (notepad automatically saves your progress) (default: Enabled)
-Set-WindowsNotepadSetting -ContinuePreviousSessionTip 'Disabled'
-
-# --- Formatting tips (default: Enabled)
-Set-WindowsNotepadSetting -FormattingTips 'Disabled'
+# --- Teaching tips (default: Enabled)
+#   What's new beacon (blue dot)
+#   New badges in menu (blue badges)
+#   Continue Previous Session flyout (notepad automatically saves your progress) | old
+#   Formatting tips | old
+#   Rewrite tips | old ?
+Set-WindowsNotepadSetting -TeachingTips 'Disabled'
 
 #endregion windows notepad
 
@@ -225,6 +227,8 @@ Set-WindowsSnippingToolSetting -Theme 'System'
 #   Color Picker beacon (blue dot)
 #   Text Extractor beacon (blue dot)
 #   Live Annotation Mode tip
+#   Shapes tip | old
+#   Visual Search tip | old
 Set-WindowsSnippingToolSetting -TeachingTips 'Disabled'
 
 #endregion snipping tool

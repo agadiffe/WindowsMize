@@ -489,15 +489,14 @@ $NotepadSettings = @{
     FontSize       = '11' # range 1-99
     WordWrap       = 'Enabled'
     Formatting     = 'Disabled'
-    FormattingTips = 'Disabled'
     OpenFile       = 'NewTab' # NewTab | NewWindow
     RecentFiles    = 'Enabled'
     SpellCheck     = 'Disabled'
     AutoCorrect    = 'Disabled'
     WritingTools   = 'Disabled'
     StatusBar      = 'Enabled'
-    ContinuePreviousSession    = 'Disabled'
-    ContinuePreviousSessionTip = 'Disabled'
+    TeachingTips   = 'Disabled'
+    ContinuePreviousSession = 'Disabled'
 }
 Set-WindowsNotepadSetting @NotepadSettings
 

@@ -32,7 +32,13 @@ function Set-UwpAppSetting
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('MicrosoftStore', 'WindowsNotepad', 'WindowsPhotos', 'WindowsSnippingTool', 'AppActions', 'TaskbarCalendar')]
+        [ValidateSet(
+            'MicrosoftStore',
+            'WindowsNotepad',
+            'WindowsPhotos',
+            'WindowsSnippingTool',
+            'AppActions',
+            'TaskbarCalendar')]
         [string] $Name,
 
         [Parameter(Mandatory)]

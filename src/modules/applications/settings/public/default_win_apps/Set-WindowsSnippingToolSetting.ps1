@@ -200,7 +200,7 @@ function Set-WindowsSnippingToolSetting
                     Value = $TeachingTips -eq 'Enabled' ? '0' : '3'
                     Type  = '5f5e104'
                 }
-                #$SnippingToolSettings.Add([PSCustomObject]$ShapesTeachingTipReg) | Out-Null
+                $SnippingToolSettings.Add([PSCustomObject]$ShapesTeachingTipReg) | Out-Null
 
                 # on: 0 (default) | off: 3 # old
                 $VisualSearchTeachingTipReg = @{
@@ -208,7 +208,7 @@ function Set-WindowsSnippingToolSetting
                     Value = $TeachingTips -eq 'Enabled' ? '0' : '3'
                     Type  = '5f5e104'
                 }
-                #$SnippingToolSettings.Add([PSCustomObject]$VisualSearchTeachingTipReg) | Out-Null
+                $SnippingToolSettings.Add([PSCustomObject]$VisualSearchTeachingTipReg) | Out-Null
 
                 # on: 0 (default) | off: 10
                 $ColorPickerBeaconReg = @{

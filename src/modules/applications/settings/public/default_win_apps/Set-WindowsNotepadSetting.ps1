@@ -18,8 +18,7 @@
         [-AutoCorrect {Disabled | Enabled}]
         [-WritingTools {Disabled | Enabled}]
         [-StatusBar {Disabled | Enabled}]
-        [-ContinuePreviousSessionTip {Disabled | Enabled}]
-        [-FormattingTips {Disabled | Enabled}]
+        [-TeachingTips {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -72,9 +71,7 @@ function Set-WindowsNotepadSetting
         # miscellaneous
         [state] $StatusBar,
 
-        [state] $ContinuePreviousSessionTip,
-
-        [state] $FormattingTips
+        [state] $TeachingTips
     )
 
     process
@@ -263,18 +260,50 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$StatusBarReg) | Out-Null
             }
-            'ContinuePreviousSessionTip'
+            'TeachingTips'
             {
-                # first launch tip closed (tip: notepad automatically saves your progress)
+                # on: 0 (default) | off: 1
+                $WhatsNewBeaconEssential = @{
+                    Name  = 'EssentialEditor_Seen'
+                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$WhatsNewBeaconEssential) | Out-Null
+
+                # on: 0 (default) | off: 1
+                $WhatsNewBeaconFormatting = @{
+                    Name  = 'Format_Seen'
+                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$WhatsNewBeaconFormatting) | Out-Null
+
+                # on: 0 (default) | off: 1
+                $WhatsNewBeaconWritingTool = @{
+                    Name  = 'WritingTool_Seen'
+                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$WhatsNewBeaconWritingTool) | Out-Null
+
+                # on: 1 (default) | off: 0
+                $MenuNewBadges = @{
+                    Name  = 'GenerateNewBadgeLifetime'
+                    Value = $TeachingTips -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e105'
+                }
+                $NotepadSettings.Add([PSCustomObject]$MenuNewBadges) | Out-Null
+
+                # first launch tip closed (tip: notepad automatically saves your progress) # old
                 # on: 1 | off: 0 (default)
                 $ContinuePreviousSessionTipReg = @{
                     Name  = 'TeachingTipExplicitClose'
-                    Value = $ContinuePreviousSessionTip -eq 'Enabled' ? '0' : '1'
+                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$ContinuePreviousSessionTipReg) | Out-Null
 
-                # default: 0 (needed by TeachingTipExplicitClose to work)
+                # default: 0 (needed by TeachingTipExplicitClose to work) # old
                 # Should already be there by default (enforce the entry creation just in case)
                 $TeachingTipVersionReg = @{
                     Name  = 'TeachingTipVersion'
@@ -282,16 +311,22 @@ function Set-WindowsNotepadSetting
                     Type  = '5f5e105'
                 }
                 $NotepadSettings.Add([PSCustomObject]$TeachingTipVersionReg) | Out-Null
-            }
-            'FormattingTips'
-            {
-                # on: 1 (default) | off: 0
+
+                # on: 1 (default) | off: 0 # old
                 $FormattingTipsReg = @{
                     Name  = 'FormattingFREFirstLoad'
-                    Value = $FormattingTips -eq 'Enabled' ? '1' : '0'
+                    Value = $TeachingTips -eq 'Enabled' ? '1' : '0'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$FormattingTipsReg) | Out-Null
+
+                # on: 1 (default) | off: 0 # old ?
+                $RewriteTipsReg = @{
+                    Name  = 'RewriteTeachingtip'
+                    Value = $TeachingTips -eq 'Enabled' ? '1' : '0'
+                    Type  = '5f5e10b'
+                }
+                $NotepadSettings.Add([PSCustomObject]$RewriteTipsReg) | Out-Null
             }
         }
 
