@@ -29,7 +29,7 @@ IF %ERRORLEVEL% EQU 0 (
     set "process=pwsh.exe"
 )
 
-set "argumentList=%wtArgument% -NoExit -NoProfile -ExecutionPolicy Bypass -File ""%windowsMizeFilePath%"""
+set "argumentList=%wtArgument% -NoExit -NoProfile -ExecutionPolicy Bypass -File \"%windowsMizeFilePath%\""
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
 "Start-Process -Verb 'RunAs' -FilePath '%process%' -ArgumentList '%argumentList%'"
