@@ -154,7 +154,7 @@ Set-TaskbarSetting -HiddenIconMenu 'Enabled'
 
 # --- Taskbar position
 # State: Left | Top | Right | Bottom (default)
-Set-TaskbarPosition -Mode 'Bottom'
+Set-TaskbarSetting -Position 'Bottom'
 
 # --- Taskbar alignment
 # State: Left | Center (default)
