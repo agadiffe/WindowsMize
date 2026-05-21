@@ -1,19 +1,21 @@
 #=================================================================================================================
-#             Personnalization > Start > Show Recommendations For Tips, Shortcuts, New Apps, And More
+#                                  Personnalization > Start > All (Apps Section)
 #=================================================================================================================
+
+# not yet available
 
 <#
 .SYNTAX
-    Set-StartShowRecommendations
+    Set-StartAllAppsSection
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-StartShowRecommendations
+function Set-StartAllAppsSection
 {
     <#
     .EXAMPLE
-        PS> Set-StartShowRecommendations -State 'Disabled'
+        PS> Set-StartAllAppsSection -State 'Enabled'
     #>
 
     [CmdletBinding()]
@@ -25,20 +27,22 @@ function Set-StartShowRecommendations
 
     process
     {
+        return
+
         # on: 1 (default) | off: 0
-        $StartRecommendations = @{
+        $AllAppsSection = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+            Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'
             Entries = @(
                 @{
-                    Name  = 'Start_IrisRecommendations'
+                    Name  = '???'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Start - Show Recommendations For Tips, Shortcuts, New Apps, And More' to '$State' ..."
-        Set-RegistryEntry -InputObject $StartRecommendations
+        Write-Verbose -Message "Setting 'Start - All Apps Section' to '$State' ..."
+        Set-RegistryEntry -InputObject $AllAppsSection
     }
 }

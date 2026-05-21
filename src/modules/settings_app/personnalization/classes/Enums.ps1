@@ -36,6 +36,11 @@ enum StartLayoutMode
     MoreRecommendations = 2
 }
 
+enum StartMenuSize
+{
+    Small = 0
+    Large = 1
+}
 
 enum StartFoldersName
 {

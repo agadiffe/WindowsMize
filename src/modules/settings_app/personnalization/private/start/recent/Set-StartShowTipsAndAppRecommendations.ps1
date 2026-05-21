@@ -1,19 +1,19 @@
 #=================================================================================================================
-#          Personnalization > Taskbar Behaviors > Show Jump List When Hovering On Inactive Taskbar Apps
+#                          Personnalization > Start > Show Tips And App Recommendations
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-TaskbarShowJumpListOnHover
+    Set-StartShowTipsAndAppRecommendations
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-TaskbarShowJumpListOnHover
+function Set-StartShowTipsAndAppRecommendations
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarShowJumpListOnHover -State 'Disabled'
+        PS> Set-StartShowTipsAndAppRecommendations -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -26,19 +26,19 @@ function Set-TaskbarShowJumpListOnHover
     process
     {
         # on: 1 (default) | off: 0
-        $TaskbarJumpListOnHover = @{
+        $TipsAndAppRecommendations = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
             Entries = @(
                 @{
-                    Name  = 'JumplistOnHover'
+                    Name  = 'Start_IrisRecommendations'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar - Show Jump List When Hovering On Inactive Taskbar Apps' to '$State' ..."
-        Set-RegistryEntry -InputObject $TaskbarJumpListOnHover
+        Write-Verbose -Message "Setting 'Start - Show Tips And App Recommendations' to '$State' ..."
+        Set-RegistryEntry -InputObject $TipsAndAppRecommendations
     }
 }

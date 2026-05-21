@@ -1,22 +1,20 @@
 #=================================================================================================================
-#          Personnalization > Start > Show Recently Opened Items In Start, Jump Lists, And File Explorer
+#                               Personnalization > Start > Show Recently Added Apps
 #=================================================================================================================
-
-# Show recommended files in Start, recent files in File Explorer, and items in Jump Lists
 
 <#
 .SYNTAX
-    Set-StartShowRecentlyOpenedItems
+    Set-StartShowRecentAddedApps
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-StartShowRecentlyOpenedItems
+function Set-StartShowRecentAddedApps
 {
     <#
     .EXAMPLE
-        PS> Set-StartShowRecentlyOpenedItems -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-StartShowRecentAddedApps -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -30,48 +28,48 @@ function Set-StartShowRecentlyOpenedItems
 
     process
     {
-        $RecentlyOpenedItemsMsg = 'Start - Show Recently Opened Items In Start, Jump Lists, And File Explorer'
+        $RecentAddedAppsMsg = 'Start - Show Recently Added Apps'
 
         switch ($PSBoundParameters.Keys)
         {
             'State'
             {
                 # on: 1 (default) | off: 0
-                $StartRecentlyOpenedItems = @{
+                $StartRecentAddedApps = @{
                     Hive    = 'HKEY_CURRENT_USER'
-                    Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+                    Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'
                     Entries = @(
                         @{
-                            Name  = 'Start_TrackDocs'
+                            Name  = 'ShowRecentList'
                             Value = $State -eq 'Enabled' ? '1' : '0'
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$RecentlyOpenedItemsMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $StartRecentlyOpenedItems
+                Write-Verbose -Message "Setting '$RecentAddedAppsMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $StartRecentAddedApps
             }
             'GPO'
             {
                 # gpo\ computer config > administrative tpl > start menu and taskbar
-                #   do not keep history of recently opened documents
-                # not configured: delete (default) | off: 1
-                $StartRecentlyOpenedItemsGpo = @{
+                #   remove "recently added" list from start menu
+                # not configured: delete (default) | on: 1
+                $StartRecentAddedAppsGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
-                    Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+                    Path    = 'SOFTWARE\Policies\Microsoft\Windows\Explorer'
                     Entries = @(
                         @{
                             RemoveEntry = $GPO -eq 'NotConfigured'
-                            Name  = 'NoRecentDocsHistory'
+                            Name  = 'HideRecentlyAddedApps'
                             Value = '1'
                             Type  = 'DWord'
                         }
                     )
                 }
 
-                Write-Verbose -Message "Setting '$RecentlyOpenedItemsMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $StartRecentlyOpenedItemsGpo
+                Write-Verbose -Message "Setting '$RecentAddedAppsMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $StartRecentAddedAppsGpo
             }
         }
     }

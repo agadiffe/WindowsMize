@@ -32,7 +32,7 @@
         [-GroupAndHideLabelsOtherTaskbars {Always | WhenTaskbarIsFull | Never}]
         [-GroupAndHideLabelsGPO {Disabled | NotConfigured}]
         [-ShowSmallerButtons {Always | Never | WhenFull}]
-        [-ShowJumplistOnHover {Disabled | Enabled}]
+        [-ShowJumpListOnHover {Disabled | Enabled}]
         [<CommonParameters>]
 
 #>
@@ -81,7 +81,7 @@ function Set-TaskbarSetting
         [TaskbarGroupingMode] $GroupAndHideLabelsOtherTaskbars,
         [GpoStateWithoutEnabled] $GroupAndHideLabelsGPO,
         [TaskbarSmallerButtonsMode] $ShowSmallerButtons,
-        [state] $ShowJumplistOnHover
+        [state] $ShowJumpListOnHover
     )
 
     process
@@ -124,7 +124,7 @@ function Set-TaskbarSetting
             'GroupAndHideLabelsOtherTaskbars' { Set-TaskbarCombineButtonsAndHideLabels -OtherTaskbars $GroupAndHideLabelsOtherTaskbars }
             'GroupAndHideLabelsGPO'           { Set-TaskbarCombineButtonsAndHideLabels -GPO $GroupAndHideLabelsGPO }
             'ShowSmallerButtons'              { Set-TaskbarShowSmallerButtons -Preference $ShowSmallerButtons }
-            'ShowJumplistOnHover'             { Set-TaskbarShowJumplistOnHover -State $ShowJumplistOnHover }
+            'ShowJumpListOnHover'             { Set-TaskbarShowJumpListOnHover -State $ShowJumpListOnHover }
         }
     }
 }

@@ -4,16 +4,16 @@
 
 <#
 .SYNTAX
-    Set-StartShowWebsitesFromHistory
+    Set-StartShowWebsitesFromBrowsingHistory
         [[-GPO] {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-StartShowWebsitesFromHistory
+function Set-StartShowWebsitesFromBrowsingHistory
 {
     <#
     .EXAMPLE
-        PS> Set-StartShowWebsitesFromHistory -GPO 'NotConfigured'
+        PS> Set-StartShowWebsitesFromBrowsingHistory -GPO 'NotConfigured'
     #>
 
     [CmdletBinding()]
@@ -28,7 +28,7 @@ function Set-StartShowWebsitesFromHistory
         # gpo\ computer config > administrative tpl > start menu and taskbar
         #   remove personalized website recommendations from the Recommended section in the Start Menu
         # not configured: delete (default) | off: 1
-        $StartWebsitesFromHistoryGpo = @{
+        $WebsitesFromBrowsingHistoryGpo = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
             Entries = @(
@@ -42,6 +42,6 @@ function Set-StartShowWebsitesFromHistory
         }
 
         Write-Verbose -Message "Setting 'Start - Show Websites From Your Browsing History (GPO)' to '$GPO' ..."
-        Set-RegistryEntry -InputObject $StartWebsitesFromHistoryGpo
+        Set-RegistryEntry -InputObject $WebsitesFromBrowsingHistoryGpo
     }
 }

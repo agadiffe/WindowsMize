@@ -1433,15 +1433,21 @@ Write-Section -Name 'Start & Taskbar' -SubSection
 
 # --- Start
 $StartSettings = @{
-    #LayoutMode               = 'Default' # old / Default | MorePins | MoreRecommendations
-    ShowAllPins              = 'Enabled'
-    ShowRecentlyAddedApps    = 'Disabled' ; ShowRecentlyAddedAppsGPO   = 'NotConfigured'
-    ShowRecentlyOpenedItems  = 'Enabled'  ; ShowRecentlyOpenedItemsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    ShowRecommendations      = 'Disabled'
-    ShowWebsitesFromHistoryGPO = 'Disabled'
-    ShowMostUsedApps         = 'Disabled' ; ShowMostUsedAppsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    ShowAccountNotifications = 'Disabled'
-    ShowMobileDevice         = 'Disabled'
+    #LayoutMode                    = 'Default' # old / Default | MorePins | MoreRecommendations
+    #StartMenuSize                 = 'Small' # not yet available # Small | Large
+    #PinnedSection                 = 'Enabled' # not yet available
+    ShowAllPins                   = 'Enabled'
+    #RecentSection                 = 'Enabled' # not yet available
+    ShowRecentAddedApps           = 'Disabled' ; ShowRecentAddedAppsGPO = 'Disabled'
+    ShowRecentItems               = 'Enabled'  ; ShowRecentItemsGPO     = 'Disabled' # Disabled | Enabled | NotConfigured
+    ShowTipsAndAppRecommendations = 'Disabled'
+    ShowWebsitesFromBrowsingHistoryGPO = 'Disabled'
+    #AllAppsSection                = 'Enabled' # not yet available
+    ShowMostUsedApps              = 'Disabled' ; ShowMostUsedAppsGPO    = 'Disabled' # Disabled | Enabled | NotConfigured
+    ShowMobileDevice              = 'Disabled'
+    ShowAccountNotifications      = 'Disabled'
+    #ShowRecentItemsInExplorer     = 'Enabled' # not yet available
+    #HideNameAndPicture            = 'Disabled' # not yet available
 }
 Set-StartSetting @StartSettings
 
@@ -1457,7 +1463,6 @@ $StartMenuFolders = @(
     #'Videos'
 )
 Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
-#Set-StartSetting -HideAllFoldersNextToPowerButton
 
 # --- Taskbar
 $TaskbarSettings = @{
@@ -1879,7 +1884,7 @@ $DateTimeSettings = @{
     AutoTimeZone             = 'Disabled'
     AutoTime                 = 'Enabled'
     ShowInSystemTray         = 'Enabled'
-    #ShowAbbreviatedValue     = 'Disabled' # old
+    #ShowAbbreviatedValue     = 'Disabled'
     ShowSecondsInSystemClock = 'Disabled'
     ShowTimeInNotifCenter    = 'Enabled'
     #TimeServer               = 'Windows' # Cloudflare | Windows | NistGov | PoolNtpOrg

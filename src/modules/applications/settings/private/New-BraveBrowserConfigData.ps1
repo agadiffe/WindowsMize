@@ -1078,7 +1078,8 @@ function New-BraveBrowserConfigData
                     "dismissed": true // search widget in new tabs popup: Enable search suggestions
                 },
                 "shields": {
-                    "advanced_view_enabled": true
+                    "advanced_view_enabled": true,
+                    "adblock_only_mode_prompt_dismissed": true
                 },
                 "sidebar": {
                     "hidden_built_in_items": [

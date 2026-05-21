@@ -10,11 +10,7 @@
 .SYNTAX
     Set-StartFoldersNextToPowerButton
         [-Item] {Settings | FileExplorer | Network | PersonalFolder |
-                    Documents | Downloads | Music | Pictures | Videos}
-        [<CommonParameters>]
-
-    Set-StartFoldersNextToPowerButton
-        -None
+                 Documents | Downloads | Music | Pictures | Videos}
         [<CommonParameters>]
 #>
 
@@ -25,27 +21,25 @@ function Set-StartFoldersNextToPowerButton
         PS> Set-StartFoldersNextToPowerButton -Item 'Settings', 'PersonalFolder'
 
     .EXAMPLE
-        PS> Set-StartFoldersNextToPowerButton -None
+        PS> Set-StartFoldersNextToPowerButton -Item $null
+
+    .EXAMPLE
+        PS> Set-StartFoldersNextToPowerButton -Item @()
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Item')]
+    [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Item')]
-        [StartFoldersName[]] $Item,
-
-        [Parameter(Mandatory, ParameterSetName = 'None')]
-        [switch] $None
+        [Parameter(Mandatory)]
+        [AllowNull()]
+        [AllowEmptyCollection()]
+        [StartFoldersName[]] $Item
     )
 
     process
     {
-        if ($PSCmdlet.ParameterSetName -eq 'None')
+        if (-not $Item -or -not $Item.Count)
         {
-            if ($false -eq $None)
-            {
-                return
-            }
             $StartFoldersBytes = $null
         }
         else
@@ -68,7 +62,7 @@ function Set-StartFoldersNextToPowerButton
             $StartFoldersBytes = [Convert]::FromHexString("$StartFolders" -replace ',| ')
         }
 
-        # only Power button: empty value (default)
+        # only Power button: null value (default)
         $StartFoldersNextToPowerButton = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'

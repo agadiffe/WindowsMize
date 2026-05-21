@@ -33,50 +33,72 @@ Write-Section -Name 'Windows Settings App - Personnalization'
 #==========================================================
 #region start
 
-Write-Section -Name 'Start' -SubSection
+# not yet available settings:
+# https://blogs.windows.com/windows-insider/2026/05/15/improving-windows-quality-making-taskbar-and-start-more-personal/
 
-#             Miscellaneous
-#=======================================
+Write-Section -Name 'Start' -SubSection
 
 # --- Layout | old
 # State: Default (default) | MorePins | MoreRecommendations
 #Set-StartSetting -LayoutMode 'Default'
 
-# --- Show All Pins By Default (default: Disabled)
+# --- Start menu size
+# not yet available
+# State: Small | Large
+#Set-StartSetting -StartMenuSize 'Small'
+
+#           Pinned (section)
+#=======================================
+
+# --- Pinned section (default: Enabled)
+# not yet available
+#Set-StartSetting -PinnedSection 'Enabled'
+
+# --- --- Show All Pins By Default (default: Disabled)
 # This setting has moved directly into the Start Menu with "Show more"/"Show less" options.
 Set-StartSetting -ShowAllPins 'Enabled'
 
-#              Recommended
+#           Recent (section)
 #=======================================
 
-# --- Show recently added apps (default: Enabled)
-Set-StartSetting -ShowRecentlyAddedApps 'Disabled' -ShowRecentlyAddedAppsGPO 'NotConfigured'
+# --- Recent section (default: Enabled)
+# not yet available
+#Set-StartSetting -RecentSection 'Enabled'
 
-# --- Show recommended files in Start, recent files in File Explorer, and items in Jump Lists (default: Enabled)
-# GPO: Disabled | Enabled | NotConfigured
-Set-StartSetting -ShowRecentlyOpenedItems 'Enabled' -ShowRecentlyOpenedItemsGPO 'NotConfigured'
+# --- --- Show recently added apps (default: Enabled)
+Set-StartSetting -ShowRecentAddedApps 'Disabled' -ShowRecentAddedAppsGPO 'NotConfigured'
 
-# --- Show recommendations for tips, shortcuts, new apps, and more (default: Enabled)
-Set-StartSetting -ShowRecommendations 'Disabled'
+# --- --- Show recent and suggested files (default: Enabled)
+# --- Show recent items in jump lists and File Explorer (default: Enabled)
+# GPO: also disables ShowRecentItemsInExplorer.
+Set-StartSetting -ShowRecentItems 'Enabled' -ShowRecentItemsGPO 'NotConfigured'
 
-# --- Show Websites From Your Browsing History
-Set-StartSetting -ShowWebsitesFromHistoryGPO 'Disabled'
+# --- --- Show tips and app recommendations (default: Enabled)
+Set-StartSetting -ShowTipsAndAppRecommendations 'Disabled'
 
-#                  All
+# --- --- Show Websites From Your Browsing History
+Set-StartSetting -ShowWebsitesFromBrowsingHistoryGPO 'Disabled'
+
+#          All (apps section)
 #=======================================
 
-# --- Show most used apps (default: Enabled)
+# --- All apps section (default: Enabled)
+# not yet available
+#Set-StartSetting -AllAppsSection 'Enabled'
+
+# --- --- Show most used apps (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StartSetting -ShowMostUsedApps 'Disabled' -ShowMostUsedAppsGPO 'NotConfigured'
 
 #                 Other
 #=======================================
 
-# --- Show account-related notifications (default: Enabled)
-Set-StartSetting -ShowAccountNotifications 'Disabled'
+# --- Show mobile device in Start (default: Disabled)
+Set-StartSetting -ShowMobileDevice 'Disabled'
 
 # --- Folders (choose which folders appear on Start next to the Power button)
 # Windows 11 only.
+# Comment every items to hide all shorcuts.
 $StartMenuFolders = @(
     'Settings'
     #'FileExplorer'
@@ -89,10 +111,17 @@ $StartMenuFolders = @(
     #'Videos'
 )
 Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
-#Set-StartSetting -HideAllFoldersNextToPowerButton
 
-# --- Show mobile device in Start (default: Disabled)
-Set-StartSetting -ShowMobileDevice 'Disabled'
+# --- Show account-related notifications (default: Enabled)
+Set-StartSetting -ShowAccountNotifications 'Disabled'
+
+# --- Show recent items in jump lists and File Explorer (default: Enabled)
+# not yet available
+#Set-StartSetting -ShowRecentItemsInExplorer 'Enabled'
+
+# --- Hide your name and profile picture on Start (default: Disabled)
+# not yet available
+#Set-StartSetting -HideNameAndPicture 'Disabled'
 
 #endregion start
 

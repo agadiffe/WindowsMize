@@ -45,7 +45,7 @@ Set-DateAndTimeSetting -AutoTime 'Enabled'
 # --- Show time and date in the System tray (default: Enabled)
 Set-DateAndTimeSetting -ShowInSystemTray 'Enabled'
 
-# --- Show abbreviated time and date (default: Disabled) | old
+# --- Show abbreviated time and date (default: Disabled)
 #Set-DateAndTimeSetting -ShowAbbreviatedValue 'Disabled'
 
 # --- Show seconds in system tray clock (uses more power) (default: Disabled)

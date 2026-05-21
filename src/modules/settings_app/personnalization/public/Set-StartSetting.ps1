@@ -6,35 +6,25 @@
 .SYNTAX
     Set-StartSetting
         [-LayoutMode {Default | MorePins | MoreRecommendations}]
+        [-StartMenuSize {Small | Large}]
+        [-PinnedSection {Disabled | Enabled}]
         [-ShowAllPins {Disabled | Enabled}]
-        [-ShowRecentlyAddedApps {Disabled | Enabled}]
-        [-ShowRecentlyAddedAppsGPO {Disabled | NotConfigured}]
+        [-RecentSection {Disabled | Enabled}]
+        [-ShowRecentAddedApps {Disabled | Enabled}]
+        [-ShowRecentAddedAppsGPO {Disabled | NotConfigured}]
+        [-ShowRecentItems {Disabled | Enabled}]
+        [-ShowRecentItemsGPO {Disabled | NotConfigured}]
+        [-ShowTipsAndAppRecommendations {Disabled | Enabled}]
+        [-ShowWebsitesFromBrowsingHistoryGPO {Disabled | NotConfigured}]
+        [-AllAppsSection {Disabled | Enabled}]
         [-ShowMostUsedApps {Disabled | Enabled}]
         [-ShowMostUsedAppsGPO {Disabled | Enabled | NotConfigured}]
-        [-ShowRecentlyOpenedItems {Disabled | Enabled}]
-        [-ShowRecentlyOpenedItemsGPO {Disabled | NotConfigured}]
-        [-ShowWebsitesFromHistoryGPO {Disabled | NotConfigured}]
-        [-ShowRecommendations {Disabled | Enabled}]
-        [-ShowAccountNotifications {Disabled | Enabled}]
         [-ShowMobileDevice {Disabled | Enabled}]
+        [-ShowAccountNotifications {Disabled | Enabled}]
+        [-ShowRecentItemsInExplorer {Disabled | Enabled}]
+        [-HideNameAndPicture {Disabled | Enabled}]
         [-FoldersNextToPowerButton {Settings | FileExplorer | Network | PersonalFolder |
                                     Documents | Downloads | Music | Pictures | Videos}]
-        [<CommonParameters>]
-
-    Set-StartSetting
-        [-LayoutMode {Default | MorePins | MoreRecommendations}]
-        [-ShowAllPins {Disabled | Enabled}]
-        [-ShowRecentlyAddedApps {Disabled | Enabled}]
-        [-ShowRecentlyAddedAppsGPO {Disabled | NotConfigured}]
-        [-ShowMostUsedApps {Disabled | Enabled}]
-        [-ShowMostUsedAppsGPO {Disabled | Enabled | NotConfigured}]
-        [-ShowRecentlyOpenedItems {Disabled | Enabled}]
-        [-ShowRecentlyOpenedItemsGPO {Disabled | NotConfigured}]
-        [-ShowWebsitesFromHistoryGPO {Disabled | NotConfigured}]
-        [-ShowRecommendations {Disabled | Enabled}]
-        [-ShowAccountNotifications {Disabled | Enabled}]
-        [-ShowMobileDevice {Disabled | Enabled}]
-        [-HideAllFoldersNextToPowerButton]
         [<CommonParameters>]
 #>
 
@@ -45,41 +35,54 @@ function Set-StartSetting
         PS> Set-StartSetting -LayoutMode 'Default' -FoldersNextToPowerButton 'Settings', 'PersonalFolder'
 
     .EXAMPLE
-        PS> Set-StartSetting -LayoutMode 'Default' -ShowRecommendations 'Disabled' -HideAllFoldersNextToPowerButton
+        PS> Set-StartSetting -LayoutMode 'Default' -ShowTipsAndAppRecommendations 'Disabled' -HideAllFoldersNextToPowerButton
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'StartFoldersQuickLaunch')]
     param
     (
+        # general
         [StartLayoutMode] $LayoutMode,
+
+        [StartMenuSize] $StartMenuSize,
+
+        # pinned section
+        [state] $PinnedSection,
 
         [state] $ShowAllPins,
 
-        [state] $ShowRecentlyAddedApps,
+        # recent section
+        [state] $RecentSection,
 
-        [GpoStateWithoutEnabled] $ShowRecentlyAddedAppsGPO,
+        [state] $ShowRecentAddedApps,
+
+        [GpoStateWithoutEnabled] $ShowRecentAddedAppsGPO,
+
+        [state] $ShowRecentItems,
+
+        [GpoStateWithoutEnabled] $ShowRecentItemsGPO,
+
+        [state] $ShowTipsAndAppRecommendations,
+
+        [GpoStateWithoutEnabled] $ShowWebsitesFromBrowsingHistoryGPO,
+
+        # all apps section
+        [state] $AllAppsSection,
 
         [state] $ShowMostUsedApps,
 
         [GpoState] $ShowMostUsedAppsGPO,
 
-        [state] $ShowRecentlyOpenedItems,
+        # other
+        [state] $ShowMobileDevice,
 
-        [GpoStateWithoutEnabled] $ShowRecentlyOpenedItemsGPO,
-
-        [GpoStateWithoutEnabled] $ShowWebsitesFromHistoryGPO,
-
-        [state] $ShowRecommendations,
+        [StartFoldersName[]] $FoldersNextToPowerButton,
 
         [state] $ShowAccountNotifications,
 
-        [state] $ShowMobileDevice,
+        [state] $ShowRecentItemsInExplorer,
 
-        [Parameter(ParameterSetName = 'StartFoldersQuickLaunch')]
-        [StartFoldersName[]] $FoldersNextToPowerButton,
-
-        [Parameter(ParameterSetName = 'HideAllStartFoldersQuickLaunch')]
-        [switch] $HideAllFoldersNextToPowerButton
+        [state] $HideNameAndPicture
     )
 
     process
@@ -92,20 +95,29 @@ function Set-StartSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'LayoutMode'                      { Set-StartLayoutMode -Layout $LayoutMode }
-            'ShowAllPins'                     { Set-StartShowAllPins -State $ShowAllPins }
-            'ShowMostUsedApps'                { Set-StartShowMostUsedApps -State $ShowMostUsedApps }
-            'ShowMostUsedAppsGPO'             { Set-StartShowMostUsedApps -GPO $ShowMostUsedAppsGPO }
-            'ShowRecentlyAddedApps'           { Set-StartShowRecentlyAddedApps -State $ShowRecentlyAddedApps }
-            'ShowRecentlyAddedAppsGPO'        { Set-StartShowRecentlyAddedApps -GPO $ShowRecentlyAddedAppsGPO }
-            'ShowRecentlyOpenedItems'         { Set-StartShowRecentlyOpenedItems -State $ShowRecentlyOpenedItems }
-            'ShowRecentlyOpenedItemsGPO'      { Set-StartShowRecentlyOpenedItems -GPO $ShowRecentlyOpenedItemsGPO }
-            'ShowWebsitesFromHistoryGPO'      { Set-StartShowWebsitesFromHistory -GPO $ShowWebsitesFromHistoryGPO }
-            'ShowRecommendations'             { Set-StartShowRecommendations -State $ShowRecommendations }
-            'ShowAccountNotifications'        { Set-StartShowAccountNotifications -State $ShowAccountNotifications }
-            'FoldersNextToPowerButton'        { Set-StartFoldersNextToPowerButton -Item $FoldersNextToPowerButton }
-            'HideAllFoldersNextToPowerButton' { Set-StartFoldersNextToPowerButton -None:$HideAllFoldersNextToPowerButton }
-            'ShowMobileDevice'                { Set-StartShowMobileDevice -State $ShowMobileDevice }
+            'LayoutMode'                         { Set-StartLayoutMode -Layout $LayoutMode }
+            'StartMenuSize'                      { Set-StartMenuSize -Size $StartMenuSize }
+
+            'PinnedSection'                      { Set-StartPinnedSection -State $PinnedSection }
+            'ShowAllPins'                        { Set-StartShowAllPins -State $ShowAllPins }
+    
+            'RecentSection'                      { Set-StartRecentSection -State $RecentSection }
+            'ShowRecentAddedApps'                { Set-StartShowRecentAddedApps -State $ShowRecentAddedApps }
+            'ShowRecentAddedAppsGPO'             { Set-StartShowRecentAddedApps -GPO $ShowRecentAddedAppsGPO }
+            'ShowRecentItems'                    { Set-StartShowRecentItems -State $ShowRecentItems }
+            'ShowRecentItemsGPO'                 { Set-StartShowRecentItems -GPO $ShowRecentItemsGPO }
+            'ShowTipsAndAppRecommendations'      { Set-StartShowTipsAndAppRecommendations -State $ShowTipsAndAppRecommendations }
+            'ShowWebsitesFromBrowsingHistoryGPO' { Set-StartShowWebsitesFromBrowsingHistory -GPO $ShowWebsitesFromBrowsingHistoryGPO }
+    
+            'AllAppsSection'                     { Set-StartAllAppsSection -State $AllAppsSection }
+            'ShowMostUsedApps'                   { Set-StartShowMostUsedApps -State $ShowMostUsedApps }
+            'ShowMostUsedAppsGPO'                { Set-StartShowMostUsedApps -GPO $ShowMostUsedAppsGPO }
+
+            'ShowMobileDevice'                   { Set-StartShowMobileDevice -State $ShowMobileDevice }
+            'FoldersNextToPowerButton'           { Set-StartFoldersNextToPowerButton -Item $FoldersNextToPowerButton }
+            'ShowAccountNotifications'           { Set-StartShowAccountNotifications -State $ShowAccountNotifications }
+            'ShowRecentItemsInExplorer'          { Set-StartShowRecentItemsInExplorer -State $ShowRecentItemsInExplorer }
+            'HideNameAndPicture'                 { Set-StartHideNameAndPicture -State $HideNameAndPicture }
         }
     }
 }
