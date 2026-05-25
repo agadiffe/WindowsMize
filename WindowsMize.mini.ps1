@@ -1797,7 +1797,8 @@ $LockScreenSettings = @{
     #SetToPicture              = $true # $true | $false
     #GetFunFactsTipsTricks     = 'Disabled' # also unset: Windows Spotlight
     ShowPictureOnSigninScreen = 'Enabled'  ; ShowPictureOnSigninScreenGPO = 'NotConfigured'
-    YourWidgets               = 'Disabled' ; YourWidgetsGPO               = 'NotConfigured'
+    Widgets                   = 'Disabled' ; WidgetsGPO                   = 'NotConfigured'
+    WidgetsSuggestion         = 'Disabled'
 }
 Set-LockScreenSetting @LockScreenSettings
 

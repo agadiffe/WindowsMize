@@ -142,7 +142,10 @@ Set-LockScreenSetting -ShowPictureOnSigninScreen 'Enabled' -ShowPictureOnSigninS
 
 # --- Your widgets (default: Enabled)
 # Windows 11 24H2+ only.
-Set-LockScreenSetting -YourWidgets 'Disabled' -YourWidgetsGPO 'NotConfigured'
+Set-LockScreenSetting -Widgets 'Disabled' -WidgetsGPO 'NotConfigured'
+
+# --- Suggest widgets for your lock screen (Ads/Promo) (default: Enabled)
+Set-LockScreenSetting -WidgetsSuggestion 'Disabled'
 
 #endregion lock screen
 

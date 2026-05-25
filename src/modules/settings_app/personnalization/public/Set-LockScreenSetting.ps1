@@ -9,8 +9,9 @@
         [-GetFunFactsTipsTricks {Disabled | Enabled}]
         [-ShowPictureOnSigninScreen {Disabled | Enabled}]
         [-ShowPictureOnSigninScreenGPO {Disabled | NotConfigured}]
-        [-YourWidgets {Disabled | Enabled}]
-        [-YourWidgetsGPO {Disabled | NotConfigured}]
+        [-Widgets {Disabled | Enabled}]
+        [-WidgetsGPO {Disabled | NotConfigured}]
+        [-WidgetsSuggestion {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -32,9 +33,11 @@ function Set-LockScreenSetting
 
         [GpoStateWithoutEnabled] $ShowPictureOnSigninScreenGPO,
 
-        [state] $YourWidgets,
+        [state] $Widgets,
 
-        [GpoStateWithoutEnabled] $YourWidgetsGPO
+        [GpoStateWithoutEnabled] $WidgetsGPO,
+
+        [state] $WidgetsSuggestion
     )
 
     process
@@ -51,8 +54,9 @@ function Set-LockScreenSetting
             'GetFunFactsTipsTricks'        { Set-LockScreenGetFunFactsTipsTricks -State $GetFunFactsTipsTricks }
             'ShowPictureOnSigninScreen'    { Set-LockScreenShowPictureOnSigninScreen -State $ShowPictureOnSigninScreen }
             'ShowPictureOnSigninScreenGPO' { Set-LockScreenShowPictureOnSigninScreen -GPO $ShowPictureOnSigninScreenGPO }
-            'YourWidgets'                  { Set-LockScreenYourWidgets -State $YourWidgets }
-            'YourWidgetsGPO'               { Set-LockScreenYourWidgets -GPO $YourWidgetsGPO }
+            'Widgets'                      { Set-LockScreenWidgets -State $Widgets }
+            'WidgetsGPO'                   { Set-LockScreenWidgets -GPO $WidgetsGPO }
+            'WidgetsSuggestion'            { Set-LockScreenWidgetsSuggestion -State $WidgetsSuggestion }
         }
     }
 }
