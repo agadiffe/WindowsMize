@@ -1,21 +1,19 @@
 #=================================================================================================================
-#                  Accessibility > Narrator > Automatically Send Diagnostic And Performance Data
+#                                 Accessibility > Mouse > Snap To Default Button
 #=================================================================================================================
-
-# Disabled by default. Enforce it.
 
 <#
 .SYNTAX
-    Set-NarratorAutoSendTelemetry
+    Set-MouseSnapToDefaultButton
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-NarratorAutoSendTelemetry
+function Set-MouseSnapToDefaultButton
 {
     <#
     .EXAMPLE
-        PS> Set-NarratorAutoSendTelemetry -State 'Disabled'
+        PS> Set-MouseSnapToDefaultButton -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -28,19 +26,19 @@ function Set-NarratorAutoSendTelemetry
     process
     {
         # on: 1 | off: 0 (default)
-        $NarratorSendDiagnosticAndPerformanceData = @{
+        $SnapToDefaultButton = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Narrator\NoRoam'
+            Path    = 'Control Panel\Mouse'
             Entries = @(
                 @{
-                    Name  = 'DetailedFeedback'
+                    Name  = 'SnapToDefaultButton'
                     Value = $State -eq 'Enabled' ? '1' : '0'
-                    Type  = 'DWord'
+                    Type  = 'String'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Narrator - Automatically Send Diagnostic And Performance Data' to '$State' ..."
-        Set-RegistryEntry -InputObject $NarratorSendDiagnosticAndPerformanceData
+        Write-Verbose -Message "Setting 'Mouse - Snap To Default Button' to '$State' ..."
+        Set-RegistryEntry -InputObject $SnapToDefaultButton
     }
 }

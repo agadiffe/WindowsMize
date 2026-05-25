@@ -1,19 +1,21 @@
 #=================================================================================================================
-#                            Accessibility > Narrator > Keyboard Shorcut For Narrator
+#                  Accessibility > Narrator > Automatically Send Diagnostic And Performance Data
 #=================================================================================================================
+
+# Disabled by default. Enforce it.
 
 <#
 .SYNTAX
-    Set-NarratorKeyboardShorcut
+    Set-NarratorTelemetry
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-NarratorKeyboardShorcut
+function Set-NarratorTelemetry
 {
     <#
     .EXAMPLE
-        PS> Set-NarratorKeyboardShorcut -State 'Disabled'
+        PS> Set-NarratorTelemetry -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -25,20 +27,20 @@ function Set-NarratorKeyboardShorcut
 
     process
     {
-        # on: 1 (default) | off: 0
-        $NarratorKeyboardShorcut = @{
+        # on: 1 | off: 0 (default)
+        $NarratorTelemetry = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Narrator\NoRoam'
             Entries = @(
                 @{
-                    Name  = 'WinEnterLaunchEnabled'
+                    Name  = 'DetailedFeedback'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Narrator - Keyboard Shorcut' to '$State' ..."
-        Set-RegistryEntry -InputObject $NarratorKeyboardShorcut
+        Write-Verbose -Message "Setting 'Narrator - Automatically Send Diagnostic And Performance Data' to '$State' ..."
+        Set-RegistryEntry -InputObject $NarratorTelemetry
     }
 }

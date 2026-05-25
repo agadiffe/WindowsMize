@@ -248,7 +248,7 @@ Set-TouchpadSetting -RightClickZoneSize 'Default'
 Set-TouchpadSetting -TwoFingersToScroll 'Enabled'
 
 # --- Single-finger scrolling
-State: Disabled | LeftSide | RightSide (default)
+# State: Disabled | LeftSide | RightSide (default)
 Set-TouchpadSetting -SingleFingerToScroll 'RightSide'
 
 # --- Automatic scrolling at edge (default: Enabled)

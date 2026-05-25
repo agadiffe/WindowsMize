@@ -1954,20 +1954,54 @@ $AccessibilitySettings = @{
     VisualEffectsAlwaysShowScrollbars  = 'Disabled'
     VisualEffectsAnimation             = 'Enabled'
     VisualEffectsNotifsDurationSeconds = 5 # 5 | 7 | 15 | 30 | 60 | 300
-    ContrastThemesKeyboardShorcut      = 'Disabled'
-    NarratorKeyboardShorcut            = 'Disabled'
-    NarratorAutoSendTelemetry          = 'Disabled'
-    VoiceTypingKeyboardShorcut         = 'Disabled'
-    MouseKeys                          = 'Disabled'
-    MouseKeysShorcut                   = 'Disabled'
-    KeyboardStickyKeys                 = 'Disabled'
-    KeyboardStickyKeysShorcut          = 'Disabled'
-    KeyboardFilterKeys                 = 'Disabled'
-    KeyboardFilterKeysShorcut          = 'Disabled'
-    KeyboardToggleKeysTone             = 'Disabled'
-    KeyboardToggleKeysToneShorcut      = 'Disabled'
+    ContrastThemesKeyboardShortcut     = 'Disabled'
+    NarratorKeyboardShortcut           = 'Disabled'
+    NarratorTelemetry                  = 'Disabled'
+    VoiceAccessStartBeforeSignin       = 'Disabled'
+    VoiceAccessStartAfterSignin        = 'Disabled'
 }
 Set-AccessibilitySetting @AccessibilitySettings
+
+$AccessibilityKeyboardSettings = @{
+    UnderlineAccessKeys            = 'Disabled'
+    StickyKeys                     = 'Disabled'
+    StickyKeysKeyboardShortcut     = 'Disabled'
+    StickyKeysShowTrayIcon         = 'Enabled'
+    StickyKeysLockOnDoublePress    = 'Enabled'
+    StickyKeysDisableOnTwoKeypress = 'Enabled'
+    StickyKeysKeypressSound        = 'Enabled'
+    FilterKeys                     = 'Disabled'
+    FilterKeysKeyboardShortcut     = 'Disabled'
+    FilterKeysShowTrayIcon         = 'Enabled'
+    FilterKeysKeypressSound        = 'Enabled'
+    FilterKeysQuickDelaySeconds    = 0 # 0 | 0.3 | 0.5 | 0.7 | 1 | 1.4 | 2 | 5 | 10 | 20
+    FilterKeysBounceDelaySeconds   = 0 # 0 | 0.3 | 0.5 | 0.7 | 1 | 1.5 | 2
+    FilterKeysRepeatDelaySeconds   = 0 # 0 | 0.3 | 0.5 | 0.7 | 1 | 1.5 | 2
+    ToggleKeys                     = 'Disabled'
+    ToggleKeysKeyboardShortcut     = 'Disabled'
+}
+Set-AccessibilityKeyboardSetting @AccessibilityKeyboardSettings
+
+$AccessibilityMouseSettings = @{
+    PointerIndicatorOnCtrl          = 'Disabled'
+    PointerTrailsLength             = 0 # 0 | 2 | 3 | 4 | 5 | 6 | 7
+    SnapToDefaultButton             = 'Disabled'
+    HidePointerWhileTyping          = 'Enabled'
+    DoubleClickSpeed                = 5 # range: 1-11
+    ClickLock                       = 'Disabled'
+    ClickLockDelay                  = 6 # range: 1-11
+    ActivateOnHover                 = 'Disabled'
+    ActivateOnHoverRaiseWindow      = 'Disabled'
+    ActivateOnHoverDelay            = 5 # range: 1-9
+    MouseKeys                       = 'Disabled'
+    MouseKeysKeyboardShortcut       = 'Disabled'
+    MouseKeysUseWhenNumLockOn       = 'Enabled'
+    MouseKeysShowTrayIcon           = 'Disabled'
+    MouseKeysCtrlShiftSpeedAdjust   = 'Disabled'
+    MouseKeysSpeed                  = 90 # range: 0-100
+    MouseKeysAcceleration           = 90 # range: 0-100
+}
+Set-AccessibilityMouseSetting @AccessibilityMouseSettings
 
 #endregion accessibility
 

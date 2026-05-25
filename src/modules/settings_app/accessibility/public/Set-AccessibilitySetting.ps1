@@ -7,19 +7,12 @@
     Set-AccessibilitySetting
         [-VisualEffectsAlwaysShowScrollbars {Disabled | Enabled}]
         [-VisualEffectsAnimation {Disabled | Enabled}]
-        [-VisualEffectsNotifsDurationSeconds {5 | 7 | 15 | 30 | 60 | 300}]
-        [-ContrastThemesKeyboardShorcut {Disabled | Enabled}]
-        [-NarratorKeyboardShorcut {Disabled | Enabled}]
-        [-NarratorAutoSendTelemetry {Disabled | Enabled}]
-        [-VoiceTypingKeyboardShorcut {Disabled | Enabled}]
-        [-KeyboardStickyKeys {Disabled | Enabled}]
-        [-KeyboardStickyKeysShorcut {Disabled | Enabled}]
-        [-KeyboardFilterKeys {Disabled | Enabled}]
-        [-KeyboardFilterKeysShorcut {Disabled | Enabled}]
-        [-KeyboardToggleKeysTone {Disabled | Enabled}]
-        [-KeyboardToggleKeysToneShorcut {Disabled | Enabled}]
-        [-MouseKeys {Disabled | Enabled}]
-        [-MouseKeysShorcut {Disabled | Enabled}]
+        [-VisualEffectsNotifsDurationSeconds <int>]
+        [-ContrastThemesKeyboardShortcut {Disabled | Enabled}]
+        [-NarratorKeyboardShortcut {Disabled | Enabled}]
+        [-NarratorTelemetry {Disabled | Enabled}]
+        [-VoiceAccessStartBeforeSignin {Disabled | Enabled}]
+        [-VoiceAccessStartAfterSignin {Disabled | Enabled}]
         [<CommonParameters>]
 #>
 
@@ -27,7 +20,7 @@ function Set-AccessibilitySetting
 {
     <#
     .EXAMPLE
-        PS> Set-AccessibilitySetting -KeyboardStickyKeysShorcut 'Disabled' -KeyboardFilterKeysShorcut 'Disabled'
+        PS> Set-AccessibilitySetting -VisualEffectsAnimation 'Enabled' -VoiceTypingKeyboardShortcut 'Disabled'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -42,33 +35,17 @@ function Set-AccessibilitySetting
         [int] $VisualEffectsNotifsDurationSeconds,
 
         # contrast themes
-        [state] $ContrastThemesKeyboardShorcut,
+        [state] $ContrastThemesKeyboardShortcut,
 
         # narrator
-        [state] $NarratorKeyboardShorcut,
+        [state] $NarratorKeyboardShortcut,
 
-        [state] $NarratorAutoSendTelemetry,
+        [state] $NarratorTelemetry,
 
         # speech
-        [state] $VoiceTypingKeyboardShorcut,
+        [state] $VoiceAccessStartBeforeSignin,
 
-        # keyboard
-        [state] $KeyboardStickyKeys,
-
-        [state] $KeyboardStickyKeysShorcut,
-
-        [state] $KeyboardFilterKeys,
-
-        [state] $KeyboardFilterKeysShorcut,
-
-        [state] $KeyboardToggleKeysTone,
-
-        [state] $KeyboardToggleKeysToneShorcut,
-
-        # mouse
-        [state] $MouseKeys,
-
-        [state] $MouseKeysShorcut
+        [state] $VoiceAccessStartAfterSignin
     )
 
     process
@@ -81,26 +58,17 @@ function Set-AccessibilitySetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'VisualEffectsAlwaysShowScrollbars'       { Set-VisualEffectsAlwaysShowScrollbars -State $VisualEffectsAlwaysShowScrollbars }
-            'VisualEffectsAnimation'                  { Set-VisualEffectsAnimation -State $VisualEffectsAnimation }
-            'VisualEffectsNotifsDurationSeconds'      { Set-VisualEffectsNotificationsDuration -Seconds $VisualEffectsNotifsDurationSeconds }
+            'VisualEffectsAlwaysShowScrollbars'  { Set-VisualEffectsAlwaysShowScrollbars -State $VisualEffectsAlwaysShowScrollbars }
+            'VisualEffectsAnimation'             { Set-VisualEffectsAnimation -State $VisualEffectsAnimation }
+            'VisualEffectsNotifsDurationSeconds' { Set-VisualEffectsNotificationsDuration -Seconds $VisualEffectsNotifsDurationSeconds }
 
-            'ContrastThemesKeyboardShorcut'           { Set-ContrastThemesKeyboardShorcut -State $ContrastThemesKeyboardShorcut }
+            'ContrastThemesKeyboardShortcut'     { Set-ContrastThemes -KeyboardShortcut $ContrastThemesKeyboardShortcut }
 
-            'NarratorKeyboardShorcut'                 { Set-NarratorKeyboardShorcut -State $NarratorKeyboardShorcut }
-            'NarratorAutoSendTelemetry'               { Set-NarratorAutoSendTelemetry -State $NarratorAutoSendTelemetry }
+            'NarratorKeyboardShortcut'           { Set-NarratorKeyboardShortcut -State $NarratorKeyboardShortcut }
+            'NarratorTelemetry'                  { Set-NarratorTelemetry -State $NarratorTelemetry }
 
-            'VoiceTypingKeyboardShorcut'              { Set-VoiceTypingKeyboardShorcut -State $VoiceTypingKeyboardShorcut }
-
-            'KeyboardStickyKeys'                      { Set-KeyboardStickyKeys -State $KeyboardStickyKeys }
-            'KeyboardStickyKeysShorcut'               { Set-KeyboardStickyKeys -KeyboardShorcut $KeyboardStickyKeysShorcut }
-            'KeyboardFilterKeys'                      { Set-KeyboardFilterKeys -State $KeyboardFilterKeys }
-            'KeyboardFilterKeysShorcut'               { Set-KeyboardFilterKeys -KeyboardShorcut $KeyboardFilterKeysShorcut }
-            'KeyboardToggleKeysTone'                  { Set-KeyboardToggleKeysTone -State $KeyboardToggleKeysTone }
-            'KeyboardToggleKeysToneShorcut'           { Set-KeyboardToggleKeysTone -KeyboardShorcut $KeyboardToggleKeysToneShorcut }
-
-            'MouseKeys'                               { Set-MouseKeys -State $MouseKeys }
-            'MouseKeysShorcut'                        { Set-MouseKeys -KeyboardShorcut $MouseKeysShorcut }
+            'VoiceAccessStartBeforeSignin'        { Set-SpeechVoiceAccessStartBeforeSignin -State $VoiceAccessStartBeforeSignin }
+            'VoiceAccessStartAfterSignin'         { Set-SpeechVoiceAccessStartAfterSignin -State $VoiceAccessStartAfterSignin }
         }
     }
 }
