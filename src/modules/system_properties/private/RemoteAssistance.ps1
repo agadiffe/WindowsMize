@@ -83,7 +83,7 @@ function Set-RemoteAssistanceAccess
         if (-not $IsAccessDisabled)
         {
             # CreateEncryptedOnlyTickets\ on: 1 | off: 0 (default)
-            # MaxTicketExpiry\ default: 6 (range 1-99)
+            # MaxTicketExpiry\ default: 6 (range: 1-99)
             # MaxTicketExpiryUnits\ minutes: 0 | hours: 1 (default) | days: 2
             $RemoteAssistanceInvitations = @{
                 Hive    = 'HKEY_LOCAL_MACHINE'
@@ -178,7 +178,7 @@ function Set-RemoteAssistancePolicy
         # off\ fAllowToGetHelp: 0, others: delete
         # allow helpers to remotely control the computer\ fAllowToGetHelp: 1, fAllowFullControl: 1
         # allow helpers to only view the computer\ fAllowToGetHelp: 1, fAllowFullControl: 0
-        # maximum ticket time value (MaxTicketExpiry)\ default: 1 (range 1-99)
+        # maximum ticket time value (MaxTicketExpiry)\ default: 1 (range: 1-99)
         # maximum ticket time units (MaxTicketExpiryUnits)\ minutes: 0 | hours: 1 (default) | days: 2
         # method for sending email invitations (fUseMailto)\ simple MAPI: 0 (default) | mailto: 1
         $RemoteAssistanceGpo = @{

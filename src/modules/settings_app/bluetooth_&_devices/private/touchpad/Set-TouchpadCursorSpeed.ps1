@@ -26,7 +26,7 @@ function Set-TouchpadCursorSpeed
 
     process
     {
-        # default: 10 (range 2-20)
+        # default: 10 (range: 2-20)
         $TouchpadCursorSpeed = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'

@@ -61,8 +61,8 @@ Set-MicrosoftStoreSetting -AutoAppUpdates 'Enabled' -AutoAppUpdatesGPO 'NotConfi
 # --- Notifications for app installations (default: Enabled)
 Set-MicrosoftStoreSetting -AppInstallNotifications 'Enabled'
 
-# --- Desktop shorcuts (default: Disabled)
-Set-MicrosoftStoreSetting -AutoCreateAppDesktopShorcut 'Disabled'
+# --- Desktop shortcuts (default: Disabled)
+Set-MicrosoftStoreSetting -AutoCreateAppDesktopShortcut 'Disabled'
 
 # --- Video autoplay (default: Enabled)
 Set-MicrosoftStoreSetting -VideoAutoplay 'Disabled'

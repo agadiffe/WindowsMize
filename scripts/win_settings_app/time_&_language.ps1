@@ -138,10 +138,10 @@ Set-TypingSetting -LanguageBar 'DockedInTaskbar'
 
 # --- --- Switch Input Language
 # State: NotAssigned | CtrlShift | LeftAltShift (default) | GraveAccent
-Set-TypingSetting -SwitchInputLanguageHotKey 'NotAssigned'
+Set-TypingSetting -SwitchInputLanguageHotkey 'NotAssigned'
 
 # --- --- Switch Keyboard Layout
 # State: NotAssigned | CtrlShift (default) | LeftAltShift | GraveAccent
-Set-TypingSetting -SwitchKeyboardLayoutHotKey 'NotAssigned'
+Set-TypingSetting -SwitchKeyboardLayoutHotkey 'NotAssigned'
 
 #endregion typing

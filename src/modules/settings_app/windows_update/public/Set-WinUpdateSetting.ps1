@@ -30,7 +30,7 @@ function Set-WinUpdateSetting
     <#
     .DESCRIPTION
         Dynamic parameters:
-            -ActiveHoursStart <int> & -ActiveHoursEnd <int> : (range 0-23)
+            -ActiveHoursStart <int> & -ActiveHoursEnd <int> : (range: 0-23)
                 available when 'ActiveHoursMode' is 'Manually' or 'ActiveHoursGPO' is 'Enabled'.
 
     .EXAMPLE

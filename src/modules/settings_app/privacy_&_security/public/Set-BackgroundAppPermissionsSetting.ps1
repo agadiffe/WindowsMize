@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                 Privacy & Security > Background App Permissions
+#                           Privacy & Security > Background App Permissions - Settings
 #=================================================================================================================
 
 # Applies only to MsStore/UWP apps (e.g. Calculator, Notepad, Photos, ...).

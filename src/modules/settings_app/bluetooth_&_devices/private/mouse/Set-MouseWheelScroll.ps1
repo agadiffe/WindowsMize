@@ -41,7 +41,7 @@ function Set-MouseWheelScroll
             'OneScreen'     { '-1' }
         }
 
-        # multiple lines at times: 3 (default) (range 1-100) | one screen at a time: -1
+        # multiple lines at times: 3 (default) (range: 1-100) | one screen at a time: -1
         $MouseWheelScroll = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Control Panel\Desktop'

@@ -4,23 +4,23 @@
 
 <#
 .SYNTAX
-    Set-KeyboardHotKeySwitchInputLanguage
+    Set-KeyboardHotkeySwitchInputLanguage
         [-Hotkey] {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}
         [<CommonParameters>]
 #>
 
-function Set-KeyboardHotKeySwitchInputLanguage
+function Set-KeyboardHotkeySwitchInputLanguage
 {
     <#
     .EXAMPLE
-        PS> Set-KeyboardHotKeySwitchInputLanguage -Hotkey 'NotAssigned'
+        PS> Set-KeyboardHotkeySwitchInputLanguage -Hotkey 'NotAssigned'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [SwitchInputHotKeys] $Hotkey
+        [SwitchInputHotkeys] $Hotkey
     )
 
     process
@@ -51,7 +51,7 @@ function Set-KeyboardHotKeySwitchInputLanguage
         {
             Write-Verbose -Message ('  Hot key is also assigned to ''Switch Keyboard Layout''.' +
                                    ' Resetting ''Switch Keyboard Layout'' to ''NotAssigned''.')
-            Set-KeyboardHotKeySwitchKeyboardLayout -Hotkey 'NotAssigned'
+            Set-KeyboardHotkeySwitchKeyboardLayout -Hotkey 'NotAssigned'
         }
     }
 }

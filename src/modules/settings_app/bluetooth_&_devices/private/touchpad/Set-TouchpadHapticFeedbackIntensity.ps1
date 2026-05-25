@@ -26,17 +26,14 @@ function Set-TouchpadHapticFeedbackIntensity
 
     process
     {
-        # GUI values: range 1-5
-        $SettingValue = ($Intensity - 1) * 25
-
-        # default: 50 (range 0-100)
+        # default: 50 (range: 0-100)
         $TouchpadHapticFeedbackIntensity = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad'
             Entries = @(
                 @{
                     Name  = 'FeedbackIntensity'
-                    Value = $SettingValue
+                    Value = ($Intensity - 1) * 25
                     Type  = 'DWord'
                 }
             )

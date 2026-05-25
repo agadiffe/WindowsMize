@@ -465,11 +465,11 @@ Set-MicrosoftEdgePolicy @MicrosoftEdgePolicy
 
 # --- MS Store
 $MsStoreSettings = @{
-    AutoAppUpdates              = 'Enabled' ; AutoAppUpdatesGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
-    AppInstallNotifications     = 'Enabled'
-    AutoCreateAppDesktopShorcut = 'Disabled'
-    VideoAutoplay               = 'Disabled'
-    PersonalizedExperiences     = 'Disabled'
+    AutoAppUpdates               = 'Enabled' ; AutoAppUpdatesGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    AppInstallNotifications      = 'Enabled'
+    AutoCreateAppDesktopShortcut = 'Disabled'
+    VideoAutoplay                = 'Disabled'
+    PersonalizedExperiences      = 'Disabled'
 }
 Set-MicrosoftStoreSetting @MsStoreSettings
 
@@ -486,7 +486,7 @@ $NotepadSettings = @{
     Theme          = 'System' # System | Light | Dark
     FontFamily     = 'Consolas' # Arial | Calibri | Consolas | Comic Sans MS | Times New Roman | ...
     FontStyle      = 'Regular' # Regular | Italic | Bold | Bold Italic
-    FontSize       = '11' # range 1-99
+    FontSize       = '11' # range: 1-99
     WordWrap       = 'Enabled'
     Formatting     = 'Disabled'
     OpenFile       = 'NewTab' # NewTab | NewWindow
@@ -1083,7 +1083,7 @@ Set-BackupYourPCBanners -State 'Disabled'
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 #Set-GameBarLinks -State 'Disabled' # Disabled: Fix popup errors if XBox GameBar is uninstalled.
 Set-HelpTips -GPO 'Disabled'
-Set-MenuShowDelay -Milliseconds '200' # range 50-1000
+Set-MenuShowDelay -Milliseconds '200' # range: 50-1000
 Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
 Set-StartMenuAllAppsViewMode -Mode 'Category' # Category | Grid | List
@@ -1538,7 +1538,7 @@ $StorageSenseSettings = @{
     TempFilesCleanup = 'Enabled'            ; TempFilesCleanupGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
     StorageSense     = 'Disabled'           ; StorageSenseGPO     = 'NotConfigured' # Disabled | Enabled | NotConfigured
     Schedule         = 'OnLowFreeDiskSpace' ; ScheduleGPO         = 'NotConfigured' # OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured
-    # RetentionDays/ State: 0 (Never) | 1 | 14 | 30 | 60 / GPO: value in days (range 0-365) | NotConfigured
+    # RetentionDays/ State: 0 (Never) | 1 | 14 | 30 | 60 / GPO: value in days (range: 0-365) | NotConfigured
     RecycleBinRetentionDays      = 30 ; RecycleBinRetentionDaysGPO      = 'NotConfigured'
     DownloadsFolderRetentionDays = 0  ; DownloadsFolderRetentionDaysGPO = 'NotConfigured'
 }
@@ -1593,7 +1593,7 @@ $PointInTimeRestoreSettings = @{
     PointInTimeRestore = 'Disabled'
     FrequencyHours     = 24 # 4 | 6 | 12 | 16 | 24
     RetentionHours     = 72 # 6 | 12 | 16 | 24 | 72
-    MaxDiskUsageGB     = 10 # range 2-50
+    MaxDiskUsageGB     = 10 # range: 2-50
 }
 Set-PointInTimeRestoreSetting @PointInTimeRestoreSettings
 
@@ -1913,8 +1913,8 @@ $TypingSettings = @{
     TypingAndCorrectionHistory            = 'Disabled'
     UseDifferentInputMethodForEachApp     = 'Disabled'
     LanguageBar                           = 'DockedInTaskbar' # FloatingOnDesktop | DockedInTaskbar | Hidden
-    SwitchInputLanguageHotKey             = 'NotAssigned' # NotAssigned | CtrlShift | LeftAltShift | GraveAccent
-    SwitchKeyboardLayoutHotKey            = 'NotAssigned' # NotAssigned | CtrlShift | LeftAltShift | GraveAccent
+    SwitchInputLanguageHotkey             = 'NotAssigned' # NotAssigned | CtrlShift | LeftAltShift | GraveAccent
+    SwitchKeyboardLayoutHotkey            = 'NotAssigned' # NotAssigned | CtrlShift | LeftAltShift | GraveAccent
 }
 Set-TypingSetting @TypingSettings
 
@@ -1989,7 +1989,7 @@ $WindowsUpdateSettings = @{
 }
 Set-WinUpdateSetting @WindowsUpdateSettings
 
-# Values are in 24H clock format (range 0-23), Max range is 18 hours.
+# Values are in 24H clock format (range: 0-23), Max range is 18 hours.
 # State: Automatically | Manually / GPO: Enabled | NotConfigured
 #Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured'
 Set-WinUpdateSetting -ActiveHoursMode 'Manually' -ActiveHoursStart 7 -ActiveHoursEnd 1

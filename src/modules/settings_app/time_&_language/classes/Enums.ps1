@@ -25,7 +25,7 @@ enum DayOfWeek
 }
 
 # typing
-enum SwitchInputHotKeys
+enum SwitchInputHotkeys
 {
     NotAssigned  = 3
     CtrlShift    = 2

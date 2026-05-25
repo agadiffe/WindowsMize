@@ -127,7 +127,7 @@ Set-StartMenuWebview2Version -State 'Disabled'
 
 # --- Startup Apps Delay (default: default)
 # Default: about 10s and/or idle state defined by Windows.
-# Seconds: value in seconds (range 0-45)
+# Seconds: value in seconds (range: 0-45)
 #Set-StartupAppsDelay -Seconds 2
 #Set-StartupAppsDelay -Default
 
@@ -185,7 +185,7 @@ Set-GameBarLinks -State 'Disabled'
 Set-HelpTips -GPO 'Disabled'
 
 # --- Menu Show Delay (default: 400)
-# Value is in milliseconds (range 50-1000).
+# Value is in milliseconds (range: 50-1000).
 Set-MenuShowDelay -Milliseconds '200'
 
 # --- Online tips
@@ -255,8 +255,8 @@ Set-WindowsSpotlight -SuggestedContentGPO 'Disabled'
 
 Write-Section -Name 'Windows features and settings' -SubSection
 
-# --- Move character map shorcut
-# 'sfc /scannow' will show an error and restore the shorcut. 
+# --- Move character map shortcut
+# 'sfc /scannow' will show an error and restore the shortcut. 
 #Move-CharacterMapShortcutToWindowsTools
 
 # --- Display the lock screen

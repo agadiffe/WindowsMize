@@ -26,7 +26,7 @@ function Set-MousePointerSpeed
 
     process
     {
-        # default: 10 (range 1-20)
+        # default: 10 (range: 1-20)
         $MousePointerSpeed = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Control Panel\Mouse'

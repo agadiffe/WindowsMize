@@ -26,7 +26,7 @@ function Set-KeyboardCharacterRepeatRate
 
     process
     {
-        # default: 31 (range 0-31)
+        # default: 31 (range: 0-31)
         $KeyboardCharacterRepeatRate = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Control Panel\Keyboard'

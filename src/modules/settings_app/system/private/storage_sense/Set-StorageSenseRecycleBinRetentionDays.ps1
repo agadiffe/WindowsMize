@@ -6,7 +6,7 @@
 .SYNTAX
     Set-StorageSenseRecycleBinRetention
         [[-Days] {0 | 1 | 14 | 30 | 60}]
-        [-GPO <object>] # <int> (range 0-365) | NotConfigured
+        [-GPO <object>] # <int> (range: 0-365) | NotConfigured
         [<CommonParameters>]
 #>
 
@@ -59,7 +59,7 @@ function Set-StorageSenseRecycleBinRetention
             {
                 # gpo\ computer config > administrative tpl > system > storage sense
                 #   configure storage sense recycle bin cleanup threshold
-                # not configured: delete (default) | on: value in days (range 0-365) (never: 0)
+                # not configured: delete (default) | on: value in days (range: 0-365) (never: 0)
                 $RecycleBinRetentionGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\StorageSense'

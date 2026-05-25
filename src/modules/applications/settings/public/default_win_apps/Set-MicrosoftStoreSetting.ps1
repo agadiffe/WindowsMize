@@ -8,7 +8,7 @@
         [-AutoAppUpdates {Disabled | Enabled}]
         [-AutoAppUpdatesGPO {Disabled | Enabled | NotConfigured}]
         [-AppInstallNotifications {Disabled | Enabled}]
-        [-AutoCreateAppDesktopShorcut {Disabled | Enabled}]
+        [-AutoCreateAppDesktopShortcut {Disabled | Enabled}]
         [-VideoAutoplay {Disabled | Enabled}]
         [-PersonalizedExperiences {Disabled | Enabled}]
         [<CommonParameters>]
@@ -27,7 +27,7 @@ function Set-MicrosoftStoreSetting
         [state] $AutoAppUpdates,
         [GpoState] $AutoAppUpdatesGPO,
         [state] $AppInstallNotifications,
-        [state] $AutoCreateAppDesktopShorcut,
+        [state] $AutoCreateAppDesktopShortcut,
         [state] $VideoAutoplay,
         [state] $PersonalizedExperiences
     )
@@ -111,15 +111,15 @@ function Set-MicrosoftStoreSetting
                 }
                 $MicrosoftStoreSettings.Add([PSCustomObject]$AppInstallNotificationsReg) | Out-Null
             }
-            'AutoCreateAppDesktopShorcut'
+            'AutoCreateAppDesktopShortcut'
             {
                 # on: 1 | off: 0 (default)
-                $AppDesktopShorcutReg = @{
+                $AppDesktopShortcutReg = @{
                     Name  = 'EnableAppShortutKey'
-                    Value = $AutoCreateAppDesktopShorcut -eq 'Enabled' ? '1' : '0'
+                    Value = $AutoCreateAppDesktopShortcut -eq 'Enabled' ? '1' : '0'
                     Type  = '5f5e10b'
                 }
-                $MicrosoftStoreSettings.Add([PSCustomObject]$AppDesktopShorcutReg) | Out-Null
+                $MicrosoftStoreSettings.Add([PSCustomObject]$AppDesktopShortcutReg) | Out-Null
             }
             'VideoAutoplay'
             {

@@ -55,7 +55,7 @@ Set-WinUpdateSetting -RestartNotification 'Enabled' -RestartNotificationGPO 'Not
 # --- Active hours
 # State: Automatically (default) | Manually
 # GPO: Enabled | NotConfigured
-# ActiveHoursStart/ActiveHoursEnd: value in 24H clock format (range 0-23)
+# ActiveHoursStart/ActiveHoursEnd: value in 24H clock format (range: 0-23)
 #   Max range is 18 hours from the active hours start time.
 
 #Set-WinUpdateSetting -ActiveHoursMode 'Automatically' -ActiveHoursGPO 'NotConfigured'

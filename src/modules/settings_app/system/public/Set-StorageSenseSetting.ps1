@@ -12,9 +12,9 @@
         [-Schedule {OnLowFreeDiskSpace | Daily | Weekly | Monthly}]
         [-ScheduleGPO {OnLowFreeDiskSpace | Daily | Weekly | Monthly | NotConfigured}]
         [-RecycleBinRetentionDays {0 | 1 | 14 | 30 | 60}]
-        [-RecycleBinRetentionDaysGPO <object>] # <int> (range 0-365) | NotConfigured
+        [-RecycleBinRetentionDaysGPO <object>] # <int> (range: 0-365) | NotConfigured
         [-DownloadsFolderRetentionDays {0 | 1 | 14 | 30 | 60}]
-        [-DownloadsFolderRetentionDaysGPO <object>] # <int> (range 0-365) | NotConfigured
+        [-DownloadsFolderRetentionDaysGPO <object>] # <int> (range: 0-365) | NotConfigured
         [<CommonParameters>]
 #>
 

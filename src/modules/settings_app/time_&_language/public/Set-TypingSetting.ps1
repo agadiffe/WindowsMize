@@ -13,8 +13,8 @@
         [-TypingAndCorrectionHistory {Disabled | Enabled}]
         [-UseDifferentInputMethodForEachApp {Disabled | Enabled}]
         [-LanguageBar {FloatingOnDesktop | DockedInTaskbar | Hidden}]
-        [-SwitchInputLanguageHotKey {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}]
-        [-SwitchKeyboardLayoutHotKey {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}]
+        [-SwitchInputLanguageHotkey {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}]
+        [-SwitchKeyboardLayoutHotkey {NotAssigned | CtrlShift | LeftAltShift | GraveAccent}]
         [<CommonParameters>]
 #>
 
@@ -44,9 +44,9 @@ function Set-TypingSetting
 
         [LanguageBarMode] $LanguageBar,
 
-        [SwitchInputHotKeys] $SwitchInputLanguageHotKey,
+        [SwitchInputHotkeys] $SwitchInputLanguageHotkey,
 
-        [SwitchInputHotKeys] $SwitchKeyboardLayoutHotKey
+        [SwitchInputHotkeys] $SwitchKeyboardLayoutHotkey
     )
 
     process
@@ -67,8 +67,8 @@ function Set-TypingSetting
             'TypingAndCorrectionHistory'            { Set-TypingInsights -State $TypingAndCorrectionHistory }
             'UseDifferentInputMethodForEachApp'     { Set-KeyboardUseDifferentInputMethodForEachApp -State $UseDifferentInputMethodForEachApp }
             'LanguageBar'                           { Set-KeyboardLanguageBar -Mode $LanguageBar }
-            'SwitchInputLanguageHotKey'             { Set-KeyboardHotKeySwitchInputLanguage -Hotkey $SwitchInputLanguageHotKey }
-            'SwitchKeyboardLayoutHotKey'            { Set-KeyboardHotKeySwitchKeyboardLayout -Hotkey $SwitchKeyboardLayoutHotKey }
+            'SwitchInputLanguageHotkey'             { Set-KeyboardHotkeySwitchInputLanguage -Hotkey $SwitchInputLanguageHotkey }
+            'SwitchKeyboardLayoutHotkey'            { Set-KeyboardHotkeySwitchKeyboardLayout -Hotkey $SwitchKeyboardLayoutHotkey }
         }
     }
 }

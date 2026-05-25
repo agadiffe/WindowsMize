@@ -34,7 +34,7 @@ function Set-MouseHapticFeedbackIntensity
             '4' { 0, 0, 0, 0, 0, 0, 240, 63 }
         }
 
-        # default: 2 (range 1-4)
+        # default: 2 (range: 1-4)
         $MouseHapticFeedbackIntensity = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows NT\CurrentVersion\Windows\EnhancedPenSupport'

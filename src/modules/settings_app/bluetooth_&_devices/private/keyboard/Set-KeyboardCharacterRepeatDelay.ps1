@@ -26,7 +26,7 @@ function Set-KeyboardCharacterRepeatDelay
 
     process
     {
-        # default: 1 (range 0-3)
+        # default: 1 (range: 0-3)
         $KeyboardCharacterRepeatDelay = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Control Panel\Keyboard'

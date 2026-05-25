@@ -5,7 +5,7 @@
 # Windows 11 only (there is probably a similar registry key for Windows 10).
 
 # Remove unwanted pinned shortcuts from the Start Menu (e.g. Disney+, Netflix, TikTok, ...).
-# It does only remove the quick installer shorcuts that install the app if we click on it.
+# It does only remove the quick installer shortcuts that install the app if we click on it.
 #   i.e. It will not remove an already installed app (e.g. manufacturer app).
 
 <#

@@ -28,7 +28,7 @@ function Set-PointInTimeRestoreMaxDiskUsage
 
     process
     {
-        # default: 2% of disk (range 2-50 GB) | Value is in MB
+        # default: 2% of disk (range: 2-50 GB) | Value is in MB
         $PointInTimeRestoreMaxDiskUsage = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\Recovery\PITR\Settings'

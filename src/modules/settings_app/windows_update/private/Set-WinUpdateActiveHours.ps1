@@ -22,7 +22,7 @@ function Set-WinUpdateActiveHours
     <#
     .DESCRIPTION
         Dynamic parameters:
-            -Start <int> & -End <int> : (range 0-23) available when 'Mode' is 'Manually' or 'GPO' is 'Enabled'.
+            -Start <int> & -End <int> : (range: 0-23) available when 'Mode' is 'Manually' or 'GPO' is 'Enabled'.
 
     .EXAMPLE
         PS> Set-WinUpdateActiveHours -Mode 'Manually' -Start 7 -End 23

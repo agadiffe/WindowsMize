@@ -134,10 +134,10 @@ Set-UsbSetting -NotifOnWeakCharger 'Enabled'
 
 Write-Section -Name 'Keyboard' -SubSection
 
-# --- Keyboard character repeat delay (default: 1 (range 0-3))
+# --- Keyboard character repeat delay (default: 1 (range: 0-3))
 Set-KeyboardSetting -CharacterRepeatDelay 1
 
-# --- Keyboard character repeat rate (default: 31 (range 0-31))
+# --- Keyboard character repeat rate (default: 31 (range: 0-31))
 Set-KeyboardSetting -CharacterRepeatRate 31
 
 # --- Customize Copilot key on keyboard (and Win + C) (default: M365Copilot)
@@ -161,7 +161,7 @@ Write-Section -Name 'Mouse' -SubSection
 # State: Left (default) | Right
 Set-MouseSetting -PrimaryButton 'Left'
 
-# --- Mouse pointer speed (default: 10 (range 1-20))
+# --- Mouse pointer speed (default: 10 (range: 1-20))
 Set-MouseSetting -PointerSpeed 10
 
 # --- Enhance pointer precision (default: Enabled)
@@ -170,14 +170,14 @@ Set-MouseSetting -EnhancedPointerPrecision 'Enabled'
 # --- Haptic signals (default: Enabled)
 Set-MouseSetting -HapticFeedback 'Disabled'
 
-# --- --- Haptic signals intensity (default: 2 (range 1-4))
+# --- --- Haptic signals intensity (default: 2 (range: 1-4))
 Set-MouseSetting -HapticFeedbackIntensity 2
 
 #               Scrolling
 #=======================================
 
 # --- Roll the mouse wheel to scroll
-# --- Lines to scroll at a time (default: 3 (range 1-100))
+# --- Lines to scroll at a time (default: 3 (range: 1-100))
 # State: MultipleLines [+ LinesToScroll] (default) | OneScreen
 #Set-MouseSetting -WheelScroll 'OneScreen'
 Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3
@@ -205,7 +205,7 @@ Set-TouchpadSetting -Touchpad 'Enabled'
 # --- --- Leave touchpad on when a mouse is connected (default: Enabled)
 Set-TouchpadSetting -LeaveOnWithMouse 'Enabled'
 
-# --- Cursor speed (default: 5 (range 1-10))
+# --- Cursor speed (default: 5 (range: 1-10))
 Set-TouchpadSetting -CursorSpeed 5
 
 # --- Click sensitivity
@@ -215,7 +215,7 @@ Set-TouchpadSetting -ClickSensitivity 'Medium'
 # --- Haptic click (default: Enabled)
 Set-TouchpadSetting -HapticFeedback 'Enabled'
 
-# --- --- Haptic click intensity (default: 3 (range 1-5))
+# --- --- Haptic click intensity (default: 3 (range: 1-5))
 Set-TouchpadSetting -HapticFeedbackIntensity 3
 
 #                 Taps
@@ -260,7 +260,7 @@ Set-TouchpadSetting -AutoScrollingWithPressure 'Enabled'
 # --- Accelerated scrolling (default: Enabled)
 Set-TouchpadSetting -AcceleratedScrolling 'Enabled'
 
-# --- Scroll speed (default: 5 (range 0-10))
+# --- Scroll speed (default: 5 (range: 0-10))
 Set-TouchpadSetting -ScrollSpeed 5
 
 # --- Scrolling direction
@@ -270,7 +270,7 @@ Set-TouchpadSetting -ScrollingDirection 'DownMotionScrollsUp'
 # --- Pinch to zoom (default: Enabled)
 Set-TouchpadSetting -PinchToZoom 'Enabled'
 
-# --- --- Zoom speed (default: 5 (range 0-10))
+# --- --- Zoom speed (default: 5 (range: 0-10))
 Set-TouchpadSetting -ZoomSpeed 5
 
 #         Three-finger gestures

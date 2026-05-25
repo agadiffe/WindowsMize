@@ -150,7 +150,7 @@ Write-Section -Name 'Remote' -SubSection
 Set-RemoteAssistance -Access 'Disabled' -GPO 'NotConfigured'
 
 # Advanced settings
-#  InvitationMaxTime     : number (range 1-99), default: 6
+#  InvitationMaxTime     : number (range: 1-99), default: 6
 #  InvitationMaxTimeUnit : Minutes | Hours (default) | Days
 #  EncryptedOnly         : Disabled (Windows default) | Enabled (script default)
 #  EncryptedOnlyGPO      : Disabled | Enabled | NotConfigured (default)

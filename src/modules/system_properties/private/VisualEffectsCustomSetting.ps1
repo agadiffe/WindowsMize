@@ -159,12 +159,16 @@ function Set-VisualEffectsCustomSettingByteBitFlag
 
     begin
     {
+        $Count = -1
+
         $VisualEffectsRegPath = 'Control Panel\Desktop'
         $VisualEffectsBytes = Get-LoggedOnUserItemPropertyValue -Path $VisualEffectsRegPath -Name 'UserPreferencesMask'
     }
 
     process
     {
+        $Count++
+
         Write-Verbose -Message "Setting Visual Effect '$Name' to '$State' ..."
 
         $ByteNum, $BitPos = switch ($Name)
@@ -195,7 +199,11 @@ function Set-VisualEffectsCustomSettingByteBitFlag
                 }
             )
         }
-        Write-Verbose -Message "Visual Effects 'Byte Bit Flag':"
+
+        if ($Count)
+        {
+            Write-Verbose -Message 'Visual Effects Flags:'
+        }
         Set-RegistryEntry -InputObject $VisualEffectsCustomSettings
     }
 }
@@ -230,21 +238,16 @@ function Set-VisualEffectsCustomSettingRegistryEntry
         [state] $State
     )
 
-    begin
-    {
-        $VisualEffectsCustomSettings = [System.Collections.ArrayList]::new()
-    }
-
     process
     {
         Write-Verbose -Message "Setting Visual Effect '$Name' to '$State' ..."
 
         $Value = $State -eq 'Enabled' ? '1' : '0'
-        switch ($Name)
+        $VisualEffectSetting = switch ($Name)
         {
             'Animate windows when minimizing and maximizing'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Control Panel\Desktop\WindowMetrics'
                     Entries = @(
@@ -254,11 +257,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'String'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Animations in the taskbar'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
                     Entries = @(
@@ -268,11 +271,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'DWord'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Enable Peek'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\DWM'
                     Entries = @(
@@ -282,11 +285,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'DWord'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Save taskbar thumbnail previews'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\DWM'
                     Entries = @(
@@ -296,11 +299,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'DWord'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Show thumbnails instead of icons'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
                     Entries = @(
@@ -310,11 +313,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'DWord'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Show translucent selection rectangle'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
                     Entries = @(
@@ -324,11 +327,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'DWord'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Show window contents while dragging'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Control Panel\Desktop'
                     Entries = @(
@@ -338,11 +341,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'String'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Smooth edges of screen fonts'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Control Panel\Desktop'
                     Entries = @(
@@ -352,11 +355,11 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'String'
                         }
                     )
-                }) | Out-Null
+                }
             }
             'Use drop shadows for icon labels on the desktop'
             {
-                $VisualEffectsCustomSettings.Add([PSCustomObject]@{
+                @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
                     Entries = @(
@@ -366,15 +369,10 @@ function Set-VisualEffectsCustomSettingRegistryEntry
                             Type  = 'DWord'
                         }
                     )
-                }) | Out-Null
+                }
             }
         }
-    }
 
-    end
-    {
-        Write-Verbose -Message "Visual Effects 'Registry Entries':"
-        $VisualEffectsCustomSettings | Set-RegistryEntry
-        Write-Verbose -Message "End of Visual Effects 'Registry Entries'"
+        Set-RegistryEntry -InputObject $VisualEffectSetting
     }
 }

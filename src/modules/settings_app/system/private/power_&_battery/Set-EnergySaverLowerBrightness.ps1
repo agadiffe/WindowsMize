@@ -25,7 +25,7 @@ function Set-EnergySaverLowerBrightness
 
     process
     {
-        # on: 70 (default) (range 0-99) | off: 100
+        # on: 70 (default) (range: 0-99) | off: 100
         $Value = $State -eq 'Enabled' ? 70 : 100
 
         Write-Verbose -Message "Setting 'Energy Saver - Lower Screen Brightness' to '$State' ..."

@@ -98,7 +98,7 @@ Set-StartSetting -ShowMobileDevice 'Disabled'
 
 # --- Folders (choose which folders appear on Start next to the Power button)
 # Windows 11 only.
-# Comment every items to hide all shorcuts.
+# Comment every items to hide all shortcuts.
 $StartMenuFolders = @(
     'Settings'
     #'FileExplorer'
