@@ -147,7 +147,6 @@ $PreinstalledAppsToRemove = @(
     'Solitaire'
     'SoundRecorder'
     'StickyNotes'
-    #'Terminal'
     'Tips'
     'Todo'
     'Weather'
