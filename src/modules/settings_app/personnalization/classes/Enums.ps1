@@ -38,8 +38,16 @@ enum StartLayoutMode
 
 enum StartMenuSize
 {
-    Small = 0
-    Large = 1
+    Auto  = 0
+    Small = 1
+    Large = 2
+}
+
+enum StartAllAppsViewMode
+{
+    Category = 0
+    Grid     = 1
+    List     = 2
 }
 
 enum StartFoldersName

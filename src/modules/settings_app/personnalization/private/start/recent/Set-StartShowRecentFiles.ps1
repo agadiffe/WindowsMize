@@ -1,21 +1,19 @@
 #=================================================================================================================
-#                  Personnalization > Start > Show Recent Items In Jump Lists And File Explorer
+#                           Personnalization > Start > Show Recent And Suggested Files
 #=================================================================================================================
-
-# not yet available
 
 <#
 .SYNTAX
-    Set-StartShowRecentItemsInExplorer
+    Set-StartShowRecentFiles
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-StartShowRecentItemsInExplorer
+function Set-StartShowRecentFiles
 {
     <#
     .EXAMPLE
-        PS> Set-StartShowRecentItemsInExplorer -State 'Enabled'
+        PS> Set-StartShowRecentFiles -State 'Enabled'
     #>
 
     [CmdletBinding()]
@@ -27,22 +25,20 @@ function Set-StartShowRecentItemsInExplorer
 
     process
     {
-        return
-
         # on: 1 (default) | off: 0
-        $RecentItemsInExplorer = @{
+        $RecentFiles = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'
             Entries = @(
                 @{
-                    Name  = '???'
+                    Name  = 'ShowSuggestedFiles'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Start - Show Recent Items In Jump Lists And File Explorer' to '$State' ..."
-        Set-RegistryEntry -InputObject $RecentItemsInExplorer
+        Write-Verbose -Message "Setting 'Start - Show Recent And Suggested Files' to '$State' ..."
+        Set-RegistryEntry -InputObject $RecentFiles
     }
 }

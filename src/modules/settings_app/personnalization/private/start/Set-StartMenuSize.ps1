@@ -2,12 +2,10 @@
 #                                   Personnalization > Start > Start Menu Size
 #=================================================================================================================
 
-# not yet available
-
 <#
 .SYNTAX
     Set-StartMenuSize
-        [-Size] {Small | Large}
+        [-Size] {Auto | Small | Large}
         [<CommonParameters>]
 #>
 
@@ -27,15 +25,13 @@ function Set-StartMenuSize
 
     process
     {
-        return
-
-        # Small: 0 | Large: 1 | default: depends on resolution and screen size
+        # Auto: 0 (default) | Small: 1 | Large: 0
         $StartMenuSize = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'
             Entries = @(
                 @{
-                    Name  = '???'
+                    Name  = 'StartMenuSize'
                     Value = [int]$Size
                     Type  = 'DWord'
                 }

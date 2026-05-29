@@ -50,8 +50,6 @@
         'Set-MenuShowDelay'
         'Set-OnlineTips'
         'Set-ShortcutNameSuffix'
-        'Set-StartMenuAllAppsViewMode'
-        'Set-StartMenuRecommendedSection'
         'Set-StartMenuSearchIncludeStoreSuggestions'
         'Set-SuggestedContent'
         'Set-TaskbarCalendarState'

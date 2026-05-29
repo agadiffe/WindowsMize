@@ -1,8 +1,10 @@
 #=================================================================================================================
-#          Personnalization > Start > Show Recently Opened Items In Start, Jump Lists, And File Explorer
+#                  Personnalization > Start > Show Recent Items In Jump Lists And File Explorer
 #=================================================================================================================
 
-# Show recommended files in Start, recent files in File Explorer, and items in Jump Lists
+# old wording:
+#   Show recently opened items In Start, Jump Lists, And File Explorer
+#   Show recommended files in Start, recent files in File Explorer, and items in Jump Lists
 
 <#
 .SYNTAX
@@ -30,7 +32,7 @@ function Set-StartShowRecentItems
 
     process
     {
-        $RecentItemsMsg = 'Start - Show Recently Opened Items In Start, Jump Lists, And File Explorer'
+        $RecentItemsMsg = 'Start - Show Recent Items In Jump Lists And File Explorer'
 
         switch ($PSBoundParameters.Keys)
         {

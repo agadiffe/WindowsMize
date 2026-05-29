@@ -1085,8 +1085,6 @@ Set-HelpTips -GPO 'Disabled'
 Set-MenuShowDelay -Milliseconds '200' # range: 50-1000
 Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
-Set-StartMenuAllAppsViewMode -Mode 'Category' # Category | Grid | List
-#Set-StartMenuRecommendedSection -GPO 'NotConfigured' # Enterprise/Edu only
 Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled' # Ads/Promo
 Set-SuggestedContent -State 'Disabled'
 Set-TaskbarCalendarState -State 'Expanded' # Collapsed | Expanded
@@ -1433,20 +1431,21 @@ Write-Section -Name 'Start & Taskbar' -SubSection
 # --- Start
 $StartSettings = @{
     #LayoutMode                    = 'Default' # old / Default | MorePins | MoreRecommendations
-    #StartMenuSize                 = 'Small' # not yet available # Small | Large
-    #PinnedSection                 = 'Enabled' # not yet available
+    StartMenuSize                 = 'Small' # Auto | Small | Large
+    PinnedSection                 = 'Enabled'
     ShowAllPins                   = 'Enabled'
-    #RecentSection                 = 'Enabled' # not yet available
-    ShowRecentAddedApps           = 'Disabled' ; ShowRecentAddedAppsGPO = 'Disabled'
-    ShowRecentItems               = 'Enabled'  ; ShowRecentItemsGPO     = 'Disabled' # Disabled | Enabled | NotConfigured
+    RecentSection                 = 'Enabled'  ; RecentSectionGPO       = 'NotConfigured'
+    ShowRecentAddedApps           = 'Disabled' ; ShowRecentAddedAppsGPO = 'NotConfigured'
+    ShowRecentFilesInStart        = 'Enabled'
     ShowTipsAndAppRecommendations = 'Disabled'
-    ShowWebsitesFromBrowsingHistoryGPO = 'Disabled'
-    #AllAppsSection                = 'Enabled' # not yet available
-    ShowMostUsedApps              = 'Disabled' ; ShowMostUsedAppsGPO    = 'Disabled' # Disabled | Enabled | NotConfigured
+    ShowWebsitesFromBrowsingHistoryGPO = 'Disabled' # old ?
+    AllAppsSection                = 'Enabled'  ; AllAppsSectionGPO      = 'NotConfigured'
+    AllAppsViewMode               = 'Category' # Category | Grid | List
+    ShowMostUsedApps              = 'Disabled' ; ShowMostUsedAppsGPO    = 'NotConfigured' # Disabled | Enabled | NotConfigured
     ShowMobileDevice              = 'Disabled'
     ShowAccountNotifications      = 'Disabled'
-    #ShowRecentItemsInExplorer     = 'Enabled' # not yet available
-    #HideNameAndPicture            = 'Disabled' # not yet available
+    ShowRecentItems               = 'Enabled'  ; ShowRecentItemsGPO     = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    HideNameAndPicture            = 'Disabled'
 }
 Set-StartSetting @StartSettings
 

@@ -1,38 +1,30 @@
 #=================================================================================================================
-#                                        Start Menu - All Apps View Mode
+#                                  Personnalization > Start > All Apps View Mode
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-StartMenuAllAppsViewMode
+    Set-StartAllAppsViewMode
         [-Mode] {Category | Grid | List}
         [<CommonParameters>]
 #>
 
-function Set-StartMenuAllAppsViewMode
+function Set-StartAllAppsViewMode
 {
     <#
     .EXAMPLE
-        PS> Set-StartMenuAllAppsViewMode -Mode 'Category'
+        PS> Set-StartAllAppsViewMode -Mode 'Category'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet('Category', 'Grid', 'List')]
-        [string] $Mode
+        [StartAllAppsViewMode] $Mode
     )
 
     process
     {
-        $SettingValue = switch ($Mode)
-        {
-            'Category' { '0' }
-            'Grid'     { '1' }
-            'List'     { '2' }
-        }
-
         # Category: 0 (default) | Grid: 1 | List: 2
         $AllAppsViewMode = @{
             Hive    = 'HKEY_CURRENT_USER'
@@ -40,13 +32,13 @@ function Set-StartMenuAllAppsViewMode
             Entries = @(
                 @{
                     Name  = 'AllAppsViewMode'
-                    Value = $SettingValue
+                    Value = [int]$Mode
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Start Menu - All Apps View Mode' to '$Mode' ..."
+        Write-Verbose -Message "Setting 'Start - All Apps View Mode' to '$Mode' ..."
         Set-RegistryEntry -InputObject $AllAppsViewMode
     }
 }

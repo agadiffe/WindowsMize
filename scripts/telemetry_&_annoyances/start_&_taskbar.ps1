@@ -33,9 +33,6 @@ Write-Section -Name 'Windows Settings App - Personnalization'
 #==========================================================
 #region start
 
-# not yet available settings:
-# https://blogs.windows.com/windows-insider/2026/05/15/improving-windows-quality-making-taskbar-and-start-more-personal/
-
 Write-Section -Name 'Start' -SubSection
 
 # --- Layout | old
@@ -43,50 +40,49 @@ Write-Section -Name 'Start' -SubSection
 #Set-StartSetting -LayoutMode 'Default'
 
 # --- Start menu size
-# not yet available
-# State: Small | Large
-#Set-StartSetting -StartMenuSize 'Small'
+# State: Auto (default) | Small | Large
+Set-StartSetting -StartMenuSize 'Small'
 
 #           Pinned (section)
 #=======================================
 
 # --- Pinned section (default: Enabled)
-# not yet available
-#Set-StartSetting -PinnedSection 'Enabled'
+Set-StartSetting -PinnedSection 'Enabled'
 
 # --- --- Show All Pins By Default (default: Disabled)
-# This setting has moved directly into the Start Menu with "Show more"/"Show less" options.
+# This setting is on the Start Menu itself.
 Set-StartSetting -ShowAllPins 'Enabled'
 
 #           Recent (section)
 #=======================================
 
 # --- Recent section (default: Enabled)
-# not yet available
-#Set-StartSetting -RecentSection 'Enabled'
+Set-StartSetting -RecentSection 'Enabled' -RecentSectionGPO 'NotConfigured'
 
 # --- --- Show recently added apps (default: Enabled)
 Set-StartSetting -ShowRecentAddedApps 'Disabled' -ShowRecentAddedAppsGPO 'NotConfigured'
 
 # --- --- Show recent and suggested files (default: Enabled)
-# --- Show recent items in jump lists and File Explorer (default: Enabled)
-# GPO: also disables ShowRecentItemsInExplorer.
-Set-StartSetting -ShowRecentItems 'Enabled' -ShowRecentItemsGPO 'NotConfigured'
+Set-StartSetting -ShowRecentFilesInStart 'Enabled'
 
 # --- --- Show tips and app recommendations (default: Enabled)
 Set-StartSetting -ShowTipsAndAppRecommendations 'Disabled'
 
-# --- --- Show Websites From Your Browsing History
+# --- --- Show websites from your browsing history | old ?
 Set-StartSetting -ShowWebsitesFromBrowsingHistoryGPO 'Disabled'
 
 #          All (apps section)
 #=======================================
 
 # --- All apps section (default: Enabled)
-# not yet available
-#Set-StartSetting -AllAppsSection 'Enabled'
+Set-StartSetting -AllAppsSection 'Enabled' -AllAppsSectionGPO 'NotConfigured'
 
-# --- --- Show most used apps (default: Enabled)
+# --- --- All apps view mode
+# This setting is on the Start Menu itself.
+# Mode: Category (default) | Grid | List
+Set-StartSetting -AllAppsViewMode 'Category'
+
+# --- --- Show most used apps (grid and list views only) (default: Enabled)
 # GPO: Disabled | Enabled | NotConfigured
 Set-StartSetting -ShowMostUsedApps 'Disabled' -ShowMostUsedAppsGPO 'NotConfigured'
 
@@ -116,12 +112,11 @@ Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 Set-StartSetting -ShowAccountNotifications 'Disabled'
 
 # --- Show recent items in jump lists and File Explorer (default: Enabled)
-# not yet available
-#Set-StartSetting -ShowRecentItemsInExplorer 'Enabled'
+# Disabled: also turn off recent files in the Start menu.
+Set-StartSetting -ShowRecentItems 'Enabled' -ShowRecentItemsGPO 'NotConfigured'
 
 # --- Hide your name and profile picture on Start (default: Disabled)
-# not yet available
-#Set-StartSetting -HideNameAndPicture 'Disabled'
+Set-StartSetting -HideNameAndPicture 'Disabled'
 
 #endregion start
 

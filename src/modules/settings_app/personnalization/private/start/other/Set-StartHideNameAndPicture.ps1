@@ -2,8 +2,6 @@
 #                     Personnalization > Start > Hide Your Name And Profile Picture On Start
 #=================================================================================================================
 
-# not yet available
-
 <#
 .SYNTAX
     Set-StartHideNameAndPicture
@@ -27,15 +25,13 @@ function Set-StartHideNameAndPicture
 
     process
     {
-        return
-
         # on: 1 | off: 0 (default)
         $HideNameAndPicture = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'
             Entries = @(
                 @{
-                    Name  = '???'
+                    Name  = 'HideUserInformation'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }

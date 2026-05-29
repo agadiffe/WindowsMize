@@ -12,16 +12,18 @@
         [-RecentSection {Disabled | Enabled}]
         [-ShowRecentAddedApps {Disabled | Enabled}]
         [-ShowRecentAddedAppsGPO {Disabled | NotConfigured}]
-        [-ShowRecentItems {Disabled | Enabled}]
-        [-ShowRecentItemsGPO {Disabled | NotConfigured}]
+        [-ShowRecentFilesInStart {Disabled | Enabled}]
         [-ShowTipsAndAppRecommendations {Disabled | Enabled}]
         [-ShowWebsitesFromBrowsingHistoryGPO {Disabled | NotConfigured}]
         [-AllAppsSection {Disabled | Enabled}]
+        [-AllAppsSectionGPO {Disabled | NotConfigured}]
+        [-AllAppsViewMode {Category | Grid | List}]
         [-ShowMostUsedApps {Disabled | Enabled}]
         [-ShowMostUsedAppsGPO {Disabled | Enabled | NotConfigured}]
         [-ShowMobileDevice {Disabled | Enabled}]
         [-ShowAccountNotifications {Disabled | Enabled}]
-        [-ShowRecentItemsInExplorer {Disabled | Enabled}]
+        [-ShowRecentItems {Disabled | Enabled}]
+        [-ShowRecentItemsGPO {Disabled | NotConfigured}]
         [-HideNameAndPicture {Disabled | Enabled}]
         [-FoldersNextToPowerButton {Settings | FileExplorer | Network | PersonalFolder |
                                     Documents | Downloads | Music | Pictures | Videos}]
@@ -54,13 +56,13 @@ function Set-StartSetting
         # recent section
         [state] $RecentSection,
 
+        [GpoStateWithoutEnabled] $RecentSectionGPO,
+
         [state] $ShowRecentAddedApps,
 
         [GpoStateWithoutEnabled] $ShowRecentAddedAppsGPO,
 
-        [state] $ShowRecentItems,
-
-        [GpoStateWithoutEnabled] $ShowRecentItemsGPO,
+        [state] $ShowRecentFilesInStart,
 
         [state] $ShowTipsAndAppRecommendations,
 
@@ -68,6 +70,10 @@ function Set-StartSetting
 
         # all apps section
         [state] $AllAppsSection,
+
+        [GpoStateWithoutEnabled] $AllAppsSectionGPO,
+
+        [StartAllAppsViewMode] $AllAppsViewMode,
 
         [state] $ShowMostUsedApps,
 
@@ -80,7 +86,9 @@ function Set-StartSetting
 
         [state] $ShowAccountNotifications,
 
-        [state] $ShowRecentItemsInExplorer,
+        [state] $ShowRecentItems,
+
+        [GpoStateWithoutEnabled] $ShowRecentItemsGPO,
 
         [state] $HideNameAndPicture
     )
@@ -102,21 +110,24 @@ function Set-StartSetting
             'ShowAllPins'                        { Set-StartShowAllPins -State $ShowAllPins }
     
             'RecentSection'                      { Set-StartRecentSection -State $RecentSection }
+            'RecentSectionGPO'                   { Set-StartRecentSection -GPO $RecentSectionGPO }
             'ShowRecentAddedApps'                { Set-StartShowRecentAddedApps -State $ShowRecentAddedApps }
             'ShowRecentAddedAppsGPO'             { Set-StartShowRecentAddedApps -GPO $ShowRecentAddedAppsGPO }
-            'ShowRecentItems'                    { Set-StartShowRecentItems -State $ShowRecentItems }
-            'ShowRecentItemsGPO'                 { Set-StartShowRecentItems -GPO $ShowRecentItemsGPO }
+            'ShowRecentFilesInStart'             { Set-StartShowRecentFiles -State $ShowRecentFilesInStart }
             'ShowTipsAndAppRecommendations'      { Set-StartShowTipsAndAppRecommendations -State $ShowTipsAndAppRecommendations }
             'ShowWebsitesFromBrowsingHistoryGPO' { Set-StartShowWebsitesFromBrowsingHistory -GPO $ShowWebsitesFromBrowsingHistoryGPO }
     
             'AllAppsSection'                     { Set-StartAllAppsSection -State $AllAppsSection }
+            'AllAppsSectionGPO'                  { Set-StartAllAppsSection -GPO $AllAppsSectionGPO }
+            'AllAppsViewMode'                    { Set-StartAllAppsViewMode -Mode $AllAppsViewMode }
             'ShowMostUsedApps'                   { Set-StartShowMostUsedApps -State $ShowMostUsedApps }
             'ShowMostUsedAppsGPO'                { Set-StartShowMostUsedApps -GPO $ShowMostUsedAppsGPO }
 
             'ShowMobileDevice'                   { Set-StartShowMobileDevice -State $ShowMobileDevice }
             'FoldersNextToPowerButton'           { Set-StartFoldersNextToPowerButton -Item $FoldersNextToPowerButton }
             'ShowAccountNotifications'           { Set-StartShowAccountNotifications -State $ShowAccountNotifications }
-            'ShowRecentItemsInExplorer'          { Set-StartShowRecentItemsInExplorer -State $ShowRecentItemsInExplorer }
+            'ShowRecentItems'                    { Set-StartShowRecentItems -State $ShowRecentItems }
+            'ShowRecentItemsGPO'                 { Set-StartShowRecentItems -GPO $ShowRecentItemsGPO }
             'HideNameAndPicture'                 { Set-StartHideNameAndPicture -State $HideNameAndPicture }
         }
     }

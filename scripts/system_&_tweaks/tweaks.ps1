@@ -194,14 +194,6 @@ Set-OnlineTips -GPO 'Disabled'
 # --- Shortcut name suffix (e.g. "File - Shortcut") (default: Enabled)
 Set-ShortcutNameSuffix -State 'Disabled'
 
-# --- Start Menu - All Apps View Mode
-# Mode: Category (default) | Grid | List
-Set-StartMenuAllAppsViewMode -Mode 'Category'
-
-# --- Start Menu - Recommended section
-# Enterprise and Education only.
-#Set-StartMenuRecommendedSection -GPO 'NotConfigured'
-
 # --- Start Menu - Include Store suggestions in search results (Ads/Promo) (default: Enabled)
 Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled'
 

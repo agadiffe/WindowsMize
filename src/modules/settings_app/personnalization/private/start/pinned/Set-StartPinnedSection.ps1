@@ -2,8 +2,6 @@
 #                                   Personnalization > Start > Pinned (Section)
 #=================================================================================================================
 
-# not yet available
-
 <#
 .SYNTAX
     Set-StartPinnedSection
@@ -27,15 +25,13 @@ function Set-StartPinnedSection
 
     process
     {
-        return
-
         # on: 1 (default) | off: 0
         $PinnedSection = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Start'
             Entries = @(
                 @{
-                    Name  = '???'
+                    Name  = 'ShowPinnedSection'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
