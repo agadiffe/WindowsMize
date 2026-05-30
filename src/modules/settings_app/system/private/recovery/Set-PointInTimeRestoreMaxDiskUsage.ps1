@@ -34,7 +34,7 @@ function Set-PointInTimeRestoreMaxDiskUsage
             Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\Recovery\PITR\Settings'
             Entries = @(
                 @{
-                    Name  = 'MaxTimespan_UX'
+                    Name  = 'MaxGlobalSize_UX'
                     Value = $GB * 1024
                     Type  = 'DWord'
                 }
