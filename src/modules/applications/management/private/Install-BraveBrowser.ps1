@@ -25,9 +25,9 @@ function Install-BraveBrowser
 
         $OutFilePath = "$([System.IO.Path]::GetTempPath())\BraveBrowserSetup.exe"
         Invoke-RestMethod -Uri $Url -OutFile $OutFilePath -Verbose:$false
-        $DowloadedFileHash = (Get-FileHash -Path $OutFilePath -Algorithm 'SHA256').Hash
+        $DownloadedFileHash = (Get-FileHash -Path $OutFilePath -Algorithm 'SHA256').Hash
 
-        if ($ExpectedFileHash -ne $DowloadedFileHash)
+        if ($ExpectedFileHash -ne $DownloadedFileHash)
         {
             Write-Error -Message '  BraveBrowserSetup.exe FileHash doesn''t match. Installation canceled.'
         }

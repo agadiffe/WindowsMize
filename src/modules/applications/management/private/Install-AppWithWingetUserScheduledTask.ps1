@@ -55,7 +55,7 @@ function Install-AppWithWingetUserScheduledTask
         $TaskActionParam = @{
             Execute  = 'powershell.exe'
             Argument = "-WindowStyle Hidden -NoProfile -ExecutionPolicy Bypass -Command
-                ""winget.exe install --id $Id $($InstallOptions.ForEach({ $_ }))"""
+                ""winget.exe install --id $Id $($Argument.ForEach({ $_ }))"""
         }
         $TaskAction = New-ScheduledTaskAction @TaskActionParam
         $TaskPrincipal = New-ScheduledTaskPrincipal -UserId $RunAsUser

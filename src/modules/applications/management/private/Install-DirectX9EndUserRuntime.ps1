@@ -28,9 +28,9 @@ function Install-DirectX9EndUserRuntime
         Remove-Item -Recurse -Path $DXSetupPath -ErrorAction 'SilentlyContinue'
 
         Invoke-RestMethod -Uri $Url -OutFile $OutFilePath -Verbose:$false
-        $DowloadedFileHash = (Get-FileHash -Path $OutFilePath -Algorithm 'SHA256').Hash
+        $DownloadedFileHash = (Get-FileHash -Path $OutFilePath -Algorithm 'SHA256').Hash
 
-        if ($ExpectedFileHash -ne $DowloadedFileHash)
+        if ($ExpectedFileHash -ne $DownloadedFileHash)
         {
             Write-Error -Message '  directx_Jun2010_redist.exe FileHash doesn''t match. Installation canceled.'
         }
