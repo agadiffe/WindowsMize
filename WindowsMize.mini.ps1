@@ -1092,7 +1092,7 @@ Set-WindowsExperimentation -GPO 'Disabled'
 Set-WindowsInputExperience -State 'Disabled' # don't disable if touchscreen
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
 Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
-Set-WindowsSharedExperience -GPO 'NotConfigured' # disable: "nearby sharing" and "share across devices"
+Set-WindowsSharedExperience -GPO 'NotConfigured' # Disabled: also disable and gray out "nearby sharing" and "share across devices"
 
 $WindowsSpotlightSettings = @{
     AllFeaturesGPO      = 'NotConfigured'
@@ -1151,7 +1151,7 @@ Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
 
 Set-AppAndDeviceInventory -GPO 'Disabled'
 Set-ApplicationCompatibility -GPO 'Disabled'
-Set-CloudContent -GPO 'NotConfigured' # also disable: Windows Spotlight
+Set-CloudContent -GPO 'NotConfigured' # Disabled: also disable Windows Spotlight
 Set-ConsumerExperience -GPO 'Disabled' # Enterprise/Edu only
 Set-Ceip -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-DiagnosticLogAndDumpCollectionLimit -GPO 'Disabled'
@@ -1666,9 +1666,9 @@ Set-UsbSetting @UsbSettings
 
 # --- Keyboard
 $KeyboardSettings = @{
-    CharacterRepeatDelay            = 1 # range: 0-3
-    CharacterRepeatRate             = 31 # range: 0-31
-    #CopilotAndWinCKeys              = 'Calculator' # Search | Calculator | Copilot | M365Copilot | Notepad | Photos | SnippingTool | Terminal
+    CharacterRepeatDelay = 1 # range: 0-3
+    CharacterRepeatRate  = 31 # range: 0-31
+    #CopilotAndWinCKeys   = 'Calculator' # Search | Calculator | Copilot | M365Copilot | Notepad | Photos | SnippingTool | Terminal
     PrintScreenKeyOpenScreenCapture = 'Enabled'
 }
 Set-KeyboardSetting @KeyboardSettings
@@ -1780,7 +1780,6 @@ $DesktopIcons = @(
     #'ControlPanel'
 )
 Set-ThemesSetting -DesktopIcons $DesktopIcons
-#Set-ThemesSetting -HideAllDesktopIcons
 Set-ThemesSetting -ThemesCanChangeDesktopIcons 'Disabled'
 
 # --- Dynamic Lighting
@@ -1793,7 +1792,7 @@ Set-DynamicLightingSetting @DynamicLightingSettings
 # --- Lock screen
 $LockScreenSettings = @{
     #SetToPicture              = $true # $true | $false
-    #GetFunFactsTipsTricks     = 'Disabled' # also unset: Windows Spotlight
+    #GetFunFactsTipsTricks     = 'Disabled' # Disabled: also unset Windows Spotlight
     ShowPictureOnSigninScreen = 'Enabled'  ; ShowPictureOnSigninScreenGPO = 'NotConfigured'
     Widgets                   = 'Disabled' ; WidgetsGPO                   = 'NotConfigured'
     WidgetsSuggestion         = 'Disabled'
@@ -1805,13 +1804,12 @@ $DeviceUsageOption = @(
     #'Creativity'
     #'Business'
     #'Development'
-    'Entertainment'
+    #'Entertainment'
     #'Family'
     #'Gaming'
     #'School'
 )
-#Set-DeviceUsageSetting -Usage $DeviceUsageOption
-Set-DeviceUsageSetting -DisableAll
+Set-DeviceUsageSetting -Usage $DeviceUsageOption
 
 #endregion personnalization
 

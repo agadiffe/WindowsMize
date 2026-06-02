@@ -11,10 +11,6 @@
     Set-DeviceUsageSetting
         [-Usage] {Creativity | Business | Development | Entertainment | Family | Gaming | School}
         [<CommonParameters>]
-
-    Set-DeviceUsageSetting
-        -DisableAll
-        [<CommonParameters>]
 #>
 
 function Set-DeviceUsageSetting
@@ -24,27 +20,23 @@ function Set-DeviceUsageSetting
         PS> Set-DeviceUsageSetting -Usage 'Development', 'Entertainment'
 
     .EXAMPLE
-        PS> Set-DeviceUsageSetting -DisableAll
+        PS> Set-DeviceUsageSetting -Usage $null
+
+    .EXAMPLE
+        PS> Set-DeviceUsageSetting -Usage @()
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Usage')]
+    [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Usage')]
-        [ValidateSet('Creativity', 'Business', 'Development', 'Entertainment', 'Family', 'Gaming', 'School')]
-        [string[]] $Usage,
-
-        [Parameter(Mandatory, ParameterSetName = 'Disable')]
-        [switch] $DisableAll
+        [Parameter(Mandatory)]
+        [AllowNull()]
+        [AllowEmptyCollection()]
+        [DeviceUsageOption[]] $Usage
     )
 
     process
     {
-        if ($PSCmdlet.ParameterSetName -eq 'Disable' -and -not $DisableAll)
-        {
-            return
-        }
-
         $KeyName = @{
             Creativity    = 'creative'
             Business      = 'business'
@@ -62,7 +54,7 @@ function Set-DeviceUsageSetting
             # on: 1 0 | off: 0 0 (default)
             $DeviceUsage = @{
                 Hive    = 'HKEY_CURRENT_USER'
-                Path    = "Software\Microsoft\Windows\CurrentVersion\CloudExperienceHost\Intent\$($KeyName.$Key)"
+                Path    = "Software\Microsoft\Windows\CurrentVersion\CloudExperienceHost\Intent\$($KeyName[$Key])"
                 Entries = @(
                     @{
                         Name  = 'Intent'
@@ -81,7 +73,7 @@ function Set-DeviceUsageSetting
             Set-RegistryEntry -InputObject $DeviceUsage
         }
 
-        $IsDeviceUsageEnabled = $null -ne $Usage
+        $IsDeviceUsageEnabled = $Usage.Count -ne 0
 
         # If at least one 'Device Usage' option is enabled, 'Device Usage Consent' must be accepted.
         # on: 1 | off: 0 (default)

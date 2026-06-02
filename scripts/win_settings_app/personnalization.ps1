@@ -91,6 +91,7 @@ Write-Section -Name 'Themes' -SubSection
 #=======================================
 
 # --- Desktop icons
+# Comment every items to hide all icons.
 $DesktopIcons = @(
     'ThisPC'
     #'UserFiles'
@@ -99,7 +100,6 @@ $DesktopIcons = @(
     #'ControlPanel'
 )
 Set-ThemesSetting -DesktopIcons $DesktopIcons
-#Set-ThemesSetting -HideAllDesktopIcons
 
 # --- Allow themes to change desktop icons (default: Enabled)
 Set-ThemesSetting -ThemesCanChangeDesktopIcons 'Disabled'
@@ -171,17 +171,17 @@ Set-LockScreenSetting -WidgetsSuggestion 'Disabled'
 Write-Section -Name 'Device usage' -SubSection
 
 # Ads/Promo
-# default: DisableAll
+# default: all disabled
+# Comment every items to disable everything.
 $DeviceUsageOption = @(
     #'Creativity'
     #'Business'
     #'Development'
-    'Entertainment'
+    #'Entertainment'
     #'Family'
     #'Gaming'
     #'School'
 )
-#Set-DeviceUsageSetting -Usage $DeviceUsageOption
-Set-DeviceUsageSetting -DisableAll
+Set-DeviceUsageSetting -Usage $DeviceUsageOption
 
 #endregion device usage

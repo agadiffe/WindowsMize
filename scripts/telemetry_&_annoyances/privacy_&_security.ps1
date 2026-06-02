@@ -110,6 +110,8 @@ Set-WinPermissionsSetting -InkingAndTypingPersonalization 'Disabled'
 #region telemetry
 
 # --- Diagnostic data
+# "Disabled" is supported only on Enterprise, Education, and Server editions.
+# Setting "Disabled" on Windows Home/Pro is equivalent to "OnlyRequired".
 # State: Disabled | OnlyRequired | OptionalAndRequired (default)
 # GPO: Disabled | OnlyRequired | OptionalAndRequired | NotConfigured
 Set-WinPermissionsSetting -DiagnosticData 'Disabled' -DiagnosticDataGPO 'Disabled'

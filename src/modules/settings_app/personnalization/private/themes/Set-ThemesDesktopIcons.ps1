@@ -7,10 +7,6 @@
     Set-ThemesDesktopIcons
         [-Icon] {ThisPC | UserFiles | Network | RecycleBin | ControlPanel}
         [<CommonParameters>]
-
-    Set-ThemesDesktopIcons
-        -HideAll
-        [<CommonParameters>]
 #>
 
 function Set-ThemesDesktopIcons
@@ -20,26 +16,23 @@ function Set-ThemesDesktopIcons
         PS> Set-ThemesDesktopIcons -Icon 'ThisPC', 'Network'
 
     .EXAMPLE
-        PS> Set-ThemesDesktopIcons -HideAll
+        PS> Set-ThemesDesktopIcons -Icon $null
+
+    .EXAMPLE
+        PS> Set-ThemesDesktopIcons -Icon @()
     #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Icon')]
+    [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'Icon')]
-        [DesktopIcons[]] $Icon,
-
-        [Parameter(Mandatory, ParameterSetName = 'Hide')]
-        [switch] $HideAll
+        [Parameter(Mandatory)]
+        [AllowNull()]
+        [AllowEmptyCollection()]
+        [DesktopIcons[]] $Icon
     )
 
     process
     {
-        if ($PSCmdlet.ParameterSetName -eq 'Hide' -and -not $HideAll)
-        {
-            return
-        }
-
         $DesktopIconGuid = @{
             ThisPC       = '{20d04fe0-3aea-1069-a2d8-08002b30309d}'
             UserFiles    = '{59031a47-3f72-44a7-89c5-5595fe6b30ee}'

@@ -141,3 +141,16 @@ enum DesktopIcons
     RecycleBin
     ControlPanel
 }
+
+
+# device usage
+enum DeviceUsageOption
+{
+    Creativity
+    Business
+    Development
+    Entertainment
+    Family
+    Gaming
+    School
+}
