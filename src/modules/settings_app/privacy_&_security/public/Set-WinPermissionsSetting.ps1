@@ -53,6 +53,7 @@
         [-CloudSearchGPO {Disabled | NotConfigured}]
         [-CloudFileContentSearch {Disabled | Enabled}]
         [-StartMenuWebSearch {Disabled | Enabled}]
+        [-StartMenuWebSearchGPO {Disabled | NotConfigured}]
         [-FindMyFiles {Classic | Enhanced}]
         [-IndexEncryptedFilesGPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
@@ -119,6 +120,7 @@ function Set-WinPermissionsSetting
         [GpoStateWithoutEnabled] $CloudSearchGPO,
         [state] $CloudFileContentSearch,
         [state] $StartMenuWebSearch,
+        [GpoStateWithoutEnabled] $StartMenuWebSearchGPO,
 
         [FindMyFilesMode] $FindMyFiles,
         [GpoState] $IndexEncryptedFilesGPO
@@ -185,6 +187,7 @@ function Set-WinPermissionsSetting
             'CloudSearchGPO'                 { Set-WinPermissionsCloudSearch -GPO $CloudSearchGPO }
             'CloudFileContentSearch'         { Set-WinPermissionsCloudFileContentSearch -State $CloudFileContentSearch }
             'StartMenuWebSearch'             { Set-WinPermissionsStartMenuWebSearch -State $StartMenuWebSearch }
+            'StartMenuWebSearchGPO'          { Set-WinPermissionsStartMenuWebSearch -GPO $StartMenuWebSearchGPO }
 
             'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -Mode $FindMyFiles }
             'IndexEncryptedFilesGPO'         { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }

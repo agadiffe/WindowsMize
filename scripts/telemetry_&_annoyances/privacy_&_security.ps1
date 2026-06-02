@@ -156,7 +156,7 @@ Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled' -CloudSearchWo
 Set-WinPermissionsSetting -CloudFileContentSearch 'Disabled'
 
 # --- Let search apps show results (EEA only) (default: Enabled)
-Set-WinPermissionsSetting -StartMenuWebSearch 'Disabled'
+Set-WinPermissionsSetting -StartMenuWebSearch 'Disabled' -StartMenuWebSearchGPO 'NotConfigured'
 
 # --- Find my files
 # State: Classic (default) | Enhanced

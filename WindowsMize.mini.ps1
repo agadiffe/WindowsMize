@@ -1255,7 +1255,7 @@ $PrivacyWinPermSearch = @{
       CloudSearchMicrosoftAccount    = 'Disabled'
       CloudSearchWorkOrSchoolAccount = 'Disabled'
     CloudFileContentSearch = 'Disabled'
-    StartMenuWebSearch     = 'Disabled' # EEA
+    StartMenuWebSearch     = 'Disabled' ; StartMenuWebSearchGPO = 'NotConfigured' # EEA only
     FindMyFiles            = 'Classic' # Classic | Enhanced
     IndexEncryptedFilesGPO = 'Disabled' # Disabled | Enabled | NotConfigured
 }
