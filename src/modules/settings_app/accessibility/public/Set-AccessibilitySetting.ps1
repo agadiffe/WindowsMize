@@ -9,8 +9,6 @@
         [-VisualEffectsAnimation {Disabled | Enabled}]
         [-VisualEffectsNotifsDurationSeconds <int>]
         [-ContrastThemesKeyboardShortcut {Disabled | Enabled}]
-        [-NarratorKeyboardShortcut {Disabled | Enabled}]
-        [-NarratorTelemetry {Disabled | Enabled}]
         [-VoiceAccessStartBeforeSignin {Disabled | Enabled}]
         [-VoiceAccessStartAfterSignin {Disabled | Enabled}]
         [<CommonParameters>]
@@ -37,11 +35,6 @@ function Set-AccessibilitySetting
         # contrast themes
         [state] $ContrastThemesKeyboardShortcut,
 
-        # narrator
-        [state] $NarratorKeyboardShortcut,
-
-        [state] $NarratorTelemetry,
-
         # speech
         [state] $VoiceAccessStartBeforeSignin,
 
@@ -63,9 +56,6 @@ function Set-AccessibilitySetting
             'VisualEffectsNotifsDurationSeconds' { Set-VisualEffectsNotificationsDuration -Seconds $VisualEffectsNotifsDurationSeconds }
 
             'ContrastThemesKeyboardShortcut'     { Set-ContrastThemes -KeyboardShortcut $ContrastThemesKeyboardShortcut }
-
-            'NarratorKeyboardShortcut'           { Set-NarratorKeyboardShortcut -State $NarratorKeyboardShortcut }
-            'NarratorTelemetry'                  { Set-NarratorTelemetry -State $NarratorTelemetry }
 
             'VoiceAccessStartBeforeSignin'        { Set-SpeechVoiceAccessStartBeforeSignin -State $VoiceAccessStartBeforeSignin }
             'VoiceAccessStartAfterSignin'         { Set-SpeechVoiceAccessStartAfterSignin -State $VoiceAccessStartAfterSignin }

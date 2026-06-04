@@ -1951,8 +1951,6 @@ $AccessibilitySettings = @{
     VisualEffectsAnimation             = 'Enabled'
     VisualEffectsNotifsDurationSeconds = 5 # 5 | 7 | 15 | 30 | 60 | 300
     ContrastThemesKeyboardShortcut     = 'Disabled'
-    NarratorKeyboardShortcut           = 'Disabled'
-    NarratorTelemetry                  = 'Disabled'
     VoiceAccessStartBeforeSignin       = 'Disabled'
     VoiceAccessStartAfterSignin        = 'Disabled'
 }
@@ -1998,6 +1996,49 @@ $AccessibilityMouseSettings = @{
     MouseKeysAcceleration           = 90 # range: 0-100
 }
 Set-AccessibilityMouseSetting @AccessibilityMouseSettings
+
+$AccessibilityNarratorSettings = @{
+    StartBeforeSignin                 = 'Disabled'
+    StartAfterSignin                  = 'Disabled'
+    KeyboardShortcut                  = 'Disabled'
+    ShowHomeOnStartup                 = 'Enabled'
+    VoiceSpeed                        = 10 # range: 0-20
+    VoicePitchLevel                   = 10 # range: 0-20
+    VoiceVolume                       = 100 # range: 0-100
+    LowerOtherAppsVolume              = 'Enabled'
+    VerbosityLevel                    = 'AllControlDetails' # TextOnly | SomeControlDetails | AllControlDetails | SomeTextDetails | AllTextDetails
+    EmphasizeFormattedText            = 'Disabled'
+    ReadCharactersPhonetically        = 'Disabled'
+    PunctuationPause                  = 'Enabled'
+    ReadAdvancedDetails               = 'Disabled'
+    CapitalizationReadingMode         = 'NoAnnounce' # NoAnnounce | IncreasePitch | SayCap
+    ContextLevel                      = 'ImmediateContextNameAndType' # NoContext | ImmediateContext | ImmediateContextNameAndType | FullContextOfNewControl | FullContextOfOldAndNewControls
+    ReadInteractionHints              = 'Enabled'
+    ExplainActionFailures             = 'Enabled'
+    PlaySoundsForCommonActions        = 'Disabled'
+    ContextDetailsOrder               = 'BeforeControls' # AfterControls | BeforeControls
+    AnnounceTypedCharacters           = 'Enabled'
+    AnnounceTypedWords                = 'Enabled'
+    AnnounceTypedFunctionKeys         = 'Disabled'
+    AnnounceTypedNavigationKeys       = 'Disabled'
+    AnnounceTypedToggleKeys           = 'Enabled'
+    AnnounceTypedModifierKeys         = 'Disabled'
+    NarratorKey                       = 'CapsLockOrInsert' # CapsLock | Insert | CapsLockOrInsert
+    LockNarratorKey                   = 'Disabled'
+    TouchKeyboardActivateKeysOnLift   = 'Disabled'
+    MouseInteraction                  = 'Disabled'
+    NarratorCursorFollowMouse         = 'Disabled'
+    KeyboardLayout                    = 'Standard' # Legacy | Standard
+    ShowNarratorCursor                = 'Enabled'
+    SyncNarratorCursorWithTextCursor  = 'Disabled'
+    SyncNarratorCursorWithSystemFocus = 'Enabled'
+    NavigationMode                    = 'Normal' # Normal | Advanced
+    Extensions                        = 'Enabled'
+    CheckForNewExtensionsOnStartup    = 'Disabled'
+    ContentDescriptions               = 'Enabled'
+    Telemetry                         = 'Disabled'
+}
+Set-AccessibilityNarratorSetting @AccessibilityNarratorSettings
 
 #endregion accessibility
 

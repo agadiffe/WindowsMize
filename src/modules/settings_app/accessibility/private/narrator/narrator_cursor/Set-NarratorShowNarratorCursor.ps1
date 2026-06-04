@@ -1,21 +1,19 @@
 #=================================================================================================================
-#                  Accessibility > Narrator > Automatically Send Diagnostic And Performance Data
+#                               Accessibility > Narrator > Show The Narrator Cursor
 #=================================================================================================================
-
-# Disabled by default. Enforce it.
 
 <#
 .SYNTAX
-    Set-NarratorTelemetry
+    Set-NarratorShowNarratorCursor
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-NarratorTelemetry
+function Set-NarratorShowNarratorCursor
 {
     <#
     .EXAMPLE
-        PS> Set-NarratorTelemetry -State 'Disabled'
+        PS> Set-NarratorShowNarratorCursor -State 'Enabled'
     #>
 
     [CmdletBinding()]
@@ -27,20 +25,20 @@ function Set-NarratorTelemetry
 
     process
     {
-        # on: 1 | off: 0 (default)
-        $NarratorTelemetry = @{
+        # on: 1 (default) | off: 0
+        $ShowNarratorCursor = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Narrator\NoRoam'
+            Path    = 'Software\Microsoft\Narrator'
             Entries = @(
                 @{
-                    Name  = 'DetailedFeedback'
+                    Name  = 'NarratorCursorHighlight'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Narrator - Automatically Send Diagnostic And Performance Data' to '$State' ..."
-        Set-RegistryEntry -InputObject $NarratorTelemetry
+        Write-Verbose -Message "Setting 'Narrator - Show The Narrator Cursor' to '$State' ..."
+        Set-RegistryEntry -InputObject $ShowNarratorCursor
     }
 }

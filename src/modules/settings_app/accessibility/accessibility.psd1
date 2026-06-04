@@ -16,6 +16,7 @@
     FunctionsToExport = @(
         'Set-AccessibilityKeyboardSetting'
         'Set-AccessibilityMouseSetting'
+        'Set-AccessibilityNarratorSetting'
         'Set-AccessibilitySetting'
     )
     CmdletsToExport   = @()
