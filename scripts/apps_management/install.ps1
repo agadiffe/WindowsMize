@@ -107,7 +107,3 @@ $AppsToInstall | Install-Application
 
 # --- Desktop shortcuts
 #Remove-AllDesktopShortcuts
-
-# --- Windows Subsystem For Linux
-#Install-WindowsSubsystemForLinux
-#Install-WindowsSubsystemForLinux -Distribution 'Debian'

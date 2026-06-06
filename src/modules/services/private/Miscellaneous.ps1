@@ -147,6 +147,14 @@ $ServicesList += @{
             Comment     = 'device unlock (face recognition) and dynamic Lock.'
         }
         @{
+            DisplayName = 'P9RdrService'
+            ServiceName = 'P9RdrService'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'plan 9 Redirector Service.
+                           provides file sharing between Windows and WSL.'
+        }
+        @{
             DisplayName = 'Payments and NFC/SE Manager'
             ServiceName = 'SEMgrSvc'
             StartupType = 'Disabled'

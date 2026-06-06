@@ -18,8 +18,8 @@ class ServicesGroupName : System.Management.Automation.IValidateSetValuesGenerat
                  OfflineFilesDriver | NetworkDataUsageDriver |
                  Autoplay | Bluetooth | BluetoothAndCast | BluetoothAudio | DefenderPhishingProtection | Deprecated |
                  DiagnosticAndUsage | Features | FileAndPrinterSharing | HyperV | MicrosoftOffice | MicrosoftStore |
-                 Miscellaneous | Network | NetworkDiscovery | Printer | RemoteDesktop | Sensor |
-                 WindowsSubsystemForLinux | Xbox | AdobeAcrobat | Intel | Nvidia}
+                 Miscellaneous | Network | NetworkDiscovery | Printer | RemoteDesktop | Sensor | Xbox | AdobeAcrobat |
+                 Intel | Nvidia}
         [-RestoreDefault]
         [<CommonParameters>]
 #>

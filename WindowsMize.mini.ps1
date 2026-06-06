@@ -264,9 +264,6 @@ $AppsToInstall = @(
 $AppsToInstall | Install-Application
 #Remove-AllDesktopShortcuts
 
-#Install-WindowsSubsystemForLinux
-#Install-WindowsSubsystemForLinux -Distribution 'Debian'
-
 #endregion Install
 
 #endregion Apps Management
@@ -946,7 +943,6 @@ $ServicesToConfig = @(
     #'Webcam' # only needed by MS Store apps. e.g. Microsoft Teams, Skype, or Camera app.
     'WindowsBackupAndSystemRestore' # also used by new PITR feature.
     'WindowsSearch'
-    #'WindowsSubsystemForLinux'
     'Xbox'
 
     # --- ThirdParty

@@ -35,6 +35,13 @@ $ServicesList += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'Hyper-V Host Compute Service'
+            ServiceName = 'vmcompute'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'needed by WSL'
+        }
+        @{
             DisplayName = 'Hyper-V PowerShell Direct Service'
             ServiceName = 'vmicvmsession'
             StartupType = 'Disabled'
