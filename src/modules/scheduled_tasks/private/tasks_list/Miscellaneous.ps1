@@ -15,27 +15,14 @@ $ScheduledTasksList += @{
             Comment  = 'The two Critical tasks are enabled when computer is idle.'
         }
         @{
-            TaskPath = '\Microsoft\Windows\ApplicationData\'
-            Task     = @{
-                appuriverifierdaily = 'Disabled' # default: Enabled
-                DsSvcCleanup        = 'Disabled' # default: Enabled
-            }
-            Comment  = 'DsSvcCleanup : maintenance for the Data Sharing Service.'
-        }
-        @{
-            SkipTask = $true
-            TaskPath = '\Microsoft\Windows\DiskCleanup\'
-            Task     = @{
-                SilentCleanup = 'Disabled' # default: Enabled
-            }
-            Comment  = 'auto disk cleanup when running low on free disk space.'
-        }
-        @{
             TaskPath = '\Microsoft\Windows\EnterpriseMgmt\'
             Task     = @{
                 MDMMaintenenceTask = 'Disabled' # default: Enabled
+                MDMMaintenanceTask = 'Disabled' # default: Enabled
             }
-            Comment  = 'mobile device management.'
+            Comment  = 'mobile device management.
+                        task name depends on Windows version/build.
+                        unused on a typical home PC.'
         }
         @{
             TaskPath = '\Microsoft\Windows\input\'
@@ -79,13 +66,6 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            TaskPath = '\Microsoft\Windows\MUI\'
-            Task     = @{
-                LPRemove = 'Disabled' # default: Enabled
-            }
-            Comment  = 'cleanup unused language packs.'
-        }
-        @{
             TaskPath = '\Microsoft\Windows\NlaSvc\'
             Task     = @{
                 WiFiTask = 'Disabled' # default: Enabled
@@ -117,14 +97,6 @@ $ScheduledTasksList += @{
             Task     = @{
                 RegIdleBackup = 'Disabled' # default: Enabled
             }
-        }
-        @{
-            SkipTask = $true
-            TaskPath = '\Microsoft\Windows\Servicing\'
-            Task     = @{
-                StartComponentCleanup = 'Disabled' # default: Enabled
-            }
-            Comment  = 'clean Up the WinSxS Folder.'
         }
         @{
             TaskPath = '\Microsoft\Windows\SpacePort\'
@@ -165,13 +137,6 @@ $ScheduledTasksList += @{
             Task     = @{
                 WiFiTask = 'Disabled' # default: Enabled
             }
-        }
-        @{
-            TaskPath = '\Microsoft\Windows\WDI\'
-            Task     = @{
-                ResolutionHost = 'Disabled' # default: Enabled
-            }
-            Comment  = 'used by the Diagnostic Policy Service.'
         }
         @{
             TaskPath = '\Microsoft\Windows\Windows Media Sharing\'

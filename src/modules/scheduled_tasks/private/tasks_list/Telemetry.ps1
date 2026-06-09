@@ -78,12 +78,6 @@ $ScheduledTasksList += @{
             }
         }
         @{
-            TaskPath = '\Microsoft\Windows\StateRepository\'
-            Task     = @{
-                MaintenanceTasks = 'Disabled' # default: Enabled
-            }
-        }
-        @{
             TaskPath = '\Microsoft\Windows\Sustainability\'
             Task     = @{
                 PowerGridForecastTask   = 'Disabled' # default: Enabled

@@ -13,6 +13,7 @@ $ScheduledTasksList += @{
             Comment  = 'check disk Health at startup (S.M.A.R.T).'
         }
         @{
+            SkipTask = $true
             TaskPath = '\Microsoft\Windows\Data Integrity Scan\'
             Task     = @{
                 'Data Integrity Check And Scan'          = 'Disabled' # default: Enabled
@@ -61,6 +62,13 @@ $ScheduledTasksList += @{
             Task     = @{
                 VerifyWinRE = 'Disabled' # default: Disabled
             }
+        }
+        @{
+            TaskPath = '\Microsoft\Windows\WDI\'
+            Task     = @{
+                ResolutionHost = 'Disabled' # default: Enabled
+            }
+            Comment  = 'used by the Diagnostic Policy Service.'
         }
     )
 }

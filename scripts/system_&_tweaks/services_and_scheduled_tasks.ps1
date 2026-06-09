@@ -128,6 +128,7 @@ $TasksToConfig = @(
     #'AdobeAcrobat'
     'Diagnostic'
     'Features'
+    'Maintenance' # only 3 tasks are disabled
     #'MicrosoftOffice'
     #'MicrosoftOneDrive'
     'Miscellaneous'
