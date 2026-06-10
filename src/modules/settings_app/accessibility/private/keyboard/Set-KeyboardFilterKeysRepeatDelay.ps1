@@ -33,43 +33,44 @@ function Set-KeyboardFilterKeysRepeatDelay
         $Value = $Seconds * 1000
 
         # off: 0 (default) | on: 0.3 (default if on), 0.5, 0.7, 1, 1.5, 2
-        $FilterKeysRepeatDelay = @{
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Osk'
-            Entries = @(
-                @{
-                    Name  = 'FirstRepeatDelay'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-                @{
-                    Name  = 'NextRepeatDelay'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-            )
-        }
-
-        $LastFilterKeysRepeatDelay = @{
-            SkipKey = $IsDisabled
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Osk'
-            Entries = @(
-                @{
-                    Name  = 'LastFirstRepeatDelay'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-                @{
-                    Name  = 'LastNextRepeatDelay'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-            )
-        }
+        $FilterKeysRepeatDelay = @(
+            @{
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Osk'
+                Entries = @(
+                    @{
+                        Name  = 'FirstRepeatDelay'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                    @{
+                        Name  = 'NextRepeatDelay'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                )
+            }
+            @{
+                SkipKey = $IsDisabled
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Osk'
+                Entries = @(
+                    @{
+                        Name  = 'LastFirstRepeatDelay'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                    @{
+                        Name  = 'LastNextRepeatDelay'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                )
+            }
+        )
 
         $SettingMsg = $IsDisabled ? 'Disabled' : "$Seconds seconds"
         Write-Verbose -Message "Setting 'Keyboard Filter Keys - Ignore Repeated Keystrokes (Repeat Keys) - Delay' to '$SettingMsg' ..."
-        $FilterKeysRepeatDelay, $LastFilterKeysRepeatDelay | Set-RegistryEntry
+        $FilterKeysRepeatDelay | Set-RegistryEntry
     }
 }

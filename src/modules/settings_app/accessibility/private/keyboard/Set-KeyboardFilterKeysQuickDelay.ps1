@@ -32,33 +32,34 @@ function Set-KeyboardFilterKeysQuickDelay
         $Value = $Seconds * 1000
 
         # off: 0 (default) | on: 0.3 (default if on), 0.5, 0.7, 1, 1.4, 2, 5, 10, 20
-        $FilterKeysQuickDelay = @{
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Osk'
-            Entries = @(
-                @{
-                    Name  = 'KeystrokeDelay'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-            )
-        }
-
-        $LastFilterKeysQuickDelay = @{
-            SkipKey = $IsDisabled
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Osk'
-            Entries = @(
-                @{
-                    Name  = 'LastKeystrokeDelay'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-            )
-        }
+        $FilterKeysQuickDelay = @(
+            @{
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Osk'
+                Entries = @(
+                    @{
+                        Name  = 'KeystrokeDelay'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                )
+            }
+            @{
+                SkipKey = $IsDisabled
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Osk'
+                Entries = @(
+                    @{
+                        Name  = 'LastKeystrokeDelay'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                )
+            }
+        )
 
         $SettingMsg = $IsDisabled ? 'Disabled' : "$Seconds seconds"
         Write-Verbose -Message "Setting 'Keyboard Filter Keys - Ignore Quick Keystrokes (Slow Keys) - Delay' to '$SettingMsg' ..."
-        $FilterKeysQuickDelay, $LastFilterKeysQuickDelay | Set-RegistryEntry
+        $FilterKeysQuickDelay | Set-RegistryEntry
     }
 }

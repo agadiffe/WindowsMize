@@ -9,7 +9,7 @@
         [-GetLatestAsSoonAsAvailableGPO {Disabled | Enabled | NotConfigured}]
         [-PauseUpdatesGPO {Disabled | NotConfigured}]
         [-UpdateOtherMicrosoftProducts {Disabled | Enabled}]
-        [-UpdateOtherMicrosoftProductsGPO {Enabled | NotConfigured}]
+        [-UpdateOtherMicrosoftProductsGPO {Disabled | Enabled | NotConfigured}]
         [-GetMeUpToDate {Disabled | Enabled}]
         [-DownloadOverMeteredConnections {Disabled | Enabled}]
         [-DownloadOverMeteredConnectionsGPO {Disabled | Enabled | NotConfigured}]
@@ -20,8 +20,8 @@
         [-InsiderProgramPageVisibility {Disabled | Enabled}]
         [-ActiveHoursMode {Automatically | Manually}]
         [-ActiveHoursGPO {Enabled | NotConfigured}]
-        -ActiveHoursStart <int>
-        -ActiveHoursEnd <int>
+        [-ActiveHoursStart <int>]
+        [-ActiveHoursEnd <int>]
         [<CommonParameters>]
 #>
 
@@ -48,7 +48,7 @@ function Set-WinUpdateSetting
 
         [state] $UpdateOtherMicrosoftProducts,
 
-        [GpoStateWithoutDisabled] $UpdateOtherMicrosoftProductsGPO,
+        [GpoState] $UpdateOtherMicrosoftProductsGPO,
 
         [state] $GetMeUpToDate,
 

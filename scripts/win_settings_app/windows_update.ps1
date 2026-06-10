@@ -38,7 +38,7 @@ Set-WinUpdateSetting -PauseUpdatesGPO 'NotConfigured'
 #=======================================
 
 # --- Receive updates for other Microsoft products (default: Enabled)
-# GPO: Enabled | NotConfigured
+# GPO: Disabled | Enabled | NotConfigured
 Set-WinUpdateSetting -UpdateOtherMicrosoftProducts 'Enabled' -UpdateOtherMicrosoftProductsGPO 'NotConfigured'
 
 # --- Get me up to date (restart as soon as possible) (default: Disabled)

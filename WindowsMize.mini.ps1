@@ -2048,7 +2048,7 @@ Write-Section -Name 'Windows Update' -SubSection
 $WindowsUpdateSettings = @{
     GetLatestAsSoonAsAvailable     = 'Disabled' ; GetLatestAsSoonAsAvailableGPO     = 'NotConfigured'
     PauseUpdatesGPO                = 'NotConfigured'
-    UpdateOtherMicrosoftProducts   = 'Enabled'  ; UpdateOtherMicrosoftProductsGPO   = 'NotConfigured' # GPO: Enabled | NotConfigured
+    UpdateOtherMicrosoftProducts   = 'Enabled'  ; UpdateOtherMicrosoftProductsGPO   = 'NotConfigured' # Disabled | Enabled | NotConfigured
     GetMeUpToDate                  = 'Disabled'
     DownloadOverMeteredConnections = 'Disabled' ; DownloadOverMeteredConnectionsGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
     RestartNotification            = 'Enabled'  ; RestartNotificationGPO            = 'NotConfigured'

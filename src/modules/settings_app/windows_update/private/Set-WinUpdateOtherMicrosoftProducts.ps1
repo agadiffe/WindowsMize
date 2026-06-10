@@ -2,14 +2,11 @@
 #                Windows Update > Advanced Options > Receive Updates For Other Microsoft Products
 #=================================================================================================================
 
-# The Group Policy Editor GUI add more entries than the two below.
-# We can't enable only this setting with Group Policy Editor GUI, we need to do it manually.
-
 <#
 .SYNTAX
     Set-WinUpdateOtherMicrosoftProducts
         [[-State] {Disabled | Enabled}]
-        [-GPO {Enabled | NotConfigured}]
+        [-GPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
@@ -26,7 +23,7 @@ function Set-WinUpdateOtherMicrosoftProducts
         [Parameter(Position = 0)]
         [state] $State,
 
-        [GpoStateWithoutDisabled] $GPO
+        [GpoState] $GPO
     )
 
     process
@@ -66,32 +63,74 @@ function Set-WinUpdateOtherMicrosoftProducts
             }
             'GPO'
             {
-                $IsNotConfigured = $GPO -eq 'NotConfigured'
-
-                # gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
-                #   configure automatic update
-                # not configured: delete (default) | on (Other Microsoft Products): 1 0
-                $WinUpdateOtherMicrosoftProductsGpo = @{
-                    Hive    = 'HKEY_LOCAL_MACHINE'
-                    Path    = 'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
-                    Entries = @(
-                        @{
-                            RemoveEntry = $IsNotConfigured
-                            Name  = 'AllowMUUpdateService'
-                            Value = '1'
-                            Type  = 'DWord'
-                        }
-                        @{
-                            RemoveEntry = $IsNotConfigured
-                            Name  = 'NoAutoUpdate'
-                            Value = '0'
-                            Type  = 'DWord'
-                        }
-                    )
+                $RegPath = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+                $AutoUpdateRegItemProperty = Get-ItemProperty -Path $RegPath -ErrorAction 'SilentlyContinue'
+                $CurrentAutoUpdatePolicy = @{
+                    AUOptions    = $AutoUpdateRegItemProperty.AUOptions
+                    NoAutoUpdate = $AutoUpdateRegItemProperty.NoAutoUpdate
                 }
 
                 Write-Verbose -Message "Setting '$WinUpdateOtherMicrosoftProductsMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $WinUpdateOtherMicrosoftProductsGpo
+
+                if ($CurrentAutoUpdatePolicy['NoAutoUpdate'] -eq 1)
+                {
+                    Write-Verbose -Message "    GPO setting is already set to: 'Automatic update: Disabled'. Setting not applied."
+                }
+                else
+                {
+                    $IsNotConfigured = $GPO -eq 'NotConfigured'
+
+                    # gpo\ computer config > administrative tpl > windows components > windows update > manage end user experience
+                    #   configure automatic update
+                    # not configured: delete (default) | on (Other Microsoft Products): 1 5 0 | off: delete delete 1
+                    #
+                    # configure automatic updating (AUOptions)\ Needed for this setting to be visible in the Group Policy Editor.
+                    #   Notify for download and auto install:   2
+                    #   Auto download and notify for install:   3
+                    #   Auto download and schedule the install: 4
+                    #   Allow local admin to choose setting:    5
+                    #     -> This option (5) isn't available for Windows 10 or later versions.
+                    #        Not really important for this function as we only want to control "updates for other Microsoft products".
+                    # Install updates for other Microsoft products (AllowMUUpdateService)\
+                    #   on: 1 | off: 0 (enforcement for 'off' has no GUI available via the Group Policy Editor)
+                    # Automatic Updates (NoAutoUpdate)\ (only entry if the GPO is set to "Disabled")
+                    #   on: 0 | off: 1
+                    $WinUpdateOtherMicrosoftProductsGpo = @(
+                        @{
+                            Hive    = 'HKEY_LOCAL_MACHINE'
+                            Path    = 'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
+                            Entries = @(
+                                @{
+                                    RemoveEntry = $IsNotConfigured
+                                    Name  = 'AllowMUUpdateService'
+                                    Value = $GPO -eq 'Enabled' ? '1' : '0'
+                                    Type  = 'DWord'
+                                }
+                            )
+                        }
+                        @{
+                            SkipKey = $IsNotConfigured -and $CurrentAutoUpdatePolicy['AUOptions'] -ne 5
+                            Hive    = 'HKEY_LOCAL_MACHINE'
+                            Path    = 'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
+                            Entries = @(
+                                @{
+                                    RemoveEntry = $IsNotConfigured
+                                    Name  = 'AUOptions'
+                                    Value = $CurrentAutoUpdatePolicy['AUOptions'] ? $CurrentAutoUpdatePolicy['AUOptions'] : '5'
+                                    Type  = 'DWord'
+                                }
+                                @{
+                                    RemoveEntry = $IsNotConfigured
+                                    Name  = 'NoAutoUpdate'
+                                    Value = '0'
+                                    Type  = 'DWord'
+                                }
+                            )
+                        }
+                    )
+
+                    $WinUpdateOtherMicrosoftProductsGpo | Set-RegistryEntry
+                }
             }
         }
     }

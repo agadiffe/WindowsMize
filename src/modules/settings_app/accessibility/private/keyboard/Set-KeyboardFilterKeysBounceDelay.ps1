@@ -32,33 +32,34 @@ function Set-KeyboardFilterKeysBounceDelay
         $Value = $Seconds * 1000
 
         # off: 0 (default) | on: 0.3, 0.5 (default if on), 0.7, 1, 1.5, 2
-        $FilterKeysBounceDelay = @{
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Osk'
-            Entries = @(
-                @{
-                    Name  = 'BounceTime'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-            )
-        }
-
-        $LastFilterKeysBounceDelay = @{
-            SkipKey = $IsDisabled
-            Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Microsoft\Osk'
-            Entries = @(
-                @{
-                    Name  = 'LastBounceTime'
-                    Value = $Value
-                    Type  = 'DWord'
-                }
-            )
-        }
+        $FilterKeysBounceDelay = @(
+            @{
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Osk'
+                Entries = @(
+                    @{
+                        Name  = 'BounceTime'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                )
+            }
+            @{
+                SkipKey = $IsDisabled
+                Hive    = 'HKEY_CURRENT_USER'
+                Path    = 'Software\Microsoft\Osk'
+                Entries = @(
+                    @{
+                        Name  = 'LastBounceTime'
+                        Value = $Value
+                        Type  = 'DWord'
+                    }
+                )
+            }
+        )
 
         $SettingMsg = $IsDisabled ? 'Disabled' : "$Seconds seconds"
         Write-Verbose -Message "Setting 'Keyboard Filter Keys - Ignore Unintended Keystrokes (Bounce Keys) - Delay' to '$SettingMsg' ..."
-        $FilterKeysBounceDelay, $LastFilterKeysBounceDelay | Set-RegistryEntry
+        $FilterKeysBounceDelay | Set-RegistryEntry
     }
 }
