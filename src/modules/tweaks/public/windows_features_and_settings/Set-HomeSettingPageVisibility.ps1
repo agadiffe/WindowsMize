@@ -150,7 +150,7 @@ function Set-SettingsPageVisibility
 
             for ($i = $Value.Count - 1; $i -ge 0; $i--)
             {
-                if ($null -eq $Value[$i] -or [string]::IsNullOrWhiteSpace($Value[$i]))
+                if ([string]::IsNullOrWhiteSpace($Value[$i]))
                 {
                     $Value.RemoveAt($i)
                 }

@@ -36,28 +36,33 @@ function Remove-GroupPolicyNotConfiguredEnforcement
 
         foreach ($Scope in $GPRegistryFilePath.Keys)
         {
-            $StartProcessParam = @{
-                FilePath               = 'lgpo.exe'
-                ArgumentList           = "/parse /$Scope ""$($GPRegistryFilePath[$Scope])"" /q"
-                RedirectStandardOutput = $LgpoTxtFilePath
-            }
-            Start-Process -Wait -NoNewWindow @StartProcessParam
+            $GPRegPolFilePath = $GPRegistryFilePath[$Scope]
 
-            $LgpoContent = Get-Content -Raw -Path $LgpoTxtFilePath
-            $LgpoNewContent = $LgpoContent -replace '(?:.+\r?\n){3}DELETE'
-
-            if ($LgpoNewContent -ne $LgpoContent)
+            if (Test-Path -Path $GPRegPolFilePath)
             {
-                $LgpoNewContent | Out-File -FilePath $LgpoTxtFilePath
-                Write-Verbose -Message "Removing 'DELETE command(s)' from Registry Policy file: $($GPRegistryFilePath[$Scope])"
                 $StartProcessParam = @{
-                    FilePath     = 'lgpo.exe'
-                    ArgumentList = "/r ""$LgpoTxtFilePath"" /w ""$($GPRegistryFilePath[$Scope])"" /q"
+                    FilePath               = 'lgpo.exe'
+                    ArgumentList           = "/parse /$Scope ""$GPRegPolFilePath"" /q"
+                    RedirectStandardOutput = $LgpoTxtFilePath
                 }
                 Start-Process -Wait -NoNewWindow @StartProcessParam
-            }
 
-            Remove-Item -Path $LgpoTxtFilePath
+                $LgpoContent = Get-Content -Raw -Path $LgpoTxtFilePath
+                $LgpoNewContent = $LgpoContent -replace '(?:.+\r?\n){3}DELETE'
+
+                if ($LgpoNewContent -ne $LgpoContent)
+                {
+                    $LgpoNewContent | Out-File -FilePath $LgpoTxtFilePath
+                    Write-Verbose -Message "Removing 'DELETE command(s)' from Registry Policy file: $GPRegPolFilePath"
+                    $StartProcessParam = @{
+                        FilePath     = 'lgpo.exe'
+                        ArgumentList = "/r ""$LgpoTxtFilePath"" /w ""$GPRegPolFilePath"" /q"
+                    }
+                    Start-Process -Wait -NoNewWindow @StartProcessParam
+                }
+
+                Remove-Item -Path $LgpoTxtFilePath
+            }
         }
     }
 }
