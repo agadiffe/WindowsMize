@@ -4,16 +4,16 @@
 
 <#
 .SYNTAX
-    Set-EnergySaverLowerBrightness
+    Set-EnergySaverLowerScreenBrightness
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-EnergySaverLowerBrightness
+function Set-EnergySaverLowerScreenBrightness
 {
     <#
     .EXAMPLE
-        PS> Set-EnergySaverLowerBrightness -State 'Enabled'
+        PS> Set-EnergySaverLowerScreenBrightness -State 'Enabled'
     #>
 
     [CmdletBinding()]

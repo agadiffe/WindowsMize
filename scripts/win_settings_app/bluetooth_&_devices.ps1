@@ -134,6 +134,9 @@ Set-UsbSetting -NotifOnWeakCharger 'Enabled'
 
 Write-Section -Name 'Keyboard' -SubSection
 
+# --- Change keyboard brightness automatically when lighting changes (default: Enabled)
+Set-KeyboardSetting -AdjustBrightnessOnLightingChanges 'Enabled'
+
 # --- Keyboard character repeat delay (default: 1 (range: 0-3))
 Set-KeyboardSetting -CharacterRepeatDelay 1
 

@@ -5,6 +5,7 @@
 <#
 .SYNTAX
     Set-KeyboardSetting
+        [-AdjustBrightnessOnLightingChanges {Disabled | Enabled}]
         [-CharacterRepeatDelay <int>]
         [-CharacterRepeatRate <int>]
         [-CopilotAndWinCKeys <string>]
@@ -22,6 +23,8 @@ function Set-KeyboardSetting
     [CmdletBinding(PositionalBinding = $false)]
     param
     (
+        [state] $AdjustBrightnessOnLightingChanges,
+
         [ValidateRange(0, 3)]
         [int] $CharacterRepeatDelay,
 
@@ -43,10 +46,11 @@ function Set-KeyboardSetting
 
         switch ($PSBoundParameters.Keys)
         {
-            'CharacterRepeatDelay'            { Set-KeyboardCharacterRepeatDelay -Delay $CharacterRepeatDelay }
-            'CharacterRepeatRate'             { Set-KeyboardCharacterRepeatRate -Speed $CharacterRepeatRate }
-            'CopilotAndWinCKeys'              { Set-KeyboardCopilotAndWinCKeys -Name $CopilotAndWinCKeys }
-            'PrintScreenKeyOpenScreenCapture' { Set-KeyboardPrintScreenKeyOpenScreenCapture -State $PrintScreenKeyOpenScreenCapture }
+            'AdjustBrightnessOnLightingChanges' { Set-KeyboardBrightnessAdjustOnLightingChanges -State $AdjustBrightnessOnLightingChanges }
+            'CharacterRepeatDelay'              { Set-KeyboardCharacterRepeatDelay -Delay $CharacterRepeatDelay }
+            'CharacterRepeatRate'               { Set-KeyboardCharacterRepeatRate -Speed $CharacterRepeatRate }
+            'CopilotAndWinCKeys'                { Set-KeyboardCopilotAndWinCKeys -Name $CopilotAndWinCKeys }
+            'PrintScreenKeyOpenScreenCapture'   { Set-KeyboardPrintScreenKeyOpenScreenCapture -State $PrintScreenKeyOpenScreenCapture }
         }
     }
 }

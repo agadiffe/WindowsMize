@@ -807,9 +807,10 @@ $DeviceTimeouts = @(
 $DeviceTimeouts | Set-PowerSetting
 
 $EnergySaverSettings = @{
-    AlwaysOn             = 'Disabled'
-    TurnOnAtBatteryLevel = 30 # range: 0-100 / never: 0 | always: 100
-    LowerBrightness      = 'Enabled'
+    AlwaysOn                = 'Disabled'
+    TurnOnAtBatteryLevel    = 30 # range: 0-100 / never: 0 | always: 100
+    LowerScreenBrightness   = 'Enabled'
+    LowerKeyboardBrightness = 'Enabled'
 }
 Set-EnergySaverSetting @EnergySaverSettings
 
@@ -1663,10 +1664,11 @@ Set-UsbSetting @UsbSettings
 
 # --- Keyboard
 $KeyboardSettings = @{
-    CharacterRepeatDelay = 1 # range: 0-3
-    CharacterRepeatRate  = 31 # range: 0-31
-    #CopilotAndWinCKeys   = 'Calculator' # Search | Calculator | Copilot | M365Copilot | Notepad | Photos | SnippingTool | Terminal
-    PrintScreenKeyOpenScreenCapture = 'Enabled'
+    AdjustBrightnessOnLightingChanges = 'Enabled'
+    CharacterRepeatDelay              = 1 # range: 0-3
+    CharacterRepeatRate               = 31 # range: 0-31
+    #CopilotAndWinCKeys                = 'Calculator' # Search | Calculator | Copilot | M365Copilot | Notepad | Photos | SnippingTool | Terminal
+    PrintScreenKeyOpenScreenCapture   = 'Enabled'
 }
 Set-KeyboardSetting @KeyboardSettings
 

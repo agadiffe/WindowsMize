@@ -113,7 +113,10 @@ Set-EnergySaverSetting -AlwaysOn 'Disabled'
 Set-EnergySaverSetting -TurnOnAtBatteryLevel 30
 
 # --- Lower screen brightness when using energy saver (default: Enabled)
-Set-EnergySaverSetting -LowerBrightness 'Enabled'
+Set-EnergySaverSetting -LowerScreenBrightness 'Enabled'
+
+# --- Lower keyboard brightness when using energy saver (default: Enabled)
+Set-EnergySaverSetting -LowerKeyboardBrightness 'Enabled'
 
 #  Lid, power & sleep button controls
 #=======================================
