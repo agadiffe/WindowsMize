@@ -5,7 +5,7 @@
 
 for /f "usebackq delims=" %%i in (`
   powershell -NoProfile -ExecutionPolicy Bypass -Command "[System.IO.Path]::GetTempPath()"
-`) do set "TempPath=%%i"
+`) do set "TempPath=%%i\odt"
 
 set "OfficeSetupFilePath=%TempPath%\setup.exe"
 set "ConfigFilePath=%TempPath%\MsOfficeConfiguration.xml"
