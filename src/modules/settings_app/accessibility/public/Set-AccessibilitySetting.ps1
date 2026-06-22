@@ -5,10 +5,15 @@
 <#
 .SYNTAX
     Set-AccessibilitySetting
+        # visual effects
         [-VisualEffectsAlwaysShowScrollbars {Disabled | Enabled}]
         [-VisualEffectsAnimation {Disabled | Enabled}]
         [-VisualEffectsNotifsDurationSeconds <int>]
+
+        # contrast themes
         [-ContrastThemesKeyboardShortcut {Disabled | Enabled}]
+
+        # speech
         [-VoiceAccessStartBeforeSignin {Disabled | Enabled}]
         [-VoiceAccessStartAfterSignin {Disabled | Enabled}]
         [<CommonParameters>]
@@ -51,12 +56,15 @@ function Set-AccessibilitySetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # visual effects
             'VisualEffectsAlwaysShowScrollbars'  { Set-VisualEffectsAlwaysShowScrollbars -State $VisualEffectsAlwaysShowScrollbars }
             'VisualEffectsAnimation'             { Set-VisualEffectsAnimation -State $VisualEffectsAnimation }
             'VisualEffectsNotifsDurationSeconds' { Set-VisualEffectsNotificationsDuration -Seconds $VisualEffectsNotifsDurationSeconds }
 
+            # contrast themes
             'ContrastThemesKeyboardShortcut'     { Set-ContrastThemes -KeyboardShortcut $ContrastThemesKeyboardShortcut }
 
+            # speech
             'VoiceAccessStartBeforeSignin'        { Set-SpeechVoiceAccessStartBeforeSignin -State $VoiceAccessStartBeforeSignin }
             'VoiceAccessStartAfterSignin'         { Set-SpeechVoiceAccessStartAfterSignin -State $VoiceAccessStartAfterSignin }
         }

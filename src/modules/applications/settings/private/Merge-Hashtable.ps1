@@ -5,8 +5,8 @@
 <#
 .SYNTAX
     Merge-Hashtable
-        [-Hashtable] <hashtable>
-        [-Data] <hashtable>
+        [-Hashtable] <IDictionary>
+        [-Data] <IDictionary>
         [-OverrideValue]
         [<CommonParameters>]
 #>

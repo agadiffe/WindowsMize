@@ -105,7 +105,7 @@ function Set-ServiceStartupType
             # Some services cannot be changed:
             #   with services.msc (this include Set-Service) (grayed out or Access is denied).
             #   with registry editing (Access is denied).
-            #   with neither services.msc or registry editing (Access is denied).
+            #   with neither services.msc nor registry editing (Access is denied).
             #
             # "Access is denied" means that SYSTEM or TrustedInstaller privileges are required.
             try

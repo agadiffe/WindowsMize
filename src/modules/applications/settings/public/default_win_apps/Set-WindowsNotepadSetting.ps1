@@ -5,18 +5,29 @@
 <#
 .SYNTAX
     Set-WindowsNotepadSetting
+        # appearance
         [-Theme {System | Light | Dark}]
+
+        # text formatting
         [-FontFamily <string>]
         [-FontStyle {Regular | Italic | Bold | Bold Italic}]
         [-FontSize <int>]
         [-WordWrap {Disabled | Enabled}]
         [-Formatting {Disabled | Enabled}]
+
+        # opening notepad
         [-OpenFile {NewTab | NewWindow}]
         [-ContinuePreviousSession {Disabled | Enabled}]
         [-RecentFiles {Disabled | Enabled}]
+
+        # spelling
         [-SpellCheck {Disabled | Enabled}]
         [-AutoCorrect {Disabled | Enabled}]
+
+        # advanced features
         [-WritingTools {Disabled | Enabled}]
+
+        # miscellaneous
         [-StatusBar {Disabled | Enabled}]
         [-TeachingTips {Disabled | Enabled}]
         [<CommonParameters>]
@@ -49,7 +60,6 @@ function Set-WindowsNotepadSetting
         [int] $FontSize,
 
         [state] $WordWrap,
-
         [state] $Formatting,
 
         # opening notepad
@@ -57,12 +67,10 @@ function Set-WindowsNotepadSetting
         [string] $OpenFile,
 
         [state] $ContinuePreviousSession,
-
         [state] $RecentFiles,
 
         # spelling
         [state] $SpellCheck,
-
         [state] $AutoCorrect,
 
         # advanced features
@@ -70,7 +78,6 @@ function Set-WindowsNotepadSetting
 
         # miscellaneous
         [state] $StatusBar,
-
         [state] $TeachingTips
     )
 

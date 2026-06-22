@@ -6,9 +6,6 @@
 # (control.exe /name Microsoft.PowerOptions /page pagePlanSettings)
 #   > change advanced power settings > hard disk > turn off hard disk after
 
-# value is in minutes
-# never: 0 | default: 20 (PluggedIn), 10 (OnBattery)
-
 <#
 .SYNTAX
     Set-HardDiskTimeout
@@ -42,6 +39,9 @@ function Set-HardDiskTimeout
             'PluggedIn' { 'AC' }
             'OnBattery' { 'DC' }
         }
+
+        # value is in minutes
+        # never: 0 | default: 20 (PluggedIn), 10 (OnBattery)
 
         Write-Verbose -Message "Setting 'Hard Disk Timeout ($PowerSource)' to '$TimeoutMins min(s)' ..."
         powercfg.exe -Change Disk-Timeout-$PowerSourceValue $TimeoutMins

@@ -5,11 +5,16 @@
 <#
 .SYNTAX
     Set-DefenderSetting
+        # virus & threat protection
         [-CloudDeliveredProtection {Disabled | Basic | Advanced}]
         [-CloudDeliveredProtectionGPO {Disabled | Basic | Advanced | NotConfigured}]
         [-AutoSampleSubmission {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples}]
         [-AutoSampleSubmissionGPO {NeverSend | AlwaysPrompt | SendSafeSamples | SendAllSamples | NotConfigured}]
+
+        # account protection
         [-AdminProtection {Disabled | Enabled}]
+
+        # app & browser control
         [-SmartAppControl {Disabled | Enabled}]
         [-CheckAppsAndFiles {Disabled | Enabled}]
         [-CheckAppsAndFilesGPO {Disabled | Warn | Block | NotConfigured}]
@@ -19,6 +24,8 @@
         [-SmartScreenForEdge {Disabled | Enabled}]
         [-SmartScreenForEdgeGPO {Disabled | Enabled | NotConfigured}]
         [-SmartScreenForStoreApps {Disabled | Enabled}]
+
+        # miscellaneous
         [-WatsonEventsReportGPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -35,11 +42,8 @@ function Set-DefenderSetting
     (
         # virus & threat protection
         [CloudDeliveredMode] $CloudDeliveredProtection,
-
         [GpoCloudDeliveredMode] $CloudDeliveredProtectionGPO,
-
         [SampleSubmissionMode] $AutoSampleSubmission,
-
         [GpoSampleSubmissionMode] $AutoSampleSubmissionGPO,
 
         # account protection
@@ -47,21 +51,13 @@ function Set-DefenderSetting
 
         # app & browser control
         [state] $SmartAppControl,
-
         [state] $CheckAppsAndFiles,
-
         [GpoCheckAppsAndFilesMode] $CheckAppsAndFilesGPO,
-
         [GpoState] $PhishingProtectionGPO,
-
         [PUAProtectionMode] $UnwantedAppBlocking,
-
         [GpoPUAProtectionMode] $UnwantedAppBlockingGPO,
-
         [state] $SmartScreenForEdge,
-
         [GpoState] $SmartScreenForEdgeGPO,
-
         [state] $SmartScreenForStoreApps,
 
         # miscellaneous
@@ -78,13 +74,16 @@ function Set-DefenderSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # virus & threat protection
             'CloudDeliveredProtection'    { Set-DefenderCloudDeliveredProtection -State $CloudDeliveredProtection }
             'CloudDeliveredProtectionGPO' { Set-DefenderCloudDeliveredProtection -GPO $CloudDeliveredProtectionGPO }
             'AutoSampleSubmission'        { Set-DefenderAutoSampleSubmission -Consent $AutoSampleSubmission }
             'AutoSampleSubmissionGPO'     { Set-DefenderAutoSampleSubmission -GPO $AutoSampleSubmissionGPO }
 
+            # account protection
             'AdminProtection'             { Set-DefenderAdminProtection -State $AdminProtection }
 
+            # app & browser control
             'SmartAppControl'             { Set-DefenderSmartAppControl -State $SmartAppControl }
             'CheckAppsAndFiles'           { Set-DefenderCheckAppsAndFiles -State $CheckAppsAndFiles }
             'CheckAppsAndFilesGPO'        { Set-DefenderCheckAppsAndFiles -GPO $CheckAppsAndFilesGPO }
@@ -95,6 +94,7 @@ function Set-DefenderSetting
             'SmartScreenForEdgeGPO'       { Set-DefenderSmartScreenForEdge -GPO $SmartScreenForEdgeGPO }
             'SmartScreenForStoreApps'     { Set-DefenderSmartScreenForStoreApps -State $SmartScreenForStoreApps }
 
+            # miscellaneous
             'WatsonEventsReportGPO'       { Set-DefenderWatsonEventsReport -GPO $WatsonEventsReportGPO }
         }
     }

@@ -2,12 +2,13 @@
 #                                        Get Service Not Handled In Module
 #=================================================================================================================
 
+# Function to easily check for new services (e.g. added by a Windows update).
+
 <#
 .SYNTAX
     Get-ServiceNotHandledInModule [<CommonParameters>]
 #>
 
-# Function to easily check for new services (e.g. added by a Windows update).
 function Get-ServiceNotHandledInModule
 {
     [CmdletBinding()]

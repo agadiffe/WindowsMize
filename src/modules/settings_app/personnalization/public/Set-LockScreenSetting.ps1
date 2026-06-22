@@ -26,17 +26,11 @@ function Set-LockScreenSetting
     param
     (
         [switch] $SetToPicture,
-
         [state] $GetFunFactsTipsTricks,
-
         [state] $ShowPictureOnSigninScreen,
-
         [GpoStateWithoutEnabled] $ShowPictureOnSigninScreenGPO,
-
         [state] $Widgets,
-
         [GpoStateWithoutEnabled] $WidgetsGPO,
-
         [state] $WidgetsSuggestion
     )
 

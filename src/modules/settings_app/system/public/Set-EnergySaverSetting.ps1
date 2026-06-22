@@ -28,7 +28,6 @@ function Set-EnergySaverSetting
         [int] $TurnOnAtBatteryLevel,
 
         [state] $LowerScreenBrightness,
-
         [state] $LowerKeyboardBrightness
     )
 

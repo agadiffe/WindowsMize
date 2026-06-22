@@ -5,10 +5,17 @@
 <#
 .SYNTAX
     Set-NetworkSetting
+        # Wi-Fi / Ethernet
         [-ConnectedNetworkProfile {Public | Private}]
+
+        # VPN
         [-VpnOverMeteredNetworks {Disabled | Enabled}]
         [-VpnWhileRoaming {Disabled | Enabled}]
+
+        # Proxy
         [-ProxyAutoDetectSettings {Disabled | Enabled}]
+
+        # Sharing settings
         [-AutoSetupConnectedDevices {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -48,15 +55,22 @@ function Set-NetworkSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # Wi-Fi / Ethernet
             'ConnectedNetworkProfile'
             {
                 # Public (default) | Private
                 Write-Verbose -Message "Setting 'Connected Network' To '$ConnectedNetworkProfile' ..."
                 Set-NetConnectionProfile -NetworkCategory $ConnectedNetworkProfile
             }
+
+            # VPN
             'VpnOverMeteredNetworks'    { Set-VpnOverMeteredNetworks -State $VpnOverMeteredNetworks }
             'VpnWhileRoaming'           { Set-VpnWhileRoaming -State $VpnWhileRoaming }
+
+            # Proxy
             'ProxyAutoDetectSettings'   { Set-ProxyAutoDetectSettings -State $ProxyAutoDetectSettings }
+
+            # Sharing settings
             'AutoSetupConnectedDevices' { Set-NetConnectedDevicesAutoSetup -State $AutoSetupConnectedDevices }
         }
     }

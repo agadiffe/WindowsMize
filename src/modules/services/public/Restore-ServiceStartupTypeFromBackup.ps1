@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Restore-ServiceStartupTypeFromBackup
-        [-FilePath] <string>
+        [[-FilePath] <string>]
         [<CommonParameters>]
 #>
 
@@ -22,16 +22,18 @@ function Restore-ServiceStartupTypeFromBackup
     [CmdletBinding()]
     param
     (
-        [ValidateScript(
-            { Test-Path -Path $_ -PathType 'Leaf' },
-            ErrorMessage = 'The specified file does not exist or is not accessible.')]
-        [string] $FilePath
+        [string] $FilePath = "$(Get-LogPath)\windows_default_services_winmize.json"
     )
 
     process
     {
-        $ServicesBackupFile = "$(Get-LogPath)\windows_default_services_winmize.json"
-        $ServicesBackup = Get-Content -Raw -Path $ServicesBackupFile | ConvertFrom-Json
+        if (-not (Test-Path -Path $FilePath -PathType 'Leaf'))
+        {
+            Write-Error -Message 'The specified file does not exist or is not accessible.'
+            return
+        }
+
+        $ServicesBackup = Get-Content -Raw -Path $FilePath | ConvertFrom-Json
         $ServicesBackup | Set-ServiceStartupType
     }
 }

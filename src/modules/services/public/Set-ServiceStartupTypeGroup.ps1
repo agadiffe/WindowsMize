@@ -51,14 +51,6 @@ function Set-ServiceStartupTypeGroup
     process
     {
         $GroupToConfig = $SystemDriversList.Keys -contains $Name ? $SystemDriversList[$Name] : $ServicesList[$Name]
-
-        if ($RestoreDefault)
-        {
-            $GroupToConfig | Set-ServiceStartupType -RestoreDefault
-        }
-        else
-        {
-            $GroupToConfig | Set-ServiceStartupType
-        }
+        $GroupToConfig | Set-ServiceStartupType -RestoreDefault:$RestoreDefault
     }
 }

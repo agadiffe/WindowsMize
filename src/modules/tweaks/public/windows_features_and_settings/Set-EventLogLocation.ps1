@@ -62,7 +62,7 @@ function Set-EventLogLocation
             wevtutil.exe set-log "$Name" /logfilename:"$EventLogPath\$($Name.Replace('/', '%4')).evtx" 2>&1 | Out-Null
         }
 
-        # Error message:
+        # Error message (can be ignored):
         # Failed to save configuration or activate log Microsoft-Windows-USBVideo/Analytic.
         # The requested operation cannot be performed over an enabled direct channel. The channel must first be disabled.
     }

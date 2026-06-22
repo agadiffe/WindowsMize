@@ -54,7 +54,7 @@
         'Set-SuggestedContent'
         'Set-TaskbarCalendarState'
         'Set-WindowsExperimentation'
-        'Set-WindowsInputExperience'
+        'Set-WindowsInputExperiencePreload'
         'Set-WindowsPrivacySettingsExperience'
         'Set-WindowsSettingsSearchAgent'
         'Set-WindowsSharedExperience'

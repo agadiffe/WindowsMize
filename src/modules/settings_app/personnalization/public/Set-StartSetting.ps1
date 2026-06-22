@@ -5,21 +5,30 @@
 <#
 .SYNTAX
     Set-StartSetting
+        # general
         [-LayoutMode {Default | MorePins | MoreRecommendations}]
         [-StartMenuSize {Small | Large}]
+
+        # pinned section
         [-PinnedSection {Disabled | Enabled}]
         [-ShowAllPins {Disabled | Enabled}]
+
+        # recent section
         [-RecentSection {Disabled | Enabled}]
         [-ShowRecentAddedApps {Disabled | Enabled}]
         [-ShowRecentAddedAppsGPO {Disabled | NotConfigured}]
         [-ShowRecentFilesInStart {Disabled | Enabled}]
         [-ShowTipsAndAppRecommendations {Disabled | Enabled}]
         [-ShowWebsitesFromBrowsingHistoryGPO {Disabled | NotConfigured}]
+
+        # all apps section
         [-AllAppsSection {Disabled | Enabled}]
         [-AllAppsSectionGPO {Disabled | NotConfigured}]
         [-AllAppsViewMode {Category | Grid | List}]
         [-ShowMostUsedApps {Disabled | Enabled}]
         [-ShowMostUsedAppsGPO {Disabled | Enabled | NotConfigured}]
+
+        # other
         [-ShowMobileDevice {Disabled | Enabled}]
         [-ShowAccountNotifications {Disabled | Enabled}]
         [-ShowRecentItems {Disabled | Enabled}]
@@ -45,51 +54,34 @@ function Set-StartSetting
     (
         # general
         [StartLayoutMode] $LayoutMode,
-
         [StartMenuSize] $StartMenuSize,
 
         # pinned section
         [state] $PinnedSection,
-
         [state] $ShowAllPins,
 
         # recent section
         [state] $RecentSection,
-
         [GpoStateWithoutEnabled] $RecentSectionGPO,
-
         [state] $ShowRecentAddedApps,
-
         [GpoStateWithoutEnabled] $ShowRecentAddedAppsGPO,
-
         [state] $ShowRecentFilesInStart,
-
         [state] $ShowTipsAndAppRecommendations,
-
         [GpoStateWithoutEnabled] $ShowWebsitesFromBrowsingHistoryGPO,
 
         # all apps section
         [state] $AllAppsSection,
-
         [GpoStateWithoutEnabled] $AllAppsSectionGPO,
-
         [StartAllAppsViewMode] $AllAppsViewMode,
-
         [state] $ShowMostUsedApps,
-
         [GpoState] $ShowMostUsedAppsGPO,
 
         # other
         [state] $ShowMobileDevice,
-
         [StartFoldersName[]] $FoldersNextToPowerButton,
-
         [state] $ShowAccountNotifications,
-
         [state] $ShowRecentItems,
-
         [GpoStateWithoutEnabled] $ShowRecentItemsGPO,
-
         [state] $HideNameAndPicture
     )
 
@@ -103,12 +95,15 @@ function Set-StartSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # general
             'LayoutMode'                         { Set-StartLayoutMode -Layout $LayoutMode }
             'StartMenuSize'                      { Set-StartMenuSize -Size $StartMenuSize }
 
+            # pinned section
             'PinnedSection'                      { Set-StartPinnedSection -State $PinnedSection }
             'ShowAllPins'                        { Set-StartShowAllPins -State $ShowAllPins }
     
+            # recent section
             'RecentSection'                      { Set-StartRecentSection -State $RecentSection }
             'RecentSectionGPO'                   { Set-StartRecentSection -GPO $RecentSectionGPO }
             'ShowRecentAddedApps'                { Set-StartShowRecentAddedApps -State $ShowRecentAddedApps }
@@ -117,12 +112,14 @@ function Set-StartSetting
             'ShowTipsAndAppRecommendations'      { Set-StartShowTipsAndAppRecommendations -State $ShowTipsAndAppRecommendations }
             'ShowWebsitesFromBrowsingHistoryGPO' { Set-StartShowWebsitesFromBrowsingHistory -GPO $ShowWebsitesFromBrowsingHistoryGPO }
     
+            # all apps section
             'AllAppsSection'                     { Set-StartAllAppsSection -State $AllAppsSection }
             'AllAppsSectionGPO'                  { Set-StartAllAppsSection -GPO $AllAppsSectionGPO }
             'AllAppsViewMode'                    { Set-StartAllAppsViewMode -Mode $AllAppsViewMode }
             'ShowMostUsedApps'                   { Set-StartShowMostUsedApps -State $ShowMostUsedApps }
             'ShowMostUsedAppsGPO'                { Set-StartShowMostUsedApps -GPO $ShowMostUsedAppsGPO }
 
+            # other
             'ShowMobileDevice'                   { Set-StartShowMobileDevice -State $ShowMobileDevice }
             'FoldersNextToPowerButton'           { Set-StartFoldersNextToPowerButton -Item $FoldersNextToPowerButton }
             'ShowAccountNotifications'           { Set-StartShowAccountNotifications -State $ShowAccountNotifications }

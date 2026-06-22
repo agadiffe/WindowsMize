@@ -24,13 +24,9 @@ function Set-ClipboardSetting
     param
     (
         [state] $History,
-
         [GpoState] $HistoryGPO,
-
         [ClipboardSyncState] $SyncAcrossDevices,
-
         [GpoState] $SyncAcrossDevicesGPO,
-
         [state] $SuggestedActions
     )
 

@@ -21,7 +21,6 @@ function Set-BackgroundSetting
     param
     (
         [string] $Wallpaper,
-
         [WallpaperFitMode] $WallpaperStyle
     )
 

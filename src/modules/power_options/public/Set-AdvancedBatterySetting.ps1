@@ -17,11 +17,6 @@
 # 'Reserve' will display a final warning (and presumably disable some features/services ?).
 # 'Critical' will shutdown (or else) your computer.
 
-# default (depends):
-#   Low      : 10%, DoNothing
-#   Reserve  : 7%
-#   Critical : 5%, Hibernate
-
 <#
 .SYNTAX
     Set-AdvancedBatterySetting
@@ -88,6 +83,11 @@ function Set-AdvancedBatterySetting
         $BatterySettingMsg = $Msg -join ' / '
 
         Write-Verbose -Message "Setting '$Battery battery' to '$BatterySettingMsg' ..."
+
+        # default (depends):
+        #   Low      : 10%, DoNothing
+        #   Reserve  : 7%
+        #   Critical : 5%, Hibernate
 
         switch ($PSBoundParameters.Keys)
         {

@@ -32,7 +32,6 @@ function Set-KeyboardSetting
         [int] $CharacterRepeatRate,
 
         [string] $CopilotAndWinCKeys,
-
         [state] $PrintScreenKeyOpenScreenCapture
     )
 

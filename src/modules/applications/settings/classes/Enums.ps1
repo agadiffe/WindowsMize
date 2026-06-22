@@ -1,5 +1,5 @@
 #==============================================================================
-#                            File Explorer - Enums
+#                        Applications Settings - Enums
 #==============================================================================
 
 # adobe acrobat reader
@@ -28,8 +28,8 @@ enum AdobeInternetAccessMode
 enum AdobeInternetAccessModeGpo
 {
     BlockAllWebSites = 1
-    AllowAllWebSites  = 2
-    Custom            = 0
+    AllowAllWebSites = 2
+    Custom           = 0
     NotConfigured
 }
 

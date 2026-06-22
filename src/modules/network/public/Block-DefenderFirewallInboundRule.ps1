@@ -3,7 +3,8 @@
 #=================================================================================================================
 
 # Firewall rules are defined in 'private\NetFirewallRules.ps1'
-# Block these ports/programs/services from external access (Internet) while maintaining local functionality.
+# Block these ports/programs/services from external access (e.g. Internet or local network)
+# while maintaining functionality if the request is made by the computer.
 
 <#
 .SYNTAX

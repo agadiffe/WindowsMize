@@ -4,6 +4,8 @@
 
 # The Chrome extension is automatically installed ...
 
+# This function doesn't seem to work reliably.
+
 <#
 .SYNTAX
     Set-AcrobatReaderChromeExtension

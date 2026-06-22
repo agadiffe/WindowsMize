@@ -21,7 +21,6 @@ function Set-DynamicLightingSetting
     param
     (
         [state] $DynamicLighting,
-
         [state] $ControlledByForegroundApp
     )
 

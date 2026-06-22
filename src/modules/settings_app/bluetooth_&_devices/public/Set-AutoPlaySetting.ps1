@@ -23,11 +23,8 @@ function Set-AutoPlaySetting
     param
     (
         [state] $AutoPlay,
-
         [GpoStateWithoutEnabled] $AutoPlayGPO,
-
         [AutoPlayMode] $RemovableDrive,
-
         [AutoPlayMode] $MemoryCard
     )
 

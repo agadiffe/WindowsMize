@@ -6,8 +6,6 @@
 # (control.exe /name Microsoft.PowerOptions /page pagePlanSettings)
 #   > change advanced power settings > network connectivity in Standby
 
-# default: Enabled (PluggedIn), ManagedByWindows (OnBattery)
-
 <#
 .SYNTAX
     Set-ModernStandbyNetworkConnectivity
@@ -43,8 +41,9 @@ function Set-ModernStandbyNetworkConnectivity
             'ManagedByWindows' { 2 }
         }
 
-        Write-Verbose -Message "Setting 'Modern Standby Network Connectivity ($PowerSource)' to '$State' ..."
+        # default\ PluggedIn: Enabled, OnBattery: ManagedByWindows
 
+        Write-Verbose -Message "Setting 'Modern Standby Network Connectivity ($PowerSource)' to '$State' ..."
         $SetValueIndex = $PowerSource -eq 'PluggedIn' ? '-SetACValueIndex' : '-SetDCValueIndex'
         powercfg.exe $SetValueIndex SCHEME_CURRENT SUB_NONE CONNECTIVITYINSTANDBY $SettingIndex
     }

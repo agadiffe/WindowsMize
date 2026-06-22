@@ -5,6 +5,7 @@
 <#
 .SYNTAX
     Set-WindowsPhotosSetting
+        # settings
         [-RunAtStartup {Disabled | Enabled}]
         [-ShowGalleryTilesAttributes {Disabled | Enabled}]
         [-LocationBasedFeatures {Disabled | Enabled}]
@@ -14,6 +15,8 @@
         [-MouseWheelBehavior {ZoomInOut | NextPreviousItems}]
         [-SmallMediaZoomPreference {FitWindow | ViewActualSize}]
         [-Theme {System | Light | Dark}]
+
+        # miscellaneous
         [-GalleryType {River | Square}]
         [-GallerySize {Small | Medium | Large}]
         [-FirstRunExperience {Disabled | Enabled}]

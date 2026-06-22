@@ -22,9 +22,7 @@ function Set-LanguageAndRegionSetting
     param
     (
         [DayOfWeek] $FirstDayOfWeek,
-
         [string] $ShortDateFormat,
-
         [state] $Utf8ForNonUnicodePrograms
     )
 

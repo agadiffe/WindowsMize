@@ -23,11 +23,8 @@ function Set-XboxModeSetting
     param
     (
         [state] $XboxMode,
-
         [state] $ShowInTaskView,
-
         [state] $ShowControlHintsInTaskView,
-
         [state] $ConfirmationPrompts
     )
 

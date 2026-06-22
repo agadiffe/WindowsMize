@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                          Base Class - Validate Hashtable Settings
+#                                    Validate Hashtable Settings - Base Class
 #=================================================================================================================
 
 class ValidateHashtableSettings : Hashtable

@@ -5,7 +5,10 @@
 <#
 .SYNTAX
     Set-AccessibilityKeyboardSetting
+        # general
         [-UnderlineAccessKeys {Disabled | Enabled}]
+
+        # sticky keys
         [-StickyKeys {Disabled | Enabled}]
         [-StickyKeysKeyboardShortcut {Disabled | Enabled}]
         [-StickyKeysShowTrayIcon {Disabled | Enabled}]
@@ -14,6 +17,8 @@
         [-StickyKeysKeypressSound {Disabled | Enabled}]
         [-StickyKeysHotkeyActivationPrompt {Disabled | Enabled}]
         [-StickyKeysHotkeyToggleSound {Disabled | Enabled}]
+
+        # filter keys
         [-FilterKeys {Disabled | Enabled}]
         [-FilterKeysKeyboardShortcut {Disabled | Enabled}]
         [-FilterKeysShowTrayIcon {Disabled | Enabled}]
@@ -23,6 +28,8 @@
         [-FilterKeysRepeatDelay <double>]
         [-FilterKeysHotkeyActivationPrompt {Disabled | Enabled}]
         [-FilterKeysHotkeyToggleSound {Disabled | Enabled}]
+
+        # toggle keys
         [-ToggleKeys {Disabled | Enabled}]
         [-ToggleKeysKeyboardShortcut {Disabled | Enabled}]
         [-ToggleKeysHotkeyActivationPrompt {Disabled | Enabled}]
@@ -87,8 +94,10 @@ function Set-AccessibilityKeyboardSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # general
             'UnderlineAccessKeys'              { Set-KeyboardUnderlineAccessKeys -State $UnderlineAccessKeys }
 
+            # sticky keys
             'StickyKeys'                       { Set-KeyboardStickyKeys -State $StickyKeys }
             'StickyKeysKeyboardShortcut'       { Set-KeyboardStickyKeys -KeyboardShortcut $StickyKeysKeyboardShortcut }
             'StickyKeysShowTrayIcon'           { Set-KeyboardStickyKeys -ShowTrayIcon $StickyKeysShowTrayIcon }
@@ -98,6 +107,7 @@ function Set-AccessibilityKeyboardSetting
             'StickyKeysHotkeyActivationPrompt' { Set-KeyboardStickyKeys -HotkeyActivationPrompt $StickyKeysHotkeyActivationPrompt }
             'StickyKeysHotkeyToggleSound'      { Set-KeyboardStickyKeys -HotkeyToggleSound $StickyKeysHotkeyToggleSound }
 
+            # filter keys
             'FilterKeys'                       { Set-KeyboardFilterKeys -State $FilterKeys }
             'FilterKeysKeyboardShortcut'       { Set-KeyboardFilterKeys -KeyboardShortcut $FilterKeysKeyboardShortcut }
             'FilterKeysShowTrayIcon'           { Set-KeyboardFilterKeys -ShowTrayIcon $FilterKeysShowTrayIcon }
@@ -108,6 +118,7 @@ function Set-AccessibilityKeyboardSetting
             'FilterKeysHotkeyActivationPrompt' { Set-KeyboardFilterKeys -HotkeyActivationPrompt $FilterKeysHotkeyActivationPrompt }
             'FilterKeysHotkeyToggleSound'      { Set-KeyboardFilterKeys -HotkeyToggleSound $FilterKeysHotkeyToggleSound }
 
+            # toggle keys
             'ToggleKeys'                       { Set-KeyboardToggleKeys -State $ToggleKeys }
             'ToggleKeysKeyboardShortcut'       { Set-KeyboardToggleKeys -KeyboardShortcut $ToggleKeysKeyboardShortcut }
             'ToggleKeysHotkeyActivationPrompt' { Set-KeyboardToggleKeys -HotkeyActivationPrompt $ToggleKeysHotkeyActivationPrompt }

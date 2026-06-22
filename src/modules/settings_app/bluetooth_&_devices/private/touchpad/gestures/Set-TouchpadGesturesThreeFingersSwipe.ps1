@@ -33,11 +33,8 @@ function Set-TouchpadGesturesThreeFingersSwipe
         [TouchpadSwipesMode] $Mode,
 
         [TouchpadSwipesCustomMode] $Up,
-
         [TouchpadSwipesCustomMode] $Down,
-
         [TouchpadSwipesCustomMode] $Left,
-
         [TouchpadSwipesCustomMode] $Right
     )
 

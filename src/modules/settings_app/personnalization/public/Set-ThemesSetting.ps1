@@ -21,7 +21,6 @@ function Set-ThemesSetting
     param
     (
         [DesktopIcons[]] $DesktopIcons,
-
         [state] $ThemesCanChangeDesktopIcons
     )
 

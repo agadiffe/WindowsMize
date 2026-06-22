@@ -21,7 +21,6 @@ function Set-DevicesSetting
     param
     (
         [state] $DownloadOverMeteredConnections,
-
         [state] $DefaultPrinterSystemManaged
     )
 

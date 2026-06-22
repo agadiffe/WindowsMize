@@ -31,7 +31,7 @@ function Test-NewerWindowsMizeVersion
         if ($CurrentVersionID -and $CurrentVersionID -lt $LatestVersionID)
         {
             Write-Error -Message ('A newer version is available. Download it at https://github.com/agadiffe/WindowsMize. ' +
-                'To run this version anyway, delete the file VERSION_ID.')
+                'To run this version anyway, delete or rename the file VERSION_ID.')
             exit
         }
     }

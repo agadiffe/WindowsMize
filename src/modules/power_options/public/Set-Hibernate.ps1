@@ -5,8 +5,6 @@
 # control panel (icons view) > power options > choose what the power button do
 # (control.exe /name Microsoft.PowerOptions /page pageGlobalSettings)
 
-# default: Enabled
-
 <#
 .SYNTAX
     Set-Hibernate
@@ -33,6 +31,8 @@ function Set-Hibernate
 
     process
     {
+        # default: Enabled
+
         Write-Verbose -Message "Setting 'Hibernate' to '$State' ..."
         powercfg.exe -Hibernate ($State -eq 'Enabled' ? 'on' : 'off')
     }

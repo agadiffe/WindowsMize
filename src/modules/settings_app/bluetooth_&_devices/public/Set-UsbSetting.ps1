@@ -22,9 +22,7 @@ function Set-UsbSetting
     param
     (
         [state] $NotifOnErrors,
-
         [state] $BatterySaver,
-
         [state] $NotifOnWeakCharger
     )
 

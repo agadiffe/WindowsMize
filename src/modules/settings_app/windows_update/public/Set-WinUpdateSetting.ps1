@@ -41,33 +41,19 @@ function Set-WinUpdateSetting
     param
     (
         [state] $GetLatestAsSoonAsAvailable,
-
         [GpoState] $GetLatestAsSoonAsAvailableGPO,
-
         [GpoStateWithoutEnabled] $PauseUpdatesGPO,
-
         [state] $UpdateOtherMicrosoftProducts,
-
         [GpoState] $UpdateOtherMicrosoftProductsGPO,
-
         [state] $GetMeUpToDate,
-
         [state] $DownloadOverMeteredConnections,
-
         [GpoState] $DownloadOverMeteredConnectionsGPO,
-
         [state] $RestartNotification,
-
         [GpoStateWithoutEnabled] $RestartNotificationGPO,
-
         [DeliveryOptimizationMode] $DeliveryOptimization,
-
         [GpoDeliveryOptimizationMode] $DeliveryOptimizationGPO,
-
         [state] $InsiderProgramPageVisibility,
-
         [ActiveHoursMode] $ActiveHoursMode,
-
         [GpoStateWithoutDisabled] $ActiveHoursGPO
     )
 

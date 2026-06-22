@@ -23,9 +23,7 @@ function Set-RemoteDesktopSetting
     param
     (
         [state] $RemoteDesktop,
-
         [GpoState] $RemoteDesktopGPO,
-
         [state] $NetworkLevelAuthentication,
 
         [ValidateRange(1, 65535)]

@@ -7,7 +7,7 @@
 # If you don't need/want to disable it system-wide, you can do it for specific application:
 #   Right-click on the executable and click on Properties.
 #   Click on the Compatibility tab.
-#   Check or uncheck Disable fullscreen optimizations.
+#   Check or uncheck "Disable fullscreen optimizations".
 
 # If issues with color managment or alt + tab, set GameDVR_DXGIHonorFSEWindowsCompatible to 0 ?
 

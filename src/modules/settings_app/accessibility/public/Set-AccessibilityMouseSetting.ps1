@@ -5,8 +5,11 @@
 <#
 .SYNTAX
     Set-AccessibilityMouseSetting
+        # mouse pointer
         [-PointerIndicatorOnCtrl {Disabled | Enabled}]
         [-PointerTrailsLength <int>]
+
+        # mouse
         [-SnapToDefaultButton {Disabled | Enabled}]
         [-HidePointerWhileTyping {Disabled | Enabled}]
         [-DoubleClickSpeed <int>]
@@ -15,6 +18,8 @@
         [-ActivateOnHover {Disabled | Enabled}]
         [-ActivateOnHoverDelay <int>]
         [-ActivateOnHoverRaiseWindow {Disabled | Enabled}]
+
+        # mouse keys
         [-MouseKeys {Disabled | Enabled}]
         [-MouseKeysKeyboardShortcut {Disabled | Enabled}]
         [-MouseKeysUseWhenNumLockOn {Disabled | Enabled}]
@@ -87,9 +92,11 @@ function Set-AccessibilityMouseSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # mouse pointer
             'PointerIndicatorOnCtrl'          { Set-MousePointerIndicatorOnCtrl -State $PointerIndicatorOnCtrl }
             'PointerTrailsLength'             { Set-MousePointerTrails -Length $PointerTrailsLength }
 
+            # mouse
             'SnapToDefaultButton'             { Set-MouseSnapToDefaultButton -State $SnapToDefaultButton }
             'HidePointerWhileTyping'          { Set-MouseHidePointerWhileTyping -State $HidePointerWhileTyping }
             'DoubleClickSpeed'                { Set-MouseDoubleClickSpeed -Speed $DoubleClickSpeed }
@@ -99,6 +106,7 @@ function Set-AccessibilityMouseSetting
             'ActivateOnHoverDelay'            { Set-MouseActivateOnHoverDelay -Level $ActivateOnHoverDelay }
             'ActivateOnHoverRaiseWindow'      { Set-MouseActivateOnHoverRaiseWindow -State $ActivateOnHoverRaiseWindow }
 
+            # mouse keys
             'MouseKeys'                       { Set-MouseKeys -State $MouseKeys }
             'MouseKeysShortcut'               { Set-MouseKeys -KeyboardShortcut $MouseKeysShortcut }
             'MouseKeysUseWhenNumLockOn'       { Set-MouseKeys -UseWhenNumLockOn $MouseKeysUseWhenNumLockOn }

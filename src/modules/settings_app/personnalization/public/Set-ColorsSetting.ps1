@@ -25,17 +25,11 @@ function Set-ColorsSetting
     param
     (
         [ColorsTheme] $Theme,
-
         [ColorsTheme] $AppsTheme,
-
         [ColorsTheme] $SystemTheme,
-
         [state] $Transparency,
-
         [AccentColorMode] $AccentColorMode,
-
         [state] $ShowAccentColorOnStartAndTaskbar,
-
         [state] $ShowAccentColorOnTitleAndBorders
     )
 

@@ -1,11 +1,11 @@
 #=================================================================================================================
-#                                    Restore Service Startup Type From Backup
+#                                    Restore Scheduled Tasks State From Backup
 #=================================================================================================================
 
 <#
 .SYNTAX
     Restore-ScheduledTaskStateFromBackup
-        [-FilePath] <string>
+        [[-FilePath] <string>]
         [<CommonParameters>]
 #>
 
@@ -22,16 +22,18 @@ function Restore-ScheduledTaskStateFromBackup
     [CmdletBinding()]
     param
     (
-        [ValidateScript(
-            { Test-Path -Path $_ -PathType 'Leaf' },
-            ErrorMessage = 'The specified file does not exist or is not accessible.')]
-        [string] $FilePath
+        [string] $FilePath = "$(Get-LogPath)\windows_default_scheduled_tasks_winmize.json"
     )
 
     process
     {
-        $ScheduledTaskBackupFile = "$(Get-LogPath)\windows_default_scheduled_tasks_winmize.json"
-        $ScheduledTaskBackup = Get-Content -Raw -Path $ScheduledTaskBackupFile | ConvertFrom-Json -AsHashtable
+        if (-not (Test-Path -Path $FilePath -PathType 'Leaf'))
+        {
+            Write-Error -Message 'The specified file does not exist or is not accessible.'
+            return
+        }
+
+        $ScheduledTaskBackup = Get-Content -Raw -Path $FilePath | ConvertFrom-Json -AsHashtable
         $ScheduledTaskBackup | Set-ScheduledTaskState
     }
 }

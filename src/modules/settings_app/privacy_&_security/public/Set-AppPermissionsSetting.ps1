@@ -5,7 +5,6 @@
 <#
 .SYNTAX
     Set-AppPermissionsSetting
-
         # General
         [-Location {Disabled | Enabled}]
         [-LocationGPO {Disabled | Enabled | NotConfigured}]

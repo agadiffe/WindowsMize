@@ -26,17 +26,11 @@ function Set-MultitaskingSetting
     param
     (
         [AppsTabsOnSnapMode] $ShowAppsTabsOnSnapAndAltTab,
-
         [GpoAppsTabsOnSnapMode] $ShowAppsTabsOnSnapAndAltTabGPO,
-
         [WindowVisibilty] $ShowAllWindowsOnTaskbar,
-
         [WindowVisibilty] $ShowAllWindowsOnAltTab,
-
         [state] $TitleBarWindowShake,
-
         [GpoStateWithoutEnabled] $TitleBarWindowShakeGPO,
-
         [state] $DropTray
     )
 

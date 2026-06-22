@@ -37,16 +37,13 @@ function Set-MouseSetting
         [int] $PointerSpeed,
 
         [state] $EnhancedPointerPrecision,
-
         [state] $HapticFeedback,
 
         [ValidateRange(1, 4)]
         [int] $HapticFeedbackIntensity,
 
         [WheelScrollMode] $WheelScroll,
-
         [state] $ScrollInactiveWindowsOnHover,
-
         [ScrollingDirectionMode] $ScrollingDirection
     )
 

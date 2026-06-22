@@ -39,23 +39,14 @@ function Set-SigninOptionsSetting
     param
     (
         [GpoStateWithoutEnabled] $BiometricsGPO,
-
         [state] $SigninWithExternalDevice,
-
         [state] $OnlyWindowsHelloForMSAccount,
-
         [state] $DynamicLock,
-
         [GpoState] $DynamicLockGPO,
-
         [state] $AutoRestartApps,
-
         [state] $ShowAccountDetails,
-
         [GpoStateWithoutEnabled] $ShowAccountDetailsGPO,
-
         [state] $AutoFinishSettingUpAfterUpdate,
-
         [GpoState] $AutoFinishSettingUpAfterUpdateGPO
     )
 

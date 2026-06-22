@@ -22,9 +22,7 @@ function Set-OfflineMapsSetting
     param
     (
         [state] $DownloadOverMeteredConnection,
-
         [state] $AutoUpdateOnACAndWifi,
-
         [GpoState] $AutoUpdateOnACAndWifiGPO
     )
 

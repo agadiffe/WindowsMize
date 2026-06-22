@@ -25,9 +25,7 @@ function Set-MicrosoftEdgePolicy
     param
     (
         [GpoState] $Prelaunch,
-
         [GpoState] $StartupBoost,
-
         [GpoState] $BackgroundMode
     )
 

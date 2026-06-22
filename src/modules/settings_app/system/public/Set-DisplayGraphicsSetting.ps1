@@ -24,13 +24,9 @@ function Set-DisplayGraphicsSetting
     param
     (
         [state] $AutoHDR,
-
         [state] $AutoSuperResolution,
-
         [state] $GamesVariableRefreshRate,
-
         [state] $GPUScheduling,
-
         [state] $WindowedGamesOptimizations
     )
 

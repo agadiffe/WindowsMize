@@ -29,23 +29,14 @@ function Set-TypingSetting
     param
     (
         [state] $ShowTextSuggestionsOnSoftwareKeyboard,
-
         [state] $ShowTextSuggestionsOnPhysicalKeyboard,
-
         [state] $MultilingualTextSuggestions,
-
         [state] $AutocorrectMisspelledWords,
-
         [state] $HighlightMisspelledWords,
-
         [state] $TypingAndCorrectionHistory,
-
         [state] $UseDifferentInputMethodForEachApp,
-
         [LanguageBarMode] $LanguageBar,
-
         [SwitchInputHotkeys] $SwitchInputLanguageHotkey,
-
         [SwitchInputHotkeys] $SwitchKeyboardLayoutHotkey
     )
 

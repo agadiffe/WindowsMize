@@ -1087,7 +1087,7 @@ Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled' # Ads/Promo
 Set-SuggestedContent -State 'Disabled'
 Set-TaskbarCalendarState -State 'Expanded' # Collapsed | Expanded
 Set-WindowsExperimentation -GPO 'Disabled'
-Set-WindowsInputExperience -State 'Disabled' # don't disable if touchscreen
+Set-WindowsInputExperiencePreload -State 'Disabled' # don't disable if touchscreen
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'
 Set-WindowsSettingsSearchAgent -GPO 'NotConfigured'
 Set-WindowsSharedExperience -GPO 'NotConfigured' # Disabled: also disable and gray out "nearby sharing" and "share across devices"

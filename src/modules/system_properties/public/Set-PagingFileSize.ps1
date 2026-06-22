@@ -13,7 +13,7 @@
 # custom paging file size
 #-------------------
 # Depends on how much RAM you have:
-#   20GB+: 512/512 for safeguard and (very) old programs that needs pagefile.
+#   20GB+: 1024/1024 as safeguard and for (very) old programs that needs pagefile.
 #   8-16GB: 2048/2048 should be enought, safeguard in case you eat up all ram.
 #   4GB: 4096/4096 should be enought (if not enought, consider to upgrade your physical RAM if possible).
 

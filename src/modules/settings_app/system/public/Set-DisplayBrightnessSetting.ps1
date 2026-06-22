@@ -25,7 +25,6 @@ function Set-DisplayBrightnessSetting
         [int] $Brightness,
 
         [BrightnessContentState] $AdjustBasedOnContent,
-
         [state] $AdjustOnLightingChanges
     )
 

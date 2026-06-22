@@ -26,17 +26,11 @@ function Set-DateAndTimeSetting
     param
     (
         [state] $AutoTimeZone,
-
         [state] $AutoTime,
-
         [state] $ShowInSystemTray,
-
         [state] $ShowAbbreviatedValue,
-
         [state] $ShowSecondsInSystemClock,
-
         [state] $ShowTimeInNotifCenter,
-
         [InternetTimeServer] $TimeServer
     )
 

@@ -24,13 +24,9 @@ function Set-SystemAdvancedSetting
     param
     (
         [state] $EndTask,
-
         [state] $ModernRunDialog,
-
         [state] $LongPaths,
-
         [SudoMode] $Sudo,
-
         [state] $MoreAgentConnectors
     )
 

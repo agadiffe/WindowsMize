@@ -5,7 +5,6 @@
 <#
 .SYNTAX
     Set-WinPermissionsSetting
-
         # User Data
         [-FindMyDevice {Disabled | Enabled}]
         [-FindMyDeviceGPO {Disabled | Enabled | NotConfigured}]

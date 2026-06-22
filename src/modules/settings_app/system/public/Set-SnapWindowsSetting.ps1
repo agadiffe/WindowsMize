@@ -25,15 +25,10 @@ function Set-SnapWindowsSetting
     param
     (
         [state] $SnapWindows,
-
         [state] $SnapSuggestions,
-
         [state] $ShowLayoutOnMaxButtonHover,
-
         [state] $ShowLayoutOnTopScreen,
-
         [state] $ShowSnappedWindowGroup,
-
         [state] $SnapBeforeReachingScreenEdge
     )
 

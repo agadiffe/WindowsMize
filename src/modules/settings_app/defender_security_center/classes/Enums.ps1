@@ -1,5 +1,5 @@
 #==============================================================================
-#       Settings App > Privacy & Security > Windows Security App - Enums
+#                         Windows Security App - Enums
 #==============================================================================
 
 # virus & threat protection

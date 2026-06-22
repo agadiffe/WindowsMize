@@ -5,6 +5,7 @@
 <#
 .SYNTAX
     Set-TaskbarSetting
+        # taskbar items
         [-SearchBox {Hide | IconOnly | Box | IconAndLabel}]
         [-SearchBoxGPO {Hide | IconOnly | Box | IconAndLabel | NotConfigured}]
         [-AskCopilot {Disabled | Enabled}]
@@ -12,11 +13,17 @@
         [-TaskViewGPO {Disabled | NotConfigured}]
         [-Widgets {Disabled | Enabled}]
         [-ResumeAppNotif {Disabled | Enabled}]
+
+        # system tray icons
         [-EmojiAndMore {Never | WhileTyping | Always}]
         [-PenMenu {Disabled | Enabled}]
         [-TouchKeyboard {Never | Always | WhenNoKeyboard}]
         [-VirtualTouchpad {Disabled | Enabled}]
+
+        # other system tray icons
         [-HiddenIconMenu {Disabled | Enabled}]
+
+        # taskbar behaviors
         [-Position] {Left | Top | Right | Bottom}
         [-Alignment {Left | Center}]
         [-TouchOptimized {Disabled | Enabled}]
@@ -94,6 +101,7 @@ function Set-TaskbarSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # taskbar items
             'SearchBox'                       { Set-TaskbarSearchBox -Mode $SearchBox }
             'SearchBoxGPO'                    { Set-TaskbarSearchBox -GPO $SearchBoxGPO }
             'AskCopilot'                      { Set-TaskbarAskCopilot -State $AskCopilot }
@@ -102,13 +110,16 @@ function Set-TaskbarSetting
             'Widgets'                         { Set-TaskbarWidgets -State $Widgets }
             'ResumeAppNotif'                  { Set-TaskbarResumeAppNotif -State $ResumeAppNotif }
 
+            # system tray icons
             'EmojiAndMore'                    { Set-TaskbarEmojiAndMore -Visibility $EmojiAndMore }
             'PenMenu'                         { Set-TaskbarPenMenu -State $PenMenu }
             'TouchKeyboard'                   { Set-TaskbarTouchKeyboard -Visibility $TouchKeyboard }
             'VirtualTouchpad'                 { Set-TaskbarVirtualTouchpad -State $VirtualTouchpad }
 
+            # other system tray icons
             'HiddenIconMenu'                  { Set-TaskbarHiddenIconMenu -State $HiddenIconMenu }
 
+            # taskbar behaviors
             'Position'                        { Set-TaskbarPosition -Mode $Position }
             'Alignment'                       { Set-TaskbarAlignment -Mode $Alignment }
             'TouchOptimized'                  { Set-TaskbarTouchOptimized -State $TouchOptimized }

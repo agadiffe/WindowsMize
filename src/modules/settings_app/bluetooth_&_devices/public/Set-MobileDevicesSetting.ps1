@@ -25,11 +25,8 @@ function Set-MobileDevicesSetting
     param
     (
         [state] $MobileDevices,
-
         [state] $PhoneLink,
-
         [GpoStateWithoutEnabled] $PhoneLinkGPO,
-
         [state] $ShowUsageSuggestions
     )
 

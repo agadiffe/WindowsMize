@@ -5,18 +5,24 @@
 <#
 .SYNTAX
     Set-TouchpadSetting
+
+        # touchpad
         [-Touchpad {Disabled | Enabled}]
         [-LeaveOnWithMouse {Disabled | Enabled}]
         [-CursorSpeed <int>]
         [-ClickSensitivity {Light | Medium | Heavy}]
         [-HapticFeedback {Disabled | Enabled}]
         [-HapticFeedbackIntensity <int>]
+
+        # taps
         [-Sensitivity {Max | High | Medium | Low}]
         [-TapToClick {Disabled | Enabled}]
         [-TwoFingersTapToRightClick {Disabled | Enabled}]
         [-TapTwiceAndDragToMultiSelect {Disabled | Enabled}]
         [-RightClickButton {Disabled | Enabled}]
         [-RightClickZoneSize {Default | Small | Medium | Large}]
+
+        # scroll & zoom
         [-TwoFingersToScroll {Disabled | Enabled}]
         [-SingleFingerToScroll {Disabled | LeftSide | RightSide}]
         [-AutoScrollingWithPressure {Disabled | Enabled}]
@@ -26,6 +32,8 @@
         [-ScrollingDirection {DownMotionScrollsDown | DownMotionScrollsUp}]
         [-PinchToZoom {Disabled | Enabled}]
         [-ZoomSpeed <int>]
+
+        # gestures
         [-ThreeFingersTap {Nothing | OpenSearch | NotificationCenter | PlayPause |
                            MiddleMouseButton | MouseBackButton | MouseForwardButton}]
         [-ThreeFingersSwipe {Nothing | SwitchAppsAndShowDesktop | SwitchDesktopsAndShowDesktop |
@@ -70,14 +78,12 @@ function Set-TouchpadSetting
     (
         # touchpad
         [state] $Touchpad,
-
         [state] $LeaveOnWithMouse,
 
         [ValidateRange(1, 10)]
         [int] $CursorSpeed,
 
         [TouchpadClickSensitivityMode] $ClickSensitivity,
-
         [state] $HapticFeedback,
 
         [ValidateRange(1, 5)]
@@ -85,33 +91,23 @@ function Set-TouchpadSetting
 
         # taps
         [TouchpadSensitivityMode] $Sensitivity,
-
         [state] $TapToClick,
-
         [state] $TwoFingersTapToRightClick,
-
         [state] $TapTwiceAndDragToMultiSelect,
-
         [state] $RightClickButton,
-
         [TouchpadRightClickZoneSize] $RightClickZoneSize,
 
         # scroll & zoom
         [state] $TwoFingersToScroll,
-
         [SingleFingerScrollMode] $SingleFingerToScroll,
-
         [state] $AutoScrollingWithPressure,
-
         [state] $AutoScrollingAtEdge,
-
         [state] $AcceleratedScrolling,
 
         [ValidateRange(0, 10)]
         [int] $ScrollSpeed,
 
         [ScrollingDirectionMode] $ScrollingDirection,
-
         [state] $PinchToZoom,
 
         [ValidateRange(0, 10)]
@@ -119,11 +115,8 @@ function Set-TouchpadSetting
 
         # gestures
         [TouchpadTapMode] $ThreeFingersTap,
-
         [TouchpadSwipesMode] $ThreeFingersSwipe,
-
         [TouchpadTapMode] $FourFingersTap,
-
         [TouchpadSwipesMode] $FourFingersSwipe
     )
 
@@ -164,6 +157,7 @@ function Set-TouchpadSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            # touchpad
             'Touchpad'                     { Set-Touchpad -State $Touchpad }
             'LeaveOnWithMouse'             { Set-TouchpadLeaveOnWithMouse -State $LeaveOnWithMouse }
             'CursorSpeed'                  { Set-TouchpadCursorSpeed -Speed $CursorSpeed }
@@ -171,6 +165,7 @@ function Set-TouchpadSetting
             'HapticFeedback'               { Set-TouchpadHapticFeedback -State $HapticFeedback }
             'HapticFeedbackIntensity'      { Set-TouchpadHapticFeedbackIntensity -Intensity $HapticFeedbackIntensity }
 
+            # taps
             'Sensitivity'                  { Set-TouchpadSensitivity -Sensitivity $Sensitivity }
             'TapToClick'                   { Set-TouchpadSingleFingerTapToClick -State $TapToClick }
             'TwoFingersTapToRightClick'    { Set-TouchpadTwoFingersTapToRightClick -State $TwoFingersTapToRightClick }
@@ -178,6 +173,7 @@ function Set-TouchpadSetting
             'RightClickButton'             { Set-TouchpadRightClickButton -State $RightClickButton }
             'RightClickZoneSize'           { Set-TouchpadRightClickZoneSize -Size $RightClickZoneSize }
 
+            # scroll & zoom
             'TwoFingersToScroll'           { Set-TouchpadTwoFingersToScroll -State $TwoFingersToScroll }
             'SingleFingerToScroll'         { Set-TouchpadSingleFingerToScroll -Mode $SingleFingerToScroll }
             'AutoScrollingWithPressure'    { Set-TouchpadAutoScrollingWithPressure -State $AutoScrollingWithPressure }
@@ -188,6 +184,7 @@ function Set-TouchpadSetting
             'PinchToZoom'                  { Set-TouchpadPinchToZoom -State $PinchToZoom }
             'ZoomSpeed'                    { Set-TouchpadPinchToZoomSpeed -Speed $ZoomSpeed }
 
+            # gestures
             'ThreeFingersTap'              { Set-TouchpadGesturesThreeFingersTap -Mode $ThreeFingersTap }
             'ThreeFingersSwipe'
             {

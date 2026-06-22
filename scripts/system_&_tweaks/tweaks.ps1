@@ -207,9 +207,9 @@ Set-TaskbarCalendarState -State 'Expanded'
 # --- Windows experimentation
 Set-WindowsExperimentation -GPO 'Disabled'
 
-# --- Windows input experience (default: Enabled)
+# --- Windows input experience preload (default: Enabled)
 # Do not disable if device has a touchscreen.
-Set-WindowsInputExperience -State 'Disabled'
+Set-WindowsInputExperiencePreload -State 'Disabled'
 
 # --- Windows privacy settings experience
 Set-WindowsPrivacySettingsExperience -GPO 'Disabled'

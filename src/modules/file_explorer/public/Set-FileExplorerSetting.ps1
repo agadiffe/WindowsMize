@@ -5,7 +5,6 @@
 <#
 .SYNTAX
     Set-FileExplorerSetting
-
         # General
         [-LaunchTo {ThisPC | Home | Downloads | OneDrive}]
         [-OpenFolderMode {SameWindow | NewWindow}]

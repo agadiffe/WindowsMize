@@ -29,15 +29,10 @@ function Set-StorageSenseSetting
     param
     (
         [state] $TempFilesCleanup,
-
         [GpoState] $TempFilesCleanupGPO,
-
         [state] $StorageSense,
-
         [GpoState] $StorageSenseGPO,
-
         [StorageSenseSchedule] $Schedule,
-
         [GpoStorageSenseSchedule] $ScheduleGPO,
 
         [ValidateSet(0, 1, 14, 30, 60)]
@@ -69,7 +64,6 @@ function Set-StorageSenseSetting
         {
             'TempFilesCleanup'                 { Set-StorageSenseTempFilesCleanup -State $TempFilesCleanup }
             'TempFilesCleanupGPO'              { Set-StorageSenseTempFilesCleanup -GPO $TempFilesCleanupGPO }
-
             'StorageSense'                     { Set-StorageSense -State $StorageSense }
             'StorageSenseGPO'                  { Set-StorageSense -GPO $StorageSenseGPO }
             'Schedule'                         { Set-StorageSenseSchedule -Schedule $Schedule }

@@ -24,13 +24,9 @@ function Set-BluetoothSetting
     param
     (
         [GpoStateWithoutEnabled] $BluetoothGPO,
-
         [BluetoothDiscoveryMode] $DiscoveryMode,
-
         [state] $LowEnergyAudio,
-
         [state] $ShowQuickPairConnectionNotif,
-
         [GpoStateWithoutEnabled] $ShowQuickPairConnectionNotifGPO
     )
 

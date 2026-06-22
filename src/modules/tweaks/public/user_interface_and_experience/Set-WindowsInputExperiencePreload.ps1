@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                                            Windows Input Experience
+#                                        Windows Input Experience Preload
 #=================================================================================================================
 
 # It manages several input-related tasks:
@@ -13,16 +13,16 @@
 
 <#
 .SYNTAX
-    Set-WindowsInputExperience
+    Set-WindowsInputExperiencePreload
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-WindowsInputExperience
+function Set-WindowsInputExperiencePreload
 {
     <#
     .EXAMPLE
-        PS> Set-WindowsInputExperience -State 'Disabled'
+        PS> Set-WindowsInputExperiencePreload -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -35,7 +35,7 @@ function Set-WindowsInputExperience
     process
     {
         # on: 1 (default) | off: 0
-        $WindowsInputExperience = @{
+        $WindowsInputExperiencePreload = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Input'
             Entries = @(
@@ -47,7 +47,7 @@ function Set-WindowsInputExperience
             )
         }
 
-        Write-Verbose -Message "Setting 'Windows Input Experience' to '$State' ..."
-        Set-RegistryEntry -InputObject $WindowsInputExperience
+        Write-Verbose -Message "Setting 'Windows Input Experience Preload' to '$State' ..."
+        Set-RegistryEntry -InputObject $WindowsInputExperiencePreload
     }
 }
