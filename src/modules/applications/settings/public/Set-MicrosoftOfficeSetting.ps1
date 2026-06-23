@@ -17,27 +17,30 @@
 <#
 .SYNTAX
     Set-MicrosoftOfficeSetting
-
         # Options
+        [-DefaultThemeGPO {Colorful | DarkGray | Black | White | NotConfigured}]
         [-LinkedinFeatures {Disabled | Enabled}]
         [-LinkedinFeaturesGPO {Disabled | NotConfigured}]
         [-ShowStartScreen {Disabled | Enabled}]
         [-ShowStartScreenGPO {Disabled | NotConfigured}]
+        [-DefaultFileFormat {Office | OpenDocument}]
+        [-DefaultSaveLocation {Computer | Cloud}]
 
         # Miscellaneous
         [-AcceptEULAsGPO {Enabled | NotConfigured}]
         [-BlockSigninGPO {Enabled | NotConfigured}]
+        [-DiscountProgramNotifsGPO {Disabled | Enabled | NotConfigured}]
+        [-FirstRunAboutSigninGPO {Disabled | NotConfigured}]
+        [-FirstRunOptinWizardGPO {Disabled | NotConfigured}]
+        [-ShowFileFormatDialogGPO {Disabled | NotConfigured}]
         [-TeachingTips {Disabled | Enabled}]
 
         # Privacy
         [-AILocalTrainingGPO {Disabled | Enabled}]
         [-CeipGPO {Disabled | NotConfigured}]
         [-DiagnosticsGPO {Disabled | Enabled | NotConfigured}]
-        [-DiscountProgramNotifsGPO {Disabled | Enabled | NotConfigured}]
         [-ErrorReportingGPO {Disabled | NotConfigured}]
         [-FeedbackGPO {Disabled | NotConfigured}]
-        [-FirstRunAboutSigninGPO {Disabled | NotConfigured}]
-        [-FirstRunOptinWizardGPO {Disabled | NotConfigured}]
         [-SendPersonalInfoGPO {Disabled | NotConfigured}]
         [-SurveysGPO {Disabled | NotConfigured}]
         [-TelemetryGPO {Disabled | NotConfigured}]
@@ -46,7 +49,6 @@
         [-AllConnectedExperiencesGPO {Disabled | NotConfigured}]
         [-ConnectedExperiencesThatAnalyzeContentGPO {Disabled | NotConfigured}]
         [-ConnectedExperiencesThatDownloadContentGPO {Disabled | NotConfigured}]
-        [-OptionalConnectedExperiences {Disabled | Enabled}]
         [-OptionalConnectedExperiencesGPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -62,25 +64,29 @@ function Set-MicrosoftOfficeSetting
     param
     (
         # Options
+        [OfficeThemeGpo] $DefaultThemeGPO,
         [state] $LinkedinFeatures,
         [GpoStateWithoutEnabled] $LinkedinFeaturesGPO,
         [state] $ShowStartScreen,
         [GpoStateWithoutEnabled] $ShowStartScreenGPO,
+        [OfficeFileFormat] $DefaultFileFormat,
+        [OfficeSaveLocation] $DefaultSaveLocation,
 
         # Miscellaneous
         [GpoStateWithoutDisabled] $AcceptEULAsGPO,
         [GpoStateWithoutDisabled] $BlockSigninGPO,
+        [GpoState] $DiscountProgramNotifsGPO,
+        [GpoStateWithoutEnabled] $FirstRunAboutSigninGPO,
+        [GpoStateWithoutEnabled] $FirstRunOptinWizardGPO,
+        [GpoStateWithoutEnabled] $ShowFileFormatDialogGPO,
         [state] $TeachingTips,
 
         # Privacy
         [GpoStateWithoutEnabled] $AILocalTrainingGPO,
         [GpoStateWithoutEnabled] $CeipGPO,
         [GpoState] $DiagnosticsGPO,
-        [GpoState] $DiscountProgramNotifsGPO,
         [GpoStateWithoutEnabled] $ErrorReportingGPO,
         [GpoStateWithoutEnabled] $FeedbackGPO,
-        [GpoStateWithoutEnabled] $FirstRunAboutSigninGPO,
-        [GpoStateWithoutEnabled] $FirstRunOptinWizardGPO,
         [GpoStateWithoutEnabled] $SendPersonalInfoGPO,
         [GpoStateWithoutEnabled] $SurveysGPO,
         [GpoStateWithoutEnabled] $TelemetryGPO,
@@ -89,7 +95,6 @@ function Set-MicrosoftOfficeSetting
         [GpoStateWithoutEnabled] $AllConnectedExperiencesGPO,
         [GpoStateWithoutEnabled] $ConnectedExperiencesThatAnalyzeContentGPO,
         [GpoStateWithoutEnabled] $ConnectedExperiencesThatDownloadContentGPO,
-        [state] $OptionalConnectedExperiences,
         [GpoStateWithoutEnabled] $OptionalConnectedExperiencesGPO
     )
 
@@ -104,25 +109,29 @@ function Set-MicrosoftOfficeSetting
         switch ($PSBoundParameters.Keys)
         {
             # Options
+            'DefaultThemeGPO'          { Set-MSOfficeDefaultTheme -GPO $DefaultThemeGPO }
             'LinkedinFeatures'         { Set-MSOfficeLinkedinFeatures -State $LinkedinFeatures }
             'LinkedinFeaturesGPO'      { Set-MSOfficeLinkedinFeatures -GPO $LinkedinFeaturesGPO }
             'ShowStartScreen'          { Set-MSOfficeShowStartScreen -State $ShowStartScreen }
             'ShowStartScreenGPO'       { Set-MSOfficeShowStartScreen -GPO $ShowStartScreenGPO }
+            'DefaultFileFormat'        { Set-MSOfficeDefaultFileFormat -FileFormat $DefaultFileFormat }
+            'DefaultSaveLocation'      { Set-MSOfficeDefaultSaveLocation -Location $DefaultSaveLocation }
 
             # Miscellaneous
             'AcceptEULAsGPO'           { Set-MSOfficeAcceptEULAs -GPO $AcceptEULAsGPO }
             'BlockSigninGPO'           { Set-MSOfficeBlockSignin -GPO $BlockSigninGPO }
+            'DiscountProgramNotifsGPO' { Set-MSOfficeDiscountProgramNotifs -GPO $DiscountProgramNotifsGPO }
+            'FirstRunAboutSigninGPO'   { Set-MSOfficeFirstRunAboutSignin -GPO $FirstRunAboutSigninGPO }
+            'FirstRunOptinWizardGPO'   { Set-MSOfficeFirstRunOptinWizard -GPO $FirstRunOptinWizardGPO }
+            'ShowFileFormatDialogGPO'  { Set-MSOfficeShowFileFormatDialog -GPO $ShowFileFormatDialogGPO }
             'TeachingTips'             { Set-MSOfficeTeachingTips -State $TeachingTips }
 
             # Privacy
             'AILocalTrainingGPO'       { Set-MSOfficeAILocalTraining -GPO $AILocalTrainingGPO }
             'CeipGPO'                  { Set-MSOfficeCeip -GPO $CeipGPO }
             'DiagnosticsGPO'           { Set-MSOfficeDiagnostics -GPO $DiagnosticsGPO }
-            'DiscountProgramNotifsGPO' { Set-MSOfficeDiscountProgramNotifs -GPO $DiscountProgramNotifsGPO }
             'ErrorReportingGPO'        { Set-MSOfficeErrorReporting -GPO $ErrorReportingGPO }
             'FeedbackGPO'              { Set-MSOfficeFeedback -GPO $FeedbackGPO }
-            'FirstRunAboutSigninGPO'   { Set-MSOfficeFirstRunAboutSignin -GPO $FirstRunAboutSigninGPO }
-            'FirstRunOptinWizardGPO'   { Set-MSOfficeFirstRunOptinWizard -GPO $FirstRunOptinWizardGPO }
             'SendPersonalInfoGPO'      { Set-MSOfficeSendPersonalInfo -GPO $SendPersonalInfoGPO }
             'SurveysGPO'               { Set-MSOfficeSurveys -GPO $SurveysGPO }
             'TelemetryGPO'             { Set-MSOfficeTelemetry -GPO $TelemetryGPO }
@@ -131,7 +140,6 @@ function Set-MicrosoftOfficeSetting
             'AllConnectedExperiencesGPO'                 { Set-MSOfficeConnectedExperiences -AllConnectedExperiencesGPO $AllConnectedExperiencesGPO }
             'ConnectedExperiencesThatAnalyzeContentGPO'  { Set-MSOfficeConnectedExperiences -ConnectedExperiencesThatAnalyzeContentGPO $ConnectedExperiencesThatAnalyzeContentGPO }
             'ConnectedExperiencesThatDownloadContentGPO' { Set-MSOfficeConnectedExperiences -ConnectedExperiencesThatDownloadContentGPO $ConnectedExperiencesThatDownloadContentGPO }
-            'OptionalConnectedExperiences'               { Set-MSOfficeConnectedExperiences -OptionalConnectedExperiences $OptionalConnectedExperiences }
             'OptionalConnectedExperiencesGPO'            { Set-MSOfficeConnectedExperiences -OptionalConnectedExperiencesGPO $OptionalConnectedExperiencesGPO }
         }
     }

@@ -20,7 +20,6 @@ class AdobeAcrobatAppNames : System.Management.Automation.IValidateSetValuesGene
 <#
 .SYNTAX
     Set-AdobeAcrobatReaderSetting
-
         # --- Preferences
         ## Documents
         [-ShowToolsPane {Disabled | Enabled}]
@@ -262,7 +261,6 @@ function Set-AdobeAcrobatReaderSetting
 
             ## Units
             'PageUnits'                          { Set-AcrobatReaderPageUnits -Unit $PageUnits }
-
 
             # --- Miscellaneous
             ## Ads

@@ -70,3 +70,26 @@ enum AdobeHomeTopBannerMode
     Expanded  = 0
     Collapsed = 1
 }
+
+
+# microsoft office
+enum OfficeFileFormat
+{
+    Office
+    OpenDocument
+}
+
+enum OfficeThemeGpo
+{
+    Colorful = 0
+    DarkGray = 3
+    Black    = 4
+    White    = 5
+    NotConfigured
+}
+
+enum OfficeSaveLocation
+{
+    Computer
+    Cloud
+}

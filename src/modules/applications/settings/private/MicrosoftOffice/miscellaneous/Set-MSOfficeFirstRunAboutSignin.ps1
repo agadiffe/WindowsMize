@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                               MSOffice - Misc > First Run About Sign-In To Office
+#                             MSOffice - Misc > About Sign-In To Office on First Run
 #=================================================================================================================
 
 # A video about signing-in to Office is played when Office first runs.
@@ -56,7 +56,7 @@ function Set-MSOfficeFirstRunAboutSignin
             )
         }
 
-        Write-Verbose -Message "Setting 'MSOffice - First Run About Sign-In To Office (GPO)' to '$GPO' ..."
+        Write-Verbose -Message "Setting 'MSOffice - About Sign-In To Office on First Run (GPO)' to '$GPO' ..."
         Set-RegistryEntry -InputObject $MSOfficeFirstRunAboutSigninGpo
     }
 }

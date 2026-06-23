@@ -414,32 +414,36 @@ Write-Section -Name 'MS Office' -SubSection
 # --- Microsoft Office
 $MsOfficeSettings = @{
     # Options
-    LinkedinFeatures = 'Disabled' ; LinkedinFeaturesGPO = 'NotConfigured'
-    ShowStartScreen  = 'Disabled' ; ShowStartScreenGPO  = 'NotConfigured'
+    DefaultThemeGPO     = 'DarkGray' # Colorful | DarkGray | Black | White
+    LinkedinFeatures    = 'Disabled' ; LinkedinFeaturesGPO = 'NotConfigured'
+    ShowStartScreen     = 'Disabled' ; ShowStartScreenGPO  = 'NotConfigured'
+    DefaultFileFormat   = 'Office' # Office | OpenDocument
+    DefaultSaveLocation = 'Computer' # Computer | Cloud
 
     # Miscellaneous
-    AcceptEULAsGPO = 'Enabled' # Enabled | NotConfigured
-    BlockSigninGPO = 'NotConfigured' # Enabled | NotConfigured
-    TeachingTips   = 'Disabled'
-
-    # Privacy
-    AILocalTrainingGPO       = 'Disabled'
-    CeipGPO                  = 'Disabled'
-    DiagnosticsGPO           = 'Disabled' # Disabled | Enabled | NotConfigured
+    AcceptEULAsGPO           = 'Enabled' # Enabled | NotConfigured
+    BlockSigninGPO           = 'NotConfigured' # Enabled | NotConfigured
     DiscountProgramNotifsGPO = 'Disabled' # Disabled | Enabled | NotConfigured
-    ErrorReportingGPO        = 'Disabled'
-    FeedbackGPO              = 'Disabled'
     FirstRunAboutSigninGPO   = 'Disabled'
     FirstRunOptinWizardGPO   = 'Disabled'
-    SendPersonalInfoGPO      = 'Disabled'
-    SurveysGPO               = 'Disabled'
-    TelemetryGPO             = 'Disabled'
+    ShowFileFormatDialogGPO  = 'Disabled'
+    TeachingTips             = 'Disabled'
+
+    # Privacy
+    AILocalTrainingGPO  = 'Disabled'
+    CeipGPO             = 'Disabled'
+    DiagnosticsGPO      = 'Disabled' # Disabled | Enabled | NotConfigured
+    ErrorReportingGPO   = 'Disabled'
+    FeedbackGPO         = 'Disabled'
+    SendPersonalInfoGPO = 'Disabled'
+    SurveysGPO          = 'Disabled'
+    TelemetryGPO        = 'Disabled'
 
     # Connected experiences
     AllConnectedExperiencesGPO                 = 'NotConfigured'
     ConnectedExperiencesThatAnalyzeContentGPO  = 'NotConfigured'
     ConnectedExperiencesThatDownloadContentGPO = 'NotConfigured'
-    OptionalConnectedExperiences               = 'Disabled' ; OptionalConnectedExperiencesGPO = 'NotConfigured'
+    OptionalConnectedExperiencesGPO            = 'Disabled'
 }
 Set-MicrosoftOfficeSetting @MsOfficeSettings
 

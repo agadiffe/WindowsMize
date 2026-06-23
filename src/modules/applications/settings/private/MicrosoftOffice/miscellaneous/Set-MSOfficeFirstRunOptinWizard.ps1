@@ -1,8 +1,8 @@
 #=================================================================================================================
-#                                 MSOffice - Privacy > Opt-In Wizard On First Run
+#                                  MSOffice - Misc > Opt-In Wizard On First Run
 #=================================================================================================================
 
-# The Opt-in Wizard displays the first time users run a Microsoft Office 2016 application.
+# The Opt-in Wizard displays the first time users run a Microsoft Office application.
 # Provide choices to the user to opt into services such as:
 #   Microsoft Update
 #   New software notifications

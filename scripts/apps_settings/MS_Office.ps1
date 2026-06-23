@@ -37,11 +37,27 @@ Write-Section -Name 'Microsoft Office' -SubSection
 #                General
 #=======================================
 
+# --- Office theme
+# Do not override an already manually selected theme.
+# GPO: Colorful | DarkGray | Black | White | NotConfigured
+Set-MicrosoftOfficeSetting -DefaultThemeGPO 'DarkGray'
+
 # --- Enable Linkedin features in my Office applications (default: Enabled)
 Set-MicrosoftOfficeSetting -LinkedinFeatures 'Disabled' -LinkedinFeaturesGPO 'NotConfigured'
 
 # --- Show the Start screen when this application starts (default: Enabled)
 Set-MicrosoftOfficeSetting -ShowStartScreen 'Disabled' -ShowStartScreenGPO 'NotConfigured'
+
+#                 Save
+#=======================================
+
+# --- Save files in this format
+# State: Office (default) | OpenDocument
+Set-MicrosoftOfficeSetting -DefaultFileFormat 'Office'
+
+# --- Save to Computer by default
+# State: Computer | Cloud (default)
+Set-MicrosoftOfficeSetting -DefaultSaveLocation 'Computer'
 
 #==========================================================
 #                      Miscellaneous
@@ -54,6 +70,19 @@ Set-MicrosoftOfficeSetting -AcceptEULAsGPO 'Enabled'
 # --- Block sign-in into Office
 # GPO: Enabled | NotConfigured
 Set-MicrosoftOfficeSetting -BlockSigninGPO 'NotConfigured'
+
+# --- Microsoft Workplace Discount Program notifications
+# GPO: Disabled | Enabled | NotConfigured
+Set-MicrosoftOfficeSetting -DiscountProgramNotifsGPO 'Disabled'
+
+# --- About sign-in to Office on first run
+Set-MicrosoftOfficeSetting -FirstRunAboutSigninGPO 'Disabled'
+
+# --- Opt-In wizard on first run
+Set-MicrosoftOfficeSetting -FirstRunOptinWizardGPO 'Disabled'
+
+# --- Show File Format dialog
+Set-MicrosoftOfficeSetting -ShowFileFormatDialogGPO 'Disabled'
 
 # --- Teaching Tips (aka Teaching Callouts) (default: Enabled)
 Set-MicrosoftOfficeSetting -TeachingTips 'Disabled'
@@ -71,8 +100,9 @@ Set-MicrosoftOfficeSetting -ConnectedExperiencesThatAnalyzeContentGPO 'NotConfig
 # --- Connected experiences that download online content
 Set-MicrosoftOfficeSetting -ConnectedExperiencesThatDownloadContentGPO 'NotConfigured'
 
-# --- Optional connected experiences (default: Enabled)
-Set-MicrosoftOfficeSetting -OptionalConnectedExperiences 'Disabled' -OptionalConnectedExperiencesGPO 'NotConfigured'
+# --- Optional connected experiences
+# Disabled: Also disables the "Your Privacy Matters" dialog on first run.
+Set-MicrosoftOfficeSetting -OptionalConnectedExperiencesGPO 'Disabled'
 
 #==========================================================
 #                         Privacy
@@ -88,24 +118,14 @@ Set-MicrosoftOfficeSetting -CeipGPO 'Disabled'
 # GPO: Disabled | Enabled | NotConfigured
 Set-MicrosoftOfficeSetting -DiagnosticsGPO 'Disabled'
 
-# --- Microsoft Workplace Discount Program notifications
-# GPO: Disabled | Enabled | NotConfigured
-Set-MicrosoftOfficeSetting -DiscountProgramNotifsGPO 'Disabled'
-
 # --- Error Reporting
 Set-MicrosoftOfficeSetting -ErrorReportingGPO 'Disabled'
 
 # --- Feedback
 Set-MicrosoftOfficeSetting -FeedbackGPO 'Disabled'
 
-# --- First Run about sign-in to Office
-Set-MicrosoftOfficeSetting -FirstRunAboutSigninGPO 'Disabled'
-
-# --- Opt-In Wizard On First Run
-Set-MicrosoftOfficeSetting -FirstRunOptinWizardGPO 'Disabled'
-
 # --- Send Personal Information
-# Not applicable to Microsoft 365 App for enterprise (Replaced by Connected Experiences policies).
+# Not applicable to Microsoft 365 App for enterprise (replaced by Connected Experiences policies).
 Set-MicrosoftOfficeSetting -SendPersonalInfoGPO 'Disabled'
 
 # --- Surveys

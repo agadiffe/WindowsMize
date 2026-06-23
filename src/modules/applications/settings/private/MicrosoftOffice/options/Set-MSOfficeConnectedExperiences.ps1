@@ -1,9 +1,6 @@
 #=================================================================================================================
-#                                   MSOffice - Privacy > Connected Experiences
+#                     MSOffice - Options > Trust Center > Privacy Options > Privacy Settings
 #=================================================================================================================
-
-# Only the "Optional Connected Experiences" is configurable via the GUI:
-#   Options > General > Privacy Settings > Optional Connected Experiences
 
 <#
 .SYNTAX
@@ -11,7 +8,6 @@
         [-AllConnectedExperiencesGPO {Disabled | NotConfigured}]
         [-ConnectedExperiencesThatAnalyzeContentGPO {Disabled | NotConfigured}]
         [-ConnectedExperiencesThatDownloadContentGPO {Disabled | NotConfigured}]
-        [-OptionalConnectedExperiences {Disabled | Enabled}]
         [-OptionalConnectedExperiencesGPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -27,13 +23,8 @@ function Set-MSOfficeConnectedExperiences
     param
     (
         [GpoStateWithoutEnabled] $AllConnectedExperiencesGPO,
-
         [GpoStateWithoutEnabled] $ConnectedExperiencesThatAnalyzeContentGPO,
-
         [GpoStateWithoutEnabled] $ConnectedExperiencesThatDownloadContentGPO,
-
-        [state] $OptionalConnectedExperiences,
-
         [GpoStateWithoutEnabled] $OptionalConnectedExperiencesGPO
     )
 
@@ -103,29 +94,6 @@ function Set-MSOfficeConnectedExperiences
 
                 Write-Verbose -Message "Setting 'MSOffice - Connected Experiences That Download Content (GPO)' to '$ConnectedExperiencesThatDownloadContentGPO' ..."
                 Set-RegistryEntry -InputObject $MSOfficeConnectedExperiencesThatDownloadContentGpo
-            }
-            'OptionalConnectedExperiences'
-            {
-                # on: 1 (default) | off: 2
-                $MSOfficeOptionalConnectedExperiences = @{
-                    Hive    = 'HKEY_CURRENT_USER'
-                    Path    = 'Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous'
-                    Entries = @(
-                        @{
-                            Name  = 'ControllerConnectedServicesState'
-                            Value = $OptionalConnectedExperiences -eq 'Enabled' ? '1' : '2'
-                            Type  = 'DWord'
-                        }
-                        @{
-                            Name  = 'ControllerConnectedServicesStateTime'
-                            Value = Get-Date -AsUTC -Format 'yyyy-MM-ddTHH:mm:ssK'
-                            Type  = 'String'
-                        }
-                    )
-                }
-
-                Write-Verbose -Message "Setting 'MSOffice - Optional Connected Experiences' to '$OptionalConnectedExperiences' ..."
-                Set-RegistryEntry -InputObject $MSOfficeOptionalConnectedExperiences
             }
             'OptionalConnectedExperiencesGPO'
             {
