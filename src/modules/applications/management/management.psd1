@@ -30,7 +30,6 @@
         'Set-MicrosoftStorePushToInstall'
         'Set-OneDrive'
         'Set-Recall'
-        'Set-StartMenuBingSearch'
         'Set-Widgets'
     )
     CmdletsToExport   = @()

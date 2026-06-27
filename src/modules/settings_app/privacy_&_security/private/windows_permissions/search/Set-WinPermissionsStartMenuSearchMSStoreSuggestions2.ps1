@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                            Start Menu - Include Store Suggestions In Search Results
+#                  Privacy & Security > Search > Show Suggested Search Results > Microsoft Store
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-StartMenuSearchIncludeStoreSuggestions
+    Set-WinPermissionsStartMenuSearchMSStoreSuggestions2
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-StartMenuSearchIncludeStoreSuggestions
+function Set-WinPermissionsStartMenuSearchMSStoreSuggestions2
 {
     <#
     .EXAMPLE
-        PS> Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled'
+        PS> Set-WinPermissionsStartMenuSearchMSStoreSuggestions2 -State 'Disabled'
     #>
 
     [CmdletBinding()]

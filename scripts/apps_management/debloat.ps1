@@ -36,9 +36,6 @@ Write-Section -Name 'Appx & provisioned packages' -SubSection
 # Windows 11 only.
 Remove-StartMenuPromotedApps
 
-# --- Bing Search in Start Menu (default: Enabled)
-Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
-
 # --- Recall
 # GPO: Disabled | Enabled | NotConfigured
 Set-Recall -GPO 'Disabled'

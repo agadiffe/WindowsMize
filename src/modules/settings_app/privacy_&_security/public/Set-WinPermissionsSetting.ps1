@@ -47,12 +47,17 @@
         [-SearchHistory {Disabled | Enabled}]
         [-SearchHighlights {Disabled | Enabled}]
         [-SearchHighlightsGPO {Disabled | NotConfigured}]
+        [-StartMenuSearchWebSuggestions {Disabled | Enabled}]
+        [-StartMenuSearchMSStoreSuggestions {Disabled | Enabled}]
+        [-StartMenuSearchWebSuggestions2 {Disabled | Enabled}]
+        [-StartMenuSearchWebSuggestions2GPO {Disabled | NotConfigured}]
+        [-StartMenuSearchWebSuggestions3 {Disabled | Enabled}]
+        [-StartMenuSearchWebSuggestions3GPO {Disabled | NotConfigured}]
+        [-StartMenuSearchMSStoreSuggestions2 {Disabled | Enabled}]
         [-CloudSearchMicrosoftAccount {Disabled | Enabled}]
         [-CloudSearchWorkOrSchoolAccount {Disabled | Enabled}]
         [-CloudSearchGPO {Disabled | NotConfigured}]
         [-CloudFileContentSearch {Disabled | Enabled}]
-        [-StartMenuWebSearch {Disabled | Enabled}]
-        [-StartMenuWebSearchGPO {Disabled | NotConfigured}]
         [-FindMyFiles {Classic | Enhanced}]
         [-IndexEncryptedFilesGPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
@@ -85,7 +90,7 @@ function Set-WinPermissionsSetting
         [state] $ActivityHistory,
         [GpoStateWithoutEnabled] $ActivityHistoryGPO,
 
-        # AI
+        # AI (Recall / Speech / Typing)
         [GpoStateWithoutEnabled] $RecallSnapshotsGPO,
         [state] $RecallFilteringTelemetry,
         [state] $RecallPersonalizedHomepage,
@@ -114,12 +119,17 @@ function Set-WinPermissionsSetting
         [state] $SearchHistory,
         [state] $SearchHighlights,
         [GpoStateWithoutEnabled] $SearchHighlightsGPO,
+        [state] $StartMenuSearchWebSuggestions,
+        [state] $StartMenuSearchMSStoreSuggestions,
+        [state] $StartMenuSearchWebSuggestions2,
+        [GpoStateWithoutEnabled] $StartMenuSearchWebSuggestions2GPO,
+        [state] $StartMenuSearchWebSuggestions3,
+        [GpoStateWithoutEnabled] $StartMenuSearchWebSuggestions3GPO,
+        [state] $StartMenuSearchMSStoreSuggestions2,
         [state] $CloudSearchMicrosoftAccount,
         [state] $CloudSearchWorkOrSchoolAccount,
         [GpoStateWithoutEnabled] $CloudSearchGPO,
         [state] $CloudFileContentSearch,
-        [state] $StartMenuWebSearch,
-        [GpoStateWithoutEnabled] $StartMenuWebSearchGPO,
 
         [FindMyFilesMode] $FindMyFiles,
         [GpoState] $IndexEncryptedFilesGPO
@@ -136,60 +146,65 @@ function Set-WinPermissionsSetting
         switch ($PSBoundParameters.Keys)
         {
             # User Data (General / Recommendations & offers)
-            'FindMyDevice'                   { Set-SecurityFindMyDevice -State $FindMyDevice }
-            'FindMyDeviceGPO'                { Set-SecurityFindMyDevice -GPO $FindMyDeviceGPO }
+            'FindMyDevice'                       { Set-SecurityFindMyDevice -State $FindMyDevice }
+            'FindMyDeviceGPO'                    { Set-SecurityFindMyDevice -GPO $FindMyDeviceGPO }
 
-            'PersonalizedOffers'             { Set-WinPermissionsPersonalizedOffers -State $PersonalizedOffers }
-            'PersonalizedOffersGPO'          { Set-WinPermissionsPersonalizedOffers -GPO $PersonalizedOffersGPO }
-            'LanguageListAccess'             { Set-WinPermissionsLanguageListAccess -State $LanguageListAccess }
-            'TrackAppLaunches'               { Set-WinPermissionsTrackAppLaunches -State $TrackAppLaunches }
-            'TrackAppLaunchesGPO'            { Set-WinPermissionsTrackAppLaunches -GPO $TrackAppLaunchesGPO }
-            'ShowAdsInSettingsApp'           { Set-WinPermissionsShowAdsInSettingsApp -State $ShowAdsInSettingsApp }
-            'ShowAdsInSettingsAppGPO'        { Set-WinPermissionsShowAdsInSettingsApp -GPO $ShowAdsInSettingsAppGPO }
-            'AdvertisingID'                  { Set-WinPermissionsAdvertisingID -State $AdvertisingID }
-            'AdvertisingIDGPO'               { Set-WinPermissionsAdvertisingID -GPO $AdvertisingIDGPO }
-            'ShowNotifsInSettingsApp'        { Set-WinPermissionsShowNotifsInSettingsApp -State $ShowNotifsInSettingsApp }
-            'ActivityHistory'                { Set-WinPermissionsActivityHistory -State $ActivityHistory }
-            'ActivityHistoryGPO'             { Set-WinPermissionsActivityHistory -GPO $ActivityHistoryGPO }
+            'PersonalizedOffers'                 { Set-WinPermissionsPersonalizedOffers -State $PersonalizedOffers }
+            'PersonalizedOffersGPO'              { Set-WinPermissionsPersonalizedOffers -GPO $PersonalizedOffersGPO }
+            'LanguageListAccess'                 { Set-WinPermissionsLanguageListAccess -State $LanguageListAccess }
+            'TrackAppLaunches'                   { Set-WinPermissionsTrackAppLaunches -State $TrackAppLaunches }
+            'TrackAppLaunchesGPO'                { Set-WinPermissionsTrackAppLaunches -GPO $TrackAppLaunchesGPO }
+            'ShowAdsInSettingsApp'               { Set-WinPermissionsShowAdsInSettingsApp -State $ShowAdsInSettingsApp }
+            'ShowAdsInSettingsAppGPO'            { Set-WinPermissionsShowAdsInSettingsApp -GPO $ShowAdsInSettingsAppGPO }
+            'AdvertisingID'                      { Set-WinPermissionsAdvertisingID -State $AdvertisingID }
+            'AdvertisingIDGPO'                   { Set-WinPermissionsAdvertisingID -GPO $AdvertisingIDGPO }
+            'ShowNotifsInSettingsApp'            { Set-WinPermissionsShowNotifsInSettingsApp -State $ShowNotifsInSettingsApp }
+            'ActivityHistory'                    { Set-WinPermissionsActivityHistory -State $ActivityHistory }
+            'ActivityHistoryGPO'                 { Set-WinPermissionsActivityHistory -GPO $ActivityHistoryGPO }
 
-            # AI
-            'RecallSnapshotsGPO'             { Set-WinPermissionsRecallSnapshots -GPO $RecallSnapshotsGPO }
-            'RecallFilteringTelemetry'       { Set-WinPermissionsRecallFilteringTelemetry -State $RecallFilteringTelemetry }
-            'RecallPersonalizedHomepage'     { Set-WinPermissionsRecallPersonalizedHomepage -State $RecallPersonalizedHomepage }
+            # AI (Recall / Speech / Typing)
+            'RecallSnapshotsGPO'                 { Set-WinPermissionsRecallSnapshots -GPO $RecallSnapshotsGPO }
+            'RecallFilteringTelemetry'           { Set-WinPermissionsRecallFilteringTelemetry -State $RecallFilteringTelemetry }
+            'RecallPersonalizedHomepage'         { Set-WinPermissionsRecallPersonalizedHomepage -State $RecallPersonalizedHomepage }
 
-            'ClickToDo'                      { Set-WinPermissionsClickToDo -State $ClickToDo }
-            'ClickToDoGPO'                   { Set-WinPermissionsClickToDo -GPO $ClickToDoGPO }
+            'ClickToDo'                          { Set-WinPermissionsClickToDo -State $ClickToDo }
+            'ClickToDoGPO'                       { Set-WinPermissionsClickToDo -GPO $ClickToDoGPO }
 
-            'SpeechRecognition'              { Set-WinPermissionsSpeechRecognition -State $SpeechRecognition }
-            'SpeechRecognitionGPO'           { Set-WinPermissionsSpeechRecognition -GPO $SpeechRecognitionGPO }
+            'SpeechRecognition'                  { Set-WinPermissionsSpeechRecognition -State $SpeechRecognition }
+            'SpeechRecognitionGPO'               { Set-WinPermissionsSpeechRecognition -GPO $SpeechRecognitionGPO }
 
-            'InkingAndTypingPersonalization' { Set-WinPermissionsInkingAndTypingPersonalization -State $InkingAndTypingPersonalization }
+            'InkingAndTypingPersonalization'     { Set-WinPermissionsInkingAndTypingPersonalization -State $InkingAndTypingPersonalization }
 
             # Telemetry (diagnostics & feedback)
-            'DiagnosticData'                 { Set-WinPermissionsDiagnosticData -State $DiagnosticData }
-            'DiagnosticDataGPO'              { Set-WinPermissionsDiagnosticData -GPO $DiagnosticDataGPO }
-            'DiagnosticDataViewer'           { Set-WinPermissionsDiagnosticDataViewer -State $DiagnosticDataViewer }
-            'DiagnosticDataViewerGPO'        { Set-WinPermissionsDiagnosticDataViewer -GPO $DiagnosticDataViewerGPO }
-            'DeleteDiagnosticDataGPO'        { Set-WinPermissionsDeleteDiagnosticData -GPO $DeleteDiagnosticDataGPO }
-            'ImproveInkingAndTyping'         { Set-WinPermissionsImproveInkingAndTyping -State $ImproveInkingAndTyping }
-            'ImproveInkingAndTypingGPO'      { Set-WinPermissionsImproveInkingAndTyping -GPO $ImproveInkingAndTypingGPO }
-            'FeedbackFrequency'              { Set-WinPermissionsFeedbackFrequency -Mode $FeedbackFrequency }
-            'FeedbackFrequencyGPO'           { Set-WinPermissionsFeedbackFrequency -GPO $FeedbackFrequencyGPO }
+            'DiagnosticData'                     { Set-WinPermissionsDiagnosticData -State $DiagnosticData }
+            'DiagnosticDataGPO'                  { Set-WinPermissionsDiagnosticData -GPO $DiagnosticDataGPO }
+            'DiagnosticDataViewer'               { Set-WinPermissionsDiagnosticDataViewer -State $DiagnosticDataViewer }
+            'DiagnosticDataViewerGPO'            { Set-WinPermissionsDiagnosticDataViewer -GPO $DiagnosticDataViewerGPO }
+            'DeleteDiagnosticDataGPO'            { Set-WinPermissionsDeleteDiagnosticData -GPO $DeleteDiagnosticDataGPO }
+            'ImproveInkingAndTyping'             { Set-WinPermissionsImproveInkingAndTyping -State $ImproveInkingAndTyping }
+            'ImproveInkingAndTypingGPO'          { Set-WinPermissionsImproveInkingAndTyping -GPO $ImproveInkingAndTypingGPO }
+            'FeedbackFrequency'                  { Set-WinPermissionsFeedbackFrequency -Mode $FeedbackFrequency }
+            'FeedbackFrequencyGPO'               { Set-WinPermissionsFeedbackFrequency -GPO $FeedbackFrequencyGPO }
 
             # Search
-            'SafeSearch'                     { Set-WinPermissionsSafeSearch -State $SafeSearch }
-            'SearchHistory'                  { Set-WinPermissionsSearchHistory -State $SearchHistory }
-            'SearchHighlights'               { Set-WinPermissionsSearchHighlights -State $SearchHighlights }
-            'SearchHighlightsGPO'            { Set-WinPermissionsSearchHighlights -GPO $SearchHighlightsGPO }
-            'CloudSearchMicrosoftAccount'    { Set-WinPermissionsCloudSearch -MicrosoftAccount $CloudSearchMicrosoftAccount }
-            'CloudSearchWorkOrSchoolAccount' { Set-WinPermissionsCloudSearch -WorkOrSchoolAccount $CloudSearchWorkOrSchoolAccount }
-            'CloudSearchGPO'                 { Set-WinPermissionsCloudSearch -GPO $CloudSearchGPO }
-            'CloudFileContentSearch'         { Set-WinPermissionsCloudFileContentSearch -State $CloudFileContentSearch }
-            'StartMenuWebSearch'             { Set-WinPermissionsStartMenuWebSearch -State $StartMenuWebSearch }
-            'StartMenuWebSearchGPO'          { Set-WinPermissionsStartMenuWebSearch -GPO $StartMenuWebSearchGPO }
+            'SafeSearch'                         { Set-WinPermissionsSafeSearch -State $SafeSearch }
+            'SearchHistory'                      { Set-WinPermissionsSearchHistory -State $SearchHistory }
+            'SearchHighlights'                   { Set-WinPermissionsSearchHighlights -State $SearchHighlights }
+            'SearchHighlightsGPO'                { Set-WinPermissionsSearchHighlights -GPO $SearchHighlightsGPO }
+            'StartMenuSearchWebSuggestions'      { Set-WinPermissionsStartMenuSearchWebSuggestions -State $StartMenuSearchWebSuggestions }
+            'StartMenuSearchMSStoreSuggestions'  { Set-WinPermissionsStartMenuSearchMSStoreSuggestions -State $StartMenuSearchMSStoreSuggestions }
+            'StartMenuSearchWebSuggestions2'     { Set-WinPermissionsStartMenuSearchWebSuggestions2 -State $StartMenuSearchWebSuggestions2 }
+            'StartMenuSearchWebSuggestions2GPO'  { Set-WinPermissionsStartMenuSearchWebSuggestions2 -GPO $StartMenuSearchWebSuggestions2GPO }
+            'StartMenuSearchWebSuggestions3'     { Set-WinPermissionsStartMenuSearchWebSuggestions3 -State $StartMenuSearchWebSuggestions3 }
+            'StartMenuSearchWebSuggestions3GPO'  { Set-WinPermissionsStartMenuSearchWebSuggestions3 -GPO $StartMenuSearchWebSuggestions3GPO }
+            'StartMenuSearchMSStoreSuggestions2' { Set-WinPermissionsStartMenuSearchMSStoreSuggestions2 -State $StartMenuSearchMSStoreSuggestions2 }
+            'CloudSearchMicrosoftAccount'        { Set-WinPermissionsCloudSearch -MicrosoftAccount $CloudSearchMicrosoftAccount }
+            'CloudSearchWorkOrSchoolAccount'     { Set-WinPermissionsCloudSearch -WorkOrSchoolAccount $CloudSearchWorkOrSchoolAccount }
+            'CloudSearchGPO'                     { Set-WinPermissionsCloudSearch -GPO $CloudSearchGPO }
+            'CloudFileContentSearch'             { Set-WinPermissionsCloudFileContentSearch -State $CloudFileContentSearch }
 
-            'FindMyFiles'                    { Set-WinPermissionsFindMyFiles -Mode $FindMyFiles }
-            'IndexEncryptedFilesGPO'         { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }
+            'FindMyFiles'                        { Set-WinPermissionsFindMyFiles -Mode $FindMyFiles }
+            'IndexEncryptedFilesGPO'             { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }
         }
     }
 }

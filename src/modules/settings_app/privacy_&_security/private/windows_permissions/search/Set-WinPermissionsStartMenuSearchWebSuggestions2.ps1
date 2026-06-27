@@ -4,17 +4,17 @@
 
 <#
 .SYNTAX
-    Set-WinPermissionsStartMenuWebSearch
+    Set-WinPermissionsStartMenuSearchWebSuggestions2
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-WinPermissionsStartMenuWebSearch
+function Set-WinPermissionsStartMenuSearchWebSuggestions2
 {
     <#
     .EXAMPLE
-        PS> Set-WinPermissionsStartMenuWebSearch -State 'Disabled' -GPO 'NotConfigured'
+        PS> Set-WinPermissionsStartMenuSearchWebSuggestions2 -State 'Disabled' -GPO 'NotConfigured'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -28,14 +28,14 @@ function Set-WinPermissionsStartMenuWebSearch
 
     process
     {
-        $WinPermissionsStartMenuWebSearchMsg = 'Windows Permissions - Search: Let Search Apps Show Results'
+        $WinPermissionsStartMenuWebSuggestionsMsg = 'Windows Permissions - Search: Let Search Apps Show Results'
 
         switch ($PSBoundParameters.Keys)
         {
             'State'
             {
                 # on: 1 (default) | off: 0
-                $WinPermissionsStartMenuWebSearch = @{
+                $WinPermissionsStartMenuWebSuggestions = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\SearchSettings'
                     Entries = @(
@@ -47,15 +47,15 @@ function Set-WinPermissionsStartMenuWebSearch
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WinPermissionsStartMenuWebSearchMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $WinPermissionsStartMenuWebSearch
+                Write-Verbose -Message "Setting '$WinPermissionsStartMenuWebSuggestionsMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $WinPermissionsStartMenuWebSuggestions
             }
             'GPO'
             {
                 # gpo\ computer config > administrative tpl > windows components > search
                 #   don't search the web or display web results in Search
                 # not configured: delete (default) | on: 0
-                $WinPermissionsStartMenuWebSearchGpo = @{
+                $WinPermissionsStartMenuWebSuggestionsGpo = @{
                     Hive    = 'HKEY_LOCAL_MACHINE'
                     Path    = 'SOFTWARE\Policies\Microsoft\Windows\Windows Search'
                     Entries = @(
@@ -68,8 +68,8 @@ function Set-WinPermissionsStartMenuWebSearch
                     )
                 }
 
-                Write-Verbose -Message "Setting '$WinPermissionsStartMenuWebSearchMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $WinPermissionsStartMenuWebSearchGpo
+                Write-Verbose -Message "Setting '$WinPermissionsStartMenuWebSuggestionsMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $WinPermissionsStartMenuWebSuggestionsGpo
             }
         }
     }

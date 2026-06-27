@@ -145,18 +145,32 @@ Set-WinPermissionsSetting -SearchHistory 'Disabled'
 # --- Show search highlights (default: Enabled)
 Set-WinPermissionsSetting -SearchHighlights 'Disabled' -SearchHighlightsGPO 'NotConfigured'
 
+# --- Show suggested search results (26H2+)
+#   Web Searches (default: Enabled)
+#   Microsoft Store (default: Enabled)
+Set-WinPermissionsSetting -StartMenuSearchWebSuggestions 'Disabled'
+Set-WinPermissionsSetting -StartMenuSearchMSStoreSuggestions 'Disabled'
+
+# --- Let search apps show results (EEA only) (default: Enabled)
+Set-WinPermissionsSetting -StartMenuSearchWebSuggestions2 'Disabled' -StartMenuSearchWebSuggestions2GPO 'NotConfigured'
+
+# --- Web suggestions in search results (default: Enabled)
+# GPO: also disables recent search entries in File Explorer.
+Set-WinPermissionsSetting -StartMenuSearchWebSuggestions3 'Disabled' -StartMenuSearchWebSuggestions3GPO 'NotConfigured'
+
+# --- Microsoft Store suggestions in search results (default: Enabled)
+Set-WinPermissionsSetting -StartMenuSearchMSStoreSuggestions2 'Disabled'
+
 # --- Search my accounts
 #   Microsoft account (default: Enabled)
 #   Work or School account (default: Enabled)
-# CloudSearchGPO: disable both settings
+# CloudSearchGPO: disables both settings
 Set-WinPermissionsSetting -CloudSearchGPO 'NotConfigured'
-Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled' -CloudSearchWorkOrSchoolAccount 'Disabled'
+Set-WinPermissionsSetting -CloudSearchMicrosoftAccount 'Disabled'
+Set-WinPermissionsSetting -CloudSearchWorkOrSchoolAccount 'Disabled'
 
 # --- Search the contents of online files (default: Enabled)
 Set-WinPermissionsSetting -CloudFileContentSearch 'Disabled'
-
-# --- Let search apps show results (EEA only) (default: Enabled)
-Set-WinPermissionsSetting -StartMenuWebSearch 'Disabled' -StartMenuWebSearchGPO 'NotConfigured'
 
 # --- Find my files
 # State: Classic (default) | Enhanced

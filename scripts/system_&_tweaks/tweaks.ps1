@@ -194,9 +194,6 @@ Set-OnlineTips -GPO 'Disabled'
 # --- Shortcut name suffix (e.g. "File - Shortcut") (default: Enabled)
 Set-ShortcutNameSuffix -State 'Disabled'
 
-# --- Start Menu - Include Store suggestions in search results (Ads/Promo) (default: Enabled)
-Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled'
-
 # --- Suggested content (default: Enabled)
 Set-SuggestedContent -State 'Disabled'
 

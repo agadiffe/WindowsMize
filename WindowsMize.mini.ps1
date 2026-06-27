@@ -89,7 +89,6 @@ Write-Section -Name 'Applications Management'
 Write-Section -Name 'Appx & provisioned packages' -SubSection
 
 Remove-StartMenuPromotedApps # Win11
-Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
 Set-Recall -GPO 'Disabled' # Disabled | Enabled | NotConfigured
 Set-Widgets -GPO 'Disabled'
 Set-MicrosoftStorePushToInstall -GPO 'Disabled'
@@ -1087,7 +1086,6 @@ Set-HelpTips -GPO 'Disabled'
 Set-MenuShowDelay -Milliseconds '200' # range: 50-1000
 Set-OnlineTips -GPO 'Disabled'
 Set-ShortcutNameSuffix -State 'Disabled'
-Set-StartMenuSearchIncludeStoreSuggestions -State 'Disabled' # Ads/Promo
 Set-SuggestedContent -State 'Disabled'
 Set-TaskbarCalendarState -State 'Expanded' # Collapsed | Expanded
 Set-WindowsExperimentation -GPO 'Disabled'
@@ -1250,16 +1248,20 @@ Set-WinPermissionsSetting @PrivacyWinPermTelemetry
 
 # --- Search
 $PrivacyWinPermSearch = @{
-    #SafeSearch             = 'Disabled' # old
-    SearchHistory          = 'Disabled'
-    SearchHighlights       = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
-    CloudSearchGPO         = 'NotConfigured'
-      CloudSearchMicrosoftAccount    = 'Disabled'
-      CloudSearchWorkOrSchoolAccount = 'Disabled'
-    CloudFileContentSearch = 'Disabled'
-    StartMenuWebSearch     = 'Disabled' ; StartMenuWebSearchGPO = 'NotConfigured' # EEA only
-    FindMyFiles            = 'Classic' # Classic | Enhanced
-    IndexEncryptedFilesGPO = 'Disabled' # Disabled | Enabled | NotConfigured
+    #SafeSearch                         = 'Disabled' # old
+    SearchHistory                      = 'Disabled'
+    SearchHighlights                   = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
+    StartMenuSearchWebSuggestions      = 'Disabled' # 26H2+
+    StartMenuSearchMSStoreSuggestions  = 'Disabled' # 26H2+
+    StartMenuSearchWebSuggestions2     = 'Disabled' ; StartMenuSearchWebSuggestions2GPO = 'NotConfigured' # EEA only
+    StartMenuSearchWebSuggestions3     = 'Disabled' ; StartMenuSearchWebSuggestions3GPO = 'NotConfigured'
+    StartMenuSearchMSStoreSuggestions2 = 'Disabled'
+    CloudSearchGPO = 'NotConfigured'
+      CloudSearchMicrosoftAccount      = 'Disabled'
+      CloudSearchWorkOrSchoolAccount   = 'Disabled'
+    CloudFileContentSearch             = 'Disabled'
+    FindMyFiles                        = 'Classic' # Classic | Enhanced
+    IndexEncryptedFilesGPO             = 'Disabled' # Disabled | Enabled | NotConfigured
 }
 Set-WinPermissionsSetting @PrivacyWinPermSearch
 

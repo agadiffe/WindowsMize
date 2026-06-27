@@ -50,7 +50,6 @@
         'Set-MenuShowDelay'
         'Set-OnlineTips'
         'Set-ShortcutNameSuffix'
-        'Set-StartMenuSearchIncludeStoreSuggestions'
         'Set-SuggestedContent'
         'Set-TaskbarCalendarState'
         'Set-WindowsExperimentation'

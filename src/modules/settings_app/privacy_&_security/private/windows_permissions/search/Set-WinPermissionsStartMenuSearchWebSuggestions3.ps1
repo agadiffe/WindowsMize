@@ -1,20 +1,20 @@
 #=================================================================================================================
-#                                             Start Menu Bing Search
+#                   Privacy & Security > Search > Show Suggested Search Results > Web Searches
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-StartMenuBingSearch
+    Set-WinPermissionsStartMenuSearchWebSuggestions3
         [[-State] {Disabled | Enabled}]
         [-GPO {Disabled | NotConfigured}]
         [<CommonParameters>]
 #>
 
-function Set-StartMenuBingSearch
+function Set-WinPermissionsStartMenuSearchWebSuggestions3
 {
     <#
     .EXAMPLE
-        PS> Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
+        PS> Set-WinPermissionsStartMenuSearchWebSuggestions3 -State 'Disabled' -GPO 'Disabled'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -34,7 +34,7 @@ function Set-StartMenuBingSearch
             return
         }
 
-        $StartMenuBingSearchMsg = 'Start Menu Bing Search'
+        $StartMenuWebSuggestionsMsg = 'Start Menu Bing Search'
 
         switch ($PSBoundParameters.Keys)
         {
@@ -42,7 +42,7 @@ function Set-StartMenuBingSearch
             {
                 # on: 1 (default) | off: 0
 
-                $StartMenuBingSearch = @{
+                $StartMenuWebSuggestions = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Microsoft\Windows\CurrentVersion\Search'
                     Entries = @(
@@ -54,8 +54,8 @@ function Set-StartMenuBingSearch
                     )
                 }
 
-                Write-Verbose -Message "Setting '$StartMenuBingSearchMsg' to '$State' ..."
-                Set-RegistryEntry -InputObject $StartMenuBingSearch
+                Write-Verbose -Message "Setting '$StartMenuWebSuggestionsMsg' to '$State' ..."
+                Set-RegistryEntry -InputObject $StartMenuWebSuggestions
             }
             'GPO'
             {
@@ -63,7 +63,7 @@ function Set-StartMenuBingSearch
                 #   turn off display of recent search entries in the File Explorer search box
                 # not configured: delete (default) | on: 1
 
-                $StartMenuBingSearchGpo = @{
+                $StartMenuWebSuggestionsGpo = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Software\Policies\Microsoft\Windows\Explorer'
                     Entries = @(
@@ -76,8 +76,8 @@ function Set-StartMenuBingSearch
                     )
                 }
 
-                Write-Verbose -Message "Setting '$StartMenuBingSearchMsg (GPO)' to '$GPO' ..."
-                Set-RegistryEntry -InputObject $StartMenuBingSearchGpo
+                Write-Verbose -Message "Setting '$StartMenuWebSuggestionsMsg (GPO)' to '$GPO' ..."
+                Set-RegistryEntry -InputObject $StartMenuWebSuggestionsGpo
             }
         }
     }
