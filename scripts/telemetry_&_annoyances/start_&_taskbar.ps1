@@ -180,9 +180,13 @@ Set-TaskbarSetting -HiddenIconMenu 'Enabled'
 # State: Left | Top | Right | Bottom (default)
 Set-TaskbarSetting -Position 'Bottom'
 
-# --- Taskbar alignment
+# --- Taskbar icon alignment
 # State: Left | Center (default)
-Set-TaskbarSetting -Alignment 'Center'
+Set-TaskbarSetting -IconAlignment 'Center'
+
+# --- Taskbar size
+# State: Default (default) | Small
+Set-TaskbarSetting -Size 'Default'
 
 # --- Optimize taskbar for touch interactions when this device is used as a tablet (default: Enabled)
 #Set-TaskbarSetting -TouchOptimized 'Enabled'

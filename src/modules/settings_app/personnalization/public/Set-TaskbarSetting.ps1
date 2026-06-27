@@ -25,7 +25,8 @@
 
         # taskbar behaviors
         [-Position] {Left | Top | Right | Bottom}
-        [-Alignment {Left | Center}]
+        [-IconAlignment {Left | Center}]
+        [-Size {Default | Small}]
         [-TouchOptimized {Disabled | Enabled}]
         [-AutoHide {Disabled | Enabled}]
         [-ShowAppsBadges {Disabled | Enabled}]
@@ -41,14 +42,13 @@
         [-ShowSmallerButtons {Always | Never | WhenFull}]
         [-ShowJumpListOnHover {Disabled | Enabled}]
         [<CommonParameters>]
-
 #>
 
 function Set-TaskbarSetting
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarSetting -SearchBox 'Hide' -TaskView 'Disabled' -Alignment 'Center'
+        PS> Set-TaskbarSetting -SearchBox 'Hide' -TaskView 'Disabled' -IconAlignment 'Center'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]
@@ -74,7 +74,8 @@ function Set-TaskbarSetting
 
         # taskbar behaviors
         [TaskbarPosition] $Position,
-        [TaskbarAlignment] $Alignment,
+        [TaskbarAlignment] $IconAlignment,
+        [TaskbarSize] $Size,
         [state] $TouchOptimized,
         [state] $AutoHide,
         [state] $ShowAppsBadges,
@@ -121,7 +122,8 @@ function Set-TaskbarSetting
 
             # taskbar behaviors
             'Position'                        { Set-TaskbarPosition -Mode $Position }
-            'Alignment'                       { Set-TaskbarAlignment -Mode $Alignment }
+            'IconAlignment'                   { Set-TaskbarIconAlignment -Mode $IconAlignment }
+            'Size'                            { Set-TaskbarSize -Mode $Size }
             'TouchOptimized'                  { Set-TaskbarTouchOptimized -State $TouchOptimized }
             'AutoHide'                        { Set-TaskbarAutoHide -State $AutoHide }
             'ShowAppsBadges'                  { Set-TaskbarShowAppsBadges -State $ShowAppsBadges }

@@ -1480,7 +1480,8 @@ $TaskbarSettings = @{
     HiddenIconMenu  = 'Enabled'
 
     Position                        = 'Bottom' # Left | Top | Right | Bottom
-    Alignment                       = 'Center' # Left | Center
+    IconAlignment                   = 'Center' # Left | Center
+    Size                            = 'Default' # Default | Small
     #TouchOptimized                  = 'Enabled'
     AutoHide                        = 'Disabled'
     #ShowAppsBadges                  = 'Enabled'

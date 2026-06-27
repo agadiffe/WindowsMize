@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                       Personnalization > Taskbar > Taskbar Behaviors > Taskbar Alignment
+#                     Personnalization > Taskbar > Taskbar Behaviors > Taskbar Icon Alignment
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-TaskbarAlignment
+    Set-TaskbarIconAlignment
         [-Mode] {Left | Center}
         [<CommonParameters>]
 #>
 
-function Set-TaskbarAlignment
+function Set-TaskbarIconAlignment
 {
     <#
     .EXAMPLE
-        PS> Set-TaskbarAlignment -Mode 'Center'
+        PS> Set-TaskbarIconAlignment -Mode 'Center'
     #>
 
     [CmdletBinding()]
@@ -26,7 +26,7 @@ function Set-TaskbarAlignment
     process
     {
         # center: 1 (default) | left: 0
-        $TaskbarAlignment = @{
+        $TaskbarIconAlignment = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
             Entries = @(
@@ -38,7 +38,7 @@ function Set-TaskbarAlignment
             )
         }
 
-        Write-Verbose -Message "Setting 'Taskbar Alignment' to '$Mode' ..."
-        Set-RegistryEntry -InputObject $TaskbarAlignment
+        Write-Verbose -Message "Setting 'Taskbar Icon Alignment' to '$Mode' ..."
+        Set-RegistryEntry -InputObject $TaskbarIconAlignment
     }
 }

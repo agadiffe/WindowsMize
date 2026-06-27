@@ -102,6 +102,12 @@ enum TaskbarAlignment
     Center = 1
 }
 
+enum TaskbarSize
+{
+    Default = 0
+    Small   = 1
+}
+
 enum TaskbarAppsVisibility
 {
     AllTaskbars                  = 0
