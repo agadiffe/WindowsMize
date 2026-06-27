@@ -99,15 +99,7 @@ Export-DefaultAppxPackagesNames
 
 Remove-MSMaliciousSoftwareRemovalTool
 Remove-MicrosoftEdge
-Remove-OneDrive
-
-$OneDriveConfig = @{
-    NewUserAutoInstall  = 'Disabled'
-    #RunAtStartup        = 'Disabled'
-    BackupNotifExplorer = 'Disabled'
-    BackupNotifToast    = 'Disabled'
-}
-Set-OneDrive @OneDriveConfig
+Remove-MicrosoftOneDrive
 
 $PreinstalledAppsToRemove = @(
     'BingSearch'
@@ -448,9 +440,9 @@ Set-MicrosoftOfficeSetting @MsOfficeSettings
 
 #endregion MS Office
 
-#            MS Store & Edge
+#       MS Store, OneDrive, Edge
 #=======================================
-#region MS Store & Edge
+#region Store, OneDrive, Edge
 
 Write-Section -Name 'MS Store & Edge' -SubSection
 
@@ -462,17 +454,26 @@ $MicrosoftEdgePolicy = @{
 }
 Set-MicrosoftEdgePolicy @MicrosoftEdgePolicy
 
+# --- MS OneDrive
+$MicrosoftOneDriveSettings = @{
+    NewUserAutoInstall  = 'Disabled'
+    #RunAtStartup        = 'Disabled'
+    BackupNotifExplorer = 'Disabled'
+    BackupNotifToast    = 'Disabled'
+}
+Set-MicrosoftOneDriveSetting @MicrosoftOneDriveSettings
+
 # --- MS Store
-$MsStoreSettings = @{
+$MicrosoftStoreSettings = @{
     AutoAppUpdates               = 'Enabled' ; AutoAppUpdatesGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
     AppInstallNotifications      = 'Enabled'
     AutoCreateAppDesktopShortcut = 'Disabled'
     VideoAutoplay                = 'Disabled'
     PersonalizedExperiences      = 'Disabled'
 }
-Set-MicrosoftStoreSetting @MsStoreSettings
+Set-MicrosoftStoreSetting @MicrosoftStoreSettings
 
-#endregion MS Store & Edge
+#endregion Store, OneDrive, Edge
 
 #               UWP Apps
 #=======================================

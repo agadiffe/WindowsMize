@@ -4,7 +4,7 @@
 
 <#
 .SYNTAX
-    Set-OneDrive
+    Set-MicrosoftOneDriveSetting
         [-BackupNotifExplorer {Disabled | Enabled}]
         [-BackupNotifToast {Disabled | Enabled}]
         [-NewUserAutoInstall {Disabled | Enabled}]
@@ -12,11 +12,11 @@
         [<CommonParameters>]
 #>
 
-function Set-OneDrive
+function Set-MicrosoftOneDriveSetting
 {
     <#
     .EXAMPLE
-        PS> Set-OneDrive -NewUserAutoInstall 'Disabled' -BackupNotifExplorer 'Disabled'
+        PS> Set-MicrosoftOneDriveSetting -NewUserAutoInstall 'Disabled' -BackupNotifExplorer 'Disabled'
     #>
 
     [CmdletBinding(PositionalBinding = $false)]

@@ -48,6 +48,28 @@ Set-MicrosoftEdgePolicy -BackgroundMode 'Disabled'
 #endregion edge
 
 #==============================================================================
+#                              Microsoft OneDrive
+#==============================================================================
+#region onedrive
+
+Write-Section -Name 'Microsoft OneDrive' -SubSection
+
+# --- Auto install for new user (default: Enabled)
+Set-MicrosoftOneDriveSetting -NewUserAutoInstall 'Disabled'
+
+# --- Run At Startup (default: Enabled)
+#Set-MicrosoftOneDriveSetting -RunAtStartup 'Disabled'
+
+# --- 'Start Backup' Explorer notification (default: Enabled)
+Set-MicrosoftOneDriveSetting -BackupNotifExplorer 'Disabled'
+
+# --- 'Start Backup' toast notification (default: Enabled)
+# To disable all notifs: See 'scripts > telemetry_&_annoyances > notifications.ps1'
+Set-MicrosoftOneDriveSetting -BackupNotifToast 'Disabled'
+
+#endregion onedrive
+
+#==============================================================================
 #                               Microsoft Store
 #==============================================================================
 #region ms store

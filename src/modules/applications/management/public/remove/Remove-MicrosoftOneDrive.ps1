@@ -1,13 +1,13 @@
 #=================================================================================================================
-#                                                 Remove OneDrive
+#                                            Remove Microsoft OneDrive
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Remove-OneDrive [<CommonParameters>]
+    Remove-MicrosoftOneDrive [<CommonParameters>]
 #>
 
-function Remove-OneDrive
+function Remove-MicrosoftOneDrive
 {
     [CmdletBinding()]
     param ()

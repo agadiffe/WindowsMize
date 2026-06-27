@@ -64,25 +64,13 @@ Remove-MSMaliciousSoftwareRemovalTool
 # --- Microsoft Edge
 Remove-MicrosoftEdge
 
-# --- OneDrive
+# --- Microsoft OneDrive
 # Make sure to copy/backup your synced files first.
 # Turn off all folders syncing to get your files back on to your local drive.
 # Once the syncing is turned off, disconnect your account and computer from OneDrive.
-Remove-OneDrive
+Remove-MicrosoftOneDrive
 
-# --- --- OneDrive : Auto install for new user (default: Enabled)
-Set-OneDrive -NewUserAutoInstall 'Disabled'
-
-# --- --- OneDrive : Run At Startup (default: Enabled)
-#Set-OneDrive -RunAtStartup 'Disabled'
-
-# --- --- OneDrive : 'Start Backup' Explorer notification (default: Enabled)
-Set-OneDrive -BackupNotifExplorer 'Disabled'
-
-# --- --- OneDrive : 'Start Backup' toast notification (default: Enabled)
-# To disable all notifs: See 'scripts > telemetry_&_annoyances > notifications.ps1'
-Set-OneDrive -BackupNotifToast 'Disabled'
-
+# --- Preinstalled apps
 $PreinstalledAppsToRemove = @(
     'BingSearch'
     #'Calculator'

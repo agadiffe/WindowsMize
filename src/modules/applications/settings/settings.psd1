@@ -16,6 +16,7 @@
     FunctionsToExport = @(
         # default win apps
         'Set-MicrosoftEdgePolicy'
+        'Set-MicrosoftOneDriveSetting'
         'Set-MicrosoftStoreSetting'
         'Set-WindowsNotepadSetting'
         'Set-WindowsPhotosSetting'
