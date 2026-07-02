@@ -43,7 +43,7 @@ function Set-DataToRamDisk
         }
 
         $RamDiskPath = $Remove ? $null : (Get-DrivePath -Name $RamDiskName | Select-Object -First 1)
-        $RamDiskUserProfilePath = "$RamDiskPath\$((Get-LoggedOnUserInfo)['UserName'])"
+        $RamDiskUserProfilePath = "$RamDiskPath\$((Get-LoggedOnUserInfo)['UserName'].Replace('\', '.'))"
         $DataToSymlink = Get-DataToSymlink -RamDiskPath $RamDiskUserProfilePath -Data $AppToRamDisk
         $SymbolicLinksPair = New-SymbolicLinksPair -Data $DataToSymlink
 

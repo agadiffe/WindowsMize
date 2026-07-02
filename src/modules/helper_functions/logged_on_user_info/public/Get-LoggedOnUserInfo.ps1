@@ -46,8 +46,7 @@ function Get-LoggedOnUserInfo
             {
                 $OwnerData = $ProcessInfo.GetOwner()
                 $UserInfo = @{
-                    UserName = $OwnerData.User
-                    Domain   = $OwnerData.Domain
+                    UserName = "$($OwnerData.Domain)\$($OwnerData.User)"
                     Sid      = $ProcessInfo.GetOwnerSid().Sid
                 }
             }

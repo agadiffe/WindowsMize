@@ -20,18 +20,15 @@ function Get-UserInfo
 
     process
     {
-        $UserName = $User
-        if ($User.Contains('\'))
-        {
-            $Domain, $UserName = $User.Split('\')
-        }
-
         $Sid = Get-UserSid -User $User
+
         if ($Sid)
         {
+            $SecurityIdentifier = [System.Security.Principal.SecurityIdentifier]::New($Sid)
+            $UserName = $SecurityIdentifier.Translate([System.Security.Principal.NTAccount]).Value
+
             @{
                 UserName = $UserName
-                Domain   = $Domain
                 Sid      = $Sid
             }
         }
