@@ -582,11 +582,13 @@ function New-BraveBrowserConfigData
 
         ### Social media blocking
         #---------------
-        Merge-Hashtable $BravePreferences ('{
+        Merge-Hashtable $BraveLocalState ('{
             "brave": {
-                "fb_embed_default": false, // Facebook
-                "twitter_embed_default": false,
-                "linkedin_embed_default": false
+                "shields": {
+                    "fb_embed_default": false, // Facebook
+                    "twitter_embed_default": false,
+                    "linkedin_embed_default": false
+                }
             }
         }' | ConvertFrom-Json -AsHashtable)
 

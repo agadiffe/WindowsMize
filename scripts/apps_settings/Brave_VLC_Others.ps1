@@ -34,7 +34,7 @@ Write-Section -Name 'Brave Browser' -SubSection
   This is not done via policy, so you can customize everything afterward with the Brave GUI.
 
   For now, to customize the settings, open the file:
-    src > modules > applications > settings > private > New-BraveBrowserConfigData.ps1
+    src > modules > applications > settings > private > BraveBrowser > New-BraveBrowserConfigData.ps1
   The settings are organized the same way as in the GUI.
 
   example: select your regional filter list (or do it later via the GUI).
