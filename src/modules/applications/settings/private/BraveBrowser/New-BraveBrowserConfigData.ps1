@@ -259,12 +259,52 @@ function New-BraveBrowserConfigData
             "brave": {
                 "mru_cycling_enabled": false, // cycle through the most recently used tabs
                 "wayback_machine_enabled": false,
+                "containers": {
+                    "enabled": true
+                },
                 "speedreader": {
                     "feature_enabled": false,
                     "enabled_for_all_sites": false // auto use when possible
                 }
             }
         }' | ConvertFrom-Json -AsHashtable)
+
+        ### containers management
+        $BgColor = @{
+            Red       = -50122    # #ff3c36
+            Orange    = -765438   # #f45202
+            Yellow    = -5207040  # #b08c00
+            Green     = -13653153 # #2fab5f
+            Turquoise = -13262668 # #35a0b4
+            Blue      = -12022529 # #488cff
+            Violet    = -6720520  # #9973f8
+            Pink      = -60013    # #ff1593
+        }
+
+        $Icon = @{
+            Personal = 0; Events  = 4; School    = 8;
+            Work     = 1; Banking = 5; Private   = 9;
+            Shopping = 2; Star    = 6; Messaging = 10
+            Social   = 3; Travel  = 7;
+        }
+
+        # Uncomment (delete <# and #>) if you want to manage/customize the containers.
+        # template for new container (don't forget to add a traling comma if it's not the last item):
+        #   { 'name': 'Whatever', 'background_color': $($BgColor['Yellow']), 'icon': $($Icon['Star']), 'id': '$(New-Guid)' }
+        <#
+        Merge-Hashtable $BravePreferences ("{
+            'brave': {
+                'containers': {
+                    'list': [
+                        { 'name': 'Personal', 'background_color': $($BgColor['Blue']),   'icon': $($Icon['Personal']), 'id': '0053d88e-7b26-4bfa-9175-783e1bfcba97' },
+                        { 'name': 'Work',     'background_color': $($BgColor['Red']),    'icon': $($Icon['Work']),     'id': '2c2777a1-80b3-4b26-b629-ae1aefd9f272' },
+                        { 'name': 'Social',   'background_color': $($BgColor['Violet']), 'icon': $($Icon['Social']),   'id': 'cfc3ee90-a163-4bd0-99ff-f0a472dda804' },
+                        { 'name': 'School',   'background_color': $($BgColor['Green']),  'icon': $($Icon['School']),   'id': 'f5d49086-1a5f-42b0-83fa-58682e5b8ba5' }
+                    ]
+                }
+            }
+        }" | ConvertFrom-Json -AsHashtable)
+        #>
 
         #endregion content
 
@@ -337,21 +377,29 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
-        #### Content Filtering
+        ### Content Filtering
         #---------------
-        # Uncomment if you need custom filters.
+        #### custom filter
+        # Uncomment (delete <# and #>) if you need custom filters.
         <#
         $BraveCustomFilters = @(
             '||example.com^'
-            '||example.org^'
+            '||example.org^$script'
         ) -join '\n'
         #>
+
+        Merge-Hashtable $BraveLocalState ("{
+            'brave': {
+                'ad_block': {
+                    'custom_filters': '$BraveCustomFilters'
+                }
+            }
+        }" | ConvertFrom-Json -AsHashtable)
 
         #### custom filter lists
         Merge-Hashtable $BraveLocalState ('{
             "brave": {
                 "ad_block": {
-                    "custom_filters": "$BraveCustomFilters",
                     "list_subscriptions": {
                         "https://filters.adtidy.org/extension/ublock/filters/3.txt": {
                             "enabled": false, // AdGuard Tracking Protection
@@ -386,7 +434,7 @@ function New-BraveBrowserConfigData
                     }
                 }
             }
-        }'.Replace('$BraveCustomFilters', $BraveCustomFilters) | ConvertFrom-Json -AsHashtable)
+        }' | ConvertFrom-Json -AsHashtable)
 
         #### filter lists - general
         Merge-Hashtable $BraveLocalState ('{
@@ -1039,9 +1087,9 @@ function New-BraveBrowserConfigData
         $WireGuardActive = 'true'
 
         Merge-Hashtable $BraveLocalState ("{
-            ""brave"": {
-                ""brave_vpn"": {
-                    ""wireguard_enabled"": $WireGuardActive
+            'brave': {
+                'brave_vpn': {
+                    'wireguard_enabled': $WireGuardActive
                 }
             }
         }" | ConvertFrom-Json -AsHashtable)
@@ -1052,7 +1100,7 @@ function New-BraveBrowserConfigData
             Entries = @(
                 @{
                     Name  = 'EnableTrayIcon'
-                    Value = '1'
+                    Value = '1' # on: 1 | off: 0
                     Type  = 'DWord'
                 }
                 @{
