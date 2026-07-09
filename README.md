@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="img/WindowsMizeHeader.png" alt="WindowsMize Header" width="90%">
+  <img src="img/WindowsMizeHeader.png" alt="WindowsMize Header (logo)" width="90%">
 </h1>
 <div align="center">
 Automate and customize the configuration of Windows.
@@ -75,16 +75,16 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   <summary>Various tweaks to improve and customize Windows. (click to expand).</summary>
 
 - Security, privacy and networking:  
-  DisplayLastSignedinUserName, HomeGroup, Hotspot2, LocalAccountsSecurityQuestions, LockBatchFilesWhenInUse, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, WifiSense, Wpbt.
+  DisplayLastSignedinUserName, HomeGroup, Hotspot2, LocalAccountsSecurityQuestions, LockBatchFilesWhenInUse, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, PrintingOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
-  FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartMenuWebview2Version, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
+  FirstSigninAnimation, FullscreenOptimizations, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartMenuWebview2Version, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
-  ActionCenterLayout, BackupYourPCBanners, CopyPasteDialogShowMoreDetails, GameBarLinks, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperience, WindowsPrivacySettingsExperience, WindowsSharedExperience, WindowsSpotlight.
+  ActionCenterLayout, BackupYourPCBanners, CopyPasteDialogShowMoreDetails, GameBarLinks, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperiencePreload, WindowsPrivacySettingsExperience, WindowsSettingsSearchAgent, WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
-  MoveCharacterMapShortcutToWindowsTools, DisplayLockScreen, DisplayModeChangeAnimation, EventLogLocation, EaseOfAccessReadScanSection, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, ShareShowDragTrayOnTopScreen, TaskbarLastActiveClick, WindowsHelpSupport, WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  MoveCharacterMapShortcutToWindowsTools, DisplayLockScreen, DisplayModeChangeAnimation, EaseOfAccessReadScanSection, EventLogLocation, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport (F1Key & Feedback), WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 
 </details>
 
@@ -139,8 +139,8 @@ Make sure to review them to know which one to disable according to your usages.
 It's recommended to use Notepad++, VSCode or else to have the code highlighted.
 
 ### Main script
-"WindowsMize.ps1" is the main script that will execute the other scripts.  
-Settings are divided into 6 main categories with 31 script files.  
+`WindowsMize.ps1` is the main script that executes the other scripts.  
+The settings are divided into six main categories across 31 script files.  
 These script files are located in the "scripts" folder.
 
 You can uncomment or comment the script names to execute or not the corresponding script.  
@@ -156,8 +156,10 @@ $ScriptsToExecute = @(
 
     # --- Apps Settings
     [...]
+
     # --- Network & Internet
     [...]
+
     # --- System & Tweaks
     'system_&_tweaks\file_explorer'
     [...]
@@ -176,7 +178,7 @@ $ScriptsToExecute = @(
 )
 ```
 
-You can provide an optional "User" parameter to apply the settings for a specific user.  
+You can provide an optional `User` parameter to apply the settings for a specific user.  
 This user must have logged-in at least once.
 
 ```powershell
@@ -186,7 +188,7 @@ This user must have logged-in at least once.
 ```
 
 ### Setting parameters
-Mostly every functions have a "-State" and/or "-GPO" parameters.
+Mostly every functions have a `-State` and/or `-GPO` parameters.
 
 The accepted values for these parameters are always the same if not specified.  
 There is a remember at the top of each script file:
@@ -203,15 +205,15 @@ If the parameter accept more or different values than the above default, they ar
 Set-Recall -GPO 'Disabled'
 ```
 
-If there is a "-State" parameter, its default value is specified.
+If there is a `-State` parameter, its default value is specified.
 ```powershell
-# --- Bing Search in Start Menu (default: Enabled)
-Set-StartMenuBingSearch -State 'Disabled' -GPO 'Disabled'
-#Set-StartMenuBingSearch -State 'Enabled' -GPO 'NotConfigured'
+# --- Advertising ID (default: Enabled)
+Set-WinPermissionsSetting -AdvertisingID 'Disabled' -AdvertisingIDGPO 'Disabled'
+#Set-WinPermissionsSetting -AdvertisingID 'Enabled' -AdvertisingIDGPO 'NotConfigured'
 ```
 
-If the parameter ends with "GPO", it is a "-GPO" parameter.  
-If it doesn't, it is the "-State" parameter.  
+If the parameter ends with "GPO", it is a `-GPO` parameter.  
+If it doesn't, it is the `-State` parameter.  
 If not specified, the default accepted values apply.
 ```powershell
 # --- Search
@@ -221,19 +223,19 @@ Set-TaskbarSetting -SearchBox 'Hide' -SearchBoxGPO 'NotConfigured'
 ```
 
 ### Function execution
-To don't run a function, comment it (i.e. add the "#" character before the function name).
+To don't run a function, comment it (i.e. add the `#` character before the function name).
 ```powershell
 #Disable-PowerShellTelemetry
 ```
 
-To run a function, uncomment it (i.e. remove the "#" character before the function name).
+To run a function, uncomment it (i.e. remove the `#` character before the function name).
 ```powershell
 Disable-PowerShellTelemetry
 ```
 
-To comment an entire section : begin with "<#" and end with "#>".  
+To comment an entire section : begin with `<#` and end with `#>`.  
 Example:  
-In "Win Settings app > Bluetooth & Devices.ps1 : "Touchpad" is commented by default.
+In "Win Settings app > Bluetooth & Devices.ps1" : "Touchpad" is commented by default.
 ```powershell
 <#
 # --- Touchpad
@@ -245,44 +247,44 @@ settings
 
 
 ## 📥 Download & Execution
-This script requires "PowerShell (aka PowerShell Core)" and must be run as Administrator.  
-For Windows Pro+, it also requires "LGPO (Local Group Policy Object Utility").  
+This script requires PowerShell (aka PowerShell Core) and must be run as administrator.  
+For Windows Pro+, it also requires LGPO (Local Group Policy Object Utility).  
 LGPO is used to ensure that the policy settings appear in the Group Policy Editor.
 
 ### Automated
 1. Open a Windows PowerShell or PowerShell prompt.  
-   Right-click on `Start Menu` > `Terminal`.
-2. Download and extract WindowsMize archive to the "Downloads" folder.  
-   e.g. `C:\Users\<User>\Downloads\WindowsMize_<current-Date>`. 
+   Right-click the `Start` menu and select `Terminal`.
+2. Download and extract the WindowsMize archive to the `Downloads` folder.  
+   e.g. `C:\Users\<User>\Downloads\WindowsMize_<current-date>`.
     ```powershell
     irm 'https://github.com/agadiffe/WindowsMize/raw/main/tools/Download_WindowsMize.ps1' | iex
     ```
-3. Navigate to the extracted "WindowsMize" folder in your "Downloads" folder.
-4. **Configure the script (WindowsMize.ps1) according to your preferences.**
-5. Double click on the `Run_WindowsMize.cmd` file to run the script.  
-   Accept the Windows UAC prompt to run it as Administrator (required).  
-   If "PowerShell and/or LGPO" are not installed, they will be automatically installed.
-6. Restart your computer (Mandatory for a lot of tweaks/settings).
+3. Open the extracted WindowsMize folder.
+4. **Configure the settings according to your preferences.**
+5. Double-click the `Run_WindowsMize.cmd` file to run the script `WindowsMize.ps1`.  
+   Accept the Windows UAC prompt to run it as administrator (required).  
+   If PowerShell and/or LGPO are not installed, they will be installed automatically.
+6. Restart your computer.  
+   Required for many tweaks and settings to take effect.
 
 ### Manually
 <details>
   <summary>Details (Click to expand)</summary>
 
 1. [Download WindowsMize](https://github.com/agadiffe/WindowsMize/archive/main.zip).
-2. Navigate to the directory where you downloaded the archive and extract it.
-3. **Configure the script (WindowsMize.ps1) according to your preferences.**
-4. Open a Windows PowerShell or PowerShell prompt (as Administrator or not).  
-   Right-click on `Start Menu` > `Terminal`.
-5. Install "PowerShell" (if not already installed) and "LGPO" (if Windows Pro+).
+2. Open the directory where you downloaded the archive and extract it.
+3. **Configure the settings according to your preferences.**
+4. Open a Windows PowerShell or PowerShell prompt.  
+   Right-click the `Start` menu and select `Terminal`.
+5. Install PowerShell (if not already installed) and LGPO (if required).
     ```powershell
     winget install --exact --id 'Microsoft.PowerShell' --accept-source-agreements --accept-package-agreements
     winget install --exact --id 'Microsoft.SecurityComplianceToolkit.LGPO' --accept-source-agreements --accept-package-agreements
     ```
-6. Open an elevated (i.e. Administrator) PowerShell prompt:  
-   Right-click on `Start Menu` > `Terminal (Admin)`.  
-   At the top of the Terminal window:  
-   Click on the down arrow and choose "PowerShell".
-7. Navigate to the directory where you extracted "WindowsMize" (replace <User\> with your username).  
+6. Open an elevated (i.e. administrator) PowerShell prompt.  
+   Right-click the `Start` menu and select `Terminal (Admin)`.  
+   At the top of the Terminal window, click the down arrow and select PowerShell.
+7. Navigate to the directory where you extracted WindowsMize (replace `<User>` with your username).  
    Example:
     ```powershell
     cd 'C:\Users\<User>\Downloads\WindowsMize-main\WindowsMize-main'
@@ -291,8 +293,8 @@ LGPO is used to ensure that the policy settings appear in the Group Policy Edito
     ```powershell
     Get-ChildItem -File -Recurse | Unblock-File
     ```
-9. Sets the PowerShell execution policies for the current session (enable PowerShell script execution).  
-   (This is not required for "Powershell", but it might change in future Windows release)
+9. Set the PowerShell execution policy for the current session (enables PowerShell script execution).  
+   (This is not required for PowerShell, but may become necessary in a future Windows release)
     ```powershell
     Set-ExecutionPolicy -ExecutionPolicy 'Bypass' -Scope 'Process' -Force
     ```
@@ -304,7 +306,8 @@ LGPO is used to ensure that the policy settings appear in the Group Policy Edito
     ```powershell
     .\WindowsMize.mini.ps1
     ```
-11. Restart your computer (Mandatory for a lot of tweaks/settings).
+11. Restart your computer.  
+    Required for many tweaks and settings to take effect.
 
 </details>
 
