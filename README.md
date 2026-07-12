@@ -84,7 +84,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   ActionCenterLayout, BackupYourPCBanners, CopyPasteDialogShowMoreDetails, GameBarLinks, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperiencePreload, WindowsPrivacySettingsExperience, WindowsSettingsSearchAgent, WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
-  MoveCharacterMapShortcutToWindowsTools, DisplayLockScreen, DisplayModeChangeAnimation, EaseOfAccessReadScanSection, EventLogLocation, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport (F1Key & Feedback), WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
+  DisplayLockScreen, DisplayModeChangeAnimation, EaseOfAccessReadScanSection, EventLogLocation, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport (F1Key & Feedback), WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.
 
 </details>
 

@@ -60,7 +60,6 @@
         'Set-WindowsSpotlight'
 
         # --- windows_features_and_settings
-        'Move-CharacterMapShortcutToWindowsTools'
         'Set-DisplayLockScreen'
         'Set-DisplayModeChangeAnimation'
         'Set-EaseOfAccessReadScanSection'

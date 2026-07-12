@@ -244,10 +244,6 @@ Set-WindowsSpotlight -SuggestedContentGPO 'Disabled'
 
 Write-Section -Name 'Windows features and settings' -SubSection
 
-# --- Move character map shortcut
-# 'sfc /scannow' will show an error and restore the shortcut. 
-#Move-CharacterMapShortcutToWindowsTools
-
 # --- Display the lock screen
 Set-DisplayLockScreen -GPO 'NotConfigured'
 

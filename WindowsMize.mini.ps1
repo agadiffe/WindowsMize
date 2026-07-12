@@ -1105,7 +1105,6 @@ $WindowsSpotlightSettings = @{
 Set-WindowsSpotlight @WindowsSpotlightSettings
 
 # --- Windows features and settings
-#Move-CharacterMapShortcutToWindowsTools
 Set-DisplayLockScreen -GPO 'NotConfigured'
 #Set-DisplayModeChangeAnimation -State 'Disabled'
 #Set-EventLogLocation -Path 'X:\MyEventsLogs'
