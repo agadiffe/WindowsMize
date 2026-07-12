@@ -34,7 +34,8 @@ Write-Section -Name 'Hardware' -SubSection
 
 # --- Device installation settings (default: Enabled)
 #   Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
-Set-ManufacturerAppsAutoDownload -State 'Enabled' -GPO 'NotConfigured'
+# Can be used to install potentially unwanted programs (PUPs) (e.g. Ads or bloatware).
+Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 
 #endregion hardware
 

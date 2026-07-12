@@ -839,7 +839,7 @@ $ButtonControlsSettings | Set-PowerSetting
 Write-Section -Name 'System properties' -SubSection
 
 # --- Miscellaneous
-Set-ManufacturerAppsAutoDownload -State 'Enabled' -GPO 'NotConfigured'
+Set-ManufacturerAppsAutoDownload -State 'Disabled' -GPO 'NotConfigured'
 
 # Management: CustomSize | SystemManaged | NoPagingFile
 Set-PagingFileSize -Drive $env:SystemDrive -Management 'CustomSize' -InitialSizeMB 4096 -MaximumSizeMB 4096

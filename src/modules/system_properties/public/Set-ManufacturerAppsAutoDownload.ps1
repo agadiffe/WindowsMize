@@ -6,6 +6,9 @@
 
 # Choose whether Windows downloads manufacters' apps and custom icons available for your devices.
 
+# Can be used to install potentially unwanted programs (PUPs) (e.g. Ads orr bloatware).
+# i.e. Advertisements in companion apps can raise security and trust concerns.
+
 # default: Enabled
 # STIG recommendation: Disabled
 
