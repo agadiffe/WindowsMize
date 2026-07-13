@@ -36,6 +36,11 @@ class AdobeAcrobatAppNames : System.Management.Automation.IValidateSetValuesGene
         ## Email accounts
         [-WebmailGPO {Disabled | NotConfigured}]
 
+        ## Generative AI
+        [-GenerativeAI {Disabled | Enabled}]
+        [-GenerativeAIShowQueryBar {Disabled | Enabled}]
+        [-GenerativeAIShowSuggestedPrompts {Disabled | Enabled}]
+
         ## Javascript
         [-Javascript {Disabled | Enabled}]
         [-JavascriptGPO {Disabled | NotConfigured}]
@@ -132,6 +137,11 @@ function Set-AdobeAcrobatReaderSetting
         ## Email accounts
         [GpoStateWithoutEnabled] $WebmailGPO,
 
+        ## Generative AI
+        [state] $GenerativeAI,
+        [state] $GenerativeAIShowQueryBar,
+        [state] $GenerativeAIShowSuggestedPrompts,
+
         ## Javascript
         [state] $Javascript,
         [GpoStateWithoutEnabled] $JavascriptGPO,
@@ -225,6 +235,11 @@ function Set-AdobeAcrobatReaderSetting
 
             ## Email accounts
             'WebmailGPO'                         { Set-AcrobatReaderWebmail -GPO $WebmailGPO }
+
+            ## Generative AI
+            'GenerativeAI'                       { Set-AcrobatReaderAI -State $GenerativeAI }
+            'GenerativeAIShowQueryBar'           { Set-AcrobatReaderAIShowQueryBar -State $GenerativeAIShowQueryBar }
+            'GenerativeAIShowSuggestedPrompts'   { Set-AcrobatReaderAIShowSuggestedPrompts -State $GenerativeAIShowSuggestedPrompts }
 
             ## Javascript
             'Javascript'                         { Set-AcrobatReaderJavascript -State $Javascript }

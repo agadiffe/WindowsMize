@@ -3,8 +3,7 @@
 #=================================================================================================================
 
 # The Chrome extension is automatically installed ...
-
-# This function doesn't seem to work reliably.
+# This setting doesn't seem to work reliably.
 
 <#
 .SYNTAX

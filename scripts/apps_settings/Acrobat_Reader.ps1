@@ -68,6 +68,18 @@ Set-AdobeAcrobatReaderSetting -SendCrashReports 'Never'
 # --- Add account
 Set-AdobeAcrobatReaderSetting -WebmailGPO 'Disabled'
 
+#             Generative AI
+#=======================================
+
+# --- Enable generative AI feature in Acrobat (default: Enabled)
+Set-AdobeAcrobatReaderSetting -GenerativeAI 'Disabled'
+
+# --- --- Show AI query bar on document (default: Enabled)
+Set-AdobeAcrobatReaderSetting -GenerativeAIShowQueryBar 'Disabled'
+
+# --- --- Show suggested prompts from AI Assistant (default: Enabled)
+Set-AdobeAcrobatReaderSetting -GenerativeAIShowSuggestedPrompts 'Disabled'
+
 #              Javascript
 #=======================================
 
@@ -198,6 +210,7 @@ Set-AdobeAcrobatReaderSetting -AcceptEulaGPO 'Enabled'
 
 # --- Chrome extension
 # The extension is automatically installed if not disabled.
+# This setting doesn't seem to work reliably.
 # GPO: Disabled | Enabled | NotConfigured
 Set-AdobeAcrobatReaderSetting -ChromeExtensionGPO 'Disabled'
 
@@ -249,6 +262,7 @@ $RemovedTools = @(
     'CompareFiles'
     'CompressPdf'
     'ConvertPdf'
+    'CreateCustomTool'
     'EditPdf'
     'ExportPdf'
     #'FillAndSign'
@@ -260,8 +274,10 @@ $RemovedTools = @(
     'RedactPdf'
     'RequestSignatures'
     'ScanAndOcr'
+    'SendForComments'
     'UseCertificate'
     'UseGuidedActions'
+    'UseJavaScript'
     'UsePrintProduction'
 )
 Set-AdobeAcrobatReaderSetting -RemoveToolFromToolsTab $RemovedTools

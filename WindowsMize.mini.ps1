@@ -288,6 +288,11 @@ $AdobeReaderSettings = @{
     ## Email accounts
     WebmailGPO = 'Disabled'
 
+    ## Generative AI
+    GenerativeAI                     = 'Disabled'
+    GenerativeAIShowQueryBar         = 'Disabled'
+    GenerativeAIShowSuggestedPrompts = 'Disabled'
+
     ## Javascript
     Javascript                      = 'Disabled' ; JavascriptGPO = 'NotConfigured'
     JavascriptMenuItemsExecution    = 'Disabled'
@@ -355,6 +360,7 @@ $RemovedTools = @(
     'CompareFiles'
     'CompressPdf'
     'ConvertPdf'
+    'CreateCustomTool'
     'EditPdf'
     'ExportPdf'
     #'FillAndSign'
@@ -366,8 +372,10 @@ $RemovedTools = @(
     'RedactPdf'
     'RequestSignatures'
     'ScanAndOcr'
+    'SendForComments'
     'UseCertificate'
     'UseGuidedActions'
+    'UseJavaScript'
     'UsePrintProduction'
 )
 Set-AdobeAcrobatReaderSetting -RemoveToolFromToolsTab $RemovedTools

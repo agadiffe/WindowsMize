@@ -18,6 +18,7 @@ $AdobeAcrobatAppID = [ordered]@{
     CompareFiles            = 'CompareRdrApp', 'CompareApp'
     CompressPdf             = 'OptimizePDFRdrApp', 'OptimizePDFRdrCtxApp', 'OptimizePDFApp'
     ConvertPdf              = 'ConvertPDFAppFull', 'ConvertPDFApp'
+    CreateCustomTool        = 'CreateCustomUIApp', 'CreateCustomUIRdrApp'
     CreatePdf               = 'CPDFAppFull', 'CPDFApp', 'CreatePDFApp'
     EditPdf                 = 'EditPDFRdrAppFull', 'EditPDFRdrApp', 'EditPDFRdrMenuApp', 'EditPDFRdrExpApp', 'EditDelayedRdrApp', 'EditPDFApp'
     ExportPdf               = 'EPDFAppFull', 'EPDFApp', 'ExportPDFApp'
@@ -30,8 +31,10 @@ $AdobeAcrobatAppID = [ordered]@{
     RedactPdf               = 'RedactPDFRdrApp', 'RedactApp'
     RequestSignatures       = 'CollectSignaturesApp'
     ScanAndOcr              = 'ScanPDFRdrApp', 'PaperToPDFApp'
+    SendForComments         = 'ReviewPDFRdrApp', 'ReviewApp'
     UseCertificate          = 'CertificatesApp'
     UseGuidedActions        = 'ActionsRdrApp', 'ActionsApp'
+    UseJavaScript           = 'DeveloperRdrApp', 'DeveloperApp'
     UsePrintProduction      = 'PrintProductionRdrApp', 'PrintProductionApp'
 }
 
@@ -40,9 +43,10 @@ $AdobeAcrobatAppID = [ordered]@{
 .SYNTAX
     Remove-AcrobatToolFromToolsTab
         [-Name] {AddComments | AddRichMedia | AddSearchIndex | AddStamp | ApplyPdfStandards | CombineFiles |
-                 CompareFiles | CompressPdf | ConvertPdf | CreatePdf | EditPdf | ExportPdf | FillAndSign |
-                 MeasureObjects | OrganizePages | PrepareForAccessibility | PrepareForm | ProtectPdf | RedactPdf |
-                 RequestSignatures | ScanAndOCR | UseCertificate | UseGuidedActions | UsePrintProduction}
+                 CompareFiles | CompressPdf | ConvertPdf | CreateCustomTool | CreatePdf | EditPdf | ExportPdf |
+                 FillAndSign | MeasureObjects | OrganizePages | PrepareForAccessibility | PrepareForm | ProtectPdf |
+                 RedactPdf | RequestSignatures | ScanAndOCR | SendForComments | UseCertificate | UseGuidedActions |
+                 UseJavaScript | UsePrintProduction}
         [<CommonParameters>]
 
     Remove-AcrobatToolFromToolsTab
