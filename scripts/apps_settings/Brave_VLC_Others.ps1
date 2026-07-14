@@ -28,19 +28,23 @@ Write-Section -Name 'Brave Browser' -SubSection
 
 <#
   Meant to be used on a fresh Brave installation.
-  The current "User Data" folder will be renamed with a .old extension.
+  The current "User Data" folder will be backed up with a .old extension.
 
-  By default, everything is disabled: AI, Web3, Vpn, etc ...
-  This is not done via policy, so you can customize everything afterward with the Brave GUI.
+  By default, everything is disabled: AI, Web3, autofill, site permissions, etc ...
+  This is not done via policy, so you can customize everything afterward within the Brave GUI.
 
-  For now, to customize the settings, open the file:
+  To customize the settings, open the file:
     src > modules > applications > settings > private > BraveBrowser > New-BraveBrowserConfigData.ps1
-  The settings are organized the same way as in the GUI.
+  The settings are organized the same way as the GUI.
 
   example: select your regional filter list (or do it later via the GUI).
 #>
 
-Set-BraveBrowserSettings
+$BraveBrowserParam = @{
+    CreateBackupIfNotPresent = $true
+    DeleteExistingBackup     = $false
+}
+Set-BraveBrowserSettings @BraveBrowserParam
 
 #==============================================================================
 #                                    Others

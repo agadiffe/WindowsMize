@@ -390,7 +390,11 @@ Set-AdobeAcrobatReaderSetting -RemoveToolFromToolsTab $RemovedTools
 Write-Section -Name 'Brave, VLC, Others' -SubSection
 
 # src\modules\applications\settings\private\BraveBrowser\New-BraveBrowserConfigData.ps1
-Set-BraveBrowserSettings
+$BraveBrowserParam = @{
+    CreateBackupIfNotPresent = $true
+    DeleteExistingBackup     = $false
+}
+Set-BraveBrowserSettings @BraveBrowserParam
 
 # src\modules\applications\settings\config_files
 $AppsToConfig = @(

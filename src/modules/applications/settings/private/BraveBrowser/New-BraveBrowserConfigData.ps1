@@ -9,6 +9,14 @@
 
 function New-BraveBrowserConfigData
 {
+    <#
+    .EXAMPLE
+        PS> $BraveAppDataPath = "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser"
+        PS> $BraveLocalState, $BravePreferences = New-BraveBrowserConfigData
+        PS> $BraveLocalState | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveAppDataPath\User Data\Local State"
+        PS> $BravePreferences | ConvertTo-Json -Depth 100 | Out-File -FilePath "$BraveAppDataPath\User Data\Default\Preferences"
+    #>
+
     [CmdletBinding()]
     param ()
 
