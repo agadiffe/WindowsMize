@@ -5,7 +5,7 @@
 <#
 .SYNTAX
     Set-PointInTimeRestoreRetention
-        [-Hours] {6 | 12 | 16 | 24 | 72}
+        [-Hours] {4 | 6 | 12 | 16 | 24 | 72}
         [<CommonParameters>]
 #>
 
@@ -20,13 +20,13 @@ function Set-PointInTimeRestoreRetention
     param
     (
         [Parameter(Mandatory)]
-        [ValidateSet(6, 12, 16, 24, 72)]
+        [ValidateSet(4, 6, 12, 16, 24, 72)]
         [int] $Hours
     )
 
     process
     {
-        # 6 hours: 360 | 12 hours: 720 | 16 hours: 960 | 24 hours: 1440 | 72 hours: 4320 (default)
+        # 4 hours: 240 | 6 hours: 360 | 12 hours: 720 | 16 hours: 960 | 24 hours: 1440 | 72 hours: 4320 (default)
         $PointInTimeRestoreRetention = @{
             Hive    = 'HKEY_LOCAL_MACHINE'
             Path    = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Setup\Recovery\PITR\Settings'

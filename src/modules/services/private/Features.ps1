@@ -77,6 +77,14 @@ $ServicesList += @{
             Comment     = 'settings > privacy & security > location.'
         }
         @{
+            DisplayName = 'Isolation Environment Broker'
+            ServiceName = 'IsoEnvBroker'
+            StartupType = 'Disabled'
+            DefaultType = 'Manual'
+            Comment     = 'agentic features (agent workspace).
+                           settings > system > AI components > agentic features.'
+        }
+        @{
             DisplayName = 'Language Experience Service'
             ServiceName = 'LxpSvc'
             StartupType = 'Disabled'

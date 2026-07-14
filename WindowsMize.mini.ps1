@@ -1610,7 +1610,7 @@ Set-QuickMachineRecovery -State 'Disabled'
 $PointInTimeRestoreSettings = @{
     PointInTimeRestore = 'Disabled'
     FrequencyHours     = 24 # 4 | 6 | 12 | 16 | 24
-    RetentionHours     = 72 # 6 | 12 | 16 | 24 | 72
+    RetentionHours     = 72 # 4 | 6 | 12 | 16 | 24 | 72
     MaxDiskUsageGB     = 10 # range: 2-50
 }
 Set-PointInTimeRestoreSetting @PointInTimeRestoreSettings

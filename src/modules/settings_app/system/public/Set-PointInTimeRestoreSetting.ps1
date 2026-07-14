@@ -7,7 +7,7 @@
     Set-PointInTimeRestoreSetting
         [-PointInTimeRestore {Disabled | Enabled}]
         [-FrequencyHours {4 | 6 | 12 | 16 | 24}]
-        [-RetentionHours {6 | 12 | 16 | 24 | 72}]
+        [-RetentionHours {4 | 6 | 12 | 16 | 24 | 72}]
         [-MaxDiskUsageGB <int>]
         [<CommonParameters>]
 #>
@@ -27,7 +27,7 @@ function Set-PointInTimeRestoreSetting
         [ValidateSet(4, 6, 12, 16, 24)]
         [int] $FrequencyHours,
 
-        [ValidateSet(6, 12, 16, 24, 72)]
+        [ValidateSet(4, 6, 12, 16, 24, 72)]
         [int] $RetentionHours,
 
         [ValidateRange(2, 50)]

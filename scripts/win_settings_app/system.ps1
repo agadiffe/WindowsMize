@@ -278,7 +278,7 @@ Set-PointInTimeRestoreSetting -PointInTimeRestore 'Disabled'
 Set-PointInTimeRestoreSetting -FrequencyHours 24
 
 # --- --- Restore Point Retention
-# 6 hours | 12 hours | 16 hours | 24 hours | 72 hours (default)
+# 4 hours | 6 hours | 12 hours | 16 hours | 24 hours | 72 hours (default)
 Set-PointInTimeRestoreSetting -RetentionHours 72
 
 # --- --- Restore Point Disk Usage: Maximum usage limit (default: 2% of disk (range: 2-50 GB))
