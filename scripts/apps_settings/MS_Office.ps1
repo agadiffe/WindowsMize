@@ -48,6 +48,12 @@ Set-MicrosoftOfficeSetting -LinkedinFeatures 'Disabled' -LinkedinFeaturesGPO 'No
 # --- Show the Start screen when this application starts (default: Enabled)
 Set-MicrosoftOfficeSetting -ShowStartScreen 'Disabled' -ShowStartScreenGPO 'NotConfigured'
 
+#                Copilot
+#=======================================
+
+# --- Enable Copilot (default: Enabled)
+Set-MicrosoftOfficeSetting -Copilot 'Disabled'
+
 #                 Save
 #=======================================
 
@@ -66,6 +72,10 @@ Set-MicrosoftOfficeSetting -DefaultSaveLocation 'Computer'
 # --- Accept all EULAs (End-User License Agreement)
 # GPO: Enabled | NotConfigured
 Set-MicrosoftOfficeSetting -AcceptEULAsGPO 'Enabled'
+
+# --- AI content safety (hate, self-harm, sexual and violent contents)
+# Disabled: do not filter the content. 
+Set-MicrosoftOfficeSetting -AIContentSafetyGPO 'Disabled'
 
 # --- Block sign-in into Office
 # GPO: Enabled | NotConfigured
@@ -108,8 +118,8 @@ Set-MicrosoftOfficeSetting -OptionalConnectedExperiencesGPO 'Disabled'
 #                         Privacy
 #==========================================================
 
-# --- Local training of AI features
-Set-MicrosoftOfficeSetting -AILocalTrainingGPO 'Disabled'
+# --- AI training (collects AI data from your usage)
+Set-MicrosoftOfficeSetting -AITrainingGPO 'Disabled'
 
 # --- Customer experience improvement program
 Set-MicrosoftOfficeSetting -CeipGPO 'Disabled'

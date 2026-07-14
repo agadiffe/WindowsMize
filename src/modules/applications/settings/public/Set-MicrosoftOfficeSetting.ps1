@@ -23,11 +23,13 @@
         [-LinkedinFeaturesGPO {Disabled | NotConfigured}]
         [-ShowStartScreen {Disabled | Enabled}]
         [-ShowStartScreenGPO {Disabled | NotConfigured}]
+        [-Copilot {Disabled | Enabled}]
         [-DefaultFileFormat {Office | OpenDocument}]
         [-DefaultSaveLocation {Computer | Cloud}]
 
         # Miscellaneous
         [-AcceptEULAsGPO {Enabled | NotConfigured}]
+        [-AIContentSafetyGPO {Disabled | NotConfigured}]
         [-BlockSigninGPO {Enabled | NotConfigured}]
         [-DiscountProgramNotifsGPO {Disabled | Enabled | NotConfigured}]
         [-FirstRunAboutSigninGPO {Disabled | NotConfigured}]
@@ -36,7 +38,7 @@
         [-TeachingTips {Disabled | Enabled}]
 
         # Privacy
-        [-AILocalTrainingGPO {Disabled | Enabled}]
+        [-AITrainingGPO {Disabled | NotConfigured}]
         [-CeipGPO {Disabled | NotConfigured}]
         [-DiagnosticsGPO {Disabled | Enabled | NotConfigured}]
         [-ErrorReportingGPO {Disabled | NotConfigured}]
@@ -69,11 +71,13 @@ function Set-MicrosoftOfficeSetting
         [GpoStateWithoutEnabled] $LinkedinFeaturesGPO,
         [state] $ShowStartScreen,
         [GpoStateWithoutEnabled] $ShowStartScreenGPO,
+        [state] $Copilot,
         [OfficeFileFormat] $DefaultFileFormat,
         [OfficeSaveLocation] $DefaultSaveLocation,
 
         # Miscellaneous
         [GpoStateWithoutDisabled] $AcceptEULAsGPO,
+        [GpoStateWithoutEnabled] $AIContentSafetyGPO,
         [GpoStateWithoutDisabled] $BlockSigninGPO,
         [GpoState] $DiscountProgramNotifsGPO,
         [GpoStateWithoutEnabled] $FirstRunAboutSigninGPO,
@@ -82,7 +86,7 @@ function Set-MicrosoftOfficeSetting
         [state] $TeachingTips,
 
         # Privacy
-        [GpoStateWithoutEnabled] $AILocalTrainingGPO,
+        [GpoStateWithoutEnabled] $AITrainingGPO,
         [GpoStateWithoutEnabled] $CeipGPO,
         [GpoState] $DiagnosticsGPO,
         [GpoStateWithoutEnabled] $ErrorReportingGPO,
@@ -114,11 +118,13 @@ function Set-MicrosoftOfficeSetting
             'LinkedinFeaturesGPO'      { Set-MSOfficeLinkedinFeatures -GPO $LinkedinFeaturesGPO }
             'ShowStartScreen'          { Set-MSOfficeShowStartScreen -State $ShowStartScreen }
             'ShowStartScreenGPO'       { Set-MSOfficeShowStartScreen -GPO $ShowStartScreenGPO }
+            'Copilot'                  { Set-MSOfficeCopilot -State $Copilot }
             'DefaultFileFormat'        { Set-MSOfficeDefaultFileFormat -FileFormat $DefaultFileFormat }
             'DefaultSaveLocation'      { Set-MSOfficeDefaultSaveLocation -Location $DefaultSaveLocation }
 
             # Miscellaneous
             'AcceptEULAsGPO'           { Set-MSOfficeAcceptEULAs -GPO $AcceptEULAsGPO }
+            'AIContentSafetyGPO'       { Set-MSOfficeAIContentSafety -GPO $AIContentSafetyGPO }
             'BlockSigninGPO'           { Set-MSOfficeBlockSignin -GPO $BlockSigninGPO }
             'DiscountProgramNotifsGPO' { Set-MSOfficeDiscountProgramNotifs -GPO $DiscountProgramNotifsGPO }
             'FirstRunAboutSigninGPO'   { Set-MSOfficeFirstRunAboutSignin -GPO $FirstRunAboutSigninGPO }
@@ -127,7 +133,7 @@ function Set-MicrosoftOfficeSetting
             'TeachingTips'             { Set-MSOfficeTeachingTips -State $TeachingTips }
 
             # Privacy
-            'AILocalTrainingGPO'       { Set-MSOfficeAILocalTraining -GPO $AILocalTrainingGPO }
+            'AITrainingGPO'            { Set-MSOfficeAITraining -GPO $AITrainingGPO }
             'CeipGPO'                  { Set-MSOfficeCeip -GPO $CeipGPO }
             'DiagnosticsGPO'           { Set-MSOfficeDiagnostics -GPO $DiagnosticsGPO }
             'ErrorReportingGPO'        { Set-MSOfficeErrorReporting -GPO $ErrorReportingGPO }

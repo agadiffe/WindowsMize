@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                               MSOffice - Privacy > Local Training Of AI Features
+#                               MSOffice - Privacy > AI Content Safety
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-MSOfficeAILocalTraining
+    Set-MSOfficeAIContentSafety
         [-GPO] {Disabled | NotConfigured}
         [<CommonParameters>]
 #>
 
-function Set-MSOfficeAILocalTraining
+function Set-MSOfficeAIContentSafety
 {
     <#
     .EXAMPLE
-        PS> Set-MSOfficeAILocalTraining -GPO 'Disabled'
+        PS> Set-MSOfficeAIContentSafety -GPO 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -25,23 +25,23 @@ function Set-MSOfficeAILocalTraining
 
     process
     {
-        # gpo\ user config > administrative tpl > microsoft office > ai > training > general
-        #   disable local training of all features for the user
+        # gpo\ user config > administrative tpl > microsoft office > ai > content safety > general
+        #   disable local content safety in general for the user
         # not configured: delete (default) | on: 1
-        $MSOfficeAILocalTrainingGpo = @{
+        $MSOfficeAIContentSafetyGpo = @{
             Hive    = 'HKEY_CURRENT_USER'
-            Path    = 'Software\Policies\Microsoft\Office\16.0\Common\ai\training\general'
+            Path    = 'Software\Policies\Microsoft\Office\16.0\Common\ai\contentsafety\general'
             Entries = @(
                 @{
                     RemoveEntry = $GPO -eq 'NotConfigured'
-                    Name  = 'DisableTraining'
+                    Name  = 'DisableContentSafety'
                     Value = '1'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'MSOffice - Local Training Of AI Features (GPO)' to '$GPO' ..."
-        Set-RegistryEntry -InputObject $MSOfficeAILocalTrainingGpo
+        Write-Verbose -Message "Setting 'MSOffice - AI Content Safety (GPO)' to '$GPO' ..."
+        Set-RegistryEntry -InputObject $MSOfficeAIContentSafetyGpo
     }
 }

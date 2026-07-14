@@ -413,14 +413,16 @@ Write-Section -Name 'MS Office' -SubSection
 # --- Microsoft Office
 $MsOfficeSettings = @{
     # Options
-    DefaultThemeGPO     = 'DarkGray' # Colorful | DarkGray | Black | White
+    DefaultThemeGPO     = 'DarkGray' # Colorful | DarkGray | Black | White | NotConfigured
     LinkedinFeatures    = 'Disabled' ; LinkedinFeaturesGPO = 'NotConfigured'
     ShowStartScreen     = 'Disabled' ; ShowStartScreenGPO  = 'NotConfigured'
+    Copilot             = 'Disabled'
     DefaultFileFormat   = 'Office' # Office | OpenDocument
     DefaultSaveLocation = 'Computer' # Computer | Cloud
 
     # Miscellaneous
     AcceptEULAsGPO           = 'Enabled' # Enabled | NotConfigured
+    AIContentSafetyGPO       = 'Disabled'
     BlockSigninGPO           = 'NotConfigured' # Enabled | NotConfigured
     DiscountProgramNotifsGPO = 'Disabled' # Disabled | Enabled | NotConfigured
     FirstRunAboutSigninGPO   = 'Disabled'
@@ -429,7 +431,7 @@ $MsOfficeSettings = @{
     TeachingTips             = 'Disabled'
 
     # Privacy
-    AILocalTrainingGPO  = 'Disabled'
+    AITrainingGPO       = 'Disabled'
     CeipGPO             = 'Disabled'
     DiagnosticsGPO      = 'Disabled' # Disabled | Enabled | NotConfigured
     ErrorReportingGPO   = 'Disabled'
