@@ -519,6 +519,7 @@ $PhotosSettings = @{
     MouseWheelBehavior         = 'ZoomInOut' # ZoomInOut | NextPreviousItems
     SmallMediaZoomPreference   = 'ViewActualSize' # FitWindow | ViewActualSize
     #RunAtStartup               = 'Disabled' # old
+    AIWatermark                = 'Never' # Never | Always | Ask
     GalleryType                = 'River' # River | Square
     GallerySize                = 'Medium' # Small | Medium | Large
     FirstRunExperience         = 'Disabled'

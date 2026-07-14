@@ -144,6 +144,10 @@ Set-WindowsPhotosSetting -ImageCategorization 'Disabled'
 # --- Performance (run in the background at startup) (default: Enabled) | old
 #Set-WindowsPhotosSetting -RunAtStartup 'Disabled'
 
+# --- Include a watermark when content is Al-generated
+# State: Never (default) | Always | Ask
+Set-WindowsPhotosSetting -AIWatermark 'Never'
+
 #             Miscellaneous
 #=======================================
 

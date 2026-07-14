@@ -15,6 +15,7 @@
         [-MouseWheelBehavior {ZoomInOut | NextPreviousItems}]
         [-SmallMediaZoomPreference {FitWindow | ViewActualSize}]
         [-Theme {System | Light | Dark}]
+        [-AIWatermark {Never | Always | Ask}]
 
         # miscellaneous
         [-GalleryType {River | Square}]
@@ -49,6 +50,9 @@ function Set-WindowsPhotosSetting
 
         [ValidateSet('System', 'Light', 'Dark')]
         [string] $Theme,
+
+        [ValidateSet('Never', 'Always', 'Ask')]
+        [string] $AIWatermark,
 
         # miscellaneous
         [ValidateSet('River', 'Square')]
@@ -181,6 +185,23 @@ function Set-WindowsPhotosSetting
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$ThemeReg) | Out-Null
             }
+            'AIWatermark'
+            {
+                $WatermarkValue = switch ($AIWatermark)
+                {
+                    'Never'  { '0' }
+                    'Always' { '1' }
+                    'Ask'    { '2' }
+                }
+
+                # never: 0 (default) | always: 1 | ask: 2
+                $AIWatermarkReg = @{
+                    Name  = 'PerceptibleWatermarkSetting'
+                    Value = $WatermarkValue
+                    Type  = '5f5e104'
+                }
+                $WindowsPhotosSettings.Add([PSCustomObject]$AIWatermarkReg) | Out-Null
+            }
             'GalleryType'
             {
                 # river: 2 (default) | square: 0
@@ -195,9 +216,9 @@ function Set-WindowsPhotosSetting
             {
                 $GallerySizeValue = switch ($GallerySize)
                 {
-                    'small'  { '0' }
-                    'medium' { '1' }
-                    'large'  { '2' }
+                    'Small'  { '0' }
+                    'Medium' { '1' }
+                    'Large'  { '2' }
                 }
 
                 # small: 0 | medium: 1 (default) | large: 2
