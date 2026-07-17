@@ -53,20 +53,29 @@ function Set-RegistryEntrySystemProtected
 
         Invoke-CommandAsSystem -Command $Command -Verbose:$false
 
-        # let log files the time to be generated (e.g. slow drive)
-        $MaxRetries = 30
-        $RetryCount = 0
-        while ((-not (Test-Path -Path $VerboseLogPath) -or -not (Test-Path -Path $ErrorLogPath)) -and $RetryCount -lt $MaxRetries)
+        # Give the log files time to be created (e.g. slow drive). This shouldn't normally be necessary.
+        $TimeoutSeconds = 3
+        $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+
+        while (-not (Test-Path -Path $VerboseLogPath) -or -not (Test-Path -Path $ErrorLogPath))
         {
+            if ($Stopwatch.Elapsed.TotalSeconds -ge $TimeoutSeconds)
+            {
+                Write-Warning '  Timed out waiting for log files.'
+                break
+            }
+
             Start-Sleep -Seconds 0.1
-            $RetryCount++
         }
 
-        if ($RetryCount -ne $MaxRetries)
+        if (Test-Path -Path $VerboseLogPath)
         {
-            # display output to the interactive Terminal
-            (Get-Content -Path $VerboseLogPath).ForEach({ Write-Verbose -Message $_ })
-            (Get-Content -Path $ErrorLogPath).ForEach({ Write-Error -Message $_ })
+            Get-Content -Path $VerboseLogPath | ForEach-Object -Process { Write-Verbose -Message $_ }
+        }
+
+        if (Test-Path -Path $ErrorLogPath)
+        {
+            Get-Content -Path $ErrorLogPath | ForEach-Object -Process { Write-Error -Message $_ }
         }
 
         Remove-Item -Path $TempJsonFilePath, $VerboseLogPath, $ErrorLogPath -ErrorAction 'SilentlyContinue'

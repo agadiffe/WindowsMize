@@ -495,12 +495,26 @@ Set-MicrosoftStoreSetting @MicrosoftStoreSettings
 
 Write-Section -Name 'UWP Apps' -SubSection
 
+# --- Microsoft Paint
+$MicrosoftPaintSettings = @{
+    Theme            = 'System' # System | Light | Dark
+    AIWatermark      = 'Never' # Never | Always | Ask
+    Unit             = 'Pixels' # Inches | Centimeters | Pixels
+    ImageWidthPixel  = 1152 # range: 1-99999
+    ImageHeightPixel = 648 # range: 1-99999
+    Rulers           = 'Disabled'
+    Gridlines        = 'Disabled'
+    StatusBar        = 'Enabled'
+    AutoHideToolbar  = 'Disabled'
+}
+#Set-MicrosoftPaintSetting @MicrosoftPaintSettings
+
 # --- Windows Notepad
 $NotepadSettings = @{
     Theme          = 'System' # System | Light | Dark
     FontFamily     = 'Consolas' # Arial | Calibri | Consolas | Comic Sans MS | Times New Roman | ...
     FontStyle      = 'Regular' # Regular | Italic | Bold | Bold Italic
-    FontSize       = '11' # range: 1-99
+    FontSize       = 11 # range: 1-99
     WordWrap       = 'Enabled'
     Formatting     = 'Disabled'
     OpenFile       = 'NewTab' # NewTab | NewWindow

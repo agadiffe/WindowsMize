@@ -5,18 +5,25 @@
 <#
 .SYNTAX
     Set-WindowsSnippingToolSetting
+        # snipping
         [-AutoCopyScreenshotChangesToClipboard {Disabled | Enabled}]
         [-AutoSaveScreenshots {Disabled | Enabled}]
         [-AskToSaveEditedScreenshots {Disabled | Enabled}]
         [-MultipleWindows {Disabled | Enabled}]
         [-ScreenshotBorder {Disabled | Enabled}]
         [-HDRColorCorrector {Disabled | Enabled}]
+
+        # screen recording
         [-AutoCopyRecordingChangesToClipboard {Disabled | Enabled}]
         [-AskToSaveEditedRecordings {Disabled | Enabled}]
         [-AutoSaveRecordings {Disabled | Enabled}]
         [-IncludeMicrophoneInRecording {Disabled | Enabled}]
         [-IncludeSystemAudioInRecording {Disabled | Enabled}]
+
+        # appearance
         [-Theme {System | Light | Dark}]
+
+        # miscellaneous
         [-TeachingTips {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -66,6 +73,8 @@ function Set-WindowsSnippingToolSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            #region snipping
+            #---------------
             'AutoCopyScreenshotChangesToClipboard'
             {
                 # on: 1 (default) | off: 0
@@ -126,6 +135,10 @@ function Set-WindowsSnippingToolSetting
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$HdrColorCorrectorReg) | Out-Null
             }
+            #endregion snipping
+
+            #region screen recording
+            #---------------
             'AutoCopyRecordingChangesToClipboard'
             {
                 # on: 1 (default) | off: 0
@@ -176,12 +189,18 @@ function Set-WindowsSnippingToolSetting
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$IncludeSystemAudioInRecordingReg) | Out-Null
             }
+            #endregion screen recording
+
+            #region miscellaneous
+            #---------------
             'TeachingTips'
             {
+                $IsEnabled = $TeachingTips -eq 'Enabled'
+
                 # on: 0 (default) | off: 1
                 $RecordingsAutoSaveBannerReg = @{
                     Name  = 'IsRecordingsAutoSaveBannerDismissed'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$RecordingsAutoSaveBannerReg) | Out-Null
@@ -189,7 +208,7 @@ function Set-WindowsSnippingToolSetting
                 # on: 0 (default) | off: 1
                 $SnipAutoSaveBannerReg = @{
                     Name  = 'IsSnipAutoSaveBannerDismissed'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$SnipAutoSaveBannerReg) | Out-Null
@@ -197,7 +216,7 @@ function Set-WindowsSnippingToolSetting
                 # on: 0 (default) | off: 3 # old
                 $ShapesTeachingTipReg = @{
                     Name  = 'ShapesTeachingTipDismissedCount'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '3'
+                    Value = $IsEnabled ? '0' : '3'
                     Type  = '5f5e104'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$ShapesTeachingTipReg) | Out-Null
@@ -205,7 +224,7 @@ function Set-WindowsSnippingToolSetting
                 # on: 0 (default) | off: 3 # old
                 $VisualSearchTeachingTipReg = @{
                     Name  = 'VisualSearchTeachingTipDismissedCount'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '3'
+                    Value = $IsEnabled ? '0' : '3'
                     Type  = '5f5e104'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$VisualSearchTeachingTipReg) | Out-Null
@@ -213,7 +232,7 @@ function Set-WindowsSnippingToolSetting
                 # on: 0 (default) | off: 10
                 $ColorPickerBeaconReg = @{
                     Name  = 'ColorPickerBeaconShownCounter'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '10'
+                    Value = $IsEnabled ? '0' : '10'
                     Type  = '5f5e104'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$ColorPickerBeaconReg) | Out-Null
@@ -221,7 +240,7 @@ function Set-WindowsSnippingToolSetting
                 # on: 0 (default) | off: 10
                 $TextExtractorBeaconReg = @{
                     Name  = 'TextExtractorBeaconShownCounter'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '10'
+                    Value = $IsEnabled ? '0' : '10'
                     Type  = '5f5e104'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$TextExtractorBeaconReg) | Out-Null
@@ -229,11 +248,15 @@ function Set-WindowsSnippingToolSetting
                 # on: 0 (default) | off: 3
                 $LiveAnnotationModeTipReg = @{
                     Name  = 'LiveAnnotationModeTipDismissedCount'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '3'
+                    Value = $IsEnabled ? '0' : '3'
                     Type  = '5f5e104'
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$LiveAnnotationModeTipReg) | Out-Null
             }
+            #endregion miscellaneous
+
+            #region appearance
+            #---------------
             'Theme'
             {
                 $ThemeValue = switch ($Theme)
@@ -251,6 +274,7 @@ function Set-WindowsSnippingToolSetting
                 }
                 $SnippingToolSettings.Add([PSCustomObject]$ThemeReg) | Out-Null
             }
+            #endregion appearance
         }
 
         Set-UwpAppSetting -Name 'WindowsSnippingTool' -Setting $SnippingToolSettings

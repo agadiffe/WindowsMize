@@ -93,6 +93,8 @@ function Set-WindowsNotepadSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            #region appearance
+            #---------------
             'Theme'
             {
                 $ThemeValue = switch ($Theme)
@@ -110,6 +112,10 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$ThemeReg) | Out-Null
             }
+            #endregion appearance
+
+            #region text formatting
+            #---------------
             'FontFamily'
             {
                 # example: Arial | Calibri | Consolas (default) | Comic Sans MS | Times New Roman | ...
@@ -161,6 +167,10 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$FormattingReg) | Out-Null
             }
+            #endregion text formatting
+
+            #region opening notepad
+            #---------------
             'OpenFile'
             {
                 # open in a new tab: 0 (default) | open in a new window: 1
@@ -212,6 +222,10 @@ function Set-WindowsNotepadSetting
                     $NotepadSettings.Add([PSCustomObject]$RecentFilesList) | Out-Null
                 }
             }
+            #endregion opening notepad
+
+            #region spelling
+            #---------------
             'SpellCheck'
             {
                 # '.srt & .ass' share the same GUI toggle
@@ -246,6 +260,10 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$AutoCorrectReg) | Out-Null
             }
+            #endregion spelling
+
+            #region advanced features
+            #---------------
             'WritingTools'
             {
                 # aka Copilot
@@ -257,6 +275,10 @@ function Set-WindowsNotepadSetting
                 }
                 $NotepadSettings.Add([PSCustomObject]$WritingToolsReg) | Out-Null
             }
+            #endregion advanced features
+
+            #region miscellaneous
+            #---------------
             'StatusBar'
             {
                 # on: 1 (default) | off: 0
@@ -269,10 +291,12 @@ function Set-WindowsNotepadSetting
             }
             'TeachingTips'
             {
+                $IsEnabled = $TeachingTips -eq 'Enabled'
+
                 # on: 0 (default) | off: 1
                 $WhatsNewBeaconEssential = @{
                     Name  = 'EssentialEditor_Seen'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$WhatsNewBeaconEssential) | Out-Null
@@ -280,7 +304,7 @@ function Set-WindowsNotepadSetting
                 # on: 0 (default) | off: 1
                 $WhatsNewBeaconFormatting = @{
                     Name  = 'Format_Seen'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$WhatsNewBeaconFormatting) | Out-Null
@@ -288,7 +312,7 @@ function Set-WindowsNotepadSetting
                 # on: 0 (default) | off: 1
                 $WhatsNewBeaconWritingTool = @{
                     Name  = 'WritingTool_Seen'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$WhatsNewBeaconWritingTool) | Out-Null
@@ -296,7 +320,7 @@ function Set-WindowsNotepadSetting
                 # on: 1 (default) | off: 0
                 $MenuNewBadges = @{
                     Name  = 'GenerateNewBadgeLifetime'
-                    Value = $TeachingTips -eq 'Enabled' ? '1' : '0'
+                    Value = $IsEnabled ? '1' : '0'
                     Type  = '5f5e105'
                 }
                 $NotepadSettings.Add([PSCustomObject]$MenuNewBadges) | Out-Null
@@ -305,7 +329,7 @@ function Set-WindowsNotepadSetting
                 # on: 1 | off: 0 (default)
                 $ContinuePreviousSessionTipReg = @{
                     Name  = 'TeachingTipExplicitClose'
-                    Value = $TeachingTips -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$ContinuePreviousSessionTipReg) | Out-Null
@@ -322,7 +346,7 @@ function Set-WindowsNotepadSetting
                 # on: 1 (default) | off: 0 # old
                 $FormattingTipsReg = @{
                     Name  = 'FormattingFREFirstLoad'
-                    Value = $TeachingTips -eq 'Enabled' ? '1' : '0'
+                    Value = $IsEnabled ? '1' : '0'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$FormattingTipsReg) | Out-Null
@@ -330,11 +354,12 @@ function Set-WindowsNotepadSetting
                 # on: 1 (default) | off: 0 # old ?
                 $RewriteTipsReg = @{
                     Name  = 'RewriteTeachingtip'
-                    Value = $TeachingTips -eq 'Enabled' ? '1' : '0'
+                    Value = $IsEnabled ? '1' : '0'
                     Type  = '5f5e10b'
                 }
                 $NotepadSettings.Add([PSCustomObject]$RewriteTipsReg) | Out-Null
             }
+            #endregion miscellaneous
         }
 
         Set-UwpAppSetting -Name 'WindowsNotepad' -Setting $NotepadSettings

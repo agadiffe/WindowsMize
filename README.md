@@ -19,7 +19,7 @@ Debloat, minimize telemetry, apps installation, general settings, and more.
 - Fully non-interactive script : make sure to review everything before running it.
 - Designed for Windows 11 (most tweaks/settings also work on Windows 10).
 - Works on both Administrator and Standard account (including domain account).
-- 31 script files based on 26 Powershell modules.
+- 34 script files based on 26 Powershell modules.
 
 
 ## 💫 Features
@@ -106,7 +106,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
 - Configure application settings.
 
   Apps: Acrobat Reader, Brave Browser, Git, KeePassXC, MS Office, qBittorrent, VLC, VSCode.  
-  UWP apps: MS Store, Notepad, Photos, Snipping Tool, Terminal.
+  UWP apps: MS Store, Notepad, Paint, Photos, Snipping Tool, Terminal.
 
 </details>
 

@@ -72,30 +72,25 @@ function Set-UwpAppSetting
             Wait-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
 
             # Settings.dat file is not instantly unlocked after process termination.
-            $MaxRetries = 30
-            $RetryCount = 0
-            while ((Test-FileLock -FilePath $AppxSettingsFilePath) -and $RetryCount -lt $MaxRetries)
+            try
             {
-                Start-Sleep -Seconds 0.1
-                $RetryCount++
+                Wait-FileUnlock -FilePath $AppxSettingsFilePath -TimeoutSeconds 3
+            }
+            catch
+            {
+                Write-Error -Message "$Name : $($_.Exception.Message) Setting not applied."
+                return
             }
 
-            if ($RetryCount -eq $MaxRetries)
-            {
-                Write-Error -Message "$Name settings.dat file is still locked after the maximum retries."
-            }
-            else
-            {
-                Write-Verbose -Message "Setting $Name settings ..."
-                $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
+            Write-Verbose -Message "Setting $Name settings ..."
+            $Setting | Set-UwpAppRegistryEntry -FilePath $AppxSettingsFilePath
 
-                if ($Name -eq 'AppActions')
-                {
-                    # Ensure SearchHost will respawn properly once the settings.dat file has been unlocked.
-                    # It seems that sometimes the process is stuck in an unstable state.
-                    Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
-                    Wait-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
-                }
+            if ($Name -eq 'AppActions')
+            {
+                # Ensure SearchHost will respawn properly once the settings.dat file has been unlocked.
+                # It seems that sometimes the process is stuck in an unstable state.
+                Stop-Process -Name $ProcessName -Force -ErrorAction 'SilentlyContinue'
+                Wait-Process -Name $ProcessName -ErrorAction 'SilentlyContinue'
             }
         }
         else
@@ -171,7 +166,7 @@ function Set-UwpAppRegistryEntry
 
     end
     {
-        $SettingRegFilePath = "$([System.IO.Path]::GetTempPath())\uwp_app_settings.reg"
+        $SettingRegFilePath = "$([System.IO.Path]::GetTempPath())\uwp_app_settings_4242.reg"
 
         Write-Verbose -Message $RegContent
         $RegContent | Out-File -FilePath $SettingRegFilePath

@@ -39,9 +39,12 @@ $ScriptsToExecute = @(
     #'apps_settings\Acrobat_Reader'
     'apps_settings\Brave_VLC_Others'
     #'apps_settings\MS_Office'
-    'apps_settings\MS_Store_&_Edge'
-    'apps_settings\Notepad_Photos_SnippingTool'
-    'apps_settings\Terminal'
+    #'apps_settings\MS_Paint'
+    'apps_settings\MS_Store_OneDrive_Edge'
+    'apps_settings\Windows_Notepad'
+    'apps_settings\Windows_Photos'
+    'apps_settings\Windows_Snipping_Tool'
+    'apps_settings\Windows_Terminal'
 
     # --- Network & Internet
     'network_&_internet\network_&_internet'

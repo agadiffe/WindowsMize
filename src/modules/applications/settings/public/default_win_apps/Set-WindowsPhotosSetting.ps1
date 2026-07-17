@@ -76,6 +76,8 @@ function Set-WindowsPhotosSetting
 
         switch ($PSBoundParameters.Keys)
         {
+            #region settings
+            #---------------
             'RunAtStartup' # old
             {
                 # Run in the background at startup
@@ -202,6 +204,10 @@ function Set-WindowsPhotosSetting
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$AIWatermarkReg) | Out-Null
             }
+            #endregion settings
+
+            #region miscellaneous
+            #---------------
             'GalleryType'
             {
                 # river: 2 (default) | square: 0
@@ -231,10 +237,12 @@ function Set-WindowsPhotosSetting
             }
             'FirstRunExperience'
             {
+                $IsEnabled = $FirstRunExperience -eq 'Enabled'
+
                 # on: false (default) | off: true
                 $FirstRunDialog = @{
                     Name  = 'HasShownFREDialog'
-                    Value = $FirstRunExperience -eq 'Enabled' ? 'false' : 'true'
+                    Value = $IsEnabled ? 'false' : 'true'
                     Type  = '5f5e10c'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$FirstRunDialog) | Out-Null
@@ -242,7 +250,7 @@ function Set-WindowsPhotosSetting
                 # on: false (default) | off: true
                 $ImageCategorizationPopup = @{
                     Name  = 'ImageCategorizationConsentDismissed'
-                    Value = $FirstRunExperience -eq 'Enabled' ? 'false' : 'true'
+                    Value = $IsEnabled ? 'false' : 'true'
                     Type  = '5f5e10c'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$ImageCategorizationPopup) | Out-Null
@@ -251,7 +259,7 @@ function Set-WindowsPhotosSetting
                 # Should be a date (or timestamp?). Does work with the above values.
                 $OneDrivePromo = @{
                     Name  = 'OneDrivePromoLastShown'
-                    Value = $FirstRunExperience -eq 'Enabled' ? 0 : [uint]::MaxValue
+                    Value = $IsEnabled ? 0 : [uint]::MaxValue
                     Type  = '5f5e106'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$OneDrivePromo) | Out-Null
@@ -260,7 +268,7 @@ function Set-WindowsPhotosSetting
                 $DesignerFlyout = @{
                     Path  = 'LocalState\FlyoutDismissalStateContainer'
                     Name  = 'DesignerEditor'
-                    Value = $FirstRunExperience -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$DesignerFlyout) | Out-Null
@@ -269,7 +277,7 @@ function Set-WindowsPhotosSetting
                 $ClipChampFlyout = @{
                     Path  = 'LocalState\FlyoutDismissalStateContainer'
                     Name  = 'ClipChamp'
-                    Value = $FirstRunExperience -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$ClipChampFlyout) | Out-Null
@@ -277,11 +285,12 @@ function Set-WindowsPhotosSetting
                 # on: 0 (default) | off: 1
                 $AIMagicEraseTip = @{
                     Name  = 'IsEditHVCMagicEraseTeachingTipDismissed'
-                    Value = $FirstRunExperience -eq 'Enabled' ? '0' : '1'
+                    Value = $IsEnabled ? '0' : '1'
                     Type  = '5f5e10b'
                 }
                 $WindowsPhotosSettings.Add([PSCustomObject]$AIMagicEraseTip) | Out-Null
             }
+            #endregion miscellaneous
         }
 
         if ($WindowsPhotosSettings.Count)

@@ -17,6 +17,7 @@
         # default win apps
         'Set-MicrosoftEdgePolicy'
         'Set-MicrosoftOneDriveSetting'
+        'Set-MicrosoftPaintSetting'
         'Set-MicrosoftStoreSetting'
         'Set-WindowsNotepadSetting'
         'Set-WindowsPhotosSetting'

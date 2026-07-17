@@ -28,13 +28,13 @@ function Remove-CapabilityConsentStorageDatabase
             `$Services = Stop-Service -Name `$ServicesToStop -Force -PassThru -ErrorAction 'SilentlyContinue'
             `$Services.WaitForStatus('Stopped', [TimeSpan]::FromSeconds(3))
 
-            `$MaxRetries = 30
-            `$RetryCount = 0
-            while ((Test-Path -Path '$CamDatabaseFilePath') -and `$RetryCount -lt `$MaxRetries)
+            `$TimeoutSeconds = 3
+            `$Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+
+            while ((Test-Path -Path '$CamDatabaseFilePath') -and `$Stopwatch.Elapsed.TotalSeconds -lt `$TimeoutSeconds)
             {
                 Remove-Item -Path '$CamDatabaseFilePath' -ErrorAction 'SilentlyContinue'
                 Start-Sleep -Seconds 0.1
-                `$RetryCount++
             }
         "
 

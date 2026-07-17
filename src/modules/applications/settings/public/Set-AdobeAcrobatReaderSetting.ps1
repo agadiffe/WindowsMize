@@ -104,9 +104,10 @@ class AdobeAcrobatAppNames : System.Management.Automation.IValidateSetValuesGene
         [-SynchronizerRunAtStartup {Disabled | Enabled}]
         [-SynchronizerTaskManagerProcess {Disabled | Enabled}]
         [-RemoveToolFromToolsTab {AddComments | AddRichMedia | AddSearchIndex | AddStamp | ApplyPdfStandards | CombineFiles |
-                                  CompareFiles | CompressPdf | ConvertPdf | CreatePdf | EditPdf | ExportPdf | FillAndSign |
-                                  MeasureObjects | OrganizePages | PrepareForAccessibility | PrepareForm | ProtectPdf | RedactPdf |
-                                  RequestSignatures | ScanAndOCR | UseCertificate | UseGuidedActions | UsePrintProduction}]
+                                  CompareFiles | CompressPdf | ConvertPdf | CreateCustomTool | CreatePdf | EditPdf | ExportPdf |
+                                  FillAndSign | MeasureObjects | OrganizePages | PrepareForAccessibility | PrepareForm | ProtectPdf |
+                                  RedactPdf | RequestSignatures | ScanAndOCR | SendForComments | UseCertificate | UseGuidedActions |
+                                  UseJavaScript | UsePrintProduction}]
         [-ResetRemovedToolsFromToolsTab]
         [<CommonParameters>]
 #>
