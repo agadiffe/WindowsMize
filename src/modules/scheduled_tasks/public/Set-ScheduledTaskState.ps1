@@ -65,6 +65,9 @@ function Set-ScheduledTaskState
         $AllowedProtectedTaskToBeChanged = @(
             '\Microsoft\Windows\Application Experience\SdbinstMergeDbTask'
             '\Microsoft\Windows\UsageAndQualityInsights\UsageAndQualityInsights-MaintenanceTask'
+            '\Microsoft\Windows\WindowsAI\ClickToDo\ModelCachingIdle'
+            '\Microsoft\Windows\WindowsAI\ClickToDo\ModelCachingLimit'
+            '\Microsoft\Windows\WindowsAI\ClickToDo\ModelCachingUpdate'
             '\Microsoft\Windows\WindowsAI\Recall\InitialConfiguration'
             '\Microsoft\Windows\WindowsAI\Recall\PolicyConfiguration'
             '\Microsoft\Windows\WindowsAI\Settings\InitialConfiguration'

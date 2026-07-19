@@ -127,6 +127,15 @@ $ScheduledTasksList += @{
             }
         }
         @{
+            TaskPath = '\Microsoft\Windows\WindowsAI\ClickToDo\'
+            Task     = @{
+                'ModelCachingIdle'   = 'Disabled' # default: Disabled
+                'ModelCachingLimit'  = 'Disabled' # default: Enabled
+                'ModelCachingUpdate' = 'Disabled' # default: Enabled
+            }
+            Comment  = 'system protected task.'
+        }
+        @{
             TaskPath = '\Microsoft\Windows\WindowsAI\Recall\'
             Task     = @{
                 'InitialConfiguration' = 'Disabled' # default: Disabled
