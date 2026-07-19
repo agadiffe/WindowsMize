@@ -1150,7 +1150,7 @@ Set-SensorsPermission -GPO 'NotConfigured'
 Set-WindowsHelpSupportSetting -F1Key 'Disabled'
 Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
 Set-WindowsMediaDrmOnlineAccess -GPO 'Disabled'
-Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured' # Disabled | Enabled | NotConfigured
+Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured'
 
 #endregion tweaks
 

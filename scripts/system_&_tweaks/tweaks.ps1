@@ -296,7 +296,6 @@ Set-WindowsHelpSupportSetting -FeedbackGPO 'Disabled'
 Set-WindowsMediaDrmOnlineAccess -GPO 'Disabled'
 
 # --- Windows update drivers
-# GPO: Disabled | Enabled | NotConfigured
 Set-WindowsUpdateSearchDrivers -GPO 'NotConfigured'
 
 #endregion settings
