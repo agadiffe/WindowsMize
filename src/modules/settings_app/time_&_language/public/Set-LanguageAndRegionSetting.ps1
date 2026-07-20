@@ -7,6 +7,8 @@
     Set-LanguageAndRegionSetting
         [-FirstDayOfWeek {Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday}]
         [-ShortDateFormat <string>]
+        [-ShortTimeFormat <string>]
+        [-LongTimeFormat <string>]
         [-Utf8ForNonUnicodePrograms {Disabled | Enabled}]
         [<CommonParameters>]
 #>
@@ -23,6 +25,8 @@ function Set-LanguageAndRegionSetting
     (
         [DayOfWeek] $FirstDayOfWeek,
         [string] $ShortDateFormat,
+        [string] $ShortTimeFormat,
+        [string] $LongTimeFormat,
         [state] $Utf8ForNonUnicodePrograms
     )
 
@@ -38,6 +42,8 @@ function Set-LanguageAndRegionSetting
         {
             'FirstDayOfWeek'            { Set-RegionalFormatDate -FirstDayOfWeek $FirstDayOfWeek }
             'ShortDateFormat'           { Set-RegionalFormatDate -ShortDate $ShortDateFormat }
+            'ShortTimeFormat'           { Set-RegionalFormatTime -ShortTime $ShortTimeFormat }
+            'LongTimeFormat'            { Set-RegionalFormatTime -LongTime $LongTimeFormat }
             'Utf8ForNonUnicodePrograms' { Set-SystemLocaleUtf8ForNonUnicodePrograms -State $Utf8ForNonUnicodePrograms }
         }
     }

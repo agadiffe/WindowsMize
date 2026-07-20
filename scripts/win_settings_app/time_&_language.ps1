@@ -87,6 +87,16 @@ Set-LanguageAndRegionSetting -FirstDayOfWeek 'Monday'
 # e.g. 05-Apr-42: dd-MMM-yy
 Set-LanguageAndRegionSetting -ShortDateFormat 'dd-MMM-yy'
 
+# --- Short time
+# e.g. H:mm (1:42)
+# e.g. HH:mm tt (01:42 AM)
+#Set-LanguageAndRegionSetting -ShortTimeFormat 'HH:mm'
+
+# --- Long time
+# e.g. H:mm:ss (1:42:39)
+# e.g. HH:mm:ss tt (01:42:39 AM)
+#Set-LanguageAndRegionSetting -LongTimeFormat 'HH:mm:ss'
+
 #   Administrative language settings
 #=======================================
 
