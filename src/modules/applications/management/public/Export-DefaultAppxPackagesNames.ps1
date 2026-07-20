@@ -29,14 +29,25 @@ function Export-DefaultAppxPackagesNames
             {
                 # PowerShell on Windows 10: Get-AppxPackage not found
                 # https://github.com/PowerShell/PowerShell/issues/19031
-                Import-Module -Name 'Appx' -UseWindowsPowerShell -Verbose:$false
-                $AppxPackages = (Get-AppxPackage -AllUsers).Name
+                # "Import-Module -Name 'xxx' -UseWindowsPowerShell" import the 1.0 version ...
+
+                $AppxPackages = powershell.exe -NoProfile -Command {
+                    (Get-AppxPackage -AllUsers).Name
+                }
+            }
+
+            # "Get-ProvisionedAppxPackage -Online" fails on PowerShell from MSIX installation: Class not registered.
+            # https://github.com/PowerShell/PowerShell/issues/13866
+            # "Import-Module -Name 'xxx' -UseWindowsPowerShell" import the 1.0 version ...
+
+            $ProvisionedAppxPackage = powershell.exe -NoProfile -Command {
+                (Get-ProvisionedAppxPackage -Online -Verbose:$false).DisplayName
             }
 
             $DefaultAppxPackages = "# AppxPackage`n "
             $DefaultAppxPackages += $AppxPackages.ForEach{ "$_`n" }
             $DefaultAppxPackages += "`n# ProvisionedAppxPackage`n "
-            $DefaultAppxPackages += ((Get-ProvisionedAppxPackage -Online -Verbose:$false).DisplayName).ForEach{ "$_`n" }
+            $DefaultAppxPackages += $ProvisionedAppxPackage.ForEach{ "$_`n" }
 
             $DefaultAppxPackages | Out-File -FilePath $LogFilePath
         }
