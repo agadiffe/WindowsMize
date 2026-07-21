@@ -1477,7 +1477,7 @@ $StartSettings = @{
     ShowMostUsedApps              = 'Disabled' ; ShowMostUsedAppsGPO    = 'NotConfigured' # Disabled | Enabled | NotConfigured
     ShowMobileDevice              = 'Disabled'
     ShowAccountNotifications      = 'Disabled'
-    ShowRecentItems               = 'Enabled'  ; ShowRecentItemsGPO     = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    ShowRecentItems               = 'Enabled'  ; ShowRecentItemsGPO     = 'NotConfigured'
     HideNameAndPicture            = 'Disabled'
 }
 Set-StartSetting @StartSettings

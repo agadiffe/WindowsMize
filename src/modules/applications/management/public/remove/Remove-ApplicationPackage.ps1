@@ -34,8 +34,11 @@ function Remove-ApplicationPackage
         {
             # PowerShell on Windows 10: Get-AppxPackage not found
             # https://github.com/PowerShell/PowerShell/issues/19031
-            Import-Module -Name 'Appx' -UseWindowsPowerShell -Verbose:$false
-            $AllAppxPackages = Get-AppxPackage -AllUsers -PackageTypeFilter 'All' -Verbose:$false
+            # "Import-Module -Name 'xxx' -UseWindowsPowerShell" import the 1.0 version ...
+
+            $AllAppxPackages = powershell.exe -NoProfile -Command {
+                Get-AppxPackage -AllUsers -PackageTypeFilter 'All' -Verbose:$false
+            }
         }
     }
 
@@ -49,9 +52,9 @@ function Remove-ApplicationPackage
 
             # The progress bar of Remove-AppxPackage mess up the terminal rendering.
             # Use a PowerShell child process as workaround.
-            powershell.exe -args $AppxPackageNames -NoProfile -Command {
-                $args | Remove-AppxPackage -ErrorAction 'SilentlyContinue'
-                $args | Remove-AppxPackage -AllUsers -ErrorAction 'SilentlyContinue'
+            powershell.exe -Args $AppxPackageNames -NoProfile -Command {
+                $Args | Remove-AppxPackage -ErrorAction 'SilentlyContinue'
+                $Args | Remove-AppxPackage -AllUsers -ErrorAction 'SilentlyContinue'
             }
         }
         else

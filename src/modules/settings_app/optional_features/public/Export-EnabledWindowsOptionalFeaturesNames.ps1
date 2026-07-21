@@ -21,11 +21,16 @@ function Export-EnabledWindowsOptionalFeaturesNames
 
             New-ParentPath -Path $LogFilePath
 
-            Get-WindowsOptionalFeature -Online -Verbose:$false |
-                Where-Object -Property 'State' -EQ -Value 'Enabled' |
-                Select-Object -ExpandProperty 'FeatureName' |
-                Sort-Object |
-                Out-File -FilePath $LogFilePath
+            # "Get-WindowsOptionalFeature -Online" fails on PowerShell from MSIX installation: Class not registered.
+            # https://github.com/PowerShell/PowerShell/issues/13866
+            # "Import-Module -Name 'xxx' -UseWindowsPowerShell" import the 1.0 version ...
+
+            powershell.exe -NoProfile -Command {
+                Get-WindowsOptionalFeature -Online -Verbose:$false |
+                    Where-Object -Property 'State' -EQ -Value 'Enabled' |
+                    Select-Object -ExpandProperty 'FeatureName' |
+                    Sort-Object
+            } | Out-File -FilePath $LogFilePath
         }
     }
 }

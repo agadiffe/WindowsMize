@@ -32,7 +32,14 @@ function Set-WindowsCapability
 
     process
     {
-        $WinCapability = Get-WindowsCapability -Online -Name $Name -Verbose:$false
+        # "Get-WindowsCapability -Online" fails on PowerShell from MSIX installation: Class not registered.
+        # https://github.com/PowerShell/PowerShell/issues/13866
+        # "Import-Module -Name 'xxx' -UseWindowsPowerShell" import the 1.0 version ...
+
+        $WinCapability = powershell.exe -args $Name -NoProfile -Command {
+            Get-WindowsCapability -Online -Name $args[0] -Verbose:$false
+        }
+
         if (-not $WinCapability.Name)
         {
             Write-Verbose -Message "Windows Capability '$Name' not found"
@@ -40,7 +47,7 @@ function Set-WindowsCapability
         }
 
         $StateInternalName = $State -eq 'Enabled' ? 'Installed' : 'NotPresent'
-        if ($WinCapability.State -eq $StateInternalName)
+        if ($WinCapability.State.Value -eq $StateInternalName)
         {
             Write-Verbose -Message "$Name is already '$StateInternalName'"
         }
@@ -51,12 +58,16 @@ function Set-WindowsCapability
                 'Enabled'
                 {
                     Write-Verbose -Message "Adding $Name ..."
-                    $WinCapability | Add-WindowsCapability -Online -Verbose:$false | Out-Null
+                    powershell.exe -Args $WinCapability.Name -NoProfile -Command {
+                        Add-WindowsCapability -Name $Args[0] -Online -Verbose:$false | Out-Null
+                    }
                 }
                 'Disabled'
                 {
                     Write-Verbose -Message "Removing $Name ..."
-                    $WinCapability | Remove-WindowsCapability -Online -Verbose:$false | Out-Null
+                    powershell.exe -Args $WinCapability.Name -NoProfile -Command {
+                        Remove-WindowsCapability -Name $Args[0] -Online -Verbose:$false | Out-Null
+                    }
                 }
             }
         }
