@@ -1930,6 +1930,9 @@ Set-DateAndTimeSetting @DateTimeSettings
 $LanguageAndRegionSettings = @{
     FirstDayOfWeek            = 'Monday'
     ShortDateFormat           = 'dd-MMM-yy' # 05-Apr-42
+    #LongDateFormat            = 'dddd, MMMM d, yyyy' # Wednesday, April 5, 2042
+    #ShortTimeFormat           = 'h:mm tt' # 9:40 AM / 2:40 AM
+    #LongTimeFormat            = 'h:mm:ss tt' # 9:40:07 AM / 2:40:07 AM
     Utf8ForNonUnicodePrograms = 'Enabled'
 }
 Set-LanguageAndRegionSetting @LanguageAndRegionSettings
