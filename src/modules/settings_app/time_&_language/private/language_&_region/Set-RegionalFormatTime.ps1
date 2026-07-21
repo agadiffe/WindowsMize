@@ -35,7 +35,11 @@ function Set-RegionalFormatTime
         {
             'ShortTime'
             {
-                # e.g. 13:42: HH:mm tt
+                # GUI values (en-US):
+                #   h:mm tt  (9:40 AM / 2:40 AM) (default)
+                #   hh:mm tt (09:40 AM / 02:40 AM)
+                #   H:mm     (9:40 / 14:30)
+                #   HH:mm    (09:40 / 14:30)
                 $RegionalFormatShortTime = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Control Panel\International'
@@ -53,7 +57,11 @@ function Set-RegionalFormatTime
             }
             'LongTime'
             {
-                # e.g. 13:42:07: HH:mm:ss tt
+                # GUI values (en-US):
+                #   h:mm:ss tt  (9:40:07 AM / 2:40:07 AM) (default)
+                #   hh:mm:ss tt (09:40:07 AM / 02:40:07 AM)
+                #   H:mm:ss     (9:40:07 / 14:30:07)
+                #   HH:mm:ss    (09:40:07 / 14:30:07)
                 $RegionalFormatLongTime = @{
                     Hive    = 'HKEY_CURRENT_USER'
                     Path    = 'Control Panel\International'

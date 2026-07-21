@@ -76,7 +76,7 @@ Write-Section -Name 'Language & region' -SubSection
 # The installation process may take a moment.
 #Set-LanguageFeatures -State 'Disabled'
 
-#            Regional format
+#     Regional format: Date & time
 #=======================================
 
 # --- First day of week
@@ -84,18 +84,39 @@ Write-Section -Name 'Language & region' -SubSection
 Set-LanguageAndRegionSetting -FirstDayOfWeek 'Monday'
 
 # --- Short date
-# e.g. 05-Apr-42: dd-MMM-yy
+# GUI values (en-US):
+#   M/d/yyyy   (4/5/2042)
+#   M/d/yy     (4/5/42) (default)
+#   MM/dd/yy   (04/05/2042)
+#   MM/dd/yyyy (04/05/2042)
+#   yy/MM/dd   (42/04/05)
+#   yyyy-MM-dd (2042-04-05)
+#   dd-MMM-yy  (05-Apr-42)
 Set-LanguageAndRegionSetting -ShortDateFormat 'dd-MMM-yy'
 
+# --- Long date
+# GUI values (en-US):
+#   dddd, MMMM d, yyyy (Wednesday, April 5, 2042) (default)
+#   MMMM d, yyyy       (April 5, 2042)
+#   dddd, d MMMM, yyyy (Wednesday, 5 April, 2042)
+#   d MMMM, yyyy       (5 April, 2042)
+#Set-LanguageAndRegionSetting -LongDateFormat 'dddd, MMMM d, yyyy'
+
 # --- Short time
-# e.g. H:mm (1:42)
-# e.g. HH:mm tt (01:42 AM)
-#Set-LanguageAndRegionSetting -ShortTimeFormat 'HH:mm'
+# GUI values (en-US):
+#   h:mm tt  (9:40 AM / 2:40 AM) (default)
+#   hh:mm tt (09:40 AM / 02:40 AM)
+#   H:mm     (9:40 / 14:30)
+#   HH:mm    (09:40 / 14:30)
+#Set-LanguageAndRegionSetting -ShortTimeFormat 'h:mm tt'
 
 # --- Long time
-# e.g. H:mm:ss (1:42:39)
-# e.g. HH:mm:ss tt (01:42:39 AM)
-#Set-LanguageAndRegionSetting -LongTimeFormat 'HH:mm:ss'
+# GUI values (en-US):
+#   h:mm:ss tt  (9:40:07 AM / 2:40:07 AM) (default)
+#   hh:mm:ss tt (09:40:07 AM / 02:40:07 AM)
+#   H:mm:ss     (9:40:07 / 14:30:07)
+#   HH:mm:ss    (09:40:07 / 14:30:07)
+#Set-LanguageAndRegionSetting -LongTimeFormat 'h:mm:ss tt'
 
 #   Administrative language settings
 #=======================================
@@ -114,7 +135,7 @@ Set-LanguageAndRegionSetting -Utf8ForNonUnicodePrograms 'Enabled'
 Write-Section -Name 'Typing' -SubSection
 
 # --- Show text suggestions when typing on the software keyboard (default: Disabled)
-# Old ? Only works on Windows 10 (setting not present on Windows 11) ? 
+# Old ? Only works on Windows 10 ? (setting not present on Windows 11) 
 Set-TypingSetting -ShowTextSuggestionsOnSoftwareKeyboard 'Disabled'
 
 # --- Show text suggestions when typing on the physical keyboard (default: Disabled)
