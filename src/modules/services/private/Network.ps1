@@ -25,7 +25,7 @@ $ServicesList += @{
             StartupType = 'Disabled'
             DefaultType = 'Automatic'
             Comment     = 'deprecated.
-                           can produce "Windows failed to apply the TCPIP settings." error when using gpudate /force.
+                           can produce "Windows failed to apply the TCPIP settings." error when using gpupdate /force.
                            even if no tcp/ip gpo are applied.
                            requires NcaSvc service.'
         }

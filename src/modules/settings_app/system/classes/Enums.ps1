@@ -85,14 +85,14 @@ enum PowerSource
     OnBattery
 }
 
-enum ButtonControls
+enum PhysicalControl
 {
     PowerButton
     SleepButton
     LidClose
 }
 
-enum PowerAction
+enum PhysicalControlAction
 {
     DoNothing  = 0
     Sleep      = 1

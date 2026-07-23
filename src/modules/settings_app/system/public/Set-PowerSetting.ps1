@@ -18,12 +18,6 @@
         -TimeoutMins <int>
         -PowerSource {PluggedIn | OnBattery}
         [<CommonParameters>]
-
-    Set-PowerSetting
-        -ButtonControls {PowerButton | SleepButton | LidClose}
-        -Action {DoNothing | Sleep | Hibernate | ShutDown | DisplayOff}
-        -PowerSource {PluggedIn | OnBattery}
-        [<CommonParameters>]
 #>
 
 function Set-PowerSetting
@@ -37,9 +31,6 @@ function Set-PowerSetting
 
     .EXAMPLE
         PS> Set-PowerSetting -PowerState 'Sleep' -TimeoutMins 10 -PowerSource 'PluggedIn'
-
-    .EXAMPLE
-        PS> Set-PowerSetting -ButtonControls 'LidClose' -Action 'Sleep' -PowerSource 'OnBattery'
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'GeneralSettings')]
@@ -58,15 +49,8 @@ function Set-PowerSetting
         [ValidateRange('NonNegative')]
         [int] $TimeoutMins,
 
-        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'ButtonControls')]
-        [ButtonControls] $ButtonControls,
-
-        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'ButtonControls')]
-        [PowerAction] $Action,
-
         [Parameter(ValueFromPipelineByPropertyName, ParameterSetName = 'PowerMode')]
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
-        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'ButtonControls')]
         [PowerSource] $PowerSource
     )
 
@@ -99,7 +83,6 @@ function Set-PowerSetting
                 }
             }
             'PowerStateTimeout' { Set-PowerStateTimeout -Name $PowerState -TimeoutMins $TimeoutMins -PowerSource $PowerSource }
-            'ButtonControls'    { Set-PowerButtonControls -Name $ButtonControls -Action $Action -PowerSource $PowerSource }
         }
     }
 }

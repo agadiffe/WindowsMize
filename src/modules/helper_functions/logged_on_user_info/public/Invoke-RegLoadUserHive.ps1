@@ -29,7 +29,7 @@ function Invoke-RegLoadUserHive
 
             if (-not (Test-Path -Path $ProfileFilePath))
             {
-                Write-Error -Message "Error: User registry Hive not found. Cannot be loaded. File path: $ProfileFilePath"
+                Write-Error -Message "User registry Hive not found. Cannot be loaded. File path: $ProfileFilePath"
                 exit
             }
             reg.exe LOAD $UserRegPath $ProfileFilePath | Out-Null

@@ -30,10 +30,11 @@ function Set-AdvancedBatterySetting
 {
     <#
     .DESCRIPTION
-        'Reserve Battery' does not support 'Action' parameter.
+        'Reserve' battery does not support 'Action'.
+        At least 'Percent' or 'Action' must be specified.
 
     .EXAMPLE
-        PS> Set-AdvancedBatterySetting -Battery 'Low' -Percentage 20
+        PS> Set-AdvancedBatterySetting -Battery 'Low' -Percent 20
 
     .EXAMPLE
         PS> Set-AdvancedBatterySetting -Battery 'Critical' -Percent 10 -Action 'ShutDown'
@@ -57,7 +58,7 @@ function Set-AdvancedBatterySetting
 
     process
     {
-        if (-not ($PSBoundParameters.ContainsKey('Percent') -or $PSBoundParameters.ContainsKey('Action')))
+        if (-not $PSBoundParameters.ContainsKey('Percent') -and -not $PSBoundParameters.ContainsKey('Action'))
         {
             Write-Error -Message (Write-InsufficientParameterCount)
             Write-Error -Message 'Specify at least the ''Percent'' or ''Action'' parameter.'
@@ -66,7 +67,7 @@ function Set-AdvancedBatterySetting
 
         if ($Battery -eq 'Reserve' -and $PSBoundParameters.ContainsKey('Action'))
         {
-            Write-Error -Message '''Reserve Battery'' does not support ''Action'' parameter.'
+            Write-Error -Message '''Reserve'' battery does not support ''Action''.'
             return
         }
 

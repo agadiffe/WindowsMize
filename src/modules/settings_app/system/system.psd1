@@ -15,6 +15,7 @@
     FunctionsToExport = @(
         'Set-AIComponentsSetting'
         'Set-ClipboardSetting'
+        'Set-DevicePhysicalControlAction'
         'Set-DisplayBrightnessSetting'
         'Set-DisplayGraphicsSetting'
         'Set-EnergySaverSetting'

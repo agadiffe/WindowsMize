@@ -31,7 +31,7 @@ function Get-LoggedOnUserInfo
             $UserInfo = Get-UserInfo -User $ProvidedUserName
             if (-not $UserInfo)
             {
-                Write-Error -Message "Error: User ""$ProvidedUserName"" not found."
+                Write-Error -Message "User ""$ProvidedUserName"" not found."
                 exit
             }
         }
@@ -52,7 +52,7 @@ function Get-LoggedOnUserInfo
             }
             else
             {
-                Write-Error -Message 'Error: explorer.exe process not found. Cannot retrieve logged-on user info.'
+                Write-Error -Message 'explorer.exe process not found. Cannot retrieve logged-on user info.'
                 exit
             }
         }

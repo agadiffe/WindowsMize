@@ -814,6 +814,7 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled' 
 
 # Percent: value in percentage (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
+# 'Reserve' battery does not support 'Action'.
 Set-AdvancedBatterySetting -Battery 'Low'      -Percent 19 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Percent 12
 Set-AdvancedBatterySetting -Battery 'Critical' -Percent 9  -Action 'Sleep'
@@ -848,16 +849,17 @@ $EnergySaverSettings = @{
 Set-EnergySaverSetting @EnergySaverSettings
 
 # Action: DoNothing | Sleep | Hibernate | ShutDown | DisplayOff
-$ButtonControlsSettings = @(
-    @{ PowerSource = 'PluggedIn' ; ButtonControls = 'PowerButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'PluggedIn' ; ButtonControls = 'SleepButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'PluggedIn' ; ButtonControls = 'LidClose'    ; Action = 'Sleep' }
+# 'LidClose' does not support 'DisplayOff'.
+$DevicePhysicalControlActions = @(
+    @{ PowerSource = 'PluggedIn' ; Control = 'PowerButton' ; Action = 'Sleep' }
+    @{ PowerSource = 'PluggedIn' ; Control = 'SleepButton' ; Action = 'Sleep' }
+    @{ PowerSource = 'PluggedIn' ; Control = 'LidClose'    ; Action = 'Sleep' }
 
-    @{ PowerSource = 'OnBattery' ; ButtonControls = 'PowerButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'OnBattery' ; ButtonControls = 'SleepButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'OnBattery' ; ButtonControls = 'LidClose'    ; Action = 'Sleep' }
+    @{ PowerSource = 'OnBattery' ; Control = 'PowerButton' ; Action = 'Sleep' }
+    @{ PowerSource = 'OnBattery' ; Control = 'SleepButton' ; Action = 'Sleep' }
+    @{ PowerSource = 'OnBattery' ; Control = 'LidClose'    ; Action = 'Sleep' }
 ) | ForEach-Object { [PSCustomObject]$_ }
-$ButtonControlsSettings | Set-PowerSetting
+$DevicePhysicalControlActions | Set-DevicePhysicalControlAction
 
 #endregion power & battery
 

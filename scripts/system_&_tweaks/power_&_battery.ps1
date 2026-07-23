@@ -49,6 +49,7 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 # Battery: Low | Critical | Reserve
 # Percent: value in percentage (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
+# Note: 'Reserve' battery does not support 'Action'.
 Set-AdvancedBatterySetting -Battery 'Low'      -Percent 19 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Percent 12
 Set-AdvancedBatterySetting -Battery 'Critical' -Percent 9  -Action 'Sleep'
@@ -125,15 +126,16 @@ Set-EnergySaverSetting -LowerKeyboardBrightness 'Enabled'
 # --- Pressing the sleep button will make my PC
 # --- Closing the lid will make my PC
 # PowerSource: PluggedIn | OnBattery
-# ButtonControls: PowerButton | SleepButton | LidClose
+# Control: PowerButton | SleepButton | LidClose
 # Action: DoNothing | Sleep (default) | Hibernate | ShutDown | DisplayOff
+# Note: 'LidClose' does not support 'DisplayOff'.
 
-Set-PowerSetting -PowerSource 'PluggedIn' -ButtonControls 'PowerButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'PluggedIn' -ButtonControls 'SleepButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'PluggedIn' -ButtonControls 'LidClose'    -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'PowerButton' -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'SleepButton' -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'LidClose'    -Action 'Sleep'
 
-Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'PowerButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'SleepButton' -Action 'Sleep'
-Set-PowerSetting -PowerSource 'OnBattery' -ButtonControls 'LidClose'    -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'PowerButton' -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'SleepButton' -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'LidClose'    -Action 'Sleep'
 
 #endregion settings app
