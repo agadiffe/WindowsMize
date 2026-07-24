@@ -26,16 +26,24 @@ function Test-FileLock
 
     process
     {
-        try
+        if (-not (Test-Path -Path $FilePath))
         {
-            $FileStream = [System.IO.File]::Open($FilePath, 'Open', 'ReadWrite', 'None')
-            $FileStream.Close()
             $IsLocked = $false
         }
-        catch
+        else
         {
-            $IsLocked = $true
+            try
+            {
+                $FileStream = [System.IO.File]::Open($FilePath, 'Open', 'ReadWrite', 'None')
+                $FileStream.Close()
+                $IsLocked = $false
+            }
+            catch [System.IO.IOException]
+            {
+                $IsLocked = $true
+            }
         }
+
         $IsLocked
     }
 }

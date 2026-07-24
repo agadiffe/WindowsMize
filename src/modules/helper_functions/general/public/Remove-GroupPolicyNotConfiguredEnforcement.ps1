@@ -34,6 +34,23 @@ function Remove-GroupPolicyNotConfiguredEnforcement
         }
         $LgpoTxtFilePath = "$([System.IO.Path]::GetTempPath())\lgpo_parse.txt"
 
+        Write-Verbose -Message 'Removing ''DELETE command(s)'' from Registry Policy file ...'
+
+        # This issue is handled by Wait-GroupPolicyRefresh and will not happen if Event Log is enabled.
+        #
+        # Wait for the Group Policy refresh triggered by LGPO /t to finish before
+        # running another LGPO command that reads/writes Registry.pol (e.g. /parse or /r /w).
+        # A fix sleep time might not be 100% reliable on slower hardware but 3 seconds should be more than enought.
+        #
+        # Related error:
+        #  Unable to create output file:  C:\WINDOWS\System32\GroupPolicy\Machine\Registry.pol
+        #  The process cannot access the file because it is being used by another process.
+        #  (Error # 32 = 0x00000020)
+        if (-not (Test-GPEventLogReady))
+        {
+            Start-Sleep -Seconds 3
+        }
+
         foreach ($Scope in $GPRegistryFilePath.Keys)
         {
             $GPRegPolFilePath = $GPRegistryFilePath[$Scope]
@@ -46,6 +63,7 @@ function Remove-GroupPolicyNotConfiguredEnforcement
                     RedirectStandardOutput = $LgpoTxtFilePath
                 }
                 Start-Process -Wait -NoNewWindow @StartProcessParam
+                Start-Sleep -Seconds 0.1
 
                 $LgpoContent = Get-Content -Raw -Path $LgpoTxtFilePath
                 $LgpoNewContent = $LgpoContent -replace '(?:.+\r?\n){3}DELETE'
@@ -53,12 +71,19 @@ function Remove-GroupPolicyNotConfiguredEnforcement
                 if ($LgpoNewContent -ne $LgpoContent)
                 {
                     $LgpoNewContent | Out-File -FilePath $LgpoTxtFilePath
-                    Write-Verbose -Message "Removing 'DELETE command(s)' from Registry Policy file: $GPRegPolFilePath"
+
+                    Write-Verbose -Message "  '$GPRegPolFilePath': Processing ..."
+
                     $StartProcessParam = @{
                         FilePath     = 'lgpo.exe'
                         ArgumentList = "/r ""$LgpoTxtFilePath"" /w ""$GPRegPolFilePath"" /q"
                     }
                     Start-Process -Wait -NoNewWindow @StartProcessParam
+                    Start-Sleep -Seconds 0.1
+                }
+                else
+                {
+                    Write-Verbose -Message "  '$GPRegPolFilePath': No command(s) to remove."
                 }
 
                 Remove-Item -Path $LgpoTxtFilePath

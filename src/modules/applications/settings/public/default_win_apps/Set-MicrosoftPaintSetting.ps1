@@ -101,7 +101,7 @@ function Set-MicrosoftPaintSetting
         }
         catch
         {
-            Write-Error -Message "Microsoft Paint : $($_.Exception.Message) Setting not applied."
+            Write-Error -Message "Microsoft Paint: $($_.Exception.Message) Setting not applied."
             return
         }
 

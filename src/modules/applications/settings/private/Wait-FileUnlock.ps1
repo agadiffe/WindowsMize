@@ -13,14 +13,29 @@
 
 function Wait-FileUnlock
 {
+    <#
+    .EXAMPLE
+        PS> try
+            {
+                Wait-FileUnlock -FilePath $FilePath -TimeoutSeconds 3
+            }
+            catch
+            {
+                Write-Error -Message "$($_.Exception.Message) Setting not applied."
+                return
+            }
+    #>
+
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
         [string] $FilePath,
 
+        [ValidateRange('NonNegative')]
         [double] $TimeoutSeconds = 3,
 
+        [ValidateRange('NonNegative')]
         [double] $RetryIntervalSeconds = 0.1
     )
 
