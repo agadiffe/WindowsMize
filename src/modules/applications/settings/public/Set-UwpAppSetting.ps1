@@ -78,7 +78,7 @@ function Set-UwpAppSetting
             }
             catch
             {
-                Write-Error -Message "$Name : $($_.Exception.Message) Setting not applied."
+                Write-Error -Message "${Name}: $($_.Exception.Message) Setting not applied."
                 return
             }
 
