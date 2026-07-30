@@ -97,6 +97,9 @@ function New-BraveBrowserConfigData
         }' | ConvertFrom-Json -AsHashtable)
 
         Merge-Hashtable $BravePreferences ('{
+            "tab_search": {
+                "pinned_to_tabstrip": true // tab search button
+            },
             "bookmark_bar": {
                 "show_tab_groups": false
             },
@@ -117,6 +120,14 @@ function New-BraveBrowserConfigData
                     "prevent_url_elisions": false // show full URLs
                 },
                 "web_view_rounded_corners": false
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
+        Merge-Hashtable $BraveLocalState ('{
+            "brave": {
+                "tabs": {
+                    "compact_horizontal_tabs": false
+                }
             }
         }' | ConvertFrom-Json -AsHashtable)
 
@@ -157,8 +168,7 @@ function New-BraveBrowserConfigData
             },
             "toolbar": {
                 "pinned_actions": [
-                    //"kActionNewIncognitoWindow", // new private window
-                    "kActionTabSearch"
+                    //"kActionNewIncognitoWindow" // new private window
                 ]
             }
         }' | ConvertFrom-Json -AsHashtable)
@@ -663,6 +673,10 @@ function New-BraveBrowserConfigData
             "brave": {
                 "gcm": {
                     "channel_status": false // google for push messaging
+                },
+                "history": {
+                    // 1 day: 1 | 1 week: 7 | 1 month: 30 | 3 montths: 90 | 6 montths: 180 | 1 year: 365 | 5 years: 1825 | forever: -1
+                    "retention_days": 90
                 },
                 "de_amp": {
                     "enabled": true // auto-redirect AMP pages
