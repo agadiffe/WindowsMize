@@ -36,8 +36,6 @@ function Remove-GroupPolicyNotConfiguredEnforcement
 
         Write-Verbose -Message 'Removing ''DELETE command(s)'' from Registry Policy file ...'
 
-        # This issue is handled by Wait-GroupPolicyRefresh and will not happen if Event Log is enabled.
-        #
         # Wait for the Group Policy refresh triggered by LGPO /t to finish before
         # running another LGPO command that reads/writes Registry.pol (e.g. /parse or /r /w).
         # A fix sleep time might not be 100% reliable on slower hardware but 3 seconds should be more than enought.
@@ -49,6 +47,11 @@ function Remove-GroupPolicyNotConfiguredEnforcement
         if (-not (Test-GPEventLogReady))
         {
             Start-Sleep -Seconds 3
+        }
+        else
+        {
+            # If events are not found, it will also wait 3 seconds (timeout).
+            Wait-GroupPolicyRefresh -Verbose:$false
         }
 
         foreach ($Scope in $GPRegistryFilePath.Keys)

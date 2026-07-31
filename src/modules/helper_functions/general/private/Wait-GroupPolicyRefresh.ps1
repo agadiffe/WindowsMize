@@ -24,7 +24,7 @@ function Wait-GroupPolicyRefresh
     [CmdletBinding()]
     param
     (
-        [datetime] $QueryStartTime = (Get-Date).AddSeconds(-20),
+        [datetime] $QueryStartTime = (Get-Date).AddSeconds(-1),
 
         [ValidateRange('NonNegative')]
         [double] $TimeoutSeconds = 3,
@@ -43,27 +43,32 @@ function Wait-GroupPolicyRefresh
         }
 
         # wait for the manual GP Refresh start events initialized by LGPO /t
+        $EventIds = 4004, 4005
+        $StartEvent = @()
+
         $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
         do {
             $EventFilter = @{
                 LogName   = $LogName
-                Id        = 4004, 4005
+                Id        = $EventIds
                 StartTime = $QueryStartTime
             }
-            $StartEvent = Get-WinEvent -FilterHashtable $EventFilter -MaxEvents 2 -ErrorAction 'SilentlyContinue' -Verbose:$false
 
-            if ($StartEvent -and $StartEvent.Id.Contains(4004) -and $StartEvent.Id.Contains(4005))
+            $CurrentEvent = Get-WinEvent -FilterHashtable $EventFilter -MaxEvents 1 -ErrorAction 'SilentlyContinue' -Verbose:$false
+
+            if ($CurrentEvent)
             {
-                break
+                $StartEvent += $CurrentEvent
+                $EventIds = $EventIds | Where-Object -FilterScript { $_ -ne $CurrentEvent.Id }
             }
+
             Start-Sleep -Seconds $RetryIntervalSeconds
-        } while ($Stopwatch.Elapsed.TotalSeconds -lt $TimeoutSeconds)
 
-        $Stopwatch.Stop()
+        } while ($EventIds.Count -ne 0 -and $Stopwatch.Elapsed.TotalSeconds -lt $TimeoutSeconds)
 
-        if (-not $StartEvent -or -not ($StartEvent.Id.Contains(4004) -and $StartEvent.Id.Contains(4005)))
+        if ($StartEvent.Count -ne 2)
         {
-            Write-Error -Message 'Timed out waiting for Group Policy start event 4004 & 4005.'
+            Write-Verbose -Message 'Timed out waiting for Group Policy start event 4004 & 4005.'
             return
         }
 
@@ -72,9 +77,10 @@ function Wait-GroupPolicyRefresh
         # wait for the matching completion events
         $QueryStartTimeUtc = $QueryStartTime.ToUniversalTime().ToString('o')
         $EndEvent = @()
+
+        $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
         foreach ($Id in $StartActivityId)
         {
-            $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
             do {
                 $CompletionXPath = "
                     *[System[
@@ -84,20 +90,16 @@ function Wait-GroupPolicyRefresh
                     ]]"
                 $CompletionEvent = Get-WinEvent -LogName $LogName -FilterXPath $CompletionXPath -MaxEvents 1 -ErrorAction 'SilentlyContinue'
 
-                if ($CompletionEvent)
-                {
-                    break
-                }
                 Start-Sleep -Seconds $RetryIntervalSeconds
-            } while ($Stopwatch.Elapsed.TotalSeconds -lt $TimeoutSeconds)
 
-            $Stopwatch.Stop()
+            } while (-not $CompletionEvent -and $Stopwatch.Elapsed.TotalSeconds -lt $TimeoutSeconds)
+
             $EndEvent += $CompletionEvent
         }
 
         if ($EndEvent.Count -ne 2)
         {
-            Write-Error -Message 'Timed out waiting for Group Policy completion events 8004 & 8005.'
+            Write-Verbose -Message 'Timed out waiting for Group Policy completion events 8004 & 8005.'
             return
         }
     }
