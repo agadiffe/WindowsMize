@@ -50,7 +50,7 @@ function Remove-GroupPolicyNotConfiguredEnforcement
         }
         else
         {
-            # If events are not found, it will also wait 3 seconds (timeout).
+            # If completion events are not found, it will also wait 3 seconds (timeout).
             Wait-GroupPolicyRefresh -Verbose:$false
         }
 
