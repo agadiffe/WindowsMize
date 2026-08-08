@@ -124,7 +124,8 @@ $ScheduledTasksList += @{
             Task     = @{
                 UPnPHostConfig = 'Disabled' # default: Enabled
             }
-            Comment  = 'Set UPnPHost service to Auto-Start.'
+            Comment  = 'Set UPnPHost service to Auto-Start.
+                        No defined triggers by default.'
         }
         @{
             TaskPath = '\Microsoft\Windows\User Profile Service\'

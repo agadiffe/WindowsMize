@@ -283,7 +283,8 @@ $ServicesList += @{
             ServiceName = 'whesvc'
             StartupType = 'Disabled'
             DefaultType = 'AutomaticDelayedStart'
-            Comment     = 'adaptive Energy Saver mode.'
+            Comment     = 'adaptive Energy Saver mode.
+                           also collect performance diagnostics.'
         }
         @{
             DisplayName = 'Windows Image Acquisition (WIA)'

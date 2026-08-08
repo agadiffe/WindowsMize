@@ -7,20 +7,26 @@ Add these domain lists to your hosts file (C:\Windows\System32\drivers\etc\hosts
 You may need to allow modifications to the hosts file in Microsoft Defender (e.g. by adding the file as an exclusion).
 
 Excluding the hosts file from Defender can reduce security if malware later gains access to your system,  
-because malware often abuses the hosts file to block security websites or redirect traffic.  
-An alternative is to use AdGuard Home or a similar DNS-based filtering tool.
-
+because malware often abuses the hosts file to block security websites or redirect traffic. 
+ 
 Not automated, because scripts or tools that modify the hosts file are commonly flagged by antivirus software,  
 including Microsoft Defender, as potentially suspicious behavior.
 
+An alternative is to use AdGuard Home or a similar DNS-based filtering tool.  
+This is also recommended for better coverage by being able to use wildcard for subdomains.
+
 - Microsoft Solitaire Ads  
   See [Microsoft-Solitaire-Ads_DNS-list.txt](tools/Microsoft-Solitaire-Ads_DNS-list.txt).  
-  Open Notepad as administrator and copy/paste the list to your hosts file.
+  Open Notepad as administrator and copy/paste the list to your hosts file.  
+  As the domains doesn't change, using the hosts file is fine.
+
 - Microsoft trackers (Windows, Office, MSN)  
-  GitHub project: https://github.com/hagezi/dns-blocklists  
+  GitHub project:
+  - https://github.com/hagezi/dns-blocklists
+  - https://github.com/hagezi/dns-blocklists-legacy
+
   Hosts file:  
-  - https://github.com/hagezi/dns-blocklists/blob/main/hosts/native.winoffice-compressed.txt
-  - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.winoffice-compressed.txt
+  - https://github.com/hagezi/dns-blocklists-legacy/raw/refs/heads/main/hosts/native.winoffice-compressed.txt
 
   <details>
     <summary>Script to add/update the "Windows Tracker DNS Blocklist" (save it as .ps1 file) (Click to expand)</summary>
@@ -42,8 +48,7 @@ including Microsoft Defender, as potentially suspicious behavior.
   param ()
   
   $HostsData = @{
-      #Source      = 'https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/native.winoffice-compressed.txt'
-      Source      = 'https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.winoffice-compressed.txt'
+      Source      = 'https://github.com/hagezi/dns-blocklists-legacy/raw/refs/heads/main/hosts/native.winoffice-compressed.txt'
       Destination = "$env:SystemRoot\System32\drivers\etc\hosts"
   }
   
