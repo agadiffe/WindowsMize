@@ -1067,7 +1067,6 @@ Set-Wpbt -State 'Disabled'
 
 # --- System and performance
 Set-FirstSigninAnimation -GPO 'Disabled' # Disabled | Enabled | NotConfigured
-#Set-FullscreenOptimizations -State 'Disabled' # Disabled | Enabled | Default
 Set-NtfsLastAccessTime -Managed 'User' -State 'Disabled' # Managed: User | System
 Set-NumLockAtStartup -State 'Enabled'
 Set-ServiceHostSplitting -State 'Enabled'

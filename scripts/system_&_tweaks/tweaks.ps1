@@ -88,10 +88,6 @@ Write-Section -Name 'System and performance' -SubSection
 # GPO: Disabled | Enabled | NotConfigured
 Set-FirstSigninAnimation -GPO 'NotConfigured'
 
-# --- Fullscreen optimizations
-# State: Disabled | Enabled | Default (default)
-#Set-FullscreenOptimizations -State 'Disabled'
-
 # --- NTFS Last Access Time
 # default: System Enabled
 #   Managed: User | System

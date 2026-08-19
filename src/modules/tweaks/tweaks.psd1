@@ -32,7 +32,6 @@
 
         # --- system_and_performance
         'Set-FirstSigninAnimation'
-        'Set-FullscreenOptimizations'
         'Set-NtfsLastAccessTime'
         'Set-NumLockAtStartup'
         'Set-ServiceHostSplitting'

@@ -78,7 +78,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   DisplayLastSignedinUserName, HomeGroup, Hotspot2, LocalAccountsSecurityQuestions, LockBatchFilesWhenInUse, LockScreenCameraAccess, MessagingCloudSync, NotificationsNetworkUsage, PasswordExpiration, PasswordRevealButton, PrinterDriversDownloadOverHttp, PrintingOverHttp, WifiSense, Wpbt.
 
 - System and performance:  
-  FirstSigninAnimation, FullscreenOptimizations, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartMenuWebview2Version, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
+  FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartMenuWebview2Version, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
   ActionCenterLayout, BackupYourPCBanners, CopyPasteDialogShowMoreDetails, GameBarLinks, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperiencePreload, WindowsPrivacySettingsExperience, WindowsSettingsSearchAgent, WindowsSharedExperience, WindowsSpotlight.
