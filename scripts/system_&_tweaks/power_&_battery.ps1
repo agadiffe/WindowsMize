@@ -17,6 +17,7 @@ Import-Module -Name $WindowsMizeModuleNames.ForEach({ "$PSScriptRoot\..\..\src\m
 
 # Parameters values (if not specified):
 #   State: Disabled | Enabled
+#   GPO:   Disabled | NotConfigured (default)
 
 #=================================================================================================================
 #                                                 Power & Battery
@@ -49,7 +50,7 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled'
 # Battery: Low | Critical | Reserve
 # Percent: value in percentage (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
-# Note: 'Reserve' battery does not support 'Action'.
+#   Note (Action): 'Reserve' battery does not support 'Action'.
 Set-AdvancedBatterySetting -Battery 'Low'      -Percent 19 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Percent 12
 Set-AdvancedBatterySetting -Battery 'Critical' -Percent 9  -Action 'Sleep'
@@ -93,25 +94,31 @@ Set-PowerSetting -BatteryPercentage 'Disabled'
 # --- Make my device hibernate after
 # PowerSource: PluggedIn | OnBattery
 # PowerState: Screen | Sleep | Hibernate
-# TimeoutMins: value in minutes | never: 0
+# TimeoutMins: value in minutes (never: 0)
+# TimeoutMinsGPO: value in minutes (never: 0) | NotConfigured
+# GUI values: 1 2 3 5 10 15 20 25 30 45 minute(s), 1 2 3 4 5 hour(s), Never
 
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Screen'    -TimeoutMins 3
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Sleep'     -TimeoutMins 10
-Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Hibernate' -TimeoutMins 60
+Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Screen'    -TimeoutMins 3  -TimeoutMinsGPO 'NotConfigured'
+Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Sleep'     -TimeoutMins 10 -TimeoutMinsGPO 'NotConfigured'
+Set-PowerSetting -PowerSource 'PluggedIn' -PowerState 'Hibernate' -TimeoutMins 60 -TimeoutMinsGPO 'NotConfigured'
 
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Screen'    -TimeoutMins 3
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Sleep'     -TimeoutMins 5
-Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -TimeoutMins 30
+Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Screen'    -TimeoutMins 3  -TimeoutMinsGPO 'NotConfigured'
+Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Sleep'     -TimeoutMins 5  -TimeoutMinsGPO 'NotConfigured'
+Set-PowerSetting -PowerSource 'OnBattery' -PowerState 'Hibernate' -TimeoutMins 30 -TimeoutMinsGPO 'NotConfigured'
 
 #             Energy saver
 #=======================================
 
 # --- Always use energy saver (default: Disabled)
-Set-EnergySaverSetting -AlwaysOn 'Disabled'
+# GPO: Enabled | NotConfigured
+Set-EnergySaverSetting -AlwaysOn 'Disabled' -AlwaysOnGPO 'NotConfigured'
 
 # --- Turn energy saver on automatically when battery level is at
-# range: 0-100 / default: 30 | never: 0 | always: 100
-Set-EnergySaverSetting -TurnOnAtBatteryLevel 30
+# State: value in percentage (range: 0-100) (default: 30 | never: 0 | on battery: 100)
+# GPO: value in percentage (range: 0-100) (never: 0 | on battery: 100) | NotConfigured
+# GUI values: Never | 10% | 20% | 30% | 40% | 50% | On 
+# The GUI will show 'Never' if you choose another value than the predefined ones, but it will work as intended.
+Set-EnergySaverSetting -TurnOnAtBatteryLevel 30 -TurnOnAtBatteryLevelGPO 'NotConfigured'
 
 # --- Lower screen brightness when using energy saver (default: Enabled)
 Set-EnergySaverSetting -LowerScreenBrightness 'Enabled'
@@ -128,14 +135,15 @@ Set-EnergySaverSetting -LowerKeyboardBrightness 'Enabled'
 # PowerSource: PluggedIn | OnBattery
 # Control: PowerButton | SleepButton | LidClose
 # Action: DoNothing | Sleep (default) | Hibernate | ShutDown | DisplayOff
-# Note: 'LidClose' does not support 'DisplayOff'.
+#   Note (Action): 'LidClose' does not support 'DisplayOff'.
+# ActionGPO: DoNothing | Sleep | Hibernate | ShutDown | NotConfigured
 
-Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'PowerButton' -Action 'Sleep'
-Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'SleepButton' -Action 'Sleep'
-Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'LidClose'    -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'PowerButton' -Action 'Sleep' -ActionGPO 'NotConfigured'
+Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'SleepButton' -Action 'Sleep' -ActionGPO 'NotConfigured'
+Set-DevicePhysicalControlAction -PowerSource 'PluggedIn' -Control 'LidClose'    -Action 'Sleep' -ActionGPO 'NotConfigured'
 
-Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'PowerButton' -Action 'Sleep'
-Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'SleepButton' -Action 'Sleep'
-Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'LidClose'    -Action 'Sleep'
+Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'PowerButton' -Action 'Sleep' -ActionGPO 'NotConfigured'
+Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'SleepButton' -Action 'Sleep' -ActionGPO 'NotConfigured'
+Set-DevicePhysicalControlAction -PowerSource 'OnBattery' -Control 'LidClose'    -Action 'Sleep' -ActionGPO 'NotConfigured'
 
 #endregion settings app

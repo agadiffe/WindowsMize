@@ -101,6 +101,15 @@ enum PhysicalControlAction
     DisplayOff = 4
 }
 
+enum PhysicalControlActionGpo
+{
+    DoNothing  = 0
+    Sleep      = 1
+    Hibernate  = 2
+    ShutDown   = 3
+    NotConfigured
+}
+
 
 # sound
 enum AdjustVolumeMode

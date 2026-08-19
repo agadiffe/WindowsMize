@@ -28,22 +28,26 @@ function Set-HardDiskTimeout
         [PowerSourceMode] $PowerSource,
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
-        [ValidateRange(0, 71582788)]
+        [ValidateRange(0, 1193046)]
         [int] $TimeoutMins
     )
 
     process
     {
-        $PowerSourceValue = switch ($PowerSource)
-        {
-            'PluggedIn' { 'AC' }
-            'OnBattery' { 'DC' }
-        }
-
-        # value is in minutes
-        # never: 0 | default: 20 (PluggedIn), 10 (OnBattery)
+        # SUB_DISK: '0012ee47-9041-4b5d-9b77-535fba8b1442'
+        # DISKIDLE: '6738e2c4-e8a5-4a42-b16a-e040e769756e'
 
         Write-Verbose -Message "Setting 'Hard Disk Timeout ($PowerSource)' to '$TimeoutMins min(s)' ..."
-        powercfg.exe -Change Disk-Timeout-$PowerSourceValue $TimeoutMins
+
+        $PowerPlanGUID = Get-PowerPlanGUID
+        $SetValueIndex = $PowerSource -eq 'PluggedIn' ? '-SetACValueIndex' : '-SetDCValueIndex'
+        $Value = $TimeoutMins * 60
+
+        foreach ($GUID in $PowerPlanGUID)
+        {
+            # value is in minutes
+            # never: 0 | default: 20 (PluggedIn), 10 (OnBattery)
+            powercfg.exe $SetValueIndex $GUID SUB_DISK DISKIDLE $Value
+        }
     }
 }

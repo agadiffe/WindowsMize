@@ -11,24 +11,6 @@ enum BlockMSAccountsMode
 }
 
 
-# sign-in options
-enum SigninRequiredS0
-{
-    Never
-    Always
-    OneMin
-    ThreeMins
-    FiveMins
-    FifteenMins
-}
-
-enum SigninRequiredS3
-{
-    Never
-    OnWakesUpFromSleep
-}
-
-
 # windows backup
 enum RememberAppsAndPrefsMode
 {

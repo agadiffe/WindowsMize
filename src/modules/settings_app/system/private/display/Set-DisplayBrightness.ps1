@@ -29,14 +29,19 @@ function Set-DisplayBrightness
 
     process
     {
-        # range: 0-100
         Write-Verbose -Message "Setting 'Display Brightness' to '$Percent%' ..."
 
+        # SUB_VIDEO: '7516b95f-f776-4464-8c53-06167f40cc99'
+        # VIDEONORMALLEVEL: 'aded5e82-b909-4619-9949-f5d71dac0bcb'
+
+        # range: 0-100
         powercfg.exe -SetACValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent 2>&1 | Out-Null
         powercfg.exe -SetDCValueIndex SCHEME_CURRENT SUB_VIDEO VIDEONORMALLEVEL $Percent 2>&1 | Out-Null
+
         if ($Global:LASTEXITCODE -ne 0) {
-            Write-Verbose -Message "  cannot set the Display Brightness (probably no built-in display available)"
+            Write-Error -Message "  cannot set the Display Brightness (probably no built-in display available)"
         }
+
         powercfg.exe -SetActive SCHEME_CURRENT
     }
 }

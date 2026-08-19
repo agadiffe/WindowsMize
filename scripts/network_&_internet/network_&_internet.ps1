@@ -40,7 +40,7 @@ Write-Section -Name 'Ethernet / Wi-Fi' -SubSection
 # --- Network profile
 # Change all currently connected network.
 # State: Public (default) | Private
-Set-NetworkSetting -ConnectedNetworkProfile 'Private'
+#Set-NetworkSetting -ConnectedNetworkProfile 'Private'
 
 #endregion ethernet / wi-fi
 
@@ -102,7 +102,7 @@ Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 Set-NetworkSetting -AutoSetupConnectedDevices 'Disabled'
 
 # --- Network discovery (default\ Private: Enabled | Public: Disabled | Domain: Disabled)
-Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Private' -State 'Disabled'
+Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Private' -State 'Enabled'
 Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Public'  -State 'Disabled'
 Set-NetworkSharingSetting -Name 'NetworkDiscovery' -NetProfile 'Domain'  -State 'Disabled'
 

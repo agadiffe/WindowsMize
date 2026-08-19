@@ -65,7 +65,7 @@ Set-SigninOptionsSetting -OnlyWindowsHelloForMSAccount 'Disabled'
 # Only available if your account has a password.
 # Standard Standby (S3) : Never | OnWakesUpFromSleep (default)
 # Modern Standby (S0)   : Never | Always (default) | OneMin | ThreeMins | FiveMins | FifteenMins
-Set-SigninOptionsSetting -SigninRequiredIfAway 'Never'
+Set-SigninOptionsSetting -SigninRequiredIfAway 'Never' -SigninRequiredIfAwayGPO 'NotConfigured'
 
 # --- Dynamic lock : Allow Windows to automatically lock your device when you're away (default: Disabled)
 # GPO: Disabled | Enabled | NotConfigured

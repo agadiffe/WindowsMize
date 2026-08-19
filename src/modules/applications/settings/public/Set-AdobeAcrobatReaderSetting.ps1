@@ -8,8 +8,7 @@
 # In this context, GPO means that the setting may not have a GUI option.
 # This is the case for all settings in the "miscellaneous" folder.
 
-# does not work if defined in Remove-AcrobatToolFromToolsTab (Unable to find type [AdobeAcrobatAppNames])
-class AdobeAcrobatAppNames : System.Management.Automation.IValidateSetValuesGenerator
+class AdobeAcrobatAppNamesGenerator : System.Management.Automation.IValidateSetValuesGenerator
 {
     [string[]] GetValidValues()
     {
@@ -206,7 +205,7 @@ function Set-AdobeAcrobatReaderSetting
         [state] $SynchronizerRunAtStartup,
         [state] $SynchronizerTaskManagerProcess,
 
-        [ValidateSet([AdobeAcrobatAppNames])]
+        [ValidateSet([AdobeAcrobatAppNamesGenerator])]
         [string[]] $RemoveToolFromToolsTab,
         [switch] $ResetRemovedToolsFromToolsTab
     )

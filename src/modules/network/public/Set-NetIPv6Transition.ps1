@@ -41,8 +41,8 @@ function Set-NetIPv6Transition
     {
         if (-not ($PSBoundParameters.Keys.Count - 1))
         {
-            Write-Error -Message (Write-InsufficientParameterCount)
-            Write-Error -Message 'Specify at least the ''State'' or ''GPO'' parameter.'
+            Write-Error -Message ((Write-InsufficientParameterCount) +
+                                 ' Specify at least the ''State'' or ''GPO'' parameter.')
             return
         }
 

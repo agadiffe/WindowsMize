@@ -15,8 +15,9 @@
 
     Set-PowerSetting
         -PowerState {Screen | Sleep | Hibernate}
-        -TimeoutMins <int>
         -PowerSource {PluggedIn | OnBattery}
+        [-TimeoutMins <int>]
+        [-TimeoutMinsGPO <object>] # <int> (range: 0-35791394) | NotConfigured
         [<CommonParameters>]
 #>
 
@@ -30,7 +31,7 @@ function Set-PowerSetting
         PS> Set-PowerSetting -PowerMode 'BestPowerEfficiency' -PowerSource 'OnBattery'
 
     .EXAMPLE
-        PS> Set-PowerSetting -PowerState 'Sleep' -TimeoutMins 10 -PowerSource 'PluggedIn'
+        PS> Set-PowerSetting -PowerState 'Sleep' -PowerSource 'PluggedIn' -TimeoutMins 10
     #>
 
     [CmdletBinding(DefaultParameterSetName = 'GeneralSettings')]
@@ -45,13 +46,17 @@ function Set-PowerSetting
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
         [PowerState] $PowerState,
 
+        [Parameter(ParameterSetName = 'PowerMode')]
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
-        [ValidateRange('NonNegative')]
+        [PowerSource] $PowerSource,
+
+        [Parameter(ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
+        [ValidateIntRangeOrNotConfigured(0, 35791394)]
         [int] $TimeoutMins,
 
-        [Parameter(ValueFromPipelineByPropertyName, ParameterSetName = 'PowerMode')]
-        [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
-        [PowerSource] $PowerSource
+        [Parameter(ValueFromPipelineByPropertyName, ParameterSetName = 'PowerStateTimeout')]
+        [ValidateIntRangeOrNotConfigured(0, 35791394)]
+        [object] $TimeoutMinsGPO
     )
 
     process
@@ -82,7 +87,22 @@ function Set-PowerSetting
                     Set-PowerMode -Mode $PowerMode
                 }
             }
-            'PowerStateTimeout' { Set-PowerStateTimeout -Name $PowerState -TimeoutMins $TimeoutMins -PowerSource $PowerSource }
+            'PowerStateTimeout'
+            {
+                if (-not $PSBoundParameters.ContainsKey('TimeoutMins') -and -not $PSBoundParameters.ContainsKey('TimeoutMinsGPO'))
+                {
+                    Write-Error -Message ((Write-InsufficientParameterCount) +
+                                         ' Specify at least the ''TimeoutMins'' or ''TimeoutMinsGPO'' parameter.')
+                    return
+                }
+
+                switch ($PSBoundParameters.Keys)
+                {
+                    'TimeoutMins'    { Set-PowerStateTimeout -Name $PowerState -PowerSource $PowerSource -TimeoutMins $TimeoutMins }
+                    'TimeoutMinsGPO' { Set-PowerStateTimeout -Name $PowerState -PowerSource $PowerSource -GPO $TimeoutMinsGPO }
+                }
+                
+            }
         }
     }
 }

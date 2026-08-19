@@ -11,7 +11,6 @@
 
     NestedModules = @(
         "$PSScriptRoot\..\..\helper_functions\classes\State_enums.ps1"
-        "$PSScriptRoot\..\..\helper_functions\classes\ValidateHashtableSettings.ps1"
     )
 
     FunctionsToExport = @(

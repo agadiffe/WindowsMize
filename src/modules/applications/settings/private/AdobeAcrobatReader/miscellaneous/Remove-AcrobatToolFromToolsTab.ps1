@@ -72,7 +72,7 @@ function Remove-AcrobatToolFromToolsTab
     param
     (
         [Parameter(Mandatory, ParameterSetName = 'RemoveTools')]
-        [ValidateSet([AdobeAcrobatAppNames])]
+        [ValidateSet([AdobeAcrobatAppNamesGenerator])]
         [string[]] $Name,
 
         [Parameter(Mandatory, ParameterSetName = 'Reset')]

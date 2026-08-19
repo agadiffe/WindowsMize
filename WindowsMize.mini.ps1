@@ -605,7 +605,7 @@ Set-DnsServer -Provider 'Cloudflare' -Server 'Default'
 #Set-DnsServer -ResetServerAddresses
 
 $NetworkSettings = @{
-    ConnectedNetworkProfile   = 'Private' # Public | Private
+    #ConnectedNetworkProfile   = 'Private' # Public | Private
     VpnOverMeteredNetworks    = 'Enabled'
     VpnWhileRoaming           = 'Enabled'
     ProxyAutoDetectSettings   = 'Disabled'
@@ -614,7 +614,7 @@ $NetworkSettings = @{
 Set-NetworkSetting @NetworkSettings
 
 $NetworkSharingSettings = @(
-    @{ Name = 'NetworkDiscovery' ; NetProfile = 'Private' ; State = 'Disabled' }
+    @{ Name = 'NetworkDiscovery' ; NetProfile = 'Private' ; State = 'Enabled' }
     @{ Name = 'NetworkDiscovery' ; NetProfile = 'Public'  ; State = 'Disabled' }
     @{ Name = 'NetworkDiscovery' ; NetProfile = 'Domain'  ; State = 'Disabled' }
 
@@ -814,7 +814,7 @@ Set-ModernStandbyNetworkConnectivity -PowerSource 'PluggedIn' -State 'Disabled' 
 
 # Percent: value in percentage (range: 5-100)
 # Action: DoNothing | Sleep | Hibernate | ShutDown
-# 'Reserve' battery does not support 'Action'.
+#   Note (Action): 'Reserve' battery does not support 'Action'.
 Set-AdvancedBatterySetting -Battery 'Low'      -Percent 19 -Action 'DoNothing'
 Set-AdvancedBatterySetting -Battery 'Reserve'  -Percent 12
 Set-AdvancedBatterySetting -Battery 'Critical' -Percent 9  -Action 'Sleep'
@@ -828,36 +828,37 @@ Set-PowerSetting -PowerMode 'Balanced'
 
 Set-PowerSetting -BatteryPercentage 'Disabled'
 
-# TimeoutMins: value in minutes | never: 0
+# TimeoutMins: value in minutes (never: 0) | NotConfigured
 $DeviceTimeouts = @(
-    @{ PowerSource = 'PluggedIn' ; PowerState = 'Screen'    ; TimeoutMins = 3 }
-    @{ PowerSource = 'PluggedIn' ; PowerState = 'Sleep'     ; TimeoutMins = 10 }
-    @{ PowerSource = 'PluggedIn' ; PowerState = 'Hibernate' ; TimeoutMins = 60 }
+    @{ PowerSource = 'PluggedIn' ; PowerState = 'Screen'    ; TimeoutMins = 3  ; TimeoutMinsGPO = 'NotConfigured' }
+    @{ PowerSource = 'PluggedIn' ; PowerState = 'Sleep'     ; TimeoutMins = 10 ; TimeoutMinsGPO = 'NotConfigured' }
+    @{ PowerSource = 'PluggedIn' ; PowerState = 'Hibernate' ; TimeoutMins = 60 ; TimeoutMinsGPO = 'NotConfigured' }
 
-    @{ PowerSource = 'OnBattery' ; PowerState = 'Screen'    ; TimeoutMins = 3 }
-    @{ PowerSource = 'OnBattery' ; PowerState = 'Sleep'     ; TimeoutMins = 5 }
-    @{ PowerSource = 'OnBattery' ; PowerState = 'Hibernate' ; TimeoutMins = 30 }
+    @{ PowerSource = 'OnBattery' ; PowerState = 'Screen'    ; TimeoutMins = 3  ; TimeoutMinsGPO = 'NotConfigured' }
+    @{ PowerSource = 'OnBattery' ; PowerState = 'Sleep'     ; TimeoutMins = 5  ; TimeoutMinsGPO = 'NotConfigured' }
+    @{ PowerSource = 'OnBattery' ; PowerState = 'Hibernate' ; TimeoutMins = 30 ; TimeoutMinsGPO = 'NotConfigured' }
 ) | ForEach-Object { [PSCustomObject]$_ }
 $DeviceTimeouts | Set-PowerSetting
 
 $EnergySaverSettings = @{
-    AlwaysOn                = 'Disabled'
-    TurnOnAtBatteryLevel    = 30 # range: 0-100 / never: 0 | always: 100
+    AlwaysOn                = 'Disabled' ; AlwaysOnGPO             = 'NotConfigured' # GPO: Enabled | NotConfigured
+    TurnOnAtBatteryLevel    = 30         ; TurnOnAtBatteryLevelGPO = 'NotConfigured' # range: 0-100 / never: 0 | on battery: 100 | NotConfigured
     LowerScreenBrightness   = 'Enabled'
     LowerKeyboardBrightness = 'Enabled'
 }
 Set-EnergySaverSetting @EnergySaverSettings
 
 # Action: DoNothing | Sleep | Hibernate | ShutDown | DisplayOff
-# 'LidClose' does not support 'DisplayOff'.
+#   Note (Action): 'LidClose' does not support 'DisplayOff'.
+# ActionGPO: DoNothing | Sleep | Hibernate | ShutDown | NotConfigured
 $DevicePhysicalControlActions = @(
-    @{ PowerSource = 'PluggedIn' ; Control = 'PowerButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'PluggedIn' ; Control = 'SleepButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'PluggedIn' ; Control = 'LidClose'    ; Action = 'Sleep' }
+    @{ PowerSource = 'PluggedIn' ; Control = 'PowerButton' ; Action = 'Sleep' ; ActionGPO = 'NotConfigured' }
+    @{ PowerSource = 'PluggedIn' ; Control = 'SleepButton' ; Action = 'Sleep' ; ActionGPO = 'NotConfigured' }
+    @{ PowerSource = 'PluggedIn' ; Control = 'LidClose'    ; Action = 'Sleep' ; ActionGPO = 'NotConfigured' }
 
-    @{ PowerSource = 'OnBattery' ; Control = 'PowerButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'OnBattery' ; Control = 'SleepButton' ; Action = 'Sleep' }
-    @{ PowerSource = 'OnBattery' ; Control = 'LidClose'    ; Action = 'Sleep' }
+    @{ PowerSource = 'OnBattery' ; Control = 'PowerButton' ; Action = 'Sleep' ; ActionGPO = 'NotConfigured' }
+    @{ PowerSource = 'OnBattery' ; Control = 'SleepButton' ; Action = 'Sleep' ; ActionGPO = 'NotConfigured' }
+    @{ PowerSource = 'OnBattery' ; Control = 'LidClose'    ; Action = 'Sleep' ; ActionGPO = 'NotConfigured' }
 ) | ForEach-Object { [PSCustomObject]$_ }
 $DevicePhysicalControlActions | Set-DevicePhysicalControlAction
 
@@ -1617,8 +1618,7 @@ Set-SystemAdvancedSetting @AdvancedSettings
 Set-TroubleshooterPreference -RunMode 'Disabled' # Disabled | AskBeforeRunning | AutoRunAndNotify | AutoRunSilently
 
 # --- Recovery
-# RetryIntervalMins: value is in minutes, default: 0, range: 0-720
-#   GUI values: Once (0) | 10 mins | 30 mins | 1 hour (60) | 2 hours (120) | 3 hours (180) | 6 hours (360) | 12 hours (720)
+# RetryIntervalMins: value is in minutes (range: 0-720) (default: 0)
 Set-QuickMachineRecovery -State 'Disabled'
 #Set-QuickMachineRecovery -State 'Enabled' -AutoRemediation 'Enabled' -RetryIntervalMins 0
 
@@ -1896,10 +1896,10 @@ $AccountsSettings = @{
     OnlyWindowsHelloForMSAccount   = 'Disabled'
     # Standard Standby (S3) : Never | OnWakesUpFromSleep
     # Modern Standby (S0)   : Never | Always | OneMin | ThreeMins | FiveMins | FifteenMins
-    SigninRequiredIfAway           = 'Never'
-    DynamicLock                    = 'Disabled' ; DynamicLockGPO        = 'NotConfigured' # Disabled | Enabled | NotConfigured
+    SigninRequiredIfAway           = 'Never'    ; SigninRequiredIfAwayGPO = 'NotConfigured'
+    DynamicLock                    = 'Disabled' ; DynamicLockGPO          = 'NotConfigured' # Disabled | Enabled | NotConfigured
     AutoRestartApps                = 'Disabled'
-    ShowAccountDetails             = 'Disabled' ; ShowAccountDetailsGPO = 'NotConfigured'
+    ShowAccountDetails             = 'Disabled' ; ShowAccountDetailsGPO   = 'NotConfigured'
     AutoFinishSettingUpAfterUpdate = 'Disabled' ; AutoFinishSettingUpAfterUpdateGPO = 'NotConfigured' # Disabled | Enabled | NotConfigured
 }
 Set-SigninOptionsSetting @AccountsSettings

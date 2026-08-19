@@ -24,9 +24,7 @@ function Set-StorageSenseDownloadsFolderRetention
         [ValidateSet(0, 1, 14, 30, 60)]
         [int] $Days,
 
-        [ValidateScript(
-            { ($_ -is [int] -and $_ -ge 0 -and $_ -le 365) -or $_ -eq 'NotConfigured' },
-            ErrorMessage = "Invalid value. Specify an integer between 0 and 365, or the string 'NotConfigured'.")]
+        [ValidateIntRangeOrNotConfigured(0, 365)]
         [object] $GPO
     )
 

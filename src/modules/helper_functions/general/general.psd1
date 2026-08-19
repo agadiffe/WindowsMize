@@ -14,6 +14,7 @@
         'Add-DynamicParameter'
         'Get-HashtableSubset'
         'Get-LogPath'
+        'Get-PowerPlanGUID'
         'Invoke-CommandAsSystem'
         'New-ParentPath'
         'New-ScheduledTaskScript'
