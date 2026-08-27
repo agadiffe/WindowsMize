@@ -15,6 +15,7 @@
     FunctionsToExport = @(
         'Set-BackgroundSetting'
         'Set-ColorsSetting'
+        'Set-ContextMenuSetting'
         'Set-DeviceUsageSetting'
         'Set-DynamicLightingSetting'
         'Set-LockScreenSetting'

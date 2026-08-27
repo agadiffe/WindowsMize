@@ -141,7 +141,7 @@ Write-Section -Name 'Lock screen' -SubSection
 Set-LockScreenSetting -ShowPictureOnSigninScreen 'Enabled' -ShowPictureOnSigninScreenGPO 'NotConfigured'
 
 # --- Your widgets (default: Enabled)
-# Windows 11 24H2+ only.
+# Windows 11 only.
 Set-LockScreenSetting -Widgets 'Disabled' -WidgetsGPO 'NotConfigured'
 
 # --- Suggest widgets for your lock screen (Ads/Promo) (default: Enabled)
@@ -162,6 +162,50 @@ Set-LockScreenSetting -WidgetsSuggestion 'Disabled'
 #region taskbar
 # See 'scripts > telemetry_&_annoyances > start_&_taskbar.ps1'
 #endregion taskbar
+
+#==========================================================
+#                       Context menu
+#==========================================================
+#region context menu
+
+Write-Section -Name 'Context menu' -SubSection
+
+# 26H2+
+
+# --- Send to (default: Disabled)
+Set-ContextMenuSetting -SendTo 'Disabled'
+
+# --- Print (default: Disabled)
+Set-ContextMenuSetting -Print 'Disabled'
+
+# --- Create shortcut (default: Disabled)
+Set-ContextMenuSetting -CreateShortcut 'Disabled'
+
+# --- Copy as path (default: Enabled)
+Set-ContextMenuSetting -CopyAsPath 'Enabled'
+
+# --- Rotate image (default: Disabled)
+Set-ContextMenuSetting -RotateImage 'Disabled'
+
+# --- Show app extensions submenu (default: Enabled)
+Set-ContextMenuSetting -AppExtensionsSubmenu 'Enabled'
+
+#          Additional options
+#=======================================
+
+# --- Arrange primary actions inline (default: Disabled)
+Set-ContextMenuSetting -PrimaryActionsInline 'Disabled'
+
+# --- Keep cloud storage actions in their own section (default: Enabled)
+Set-ContextMenuSetting -CloudStorageSection 'Enabled'
+
+# --- Show more options (default: Disabled)
+Set-ContextMenuSetting -ShowMoreOptions 'Enabled'
+
+# --- Move Properties to the bottom of the context menu (default: Disabled)
+Set-ContextMenuSetting -MovePropertiesToBottom 'Disabled'
+
+#endregion context menu
 
 #==========================================================
 #                       Device usage

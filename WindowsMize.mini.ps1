@@ -1107,7 +1107,7 @@ $ActionCenterLayout = @(
     'ProjectL2'
     'LocalBluetooth'
 )
-# Win11 24H2+
+# Win11
 #Set-ActionCenterLayout -QuickAction $ActionCenterLayout
 #Set-ActionCenterLayout -Reset
 
@@ -1834,6 +1834,21 @@ $LockScreenSettings = @{
     WidgetsSuggestion         = 'Disabled'
 }
 Set-LockScreenSetting @LockScreenSettings
+
+# --- Context menu (26H2+)
+$ContextMenuSettings = @{
+    SendTo                 = 'Disabled'
+    Print                  = 'Disabled'
+    CreateShortcut         = 'Disabled'
+    CopyAsPath             = 'Enabled'
+    RotateImage            = 'Disabled'
+    AppExtensionsSubmenu   = 'Enabled'
+    PrimaryActionsInline   = 'Disabled'
+    CloudStorageSection    = 'Enabled'
+    ShowMoreOptions        = 'Enabled'
+    MovePropertiesToBottom = 'Disabled'
+}
+Set-ContextMenuSetting @ContextMenuSettings
 
 # --- Device usage (Ads/Promo)
 $DeviceUsageOption = @(

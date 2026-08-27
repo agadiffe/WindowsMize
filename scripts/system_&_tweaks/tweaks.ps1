@@ -141,7 +141,7 @@ Set-StartMenuWebview2Version -State 'Disabled'
 Write-Section -Name 'User interface and experience' -SubSection
 
 # --- Action center layout
-# Windows 11 24H2+ only.
+# Windows 11 only.
 # Rearrange the order according to your preferences.
 # Missing or commented item will be positionned at the end/bottom of the Action Center.
 $ActionCenterLayout = @(

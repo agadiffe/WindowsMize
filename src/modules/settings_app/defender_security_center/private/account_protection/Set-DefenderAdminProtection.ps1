@@ -2,7 +2,7 @@
 #                              Defender > Account Protection > Administrator Protection
 #=================================================================================================================
 
-# Windows 11 24H2+ only.
+# Windows 11 only.
 
 # Replace the 'User Account Control (UAC)' with a more secure elevation approval.
 # You will be prompted to enter your password if you need admin privileges (e.g. regedit, task manager, ...).

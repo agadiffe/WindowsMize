@@ -2,7 +2,7 @@
 #                           Network & Internet > Ethernet/Wi-Fi > DNS Server Assignment
 #=================================================================================================================
 
-class DnsProvidersNames : System.Management.Automation.IValidateSetValuesGenerator
+class DnsProviderNamesGenerator : System.Management.Automation.IValidateSetValuesGenerator
 {
     [string[]] GetValidValues()
     {
@@ -66,7 +66,7 @@ function Set-DnsServer
     param
     (
         [Parameter(Mandatory, ParameterSetName = 'Setting')]
-        [ValidateSet([DnsProvidersNames])]
+        [ValidateSet([DnsProviderNamesGenerator])]
         [string] $Provider,
 
         [Parameter(ParameterSetName = 'Setting')]

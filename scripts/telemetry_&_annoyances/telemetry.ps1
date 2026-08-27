@@ -49,7 +49,7 @@ Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
 #==============================================================================
 
 # --- App and device inventory
-# Windows 11 24H2+ only.
+# Windows 11 only.
 Set-AppAndDeviceInventory -GPO 'Disabled'
 
 # --- Application compatibility
