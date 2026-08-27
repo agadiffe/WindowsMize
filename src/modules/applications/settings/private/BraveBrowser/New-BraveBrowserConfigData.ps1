@@ -156,6 +156,7 @@ function New-BraveBrowserConfigData
             "brave": {
                 "show_bookmarks_button": true,
                 "show_side_panel_button": false, // Sidebar
+                "show_screenshot_button": false,
                 "wallet": {
                     "show_wallet_icon_on_toolbar": false
                 },
@@ -209,8 +210,7 @@ function New-BraveBrowserConfigData
                 },
                 "today": {
                     "should_show_toolbar_button": false // RSS feed
-                },
-                "pin_share_menu_button": false
+                }
             },
             "browser": {
                 "pin_pwa_install_button": false // install app
@@ -983,6 +983,16 @@ function New-BraveBrowserConfigData
             "credentials_enable_automatic_passkey_upgrades": false // auto create passkey
         }' | ConvertFrom-Json -AsHashtable)
 
+        ### Email Aliases
+        #---------------
+        Merge-Hashtable $BravePreferences ('{
+            "brave": {
+                "email_aliases": {
+                    "new_alias_autofill_suggestion_enabled": true // hint on email fields
+                }
+            }
+        }' | ConvertFrom-Json -AsHashtable)
+
         ### Payment methods
         #---------------
         Merge-Hashtable $BravePreferences ('{
@@ -1158,7 +1168,8 @@ function New-BraveBrowserConfigData
                         1, // Brave Talk
                         2, // Brave Wallet
                         3, // Bookmarks
-                        4  // Reading List
+                        4, // Reading List
+                        8  // Brave News
                     ],
                     "item_added_feedback_bubble_shown_count": 3, // overlay tip: added, Right-click to remove\ on: 0 | off: 3
                     "side_panel_width": 500 // default and minimum: 320
