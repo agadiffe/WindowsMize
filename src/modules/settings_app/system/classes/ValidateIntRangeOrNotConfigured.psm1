@@ -2,12 +2,12 @@
 #                                Validate Range Or NotConfigured Attribute - Class
 #=================================================================================================================
 
-class ValidateIntRangeOrNotConfigured : System.Management.Automation.ValidateArgumentsAttribute
+class ValidateIntRangeOrNotConfiguredAttribute : System.Management.Automation.ValidateArgumentsAttribute
 {
     [int] $Min
     [int] $Max
 
-    ValidateIntRangeOrNotConfigured([int]$Min, [int]$Max)
+    ValidateIntRangeOrNotConfiguredAttribute([int]$Min, [int]$Max)
     {
         if ($Min -gt $Max)
         {

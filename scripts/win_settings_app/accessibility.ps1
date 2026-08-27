@@ -43,6 +43,9 @@ Set-AccessibilitySetting -VisualEffectsAlwaysShowScrollbars 'Disabled'
 # --- Animation effects (default: Enabled)
 Set-AccessibilitySetting -VisualEffectsAnimation 'Enabled'
 
+# --- Open apps maximized (default: Disabled)
+Set-AccessibilitySetting -VisualEffectsOpenAppsMaximized 'Disabled'
+
 # --- Dismiss notifications after this amount of time
 # Value (seconds): 5 (default) | 7 | 15 | 30 | 60 | 300
 Set-AccessibilitySetting -VisualEffectsNotifsDurationSeconds 5

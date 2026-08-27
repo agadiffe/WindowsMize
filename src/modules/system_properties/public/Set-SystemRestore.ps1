@@ -42,13 +42,7 @@ function Set-SystemRestore
     param
     (
         [Parameter(Mandatory, Position = 0, ParameterSetName = 'SelectDrive')]
-        [ValidatePattern(
-            '^[A-Za-z]:\\?$',
-            ErrorMessage = 'Drive format must be a letter followed by a colon, ' +
-                           'optionally with a backslash (e.g. ''C:'' or ''C:\'').')]
-        [ValidateScript(
-            { Test-Path -Path $_ },
-            ErrorMessage = 'The specified drive does not exist or is not accessible.')]
+        [ValidateDrivePath()]
         [string[]] $Drive,
 
         [Parameter(Mandatory, Position = 1, ParameterSetName = 'SelectDrive')]

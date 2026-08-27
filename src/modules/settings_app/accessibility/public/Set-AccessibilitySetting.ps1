@@ -8,6 +8,7 @@
         # visual effects
         [-VisualEffectsAlwaysShowScrollbars {Disabled | Enabled}]
         [-VisualEffectsAnimation {Disabled | Enabled}]
+        [-VisualEffectsOpenAppsMaximized {Disabled | Enabled}]
         [-VisualEffectsNotifsDurationSeconds <int>]
 
         # contrast themes
@@ -31,8 +32,8 @@ function Set-AccessibilitySetting
     (
         # visual effects
         [state] $VisualEffectsAlwaysShowScrollbars,
-
         [state] $VisualEffectsAnimation,
+        [state] $VisualEffectsOpenAppsMaximized,
 
         [ValidateSet(5, 7, 15, 30, 60, 300)]
         [int] $VisualEffectsNotifsDurationSeconds,
@@ -42,7 +43,6 @@ function Set-AccessibilitySetting
 
         # speech
         [state] $VoiceAccessStartBeforeSignin,
-
         [state] $VoiceAccessStartAfterSignin
     )
 
@@ -59,14 +59,15 @@ function Set-AccessibilitySetting
             # visual effects
             'VisualEffectsAlwaysShowScrollbars'  { Set-VisualEffectsAlwaysShowScrollbars -State $VisualEffectsAlwaysShowScrollbars }
             'VisualEffectsAnimation'             { Set-VisualEffectsAnimation -State $VisualEffectsAnimation }
+            'VisualEffectsOpenAppsMaximized'     { Set-VisualEffectsOpenAppsMaximized -State $VisualEffectsOpenAppsMaximized }
             'VisualEffectsNotifsDurationSeconds' { Set-VisualEffectsNotificationsDuration -Seconds $VisualEffectsNotifsDurationSeconds }
 
             # contrast themes
             'ContrastThemesKeyboardShortcut'     { Set-ContrastThemes -KeyboardShortcut $ContrastThemesKeyboardShortcut }
 
             # speech
-            'VoiceAccessStartBeforeSignin'        { Set-SpeechVoiceAccessStartBeforeSignin -State $VoiceAccessStartBeforeSignin }
-            'VoiceAccessStartAfterSignin'         { Set-SpeechVoiceAccessStartAfterSignin -State $VoiceAccessStartAfterSignin }
+            'VoiceAccessStartBeforeSignin'       { Set-SpeechVoiceAccessStartBeforeSignin -State $VoiceAccessStartBeforeSignin }
+            'VoiceAccessStartAfterSignin'        { Set-SpeechVoiceAccessStartAfterSignin -State $VoiceAccessStartAfterSignin }
         }
     }
 }

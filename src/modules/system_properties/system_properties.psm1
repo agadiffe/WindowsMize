@@ -1,3 +1,5 @@
+using module '.\classes\ValidateDrivePath.psm1'
+
 $VerbosePreference = $Global:ModuleVerbosePreference ? $Global:ModuleVerbosePreference : 'Continue'
 
 $FunctionsPath = @(

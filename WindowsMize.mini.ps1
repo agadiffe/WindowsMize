@@ -2003,6 +2003,7 @@ Write-Section -Name 'Accessibility' -SubSection
 $AccessibilitySettings = @{
     VisualEffectsAlwaysShowScrollbars  = 'Disabled'
     VisualEffectsAnimation             = 'Enabled'
+    VisualEffectsOpenAppsMaximized     = 'Disabled'
     VisualEffectsNotifsDurationSeconds = 5 # 5 | 7 | 15 | 30 | 60 | 300
     ContrastThemesKeyboardShortcut     = 'Disabled'
     VoiceAccessStartBeforeSignin       = 'Disabled'
