@@ -10,7 +10,21 @@
 # They will then be used by their associated services.
 # e.g. "Connected User Experiences and Telemetry (DiagTrack)"
 
-# These log files are utilized for diagnostic and telemetry purposes.
+# Disable these optional Windows ETW AutoLogger sessions to reduce diagnostic/telemetry tracing.
+# This may reduce information available for Windows troubleshooting and diagnostics.
+
+# Performance impact: very small / workload-dependent.
+
+# AutoLogger                Specifically tied to user telemetry?    Classification
+# -----------------------------------------------------------------------------------------
+# Diagtrack-Listener        Yes                                     Telemetry
+# SQMLogger                 Very likely                             Telemetry
+# DiagLog                   Telemetry/diagnostic data (DPS)         Telemetry/Diagnostic
+# CloudExperienceHostOobe   Likely diagnostic/usage telemetry       Telemetry/Diagnostic
+# Cellcore                  Cellular diagnostics                    Diagnostic
+# LwtNetLog                 Network diagnostics                     Diagnostic
+# WdiContextLog             Network-driver diagnostics              Diagnostic
+# WiFiSession               WLAN diagnostics                        Diagnostic
 
 <#
 .SYNTAX
@@ -25,13 +39,34 @@ function Set-DiagnosticsAutoLogger
     <#
     .EXAMPLE
         PS> Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
+
+    .EXAMPLE
+        PS> $DiagnosticsAutoLogger = @(
+                'Diagtrack-Listener'
+                'SQMLogger'
+                'DiagLog'
+                'CloudExperienceHostOobe'
+                'Cellcore'
+                'LwtNetLog'
+                'WdiContextLog'
+                'WiFiSession'
+            )
+        PS> $DiagnosticsAutoLogger | Set-DiagnosticsAutoLogger -State 'Disabled'
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory, ValueFromPipeline)]
-        [ValidateSet('DiagTrack-Listener')]
+        [ValidateSet(
+            'Diagtrack-Listener',
+            'SQMLogger',
+            'DiagLog',
+            'CloudExperienceHostOobe',
+            'Cellcore',
+            'LwtNetLog',
+            'WdiContextLog',
+            'WiFiSession')]
         [string] $Name,
 
         [Parameter(Mandatory)]

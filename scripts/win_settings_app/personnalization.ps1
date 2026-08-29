@@ -170,8 +170,6 @@ Set-LockScreenSetting -WidgetsSuggestion 'Disabled'
 
 Write-Section -Name 'Context menu' -SubSection
 
-# 26H2+
-
 # --- Send to (default: Disabled)
 Set-ContextMenuSetting -SendTo 'Disabled'
 

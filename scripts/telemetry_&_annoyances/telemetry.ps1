@@ -37,8 +37,22 @@ Disable-NvidiaTelemetry
 # --- PowerShell
 Disable-PowerShellTelemetry
 
-# --- Diagnostic auto-logger (system boot log) (default: Enabled)
-Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
+# --- Diagnostic auto-logger (default: Enabled)
+# Re-enable the Network/Wi-Fi diagnostics if additional logging is later needed for troubleshooting.
+$DiagnosticsAutoLogger = @(
+    # Telemetry / Privacy
+    'Diagtrack-Listener'
+    'SQMLogger'
+    'DiagLog'
+    'CloudExperienceHostOobe'
+
+    # Network / Wi-Fi diagnostics
+    'Cellcore'
+    'LwtNetLog'
+    'WdiContextLog'
+    'WiFiSession'
+)
+$DiagnosticsAutoLogger | Set-DiagnosticsAutoLogger -State 'Disabled'
 
 # --- Diagnostic tracing
 # TrustedInstaller protected key. Need to be changed manually.

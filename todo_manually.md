@@ -27,6 +27,7 @@ This is also recommended for better coverage by being able to use wildcard for s
 
   Hosts file:  
   - https://github.com/hagezi/dns-blocklists-legacy/raw/refs/heads/main/hosts/native.winoffice-compressed.txt
+  - https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists-legacy@latest/hosts/native.winoffice-compressed.txt
 
   <details>
     <summary>Script to add/update the "Windows Tracker DNS Blocklist" (save it as .ps1 file) (Click to expand)</summary>
@@ -48,7 +49,8 @@ This is also recommended for better coverage by being able to use wildcard for s
   param ()
   
   $HostsData = @{
-      Source      = 'https://github.com/hagezi/dns-blocklists-legacy/raw/refs/heads/main/hosts/native.winoffice-compressed.txt'
+      #Source      = 'https://github.com/hagezi/dns-blocklists-legacy/raw/refs/heads/main/hosts/native.winoffice-compressed.txt'
+      Source      = 'https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists-legacy@latest/hosts/native.winoffice-compressed.txt'
       Destination = "$env:SystemRoot\System32\drivers\etc\hosts"
   }
   

@@ -1178,7 +1178,18 @@ Write-Section -Name 'Telemetry' -SubSection
 Disable-DotNetTelemetry
 Disable-NvidiaTelemetry
 Disable-PowerShellTelemetry
-Set-DiagnosticsAutoLogger -Name 'DiagTrack-Listener' -State 'Disabled'
+
+$DiagnosticsAutoLogger = @(
+    'Diagtrack-Listener'
+    'SQMLogger'
+    'DiagLog'
+    'CloudExperienceHostOobe'
+    'Cellcore'
+    'LwtNetLog'
+    'WdiContextLog'
+    'WiFiSession'
+)
+$DiagnosticsAutoLogger | Set-DiagnosticsAutoLogger -State 'Disabled'
 
 Set-AppAndDeviceInventory -GPO 'Disabled'
 Set-ApplicationCompatibility -GPO 'Disabled'
@@ -1282,11 +1293,11 @@ $PrivacyWinPermSearch = @{
     #SafeSearch                         = 'Disabled' # old
     SearchHistory                      = 'Disabled'
     SearchHighlights                   = 'Disabled' ; SearchHighlightsGPO = 'NotConfigured'
-    StartMenuSearchWebSuggestions      = 'Disabled' # 26H2+
-    StartMenuSearchMSStoreSuggestions  = 'Disabled' # 26H2+
-    StartMenuSearchWebSuggestions2     = 'Disabled' ; StartMenuSearchWebSuggestions2GPO = 'NotConfigured' # EEA only
-    StartMenuSearchWebSuggestions3     = 'Disabled' ; StartMenuSearchWebSuggestions3GPO = 'NotConfigured'
-    StartMenuSearchMSStoreSuggestions2 = 'Disabled'
+    StartMenuSearchWebSuggestions      = 'Disabled'
+    StartMenuSearchMSStoreSuggestions  = 'Disabled'
+    #StartMenuSearchWebSuggestions2     = 'Disabled' ; StartMenuSearchWebSuggestions2GPO = 'NotConfigured' # old | EEA only
+    #StartMenuSearchWebSuggestions3     = 'Disabled' ; StartMenuSearchWebSuggestions3GPO = 'NotConfigured'
+    #StartMenuSearchMSStoreSuggestions2 = 'Disabled'
     CloudSearchGPO = 'NotConfigured'
       CloudSearchMicrosoftAccount      = 'Disabled'
       CloudSearchWorkOrSchoolAccount   = 'Disabled'
@@ -1835,7 +1846,7 @@ $LockScreenSettings = @{
 }
 Set-LockScreenSetting @LockScreenSettings
 
-# --- Context menu (26H2+)
+# --- Context menu
 $ContextMenuSettings = @{
     SendTo                 = 'Disabled'
     Print                  = 'Disabled'
