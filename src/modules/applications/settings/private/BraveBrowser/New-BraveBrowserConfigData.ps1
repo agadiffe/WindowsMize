@@ -66,7 +66,8 @@ function New-BraveBrowserConfigData
                     "show_rewards": false,
                     "show_stats": false,
                     "show_together": false, // Brave talk
-                    "shows_options": 0 // new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
+                    "shows_options": 0, // new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
+                    "show_sponsored_sites": false // top sites ads
                 }
             },
             "ntp": {
@@ -165,6 +166,9 @@ function New-BraveBrowserConfigData
                 },
                 "brave_vpn": {
                     "show_button": false
+                },
+                "tabs": {
+                    "vertical_tabs_show_toggle_button": true
                 }
             },
             "toolbar": {
@@ -279,6 +283,9 @@ function New-BraveBrowserConfigData
                 "wayback_machine_enabled": false,
                 "containers": {
                     "enabled": true
+                },
+                "tabs": {
+                    "always_use_mini_accent_icon": false // containers
                 },
                 "speedreader": {
                     "feature_enabled": false,
@@ -993,7 +1000,7 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
-        ### Payment methods
+        ### Payments
         #---------------
         Merge-Hashtable $BravePreferences ('{
             "autofill": {
@@ -1007,7 +1014,7 @@ function New-BraveBrowserConfigData
             }
         }' | ConvertFrom-Json -AsHashtable)
 
-        ### Addresses and more
+        ### Contact info
         #---------------
         Merge-Hashtable $BravePreferences ('{
             "autofill": {
