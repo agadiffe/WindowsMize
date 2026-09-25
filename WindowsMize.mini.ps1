@@ -1533,7 +1533,7 @@ $TaskbarSettings = @{
     ShareAnyWindow                  = 'Disabled'
     FarCornerToShowDesktop          = 'Enabled'
     GroupAndHideLabelsMainTaskbar   = 'Always' ; GroupAndHideLabelsGPO = 'NotConfigured'
-    #GroupAndHideLabelsOtherTaskbars = 'Always' # # State (main + other): Always | WhenTaskbarIsFull | Never
+    #GroupAndHideLabelsOtherTaskbars = 'Always' # State (main + other): Always | WhenTaskbarIsFull | Never
     ShowSmallerButtons              = 'WhenFull' # Always | Never | WhenFull
     ShowJumplistOnHover             = 'Enabled'
 }

@@ -51,6 +51,8 @@ function New-BraveBrowserConfigData
 
         ### New Tab Page
         #---------------
+        # new tab & top sites ads: see Data collection > Sponsored Ads
+
         Merge-Hashtable $BravePreferences ('{
             "brave": {
                 "brave_search": {
@@ -59,15 +61,13 @@ function New-BraveBrowserConfigData
                 "new_tab_page": {
                     "clock_format": "", // automatic: empty string | 12-hour-clock: h12 | 24-hour-clock: h24
                     "show_background_image": true,
-                    "show_branded_background_image": false, // ads
                     "show_brave_news": false,
                     "show_brave_vpn": false,
                     "show_clock": false,
                     "show_rewards": false,
                     "show_stats": false,
                     "show_together": false, // Brave talk
-                    "shows_options": 0, // new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
-                    "show_sponsored_sites": false // top sites ads
+                    "shows_options": 0 // new tab page\ dashboard: 0 | homepage: 1 | blank page: 2
                 }
             },
             "ntp": {
@@ -849,6 +849,11 @@ function New-BraveBrowserConfigData
 
         Merge-Hashtable $BravePreferences ('{
             "brave": {
+                "brave_ads": {
+                    "sponsored": {
+                        "enabled": false // Sponsored Ads
+                    }
+                },
                 "new_tab_page": {
                     "sponsored_images": {
                         "survey_panelist": false // Brave surveys links
