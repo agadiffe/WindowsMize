@@ -137,6 +137,12 @@ enum TaskbarPosition
     Bottom = 3
 }
 
+enum TaskbarPreviewMode
+{
+    Thumbnail = 0
+    List      = 1
+}
+
 
 # themes
 enum DesktopIcons

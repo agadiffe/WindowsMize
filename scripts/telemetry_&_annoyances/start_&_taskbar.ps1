@@ -221,6 +221,10 @@ Set-TaskbarSetting -GroupAndHideLabelsMainTaskbar 'Always' -GroupAndHideLabelsGP
 # State: Always (default) | WhenTaskbarIsFull | Never
 #Set-TaskbarSetting -GroupAndHideLabelsOtherTaskbars 'Always'
 
+# --- Show taskbar previews as
+# State: Thumbnail (default) | List
+Set-TaskbarSetting -PreviewMode 'Thumbnail'
+
 # --- Show smaller taskbar buttons
 # State: Always | Never | WhenFull (default)
 Set-TaskbarSetting -ShowSmallerButtons 'WhenFull'

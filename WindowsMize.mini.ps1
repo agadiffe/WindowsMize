@@ -1536,6 +1536,7 @@ $TaskbarSettings = @{
     FarCornerToShowDesktop          = 'Enabled'
     GroupAndHideLabelsMainTaskbar   = 'Always' ; GroupAndHideLabelsGPO = 'NotConfigured'
     #GroupAndHideLabelsOtherTaskbars = 'Always' # State (main + other): Always | WhenTaskbarIsFull | Never
+    PreviewMode                     = 'Thumbnail' # Thumbnail | List
     ShowSmallerButtons              = 'WhenFull' # Always | Never | WhenFull
     ShowJumplistOnHover             = 'Enabled'
 }
