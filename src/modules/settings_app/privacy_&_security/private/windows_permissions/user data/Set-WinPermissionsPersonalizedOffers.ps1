@@ -45,6 +45,11 @@ function Set-WinPermissionsPersonalizedOffers
                             Name  = 'TailoredExperiencesWithDiagnosticDataEnabled'
                             Value = $State -eq 'Enabled' ? '1' : '0'
                             Type  = 'DWord'
+                        },
+                        @{
+                            Name  = 'PersonalizedOffersEnabled'
+                            Value = $State -eq 'Enabled' ? '1' : '0'
+                            Type  = 'DWord'
                         }
                     )
                 }

@@ -176,7 +176,10 @@ Set-WinPermissionsSetting -CloudFileContentSearch 'Disabled'
 # State: Classic (default) | Enhanced
 Set-WinPermissionsSetting -FindMyFiles 'Classic'
 
-# --- Advanced indexing options > Index encrypted files
+# --- --- Automatically find additional relevant locations (default: Enabled)
+Set-WinPermissionsSetting -FindMyFilesAutoAddFolders 'Disabled'
+
+# --- --- Advanced indexing options > Index encrypted files
 # GPO: Disabled | Enabled | NotConfigured
 Set-WinPermissionsSetting -IndexEncryptedFilesGPO 'Disabled'
 

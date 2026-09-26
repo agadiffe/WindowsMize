@@ -59,6 +59,7 @@
         [-CloudSearchGPO {Disabled | NotConfigured}]
         [-CloudFileContentSearch {Disabled | Enabled}]
         [-FindMyFiles {Classic | Enhanced}]
+        [-FindMyFilesAutoAddFolders {Disabled | Enabled}]
         [-IndexEncryptedFilesGPO {Disabled | Enabled | NotConfigured}]
         [<CommonParameters>]
 #>
@@ -132,6 +133,7 @@ function Set-WinPermissionsSetting
         [state] $CloudFileContentSearch,
 
         [FindMyFilesMode] $FindMyFiles,
+        [state] $FindMyFilesAutoAddFolders,
         [GpoState] $IndexEncryptedFilesGPO
     )
 
@@ -204,6 +206,7 @@ function Set-WinPermissionsSetting
             'CloudFileContentSearch'             { Set-WinPermissionsCloudFileContentSearch -State $CloudFileContentSearch }
 
             'FindMyFiles'                        { Set-WinPermissionsFindMyFiles -Mode $FindMyFiles }
+            'FindMyFilesAutoAddFolders'          { Set-WinPermissionsFindMyFilesAutoAddFolders -State $FindMyFilesAutoAddFolders }
             'IndexEncryptedFilesGPO'             { Set-WinPermissionsIndexEncryptedFiles -GPO $IndexEncryptedFilesGPO }
         }
     }

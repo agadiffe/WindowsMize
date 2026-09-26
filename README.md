@@ -81,7 +81,7 @@ For Acrobat Reader & MS Office telemetry, see "Applications Settings".
   FirstSigninAnimation, NtfsLastAccessTime, NumLockAtStartup, ServiceHostSplitting, Short8Dot3FileName, StartMenuWebview2Version, StartupAppsDelay, StartupShutdownVerboseStatusMessages.
 
 - User interface and experience:  
-  ActionCenterLayout, BackupYourPCBanners, CopyPasteDialogShowMoreDetails, GameBarLinks, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperiencePreload, WindowsPrivacySettingsExperience, WindowsSettingsSearchAgent, WindowsSharedExperience, WindowsSpotlight.
+  ActionCenterLayout, BackupYourPCBanners, ContextMenuCustomizeMenuTip, CopyPasteDialogShowMoreDetails, GameBarLinks, HelpTips, MenuShowDelay, OnlineTips, ShortcutNameSuffix, SuggestedContent, TaskbarCalendarState, WindowsExperimentation, WindowsInputExperiencePreload, WindowsPrivacySettingsExperience, WindowsSettingsSearchAgent, WindowsSharedExperience, WindowsSpotlight.
 
 - Windows features and settings:  
   DisplayLockScreen, DisplayModeChangeAnimation, EaseOfAccessReadScanSection, EventLogLocation, FileHistory, FontProviders, HomeSettingPageVisibility, LocationPermission, LocationScriptingPermission, OpenWithDialogStoreAccess, SensorsPermission, TaskbarLastActiveClick, WindowsHelpSupport (F1Key & Feedback), WindowsMediaDrmOnlineAccess, WindowsUpdateSearchDrivers.

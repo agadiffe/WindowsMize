@@ -197,6 +197,9 @@ Set-ContextMenuSetting -PrimaryActionsInline 'Disabled'
 # --- Keep cloud storage actions in their own section (default: Enabled)
 Set-ContextMenuSetting -CloudStorageSection 'Enabled'
 
+# --- Show "Customize menu" on the context menu (default: Enabled)
+Set-ContextMenuSetting -ShowCustomizeMenu 'Disabled'
+
 # --- Show more options (default: Disabled)
 Set-ContextMenuSetting -ShowMoreOptions 'Enabled'
 

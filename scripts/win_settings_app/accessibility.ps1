@@ -80,6 +80,8 @@ Set-AccessibilityNarratorSetting -StartAfterSignin 'Disabled'
 # --- Keyboard shortcut for Narrator (default: Enabled)
 Set-AccessibilityNarratorSetting -KeyboardShortcut 'Disabled'
 
+<#
+
 # --- Show Narrator Home when Narrator starts (default: Enabled)
 Set-AccessibilityNarratorSetting -ShowHomeOnStartup 'Enabled'
 
@@ -166,7 +168,7 @@ Set-AccessibilityNarratorSetting -AnnounceTypedModifierKeys 'Disabled'
 #=======================================
 
 # --- Narrator key
-# State: CapsLock | Insert | CapsLockOrInsert (defeult)
+# State: CapsLock | Insert | CapsLockOrInsert (default)
 Set-AccessibilityNarratorSetting -NarratorKey 'CapsLockOrInsert'
 
 # --- --- Lock the Narrator key so I don't have to press it for each command (default: Disabled)
@@ -182,7 +184,7 @@ Set-AccessibilityNarratorSetting -MouseInteraction 'Disabled'
 Set-AccessibilityNarratorSetting -NarratorCursorFollowMouse 'Disabled'
 
 # --- Keyboard layout
-# State: Legacy | Standard (defeult)
+# State: Legacy | Standard (default)
 Set-AccessibilityNarratorSetting -KeyboardLayout 'Standard'
 
 #            Narrator Cursor
@@ -201,6 +203,12 @@ Set-AccessibilityNarratorSetting -SyncNarratorCursorWithSystemFocus 'Enabled'
 # State: Normal (default) | Advanced
 Set-AccessibilityNarratorSetting -NavigationMode 'Normal'
 
+#                 Math
+#=======================================
+
+# --- Enable math reading (default: Enabled)
+Set-AccessibilityNarratorSetting -MathReading 'Enabled'
+
 #              Extensions
 #=======================================
 
@@ -215,6 +223,8 @@ Set-AccessibilityNarratorSetting -CheckForNewExtensionsOnStartup 'Disabled'
 
 # --- Get image descriptions, page titles, and popular links (default: Enabled)
 Set-AccessibilityNarratorSetting -ContentDescriptions 'Enabled'
+
+#>
 
 # --- Automatically send diagnostic and performance data (default: Disabled)
 Set-AccessibilityNarratorSetting -Telemetry 'Disabled'
@@ -258,6 +268,8 @@ Set-AccessibilityKeyboardSetting -StickyKeys 'Disabled'
 # --- --- Keyboard shortcut for Sticky keys (default: Enabled)
 Set-AccessibilityKeyboardSetting -StickyKeysKeyboardShortcut 'Disabled'
 
+<#
+
 # --- --- Show the Sticky keys icon on the taskbar (default: Enabled)
 Set-AccessibilityKeyboardSetting -StickyKeysShowTrayIcon 'Enabled'
 
@@ -270,6 +282,8 @@ Set-AccessibilityKeyboardSetting -StickyKeysDisableOnTwoKeypress 'Enabled'
 # --- --- Play a sound when shortcut keys are pressed and released (default: Enabled)
 Set-AccessibilityKeyboardSetting -StickyKeysKeypressSound 'Enabled'
 
+#>
+
 #              Filter Keys
 #=======================================
 
@@ -278,6 +292,8 @@ Set-AccessibilityKeyboardSetting -FilterKeys 'Disabled'
 
 # --- --- Keyboard shortcut for Filter keys (default: Enabled)
 Set-AccessibilityKeyboardSetting -FilterKeysShortcut 'Disabled'
+
+<#
 
 # --- --- Show the Filter keys icon on the taskbar (default: Enabled)
 Set-AccessibilityKeyboardSetting -FilterKeysShowTrayIcon 'Enabled'
@@ -301,6 +317,8 @@ Set-AccessibilityKeyboardSetting -FilterKeysBounceDelaySeconds 0
 # Delay (seconds): 0 (disabled) (default) | 0.3 (default if enabled) | 0.5 | 0.7 | 1 | 1.5 | 2
 Set-AccessibilityKeyboardSetting -FilterKeysRepeatDelaySeconds 0
 
+#>
+
 #              Toggle Keys
 #=======================================
 
@@ -317,10 +335,22 @@ Set-AccessibilityKeyboardSetting -ToggleKeysKeyboardShortcut 'Disabled'
 #==========================================================
 #region mouse pointer
 
-Write-Section -Name 'Mouse' -SubSection
+<#
+
+Write-Section -Name 'Mouse Pointer' -SubSection
+
+# --- Pointer indicator (default: Disabled)
+Set-AccessibilityMouseSetting -PointerIndicatorCrosshair 'Disabled'
 
 # --- Mouse indicator (default: Disabled)
-Set-AccessibilityMouseSetting -PointerIndicatorOnCtrl 'Disabled'
+Set-AccessibilityMouseSetting -MouseIndicatorOnCtrlPressed 'Disabled'
+
+# --- --- Activation method
+# State: SingleCtrlKeyPress (default) | DoubleCtrlKeyPress
+Set-AccessibilityMouseSetting -MouseIndicatorActivationMethod 'SingleCtrlKeyPress'
+
+# --- --- Keep indicator visible until dismissed (default: Disabled)
+Set-AccessibilityMouseSetting -MouseIndicatorKeepUntilDismissed 'Disabled'
 
 # --- Mouse pointer trails
 # Length: 0 (disabled) (default) | 2 | 3 | 4 | 5 | 6 | 7
@@ -328,6 +358,8 @@ Set-AccessibilityMouseSetting -PointerTrailsLength 0
 
 # --- Enable mouse pointer shadow (default: Enabled)
 # See 'scripts > system_&_tweaks > system_properties.ps1'
+
+#>
 
 #endregion mouse pointer
 
@@ -337,6 +369,8 @@ Set-AccessibilityMouseSetting -PointerTrailsLength 0
 #region mouse
 
 Write-Section -Name 'Mouse' -SubSection
+
+<#
 
 # --- Snap to default button (default: Disabled)
 Set-AccessibilityMouseSetting -SnapToDefaultButton 'Disabled'
@@ -368,6 +402,8 @@ Set-AccessibilityMouseSetting -ActivateOnHoverRaiseWindow 'Disabled'
 # --- --- Amount of time mouse needs to be over a windows to activate it (default: 5 (range: 1-9))
 Set-AccessibilityMouseSetting -ActivateOnHoverDelay 5
 
+#>
+
 #              Mouse Keys
 #=======================================
 
@@ -376,6 +412,8 @@ Set-AccessibilityMouseSetting -MouseKeys 'Disabled'
 
 # --- --- Keyboard shortcut for Mouse keys (default: Enabled)
 Set-AccessibilityMouseSetting -MouseKeysShortcut 'Disabled'
+
+<#
 
 # --- --- Only use mouse keys when Num lock is on (default: Enabled)
 Set-AccessibilityMouseSetting -MouseKeysUseWhenNumLockOn 'Enabled'
@@ -391,5 +429,7 @@ Set-AccessibilityMouseSetting -MouseKeysSpeed 90
 
 # --- --- Mouse keys acceleration (default: 50 (range: 0-100))
 Set-AccessibilityMouseSetting -MouseKeysAcceleration 90
+
+#>
 
 #endregion mouse

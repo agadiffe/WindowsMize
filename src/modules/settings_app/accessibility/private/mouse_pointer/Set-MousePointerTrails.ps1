@@ -40,7 +40,7 @@ function Set-MousePointerTrails
         }
 
         $SettingMsg = $Length -eq 0 ? 'Disabled' : "Length level: $Length"
-        Write-Verbose -Message "Setting 'Mouse Pointer Trails' to '$SettingMsg' ..."
+        Write-Verbose -Message "Setting 'Mouse Pointer - Mouse Pointer Trails' to '$SettingMsg' ..."
         Set-RegistryEntry -InputObject $MousePointerTrails
     }
 }

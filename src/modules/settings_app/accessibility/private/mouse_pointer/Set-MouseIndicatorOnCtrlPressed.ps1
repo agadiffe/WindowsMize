@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                                 Accessibility > Mouse Pointer > Mouse indicator
+#                                 Accessibility > Mouse Pointer > Mouse Indicator
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-MousePointerIndicatorOnCtrl
+    Set-MouseIndicatorOnCtrlPressed
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-MousePointerIndicatorOnCtrl
+function Set-MouseIndicatorOnCtrlPressed
 {
     <#
     .EXAMPLE
-        PS> Set-MousePointerIndicatorOnCtrl -State 'Disabled'
+        PS> Set-MouseIndicatorOnCtrlPressed -State 'Disabled'
     #>
 
     [CmdletBinding()]
@@ -31,7 +31,7 @@ function Set-MousePointerIndicatorOnCtrl
         $SettingBytes = Get-LoggedOnUserItemPropertyValue -Path $SettingRegPath -Name 'UserPreferencesMask'
         Set-ByteBitFlag -Bytes $SettingBytes -ByteNum 1 -BitPos 7 -State ($State -eq 'Enabled')
 
-        $MousePointerIndicatorOnCtrl = @{
+        $MouseIndicator = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Control Panel\Desktop'
             Entries = @(
@@ -43,7 +43,7 @@ function Set-MousePointerIndicatorOnCtrl
             )
         }
 
-        Write-Verbose -Message "Setting 'Mouse Pointer - Mouse indicator (On Ctrl Key)' to '$State' ..."
-        Set-RegistryEntry -InputObject $MousePointerIndicatorOnCtrl
+        Write-Verbose -Message "Setting 'Mouse Pointer - Mouse Indicator (On Ctrl Key Pressed)' to '$State' ..."
+        Set-RegistryEntry -InputObject $MouseIndicator
     }
 }

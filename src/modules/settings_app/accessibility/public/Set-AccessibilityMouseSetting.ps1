@@ -6,7 +6,10 @@
 .SYNTAX
     Set-AccessibilityMouseSetting
         # mouse pointer
-        [-PointerIndicatorOnCtrl {Disabled | Enabled}]
+        [-PointerIndicatorCrosshair {Disabled | Enabled}]
+        [-MouseIndicatorOnCtrlPressed {Disabled | Enabled}]
+        [-MouseIndicatorActivationMethod {SingleCtrlKeyPress | DoubleCtrlKeyPress}]
+        [-MouseIndicatorKeepUntilDismissed {Disabled | Enabled}]
         [-PointerTrailsLength <int>]
 
         # mouse
@@ -43,7 +46,10 @@ function Set-AccessibilityMouseSetting
     param
     (
         # mouse pointer
-        [state] $PointerIndicatorOnCtrl,
+        [state] $PointerIndicatorCrosshair,
+        [state] $MouseIndicatorOnCtrlPressed,
+        [MouseIndicatorActivationMethod] $MouseIndicatorActivationMethod,
+        [state] $MouseIndicatorKeepUntilDismissed,
 
         [ValidateSet(0, 2, 3, 4, 5, 6, 7)]
         [int] $PointerTrailsLength,
@@ -93,29 +99,32 @@ function Set-AccessibilityMouseSetting
         switch ($PSBoundParameters.Keys)
         {
             # mouse pointer
-            'PointerIndicatorOnCtrl'          { Set-MousePointerIndicatorOnCtrl -State $PointerIndicatorOnCtrl }
-            'PointerTrailsLength'             { Set-MousePointerTrails -Length $PointerTrailsLength }
+            'PointerIndicatorCrosshair'        { Set-MousePointerIndicatorCrosshair -State $PointerIndicatorCrosshair }
+            'MouseIndicatorOnCtrlPressed'      { Set-MouseIndicatorOnCtrlPressed -State $MouseIndicatorOnCtrlPressed }
+            'MouseIndicatorActivationMethod'   { Set-MouseIndicatorActivationMethod -Method $MouseIndicatorActivationMethod }
+            'MouseIndicatorKeepUntilDismissed' { Set-MouseIndicatorKeepUntilDismissed -State $MouseIndicatorKeepUntilDismissed }
+            'PointerTrailsLength'              { Set-MousePointerTrails -Length $PointerTrailsLength }
 
             # mouse
-            'SnapToDefaultButton'             { Set-MouseSnapToDefaultButton -State $SnapToDefaultButton }
-            'HidePointerWhileTyping'          { Set-MouseHidePointerWhileTyping -State $HidePointerWhileTyping }
-            'DoubleClickSpeed'                { Set-MouseDoubleClickSpeed -Speed $DoubleClickSpeed }
-            'ClickLock'                       { Set-MouseClickLock -State $ClickLock }
-            'ClickLockDelay'                  { Set-MouseClickLockDelay -Level $ClickLockDelay }
-            'ActivateOnHover'                 { Set-MouseActivateOnHover -State $ActivateOnHover }
-            'ActivateOnHoverDelay'            { Set-MouseActivateOnHoverDelay -Level $ActivateOnHoverDelay }
-            'ActivateOnHoverRaiseWindow'      { Set-MouseActivateOnHoverRaiseWindow -State $ActivateOnHoverRaiseWindow }
+            'SnapToDefaultButton'              { Set-MouseSnapToDefaultButton -State $SnapToDefaultButton }
+            'HidePointerWhileTyping'           { Set-MouseHidePointerWhileTyping -State $HidePointerWhileTyping }
+            'DoubleClickSpeed'                 { Set-MouseDoubleClickSpeed -Speed $DoubleClickSpeed }
+            'ClickLock'                        { Set-MouseClickLock -State $ClickLock }
+            'ClickLockDelay'                   { Set-MouseClickLockDelay -Level $ClickLockDelay }
+            'ActivateOnHover'                  { Set-MouseActivateOnHover -State $ActivateOnHover }
+            'ActivateOnHoverDelay'             { Set-MouseActivateOnHoverDelay -Level $ActivateOnHoverDelay }
+            'ActivateOnHoverRaiseWindow'       { Set-MouseActivateOnHoverRaiseWindow -State $ActivateOnHoverRaiseWindow }
 
             # mouse keys
-            'MouseKeys'                       { Set-MouseKeys -State $MouseKeys }
-            'MouseKeysShortcut'               { Set-MouseKeys -KeyboardShortcut $MouseKeysShortcut }
-            'MouseKeysUseWhenNumLockOn'       { Set-MouseKeys -UseWhenNumLockOn $MouseKeysUseWhenNumLockOn }
-            'MouseKeysShowTrayIcon'           { Set-MouseKeys -ShowTrayIcon $MouseKeysShowTrayIcon }
-            'MouseKeysCtrlShiftSpeedAdjust'   { Set-MouseKeys -CtrlShiftSpeedAdjust $MouseKeysCtrlShiftSpeedAdjust }
-            'MouseKeysHotkeyActivationPrompt' { Set-MouseKeys -HotkeyActivationPrompt $MouseKeysHotkeyActivationPrompt }
-            'MouseKeysHotkeyToggleSound'      { Set-MouseKeys -HotkeyToggleSound $MouseKeysHotkeyToggleSound }
-            'MouseKeysSpeed'                  { Set-MouseKeysSpeed -Speed $MouseKeysSpeed }
-            'MouseKeysAcceleration'           { Set-MouseKeysAcceleration -Speed $MouseKeysAcceleration }
+            'MouseKeys'                        { Set-MouseKeys -State $MouseKeys }
+            'MouseKeysShortcut'                { Set-MouseKeys -KeyboardShortcut $MouseKeysShortcut }
+            'MouseKeysUseWhenNumLockOn'        { Set-MouseKeys -UseWhenNumLockOn $MouseKeysUseWhenNumLockOn }
+            'MouseKeysShowTrayIcon'            { Set-MouseKeys -ShowTrayIcon $MouseKeysShowTrayIcon }
+            'MouseKeysCtrlShiftSpeedAdjust'    { Set-MouseKeys -CtrlShiftSpeedAdjust $MouseKeysCtrlShiftSpeedAdjust }
+            'MouseKeysHotkeyActivationPrompt'  { Set-MouseKeys -HotkeyActivationPrompt $MouseKeysHotkeyActivationPrompt }
+            'MouseKeysHotkeyToggleSound'       { Set-MouseKeys -HotkeyToggleSound $MouseKeysHotkeyToggleSound }
+            'MouseKeysSpeed'                   { Set-MouseKeysSpeed -Speed $MouseKeysSpeed }
+            'MouseKeysAcceleration'            { Set-MouseKeysAcceleration -Speed $MouseKeysAcceleration }
         }
     }
 }

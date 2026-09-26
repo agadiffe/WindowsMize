@@ -170,6 +170,9 @@ $ActionCenterLayout = @(
 # --- 'Backup your PC' banners (Start Menu and Settings Home page) (default: Enabled)
 Set-BackupYourPCBanners -State 'Disabled'
 
+# --- Context menu: "Customize menu" tip (default: Enabled)
+Set-ContextMenuCustomizeMenuTip -State 'Disabled'
+
 # --- Copy/Paste dialog : Show more details (default: Disabled)
 Set-CopyPasteDialogShowMoreDetails -State 'Enabled'
 

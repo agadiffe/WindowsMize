@@ -55,6 +55,9 @@
         [-SyncNarratorCursorWithSystemFocus {Disabled | Enabled}]
         [-NavigationMode {Normal | Advanced}]
 
+        # math reading
+        [-MathReading {Disabled | Enabled}]
+
         # extensions
         [-Extensions {Disabled | Enabled}]
         [-CheckForNewExtensionsOnStartup {Disabled | Enabled}]
@@ -130,6 +133,9 @@ function Set-AccessibilityNarratorSetting
         [state] $SyncNarratorCursorWithSystemFocus,
         [NarratorNavigationMode] $NavigationMode,
 
+        # math reading
+        [state] $MathReading,
+
         # extensions
         [state] $Extensions,
         [state] $CheckForNewExtensionsOnStartup,
@@ -197,6 +203,9 @@ function Set-AccessibilityNarratorSetting
             'SyncNarratorCursorWithTextCursor'  { Set-NarratorCursorSyncWithTextCursor -State $SyncNarratorCursorWithTextCursor }
             'SyncNarratorCursorWithSystemFocus' { Set-NarratorCursorSyncWithSystemFocus -State $SyncNarratorCursorWithSystemFocus }
             'NavigationMode'                    { Set-NarratorNavigationMode -Mode $NavigationMode }
+
+            # math reading
+            'MathReading'                       { Set-NarratorMathReading -State $MathReading }
 
             # extensions
             'Extensions'                        { Set-NarratorExtensions -State $Extensions }

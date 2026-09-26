@@ -13,6 +13,7 @@
         [-AppExtensionsSubmenu {Disabled | Enabled}]
         [-PrimaryActionsInline {Disabled | Enabled}]
         [-CloudStorageSection {Disabled | Enabled}]
+        [-ShowCustomizeMenu {Disabled | Enabled}]
         [-ShowMoreOptions {Disabled | Enabled}]
         [-MovePropertiesToBottom {Disabled | Enabled}]
         [<CommonParameters>]
@@ -36,6 +37,7 @@ function Set-ContextMenuSetting
         [state] $AppExtensionsSubmenu,
         [state] $PrimaryActionsInline,
         [state] $CloudStorageSection,
+        [state] $ShowCustomizeMenu,
         [state] $ShowMoreOptions,
         [state] $MovePropertiesToBottom
     )
@@ -58,6 +60,7 @@ function Set-ContextMenuSetting
             'AppExtensionsSubmenu'   { Set-ContextMenuAppExtensionsSubmenu -State $AppExtensionsSubmenu }
             'PrimaryActionsInline'   { Set-ContextMenuPrimaryActionsInline -State $PrimaryActionsInline }
             'CloudStorageSection'    { Set-ContextMenuCloudStorageSection -State $CloudStorageSection }
+            'ShowCustomizeMenu'      { Set-ContextMenuShowCustomizeMenu -State $ShowCustomizeMenu }
             'ShowMoreOptions'        { Set-ContextMenuShowMoreOptions -State $ShowMoreOptions }
             'MovePropertiesToBottom' { Set-ContextMenuMovePropertiesToBottom -State $MovePropertiesToBottom }
         }

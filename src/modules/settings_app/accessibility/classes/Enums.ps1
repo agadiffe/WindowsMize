@@ -52,3 +52,11 @@ enum NarratorNavigationMode
     Normal   = 2
     Advanced = 1
 }
+
+
+# mouse pointer
+enum MouseIndicatorActivationMethod
+{
+    SingleCtrlKeyPress
+    DoubleCtrlKeyPress
+}

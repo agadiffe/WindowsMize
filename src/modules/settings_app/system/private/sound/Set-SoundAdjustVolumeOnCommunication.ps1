@@ -1,5 +1,5 @@
 #=================================================================================================================
-#                              System > Sound > More Sound Settings > Communications
+#                              System > Sound > Adaptive Communication Sound Levels
 #=================================================================================================================
 
 # sound properties (mmsys.cpl) > communications > when Windows detects communications activity
@@ -43,7 +43,7 @@ function Set-SoundAdjustVolumeOnCommunication
             )
         }
 
-        Write-Verbose -Message "Setting 'Sound - When Windows Detects Communications Activity' to '$Preference' ..."
+        Write-Verbose -Message "Setting 'Sound - Adaptive Communication Sound Levels' to '$Preference' ..."
         Set-RegistryEntry -InputObject $SoundVolumeCommunicationsActivity
     }
 }

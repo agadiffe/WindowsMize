@@ -76,10 +76,10 @@ Set-DisplayGraphicsSetting -GamesVariableRefreshRate 'Disabled'
 
 Write-Section -Name 'Sound' -SubSection
 
-#          More sound settings
-#=======================================
+# --- Mono audio (default: Disabled)
+Set-SoundSetting -MonoAudio 'Disabled'
 
-# --- Communications > when Windows detects communications activity
+# --- Adaptive communication sound levels
 # State: DoNothing | MuteOtherSounds | ReduceOtherSoundsBy80Percent (default) | ReduceOtherSoundsBy50Percent
 Set-SoundSetting -AdjustVolumeOnCommunication 'DoNothing'
 
