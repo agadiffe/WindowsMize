@@ -1,44 +1,45 @@
 #=================================================================================================================
-#                          Accessibility > Narrator > Math Reading > Enable Math Reading
+#                              Accessibility > Narrator > Math Reading > Speech Rate
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-NarratorMathReading
-        [-State] {Disabled | Enabled}
+    Set-NarratorMathSpeechRate
+        [-Speed] <int>
         [<CommonParameters>]
 #>
 
-function Set-NarratorMathReading
+function Set-NarratorMathSpeechRate
 {
     <#
     .EXAMPLE
-        PS> Set-NarratorMathReading -State 'Enabled'
+        PS> Set-NarratorMathSpeechRate -Speed 50
     #>
 
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
-        [state] $State
+        [ValidateRange(0, 100)]
+        [int] $Speed
     )
 
     process
     {
-        # on: 1 (default) | off: 0
-        $NarratorMathReading = @{
+        # default: 50 (range: 0-100)
+        $NarratorMathSpeechRate = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Narrator'
             Entries = @(
                 @{
-                    Name  = 'MathReadingEnabled'
-                    Value = $State -eq 'Enabled' ? '1' : '0'
+                    Name  = 'MathReadingSpeechRate'
+                    Value = $Speed
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Narrator - Math Reading' to '$State' ..."
-        Set-RegistryEntry -InputObject $NarratorMathReading
+        Write-Verbose -Message "Setting 'Narrator - Math Reading: Speech Rate' to '$Speed' ..."
+        Set-RegistryEntry -InputObject $NarratorMathSpeechRate
     }
 }

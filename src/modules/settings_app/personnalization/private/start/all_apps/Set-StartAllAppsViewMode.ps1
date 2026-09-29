@@ -2,6 +2,19 @@
 #                                  Personnalization > Start > All Apps View Mode
 #=================================================================================================================
 
+# Start menu categories
+# HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Start\TileProperties
+
+# (none)	             0
+# Accessibility	         1
+# Creativity	         6, 7, 22, 23
+# Developer Tools	     15
+# Entertainment	         3, 16, 17, 26
+# Information & Reading  14, 21, 24, 25
+# Other	                 2, 4, 8, 10
+# Productivity	         5, 13
+# Utilities & Tools	     9
+
 <#
 .SYNTAX
     Set-StartAllAppsViewMode

@@ -53,6 +53,27 @@ enum NarratorNavigationMode
     Advanced = 1
 }
 
+enum MathReadingVerbosityLevel
+{
+    Terse
+    Medium
+    Verbose
+}
+
+enum MathNavigationMode
+{
+    Enhanced
+    Simple
+    Character
+}
+
+enum MathSpeechStyle
+{
+    ClearSpeak
+    SimpleSpeak
+    LiteralSpeak
+}
+
 
 # mouse pointer
 enum MouseIndicatorActivationMethod

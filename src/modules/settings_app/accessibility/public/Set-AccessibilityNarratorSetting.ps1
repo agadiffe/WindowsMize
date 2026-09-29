@@ -55,8 +55,15 @@
         [-SyncNarratorCursorWithSystemFocus {Disabled | Enabled}]
         [-NavigationMode {Normal | Advanced}]
 
-        # math reading
+        # math
         [-MathReading {Disabled | Enabled}]
+        [-MathSpeechStyle {ClearSpeak | SimpleSpeak | LiteralSpeak}]
+        [-MathSpeechVerbosity {Terse | Medium | Verbose}]
+        [-MathSpeechRate <int>]
+        [-MathSpeechPauseFactor <int>]
+        [-MathNavigationMode {Enhanced | Simple | Character}]
+        [-MathNavigationVerbosity {Terse | Medium | Verbose}]
+        [-MathNavigationAutoZoomOut {Disabled | Enabled}]
 
         # extensions
         [-Extensions {Disabled | Enabled}]
@@ -133,8 +140,20 @@ function Set-AccessibilityNarratorSetting
         [state] $SyncNarratorCursorWithSystemFocus,
         [NarratorNavigationMode] $NavigationMode,
 
-        # math reading
+        # math
         [state] $MathReading,
+        [MathSpeechStyle] $MathSpeechStyle,
+        [MathReadingVerbosityLevel] $MathSpeechVerbosity,
+
+        [ValidateRange(0, 100)]
+        [int] $MathSpeechRate,
+
+        [ValidateRange(0, 100)]
+        [int] $MathSpeechPauseFactor,
+
+        [MathNavigationMode] $MathNavigationMode,
+        [MathReadingVerbosityLevel] $MathNavigationVerbosity,
+        [state] $MathNavigationAutoZoomOut,
 
         # extensions
         [state] $Extensions,
@@ -204,8 +223,15 @@ function Set-AccessibilityNarratorSetting
             'SyncNarratorCursorWithSystemFocus' { Set-NarratorCursorSyncWithSystemFocus -State $SyncNarratorCursorWithSystemFocus }
             'NavigationMode'                    { Set-NarratorNavigationMode -Mode $NavigationMode }
 
-            # math reading
+            # math
             'MathReading'                       { Set-NarratorMathReading -State $MathReading }
+            'MathSpeechStyle'                   { Set-NarratorMathSpeechStyle -Style $MathSpeechStyle }
+            'MathSpeechVerbosity'               { Set-NarratorMathSpeechVerbosity -Mode $MathSpeechVerbosity }
+            'MathSpeechRate'                    { Set-NarratorMathSpeechRate -Speed $MathSpeechRate }
+            'MathSpeechPauseFactor'             { Set-NarratorMathSpeechPauseFactor -Factor $MathSpeechPauseFactor }
+            'MathNavigationMode'                { Set-NarratorMathNavigationMode -Mode $MathNavigationMode }
+            'MathNavigationVerbosity'           { Set-NarratorMathNavigationVerbosity -Mode $MathNavigationVerbosity }
+            'MathNavigationAutoZoomOut'         { Set-NarratorMathNavigationAutoZoomOut -State $MathNavigationAutoZoomOutx }
 
             # extensions
             'Extensions'                        { Set-NarratorExtensions -State $Extensions }

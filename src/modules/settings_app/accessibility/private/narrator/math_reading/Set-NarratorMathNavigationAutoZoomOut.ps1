@@ -1,19 +1,19 @@
 #=================================================================================================================
-#                          Accessibility > Narrator > Math Reading > Enable Math Reading
+#                             Accessibility > Narrator > Math Reading > Auto Zoom Out
 #=================================================================================================================
 
 <#
 .SYNTAX
-    Set-NarratorMathReading
+    Set-NarratorMathNavigationAutoZoomOut
         [-State] {Disabled | Enabled}
         [<CommonParameters>]
 #>
 
-function Set-NarratorMathReading
+function Set-NarratorMathNavigationAutoZoomOut
 {
     <#
     .EXAMPLE
-        PS> Set-NarratorMathReading -State 'Enabled'
+        PS> Set-NarratorMathNavigationAutoZoomOut -State 'Enabled'
     #>
 
     [CmdletBinding()]
@@ -26,19 +26,19 @@ function Set-NarratorMathReading
     process
     {
         # on: 1 (default) | off: 0
-        $NarratorMathReading = @{
+        $NarratorMathNavigationAutoZoomOut = @{
             Hive    = 'HKEY_CURRENT_USER'
             Path    = 'Software\Microsoft\Narrator'
             Entries = @(
                 @{
-                    Name  = 'MathReadingEnabled'
+                    Name  = 'MathAutoZoomOut'
                     Value = $State -eq 'Enabled' ? '1' : '0'
                     Type  = 'DWord'
                 }
             )
         }
 
-        Write-Verbose -Message "Setting 'Narrator - Math Reading' to '$State' ..."
-        Set-RegistryEntry -InputObject $NarratorMathReading
+        Write-Verbose -Message "Setting 'Narrator - Math Reading: Navigation Auto Zoom Out' to '$State' ..."
+        Set-RegistryEntry -InputObject $NarratorMathNavigationAutoZoomOut
     }
 }

@@ -10,7 +10,7 @@
         -Path <string>
         -Sid <string>
         -Permission {Allow | Deny}
-        -Access {FullControl | Modify | ReadAndExecute | Read | Write}
+        -Access {FullControl | Modify | ReadAndExecute | Read | Write | ExecuteFile}
         [<CommonParameters>]
 
     Set-FileSystemAccessRule

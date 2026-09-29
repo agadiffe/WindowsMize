@@ -209,6 +209,31 @@ Set-AccessibilityNarratorSetting -NavigationMode 'Normal'
 # --- Enable math reading (default: Enabled)
 Set-AccessibilityNarratorSetting -MathReading 'Enabled'
 
+# --- Speech style
+# State: ClearSpeak (default) | SimpleSpeak | LiteralSpeak
+Set-AccessibilityNarratorSetting -MathSpeechStyle 'ClearSpeak'
+
+# --- Verbosity level
+# State: Terse | Medium (default) | Verbose
+Set-AccessibilityNarratorSetting -MathSpeechVerbosity 'Medium'
+
+# --- Speech rate (default: 50 (range: 0-100))
+Set-AccessibilityNarratorSetting -MathSpeechRate 50
+
+# --- Pause factor (default: 50 (range: 0-100))
+Set-AccessibilityNarratorSetting -MathSpeechPauseFactor 50
+
+# --- Navigation mode
+# State: Enhanced (default) | Simple | Character
+Set-AccessibilityNarratorSetting -MathNavigationMode 'Enhanced'
+
+# --- Navigation verbosity
+# State: Terse | Medium (default) | Verbose
+Set-AccessibilityNarratorSetting -MathNavigationVerbosity 'Medium'
+
+# --- Auto zoom out (default: Enabled)
+Set-AccessibilityNarratorSetting -MathNavigationAutoZoomOut 'Enabled'
+
 #              Extensions
 #=======================================
 

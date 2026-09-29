@@ -1478,18 +1478,27 @@ Write-Section -Name 'Start & Taskbar' -SubSection
 
 # --- Start
 $StartSettings = @{
+    # general
     #LayoutMode                    = 'Default' # old / Default | MorePins | MoreRecommendations
     StartMenuSize                 = 'Small' # Auto | Small | Large
+
+    # pinned section
     PinnedSection                 = 'Enabled'
     ShowAllPins                   = 'Enabled'
+
+    # recent section
     RecentSection                 = 'Enabled'  ; RecentSectionGPO       = 'NotConfigured'
     ShowRecentAddedApps           = 'Disabled' ; ShowRecentAddedAppsGPO = 'NotConfigured'
     ShowRecentFilesInStart        = 'Enabled'
     ShowTipsAndAppRecommendations = 'Disabled'
     ShowWebsitesFromBrowsingHistoryGPO = 'Disabled' # old ?
+
+    # all apps section
     AllAppsSection                = 'Enabled'  ; AllAppsSectionGPO      = 'NotConfigured'
     AllAppsViewMode               = 'Category' # Category | Grid | List
     ShowMostUsedApps              = 'Disabled' ; ShowMostUsedAppsGPO    = 'NotConfigured' # Disabled | Enabled | NotConfigured
+
+    # other
     ShowMobileDevice              = 'Disabled'
     ShowAccountNotifications      = 'Disabled'
     ShowRecentItems               = 'Enabled'  ; ShowRecentItemsGPO     = 'NotConfigured'
@@ -1512,17 +1521,21 @@ Set-StartSetting -FoldersNextToPowerButton $StartMenuFolders
 
 # --- Taskbar
 $TaskbarSettings = @{
-    SearchBox       = 'Hide'     ; SearchBoxGPO = 'NotConfigured' # Hide | IconOnly | Box | IconAndLabel | NotConfigured
-    AskCopilot      = 'Disabled'
-    TaskView        = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
-    #Widgets         = 'Disabled' # UCPD protected
-    ResumeAppNotif  = 'Disabled'
+    # taskbar items
+    SearchBox      = 'Hide'     ; SearchBoxGPO = 'NotConfigured' # Hide | IconOnly | Box | IconAndLabel | NotConfigured
+    AskCopilot     = 'Disabled'
+    TaskView       = 'Disabled' ; TaskViewGPO  = 'NotConfigured'
+    #Widgets        = 'Disabled' # UCPD protected
+    ResumeAppNotif = 'Disabled'
+
+    # system tray icons
     EmojiAndMore    = 'Never' # Never | WhileTyping | Always
     PenMenu         = 'Disabled'
     TouchKeyboard   = 'WhenNoKeyboard' # Never | Always | WhenNoKeyboard
     VirtualTouchpad = 'Disabled'
     HiddenIconMenu  = 'Enabled'
 
+    # taskbar behaviors
     Position                        = 'Bottom' # Left | Top | Right | Bottom
     IconAlignment                   = 'Center' # Left | Center
     Size                            = 'Default' # Default | Small
@@ -1743,18 +1756,23 @@ Set-MouseSetting -WheelScroll 'MultipleLines' -LinesToScroll 3 # range: 1-100
 
 # --- Touchpad
 $TouchpadSettings = @{
+    # touchpad
     Touchpad                     = 'Enabled'
     LeaveOnWithMouse             = 'Enabled'
     CursorSpeed                  = 5 # range: 1-10
     ClickSensitivity             = 'Medium' # Light | Medium | Heavy
     HapticFeedback               = 'Enabled'
     HapticFeedbackIntensity      = 3 # range: 1-5
+
+     # taps
     Sensitivity                  = 'Medium' # Max | High | Medium | Low
     TapToClick                   = 'Enabled'
     TwoFingersTapToRightClick    = 'Enabled'
     TapTwiceAndDragToMultiSelect = 'Enabled'
     RightClickButton             = 'Enabled'
     RightClickZoneSize           = 'Default' # Default | Small | Medium | Large
+
+    # scroll & zoom
     TwoFingersToScroll           = 'Enabled'
     SingleFingerToScroll         = 'RightSide' # Disabled | LeftSide | RightSide
     AutoScrollingAtEdge          = 'Enabled'
@@ -2018,25 +2036,37 @@ Set-XboxModeSetting @XboxModeSettings
 
 Write-Section -Name 'Accessibility' -SubSection
 
+# --- Miscellaneous
 $AccessibilitySettings = @{
+    # visual effects
     VisualEffectsAlwaysShowScrollbars  = 'Disabled'
     VisualEffectsAnimation             = 'Enabled'
     VisualEffectsOpenAppsMaximized     = 'Disabled'
     VisualEffectsNotifsDurationSeconds = 5 # 5 | 7 | 15 | 30 | 60 | 300
+
+    # contrast themes
     ContrastThemesKeyboardShortcut     = 'Disabled'
+
+    # speech
     VoiceAccessStartBeforeSignin       = 'Disabled'
     VoiceAccessStartAfterSignin        = 'Disabled'
 }
 Set-AccessibilitySetting @AccessibilitySettings
 
+# --- Keyboard
 $AccessibilityKeyboardSettings = @{
+    # general
     UnderlineAccessKeys            = 'Disabled'
+
+    # sticky keys
     StickyKeys                     = 'Disabled'
     StickyKeysKeyboardShortcut     = 'Disabled'
     #StickyKeysShowTrayIcon         = 'Enabled'
     #StickyKeysLockOnDoublePress    = 'Enabled'
     #StickyKeysDisableOnTwoKeypress = 'Enabled'
     #StickyKeysKeypressSound        = 'Enabled'
+
+    # filter keys
     FilterKeys                     = 'Disabled'
     FilterKeysKeyboardShortcut     = 'Disabled'
     #FilterKeysShowTrayIcon         = 'Enabled'
@@ -2044,17 +2074,23 @@ $AccessibilityKeyboardSettings = @{
     #FilterKeysQuickDelaySeconds    = 0 # 0 | 0.3 | 0.5 | 0.7 | 1 | 1.4 | 2 | 5 | 10 | 20
     #FilterKeysBounceDelaySeconds   = 0 # 0 | 0.3 | 0.5 | 0.7 | 1 | 1.5 | 2
     #FilterKeysRepeatDelaySeconds   = 0 # 0 | 0.3 | 0.5 | 0.7 | 1 | 1.5 | 2
+
+    # toggle keys
     ToggleKeys                     = 'Disabled'
     ToggleKeysKeyboardShortcut     = 'Disabled'
 }
 Set-AccessibilityKeyboardSetting @AccessibilityKeyboardSettings
 
+# --- Mouse
 $AccessibilityMouseSettings = @{
+    # mouse pointer
     #PointerIndicatorCrosshair        = 'Disabled'
     #MouseIndicatorOnCtrlPressed      = 'Disabled'
     #MouseIndicatorActivationMethod   = 'SingleCtrlKeyPress' # SingleCtrlKeyPress | DoubleCtrlKeyPress
     #MouseIndicatorKeepUntilDismissed = 'Disabled'
     #PointerTrailsLength              = 0 # 0 | 2 | 3 | 4 | 5 | 6 | 7
+
+    # mouse
     #SnapToDefaultButton              = 'Disabled'
     #HidePointerWhileTyping           = 'Enabled'
     #DoubleClickSpeed                 = 5 # range: 1-11
@@ -2063,6 +2099,8 @@ $AccessibilityMouseSettings = @{
     #ActivateOnHover                  = 'Disabled'
     #ActivateOnHoverRaiseWindow       = 'Disabled'
     #ActivateOnHoverDelay             = 5 # range: 1-9
+
+    # mouse keys
     MouseKeys                        = 'Disabled'
     MouseKeysKeyboardShortcut        = 'Disabled'
     #MouseKeysUseWhenNumLockOn        = 'Enabled'
@@ -2073,47 +2111,74 @@ $AccessibilityMouseSettings = @{
 }
 Set-AccessibilityMouseSetting @AccessibilityMouseSettings
 
+# --- Narrator
 $AccessibilityNarratorSettings = @{
-    StartBeforeSignin                 = 'Disabled'
-    StartAfterSignin                  = 'Disabled'
-    KeyboardShortcut                  = 'Disabled'
-    #ShowHomeOnStartup                 = 'Enabled'
-    #VoiceSpeed                        = 10 # range: 0-20
-    #VoicePitchLevel                   = 10 # range: 0-20
-    #VoiceVolume                       = 100 # range: 0-100
-    #LowerOtherAppsVolume              = 'Enabled'
-    #VerbosityLevel                    = 'AllControlDetails' # TextOnly | SomeControlDetails | AllControlDetails | SomeTextDetails | AllTextDetails
-    #EmphasizeFormattedText            = 'Disabled'
-    #ReadCharactersPhonetically        = 'Disabled'
-    #PunctuationPause                  = 'Enabled'
-    #ReadAdvancedDetails               = 'Disabled'
-    #CapitalizationReadingMode         = 'NoAnnounce' # NoAnnounce | IncreasePitch | SayCap
-    #ContextLevel                      = 'ImmediateContextNameAndType' # NoContext | ImmediateContext | ImmediateContextNameAndType | FullContextOfNewControl | FullContextOfOldAndNewControls
-    #ReadInteractionHints              = 'Enabled'
-    #ExplainActionFailures             = 'Enabled'
-    #PlaySoundsForCommonActions        = 'Disabled'
-    #ContextDetailsOrder               = 'BeforeControls' # AfterControls | BeforeControls
-    #AnnounceTypedCharacters           = 'Enabled'
-    #AnnounceTypedWords                = 'Enabled'
-    #AnnounceTypedFunctionKeys         = 'Disabled'
-    #AnnounceTypedNavigationKeys       = 'Disabled'
-    #AnnounceTypedToggleKeys           = 'Enabled'
-    #AnnounceTypedModifierKeys         = 'Disabled'
-    #NarratorKey                       = 'CapsLockOrInsert' # CapsLock | Insert | CapsLockOrInsert
-    #LockNarratorKey                   = 'Disabled'
-    #TouchKeyboardActivateKeysOnLift   = 'Disabled'
-    #MouseInteraction                  = 'Disabled'
-    #NarratorCursorFollowMouse         = 'Disabled'
-    #KeyboardLayout                    = 'Standard' # Legacy | Standard
+    # general
+    StartBeforeSignin = 'Disabled'
+    StartAfterSignin  = 'Disabled'
+    KeyboardShortcut  = 'Disabled'
+    #ShowHomeOnStartup = 'Enabled'
+
+    # voice
+    #VoiceSpeed           = 10 # range: 0-20
+    #VoicePitchLevel      = 10 # range: 0-20
+    #VoiceVolume          = 100 # range: 0-100
+    #LowerOtherAppsVolume = 'Enabled'
+
+    # verbosity
+    #VerbosityLevel             = 'AllControlDetails' # TextOnly | SomeControlDetails | AllControlDetails | SomeTextDetails | AllTextDetails
+    #EmphasizeFormattedText     = 'Disabled'
+    #ReadCharactersPhonetically = 'Disabled'
+    #PunctuationPause           = 'Enabled'
+    #ReadAdvancedDetails        = 'Disabled'
+    #CapitalizationReadingMode  = 'NoAnnounce' # NoAnnounce | IncreasePitch | SayCap
+
+    # context
+    #ContextLevel               = 'ImmediateContextNameAndType' # NoContext | ImmediateContext | ImmediateContextNameAndType | FullContextOfNewControl | FullContextOfOldAndNewControls
+    #ReadInteractionHints       = 'Enabled'
+    #ExplainActionFailures      = 'Enabled'
+    #PlaySoundsForCommonActions = 'Disabled'
+    #ContextDetailsOrder        = 'BeforeControls' # AfterControls | BeforeControls
+
+    # announce
+    #AnnounceTypedCharacters     = 'Enabled'
+    #AnnounceTypedWords          = 'Enabled'
+    #AnnounceTypedFunctionKeys   = 'Disabled'
+    #AnnounceTypedNavigationKeys = 'Disabled'
+    #AnnounceTypedToggleKeys     = 'Enabled'
+    #AnnounceTypedModifierKeys   = 'Disabled'
+
+    # mouse and keyboard
+    #NarratorKey                     = 'CapsLockOrInsert' # CapsLock | Insert | CapsLockOrInsert
+    #LockNarratorKey                 = 'Disabled'
+    #TouchKeyboardActivateKeysOnLift = 'Disabled'
+    #MouseInteraction                = 'Disabled'
+    #NarratorCursorFollowMouse       = 'Disabled'
+    #KeyboardLayout                  = 'Standard' # Legacy | Standard
+
+    # narrator cursor
     #ShowNarratorCursor                = 'Enabled'
     #SyncNarratorCursorWithTextCursor  = 'Disabled'
     #SyncNarratorCursorWithSystemFocus = 'Enabled'
     #NavigationMode                    = 'Normal' # Normal | Advanced
-    #MathReading                       = 'Enabled'
-    #Extensions                        = 'Enabled'
-    #CheckForNewExtensionsOnStartup    = 'Disabled'
-    #ContentDescriptions               = 'Enabled'
-    Telemetry                         = 'Disabled'
+
+    # math
+    #MathReading               = 'Enabled'
+    #MathSpeechStyle           = 'ClearSpeak' # ClearSpeak | SimpleSpeak | LiteralSpeak
+    #MathSpeechVerbosity       = 'Medium' # Terse | Medium | Verbose
+    #MathSpeechRate            = 50 # range: 0-100
+    #MathSpeechPauseFactor     = 50 # range: 0-100
+    #MathNavigationMode        = 'Enhanced' # Enhanced | Simple | Character
+    #MathNavigationVerbosity   = 'Medium' # Terse | Medium | Verbose
+    #MathNavigationAutoZoomOut = 'Enabled'
+
+    # extensions
+    #Extensions                     = 'Enabled'
+    #CheckForNewExtensionsOnStartup = 'Disabled'
+
+    # data and services
+    #ContentDescriptions = 'Enabled'
+    Telemetry           = 'Disabled'
 }
 Set-AccessibilityNarratorSetting @AccessibilityNarratorSettings
 
