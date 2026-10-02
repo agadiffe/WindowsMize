@@ -24,16 +24,20 @@ Write-Section -Name 'Services & Scheduled Tasks'
 #==============================================================================
 #                                   Services
 #==============================================================================
+#region services
 
 Write-Section -Name 'Services' -SubSection
 
 Export-DefaultServicesStartupType
 Export-DefaultSystemDriversStartupType
 
+#             Configuration
+#=======================================
+
 <#
   You can review the services StartupType in "src\modules\services\private".
 
-  Make sure to review every services and configure them according to your usages.
+  Make sure to review every services and configure them according to your usages (or use the override file).
   (especially Features.ps1 and Miscellaneous.ps1 which contains unrelated services in the same group)
 
   If you want to let the default setting, comment the services group below (e.g. #'FileAndPrinterSharing').
@@ -93,19 +97,40 @@ $ServicesToConfig = @(
 )
 $ServicesToConfig | Set-ServiceStartupTypeGroup
 
+#               Overrides
+#=======================================
+
+<#
+  If you want to change the StartupType of a service managed by WindowsMize, you can either edit the module files,
+  or add your preferred settings to "scrits/system_&_tweaks/service_overrides.ps1".
+
+  Using service_overrides.ps1 lets you keep your customizations in one place and makes it easier
+  to preserve them when updating WindowsMize.
+#>
+
+#              Restoration
+#=======================================
+
 # The backup file used in this function is: log\windows_default_services_winmize.json
 # The script must have been executed at least once.
+
 # FilePath: use another compatible file.
 #Restore-ServiceStartupTypeFromBackup
 #Restore-ServiceStartupTypeFromBackup -FilePath 'X:\Backup\windows_services_default.json'
 
+#endregion services
+
 #==============================================================================
 #                               Scheduled Tasks
 #==============================================================================
+#region scheduled tasks
 
 Write-Section -Name 'Scheduled Tasks' -SubSection
 
 Export-DefaultScheduledTasksState
+
+#             Configuration
+#=======================================
 
 <#
   You can review which tasks are disabled in "src\modules\scheduled_tasks\private".
@@ -137,8 +162,14 @@ $TasksToConfig = @(
 )
 $TasksToConfig | Set-ScheduledTaskStateGroup
 
+#              Restoration
+#=======================================
+
 # The backup file used in this function is: log\windows_default_scheduled_tasks_winmize.json
 # The script must have been executed at least once.
+
 # FilePath: use another compatible file.
 #Restore-ScheduledTaskStateFromBackup
 #Restore-ScheduledTaskStateFromBackup -FilePath 'X:\Backup\windows_scheduled_tasks_default.json'
+
+#endregion scheduled tasks

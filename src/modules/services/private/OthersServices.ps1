@@ -175,6 +175,12 @@ $ServicesListNotConfigured += @{
             DefaultType = 'Manual'
         }
         @{
+            DisplayName = 'IsolationSession'
+            ServiceName = 'IsolationSession'
+            StartupType = 'Manual'
+            DefaultType = 'Manual'
+        }
+        @{
             DisplayName = 'Local Profile Assistant Service'
             ServiceName = 'wlpasvc'
             StartupType = 'Manual'

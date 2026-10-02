@@ -22,9 +22,9 @@ $ServicesList += @{
         @{
             DisplayName = 'IP Helper'
             ServiceName = 'iphlpsvc'
-            StartupType = 'Disabled'
+            StartupType = 'Manual'
             DefaultType = 'Automatic'
-            Comment     = 'deprecated.
+            Comment     = 'deprecated (not yet).
                            can produce "Windows failed to apply the TCPIP settings." error when using gpupdate /force.
                            even if no tcp/ip gpo are applied.
                            requires NcaSvc service.'

@@ -6,12 +6,24 @@
 # Two important metrics to also look at are 'Cycles Delta' and 'Context Switches Delta'.
 # You can use 'Process Explorer' to check these metrics.
 
+# IValidateSetValuesGenerator doesn't work inside classes
 class ServiceStartupType
 {
     [string] $DisplayName
     [string] $ServiceName
+
+    [ValidateSet(
+        'Boot', 'System',
+        'AutomaticDelayedStart', 'Automatic',
+        'Manual', 'Disabled')]
     [string] $StartupType
+
+    [ValidateSet(
+        'Boot', 'System',
+        'AutomaticDelayedStart', 'Automatic',
+        'Manual', 'Disabled')]
     [string] $DefaultType
+
     [string] $Comment
 }
 
@@ -55,6 +67,29 @@ function Set-ServiceStartupType
 
     begin
     {
+        if (-not $Global:ServiceOverridesLookup)
+        {
+            $Global:ServiceOverridesLookup = @{}
+
+            foreach ($Override in $ServiceOverrides)
+            {
+                try
+                {
+                    $TypedOverride = [ServiceStartupType]$Override
+                }
+                catch
+                {
+                    Write-Error "Ignoring override for service '$($Override.ServiceName)': invalid StartupType '$($Override.StartupType)'."
+                    continue
+                }
+
+                if ($TypedOverride.ServiceName -and $TypedOverride.StartupType)
+                {
+                    $Global:ServiceOverridesLookup[$TypedOverride.ServiceName] = $TypedOverride.StartupType
+                }
+            }
+        }
+
         $RegistryStartValue = @{
             Boot                  = '0'
             System                = '1'
@@ -86,7 +121,19 @@ function Set-ServiceStartupType
     {
         $Name = $InputObject.ServiceName
         $DisplayName = $InputObject.DisplayName
-        $StartupType = $RestoreDefault ? $InputObject.DefaultType : $InputObject.StartupType
+        
+        $StartupType = if ($RestoreDefault)
+        {
+            $InputObject.DefaultType
+        }
+        elseif ($Global:ServiceOverridesLookup.ContainsKey($InputObject.ServiceName))
+        {
+            $Global:ServiceOverridesLookup[$InputObject.ServiceName]
+        }
+        else
+        {
+            $InputObject.StartupType
+        }
 
         $CurrentStartupType = (Get-Service -Name $Name -ErrorAction 'SilentlyContinue').StartType
 

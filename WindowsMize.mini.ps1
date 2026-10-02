@@ -989,6 +989,8 @@ $ServicesToConfig = @(
 )
 $ServicesToConfig | Set-ServiceStartupTypeGroup
 
+# Overrides: scrits/system_&_tweaks/service_overrides.ps1
+
 # The script must have been executed at least once.
 #Restore-ServiceStartupTypeFromBackup
 #Restore-ServiceStartupTypeFromBackup -FilePath 'X:\Backup\windows_services_default.json'

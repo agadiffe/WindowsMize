@@ -8,7 +8,9 @@
         "$PSScriptRoot\..\helper_functions\general"
     )
 
-    NestedModules = @()
+    NestedModules = @(
+        "$PSScriptRoot\..\..\..\scripts\system_&_tweaks\service_overrides.ps1"
+    )
 
     FunctionsToExport = @(
         'Export-DefaultServicesStartupType'
